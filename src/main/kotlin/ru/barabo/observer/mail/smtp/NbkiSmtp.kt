@@ -2,6 +2,7 @@ package ru.barabo.observer.mail.smtp
 
 import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpProperties
+import java.io.File
 
 object NbkiSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(
@@ -9,4 +10,15 @@ object NbkiSmtp : SendMail {
             user = "nbki",
             password = "xbckjdjq",
             from = "nbki@ptkb.ru")
+
+    private val NBKI = arrayOf("credithistory@nbki.ru")
+
+    private val SUBJECT_NBKI = "NBKI information"
+
+    private val BODY_NBKI = "file contains information about loans from PTKB bank"
+
+    fun sendToNbki(file : File) {
+
+        NbkiSmtp.send(to = NBKI, cc = BaraboSmtp.AUTO, subject = SUBJECT_NBKI, body = BODY_NBKI, attachments = arrayOf(file))
+    }
 }

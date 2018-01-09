@@ -8,7 +8,7 @@ import java.io.IOException
 
 object Verba {
 
-    val logger = LoggerFactory.getLogger(Verba::class.java)!!
+    private val logger = LoggerFactory.getLogger(Verba::class.java)!!
 
     private val VERBA_PATH = "C:/progra~1/mdprei/-ow~1"
 
@@ -113,6 +113,42 @@ object Verba {
     fun unSignFile(file :File) :File {
 
         Cmd.execCmd(cmdUnSign(file))
+
+        return file
+    }
+
+    fun cryptoFile(file :File) :File {
+        checkerVerba()
+
+        val tempFolder = tempFolder()
+
+        val tempFile = File("${tempFolder.absolutePath}/${file.name}")
+
+        if(!file.renameTo(tempFile)) {
+            tempFolder.deleteFolder()
+            throw IOException("file is not renamed ${file.absolutePath}")
+        }
+
+        val scriptFile = createScriptFile("crypt", tempFolder, tempFile.name)
+
+        val cmd = "$VERBA_PATH/$VERBA_PROGRAM /@${scriptFile.absolutePath}"
+
+        try {
+            Cmd.execCmd(cmd)
+        } catch (e :Exception) {
+            scriptFile.delete()
+            throw IOException(e.message)
+        }
+
+        scriptFile.delete()
+
+        if(!tempFile.renameTo(file)) {
+            tempFolder.deleteFolder()
+
+            throw IOException("file is not created ${file.absolutePath}")
+        }
+
+        tempFolder.deleteFolder()
 
         return file
     }

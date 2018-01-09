@@ -28,7 +28,7 @@ object Send364pSign : FileFinder, FileProcessor {
 
     private fun send364p() :File = File("X:/364-П/Отправка/${todayFolder()}")
 
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file : File) {
 

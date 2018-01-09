@@ -6,7 +6,11 @@ import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.config.task.finder.isFind
 import java.io.File
 import java.io.IOException
+import java.net.URI
+import java.nio.file.*
+import java.util.*
 import java.util.regex.Pattern
+
 
 object Archive {
 
@@ -70,4 +74,33 @@ object Archive {
     private fun tempFolder() :File = Cmd.tempFolder("a")
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")
+
+    fun createZip(zipFile :File, vararg files :File) :File {
+
+        val zipSystem = createZipFileSystem(zipFile.absolutePath)
+
+        val root = zipSystem.getPath("/").toString()
+
+        files.forEach {
+            val source = Paths.get(it.absolutePath)
+
+            val dest = zipSystem.getPath(root, it.name)
+
+            Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING)
+        }
+
+        return zipFile
+    }
+
+    @Throws(IOException::class)
+    private fun createZipFileSystem(zipFilename: String, create: Boolean = true): FileSystem {
+
+        val uri = URI.create("jar:file:${Paths.get(zipFilename).toUri().path}")
+
+        val env = HashMap<String, String>()
+        if (create) {
+            env.put("create", "true")
+        }
+        return FileSystems.newFileSystem(uri, env)
+    }
 }

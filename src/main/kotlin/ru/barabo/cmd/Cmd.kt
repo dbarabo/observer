@@ -38,6 +38,17 @@ object Cmd {
     val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
 
     val LIB_FOLDER = "$JAR_FOLDER/lib"
+
+    fun createFolder(folderPath :String) :File {
+
+        val folder = File(folderPath)
+
+        if(!folder.exists()) {
+            folder.mkdirs()
+        }
+
+        return folder
+    }
 }
 
 fun File.deleteFolder() {
