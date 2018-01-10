@@ -87,13 +87,13 @@ open class Query (private val dbConnection :DbConnection) {
     }
 
     private fun prepareExecute(session :Session, query :String, params :Array<Any?>?,
-                               outParamTypes :IntArray?) :PreparedStatement? {
+                               outParamTypes :IntArray?) :QueryRequest {
 
         return try {
             if(outParamTypes?.size?:0 == 0)
-                session.session.prepareStatement(query)?.setParams(params)
+                QueryRequest(query, params, session.session.prepareStatement(query)?.setParams(params))
             else
-                session.session.prepareCall(query)?.setParams(outParamTypes as IntArray, params)
+                QueryRequest(query, params, session.session.prepareCall(query)?.setParams(outParamTypes as IntArray, params))
 
         } catch (e : SQLException) {
             logger.error("QUERY=$query")
@@ -112,9 +112,11 @@ open class Query (private val dbConnection :DbConnection) {
         }
     }
 
-    private fun executePrepared(session :Session, statement :PreparedStatement?, outParamTypes :IntArray?) :List<Any?>? {
+    private fun executePrepared(session :Session, queryRequest :QueryRequest, outParamTypes :IntArray?) :List<Any?>? {
 
         val result = if(outParamTypes?.size?:0 == 0) null else ArrayList<Any?>()
+
+        val statement = queryRequest.statement
 
         try {
             statement?.execute()
@@ -125,14 +127,21 @@ open class Query (private val dbConnection :DbConnection) {
                 }
             }
         } catch (e : SQLException) {
-            logger.error("statement=${statement?.toString()}")
+            logger.error("query=${queryRequest.query}")
             logger.error("outParamTypes.size=${outParamTypes?.size}")
             outParamTypes?.forEach { logger.error(it.toString()) }
 
             logger.error("execute Call", e)
 
             if(dbConnection.isRestartSessionException(session, false, e.message?:"")) {
-                return executePrepared(session, statement, outParamTypes)
+
+                try { statement?.close() } catch (e :SQLException) {}
+
+                val newQueryRequest =
+                        prepareExecute(session, queryRequest.query, queryRequest.params, outParamTypes)
+                queryRequest.statement = newQueryRequest.statement
+
+                return executePrepared(session, queryRequest, outParamTypes)
             }
 
             closeQueryData(session, TransactType.ROLLBACK, statement)
@@ -141,7 +150,6 @@ open class Query (private val dbConnection :DbConnection) {
 
         return result
     }
-
 
     @Throws(SessionException::class)
     fun execute(query :String, params :Array<Any?>? = null,
@@ -154,11 +162,11 @@ open class Query (private val dbConnection :DbConnection) {
 
         val session = dbConnection.getSession(sessionSetting)
 
-        val statement = prepareExecute(session, query, params, outParamTypes)
+        val queryRequest = prepareExecute(session, query, params, outParamTypes)
 
-        val resultList = executePrepared(session, statement, outParamTypes)
+        val resultList = executePrepared(session, queryRequest, outParamTypes)
 
-        closeQueryData(session, sessionSetting.transactType, statement)
+        closeQueryData(session, sessionSetting.transactType, queryRequest.statement)
 
         return resultList
     }
@@ -292,6 +300,12 @@ fun CallableStatement.setParams(outParamTypes :IntArray, inParams :Array<Any?>? 
     }
     return setParams(inParams, outParamTypes.size) as CallableStatement
 }
+
+private class QueryRequest(val query :String,
+                        val params :Array<Any?>?,
+                        var statement :PreparedStatement?)
+
+
 
 
 

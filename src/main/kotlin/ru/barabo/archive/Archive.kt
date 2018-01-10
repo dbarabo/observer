@@ -27,6 +27,10 @@ object Archive {
             extractFromArchive(arjFile, toFolder, regExp, "arj")
 
     @Throws(IOException::class)
+    fun extractFromZip(zipFile :File, toFolder :String, regExp :String = ".*") :Array<File>? =
+            extractFromArchive(zipFile, toFolder, regExp, "zip")
+
+    @Throws(IOException::class)
     private fun extractFromArchive(cabFile :File, toFolder :String, regExp :String, extArchive :String) :Array<File>? {
 
         val tempCab = tempArchive(extArchive)

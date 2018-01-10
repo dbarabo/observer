@@ -7,10 +7,13 @@ import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
+import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.crypto.Verba
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.regex.Pattern
 
 object TicketFtsCab: FileFinder, FileProcessor {
 
@@ -28,5 +31,13 @@ object TicketFtsCab: FileFinder, FileProcessor {
         val files = Archive.extractFromCab(file, TicketFtsText.ticketFts(), ".*\\.arj")
 
         files?.forEach { Archive.extractFromArj(it, TicketFtsText.ticketFts()) }
+
+        val search = Pattern.compile(".*\\.XML", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
+        File(TicketFtsText.ticketFts()).listFiles {
+            f -> (!f.isDirectory) && search.isFind(f.name, false)   }?.forEach {
+
+            Verba.unSignFile(it)
+        }
     }
 }

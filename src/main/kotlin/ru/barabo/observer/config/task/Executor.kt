@@ -54,9 +54,14 @@ interface Executor {
                 }
             }
         }
+
+        val elemErrorFull = elem.copy()
+
+        elem.error = elem.error?.let{ if(it.length <= 500) it else it.substring(0, 500) }
+
         StoreDerby.save(elem)
 
-        checkSendMailError(elem, isSuspend)
+        checkSendMailError(elemErrorFull, isSuspend)
     }
 
     private fun checkSendMailError(elem : Elem, isSuspend :Boolean) {

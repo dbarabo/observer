@@ -1,6 +1,8 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
+import org.w3c.dom.Element
 import ru.barabo.archive.Archive
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.AccessibleData
@@ -11,9 +13,11 @@ import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.Verba
 import java.io.File
+import java.nio.charset.Charset
 import java.time.Duration
 import java.time.LocalTime
 import java.util.regex.Pattern
+import javax.xml.parsers.DocumentBuilderFactory
 
 object Ticket311pFns: FileFinder, FileProcessor {
 
@@ -34,8 +38,38 @@ object Ticket311pFns: FileFinder, FileProcessor {
 
         val search = Pattern.compile("S.*\\.XML", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
-        File( Ticket311pCbr.ticket311p()).listFiles {
+        val xmlFiles = File( Ticket311pCbr.ticket311p()).listFiles {
             f ->  !f.isDirectory && search.isFind(f.name, false)}
-                ?.forEach { Verba.unSignFile(it) }
+
+        xmlFiles?.forEach {
+            Verba.unSignFile(it)
+
+            loadXmlToAfina(it)
+        }
+    }
+
+    private fun loadXmlToAfina(fileXml :File) {
+
+        val head = DocumentBuilderFactory.newInstance()?.newDocumentBuilder()?.parse(fileXml)?.
+                documentElement?.getElementsByTagName("Документ")?.item(0) as? Element
+
+        saveTicket(head?.getAttribute("НомСооб"), head?.getAttribute("РезОбр"), fileXml)
+    }
+
+    private val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
+
+    private val UPDATE_REGISTER = "update od.ptkb_361p_register rp set rp.KWIT_DATE = sysdate, " +
+            "rp.KWIT_RESULT = ?, rp.KWIT_FILENAME = ?, rp.KWIT_DATA = ? where rp.id = ?"
+
+    private fun saveTicket(numberMessage :String?, resultMessage :String?, fileXml :File) {
+
+        val number = (numberMessage!!.trim().toLong() % 1000000).toInt()
+
+        val idRegister = AfinaQuery.selectValue(SELECT_ID_REGISTER, arrayOf(number)) as? Number
+
+        val params :Array<Any?> = arrayOf(resultMessage, fileXml.name,
+                fileXml.readText(Charset.forName("CP1251")), idRegister)
+
+        AfinaQuery.execute(UPDATE_REGISTER, params)
     }
 }

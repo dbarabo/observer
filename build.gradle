@@ -63,6 +63,8 @@ dependencies {
 
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
 
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
     //compile group: 'com.oracle.jdbc', name: 'ojdbc8', version: '12+'
     //compile 'com.github.noraui:ojdbc8:jar:12.2.0.1'
     //compile group: 'com.github.noraui', name: 'ojdbc8', version: '12.2.0.+'

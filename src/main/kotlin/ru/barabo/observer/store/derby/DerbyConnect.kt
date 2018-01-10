@@ -20,7 +20,7 @@ object DerbyConnect : DbConnection(
         STATE integer not null default 0,
         TASK varchar(300) not null,
         PATH varchar(500),
-        ERROR varchar(500),
+        ERROR varchar(2048),
         TARGET varchar(500),
         BASE integer not null default 0,
         primary key(ID) )"""

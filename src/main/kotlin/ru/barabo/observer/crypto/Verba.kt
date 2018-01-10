@@ -117,7 +117,12 @@ object Verba {
         return file
     }
 
-    fun cryptoFile(file :File) :File {
+    fun unCryptoFile(file :File) :File {
+
+        return cryptoUncrypto(file, "decrypt")
+    }
+
+    private fun cryptoUncrypto(file :File, command :String) :File {
         checkerVerba()
 
         val tempFolder = tempFolder()
@@ -129,7 +134,7 @@ object Verba {
             throw IOException("file is not renamed ${file.absolutePath}")
         }
 
-        val scriptFile = createScriptFile("crypt", tempFolder, tempFile.name)
+        val scriptFile = createScriptFile(command, tempFolder, tempFile.name)
 
         val cmd = "$VERBA_PATH/$VERBA_PROGRAM /@${scriptFile.absolutePath}"
 
@@ -139,8 +144,6 @@ object Verba {
             scriptFile.delete()
             throw IOException(e.message)
         }
-
-        scriptFile.delete()
 
         if(!tempFile.renameTo(file)) {
             tempFolder.deleteFolder()
@@ -153,6 +156,10 @@ object Verba {
         return file
     }
 
+    fun cryptoFile(file :File) :File {
+
+        return cryptoUncrypto(file, "crypt")
+     }
 
     private fun createScriptFile(command :String, folderUnCrypto :File, mask :String) :File {
 
