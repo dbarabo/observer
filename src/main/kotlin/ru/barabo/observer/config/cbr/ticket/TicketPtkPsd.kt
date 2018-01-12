@@ -9,7 +9,7 @@ object TicketPtkPsd : ConfigTask {
 
     override fun name(): String = "Квитки по ПТК ПСД"
 
-    override fun timeOut(): Long = 20_000
+    override fun timeOut(): Long = 25_000
 
     override fun configRun() {
 
@@ -30,6 +30,8 @@ object TicketPtkPsd : ConfigTask {
         TicketXml.findAll()
         TicketSimple.findAll()
 
+        Ticket440pCbr.findAll()
+
 
         // execute all
         TicketLegalText.executeAll()
@@ -47,5 +49,7 @@ object TicketPtkPsd : ConfigTask {
 
         TicketSimple.executeAll()
         TicketXml.executeAll()
+
+        Ticket440pCbr.executeAll()
     }
 }

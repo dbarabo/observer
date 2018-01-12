@@ -25,7 +25,7 @@ object Get440pFiles : FileFinder, FileProcessor {
 
     override fun name(): String = "440-П Получить файлы"
 
-    private fun getFolder440p() :String = "X:/440-П/${todayFolder()}/Получено"
+    fun getFolder440p() :String = "X:/440-П/${todayFolder()}/Получено"
 
     fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 

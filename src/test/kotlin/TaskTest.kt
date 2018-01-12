@@ -1,3 +1,4 @@
+
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -37,7 +38,7 @@ class TaskTest {
         logger.info(text)
     }
 
-    @Test
+    //@Test
     fun testRegExp() {
         val text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<UV>\n" +
@@ -62,5 +63,22 @@ class TaskTest {
             logger.info(regexMatcher.group(1))
         }
     }
+
+    //@Test
+    fun testSplit() {
+
+        val columns = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, " +
+                "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, ACCOUNTS, " +
+                "CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, FILE_NAME, ID"
+
+        logger.error(columns.split(",").joinToString(",") { _ -> "?" })
+    }
+
+    @Test
+    fun testSubstring() {
+        logger.error("1234567890".substring(0, 3))
+    }
+
+
 
 }

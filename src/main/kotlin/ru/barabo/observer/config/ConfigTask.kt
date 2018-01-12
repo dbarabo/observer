@@ -36,6 +36,9 @@ interface ConfigTask {
     }
 
     private fun startConfig() {
+
+        //timer(name = this.javaClass.simpleName, daemon = false, period = timeOut()) { configRun() }
+
         thread(name = this.javaClass.simpleName) {
             runBlocking {
                 var time :Long = timeOut()
@@ -43,7 +46,7 @@ interface ConfigTask {
 
                     //LoggerFactory.getLogger(ConfigTask::class.java).info("CONFIG IS START ${name()}")
 
-                    delay(if(timeOut() > time) timeOut() - time else 100)
+                    delay(if(timeOut() > time) timeOut() - time else 500)
 
                     time = measureTimeMillis {
                         withTimeoutOrNull( timeOut()) { configRun() }

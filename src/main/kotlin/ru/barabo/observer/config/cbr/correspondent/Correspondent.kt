@@ -12,7 +12,7 @@ object Correspondent : ConfigTask {
 
     val logger = LoggerFactory.getLogger(Correspondent::class.java)!!
 
-    override fun timeOut(): Long = 10_000
+    override fun timeOut(): Long = 20_000
 
     override fun name() :String = "Корр. Счёт"
 

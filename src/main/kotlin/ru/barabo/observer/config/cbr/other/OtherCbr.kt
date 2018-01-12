@@ -24,6 +24,7 @@ object OtherCbr: ConfigTask {
         NbkiAllReportsSend.findAll()
         UnlockUsersMonday.findAll()
         CecReportProcess.findAll()
+        CheckTicket440p.findAll()
 
         RemartMail.executeAll()
         TtsMailFromOtk.executeAll()
@@ -32,6 +33,7 @@ object OtherCbr: ConfigTask {
         NbkiAllReportsSend.executeAll()
         UnlockUsersMonday.executeAll()
         CecReportProcess.executeAll()
+        CheckTicket440p.executeAll()
     }
 
 }

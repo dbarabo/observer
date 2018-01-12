@@ -9,7 +9,7 @@ object PtkPsd : ConfigTask {
 
     override fun name(): String = "ПТК ПСД"
 
-    override fun timeOut(): Long = 10_000
+    override fun timeOut(): Long = 20_000
 
     override fun configRun() {
 

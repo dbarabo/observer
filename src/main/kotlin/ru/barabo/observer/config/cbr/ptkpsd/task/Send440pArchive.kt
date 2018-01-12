@@ -19,7 +19,7 @@ object Send440pArchive :SingleSelector {
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
             workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
 
-    override fun name(): String = "440П Отправка архива"
+    override fun name(): String = "440-П Отправка архива"
 
     override fun config(): ConfigTask = PtkPsd
 

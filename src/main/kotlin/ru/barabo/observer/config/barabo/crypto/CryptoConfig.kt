@@ -8,7 +8,7 @@ object CryptoConfig : ConfigTask {
 
     override var exitStatus: ExitStatus = ExitStatus.STOP
 
-    override fun name(): String = "Verba/CryptoPro"
+    override fun name(): String = "Verba/CryptoPro и Прочее"
 
     override fun timeOut(): Long = 20_000
 
