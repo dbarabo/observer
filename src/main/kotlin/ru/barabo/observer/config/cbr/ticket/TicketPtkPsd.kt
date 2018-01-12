@@ -1,11 +1,13 @@
 package ru.barabo.observer.config.cbr.ticket
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.ExitStatus
 import ru.barabo.observer.config.cbr.ticket.task.*
+import java.util.*
 
 object TicketPtkPsd : ConfigTask {
-    override var exitStatus: ExitStatus = ExitStatus.STOP
+
+    override var timer: Timer? = null
+    // override var exitStatus: ExitStatus = ExitStatus.STOP
 
     override fun name(): String = "Квитки по ПТК ПСД"
 
@@ -31,6 +33,7 @@ object TicketPtkPsd : ConfigTask {
         TicketSimple.findAll()
 
         Ticket440pCbr.findAll()
+        // TODO Ticket440pFns.findAll()
 
 
         // execute all
@@ -51,5 +54,6 @@ object TicketPtkPsd : ConfigTask {
         TicketXml.executeAll()
 
         Ticket440pCbr.executeAll()
+        // TODO Ticket440pFns.executeAll()
     }
 }

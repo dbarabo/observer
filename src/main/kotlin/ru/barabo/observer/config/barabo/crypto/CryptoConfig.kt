@@ -1,12 +1,14 @@
 package ru.barabo.observer.config.barabo.crypto
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.ExitStatus
 import ru.barabo.observer.config.barabo.crypto.task.*
+import java.util.*
 
 object CryptoConfig : ConfigTask {
 
-    override var exitStatus: ExitStatus = ExitStatus.STOP
+    override var timer: Timer? = null
+
+    // override var exitStatus: ExitStatus = ExitStatus.STOP
 
     override fun name(): String = "Verba/CryptoPro и Прочее"
 

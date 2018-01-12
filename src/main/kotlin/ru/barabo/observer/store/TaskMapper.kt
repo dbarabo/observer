@@ -24,7 +24,11 @@ object TaskMapper {
 
     private var isAfina :Boolean = false
 
-    fun objectByClass(clazz :String) :ActionTask = mapper[clazz]!!
+    fun objectByClass(clazzName :String) :ActionTask { // = mapper[clazz]!!
+        val clazz = Class.forName(clazzName).kotlin
+
+        return (clazz.objectInstance ?: clazz.java.newInstance())as ActionTask
+    }
 
     @Throws(SessionException::class)
     fun init(build :String, baseConnect :String) {

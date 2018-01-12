@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.LocalTime
 import java.util.regex.Pattern
+import kotlin.concurrent.timer
 
 class TaskTest {
 
@@ -74,11 +75,19 @@ class TaskTest {
         logger.error(columns.split(",").joinToString(",") { _ -> "?" })
     }
 
-    @Test
+    //@Test
     fun testSubstring() {
         logger.error("1234567890".substring(0, 3))
     }
 
+    @Test
+    fun testTimer() {
+        timer("test", false, 0, 3_000) {logger.error(LocalTime.now().toString())}
+
+        timer("TIMER2", false, 0, 2_000) {logger.error(LocalTime.now().toString())}
+
+        Thread.sleep(12_000);
+    }
 
 
 }

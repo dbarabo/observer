@@ -1,11 +1,14 @@
 package ru.barabo.observer.config.cbr.ptkpsd
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.ExitStatus
 import ru.barabo.observer.config.cbr.ptkpsd.task.*
+import java.util.*
 
 object PtkPsd : ConfigTask {
-    override var exitStatus: ExitStatus = ExitStatus.STOP
+
+    override var timer: Timer? = null
+
+    // override var exitStatus: ExitStatus = ExitStatus.STOP
 
     override fun name(): String = "ПТК ПСД"
 

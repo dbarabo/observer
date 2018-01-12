@@ -1,12 +1,14 @@
 package ru.barabo.observer.config.barabo.p440
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.ExitStatus
 import ru.barabo.observer.config.barabo.p440.task.*
+import java.util.*
 
 object P440Config: ConfigTask {
 
-    override var exitStatus: ExitStatus = ExitStatus.STOP
+    override var timer: Timer? = null
+
+    // override var exitStatus: ExitStatus = ExitStatus.STOP
 
     override fun name(): String = "440-П"
 

@@ -2,12 +2,14 @@ package ru.barabo.observer.config.cbr.other
 
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.ExitStatus
 import ru.barabo.observer.config.cbr.other.task.*
+import java.util.*
 
 object OtherCbr: ConfigTask {
 
-    override var exitStatus: ExitStatus = ExitStatus.STOP
+    override var timer: Timer? = null
+
+    // override var exitStatus: ExitStatus = ExitStatus.STOP
 
     val logger = LoggerFactory.getLogger(OtherCbr::class.java)!!
 
