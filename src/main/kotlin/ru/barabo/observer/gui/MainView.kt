@@ -92,6 +92,10 @@ class MainView: View(), StoreListener {
 
     override fun refreshAll(rootElem: GroupElem) {
 
+        if(treeTable?.root?.value == rootElem) {
+            return
+        }
+
         Platform.runLater({
             run {
                 treeTable?.removeFromParent()
@@ -106,7 +110,7 @@ class MainView: View(), StoreListener {
                 }
 
                 treeTable?.selectionModel?.selectedItemProperty()?.addListener(
-                        { obs, oldSelection, newSelection ->
+                        { _, _, newSelection ->
 
                             actionMenu.groupElem = newSelection?.value
                         })

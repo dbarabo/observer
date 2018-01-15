@@ -19,7 +19,7 @@ object Ticket440pCbr : TicketLoader<IzvFromFns>(), FileFinder {
             "IZVTUB_AFN_0507717_MIFNS00_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\.xml"))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
-            false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+            false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
 
     fun getFolder440p() : File = File(Get440pFiles.getFolder440p())
 

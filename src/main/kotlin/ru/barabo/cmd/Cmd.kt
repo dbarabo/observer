@@ -26,18 +26,21 @@ object Cmd {
         }
     }
 
-    private fun cTemp(prefix :String) = "c:/temp/$prefix${Date().time}"
+    private fun cTemp(prefix :String) =  "$TEMP_FOLDER/$prefix${Date().time}" // "c:/temp/$prefix${Date().time}"
 
     fun tempFolder(prefix :String) : File {
         val temp = File(cTemp(prefix) )
+
         temp.mkdirs()
 
         return temp
     }
 
-    val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
+    private val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
 
     val LIB_FOLDER = "$JAR_FOLDER/lib"
+
+    private val TEMP_FOLDER = "$JAR_FOLDER/temp"
 
     fun createFolder(folderPath :String) :File {
 

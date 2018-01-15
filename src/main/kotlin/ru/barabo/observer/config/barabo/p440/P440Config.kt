@@ -17,6 +17,7 @@ object P440Config: ConfigTask {
     override fun configRun() {
 
         PnoLoader.findAll() // add all 440p files without ticket KWT & IZV
+        ToUncrypto440p.findAll()
 
         PnoLoader.executeAll()
         RpoLoader.executeAll()
@@ -27,5 +28,7 @@ object P440Config: ConfigTask {
         ApnLoader.executeAll()
         ApoLoader.executeAll()
         ApzLoader.executeAll()
+
+        ToUncrypto440p.executeAll()
     }
 }

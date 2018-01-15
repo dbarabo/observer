@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="false">
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} | %-5p | [%thread] %logger{5}:%L - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-        <!--<file>log/log.log</file>-->
-        <!--<append>true</append>-->
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
         <!--<encoder>-->
             <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} | %-5p | [%thread] %logger{5}:%L - %msg%n</pattern>-->
         <!--</encoder>-->
     <!--</appender>-->
+
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -26,9 +19,9 @@
 
     <logger name="com.memorynotfound" level="TRACE"/>
 
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
-    </root>
+    <!--<root level="DEBUG">-->
+        <!--<appender-ref ref="STDOUT" />-->
+    <!--</root>-->
 
     <root level="ERROR">
         <appender-ref ref="STDOUT" />

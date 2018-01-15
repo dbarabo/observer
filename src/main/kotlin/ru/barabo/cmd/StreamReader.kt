@@ -1,6 +1,7 @@
 package ru.barabo.cmd
 
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 
@@ -15,5 +16,9 @@ class StreamReader(private val inputStream : InputStream,
 
             processLine(line)
         }while(true)
+
+        try {
+            reader.close()
+        } catch (e : IOException) {}
     }
 }

@@ -103,6 +103,20 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
     }
 
     @Synchronized
+    fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
+        return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
+
+                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:1_000_000_000_000_000 >
+                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() ) &&
+
+                (target?.let { tar -> tar == it.target  } ?: true )
+        }
+    }
+
+
+
+
+    @Synchronized
     fun getItems(task : ActionTask, state :State, executed :LocalDateTime = LocalDateTime.now() ) :List<Elem>
           = dataList.filter { it.state == state &&
             it.task == task &&

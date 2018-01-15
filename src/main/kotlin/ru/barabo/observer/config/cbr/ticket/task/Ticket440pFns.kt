@@ -19,7 +19,8 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( ::getFolder440p, "KWTFCB.*\\.xml"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+    override val accessibleData: AccessibleData =
+            AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
 
     override fun config(): ConfigTask = PtkPsd
 

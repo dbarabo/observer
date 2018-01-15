@@ -6,7 +6,8 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.task.FileLoader
-import ru.barabo.observer.config.cbr.ticket.task.Ticket440pCbr
+import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p
+import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p.getUncFolder440p
 import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.cbr.ticket.task.p440.folderLoaded440p
 import ru.barabo.observer.config.task.AccessibleData
@@ -31,7 +32,7 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
     private val logger = LoggerFactory.getLogger(GeneralLoader::class.java)
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(Ticket440pCbr::getFolder440p, ".*\\.xml"))
+            listOf(FileFinderData(ToUncrypto440p::getUncFolder440p, ".*\\.xml"))
 
     override fun config(): ConfigTask = P440Config
 

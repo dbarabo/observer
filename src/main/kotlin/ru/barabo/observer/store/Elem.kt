@@ -105,7 +105,7 @@ data class Elem (
                 }
         }
 
-        constructor(file : File, actionTask :ActionTask, waitExecuted :Duration?) : this() {
+        constructor(file : File, actionTask :ActionTask, waitExecuted :Duration?, targetIt :String? = null) : this() {
 
                 idElem = getIdFromFile(file)
 
@@ -116,6 +116,8 @@ data class Elem (
                 task = actionTask
 
                 executed = if(waitExecuted == null) null else created.plusSeconds(waitExecuted.seconds)
+
+                target = targetIt
         }
 
 

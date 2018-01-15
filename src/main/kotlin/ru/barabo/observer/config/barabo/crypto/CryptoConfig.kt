@@ -33,6 +33,9 @@ object CryptoConfig : ConfigTask {
         SaveAccount311p.executeAll()
         InfoRequest349p.executeAll()
         LoadRateThb.executeAll()
+
+        // not find - element add custom from ToUncrypto440p
+        UnCryptoPacket.executeAll()
     }
 
 

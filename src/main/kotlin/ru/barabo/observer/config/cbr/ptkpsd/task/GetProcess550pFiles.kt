@@ -9,6 +9,7 @@ import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
+import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -50,8 +51,10 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
 
             tempFolder.delete()
 
+            val search = Pattern.compile("CB.*\\.XML", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
             val xmlInFiles = File(folder550pIn()).listFiles { f ->
-                !f.isDirectory && f.name.indexOf(".XML", ignoreCase = true) > 0
+                !f.isDirectory && search.isFind(f.name, false)
             }
 
             xmlInFiles?.forEach { EsProcess.process(it) }
