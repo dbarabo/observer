@@ -21,12 +21,9 @@ object Correspondent : ConfigTask {
     override fun configRun() {
 
         DownLoadToCorrespond.findAll()
-
         UploadFromCorrespond.findAll()
 
-        DownLoadToCorrespond.executeAll()
-
-        UploadFromCorrespond.executeAll()
+        executeTasks()
     }
 
 }

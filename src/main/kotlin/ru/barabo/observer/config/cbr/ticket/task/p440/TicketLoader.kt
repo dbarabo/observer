@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket.task.p440
 
 import ru.barabo.observer.afina.AfinaQuery
-import ru.barabo.observer.config.cbr.ptkpsd.task.Get440pFiles
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo

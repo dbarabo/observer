@@ -1,10 +1,11 @@
-package ru.barabo.observer.config.cbr.ptkpsd.task
+package ru.barabo.observer.config.cbr.ticket.task
 
 import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.ptkpsd.task.SendByPtkPsdCopy
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -27,7 +28,7 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
-    override fun config(): ConfigTask = PtkPsd
+    override fun config(): ConfigTask = TicketPtkPsd
 
     override fun name(): String = "550-П Получить и отправить"
 

@@ -1,5 +1,7 @@
 package ru.barabo.observer.config.barabo.p440.out
 
+import ru.barabo.db.SessionSetting
+
 interface ResponseData {
 
     fun fileNameResponse(): String
@@ -10,5 +12,9 @@ interface ResponseData {
 
     fun idFromFns(): Number
 
-    fun init(idResponse :Number): ResponseData
+    fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData
+
+    fun typeInfo(): String
+
+    fun xsdSchema(): String
 }

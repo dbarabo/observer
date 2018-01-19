@@ -25,17 +25,18 @@ object CryptoConfig : ConfigTask {
         InfoRequest349p.findAll()
         LoadRateThb.findAll()
 
-        UnCrypto364p.executeAll()
-        UnSign364p.executeAll()
-        CryptoNbki.executeAll()
-        UnCryptoNbki.executeAll()
-        CreateAccount311p.executeAll()
-        SaveAccount311p.executeAll()
-        InfoRequest349p.executeAll()
-        LoadRateThb.executeAll()
-
-        // not find - element add custom from ToUncrypto440p
-        UnCryptoPacket.executeAll()
+        this.executeTasks()
+//        UnCrypto364p.executeAll()
+//        UnSign364p.executeAll()
+//        CryptoNbki.executeAll()
+//        UnCryptoNbki.executeAll()
+//        CreateAccount311p.executeAll()
+//        SaveAccount311p.executeAll()
+//        InfoRequest349p.executeAll()
+//        LoadRateThb.executeAll()
+//
+//        UnCryptoPacket.executeAll() // not find - element add custom from ToUncrypto440p
+//        CryptoPacket.executeAll() // not need find - elem created from ToUncrypto440p
     }
 
 

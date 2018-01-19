@@ -8,21 +8,17 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.task.FileLoader
 import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p
 import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p.getUncFolder440p
-import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.cbr.ticket.task.p440.folderLoaded440p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
-import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
-import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns
 import ru.barabo.observer.config.task.p440.load.xml.ParamsQuery
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.store.Elem
-import ru.barabo.observer.store.derby.StoreDerby
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -71,19 +67,9 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     open protected fun saveOtherData(data :T, idFromFns :Number, idPayer :Number, sessionSetting: SessionSetting){}
 
-    override fun findAbstract(): Executor? {
+    override fun isContainsTask(task :ActionTask?): Boolean = (task is GeneralLoader<*>)
 
-        var count = 0
-
-        fileFinderData.forEach { ff ->
-            count += ff.directory().listFiles { f ->
-                (f != null) && (!f.isDirectory) && ((ff.search == null) || (ff.search.isFind(f.name, ff.isNegative))) }
-                    ?.map { fl -> Elem(fl, actionTask(fl.name), accessibleData.executeWait) }
-                    ?.filter { el -> (el.task !is TicketLoader<*>) && StoreDerby.addNotExistsByIdName(el, accessibleData.isDuplicateName) }?.count()?:0
-        }
-
-        return if(count > 0)this else null
-    }
+    override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
 
     private fun actionTask(name :String) : ActionTask {
 

@@ -17,18 +17,42 @@ object P440Config: ConfigTask {
     override fun configRun() {
 
         PnoLoader.findAll() // add all 440p files without ticket KWT & IZV
+        PbSaver.findAll() // add all 440p records to out
+
+        Process440p.findAll()
+        TryPnoExecute.findAll()
+        RooWaitCancel.findAll()
+
         ToUncrypto440p.findAll()
+        ToCrypto440p.findAll()
+        AddToArchive440p.findAll()
+        SignArchive440p.findAll()
 
-        PnoLoader.executeAll()
-        RpoLoader.executeAll()
-        RooLoader.executeAll()
-        ZsnLoader.executeAll()
-        ZsoLoader.executeAll()
-        ZsvLoader.executeAll()
-        ApnLoader.executeAll()
-        ApoLoader.executeAll()
-        ApzLoader.executeAll()
+        this.executeTasks()
 
-        ToUncrypto440p.executeAll()
+//        PnoLoader.executeAll()
+//        RpoLoader.executeAll()
+//        RooLoader.executeAll()
+//        ZsnLoader.executeAll()
+//        ZsoLoader.executeAll()
+//        ZsvLoader.executeAll()
+//        ApnLoader.executeAll()
+//        ApoLoader.executeAll()
+//        ApzLoader.executeAll()
+//
+//        PbSaver.executeAll()
+//        BnpSaver.executeAll()
+//        ExistsSaver.executeAll()
+//        RestSaver.executeAll()
+//        ExtractMainSaver.executeAll()
+//
+//        ToUncrypto440p.executeAll()
+//        ToCrypto440p.executeAll()
+//        AddToArchive440p.executeAll()
+//        SignArchive440p.executeAll()
+//
+//        Process440p.executeAll()
+//        TryPnoExecute.executeAll()
+//        RooWaitCancel.executeAll()
     }
 }

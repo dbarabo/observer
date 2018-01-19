@@ -27,15 +27,18 @@ object OtherCbr: ConfigTask {
         UnlockUsersMonday.findAll()
         CecReportProcess.findAll()
         CheckTicket440p.findAll()
+        CheckTicketArchive440p.findAll()
 
-        RemartMail.executeAll()
-        TtsMailFromOtk.executeAll()
-        SbMailFromCbr.executeAll()
-        ResponseToOrderCbr.executeAll()
-        NbkiAllReportsSend.executeAll()
-        UnlockUsersMonday.executeAll()
-        CecReportProcess.executeAll()
-        CheckTicket440p.executeAll()
+        executeTasks()
+//        RemartMail.executeAll()
+//        TtsMailFromOtk.executeAll()
+//        SbMailFromCbr.executeAll()
+//        ResponseToOrderCbr.executeAll()
+//        NbkiAllReportsSend.executeAll()
+//        UnlockUsersMonday.executeAll()
+//        CecReportProcess.executeAll()
+//        CheckTicket440p.executeAll()
+//        CheckTicketArchive440p.executeAll()
     }
 
 }

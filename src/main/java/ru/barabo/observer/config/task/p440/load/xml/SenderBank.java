@@ -25,6 +25,10 @@ public class SenderBank {
 		sender = new Fio(firstName, lastName, secondName);
 	}
 
+	public static SenderBank OUR_MAIN_UOD = new SenderBank("Начальник УОД",
+			"Людмила", "Файзулина", "Габтерфетовна");
+
+
 	public static SenderBank create(String[] items) {
 		if (items == null || items.length < 2) {
 			return null;

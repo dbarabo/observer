@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ptkpsd.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.task.AccessibleData

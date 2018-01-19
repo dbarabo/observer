@@ -74,17 +74,24 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
         return exist == null
     }
 
+//    @Synchronized
+//    fun addNotExistsByIdName(item :Elem, isDuplicateName: Boolean) :Boolean {
+//
+//        val exist = dataList.firstOrNull { (it.task == item.task) && it.isFindByIdName(item.idElem, item.name, isDuplicateName) }
+//
+//        if(exist == null) {
+//            save(item)
+//        }
+//
+//        return exist == null
+//    }
+
     @Synchronized
-    fun addNotExistsByIdName(item :Elem, isDuplicateName:Boolean) :Boolean {
+    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean {
 
-        val exist = dataList.firstOrNull { (it.task == item.task) && it.isFindByIdName(item.idElem, item.name, isDuplicateName) }
-
-        if(exist == null) {
-            save(item)
-        }
-
-        return exist == null
+        return dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
     }
+
 
     @Synchronized
     fun getLastItemsNoneState(task : ActionTask, noneState :State = State.ARCHIVE) :Elem? {
@@ -113,14 +120,11 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
         }
     }
 
-
-
-
     @Synchronized
-    fun getItems(task : ActionTask, state :State, executed :LocalDateTime = LocalDateTime.now() ) :List<Elem>
+    fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
           = dataList.filter { it.state == state &&
-            it.task == task &&
-            (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:1_000_000_000_000_000 <
+            isContainsTask(it.task) &&
+            (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
                     executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
 
 

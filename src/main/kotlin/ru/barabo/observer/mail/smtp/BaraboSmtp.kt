@@ -12,7 +12,7 @@ object BaraboSmtp :SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru", user = "debara",
             password = "Sn909957", from = "debara@ptkb.ru")
 
-    private val YA = arrayOf(smtpProperties.from)
+    val YA = arrayOf(smtpProperties.from)
 
     val AUTO = arrayOf("auto@ptkb.ru")
 

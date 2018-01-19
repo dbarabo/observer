@@ -5,9 +5,6 @@ import ru.barabo.db.ConverterValue
 import ru.barabo.db.annotation.*
 import ru.barabo.observer.config.task.ActionTask
 import java.io.File
-import java.io.IOException
-import java.nio.file.Files
-import java.nio.file.attribute.BasicFileAttributes
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -107,7 +104,7 @@ data class Elem (
 
         constructor(file : File, actionTask :ActionTask, waitExecuted :Duration?, targetIt :String? = null) : this() {
 
-                idElem = getIdFromFile(file)
+                idElem = file.lastModified()
 
                 name = file.name
 
@@ -134,14 +131,6 @@ data class Elem (
 
         fun getFile() :File = File(path + "/" + name)
 
-        private fun getIdFromFile(file : File) :Long? {
-                return try {
-                     Files.readAttributes<BasicFileAttributes>(file.toPath(), BasicFileAttributes::class.java)
-                             .lastModifiedTime().toMillis()
-                } catch (e : IOException) {
-                     null
-                }
-        }
 
         fun isFindByIdName(idElem :Long?, name :String, isDuplicateName :Boolean) :Boolean {
 
@@ -149,7 +138,5 @@ data class Elem (
 
             return result
         }
-
-
-
 }
+

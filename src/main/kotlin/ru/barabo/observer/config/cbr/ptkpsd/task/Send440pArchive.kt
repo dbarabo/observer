@@ -4,6 +4,7 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.store.Elem
@@ -25,7 +26,7 @@ object Send440pArchive :SingleSelector {
 
     private val EXEC_SEND_ARCHIVE = "call od.PTKB_440P.execSendArchive(?, ?)"
 
-    private fun sendFolder440p() :String = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка/crypto"
+    fun sendFolder440p() :String = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка/crypto"
 
     override fun execute(elem: Elem): State {
 

@@ -53,12 +53,14 @@ open class CryptoUnCryptoPacket(private val name :String, private val cryptoFun 
         return State.OK
     }
 
-    fun addFileToPacket(file :File, folderTo :File, isMove :Boolean = true) {
+    fun addFileToPacket(file :File, folderTo :File, isMove :Boolean = true, newExt :String? = null) {
 
         val elem = StoreDerby.firstItem(this, State.NONE, LocalDateTime.now().minusSeconds(5), folderTo.absolutePath)
                 ?: createPacket(folderTo)
 
-        val newFile = File("${elem.getFile().absolutePath}/${file.name}")
+        val newFileName = newExt?.let { "${file.nameWithoutExtension}.$newExt" } ?:file.name
+
+        val newFile = File("${elem.getFile().absolutePath}/$newFileName")
 
         file.copyTo(newFile, true)
 

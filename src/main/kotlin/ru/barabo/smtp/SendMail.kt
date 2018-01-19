@@ -83,7 +83,7 @@ interface SendMail {
         val session = //Session.getDefaultInstance(propSmtp(), authenticator())
                 Session.getInstance(propSmtp(), authenticator() )
 
-        session.debug = true
+        session.debug = false//true
 
         return session
     }

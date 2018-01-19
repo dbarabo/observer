@@ -87,6 +87,19 @@ object Verba {
         return file
     }
 
+    fun signBaraboAndCrypto(folderCrypto :File, mask :String = "*.*") {
+
+        folderCrypto.listFiles()?.filter { !it.isDirectory }?.forEach { signByBarabo(it) }
+
+        cryptoFolder(folderCrypto, mask)
+    }
+
+    fun cryptoFolder(folderCrypto :File, mask :String = "*.*") {
+        checkerVerba()
+
+        cryptoUncryptoAllFolder("crypt", folderCrypto, mask)
+    }
+
     fun unCryptoAndUnSigned(folderUnCrypto :File, mask :String = "*.*") {
 
         unCrypto(folderUnCrypto, mask)
@@ -97,7 +110,12 @@ object Verba {
     fun unCrypto(folderUnCrypto :File, mask :String = "*.*") {
         checkerVerba()
 
-        val scriptFile = createScriptFile("decrypt", folderUnCrypto, mask)
+        cryptoUncryptoAllFolder("decrypt", folderUnCrypto, mask)
+    }
+
+    private fun cryptoUncryptoAllFolder(command :String, folder :File, mask :String = "*.*") {
+
+        val scriptFile = createScriptFile(command, folder, mask)
 
         val cmd = "$VERBA_PATH/$VERBA_PROGRAM /@${scriptFile.absolutePath}"
 

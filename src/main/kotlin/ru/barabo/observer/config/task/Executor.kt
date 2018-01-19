@@ -74,9 +74,9 @@ interface Executor {
         }
     }
 
-    fun executeAll() :Executor? {
+    private fun executeAll() :Executor? {
 
-        val items = StoreDerby.getItems(actionTask(), State.NONE)
+        val items = StoreDerby.getItems(State.NONE) { it == actionTask() }
 
         items.forEach { executeElem(it, isSuspend = false) }
 

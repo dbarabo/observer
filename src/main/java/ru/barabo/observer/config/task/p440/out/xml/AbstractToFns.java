@@ -2,6 +2,7 @@ package ru.barabo.observer.config.task.p440.out.xml;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.log4j.Logger;
+import ru.barabo.observer.config.barabo.p440.out.ResponseData;
 
 import java.util.UUID;
 
@@ -30,8 +31,9 @@ public class AbstractToFns {
 	@XStreamAlias("ТипИнф")
 	private String typeInfo;
 
-	public AbstractToFns(String typeInfo) {
-		this.typeInfo = typeInfo;
+	public AbstractToFns(ResponseData responseData) {
+
+		this.typeInfo = responseData.typeInfo();
 	}
 
 	public String getTypeInfo() {

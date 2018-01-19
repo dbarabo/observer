@@ -12,7 +12,7 @@ public class PbXml extends AbstractToFns {
 	private PbInfoPart bbInfoPart;
 
 	public PbXml(PbResponseData pbResponseData) {
-		super("ПОДБНПРИНТ");
+		super(pbResponseData);
 
 		this.bbInfoPart = new PbInfoPart(pbResponseData.fileNameFromFns(),
 				pbResponseData.getPbResultList());

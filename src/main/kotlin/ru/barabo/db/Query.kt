@@ -1,5 +1,7 @@
 package ru.barabo.db
 
+import oracle.jdbc.OracleCallableStatement
+import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import java.sql.*
 import java.util.concurrent.atomic.AtomicLong
@@ -52,6 +54,32 @@ open class Query (private val dbConnection :DbConnection) {
     }
 
     @Throws(SessionException::class)
+    fun selectCursor(query :String, params :Array<Any?>? = null,
+                     sessionSetting : SessionSetting = SessionSetting(true)):List<Array<Any?>> {
+
+
+        val session = dbConnection.getSession(sessionSetting)
+
+        val request = prepareSelectCursor(session, query, params, sessionSetting)
+
+        val tableData = try {
+            fetchData(request.resultSetCursor!!)
+        }catch (e : SQLException) {
+
+            logger.error("query=$query")
+            params?.forEach { logger.error(it?.toString()) }
+            logger.error("fetch", e)
+            closeQueryData(session, TransactType.ROLLBACK, request.statement, request.resultSetCursor)
+
+            throw SessionException(e.message?:"")
+        }
+
+        closeQueryData(session, sessionSetting.transactType, request.statement, request.resultSetCursor)
+
+        return tableData
+    }
+
+    @Throws(SessionException::class)
     fun select(query :String, params :Array<Any?>? = null,
                sessionSetting : SessionSetting = SessionSetting(true),
                callBack :(isNewRow :Boolean, value :Any?, column :String?)->Unit) {
@@ -70,7 +98,6 @@ open class Query (private val dbConnection :DbConnection) {
 
         closeQueryData(session, sessionSetting.transactType, statement, resultSet)
     }
-
 
     fun commitFree(sessionSetting : SessionSetting = SessionSetting(false)) {
 
@@ -169,6 +196,43 @@ open class Query (private val dbConnection :DbConnection) {
         closeQueryData(session, sessionSetting.transactType, queryRequest.statement)
 
         return resultList
+    }
+
+    @Throws(SessionException::class)
+    private fun prepareSelectCursor(session :Session, query :String, params :Array<Any?>?, sessionSetting : SessionSetting) :QueryRequest {
+
+        val statement = try {
+            session.session.prepareCall(query)
+                    ?.setParams(intArrayOf(OracleTypes.CURSOR), params) as OracleCallableStatement
+
+        } catch (e: SQLException) {
+
+            logger.error("query=$query")
+            params?.forEach { logger.error(it?.toString()) }
+
+            logger.error("prepareSelectCursor", e)
+
+            closeQueryData(session, TransactType.ROLLBACK)
+            throw SessionException(e.message?:"")
+        }
+
+        val resultSet = try {
+
+            statement.execute()
+
+            statement.getCursor(1)
+
+        } catch (e: SQLException) {
+            logger.error("executeCursor", e)
+
+            if(dbConnection.isRestartSessionException(session, sessionSetting.isReadTransact, e.message?:"")) {
+                return prepareSelectCursor(session, query, params, sessionSetting)
+            }
+            closeQueryData(session, TransactType.ROLLBACK, statement)
+            throw SessionException(e.message as String)
+        }
+
+        return QueryRequest(query, params, statement, resultSet)
     }
 
     @Throws(SessionException::class)
@@ -303,7 +367,8 @@ fun CallableStatement.setParams(outParamTypes :IntArray, inParams :Array<Any?>? 
 
 private class QueryRequest(val query :String,
                         val params :Array<Any?>?,
-                        var statement :PreparedStatement?)
+                        var statement :PreparedStatement?,
+                        var resultSetCursor :ResultSet? = null)
 
 
 

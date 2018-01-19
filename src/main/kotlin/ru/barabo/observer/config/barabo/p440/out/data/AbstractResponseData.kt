@@ -1,11 +1,13 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
+import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 abstract class AbstractResponseData : ResponseData {
+
     private lateinit var fromFns: Number
 
     private lateinit var fileNameResponse: String
@@ -34,21 +36,23 @@ abstract class AbstractResponseData : ResponseData {
 
     open protected fun addWhere(): String = ""
 
-    override fun init(idResponse: Number): ResponseData {
+    override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {
         val rowData = AfinaQuery.select(
                 selectResponse(addSeparFields(), addSeparTables(), addWhere() ), arrayOf(idResponse) )[0]
 
-        fillDataFields(rowData)
+        fillDataFields(idResponse, rowData, sessionSetting)
 
         return this
     }
 
-    private fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
+    companion object {
+        fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
+    }
 
     /**
      * default first select // r.FNS_FROM, r.IS_PB, r.FILE_NAME, f.FILE_NAME,
      */
-    open protected fun fillDataFields(rowData :Array<Any?>) {
+    open protected fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
         fromFns = rowData[0] as Number
 

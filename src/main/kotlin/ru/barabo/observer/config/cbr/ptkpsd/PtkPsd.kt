@@ -21,19 +21,16 @@ object PtkPsd : ConfigTask {
         SendXmlByPtkbPsd.findAll()
         SendByPtkPsdCopy.findAll()
         Send364pSign.findAll()
-        Get440pFiles.findAll()
         CheckerIsSendPtkPsd.findAll()
-        GetProcess550pFiles.findAll()
         Send440pArchive.findAll()
 
         // execute all
-        SendByPtkPsdNoXml.executeAll()
-        SendXmlByPtkbPsd.executeAll()
-        SendByPtkPsdCopy.executeAll()
-        Send364pSign.executeAll()
-        Get440pFiles.executeAll()
-        CheckerIsSendPtkPsd.executeAll()
-        GetProcess550pFiles.executeAll()
-        Send440pArchive.executeAll()
+        executeTasks()
+//        SendByPtkPsdNoXml.executeAll()
+//        SendXmlByPtkbPsd.executeAll()
+//        SendByPtkPsdCopy.executeAll()
+//        Send364pSign.executeAll()
+//        CheckerIsSendPtkPsd.executeAll()
+//        Send440pArchive.executeAll()
     }
 }

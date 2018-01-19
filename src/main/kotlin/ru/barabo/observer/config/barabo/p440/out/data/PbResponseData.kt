@@ -1,12 +1,17 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
+import ru.barabo.db.SessionSetting
 import ru.barabo.observer.config.task.p440.out.xml.pb.PbResult
 import java.util.*
 
 
 class PbResponseData :AbstractResponseData() {
 
-    override protected fun addSeparFields(): String =
+    override fun xsdSchema(): String = "/xsd/PBQ_300.xsd"
+
+    override fun typeInfo(): String = "ПОДБНПРИНТ"
+
+    override fun addSeparFields(): String =
             ", f.CHECK_CODES, f.CHECK_TEXT_ERRORS, f.CHECK_ATTR_ERROR, f.CHECK_ATTR_RES_ERROR"
 
 
@@ -14,9 +19,9 @@ class PbResponseData :AbstractResponseData() {
 
     fun getPbResultList() : List<PbResult> = pbResult
 
-    override fun fillDataFields(rowData :Array<Any?>) {
+    override fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
-        super.fillDataFields(rowData)
+        super.fillDataFields(idResponse, rowData, sessionSetting)
 
         val checkCodes = rowData[4] as String
 
@@ -40,7 +45,7 @@ class PbResponseData :AbstractResponseData() {
 
         val attributes = checkAttributeCodes?.split("\n")
 
-        val values = checkAttributeCodes?.split("\n")
+        val values = checkAttributeValues?.split("\n")
 
         codes.indices.forEach { index ->
             pbResultList.add(PbResult(codes[index],
