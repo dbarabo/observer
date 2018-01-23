@@ -2,6 +2,8 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.util.regex.Pattern
 import kotlin.concurrent.timer
@@ -80,7 +82,7 @@ class TaskTest {
         logger.error("1234567890".substring(0, 3))
     }
 
-    @Test
+    //@Test
     fun testTimer() {
         timer("test", false, 0, 3_000) {logger.error(LocalTime.now().toString())}
 
@@ -88,6 +90,24 @@ class TaskTest {
 
         Thread.sleep(12_000);
     }
+
+    //@Test
+    fun testSubstr() {
+        logger.error("22617810705182389250                       222466".substring(0, 32).trim())
+
+        logger.error(("22617810705182389250                       222466".substring(32, 32 + 17).trim().toDouble() / 100).toString())
+
+        logger.error("20180119_06:26:24".substring(0, 17))
+
+        logger.error(Timestamp(SimpleDateFormat("yyyyMMdd_HH:mm:ss").parse(
+                "20180119_06:26:24".substring(0, 17)).time).toString())
+    }
+
+    @Test
+    fun testDiv() {
+        logger.error((("6946559"?.trim()?.toLong()?.toDouble()?:0.0) / 100).toString())
+    }
+
 
 
 }

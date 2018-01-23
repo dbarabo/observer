@@ -92,7 +92,7 @@ class MainView: View(), StoreListener {
 
     override fun refreshAll(rootElem: GroupElem) {
 
-        if(treeTable?.root?.value == rootElem) {
+        if(treeTable?.root?.value === rootElem) {
             return
         }
 
@@ -189,7 +189,7 @@ private fun getFontStyle(isEmptyChild :Boolean) :String {
 private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
     return TreeTableView<GroupElem>().apply {
         column("Задача", GroupElem::task).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -203,7 +203,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Статус", GroupElem::state).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -215,7 +215,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Имя", GroupElem::name).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -227,7 +227,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("id", GroupElem::id).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -239,7 +239,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Создан", GroupElem::created).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -251,7 +251,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Обработан", GroupElem::executed).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 
@@ -263,7 +263,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Кол-во", GroupElem::count).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it?.toString()
 
@@ -275,7 +275,7 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
         }
 
         column("Ошибка", GroupElem::error).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)
+            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
 
             text = it
 

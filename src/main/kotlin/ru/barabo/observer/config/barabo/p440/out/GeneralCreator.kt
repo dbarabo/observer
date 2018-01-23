@@ -42,6 +42,8 @@ import kotlin.reflect.KClass
 
 abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
+    override fun config(): ConfigTask = P440Config
+
     companion object {
 
         private val STATE_SAVED = 2
@@ -157,8 +159,6 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
             false, LocalTime.of(10, 0), LocalTime.of(15, 45), Duration.ofSeconds(1))
-
-    override fun config(): ConfigTask = P440Config
 
     private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
         val construct =  classXml.constructors.iterator().next()

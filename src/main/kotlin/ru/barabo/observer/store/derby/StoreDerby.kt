@@ -12,7 +12,7 @@ import java.time.ZoneId
 
 object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
 
-    private val root :GroupElem = GroupElem()
+    private var root :GroupElem = GroupElem()
 
     private val dataList = ArrayList<Elem>()
 
@@ -188,16 +188,15 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
     }
 
     @Synchronized
-    private fun readData(dateCheck :LocalDate = LocalDate.now()) {
+    fun readData(dateCheck :LocalDate = LocalDate.now()) {
 
         actualDate = dateCheck
 
         synchronized(dataList){
             dataList.clear()
         }
-
-        synchronized(root.child) {
-            root.child.clear()
+        synchronized(root) {
+            root = GroupElem()
         }
 
         template.select(Elem::class.java) {

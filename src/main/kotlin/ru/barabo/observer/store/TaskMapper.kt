@@ -4,14 +4,9 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaConnect
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.correspondent.Correspondent
-import ru.barabo.observer.config.cbr.correspondent.task.DownLoadToCorrespond
-import ru.barabo.observer.config.cbr.correspondent.task.UploadFromCorrespond
 import ru.barabo.observer.config.cbr.other.OtherCbr
-import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
-import ru.barabo.observer.config.cbr.ptkpsd.task.*
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
-import ru.barabo.observer.config.cbr.ticket.task.*
 import ru.barabo.observer.config.task.ActionTask
 
 object TaskMapper {
@@ -86,44 +81,45 @@ object TaskMapper {
 
     private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
 
-    private fun initCbr() :Map<String, ActionTask> {
-        return mapOf(
-                mapItem(DownLoadToCorrespond),
-                mapItem(UploadFromCorrespond),
-
-                mapItem(Get440pFiles),
-                mapItem(Send364pSign),
-                mapItem(SendByPtkPsdCopy),
-                mapItem(SendByPtkPsdNoXml),
-                mapItem(SendXmlByPtkbPsd),
-                mapItem(CheckerIsSendPtkPsd),
-                mapItem(GetProcess550pFiles),
-                mapItem(Send440pArchive),
-
-                mapItem(RemartMail),
-                mapItem(ResponseToOrderCbr),
-                mapItem(SbMailFromCbr),
-                mapItem(TtsMailFromOtk),
-                mapItem(NbkiAllReportsSend),
-                mapItem(UnlockUsersMonday),
-                mapItem(CecReportProcess),
-
-                mapItem(Fsfm349pRequest),
-                mapItem(Ticket311pCbr),
-                mapItem(Ticket311pFns),
-                mapItem(Ticket364FtsCab),
-                mapItem(Ticket364FtsText),
-                mapItem(Ticket550p),
-                mapItem(TicketFsfm349p),
-                mapItem(TicketFtsCab),
-                mapItem(TicketFtsText),
-                mapItem(TicketLegalCab),
-                mapItem(TicketLegalText),
-                mapItem(TicketSimple),
-                mapItem(TicketXml),
-                mapItem(TicketVbkArchive)
-                )
-    }
+    private fun initCbr() :Map<String, ActionTask> = emptyMap()
+    // {
+//        return mapOf(
+//                mapItem(DownLoadToCorrespond),
+//                mapItem(UploadFromCorrespond),
+//
+//                mapItem(Get440pFiles),
+//                mapItem(Send364pSign),
+//                mapItem(SendByPtkPsdCopy),
+//                mapItem(SendByPtkPsdNoXml),
+//                mapItem(SendXmlByPtkbPsd),
+//                mapItem(CheckerIsSendPtkPsd),
+//                mapItem(GetProcess550pFiles),
+//                mapItem(Send440pArchive),
+//
+//                mapItem(RemartMail),
+//                mapItem(ResponseToOrderCbr),
+//                mapItem(SbMailFromCbr),
+//                mapItem(TtsMailFromOtk),
+//                mapItem(NbkiAllReportsSend),
+//                mapItem(UnlockUsersMonday),
+//                mapItem(CecReportProcess),
+//
+//                mapItem(Fsfm349pRequest),
+//                mapItem(Ticket311pCbr),
+//                mapItem(Ticket311pFns),
+//                mapItem(Ticket364FtsCab),
+//                mapItem(Ticket364FtsText),
+//                mapItem(Ticket550p),
+//                mapItem(TicketFsfm349p),
+//                mapItem(TicketFtsCab),
+//                mapItem(TicketFtsText),
+//                mapItem(TicketLegalCab),
+//                mapItem(TicketLegalText),
+//                mapItem(TicketSimple),
+//                mapItem(TicketXml),
+//                mapItem(TicketVbkArchive)
+//                )
+//    }
 
     private fun baraboConfigs() :List<ConfigTask> = emptyList()
 

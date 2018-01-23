@@ -30,14 +30,21 @@ class ActionMenu : Menu("Действия", ResourcesManager.icon("action.png"))
 private fun  GroupElem.getActionMenuItems() :List<Pair<String, ()->Unit>> {
     val list = ArrayList<Pair<String, ()->Unit>>()
 
-    if(!this.child.isEmpty()) return list
+    if(this.isConfig) {
+        list.addAll(refreshTable() )
+    } else {
+        list.addAll(defaultItemsByState(elem.state) )
 
-    list.addAll(defaultItemsByState(elem.state) )
-
-    list.addAll(itemsByTask(elem.task!!) )
+        list.addAll(itemsByTask(elem.task!!) )
+    }
 
     return list
 }
+
+private fun GroupElem.refreshTable(): List<Pair<String, () -> Unit>> =
+        listOf(Pair("Обновить", { StoreDerby.readData() } ))
+
+
 
 private fun GroupElem.itemsByTask(task : ActionTask) :List<Pair<String, ()->Unit>> {
     return emptyList()

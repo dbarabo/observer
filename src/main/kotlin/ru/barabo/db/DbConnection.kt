@@ -127,6 +127,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
         val connect = try {
             logger.info("dbSetting.url=${dbSetting.url} dbSetting.user=${dbSetting.user} dbSetting.password=${dbSetting.password}")
+
             java.sql.DriverManager.getConnection(dbSetting.url, dbSetting.user, dbSetting.password)
 
         } catch (e :SQLException) {
@@ -166,13 +167,13 @@ open class DbConnection(protected val dbSetting: DbSetting) {
     }
 
     @Throws(SessionException::class)
-    private fun getSessionById(idSession: Long, isReadTransact :Boolean) :Session? {
+    private fun getSessionById(idSessionFind: Long, isReadTransact :Boolean) :Session? {
 
         synchronized(pool) {
-            val session = pool.firstOrNull {it.idSession == idSession}
+            val session = pool.firstOrNull {it.idSession == idSessionFind}
 
             return session?.let { it } ?:
-                    getFreeSession(isReadTransact)?.let { synchronized(it) {it.idSession = idSession}; it }
+                    getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
         }
     }
 }

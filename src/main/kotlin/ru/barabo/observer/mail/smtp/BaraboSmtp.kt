@@ -4,6 +4,7 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import ru.barabo.observer.store.Elem
+import ru.barabo.observer.store.TaskMapper
 import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpProperties
 import java.io.File
@@ -14,7 +15,7 @@ object BaraboSmtp :SendMail {
 
     val YA = arrayOf(smtpProperties.from)
 
-    val AUTO = arrayOf("auto@ptkb.ru")
+    val AUTO = if(TaskMapper.isAfinaBase()) arrayOf("auto@ptkb.ru") else YA
 
     val PODFT = arrayOf("podft@ptkb.ru")
 

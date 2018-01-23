@@ -20,7 +20,7 @@ data class Session (var session : Connection,
 
             statement.executeQuery()?.close() ?: throw SQLException(ERROR_CHECK_SESSION)
             statement.close()
-            session.commit()
+            // session.commit()
 
             true
         } catch (e : SQLException) {

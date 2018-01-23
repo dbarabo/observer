@@ -25,7 +25,7 @@ data class GroupElem (var elem :Elem = Elem(),
         DateTimeFormatter.ofPattern("HH:mm:ss").format(elem.created)
     } else {
         DateTimeFormatter.ofPattern("MM dd HH:mm:ss").format(elem.created)
-    })!!
+    })
 
     val executed :String? get() = if(isConfig) "" else if(elem.executed != null)DateTimeFormatter.ofPattern("HH:mm:ss").format(elem.executed) else null
 
