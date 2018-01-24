@@ -3,8 +3,10 @@ package ru.barabo.observer.config.cbr.ptkpsd.task
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
+import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.store.Elem
@@ -26,7 +28,7 @@ object Send440pArchive :SingleSelector {
 
     private val EXEC_SEND_ARCHIVE = "call od.PTKB_440P.execSendArchive(?, ?)"
 
-    fun sendFolder440p() :String = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка/crypto"
+    fun sendFolderCrypto440p() :File = "${GeneralCreator.sendFolder440p().absolutePath}/crypto".byFolderExists()
 
     override fun execute(elem: Elem): State {
 

@@ -43,8 +43,9 @@ interface Periodical : Executor, ActionTask {
     }
 
     private fun executedTime(timeCreated :LocalDateTime) :LocalDateTime? =
-            if(accessibleData.executeWait == null) null
-               else { timeCreated.plusSeconds(accessibleData.executeWait?.seconds?:0) }
+            accessibleData.executeWait?.let { timeCreated.plusSeconds(it.seconds) }
+//            if(accessibleData.executeWait == null) null
+//               else { timeCreated.plusSeconds(accessibleData.executeWait?.seconds?:0) }
 
 
 

@@ -8,8 +8,6 @@ object P440Config: ConfigTask {
 
     override var timer: Timer? = null
 
-    // override var exitStatus: ExitStatus = ExitStatus.STOP
-
     override fun name(): String = "440-П"
 
     override fun timeOut(): Long = 20_000
@@ -29,30 +27,5 @@ object P440Config: ConfigTask {
         SignArchive440p.findAll()
 
         this.executeTasks()
-
-//        PnoLoader.executeAll()
-//        RpoLoader.executeAll()
-//        RooLoader.executeAll()
-//        ZsnLoader.executeAll()
-//        ZsoLoader.executeAll()
-//        ZsvLoader.executeAll()
-//        ApnLoader.executeAll()
-//        ApoLoader.executeAll()
-//        ApzLoader.executeAll()
-//
-//        PbSaver.executeAll()
-//        BnpSaver.executeAll()
-//        ExistsSaver.executeAll()
-//        RestSaver.executeAll()
-//        ExtractMainSaver.executeAll()
-//
-//        ToUncrypto440p.executeAll()
-//        ToCrypto440p.executeAll()
-//        AddToArchive440p.executeAll()
-//        SignArchive440p.executeAll()
-//
-//        Process440p.executeAll()
-//        TryPnoExecute.executeAll()
-//        RooWaitCancel.executeAll()
     }
 }

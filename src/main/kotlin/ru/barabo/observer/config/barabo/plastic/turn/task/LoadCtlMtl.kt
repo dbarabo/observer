@@ -56,11 +56,11 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
     private val EXEC_TO_ERROR_STATE = "update od.PTKB_CTL_MTL set state = 2 where id = ?"
 
     private fun bodyError(text :String) =
-            "В загруженном файле <${fileProcess.name}> CTL.id:<${fileId}> не сходится чек-сумма $text"
+            "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> не сходится чек-сумма $text"
 
     private fun checkSum(fileId :Any?) {
 
-        val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId)).get(0)
+        val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId))[0]
 
         var textCheck :String? = null
 
@@ -89,13 +89,14 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
     override val headerQuery: String? = "insert into od.PTKB_CTL_MTL (id, type, file_receiver, " +
             "file_branch_receiver, PC_CREATED, file_order, pc_process, file_name) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
-    private fun fileProcessName(value :String?) :Any = fileProcess.name
+    private fun fileProcessName(value: String?) :Any = fileProcess.name
 
     private val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
 
     private val DATE_FORMAT = "yyyyMMdd"
 
     fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
+
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
      2 to ::parseToString,
@@ -121,9 +122,6 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
             "?)")
 
     private fun indicator(value :String?) :Any = if(isCtl)parseToString(value) else ""
-
-    private fun termNum(value :String?) :Any = if(!isCtl)parseToString(value) else ""
-
 
     override val bodyColumns: Map<Int, (String?) -> Any> = mapOf(
             1 to ::parseInt,

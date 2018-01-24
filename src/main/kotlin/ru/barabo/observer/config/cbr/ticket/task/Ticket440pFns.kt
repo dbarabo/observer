@@ -22,7 +22,7 @@ import java.time.LocalTime
 object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData( ::getFolder440p, "KWTFCB.*\\.xml"))
+            listOf(FileFinderData( Get440pFiles::getFolder440p, "KWTFCB.*\\.xml"))
 
     override val accessibleData: AccessibleData =
             AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
@@ -30,8 +30,6 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
     override fun config(): ConfigTask = TicketPtkPsd
 
     override fun name(): String = "440-П Квитки из ИФНС"
-
-    private fun getFolder440p() :File = File(Get440pFiles.getFolder440p())
 
 
     /**

@@ -41,7 +41,7 @@ object SignArchive440p: SingleSelector {
                 params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(java.sql.Types.VARCHAR) )
 
-        val archive = File("${Send440pArchive.sendFolder440p()}/${elem.name}.ARJ")
+        val archive = File("${Send440pArchive.sendFolderCrypto440p().absolutePath}/${elem.name}.ARJ")
 
         try {
             if(!archive.exists()) throw SessionException("file not found ${archive.absolutePath}")

@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.turn
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import java.util.*
 
 object PlasticTurnConfig: ConfigTask {
@@ -11,6 +12,14 @@ object PlasticTurnConfig: ConfigTask {
     override fun timeOut(): Long  = 20_000
 
     override fun configRun() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        LoadAfp.findAll()
+        LoadCtlMtl.findAll()
+        LoadObi.findAll()
+        LoadObr.findAll()
+        LoadRestAccount.findAll()
+        OutIbi.findAll()
+
+        this.executeTasks()
     }
 }

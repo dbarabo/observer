@@ -40,6 +40,16 @@ import java.time.LocalTime
 import kotlin.reflect.KClass
 
 
+fun String.byFolderExists(): File {
+    val folder = File(this)
+
+    if(!folder.exists()) {
+        folder.mkdirs()
+    }
+
+    return folder
+}
+
 abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
     override fun config(): ConfigTask = P440Config
@@ -52,9 +62,9 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
         private val logger = LoggerFactory.getLogger(GeneralCreator::class.java)!!
 
-        fun sendFolder440p() :String = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка"
+        fun sendFolder440p(): File = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка".byFolderExists()
 
-        private fun failSendFolder440p() :String = "${sendFolder440p()}/Fail"
+        private fun failSendFolder440p() :File = "${sendFolder440p().absolutePath}/Fail".byFolderExists()
 
         inline fun <reified T : AbstractToFns> create(responseData :AbstractResponseData, name :String) : GeneralCreator<T> {
 
@@ -67,7 +77,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
         fun saveXml(fileName :String, xmlData :Any) {
 
-            val outputStream = FileOutputStream(File("${sendFolder440p()}/$fileName"))
+            val outputStream = FileOutputStream(File("${sendFolder440p().absolutePath}/$fileName"))
 
             val writer = OutputStreamWriter(outputStream, Charset.forName("windows-1251"))
 
@@ -81,7 +91,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
         @Throws(SAXException::class)
         fun validateXml(fileName :String, xsdSchema :String) {
 
-            val file =  File("${sendFolder440p()}/$fileName")
+            val file =  File("${sendFolder440p().absolutePath}/$fileName")
 
             try {
                 XmlValidator.validate(file, xsdSchema)
@@ -91,7 +101,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
                 logger.error("validateXml $fileName", e)
 
                 if(file.exists()) {
-                    val failFile = File("${failSendFolder440p()}/$fileName")
+                    val failFile = File("${failSendFolder440p().absolutePath}/$fileName")
                     file.copyTo(failFile, true)
                     file.delete()
                 }

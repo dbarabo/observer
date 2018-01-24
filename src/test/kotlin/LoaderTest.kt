@@ -1,11 +1,7 @@
 
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadCtlMtl
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadObi
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadObr
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadRestAccount
+import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import java.io.File
@@ -43,9 +39,23 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun loadCtlMtl() {
         val elem = Elem(File("C:/КартСтандарт/test/MTL20180123_0226.0001"), LoadCtlMtl, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun loadAfp() {
+        val elem = Elem(File("C:/КартСтандарт/test/AFP20180124_0226.0011"), LoadAfp, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun outIbi() {
+        val elem = Elem(task = OutIbi)
 
         elem.task?.execute(elem)
     }

@@ -6,6 +6,9 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
+import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
+import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive.sendFolderCrypto440p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
@@ -21,8 +24,8 @@ object AddToArchive440p: FileFinder, FileProcessor {
     override fun config(): ConfigTask = P440Config
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(ToCrypto440p::sendFolder440p, "PB\\d.*\\.xml"),
-            FileFinderData(ToCrypto440p::getCryptoFolder440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
+            FileFinderData(::sendFolder440p, "PB\\d.*\\.xml"),
+            FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
     )
 
     override val accessibleData: AccessibleData = AccessibleData()
@@ -37,7 +40,7 @@ object AddToArchive440p: FileFinder, FileProcessor {
             val archive = AfinaQuery.execute(EXEC_ADD_TO_ARCHIVE, arrayOf(file.nameWithoutExtension),
                     settingSession, intArrayOf(OracleTypes.VARCHAR))?.get(0) as String
 
-            val archiveFullPath = "${ToCrypto440p.getCryptoFolder440p().absolutePath}/$archive"
+            val archiveFullPath = "${Send440pArchive.sendFolderCrypto440p().absolutePath}/$archive"
 
             Archive.addToArj(archiveFullPath, arrayOf(file))
 

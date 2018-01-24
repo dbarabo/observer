@@ -188,103 +188,111 @@ private fun getFontStyle(isEmptyChild :Boolean) :String {
 
 private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
     return TreeTableView<GroupElem>().apply {
-        column("Задача", GroupElem::task).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+        column("Задача", GroupElem::task)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            treeTableView.selectionModel.focusedIndex
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style += getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, isSelected)
+//        }
 
-            text = it
+        column("Статус", GroupElem::state)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
-            treeTableView.selectionModel.focusedIndex
+        column("Имя", GroupElem::name)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+        column("id", GroupElem::id)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
-            style += getFontStyle(treeItem.value.child.isEmpty())
+        column("Создан", GroupElem::created)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
-            style += getColorBackGround(treeItem.value.isConfig, isSelected)
-        }
+        column("Обработан", GroupElem::executed)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig,  treeItem.value == treeTableView.selectedItem )
+//        }
 
-        column("Статус", GroupElem::state).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+        column("Кол-во", GroupElem::count)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it?.toString()
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
-
-        column("Имя", GroupElem::name).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
-
-        column("id", GroupElem::id).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
-
-        column("Создан", GroupElem::created).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
-
-        column("Обработан", GroupElem::executed).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig,  treeItem.value == treeTableView.selectedItem )
-        }
-
-        column("Кол-во", GroupElem::count).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it?.toString()
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
-
-        column("Ошибка", GroupElem::error).cellFormat {
-            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
-
-            text = it
-
-            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
-
-            style = getFontStyle(treeItem.value.child.isEmpty())
-
-            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
-        }
+        column("Ошибка", GroupElem::error)
+//                .cellFormat {
+//            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
+//
+//            text = it
+//
+//            textFill = getFontColor(treeItem.value.elem.state, treeItem.value.isConfig)
+//
+//            style = getFontStyle(treeItem.value.child.isEmpty())
+//
+//            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
+//        }
 
         root = TreeItem(rootGroup)
 

@@ -20,7 +20,7 @@ object PbSaver : GeneralCreator<PbXml>(PbResponseData(), PbXml::class) {
     override fun execute(elem: Elem): State {
         val result = super.execute(elem)
 
-        val signFile = File("${sendFolder440p()}/${responseData.fileNameResponse()}")
+        val signFile = File("${sendFolder440p().absolutePath}/${responseData.fileNameResponse()}")
 
         Verba.signByBarabo(signFile)
 

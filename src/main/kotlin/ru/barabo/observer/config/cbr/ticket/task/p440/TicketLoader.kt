@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket.task.p440
 
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
@@ -34,7 +35,7 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
         AfinaQuery.execute(INSERT_TICKET, params)
 
-        val fileTo = File("${folderLoaded440p()}/${file.name}")
+        val fileTo = File("${folderLoaded440p().absolutePath}/${file.name}")
 
         file.copyTo(fileTo, true)
         file.delete()
@@ -52,7 +53,7 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
 }
 
-fun folderLoaded440p() = "${Get440pFiles.getFolder440p()}/loaded"
+fun folderLoaded440p() :File = "${Get440pFiles.getFolder440p().absolutePath}/loaded".byFolderExists()
 
 private fun TicketInfo.isFailTicketInfo() :Boolean = this.codes?.firstOrNull { "01" != it } != null
 

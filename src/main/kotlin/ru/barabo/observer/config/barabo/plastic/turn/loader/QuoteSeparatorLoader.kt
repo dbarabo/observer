@@ -73,7 +73,7 @@ interface QuoteSeparatorLoader {
 
         //LoggerFactory.getLogger(QuoteSeparatorLoader::class.java).error("sessionSetting.id=${sessionSetting.idSession}")
 
-        var order :Int = 0
+        var order = 0
 
         var headerId :Any? = null
 
@@ -142,7 +142,7 @@ interface QuoteSeparatorLoader {
 
         if(isExecOnlyExistsValues && values.isEmpty()) return
 
-        val params :MutableList<Any> = ArrayList<Any>()
+        val params :MutableList<Any> = ArrayList()
 
         id?.let { params.add(it) }
 
@@ -151,8 +151,10 @@ interface QuoteSeparatorLoader {
         AfinaQuery.execute(query, params.toTypedArray(), sessionSetting)
     }
 
-    private fun valuesByColumns(fields :List<String>, columns :Map<Int, (String?)->Any>) :List<Any> =
-        columns.entries.map { it.value.invoke( if(it.key >= 0 && it.key < fields.size)
-            (fields[it.key]) else "")}
+    private fun valuesByColumns(fields :List<String>, columns :Map<Int, (String?)->Any>) :List<Any> {
+
+      return columns.entries.map { it.value.invoke( if(it.key >= 0 && it.key < fields.size) fields[it.key] else "") }
+    }
+
 
 }

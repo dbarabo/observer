@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ticket.task
 
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -25,17 +26,17 @@ object Get440pFiles : FileFinder, FileProcessor {
 
     override fun name(): String = "440-П Получить файлы"
 
-    fun getFolder440p() :String = "X:/440-П/${todayFolder()}/Получено"
+    fun getFolder440p() :File = "X:/440-П/${todayFolder()}/Получено".byFolderExists()
 
     fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     private val ARCHIVE_HEADER = "AFN_MIFNS"
 
     override fun processFile(file : File) {
-        val files = Archive.extractFromCab(file, getFolder440p())
+        val files = Archive.extractFromCab(file, getFolder440p().absolutePath)
 
         files?.filter { it.name.indexOf(ARCHIVE_HEADER) == 0 }?.forEach {
-            Archive.extractFromArj(it, getFolder440p())
+            Archive.extractFromArj(it, getFolder440p().absolutePath)
         }
     }
 }

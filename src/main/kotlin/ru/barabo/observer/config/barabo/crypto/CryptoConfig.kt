@@ -8,8 +8,6 @@ object CryptoConfig : ConfigTask {
 
     override var timer: Timer? = null
 
-    // override var exitStatus: ExitStatus = ExitStatus.STOP
-
     override fun name(): String = "Verba/CryptoPro и Прочее"
 
     override fun timeOut(): Long = 20_000
@@ -26,17 +24,6 @@ object CryptoConfig : ConfigTask {
         LoadRateThb.findAll()
 
         this.executeTasks()
-//        UnCrypto364p.executeAll()
-//        UnSign364p.executeAll()
-//        CryptoNbki.executeAll()
-//        UnCryptoNbki.executeAll()
-//        CreateAccount311p.executeAll()
-//        SaveAccount311p.executeAll()
-//        InfoRequest349p.executeAll()
-//        LoadRateThb.executeAll()
-//
-//        UnCryptoPacket.executeAll() // not find - element add custom from ToUncrypto440p
-//        CryptoPacket.executeAll() // not need find - elem created from ToUncrypto440p
     }
 
 

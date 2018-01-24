@@ -3,6 +3,9 @@ package ru.barabo.observer.store
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaConnect
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.correspondent.Correspondent
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
@@ -11,15 +14,13 @@ import ru.barabo.observer.config.task.ActionTask
 
 object TaskMapper {
 
-    private var mapper :Map<String, ActionTask> = emptyMap()
-
     private var configList :List<ConfigTask> = emptyList()
 
     private var build :String = ""
 
     private var isAfina :Boolean = false
 
-    fun objectByClass(clazzName :String) :ActionTask { // = mapper[clazz]!!
+    fun objectByClass(clazzName :String) :ActionTask {
         val clazz = Class.forName(clazzName).kotlin
 
         return (clazz.objectInstance ?: clazz.java.newInstance())as ActionTask
@@ -28,27 +29,18 @@ object TaskMapper {
     @Throws(SessionException::class)
     fun init(build :String, baseConnect :String) {
 
-        this.build = build
-
-        if(!mapper.isEmpty()) {
+        if(!this.build.isEmpty()) {
             throw SessionException("TaskMapper already initialized")
         }
 
-        val (mapper, configList) =
-                when (build.toUpperCase().trim()) {
-            "CBR" -> {
-                Pair(initCbr(), cbrConfigs())
-            }
-            "BARABO" -> {
-                Pair(initBarabo(), baraboConfigs())
-            }
-            else -> {
-                Pair(emptyMap(), emptyList())
-            }
-        }
+        this.build = build
 
-        this.mapper = mapper
-        this.configList = configList
+        this.configList =
+                when (build.toUpperCase().trim()) {
+            "CBR" -> { cbrConfigs() }
+            "BARABO" -> { baraboConfigs() }
+            else -> { throw SessionException("TaskMapper build name is unknown $build") }
+        }
 
         initBase(baseConnect)
     }
@@ -81,49 +73,7 @@ object TaskMapper {
 
     private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
 
-    private fun initCbr() :Map<String, ActionTask> = emptyMap()
-    // {
-//        return mapOf(
-//                mapItem(DownLoadToCorrespond),
-//                mapItem(UploadFromCorrespond),
-//
-//                mapItem(Get440pFiles),
-//                mapItem(Send364pSign),
-//                mapItem(SendByPtkPsdCopy),
-//                mapItem(SendByPtkPsdNoXml),
-//                mapItem(SendXmlByPtkbPsd),
-//                mapItem(CheckerIsSendPtkPsd),
-//                mapItem(GetProcess550pFiles),
-//                mapItem(Send440pArchive),
-//
-//                mapItem(RemartMail),
-//                mapItem(ResponseToOrderCbr),
-//                mapItem(SbMailFromCbr),
-//                mapItem(TtsMailFromOtk),
-//                mapItem(NbkiAllReportsSend),
-//                mapItem(UnlockUsersMonday),
-//                mapItem(CecReportProcess),
-//
-//                mapItem(Fsfm349pRequest),
-//                mapItem(Ticket311pCbr),
-//                mapItem(Ticket311pFns),
-//                mapItem(Ticket364FtsCab),
-//                mapItem(Ticket364FtsText),
-//                mapItem(Ticket550p),
-//                mapItem(TicketFsfm349p),
-//                mapItem(TicketFtsCab),
-//                mapItem(TicketFtsText),
-//                mapItem(TicketLegalCab),
-//                mapItem(TicketLegalText),
-//                mapItem(TicketSimple),
-//                mapItem(TicketXml),
-//                mapItem(TicketVbkArchive)
-//                )
-//    }
+    private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig)
 
-    private fun baraboConfigs() :List<ConfigTask> = emptyList()
-
-    private fun initBarabo() :Map<String, ActionTask> = emptyMap()
-
-    private fun mapItem(objTask :ActionTask) :Pair<String, ActionTask> = Pair(objTask.javaClass.canonicalName, objTask)
+    //private fun mapItem(objTask :ActionTask) :Pair<String, ActionTask> = Pair(objTask.javaClass.canonicalName, objTask)
 }

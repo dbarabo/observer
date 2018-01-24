@@ -1,6 +1,8 @@
 package ru.barabo.observer.store.derby
 
 import ru.barabo.db.SessionException
+import ru.barabo.db.Type
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.GroupElem
@@ -9,6 +11,7 @@ import ru.barabo.observer.store.StoreDb
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.*
 
 object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
 
@@ -27,12 +30,49 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
         return root
     }
 
+    private fun simpleSave(item :Elem) {
+
+        item.id?.let { updateSave(item) }?:insertSave(item)
+    }
+
+    private val INSERT_ELEM = "insert into ALLDATA (ID_ELEM, NAME, STATE, TASK, PATH, CREATED, EXECUTED, " +
+            "ERROR, TARGET, BASE, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+    private fun insertSave(item :Elem) {
+
+        item.id = AfinaQuery.nextSequence().toInt()
+
+        AfinaQuery.execute(INSERT_ELEM, item.paramsElem())
+    }
+
+    private fun Elem.paramsElem() :Array<Any?>  = arrayOf(
+        idElem?.let { it }?:java.sql.Types.BIGINT,
+        name,
+        state.ordinal,
+        task!!.javaClass.canonicalName,
+        path,
+        java.sql.Date.from(created.atZone(ZoneId.systemDefault()).toInstant()),
+        executed?.let {  java.sql.Date.from(it.atZone(ZoneId.systemDefault()).toInstant()) }?:Type.DATE.clazz,
+        error?.let { it }?: Type.STRING.clazz,
+        target.let { it }?:Type.STRING.clazz,
+        base,
+        id
+    )
+
+    private val UPDATE_ELEM = "update ALLDATA set ID_ELEM = ?, NAME = ?, STATE = ?, TASK = ?, PATH = ?, " +
+            "CREATED = ?, EXECUTED = ?, ERROR = ?, TARGET = ?, BASE = ? where ID = ?"
+
+    private fun updateSave(item :Elem) {
+        AfinaQuery.execute(UPDATE_ELEM, item.paramsElem())
+    }
+
     @Throws(SessionException::class)
     override fun save(item :Elem) {
 
         val oldId = item.id
 
         super.save(item)
+        //simpleSave(item)
 
         if(oldId == null) {
 

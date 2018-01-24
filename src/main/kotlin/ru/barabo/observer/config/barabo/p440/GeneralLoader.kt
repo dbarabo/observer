@@ -7,7 +7,6 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.task.FileLoader
 import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p
-import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p.getUncFolder440p
 import ru.barabo.observer.config.cbr.ticket.task.p440.folderLoaded440p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
@@ -59,7 +58,7 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
         AfinaQuery.commitFree(uniqueSession)
 
-        val fileLoaded = File("${folderLoaded440p()}/${file.name}")
+        val fileLoaded = File("${folderLoaded440p().absolutePath}/${file.name}")
 
         file.copyTo(fileLoaded, true)
         file.delete()
