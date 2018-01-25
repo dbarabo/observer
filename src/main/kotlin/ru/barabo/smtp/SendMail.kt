@@ -28,9 +28,10 @@ interface SendMail {
     }
 
     fun sendStubThrows(to :Array<String> = emptyArray(), cc :Array<String> = emptyArray(), bcc :Array<String> = emptyArray(),
-                       subject :String, body :String, attachments :Array<File> = emptyArray()) {
+                       subject :String, body :String, attachments :Array<File> = emptyArray(),
+                       charsetSubject :String = smtpProperties.charsetSubject) {
         try {
-            send(to, cc, bcc, subject, body, attachments)
+            send(to, cc, bcc, subject, body, attachments, charsetSubject)
         } catch (e :SmtpException) {
             LoggerFactory.getLogger(SendMail::class.java).error("sendStubThrows", e)
         }
@@ -38,13 +39,14 @@ interface SendMail {
 
     @Throws(SmtpException::class)
     fun send(to :Array<String> = emptyArray(), cc :Array<String> = emptyArray(), bcc :Array<String> = emptyArray(),
-             subject :String, body :String, attachments :Array<File> = emptyArray()) {
+             subject :String, body :String, attachments :Array<File> = emptyArray(),
+             charsetSubject :String = smtpProperties.charsetSubject) {
 
         try {
             val smtpSession = smtpSession()
 
             synchronized(smtpSession) {
-                val message = createMessage(smtpSession, subject, to, cc, bcc)
+                val message = createMessage(smtpSession, subject, to, cc, bcc, charsetSubject)
 
                 message.addPartsMessage(body, attachments)
 
@@ -60,11 +62,11 @@ interface SendMail {
 
     @Throws(NoSuchProviderException::class, MessagingException::class)
     private fun createMessage(session :Session, subject :String, to :Array<String>, cc :Array<String>,
-                              bcc :Array<String>) : MimeMessage {
+                              bcc :Array<String>, charsetSubject :String = smtpProperties.charsetSubject) : MimeMessage {
 
         val message = MimeMessage(session)
 
-        message.setSubject(subject, smtpProperties.charsetSubject)
+        message.setSubject(subject, charsetSubject)
 
         message.setFrom(InternetAddress(smtpProperties.from))
 

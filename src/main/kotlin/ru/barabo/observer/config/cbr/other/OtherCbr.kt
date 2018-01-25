@@ -30,15 +30,6 @@ object OtherCbr: ConfigTask {
         CheckTicketArchive440p.findAll()
 
         executeTasks()
-//        RemartMail.executeAll()
-//        TtsMailFromOtk.executeAll()
-//        SbMailFromCbr.executeAll()
-//        ResponseToOrderCbr.executeAll()
-//        NbkiAllReportsSend.executeAll()
-//        UnlockUsersMonday.executeAll()
-//        CecReportProcess.executeAll()
-//        CheckTicket440p.executeAll()
-//        CheckTicketArchive440p.executeAll()
     }
 
 }

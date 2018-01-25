@@ -188,6 +188,9 @@ private fun getFontStyle(isEmptyChild :Boolean) :String {
 
 private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
     return TreeTableView<GroupElem>().apply {
+
+        root = TreeItem(rootGroup)
+
         column("Задача", GroupElem::task)
 //                .cellFormat {
 //            val treeItem = treeTableView.getTreeItem(index)?:TreeItem<GroupElem>(GroupElem())
@@ -293,8 +296,6 @@ private fun treeTable(rootGroup :GroupElem) :TreeTableView<GroupElem> {
 //
 //            style += getColorBackGround(treeItem.value.isConfig, treeItem.value == treeTableView.selectedItem)
 //        }
-
-        root = TreeItem(rootGroup)
 
         populate { it.value.child }
 

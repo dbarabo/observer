@@ -57,9 +57,9 @@ object OutIbi: Periodical {
         return State.OK
     }
 
-    val hCardOut = if(TaskMapper.isAfinaBase())"H:/КартСтандарт/out" else "C:/КартСтандарт/out"
+    private val hCardOut = if(TaskMapper.isAfinaBase())"H:/КартСтандарт/out" else "C:/КартСтандарт/out"
 
-    fun hCardOutToday() = "$hCardOut/${Get440pFiles.todayFolder()}"
+    private fun hCardOutToday() = "$hCardOut/${Get440pFiles.todayFolder()}"
 
     fun hCardOutTodayFolder() :File = hCardOutToday().byFolderExists()
 
@@ -67,7 +67,7 @@ object OutIbi: Periodical {
 
     private val EXEC_TURN_OUT_DELETE = "{ call od.PTKB_PLASTIC_TURNOUT.turnOutDelete(?, ?) }"
 
-    private fun saveFile(fileName: String, dataFile: String) {
+    fun saveFile(fileName: String, dataFile: String) {
 
         val file = File("${hCardOutTodayFolder().absolutePath}/$fileName")
 

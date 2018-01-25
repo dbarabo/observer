@@ -19,6 +19,10 @@ object PlasticTurnConfig: ConfigTask {
         LoadObr.findAll()
         LoadRestAccount.findAll()
         OutIbi.findAll()
+        OutIbiAll.findAll()
+        ExecuteCtlMtl.findAll()
+        ExecuteObi.findAll()
+        IbiSendToJzdo.findAll()
 
         this.executeTasks()
     }

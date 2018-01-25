@@ -27,7 +27,7 @@ class LoaderTest {
     //@Test
     fun loadObi() {
 
-        val elem = Elem(File("C:/КартСтандарт/test/OBI_20170606_060212_0226_GC_FEE"), LoadObi, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/OBI_20180111_060206_0226_GC_FEE"), LoadObi, Duration.ZERO)
 
         LoadObi.execute(elem)
     }
@@ -41,7 +41,7 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/MTL20180123_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/CTL20180125_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -59,5 +59,22 @@ class LoaderTest {
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun execCtl() {
+        val elem = Elem(idElem = 1172320200, task = ExecuteCtlMtl)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun execObi() {
+        val elem = Elem(idElem = 1172320580, task = ExecuteObi)
+
+        elem.task?.execute(elem)
+    }
+
+
+
 
 }

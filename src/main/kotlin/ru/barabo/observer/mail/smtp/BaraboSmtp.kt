@@ -17,13 +17,31 @@ object BaraboSmtp :SendMail {
 
     val AUTO = if(TaskMapper.isAfinaBase()) arrayOf("auto@ptkb.ru") else YA
 
-    val PODFT = arrayOf("podft@ptkb.ru")
+    val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
-    val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru", "neganova@ptkb.ru", "dummy@ptkb.ru")
+    val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru", "neganova@ptkb.ru", "dummy@ptkb.ru").onlyAfina()
 
-    val CREDIT = arrayOf("kred@ptkb.ru")
+    val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru")
+    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru").onlyAfina()
+
+    val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
+
+    val TTS = arrayOf("tts@ptkb.ru").onlyAfina()
+
+    val PLASTIC = arrayOf("plastik@ptkb.ru").onlyAfina()
+
+    val CHECKER_PLASTIC = arrayOf("dummy@ptkb.ru", "oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
+
+    val DELB_PLASTIC = arrayOf("cards@ptkb.ru", "plastik@ptkb.ru").onlyAfina()
+
+    private val SB_TTS = arrayOf("albert@ptkb.ru", "tts@ptkb.ru").onlyAfina()
+
+    private val REMART_BCC = arrayOf("oper@ptkb.ru")
+
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru", "zharova@ptkb.ru", "zdorovec@ptkb.ru").onlyAfina()
+
+    private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
 
     fun errorSend(error :String, subject :String, to :Array<String> = AUTO) {
 
@@ -83,10 +101,6 @@ object BaraboSmtp :SendMail {
         }
     }
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru", "zharova@ptkb.ru", "zdorovec@ptkb.ru")
-
-    private val REMART_BCC = arrayOf("oper@ptkb.ru")
-
     private val REMART_SUBJECT = "По ремарту"
 
     private val REMART_BODY = "From:05guprim@vladivostok.cbr.ru"
@@ -96,18 +110,12 @@ object BaraboSmtp :SendMail {
         send(to = REMART_GROUP, bcc = REMART_BCC, subject = REMART_SUBJECT, body = REMART_BODY, attachments = arrayOf(file))
     }
 
-    val TTS = arrayOf("tts@ptkb.ru")
-
     private val OTK_SUBJECT = "From 05otk@vladivostok.cbr.ru"
 
     fun sendToTtsFromOtk(file : File) {
 
         send(to = TTS, bcc = REMART_BCC, subject = OTK_SUBJECT, body = " ", attachments = arrayOf(file))
     }
-
-    private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru")
-
-    private val SB_TTS = arrayOf("albert@ptkb.ru", "tts@ptkb.ru")
 
     private val OTK_UNKNOWN_SUBJECT = "Возможно важное вложение от 05otk@vladivostok.cbr.ru"
 

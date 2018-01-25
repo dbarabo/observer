@@ -132,9 +132,9 @@ data class Column(private val position: Int,
 
     fun calculate(line :String) :Any {
 
-        LoggerFactory.getLogger(Column::class.java).error("position=$position length=$length " +
-                "convert= ${if(line.length < position + length) null else line.substring(position, position + length)}"
-        )
+//        LoggerFactory.getLogger(Column::class.java).error("position=$position length=$length " +
+//                "convert= ${if(line.length < position + length) null else line.substring(position, position + length)}"
+//        )
 
         return convertToDb(if(line.length < position + length) null else line.substring(position, position + length) )
     }

@@ -235,8 +235,8 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
         synchronized(dataList){
             dataList.clear()
         }
-        synchronized(root) {
-            root = GroupElem()
+        synchronized(root.child) {
+            root.child.clear()
         }
 
         template.select(Elem::class.java) {

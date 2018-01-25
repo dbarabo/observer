@@ -4,7 +4,6 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
-import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.task.AccessibleData
@@ -42,7 +41,7 @@ object Send440pArchive :SingleSelector {
                 params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(java.sql.Types.VARCHAR) )
 
-        val archive = File("${sendFolder440p()}/${elem.name}.ARJ")
+        val archive = File("${sendFolderCrypto440p().absolutePath}/${elem.name}.ARJ")
 
         try {
             if(!archive.exists()) {

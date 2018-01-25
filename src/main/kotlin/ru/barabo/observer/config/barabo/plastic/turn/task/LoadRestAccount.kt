@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.barabo.plastic.turn.loader.Column
 import ru.barabo.observer.config.barabo.plastic.turn.loader.PosLengthLoader
@@ -11,6 +12,7 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
@@ -19,9 +21,9 @@ import java.time.LocalTime
 
 object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
 
-    val hCardIn = "H:/КартСтандарт/in"
+    val hCardIn = if(TaskMapper.isAfinaBase()) "H:/КартСтандарт/in" else "C:/КартСтандарт/in"
 
-    fun hCardInToday() = "$hCardIn/${Get440pFiles.todayFolder()}"
+    fun hCardInToday(): String = "$hCardIn/${Get440pFiles.todayFolder()}".byFolderExists().absolutePath
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(hCardIn, "ACC_\\d{8}_\\d{6}_0226"))
 
