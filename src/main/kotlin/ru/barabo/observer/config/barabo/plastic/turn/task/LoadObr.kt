@@ -15,13 +15,12 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
-import java.time.LocalTime
 
 object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
             "OBR_.*"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(6, 0))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
 
     override fun name(): String = "Загрузка OBR-файла ответа"
 

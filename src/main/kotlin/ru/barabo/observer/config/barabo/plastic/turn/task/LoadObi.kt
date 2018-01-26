@@ -16,13 +16,12 @@ import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 object LoadObi : FileFinder, FileProcessor, PosLengthLoader {
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
             "OBI_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_0226_GC_FEE"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(6, 0))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
 
     override fun name(): String = "Загрузка OBI/OBM-файла"
 

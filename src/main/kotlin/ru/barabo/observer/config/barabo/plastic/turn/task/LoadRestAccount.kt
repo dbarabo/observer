@@ -21,6 +21,8 @@ import java.time.LocalTime
 
 object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
 
+
+
     val hCardIn = if(TaskMapper.isAfinaBase()) "H:/КартСтандарт/in" else "C:/КартСтандарт/in"
 
     fun hCardInToday(): String = "$hCardIn/${Get440pFiles.todayFolder()}".byFolderExists().absolutePath

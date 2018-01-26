@@ -1,10 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.release
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.release.task.GetFromJzdo
-import ru.barabo.observer.config.barabo.plastic.release.task.IvrGetResponse
-import ru.barabo.observer.config.barabo.plastic.release.task.IvrSendRequest
-import ru.barabo.observer.config.barabo.plastic.release.task.SendToJzdo
+import ru.barabo.observer.config.barabo.plastic.release.task.*
 import java.util.*
 
 object PlasticReleaseConfig: ConfigTask {
@@ -20,6 +17,7 @@ object PlasticReleaseConfig: ConfigTask {
         GetFromJzdo.findAll()
         IvrSendRequest.findAll()
         IvrGetResponse.findAll()
+        GetIiaAccept.findAll()
 
         this.executeTasks()
     }

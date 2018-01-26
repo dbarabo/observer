@@ -15,7 +15,6 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
-import java.time.LocalTime
 import java.util.regex.Pattern
 
 object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
@@ -23,7 +22,7 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
             "(C|M)TL\\d\\d\\d\\d\\d\\d\\d\\d_.*"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(6, 0))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
 
     override fun name(): String = "Загрузка CTL/MTL-файла"
 
