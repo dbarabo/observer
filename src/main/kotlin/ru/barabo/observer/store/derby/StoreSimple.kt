@@ -1,0 +1,296 @@
+package ru.barabo.observer.store.derby
+
+import org.slf4j.LoggerFactory
+import ru.barabo.db.SessionException
+import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.store.Elem
+import ru.barabo.observer.store.State
+import ru.barabo.observer.store.StoreDb
+import tornadofx.observable
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
+
+object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
+
+    override fun getRootElem(): TreeElem = root
+
+    private var root :TreeElem = TreeElem(group = TreeGroup())
+
+    private val dataList = ArrayList<Elem>()
+
+    private var actualDate = LocalDate.now()
+
+    init {
+        StoreSimple.readData()
+    }
+
+    val logger = LoggerFactory.getLogger(StoreSimple::class.java)!!
+
+    @Synchronized
+    fun addNotExistsByIdElem(item :Elem):Boolean {
+        val exist = dataList.firstOrNull { (it.task == item.task) && (it.idElem == item.idElem)}
+
+        if(exist == null) {
+            save(item)
+        }
+        return exist == null
+    }
+
+    @Synchronized
+    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean {
+
+        val isExists = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
+
+        logger.error("isExists^$isExists")
+
+        return isExists
+    }
+
+    @Synchronized
+    fun getLastItemsNoneState(task : ActionTask, noneState :State = State.ARCHIVE) :Elem? {
+
+        val comparatorElemMaxTime = Comparator<Elem> { x, y ->
+            val maxX = x.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                    ?:x.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
+
+            val maxY = y.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                    ?:y.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
+
+            if(maxX > maxY) 1 else -1
+        }
+
+        return dataList.filter { it.task == task && it.state != noneState }.maxWith(comparatorElemMaxTime)
+    }
+
+    @Synchronized
+    fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
+        return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
+
+                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:1_000_000_000_000_000 >
+                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() ) &&
+
+                (target?.let { tar -> tar == it.target  } ?: true )
+        }
+    }
+
+    @Synchronized
+    fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
+            = dataList.filter { it.state == state &&
+            isContainsTask(it.task) &&
+            (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
+                    executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
+
+
+    @Synchronized
+    fun checkDate(dateCheck :LocalDate) {
+        if(actualDate.dayOfYear !=  dateCheck.dayOfYear) {
+            readData(dateCheck)
+        }
+    }
+
+    @Throws(SessionException::class)
+    override fun save(item :Elem) {
+
+        val oldId = item.id
+
+        super.save(item)
+        //simpleSave(item)
+
+        if(oldId == null) {
+
+            synchronized(dataList) { dataList.add(item) }
+
+            addElemToGroup(item)
+
+        } else {
+
+            checkMoveElemFromGroup(item)
+        }
+
+        sentInfoRefreshAll()
+    }
+
+    private fun checkMoveElemFromGroup(elem :Elem) {
+
+        val config = root.group!!.childs.first { it.group!!.config === elem.task!!.config() }
+
+        val taskGroup = config.group!!.findFirstGroupByTaskState(elem.task, elem.state)
+
+        processRootElem(config, elem, taskGroup) ?: processTaskGroup(config, elem, taskGroup)
+    }
+
+    private fun findSource(config: TreeElem, elem: Elem): Pair<TreeElem, TreeElem> {
+
+        var oldTaskGroup: TreeElem? = null
+
+        var findItem: TreeElem? = null
+
+        run find@{
+             config.group!!.childs.forEach {
+
+                findItem = it.group?.childs?.firstOrNull { it.elem === elem }
+
+                if(findItem != null) {
+                    oldTaskGroup = it
+                    return@find
+                }
+            }
+        }
+
+        return Pair(oldTaskGroup!!, findItem!!)
+    }
+
+    private fun processTaskGroup(config: TreeElem, elem: Elem, newTaskGroup: TreeElem?) {
+
+        val (oldTaskGroup, findItem) = findSource(config, elem)
+
+        if(newTaskGroup?.group?.taskGroup?.task === oldTaskGroup.group?.taskGroup?.task &&
+                newTaskGroup?.group?.taskGroup?.state === oldTaskGroup.group?.taskGroup?.state) return
+
+        oldTaskGroup.group!!.childs -= findItem
+
+        newTaskGroup?.group?.childs?.add(findItem) ?: config.addTaskGroup(elem).group?.childs?.add(findItem)
+    }
+
+    private fun processRootElem(config: TreeElem, elem: Elem, taskGroup: TreeElem? ): TreeElem? {
+
+        val singleElem = config.group!!.childs.firstOrNull { it.elem === elem } ?: return null
+
+        if(taskGroup != null) {
+            config.group!!.childs -= singleElem
+
+            taskGroup.group!!.childs += singleElem
+
+        } else {
+            val newGroup = config.addTaskGroup(elem)
+
+            if(newGroup !== config) {
+                config.group!!.childs -= singleElem
+
+                newGroup.group!!.childs += singleElem
+            }
+        }
+
+        return singleElem
+    }
+
+    @Synchronized
+    private fun readData(dateCheck : LocalDate = LocalDate.now()) {
+        actualDate = dateCheck
+
+        synchronized(dataList) {
+            dataList.clear()
+        }
+        synchronized(root.group!!.childs) {
+            root.group!!.childs.clear()
+        }
+
+        template.select(Elem::class.java) { _: Elem?, row: Elem ->
+
+            synchronized(dataList) { dataList.add(row) }
+
+            this.addElemToGroup(row)
+        }
+
+        root.group!!.childs.forEach { it.group?.prepareAllTaskForConfig() }
+
+    }
+
+    private fun addElemToGroup(elem: Elem) {
+
+        val config = root.group!!.childs.firstOrNull { it.group!!.config === elem.task!!.config() }
+                ?: root.addConfig(elem.task!!.config())
+
+        val taskGroup = config.group?.findFirstGroupByTaskState(elem.task, elem.state)
+                ?: config.addTaskGroup(elem)
+
+        taskGroup.group!!.childs += TreeElem(elem)
+    }
+}
+
+class TreeElem(var elem: Elem? = null,
+               var group: TreeGroup? = null) {
+
+    val name :String get() = elem?.name ?: (group?.config?.name()) ?: (group?.taskGroup?.task?.name()) ?: "!!!!!"
+
+    val state :String get() = elem?.state?.label ?: (group?.taskGroup?.state?.label) ?:""
+
+    val id: String get() = elem?.idElem?.toString() ?: ""
+
+    val created: String get() = elem?.created?.let { DateTimeFormatter.ofPattern("HH:mm:ss").format( it) }
+            ?: group?.taskGroup?.created?.let {  DateTimeFormatter.ofPattern("HH:mm:ss").format( it) } ?: ""
+
+    val executed: String get() = elem?.executed?.let { DateTimeFormatter.ofPattern("HH:mm:ss").format( it) }
+            ?: group?.taskGroup?.executed?.let {  DateTimeFormatter.ofPattern("HH:mm:ss").format( it) } ?: ""
+
+    val count: String get() = group?.childs?.size?.toString() ?: ""
+
+    val error :String get() = elem?.error?:""
+
+    fun addConfig(config: ConfigTask): TreeElem {
+
+        val groupConfig = TreeElem(group = TreeGroup(config))
+
+        group!!.childs += groupConfig
+
+        return groupConfig
+    }
+
+    fun addTaskGroup(elem: Elem): TreeElem {
+
+       val singleChild = this.group!!.findFirstElemByTaskState(elem.task, elem.state, elem)
+
+        return singleChild?. let {
+            val taskGroup = TreeElem(null,
+                    TreeGroup(null, TaskGroup(elem.task!!, elem.state, elem.created, elem.executed) ))
+
+            this.group!!.childs -= it
+
+            this.group!!.childs += taskGroup
+
+            taskGroup.group!!.childs += it
+
+            taskGroup
+
+        } ?: this
+    }
+}
+
+class TreeGroup(val config: ConfigTask? = null,
+                val taskGroup: TaskGroup? = null,
+                val childs: MutableList<TreeElem> = ArrayList<TreeElem>().observable()) {
+
+    fun findFirstElemByTaskState(task: ActionTask?, state: State, except: Elem? = null): TreeElem? =
+        childs.firstOrNull {it.elem?.task === task && it.elem?.state === state && except !== it.elem}
+
+    fun findFirstGroupByTaskState(task: ActionTask?, state: State): TreeElem? =
+            childs.firstOrNull {it.group?.taskGroup?.task === task && it.group?.taskGroup?.state === state }
+
+    fun prepareAllTaskForConfig() {
+        childs.forEach {
+            it.group?.prepareTaskGroup()
+        }
+    }
+
+    fun prepareTaskGroup() {
+
+        val comparatorDateTimeNull = object : Comparator<LocalDateTime?> {
+            override fun compare(x : LocalDateTime?, y: LocalDateTime?) =
+                    if(x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
+                            y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
+        }
+
+        taskGroup?.created = childs.map { it.elem?.created }.minWith(comparatorDateTimeNull)?: LocalDateTime.MIN
+
+        taskGroup?.executed = childs.map { it.elem?.executed }.maxWith(comparatorDateTimeNull)?: LocalDateTime.MIN
+    }
+}
+
+class TaskGroup(val task: ActionTask,
+                val state: State,
+                var created: LocalDateTime,
+                var executed: LocalDateTime?)

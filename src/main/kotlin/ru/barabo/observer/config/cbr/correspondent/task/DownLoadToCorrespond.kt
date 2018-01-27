@@ -17,15 +17,15 @@ object DownLoadToCorrespond : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> =
         listOf(FileFinderData("c:/TA/Block_ras/in", ".*\\.(ED|EDS|SF|SFD)"))
 
-    override val pathsTo: Array<() -> String> = arrayOf(::dTaBack, ::jVepToday, ::xVepInbound)
+    override val pathsTo: Array<() -> String> = arrayOf(::dTaBack, /*::jVepToday,*/ ::xVepInbound)
 
-    private fun dTaBack() :String = "D:/TA_BACK/${todayFolder()}"
+    private fun dTaBack() :String = "C:/TA/BACK/${todayFolder()}"
 
     private fun xVepInbound() :String = "X:/VEP/INBOUND"
 
-    private fun jVepToday() :String = "J:/VEP/CRY_RAS/${todayFolder()}"
+    //private fun jVepToday() :String = "J:/VEP/CRY_RAS/${todayFolder()}"
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(20))
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 

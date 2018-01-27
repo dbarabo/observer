@@ -3,9 +3,9 @@ package ru.barabo.observer.store
 import ru.barabo.db.SessionException
 import ru.barabo.db.TemplateQuery
 
-abstract class StoreDb<in T :Any>(
+abstract class StoreDb<in T :Any, G>(
         val template : TemplateQuery,
-        private val storeListenerList :MutableList<StoreListener> = ArrayList()) : Store<T>{
+        private val storeListenerList :MutableList<StoreListener<G>> = ArrayList()) : Store<T>{
 
     @Throws(SessionException::class)
     override fun save(item :T) {
@@ -19,13 +19,13 @@ abstract class StoreDb<in T :Any>(
         template.deleteById(item)
     }
 
-    fun addStoreListener(storeListener :StoreListener) {
+    fun addStoreListener(storeListener :StoreListener<G>) {
         storeListenerList.add(storeListener)
 
         storeListener.refreshAll(getRootElem())
     }
 
-    abstract protected fun getRootElem() :GroupElem
+    abstract protected fun getRootElem() :G
 
     protected fun sentInfoRefreshAll() {
         storeListenerList.forEach {it.refreshAll(getRootElem() )}

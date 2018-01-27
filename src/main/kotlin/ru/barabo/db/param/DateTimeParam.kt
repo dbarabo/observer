@@ -9,7 +9,7 @@ class DateTimeParam(override var value: LocalDateTime?) :DbParam<LocalDateTime> 
     override fun convert(newValue: Any): LocalDateTime? {
         if(newValue !is java.util.Date) throw ClassCastException("$newValue is not java.util.Date type")
 
-        return (newValue as java.util.Date).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+        return newValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
     }
 
 }

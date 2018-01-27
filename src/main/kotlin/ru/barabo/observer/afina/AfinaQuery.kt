@@ -2,9 +2,8 @@ package ru.barabo.observer.afina
 
 import org.slf4j.LoggerFactory
 import ru.barabo.db.Query
-import ru.barabo.db.SessionException
 import ru.barabo.db.SessionSetting
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.sql.Date
 import java.time.LocalDate
 import java.time.ZoneId
@@ -31,8 +30,8 @@ object AfinaQuery : Query(AfinaConnect) {
 
         val isHoliday = try {
             selectValue(SELECT_IS_HOLIDAY, Array(1, { dateSql }))
-        } catch (e :SessionException) {
-            logger.error("isWorkDayNow", e)
+        } catch (e :Exception) {
+           // logger.error("isWorkDayNow", e)
 
             null
         }
@@ -41,7 +40,7 @@ object AfinaQuery : Query(AfinaConnect) {
             isWorkDay[dateNow] = (isHoliday is Number) && (isHoliday.toInt() == 0)
         }
 
-        StoreDerby.checkDate(dateNow)
+        StoreSimple.checkDate(dateNow)
 
         return (isHoliday != null) && (isHoliday is Number) && (isHoliday.toInt() == 0)
     }

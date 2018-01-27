@@ -3,7 +3,7 @@ package ru.barabo.observer.config.task.template.periodic
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.Elem
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
@@ -37,7 +37,7 @@ interface Periodical : Executor, ActionTask {
 
         lastPeriod = timeNewElem
 
-        StoreDerby.save(elem)
+        StoreSimple.save(elem)
 
         return this
     }
@@ -51,7 +51,7 @@ interface Periodical : Executor, ActionTask {
 
     private fun readLastPeriod() :LocalDateTime {
 
-        val lastItem = StoreDerby.getLastItemsNoneState(this)
+        val lastItem = StoreSimple.getLastItemsNoneState(this)
 
         return lastItem?.executed?.let { lastItem.executed }?:lastItem?.created
                 ?: LocalDateTime.MIN

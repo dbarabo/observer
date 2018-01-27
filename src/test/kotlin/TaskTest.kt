@@ -105,7 +105,7 @@ class TaskTest {
 
     @Test
     fun testDiv() {
-        logger.error((("6946559"?.trim()?.toLong()?.toDouble()?:0.0) / 100).toString())
+        logger.error((("6946559".trim().toLong().toDouble()) / 100).toString())
     }
 
 

@@ -4,7 +4,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.Elem
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 
 interface DbSelector : Executor {
 
@@ -23,7 +23,7 @@ interface DbSelector : Executor {
                     if(it.size < 2)null else it[1] as String?,
                     actionTask(if(it.size < 3)null else it[2]),
                     accessibleData.executeWait) }
-                .filter { StoreDerby.addNotExistsByIdElem(it) }.count()
+                .filter { StoreSimple.addNotExistsByIdElem(it) }.count()
 
         return if(count == 0)null else this
     }

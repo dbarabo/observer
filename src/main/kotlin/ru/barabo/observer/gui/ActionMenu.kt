@@ -1,29 +1,28 @@
 package ru.barabo.observer.gui
 
 import javafx.scene.control.Menu
-import javafx.scene.control.MenuItem
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.resources.ResourcesManager
 import ru.barabo.observer.store.GroupElem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreDerby
-import tornadofx.plusAssign
+import ru.barabo.observer.store.derby.TreeElem
 import java.util.*
 
 class ActionMenu : Menu("Действия", ResourcesManager.icon("action.png")) {
-    var groupElem : GroupElem? = null
+    var groupElem : TreeElem? = null
         set(value) {
             field = value
 
             this.items.clear()
 
-            value?.getActionMenuItems()?.forEach {
-
-                val menuItem = MenuItem(it.first)
-                menuItem.setOnAction{_ -> it.second() }
-                this += menuItem
-            }
+//            value?.getActionMenuItems()?.forEach {
+//
+//                val menuItem = MenuItem(it.first)
+//                menuItem.setOnAction{_ -> it.second() }
+//                this += menuItem
+//            }
         }
 }
 

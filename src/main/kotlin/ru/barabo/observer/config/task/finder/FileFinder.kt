@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.Elem
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
@@ -18,7 +18,7 @@ interface FileFinder :Executor {
     fun isContainsTask(task :ActionTask?): Boolean = (task == this)
 
     fun findElemInStore(idElem :Long, name :String) :Boolean =
-            StoreDerby.existsElem(::isContainsTask, idElem, name, accessibleData.isDuplicateName)
+            StoreSimple.existsElem(::isContainsTask, idElem, name, accessibleData.isDuplicateName)
 
     fun createNewElem(file :File) :Elem = Elem(file, actionTask(), accessibleData.executeWait)
 
@@ -31,8 +31,10 @@ interface FileFinder :Executor {
         try {
             fileFinderData.forEach { ff ->
 
-                ff.directory().listFiles { f ->
-                    (!f.isDirectory) &&
+             LoggerFactory.getLogger(FileFinder::class.java).error("ff ${ff.search}")
+
+             ff.directory().listFiles { f ->
+                  // (!f.isDirectory) &&
                     ( ff.search?.isFind(f.name, ff.isNegative)?:true ) &&
                     ( (!ff.isModifiedTodayOnly) || f.isModifiedMore(startDayNow) ) &&
 
@@ -40,7 +42,9 @@ interface FileFinder :Executor {
                 }?.forEach {
                     val newElem = createNewElem(it)
 
-                    StoreDerby.save(newElem)
+                    LoggerFactory.getLogger(FileFinder::class.java).error("createElem $newElem")
+
+                    StoreSimple.save(newElem)
 
                     result = this
                 }
@@ -58,7 +62,8 @@ private fun File.isModifiedMore(moreTime :Long) :Boolean = lastModified() >= mor
 
 fun Pattern.isFind(name :String, isNegative :Boolean): Boolean {
     var isFind :Boolean = this.matcher(name)?.matches()?:false?:false
-    //LoggerFactory.getLogger(FileFinder::class.java).info("isFind isFind=$isFind name=$name isNegative=$isNegative")
+
+    LoggerFactory.getLogger(FileFinder::class.java).error("isFind isFind=$isFind name=$name isNegative=$isNegative")
 
     if(isNegative) {
         isFind = !isFind

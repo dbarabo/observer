@@ -14,7 +14,7 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo
 import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.KwtFromFns
 import ru.barabo.observer.store.Elem
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -50,7 +50,7 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
 
             val newElem = Elem(responseId, file.nameWithoutExtension, repeatCreator, Duration.ofHours(7))
 
-            StoreDerby.save(newElem)
+            StoreSimple.save(newElem)
 
             AfinaQuery.commitFree(sessionSetting)
         } catch (e: Exception) {

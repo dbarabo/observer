@@ -1,7 +1,7 @@
 package ru.barabo.observer.config
 
 import ru.barabo.observer.config.task.Executor
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.util.*
 import kotlin.concurrent.timer
 
@@ -40,7 +40,7 @@ interface ConfigTask {
 
     fun executeTasks() {
 
-       val items = StoreDerby.getItems() {it?.config() == this}
+       val items = StoreSimple.getItems() {it?.config() == this}
 
         for (item in items) {
 

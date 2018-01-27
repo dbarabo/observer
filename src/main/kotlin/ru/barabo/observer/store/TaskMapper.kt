@@ -7,9 +7,6 @@ import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.correspondent.Correspondent
-import ru.barabo.observer.config.cbr.other.OtherCbr
-import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.ActionTask
 
 object TaskMapper {
@@ -71,7 +68,7 @@ object TaskMapper {
 
     fun stopConfigList() = configList.forEach { it.stoping() }
 
-    private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
+    private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent/*, PtkPsd, TicketPtkPsd, OtherCbr*/)
 
     private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig)
 

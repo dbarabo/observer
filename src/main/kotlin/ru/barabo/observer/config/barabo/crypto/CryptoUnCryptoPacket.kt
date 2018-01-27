@@ -8,7 +8,7 @@ import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.io.IOException
 import java.time.Duration
@@ -55,7 +55,7 @@ open class CryptoUnCryptoPacket(private val name :String, private val cryptoFun 
 
     fun addFileToPacket(file :File, folderTo :File, isMove :Boolean = true, newExt :String? = null) {
 
-        val elem = StoreDerby.firstItem(this, State.NONE, LocalDateTime.now().minusSeconds(5), folderTo.absolutePath)
+        val elem = StoreSimple.firstItem(this, State.NONE, LocalDateTime.now().minusSeconds(5), folderTo.absolutePath)
                 ?: createPacket(folderTo)
 
         val newFileName = newExt?.let { "${file.nameWithoutExtension}.$newExt" } ?:file.name
@@ -75,7 +75,7 @@ open class CryptoUnCryptoPacket(private val name :String, private val cryptoFun 
 
         val newElem = Elem(tempFolder, this,  Duration.ofMinutes(5), folderTo.absolutePath)
 
-        StoreDerby.save(newElem)
+        StoreSimple.save(newElem)
 
         return newElem
     }

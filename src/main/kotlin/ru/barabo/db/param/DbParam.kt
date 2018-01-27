@@ -9,7 +9,7 @@ interface DbParam<T> {
     fun convert(newValue :Any) :T?
 
     fun setVal(newValue :Any?) {
-        value = newValue?.let { convert(newValue) }?: null
+        value = newValue?.let { convert(newValue) }
     }
 
 }

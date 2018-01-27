@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
+object StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
 
     private var root :GroupElem = GroupElem()
 
@@ -114,17 +114,6 @@ object StoreDerby : StoreDb<Elem>(DerbyTemplateQuery) {
         return exist == null
     }
 
-//    @Synchronized
-//    fun addNotExistsByIdName(item :Elem, isDuplicateName: Boolean) :Boolean {
-//
-//        val exist = dataList.firstOrNull { (it.task == item.task) && it.isFindByIdName(item.idElem, item.name, isDuplicateName) }
-//
-//        if(exist == null) {
-//            save(item)
-//        }
-//
-//        return exist == null
-//    }
 
     @Synchronized
     fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean {

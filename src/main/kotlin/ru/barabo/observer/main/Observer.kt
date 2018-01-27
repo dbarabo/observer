@@ -9,7 +9,7 @@ object Observer {
 
     fun startConfigs(args:Array<String>) {
 
-        TaskMapper.init("CBR", "AFINA")
+        TaskMapper.init("CBR", "TEST"/*"AFINA"*/)
 
         logger.info("run ConfigList")
         TaskMapper.runConfigList()

@@ -5,7 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import ru.barabo.observer.store.derby.StoreDerby
+import ru.barabo.observer.store.derby.StoreSimple
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -59,7 +59,7 @@ interface Executor {
 
         elem.error = elem.error?.let{ if(it.length <= 500) it else it.substring(0, 500) }
 
-        StoreDerby.save(elem)
+        StoreSimple.save(elem)
 
         checkSendMailError(elemErrorFull, isSuspend)
     }
@@ -76,7 +76,7 @@ interface Executor {
 
     private fun executeAll() :Executor? {
 
-        val items = StoreDerby.getItems(State.NONE) { it == actionTask() }
+        val items = StoreSimple.getItems(State.NONE) { it == actionTask() }
 
         items.forEach { executeElem(it, isSuspend = false) }
 
