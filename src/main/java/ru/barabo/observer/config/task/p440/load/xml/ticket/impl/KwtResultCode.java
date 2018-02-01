@@ -2,19 +2,19 @@ package ru.barabo.observer.config.task.p440.load.xml.ticket.impl;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("Р РµР·СѓР»СЊС‚Р°С‚")
+@XStreamAlias("Результат")
 public class KwtResultCode {
 
-	@XStreamAlias("РљРѕРґР РµР·РџСЂРѕРІРµСЂРєРё")
+	@XStreamAlias("КодРезПроверки")
 	private String codeResult;
 
-	@XStreamAlias("РџРѕСЏСЃРЅРµРЅРёРµ")
+	@XStreamAlias("Пояснение")
 	private String errorDescription;
 
-	@XStreamAlias("РљРѕРґР РµРєРІ")
+	@XStreamAlias("КодРекв")
 	private String errorAttribute;
 
-	@XStreamAlias("Р—РЅР°С‡Р РµРєРІ")
+	@XStreamAlias("ЗначРекв")
 	private String errorValue;
 
 	public String getCodeResult() {

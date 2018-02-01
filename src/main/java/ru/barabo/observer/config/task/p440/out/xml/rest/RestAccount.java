@@ -3,19 +3,19 @@ package ru.barabo.observer.config.task.p440.out.xml.rest;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
-@XStreamAlias("ĞÑÑ‚Ğ°Ñ‚ĞºĞ¸")
+@XStreamAlias("Îñòàòêè")
 public class RestAccount {
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡")
+	@XStreamAlias("ÍîìÑ÷")
 	private String code;
 
-	@XStreamAlias("Ğ’Ğ¸Ğ´Ğ¡Ñ‡")
+	@XStreamAlias("ÂèäÑ÷")
 	private String type;
 
-	@XStreamAlias("ĞšĞ¾Ğ´Ğ’Ğ°Ğ»")
+	@XStreamAlias("ÊîäÂàë")
 	private String currency;
 
-	@XStreamAlias("ĞÑÑ‚Ğ°Ñ‚Ğ¾Ğº")
+	@XStreamAlias("Îñòàòîê")
 	private String rest;
 
 	public String getCode() {

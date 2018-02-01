@@ -10,94 +10,94 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.PayerJur;
 
 import java.sql.Date;
 
-@XStreamAlias("ĞŸĞĞ Ğ£Ğ§Ğ¡Ğ§Ğ•Ğ¢Ğ")
+@XStreamAlias("ÏÎĞÓ×Ñ×ÅÒÍ")
 public final class OrderTax implements FromFnsInfo {
 
-	@XStreamAlias("Ğ‘Ğ˜ĞšĞ‘ĞŸĞ»")
+	@XStreamAlias("ÁÈÊÁÏë")
 	private String bankBik;
 
-	@XStreamAlias("Ğ‘Ğ°Ğ½ĞºĞŸĞ»")
+	@XStreamAlias("ÁàíêÏë")
 	private String bankName;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞŸĞ¾Ñ€ÑƒÑ‡")
+	@XStreamAlias("ÄàòàÏîğó÷")
 	private String mainDate;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ¢Ñ€ĞµĞ±")
+	@XStreamAlias("ÄàòàÒğåá")
 	private String addDate;
 
-	@XStreamAlias("Ğ˜ĞĞĞĞŸ")
+	@XStreamAlias("ÈÍÍÍÏ")
 	private String payerInn;
 
-	@XStreamAlias("ĞšĞ‘Ğš")
+	@XStreamAlias("ÊÁÊ")
 	private String kbkPay;
 
-	@XStreamAlias("ĞšĞŸĞŸĞĞŸ")
+	@XStreamAlias("ÊÏÏÍÏ")
 	private String payerKpp;
 
-	@XStreamAlias("ĞĞ°Ğ·Ğ½ĞŸĞ»")
+	@XStreamAlias("ÍàçíÏë")
 	private String mainDescription;
 
-	@XStreamAlias("ĞĞ¾Ğ¼ĞŸĞ¾Ñ€ÑƒÑ‡")
+	@XStreamAlias("ÍîìÏîğó÷")
 	private String mainNumber;
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡ĞŸĞ»")
+	@XStreamAlias("ÍîìÑ÷Ïë")
 	private String accounts;
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¢Ñ€ĞµĞ±")
+	@XStreamAlias("ÍîìÒğåá")
 	private String addNumber;
 
-	@XStreamAlias("ĞĞšĞ¢ĞœĞ")
+	@XStreamAlias("ÎÊÒÌÎ")
 	private String oktmoPay;
 
-	@XStreamAlias("ĞÑ‡ĞµÑ€ĞŸĞ»")
+	@XStreamAlias("Î÷åğÏë")
 	private String queuePay;
 
-	@XStreamAlias("ĞŸĞ»Ğ°Ñ‚ĞµĞ»ÑŒÑ‰")
+	@XStreamAlias("Ïëàòåëüù")
 	private String payerName;
 
-	@XStreamAlias("Ğ¡ÑƒĞ¼ĞŸĞ»Ğ°Ñ‚")
+	@XStreamAlias("ÑóìÏëàò")
 	private Integer mainSumKopeika;
 
-	@XStreamAlias("Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ")
+	@XStreamAlias("Ñòàòóñ")
 	private String mainStatus;
 
-	@XStreamAlias("Ğ’Ğ¸Ğ´ĞĞ¿")
+	@XStreamAlias("ÂèäÎï")
 	private String mainType;
 
-	@XStreamAlias("Ğ’Ğ¸Ğ´ĞŸĞ¾Ñ€")
+	@XStreamAlias("ÂèäÏîğ")
 	private String vidPorPay;
 
-	@XStreamAlias("ĞšĞ¾Ğ´ĞŸĞ»")
+	@XStreamAlias("ÊîäÏë")
 	private String codePay;
 
-	@XStreamAlias("ĞšĞ¾Ğ´ĞÑĞ½")
+	@XStreamAlias("ÊîäÎñí")
 	private String codeOsnPay;
 
-	@XStreamAlias("Ğ¡Ñ€Ğ¾ĞºĞ£Ğ¿Ğ»Ğ¢Ñ€")
+	@XStreamAlias("ÑğîêÓïëÒğ")
 	private String srokTrebPay;
 
-	@XStreamAlias("Ğ‘Ğ˜ĞšĞ‘ĞŸĞ¾Ğ»")
+	@XStreamAlias("ÁÈÊÁÏîë")
 	private String benBankBik;
 
-	@XStreamAlias("Ğ‘Ğ°Ğ½ĞºĞŸĞ¾Ğ»")
+	@XStreamAlias("ÁàíêÏîë")
 	private String benBankName;
 
-	@XStreamAlias("Ğ˜ĞĞĞŸĞ¾Ğ»")
+	@XStreamAlias("ÈÍÍÏîë")
 	private String benInn;
 
-	@XStreamAlias("ĞšĞŸĞŸĞŸĞ¾Ğ»")
+	@XStreamAlias("ÊÏÏÏîë")
 	private String benKpp;
 
-	@XStreamAlias("ĞŸĞ¾Ğ»ÑƒÑ‡")
+	@XStreamAlias("Ïîëó÷")
 	private String benName;
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡ĞŸĞ¾Ğ»")
+	@XStreamAlias("ÍîìÑ÷Ïîë")
 	private String benAccount;
 
-	@XStreamAlias("Ğ£ĞĞšĞ“Ğ")
+	@XStreamAlias("ÓÍÊÃÍ")
 	private String unkgn;
 
-	@XStreamAlias("ĞŸĞ¾Ñ€Ğ’Ğ°Ğ»")
+	@XStreamAlias("ÏîğÂàë")
 	private OrderTaxVal orderTaxVal;
 
 	public ParamsQuery getPnoData() {
@@ -170,7 +170,7 @@ public final class OrderTax implements FromFnsInfo {
 
 	@Override
 	public java.sql.Date getAddDate() {
-		return null; // addDate ĞĞ• Ğ”ĞĞ¢Ğ XmlLoader.parseDate(addDate);
+		return null; // addDate ÍÅ ÄÀÒÀ XmlLoader.parseDate(addDate);
 	}
 
 	@Override

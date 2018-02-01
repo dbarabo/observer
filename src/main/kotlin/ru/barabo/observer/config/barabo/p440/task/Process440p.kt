@@ -24,7 +24,7 @@ object Process440p : SingleSelector {
 
     override fun config(): ConfigTask = P440Config
 
-    val EXEC_440P = "{ call od.PTKB_440P.processRaise(?) }"
+    const val EXEC_440P = "{ call od.PTKB_440P.processRaise(?) }"
 
     override fun execute(elem: Elem): State {
 
@@ -43,9 +43,9 @@ object Process440p : SingleSelector {
 
     private fun isVipException(exception :String?): Boolean = (exception?.indexOf("!VIP!")?:-1 >= 0)
 
-    private val EXEC_STATE_TO_VIP = "{ call od.PTKB_440P.changeStateToVip(?) }"
+    private const val EXEC_STATE_TO_VIP = "{ call od.PTKB_440P.changeStateToVip(?) }"
 
-    private val SUBJECT_VIP = "440-П VIP"
+    private const val SUBJECT_VIP = "440-П VIP"
 
     private val WAIT_VIP = Duration.ofHours(6)
 

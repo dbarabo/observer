@@ -34,11 +34,30 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
             false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
+    protected open fun saveOtherData(data :T, idFromFns :Number, idPayer :Number, sessionSetting: SessionSetting){}
+
+    override fun isContainsTask(task :ActionTask?): Boolean = (task is GeneralLoader<*>)
+
+    override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
+
+    private fun actionTask(name :String) : ActionTask {
+
+        val actionTask = FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
+
+        return actionTask ?: throw SessionException("unknown file type for 440p $name")
+    }
+
     override fun processFile(file: File) {
 
         val data = XmlLoader<T>().load(file)
 
         val uniqueSession = AfinaQuery.uniqueSession()
+
+        //logger.error("data=${data}")
+
+        //logger.error("data.listColumns=${data.listColumns}")
+
+        //logger.error("data.payer=${data.payer}")
 
         try {
             val idFromFns = data.saveData(file, uniqueSession)
@@ -62,19 +81,6 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
         file.copyTo(fileLoaded, true)
         file.delete()
-    }
-
-    open protected fun saveOtherData(data :T, idFromFns :Number, idPayer :Number, sessionSetting: SessionSetting){}
-
-    override fun isContainsTask(task :ActionTask?): Boolean = (task is GeneralLoader<*>)
-
-    override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
-
-    private fun actionTask(name :String) : ActionTask {
-
-        val actionTask = FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
-
-        return actionTask ?: throw SessionException("unknown file type for 440p $name")
     }
 }
 

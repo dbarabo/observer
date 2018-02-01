@@ -2,6 +2,7 @@ package ru.barabo.observer.config.task.p440.load.xml.decision;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import org.apache.log4j.Logger;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFnsInfo;
 import ru.barabo.observer.config.task.p440.load.xml.Bank;
@@ -14,25 +15,28 @@ import java.util.stream.Collectors;
 
 abstract public class AbstractDecision extends AbstractFromFnsInfo {
 
-	@XStreamAlias("–ë–ò–ö")
+	final static transient protected Logger logger = Logger.getLogger(AbstractDecision.class
+			.getName());
+
+	@XStreamAlias("¡» ")
 	private String bankBik;
 
-	@XStreamAlias("–ù–∞–∏–º–ë")
+	@XStreamAlias("Õ‡ËÏ¡")
 	private String bankName;
 
-	@XStreamAlias("–î–∞—Ç–∞–†–µ—à–ü—Ä")
+	@XStreamAlias("ƒ‡Ú‡–Â¯œ")
 	private String dateDecision;
 
-	@XStreamAlias("–ù–æ–º–†–µ—à–ü—Ä")
+	@XStreamAlias("ÕÓÏ–Â¯œ")
 	private String numberDecision;
 
-	@XStreamAlias("–ö–æ–¥–û—Å–Ω–æ–≤")
+	@XStreamAlias(" Ó‰ŒÒÌÓ‚")
 	private String mainCode;
 
-	@XStreamImplicit(itemFieldName = "–°—á–µ—Ç")
+	@XStreamImplicit(itemFieldName = "—˜ÂÚ")
 	private List<Account> accounts;
 
-	@XStreamImplicit(itemFieldName = "–ö–≠–°–ü")
+	@XStreamImplicit(itemFieldName = " ›—œ")
 	private List<Kesp> kesps;
 
 	@Override
@@ -67,6 +71,7 @@ abstract public class AbstractDecision extends AbstractFromFnsInfo {
 
 	@Override
 	public String getAccounts() {
+
 		if (accounts == null || accounts.size() == 0) {
 			return null;
 		}

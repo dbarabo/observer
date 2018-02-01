@@ -4,16 +4,16 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public abstract class AbstractTicket {
 
-	@XStreamAlias("Р”РѕР»Р¶РЅРћС‚РїСЂ")
+	@XStreamAlias("ДолжнОтпр")
 	protected String fnsPost;
 
-	@XStreamAlias("РўРµР»РћС‚РїСЂ")
+	@XStreamAlias("ТелОтпр")
 	protected String fnsPhone;
 
-	@XStreamAlias("Р¤Р°РјРћС‚РїСЂ")
+	@XStreamAlias("ФамОтпр")
 	protected String fnsFio;
 
-	@XStreamAlias("РўРёРїРРЅС„")
+	@XStreamAlias("ТипИнф")
 	protected String typeInfo;
 
 	abstract public TicketInfo getTicketInfo();

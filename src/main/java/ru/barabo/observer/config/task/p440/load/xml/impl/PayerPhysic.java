@@ -9,31 +9,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("–ü–§–õ")
+@XStreamAlias("œ‘À")
 public final class PayerPhysic implements ParamsQuery {
 
-	@XStreamAlias("–ò–ù–ù–§–õ")
+	@XStreamAlias("»ÕÕ‘À")
 	private String inn;
 
-	@XStreamAlias("–î–∞—Ç–∞–†–æ–∂–¥")
+	@XStreamAlias("ƒ‡Ú‡–ÓÊ‰")
 	private String birthDay;
 
-	@XStreamAlias("–ú–µ—Å—Ç–æ–†–æ–∂–¥")
+	@XStreamAlias("ÃÂÒÚÓ–ÓÊ‰")
 	private String birthPlace;
 
-	@XStreamAlias("–ö–æ–¥–î–£–õ")
+	@XStreamAlias(" Ó‰ƒ”À")
 	private String codeDoc;
 
-	@XStreamAlias("–°–µ—Ä–ù–æ–º–î–æ–∫")
+	@XStreamAlias("—ÂÕÓÏƒÓÍ")
 	private String lineNumberDoc;
 
-	@XStreamAlias("–î–∞—Ç–∞–î–æ–∫")
+	@XStreamAlias("ƒ‡Ú‡ƒÓÍ")
 	private String dateDoc;
 
-	@XStreamAlias("–§–ò–û")
+	@XStreamAlias("‘»Œ")
 	private Fio fio;
 
-	@XStreamAlias("–ê–¥—Ä–ü–ª–∞—Ç")
+	@XStreamAlias("¿‰œÎ‡Ú")
 	private Address address;
 	
 	transient private Number idClient;
@@ -84,7 +84,7 @@ public final class PayerPhysic implements ParamsQuery {
 				PayerType.Physic.getValueDb()));
 	}
 
-	private String COLUMNS = "INN, FIRST_NAME, LAST_NAME, SECOND_NAME, BIRHDAY, BIRTHPLACE, CODE_DOC, "
+	private static final String COLUMNS = "INN, FIRST_NAME, LAST_NAME, SECOND_NAME, BIRHDAY, BIRTHPLACE, CODE_DOC, "
 			+ "LINE_NUMBER_DOC, DATE_DOC, ADDRESS, TYPE, FNS_FROM, ID";
 
 	@Override

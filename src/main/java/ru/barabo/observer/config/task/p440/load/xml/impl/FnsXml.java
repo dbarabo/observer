@@ -3,13 +3,13 @@ package ru.barabo.observer.config.task.p440.load.xml.impl;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.Fns;
 
-@XStreamAlias("–°–≤–ù–û")
+@XStreamAlias("—‚ÕŒ")
 public final class FnsXml implements Fns {
 
-	@XStreamAlias("–ö–æ–¥–ù–û")
+	@XStreamAlias(" Ó‰ÕŒ")
 	private String fnsCode;
 
-	@XStreamAlias("–ù–∞–∏–º–ù–û")
+	@XStreamAlias("Õ‡ËÏÕŒ")
 	private String nameFns;
 
 	public FnsXml() {

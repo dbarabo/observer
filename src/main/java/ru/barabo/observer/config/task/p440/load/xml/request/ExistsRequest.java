@@ -5,10 +5,10 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.sql.Date;
 
-@XStreamAlias("Ğ—ĞĞŸĞĞĞĞĞ›Ğ˜Ğ§")
+@XStreamAlias("ÇÀÏÍÎÍÀËÈ×")
 public final class ExistsRequest extends AbstractRequest {
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞŸĞ¾Ğ¡Ğ¾ÑÑ‚")
+	@XStreamAlias("ÄàòàÏîÑîñò")
 	private String addDate;
 
 	@Override

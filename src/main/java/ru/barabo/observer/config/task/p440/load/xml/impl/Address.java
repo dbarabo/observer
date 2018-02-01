@@ -1,38 +1,38 @@
 package ru.barabo.observer.config.task.p440.load.xml.impl;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-@XStreamAlias("РђРґСЂРџР»Р°С‚")
+@XStreamAlias("АдрПлат")
 public final class Address {
 
-	@XStreamAlias("РРЅРґРµРєСЃ")
+	@XStreamAlias("Индекс")
 	private String index;
 
-	@XStreamAlias("РљРѕРґР РµРіРёРѕРЅ")
+	@XStreamAlias("КодРегион")
 	private String region;
 
-	@XStreamAlias("Р Р°Р№РѕРЅ")
+	@XStreamAlias("Район")
 	private String rayon;
 
-	@XStreamAlias("Р“РѕСЂРѕРґ")
+	@XStreamAlias("Город")
 	private String city;
 
-	@XStreamAlias("РќР°СЃРµР»РџСѓРЅРєС‚")
+	@XStreamAlias("НаселПункт")
 	private String town;
 
-	@XStreamAlias("РЈР»РёС†Р°")
+	@XStreamAlias("Улица")
 	private String street;
 
-	@XStreamAlias("Р”РѕРј")
+	@XStreamAlias("Дом")
 	private String house;
 
-	@XStreamAlias("РљРѕСЂРїСѓСЃ")
+	@XStreamAlias("Корпус")
 	private String corpus;
 
-	@XStreamAlias("РљРІР°СЂС‚")
+	@XStreamAlias("Кварт")
 	private String flat;
 	
 	public Address() {}

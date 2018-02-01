@@ -13,22 +13,22 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 	final static transient protected Logger logger = Logger.getLogger(AbstractFromFns.class
 			.getName());
 
-	@XStreamAlias("Р”РѕР»Р¶РЅРћС‚РїСЂ")
+	@XStreamAlias("ДолжнОтпр")
 	protected String fnsPost;
 
-	@XStreamAlias("РўРµР»РћС‚РїСЂ")
+	@XStreamAlias("ТелОтпр")
 	protected String fnsPhone;
 
-	@XStreamAlias("Р¤Р°РјРћС‚РїСЂ")
+	@XStreamAlias("ФамОтпр")
 	protected String fnsFio;
 
-	@XStreamAlias("РўРёРїРРЅС„")
+	@XStreamAlias("ТипИнф")
 	protected String typeInfo;
 
 	abstract protected FromFnsInfo getFromFnsInfo();
 
 
-	private String COLUMNS = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
+	private static final String COLUMNS = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
 			+ "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, "
 			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, "
 			+ "FILE_NAME, ID";

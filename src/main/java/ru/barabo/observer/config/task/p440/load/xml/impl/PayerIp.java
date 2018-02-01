@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("–ü–ª–ò–ü")
+@XStreamAlias("œÎ»œ")
 public final class PayerIp implements ParamsQuery {
 
-	@XStreamAlias("–ò–ù–ù–ò–ü")
+	@XStreamAlias("»ÕÕ»œ")
 	private String inn;
 
-	@XStreamAlias("–§–ò–û")
+	@XStreamAlias("‘»Œ")
 	private Fio fio;
 
 	transient private Number idClient;
@@ -47,7 +47,7 @@ public final class PayerIp implements ParamsQuery {
 				PayerType.Pboul.getValueDb()));
 	}
 
-	private String COLUMNS = "INN, FIRST_NAME, LAST_NAME, SECOND_NAME, TYPE, FNS_FROM, ID";
+	private static final String COLUMNS = "INN, FIRST_NAME, LAST_NAME, SECOND_NAME, TYPE, FNS_FROM, ID";
 
 	@Override
 	public String getListColumns() {

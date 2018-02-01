@@ -12,10 +12,7 @@ import ru.barabo.observer.config.task.p440.load.xml.decision.DecisionSuspend;
 import ru.barabo.observer.config.task.p440.load.xml.impl.*;
 import ru.barabo.observer.config.task.p440.load.xml.pno.OrderTax;
 import ru.barabo.observer.config.task.p440.load.xml.pno.OrderTaxVal;
-import ru.barabo.observer.config.task.p440.load.xml.request.AbstractRequest;
-import ru.barabo.observer.config.task.p440.load.xml.request.ExistsRequest;
-import ru.barabo.observer.config.task.p440.load.xml.request.ExtractRequest;
-import ru.barabo.observer.config.task.p440.load.xml.request.RestRequest;
+import ru.barabo.observer.config.task.p440.load.xml.request.*;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.IzvTicketInfo;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.KwtResultCode;
@@ -29,7 +26,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Period;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
@@ -57,10 +53,11 @@ public class XmlLoader<E> {
 	}
 
 	static private XStream getXStream(String head) {
-		XStream xstream = new XStream(new DomDriver());
+		XStream xstream = new XStream(new DomDriver("CP1251"));
+
+		xstream.processAnnotations(getClassByPrefixFile(head));
 
 		xstream.processAnnotations(AbstractFromFns.class);
-		xstream.processAnnotations(AbstractFromFnsInfo.class);
 		xstream.processAnnotations(AbstractFromFnsInfo.class);
 
 		xstream.processAnnotations(Account.class);
@@ -74,7 +71,6 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(PayerPhysic.class);
 		xstream.processAnnotations(BankXml.class);
 		xstream.processAnnotations(Period.class);
-		xstream.processAnnotations(FnsXml.class);
 
 		xstream.processAnnotations(AbstractDecision.class);
 		xstream.processAnnotations(DecisionCancel.class);
@@ -101,8 +97,6 @@ public class XmlLoader<E> {
 
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);
-
-		xstream.processAnnotations(getClassByPrefixFile(head));
 
 		return xstream;
 	}
@@ -206,7 +200,12 @@ public class XmlLoader<E> {
 		try {
 			fl = new FileInputStream(file);
 
-			objectXml = (E) getXStream(file.getName().substring(0, 3).toUpperCase()).fromXML(fl);
+
+			//logger.error("file.getName=" + file.getName());
+
+			XStream xstream = getXStream(file.getName().substring(0, 3).toUpperCase());
+
+			objectXml = (E) xstream.fromXML(fl);
 
 			fl.close();
 		} catch (FileNotFoundException e) {

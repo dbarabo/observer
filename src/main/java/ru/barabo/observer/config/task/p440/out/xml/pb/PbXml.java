@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.PbResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
-@XStreamAlias("–§–∞–π–ª")
+@XStreamAlias("‘‡ÈÎ")
 public class PbXml extends AbstractToFns {
 
-	@XStreamAlias("–ü–û–î–ë–ù–ü–†–ò–ù–¢")
+	@XStreamAlias("œŒƒ¡Õœ–»Õ“")
 	private PbInfoPart bbInfoPart;
 
 	public PbXml(PbResponseData pbResponseData) {

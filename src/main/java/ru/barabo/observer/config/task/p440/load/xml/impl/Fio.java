@@ -2,16 +2,16 @@ package ru.barabo.observer.config.task.p440.load.xml.impl;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("Р¤РРћ")
+@XStreamAlias("ФИО")
 public final class Fio {
 
-	@XStreamAlias("Р¤Р°РјРёР»РёСЏ")
+	@XStreamAlias("Фамилия")
 	private String lastName;
 
-	@XStreamAlias("РРјСЏ")
+	@XStreamAlias("Имя")
 	private String firstName;
 
-	@XStreamAlias("РћС‚С‡РµСЃС‚РІРѕ")
+	@XStreamAlias("Отчество")
 	private String papaName;
 
 	public String getLastName() {

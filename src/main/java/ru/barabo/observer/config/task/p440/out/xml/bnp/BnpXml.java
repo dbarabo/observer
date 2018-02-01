@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.BnpResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
-@XStreamAlias("–§–∞–π–ª")
+@XStreamAlias("‘‡ÈÎ")
 public class BnpXml extends AbstractToFns {
 
-	@XStreamAlias("–°–ë–©–ë–ù–ù–ï–ò–°–ü")
+	@XStreamAlias("—¡Ÿ¡ÕÕ≈»—œ")
 	private BnpInfoPart bnpInfoPart;
 
 	public BnpXml(BnpResponseData bnpResponseData) {

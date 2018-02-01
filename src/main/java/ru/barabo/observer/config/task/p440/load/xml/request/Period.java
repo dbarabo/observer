@@ -4,14 +4,14 @@ package ru.barabo.observer.config.task.p440.load.xml.request;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
-@XStreamAlias("Р—Р°РџРµСЂРёРѕРґ")
+@XStreamAlias("ЗаПериод")
 public final class Period {
 
 
-	@XStreamAlias("Р”Р°С‚Р°РќР°С‡")
+	@XStreamAlias("ДатаНач")
 	private String fromDate;
 
-	@XStreamAlias("Р”Р°С‚Р°РљРѕРЅ")
+	@XStreamAlias("ДатаКон")
 	private String toDate;
 
 	public java.sql.Date getFromDate() {

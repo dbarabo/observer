@@ -5,34 +5,34 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 
-@XStreamAlias("РЎРІРµРґРµРЅРёСЏ")
+@XStreamAlias("Сведения")
 public class ExtractMainAccount {
 
-	@XStreamAlias("РџРѕСЂРќРѕРј")
+	@XStreamAlias("ПорНом")
 	private String orderFile;
 
-	@XStreamAlias("РќРѕРјРЎС‡")
+	@XStreamAlias("НомСч")
 	private String code;
 
-	@XStreamAlias("РљРѕРґР’Р°Р»")
+	@XStreamAlias("КодВал")
 	private String currency;
 
-	@XStreamAlias("Р”Р°С‚Р°РќР°С‡")
+	@XStreamAlias("ДатаНач")
 	private String startExtract;
 
-	@XStreamAlias("Р”Р°С‚Р°РљРѕРЅ")
+	@XStreamAlias("ДатаКон")
 	private String endExtract;
 
-	@XStreamAlias("РћСЃС‚Р°С‚РќР°С‡")
+	@XStreamAlias("ОстатНач")
 	private String startRest;
 
-	@XStreamAlias("РЎСѓРјРјР°Р”РµР±")
+	@XStreamAlias("СуммаДеб")
 	private String debetAmount;
 
-	@XStreamAlias("РЎСѓРјРјР°РљСЂРµРґ")
+	@XStreamAlias("СуммаКред")
 	private String creditAmount;
 
-	@XStreamAlias("РћСЃС‚Р°С‚РљРѕРЅ")
+	@XStreamAlias("ОстатКон")
 	private String endRest;
 
 	public ExtractMainAccount(Integer orderFile, String account, String currency,

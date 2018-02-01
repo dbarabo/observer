@@ -6,19 +6,19 @@ import ru.barabo.observer.config.task.p440.load.xml.ParamsQuery;
 import java.util.Date;
 import java.util.List;
 
-@XStreamAlias("Ğ¡Ğ²ĞŸĞ»")
+@XStreamAlias("ÑâÏë")
 public final class PayerXml implements ParamsQuery {
 
-	@XStreamAlias("ĞŸĞ»Ğ®Ğ›")
+	@XStreamAlias("ÏëŞË")
 	private PayerJur payerJur;
 
-	@XStreamAlias("ĞŸĞ»Ğ˜ĞŸ")
+	@XStreamAlias("ÏëÈÏ")
 	private PayerIp payerIp;
 
-	@XStreamAlias("ĞŸĞ¤Ğ›")
+	@XStreamAlias("ÏÔË")
 	private PayerPhysic payerPhysic;
 
-	@XStreamAlias("ĞĞ´Ñ€ĞŸĞ»Ğ°Ñ‚")
+	@XStreamAlias("ÀäğÏëàò")
 	private Address address;
 
 	@Override
@@ -87,7 +87,7 @@ public final class PayerXml implements ParamsQuery {
 	}
 	
 	/**
-	 * ĞºÑ€Ğ°Ñ‚ĞºĞ¸Ğ¹ Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚ Ğ¤Ğ¸Ğ·Ğ¸ĞºĞ° - Ğ´Ğ»Ñ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²ĞºĞ¸ Ğ² Ğ˜Ğ¤ĞĞ¡
+	 * êğàòêèé ôîğìàò Ôèçèêà - äëÿ îòïğàâêè â ÈÔÍÑ
 	 */
 	static public PayerXml createPhysicShort(Number idClient, String inn, String firstName,
 			String lastName, String secondName, String address, Date birhday, String birhPlace,

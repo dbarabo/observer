@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("–ü–ª–Æ–õ")
+@XStreamAlias("œÎﬁÀ")
 public final class PayerJur implements ParamsQuery {
 
-	@XStreamAlias("–ò–ù–ù–Æ–õ")
+	@XStreamAlias("»ÕÕﬁÀ")
 	private String inn;
 
-	@XStreamAlias("–ö–ü–ü")
+	@XStreamAlias(" œœ")
 	private String kpp;
 
-	@XStreamAlias("–ù–∞–∏–º–Æ–õ")
+	@XStreamAlias("Õ‡ËÏﬁÀ")
 	private String name;
 
 	transient private Number idClient;
@@ -58,7 +58,7 @@ public final class PayerJur implements ParamsQuery {
 				PayerType.Juric.getValueDb()));
 	}
 
-	private String COLUMNS = "INN, KPP, NAME, TYPE, FNS_FROM, ID";
+	private static final String COLUMNS = "INN, KPP, NAME, TYPE, FNS_FROM, ID";
 
 	@Override
 	public String getListColumns() {

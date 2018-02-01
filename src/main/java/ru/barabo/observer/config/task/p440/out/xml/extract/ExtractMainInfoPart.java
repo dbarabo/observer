@@ -8,31 +8,31 @@ import ru.barabo.observer.config.task.p440.out.xml.AbstractInfoPart;
 
 import java.util.List;
 
-@XStreamAlias("Р’Р«РџР‘РќРћРЎРќРћР’")
+@XStreamAlias("ВЫПБНОСНОВ")
 public class ExtractMainInfoPart extends AbstractInfoPart {
 
-	@XStreamAlias("РќРѕРјР’С‹РїРёСЃ")
+	@XStreamAlias("НомВыпис")
 	private String numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
 
-	@XStreamAlias("РўРёРїР’С‹РїРёСЃ")
+	@XStreamAlias("ТипВыпис")
 	private String typeHelp = "1";
 
-	@XStreamAlias("РќРѕРјР—Р°РїСЂ")
+	@XStreamAlias("НомЗапр")
 	private String requestNumber;
 
-	@XStreamAlias("Р”Р°С‚Р°Р—Р°РїСЂ")
+	@XStreamAlias("ДатаЗапр")
 	private String requestDate;
 
-	@XStreamAlias("Р’РёРґР’С‹РїРёСЃ")
-	private String viewHelp; // Р±РµСЂРµРј РёР· Р±Р°Р·С‹ <3 | 5 | 8>
+	@XStreamAlias("ВидВыпис")
+	private String viewHelp; // берем из базы <3 | 5 | 8>
 
-	@XStreamAlias("РљРѕР»Р”РѕРїР¤")
-	private Integer countAddFiles = 0; // РїРѕ-СѓРјРѕР»Р°С‡РёРЅРёСЋ СЃС‡РёС‚Р°РµРј С‡С‚Рѕ С„Р°Р№Р»РѕРІ РЅРµС‚
+	@XStreamAlias("КолДопФ")
+	private Integer countAddFiles = 0; // по-умолачинию считаем что файлов нет
 
-	@XStreamImplicit(itemFieldName = "РЎРІРµРґРµРЅРёСЏ")
+	@XStreamImplicit(itemFieldName = "Сведения")
 	private List<ExtractMainAccount> extractMainAccountList;
 
-	@XStreamAlias("РџСЂРµРґР‘Р°РЅРєР°")
+	@XStreamAlias("ПредБанка")
 	private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
 	public ExtractMainInfoPart(ExtractMainResponseData extractMainResponseData) {

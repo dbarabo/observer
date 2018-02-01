@@ -5,16 +5,16 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 
-@XStreamAlias("Р РµРєРІР”РѕРє")
+@XStreamAlias("РеквДок")
 public class DocumentInfo {
 
-	@XStreamAlias("Р’РёРґР”РѕРє")
+	@XStreamAlias("ВидДок")
 	private String vid;
 
-	@XStreamAlias("РќРѕРјР”РѕРє")
+	@XStreamAlias("НомДок")
 	private String number;
 
-	@XStreamAlias("Р”Р°С‚Р°Р”РѕРє")
+	@XStreamAlias("ДатаДок")
 	private String date;
 
 	public DocumentInfo(String vid, String number, Date date) {

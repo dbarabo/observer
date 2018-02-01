@@ -10,25 +10,25 @@ import java.sql.Date;
 
 abstract public class AbstractRequest extends AbstractFromFnsInfo {
 
-	@XStreamAlias("РќРѕРјР—Р°РїСЂ")
+	@XStreamAlias("НомЗапр")
 	protected String mainNumber;
 
-	@XStreamAlias("Р”Р°С‚Р°Р—Р°РїСЂ")
+	@XStreamAlias("ДатаЗапр")
 	protected String mainDate;
 
-	@XStreamAlias("РљРѕРґРћСЃРЅРѕРІ")
+	@XStreamAlias("КодОснов")
 	protected String mainCode;
 
-	@XStreamAlias("Р’РёРґР—Р°РїСЂ")
+	@XStreamAlias("ВидЗапр")
 	protected String mainType;
 
-	@XStreamAlias("РћСЃРЅРѕРІР—Р°РїСЂ")
+	@XStreamAlias("ОсновЗапр")
 	protected String mainDescription;
 
-	@XStreamAlias("РўРёРїР—Р°РїСЂ")
+	@XStreamAlias("ТипЗапр")
 	protected String mainStatus;
 
-	@XStreamAlias("РЎРІР‘Р°РЅРє")
+	@XStreamAlias("СвБанк")
 	protected BankXml bank;
 
 	@Override

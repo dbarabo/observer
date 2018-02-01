@@ -7,17 +7,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@XStreamAlias("ĞŸĞĞ”Ğ‘ĞĞŸĞ Ğ˜ĞĞ¢")
+@XStreamAlias("ÏÎÄÁÍÏĞÈÍÒ")
 public class PbInfoPart {
 
-	@XStreamAlias("Ğ˜Ğ¼ÑĞ¤Ğ°Ğ¹Ğ»Ğ°")
+	@XStreamAlias("ÈìÿÔàéëà")
 	private String fileName;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ’Ñ€ĞµĞ¼ÑĞŸÑ€Ğ¾Ğ²ĞµÑ€ĞºĞ¸")
+	@XStreamAlias("ÄàòàÂğåìÿÏğîâåğêè")
 	final private String checkEnd = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date());
 
 
-	@XStreamImplicit(itemFieldName = "Ğ ĞµĞ·ÑƒĞ»ÑŒÑ‚Ğ°Ñ‚")
+	@XStreamImplicit(itemFieldName = "Ğåçóëüòàò")
 	private List<PbResult> pbResultList;
 
 	public PbInfoPart(String fileName, List<PbResult> pbResultList) {

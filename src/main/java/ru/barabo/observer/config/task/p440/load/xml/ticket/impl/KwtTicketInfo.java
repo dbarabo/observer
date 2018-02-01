@@ -10,16 +10,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@XStreamAlias("ĞšĞ’Ğ¢ĞĞĞŸĞ Ğ˜ĞĞ¢")
+@XStreamAlias("ÊÂÒÍÎÏĞÈÍÒ")
 public class KwtTicketInfo implements KwtTicket {
 
-	@XStreamAlias("Ğ˜Ğ¼ÑĞ¤Ğ°Ğ¹Ğ»Ğ°")
+	@XStreamAlias("ÈìÿÔàéëà")
 	private String fileNameResponse;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ’Ñ€ĞµĞ¼ÑĞŸÑ€Ğ¾Ğ²ĞµÑ€ĞºĞ¸")
+	@XStreamAlias("ÄàòàÂğåìÿÏğîâåğêè")
 	private String dateTimeTicket;
 
-	@XStreamImplicit(itemFieldName = "Ğ ĞµĞ·ÑƒĞ»ÑŒÑ‚Ğ°Ñ‚")
+	@XStreamImplicit(itemFieldName = "Ğåçóëüòàò")
 	private List<KwtResultCode> results;
 
 	@Override

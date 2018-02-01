@@ -151,7 +151,7 @@ public class PnoDataImpl implements PnoData {
 						? String.class : orderTaxVal.getAccountPorVal()));
 	}
 
-	private static String COLUMNS = "BEN_BANK_NAME, BEN_BANK_BIK, BEN_INN, BEN_KPP, BEN_NAME, BEN_ACCOUNT, "
+	private static final String COLUMNS = "BEN_BANK_NAME, BEN_BANK_BIK, BEN_INN, BEN_KPP, BEN_NAME, BEN_ACCOUNT, "
 								   + "QUEUE_PAY, CODE_PAY, VIDPOR_PAY, UNKGN_PAY, KBK_PAY, OKTMO_PAY, CODEOSN_PAY, "
 								   + "SROK_TREB_PAY, DATE_TREB_PAY, NUMBER_TREB_PAY, "
 								   + "CURRENCY_NUMBER_TRANSFER, CURRENCY_DATE_TRANSFER, CURRENCY_ACCOUNT, "

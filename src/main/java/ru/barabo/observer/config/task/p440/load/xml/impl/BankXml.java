@@ -5,31 +5,31 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import ru.barabo.observer.config.task.p440.load.xml.Bank;
 
-@XStreamAlias("РЎРІР‘Р°РЅРє")
+@XStreamAlias("СвБанк")
 public final class BankXml implements Bank {
 
-	@XStreamAlias("Р‘РРљ")
+	@XStreamAlias("БИК")
 	private String bik;
 
-	@XStreamAlias("РРќРќР‘Р°РЅРє")
+	@XStreamAlias("ИННБанк")
 	private String inn;
 
-	@XStreamAlias("РљРџРџР‘Р°РЅРє")
+	@XStreamAlias("КППБанк")
 	private String kpp;
 
-	@XStreamAlias("РќР°РёРјР‘Р°РЅРє")
+	@XStreamAlias("НаимБанк")
 	private String name;
 
-	@XStreamAlias("Р РµРіРќРѕРј")
+	@XStreamAlias("РегНом")
 	private String regNumber;
 
-	@XStreamAlias("РќРѕРјР¤РёР»")
+	@XStreamAlias("НомФил")
 	private String filial;
 	
 	private static class SingltonOurBank {
 
 		private static final Object[] bankParam = {"040507717", "2540015598", "254001001",
-				"РћР±С‰РµСЃС‚РІРѕ СЃ РѕРіСЂР°РЅРёС‡РµРЅРЅРѕР№ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚СЊСЋ \"РџСЂРёРјРѕСЂСЃРєРёР№ С‚РµСЂСЂРёС‚РѕСЂРёР°Р»СЊРЅС‹Р№ РєРѕРјРјРµСЂС‡РµСЃРєРёР№ Р±Р°РЅРє\"", "21"};
+				"Общество с ограниченной ответственностью \"Приморский территориальный коммерческий банк\"", "21"};
 
 
 		private static final BankXml ourBank = new BankXml(bankParam/*Query.selectRow(Cfg.query440p().getOurBank()*/ );

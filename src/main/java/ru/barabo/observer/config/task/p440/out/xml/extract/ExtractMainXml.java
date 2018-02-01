@@ -6,15 +6,15 @@ import ru.barabo.observer.config.barabo.p440.out.data.ExtractMainResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
 /**
- * Ğ³Ğ»Ğ°Ğ²Ğ½Ñ‹Ğ¹ Ñ„Ğ°Ğ¹Ğ» Ğ²Ñ‹Ğ¿Ğ¸ÑĞºĞ¸
+ * ãëàâíûé ôàéë âûïèñêè
  * 
  * @author debara
  *
  */
-@XStreamAlias("Ğ¤Ğ°Ğ¹Ğ»")
+@XStreamAlias("Ôàéë")
 public class ExtractMainXml extends AbstractToFns {
 
-	@XStreamAlias("Ğ’Ğ«ĞŸĞ‘ĞĞĞ¡ĞĞĞ’")
+	@XStreamAlias("ÂÛÏÁÍÎÑÍÎÂ")
 	private ExtractMainInfoPart extractMainInfoPart;
 
 	public ExtractMainXml(ExtractMainResponseData extractMainResponseData) {

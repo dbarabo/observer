@@ -4,10 +4,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
-@XStreamAlias("–§–∞–π–ª")
+@XStreamAlias("‘‡ÈÎ")
 public class RestXml extends AbstractToFns {
 
-	@XStreamAlias("–°–ü–†–ë–ù–û–°–¢–ê–¢")
+	@XStreamAlias("—œ–¡ÕŒ—“¿“")
 	private RestInfoPart restInfoPart;
 
 	public RestXml(RestResponseData restResponseData) {

@@ -8,52 +8,52 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.BankXml;
 
 import java.util.Date;
 
-@XStreamAlias("Ğ¡Ğ‘Ğ©Ğ‘ĞĞĞ•Ğ˜Ğ¡ĞŸ")
+@XStreamAlias("ÑÁÙÁÍÍÅÈÑÏ")
 public class BnpInfoPart {
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ğ¾Ğ¾Ğ±Ñ‰")
+	@XStreamAlias("ÍîìÑîîáù")
 	private String numberMessage = (System.currentTimeMillis() / 100) % 10000000 + "";
 
-	@XStreamAlias("ĞĞ¾Ğ¼ĞŸĞ¾Ñ€ÑƒÑ‡")
+	@XStreamAlias("ÍîìÏîğó÷")
 	private String numberPno;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞŸĞ¾Ñ€ÑƒÑ‡")
+	@XStreamAlias("ÄàòàÏîğó÷")
 	private String datePno;
 
-	@XStreamAlias("ĞšĞ¾Ğ´ĞĞĞ‘")
+	@XStreamAlias("ÊîäÍÎÁ")
 	private String codeFns;
 
-	@XStreamAlias("Ğ¡ÑƒĞ¼ĞŸĞ»Ğ°Ñ‚")
+	@XStreamAlias("ÑóìÏëàò")
 	private String sumPnoKopeika;
 
-	@XStreamAlias("Ğ˜ĞĞĞĞŸ")
+	@XStreamAlias("ÈÍÍÍÏ")
 	private String innPayer;
 
-	@XStreamAlias("ĞšĞŸĞŸĞĞŸ")
+	@XStreamAlias("ÊÏÏÍÏ")
 	private String kppPayer;
 
-	@XStreamAlias("ĞŸĞ»Ğ°Ñ‚ĞµĞ»ÑŒÑ‰")
+	@XStreamAlias("Ïëàòåëüù")
 	private String namePayer;
 
-	@XStreamAlias("Ğ¡ÑƒĞ¼Ğ§Ğ°ÑÑ‚")
+	@XStreamAlias("Ñóì×àñò")
 	private String sumPartExecKopeika;
 
-	@XStreamAlias("ĞšĞ¾Ğ´ĞŸÑ€Ğ¸Ñ‡ĞĞµĞ¸ÑĞ¿")
+	@XStreamAlias("ÊîäÏğè÷Íåèñï")
 	private Integer codeWhyNotExecute = 1;
 
-	@XStreamAlias("Ğ”Ğ¾Ğ¿Ğ¡Ğ²ĞµĞ´")
+	@XStreamAlias("ÄîïÑâåä")
 	private String descriptionWhyNotExecute;
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞĞ°Ğ¿Ñ€")
+	@XStreamAlias("ÄàòàÍàïğ")
 	private String dateSend = XmlLoader.formatDate(new Date());
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡")
+	@XStreamAlias("ÍîìÑ÷")
 	private String account;
 
-	@XStreamAlias("Ğ¡Ğ²Ğ‘Ğ°Ğ½Ğº")
+	@XStreamAlias("ÑâÁàíê")
 	private BankXml ourBank = BankXml.ourBank();
 
-	@XStreamAlias("ĞŸÑ€ĞµĞ´Ğ‘Ğ°Ğ½ĞºĞ°")
+	@XStreamAlias("ÏğåäÁàíêà")
 	private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
 	public BnpInfoPart(BnpResponseData responseData) {

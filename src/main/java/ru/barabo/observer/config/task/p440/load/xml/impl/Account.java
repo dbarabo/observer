@@ -1,14 +1,18 @@
 package ru.barabo.observer.config.task.p440.load.xml.impl;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.apache.log4j.Logger;
 
-@XStreamAlias("Ğ¡Ñ‡ĞµÑ‚")
+@XStreamAlias("Ñ÷åò")
 public final class Account {
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡")
+	final static transient protected Logger logger = Logger.getLogger(Account.class
+			.getName());
+
+	@XStreamAlias("ÍîìÑ÷")
 	private String code;
 
-	@XStreamAlias("Ğ’Ğ¸Ğ´Ğ¡Ñ‡")
+	@XStreamAlias("ÂèäÑ÷")
 	private String type;
 
 	public String getCode() {

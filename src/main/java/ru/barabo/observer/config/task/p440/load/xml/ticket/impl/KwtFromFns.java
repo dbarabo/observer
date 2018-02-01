@@ -5,12 +5,12 @@ import org.apache.log4j.Logger;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo;
 
-@XStreamAlias("–§–∞–π–ª")
+@XStreamAlias("‘‡ÈÎ")
 public class KwtFromFns extends AbstractTicket {
 
 	final static transient private Logger logger = Logger.getLogger(KwtFromFns.class.getName());
 
-	@XStreamAlias("–ö–í–¢–ù–û–ü–†–ò–ù–¢")
+	@XStreamAlias(" ¬“ÕŒœ–»Õ“")
 	private KwtTicketInfo kwtTicket;
 
 	@Override

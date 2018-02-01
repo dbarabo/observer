@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
-@XStreamAlias("–§–∞–π–ª")
+@XStreamAlias("‘‡ÈÎ")
 public class ExistXml extends AbstractToFns {
 
-	@XStreamAlias("–°–ü–†–ë–ù–ù–ê–õ–ò–ß")
+	@XStreamAlias("—œ–¡ÕÕ¿À»◊")
 	private ExistInfoPart existInfoPart;
 
 	public ExistXml(ExistsResponseData existResponseData) {

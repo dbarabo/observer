@@ -7,19 +7,19 @@ import ru.barabo.observer.config.barabo.p440.out.data.AdditionalResponseData;
 import java.util.ArrayList;
 import java.util.List;
 
-@XStreamAlias("Ğ’Ğ«ĞŸĞ‘ĞĞ”ĞĞŸĞĞ›")
+@XStreamAlias("ÂÛÏÁÍÄÎÏÎË")
 public class AddExtractInfoPart {
 
-	@XStreamAlias("ĞŸĞ¾Ñ€ĞĞ¾Ğ¼")
+	@XStreamAlias("ÏîğÍîì")
 	private String orderAccountFile;
 
-	@XStreamAlias("ĞŸĞ¾Ñ€ĞĞ¾Ğ¼Ğ”Ğ¤")
+	@XStreamAlias("ÏîğÍîìÄÔ")
 	private String orderNumberFile;
 
-	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡")
+	@XStreamAlias("ÍîìÑ÷")
 	private String account;
 
-	@XStreamImplicit(itemFieldName = "ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¸")
+	@XStreamImplicit(itemFieldName = "Îïåğàöèè")
 	private List<OperationAccount> operationAccountList;
 
 	public AddExtractInfoPart( AdditionalResponseData additionalResponseData) {

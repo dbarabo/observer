@@ -9,16 +9,16 @@ import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@XStreamAlias("Ğ—ĞĞŸĞĞĞĞ¡Ğ¢ĞĞ¢")
+@XStreamAlias("ÇÀÏÍÎÎÑÒÀÒ")
 public final class RestRequest extends AbstractRequest {
 
-	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞŸĞ¾Ğ¡Ğ¾ÑÑ‚")
+	@XStreamAlias("ÄàòàÏîÑîñò")
 	private String addDate;
 
-	@XStreamAlias("ĞŸĞ¾Ğ’ÑĞµĞ¼")
+	@XStreamAlias("ÏîÂñåì")
 	private Integer isAll;
 
-	@XStreamImplicit(itemFieldName = "ĞŸĞ¾Ğ£ĞºĞ°Ğ·Ğ°Ğ½Ğ½Ñ‹Ğ¼")
+	@XStreamImplicit(itemFieldName = "ÏîÓêàçàííûì")
 	private List<Account> accounts;
 
 	@Override
