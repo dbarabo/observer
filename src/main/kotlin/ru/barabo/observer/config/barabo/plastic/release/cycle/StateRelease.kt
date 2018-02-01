@@ -27,6 +27,8 @@ enum class StateRelease(val label: String, val dbValue: Int) {
 
     companion object {
 
+        val MAX = CARD_TO_CLIENT
+
         fun stateByDbValue(dbValue: Int): StateRelease? = StateRelease.values().firstOrNull { it.dbValue == dbValue }
     }
 

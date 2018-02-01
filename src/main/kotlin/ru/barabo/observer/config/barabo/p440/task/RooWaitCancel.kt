@@ -28,7 +28,7 @@ object RooWaitCancel : Periodical {
 
     override fun config(): ConfigTask = P440Config
 
-    private val EXEC_DESICION_CANCEL = "call od.PTKB_440P.processDesicionCancelWait(?)"
+    private const val EXEC_DESICION_CANCEL = "call od.PTKB_440P.processDesicionCancelWait(?)"
 
     override fun execute(elem: Elem): State {
 

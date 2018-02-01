@@ -15,8 +15,13 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
+import ru.barabo.observer.store.Elem
 import java.io.File
 
+/**
+ * SENT_OK -> (RESPONSE_OK_ALL | RESPONSE_ERROR_ALL)
+ * SMS_SENT_ACCESS -> (SMS_RESPONSE_OK_ALL_OIA | SMS_RESPONSE_ERROR_ALL_OIA)
+ */
 object GetOiaConfirm: FileFinder, FileProcessor {
 
     private val logger = LoggerFactory.getLogger(GetOiaConfirm::class.java)
@@ -49,6 +54,8 @@ object GetOiaConfirm: FileFinder, FileProcessor {
         }
 
         AfinaQuery.commitFree(settingSession)
+
+        CheckWaitOci.execute(Elem())
     }
 
     private fun processOiaFile(file :File, settingSession: SessionSetting) {
@@ -97,7 +104,7 @@ object GetOiaConfirm: FileFinder, FileProcessor {
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_OIA, body = errorList)
     }
 
-    private val SUBJECT_OIA = "Пластик: Ошибки при обработки OIA-файла"
+    private const val SUBJECT_OIA = "Пластик: Ошибки при обработки OIA-файла"
 
     private fun errorInfo(file: File, line: String, idApplication: String, state: StateRelease, result: String,
                           iiaFile: String, nextState: StateRelease? = null) :String {
@@ -156,14 +163,14 @@ object GetOiaConfirm: FileFinder, FileProcessor {
         return if(errorState == StateRelease.CARD_TO_CLIENT) null else errorState
     }
 
-    private val UPDATE_PACKET_STATE = "update od.ptkb_plastic_pack set updated = sysdate, state = ? where id = ?"
+    private const val UPDATE_PACKET_STATE = "update od.ptkb_plastic_pack set updated = sysdate, state = ? where id = ?"
 
-    private val SELECT_STATE_PACKET = "select pc.state, count(*) from od.ptkb_plast_pack_content pc " +
+    private const val SELECT_STATE_PACKET = "select pc.state, count(*) from od.ptkb_plast_pack_content pc " +
             "where pc.plastic_pack = ? group by pc.state"
 
-    private val EXEC_NO_SMS_CHECK = "{ call od.PTKB_PLASTIC_AUTO.updateStateNoSms(?) }"
+    private const val EXEC_NO_SMS_CHECK = "{ call od.PTKB_PLASTIC_AUTO.updateStateNoSms(?) }"
 
-    private val UPDATE_PACKET_FILE = "update od.ptkb_plastic_pack set updated = sysdate, " +
+    private const val UPDATE_PACKET_FILE = "update od.ptkb_plastic_pack set updated = sysdate, " +
             "LOAD_FILES = LOAD_FILES || ? || ';' where id = ? and instr(nvl(LOAD_FILES, ' '), ?) <= 0"
 
     private fun nextState(idContent: Number, state: StateRelease, result: String, settingSession: SessionSetting): StateRelease {
@@ -183,9 +190,9 @@ object GetOiaConfirm: FileFinder, FileProcessor {
         return nextState
     }
 
-    private val UPDATE_CONTENT_STATE = "update od.ptkb_plast_pack_content set state = ?, msg_oia = ? where id = ?"
+    private const val UPDATE_CONTENT_STATE = "update od.ptkb_plast_pack_content set state = ?, msg_oia = ? where id = ?"
 
-    private val SELECT_CONTENT_ID = "select pc.id, pc.plastic_pack from ObjDesc o, od.ptkb_plast_pack_content pc" +
+    private const val SELECT_CONTENT_ID = "select pc.id, pc.plastic_pack from ObjDesc o, od.ptkb_plast_pack_content pc" +
             " where o.DescText = ? and pc.app_card = o.doc and pc.state = ?"
 
     private fun priorStateForOia(btrtType: String) : StateRelease =

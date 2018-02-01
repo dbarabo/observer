@@ -18,7 +18,7 @@ class BnpResponseData :AbstractResponseData() {
 
     override fun addWhere(): String = " and p.FNS_FROM = f.id "
 
-    var checkCodes: String? = null
+    private var checkCodes: String? = null
 
     var numberPno: String? = null
 

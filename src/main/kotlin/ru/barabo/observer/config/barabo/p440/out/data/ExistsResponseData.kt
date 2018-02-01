@@ -20,12 +20,12 @@ class ExistsResponseData :AbstractRequestResponse() {
     }
 
     companion object {
-        private val SELECT_EXISTS_ACCOUNT = "{ ? = call od.PTKB_440P.getExistsAccounts( ? ) }"
+        private const val SELECT_EXISTS_ACCOUNT = "{ ? = call od.PTKB_440P.getExistsAccounts( ? ) }"
     }
 
     lateinit var existsAccountList :List<ExistsAccount>
 
-    lateinit var viewHelpVar :String
+    private lateinit var viewHelpVar :String
 
     override fun getViewHelp(): String = viewHelpVar
 

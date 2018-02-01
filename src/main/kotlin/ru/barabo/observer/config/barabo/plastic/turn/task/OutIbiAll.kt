@@ -28,7 +28,7 @@ object OutIbiAll : Periodical {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    private val EXEC_TURN_OUT_ALL = "{ call od.PTKB_PLASTIC_TURNOUT.turnOutAllPeriod(?, ?) }"
+    private const val EXEC_TURN_OUT_ALL = "{ call od.PTKB_PLASTIC_TURNOUT.turnOutAllPeriod(?, ?) }"
 
     override fun execute(elem: Elem): State {
 

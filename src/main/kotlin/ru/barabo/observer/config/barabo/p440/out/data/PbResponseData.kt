@@ -37,7 +37,7 @@ class PbResponseData :AbstractResponseData() {
     private fun generatePbResult(checkCodes: String, checkTextErrors: String?,
             checkAttributeCodes: String?, checkAttributeValues: String?) : List<PbResult> {
 
-        val pbResultList : MutableList<PbResult> = ArrayList<PbResult>()
+        val pbResultList : MutableList<PbResult> = ArrayList()
 
         val codes = checkCodes.split("\n")
 

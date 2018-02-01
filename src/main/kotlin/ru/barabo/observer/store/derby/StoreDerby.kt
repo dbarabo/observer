@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-object StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
+class StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
 
     private var root :GroupElem = GroupElem()
 

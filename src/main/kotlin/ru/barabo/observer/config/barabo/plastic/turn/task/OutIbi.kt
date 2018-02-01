@@ -59,17 +59,17 @@ object OutIbi: Periodical {
 
     private val hCardOut = if(TaskMapper.isAfinaBase())"H:/КартСтандарт/out" else "C:/КартСтандарт/out"
 
-    private fun hCardOutToday() = "$hCardOut/${Get440pFiles.todayFolder()}"
+    fun hCardOutFileToday(): File = "$hCardOut/${Get440pFiles.todayFolder()}".byFolderExists()
 
-    fun hCardOutTodayFolder() :File = hCardOutToday().byFolderExists()
+    fun hCardOutToday(): String = hCardOutFileToday().absolutePath
 
-    private val EXEC_TURN_OUT = "{ call od.PTKB_PLASTIC_TURNOUT.turnOut(?, ?) }"
+    private const val EXEC_TURN_OUT = "{ call od.PTKB_PLASTIC_TURNOUT.turnOut(?, ?) }"
 
-    private val EXEC_TURN_OUT_DELETE = "{ call od.PTKB_PLASTIC_TURNOUT.turnOutDelete(?, ?) }"
+    private const val EXEC_TURN_OUT_DELETE = "{ call od.PTKB_PLASTIC_TURNOUT.turnOutDelete(?, ?) }"
 
     fun saveFile(fileName: String, dataFile: String) {
 
-        val file = File("${hCardOutTodayFolder().absolutePath}/$fileName")
+        val file = File("${hCardOutToday()}/$fileName")
 
         if(file.exists()) throw IOException("file already exists $file")
 

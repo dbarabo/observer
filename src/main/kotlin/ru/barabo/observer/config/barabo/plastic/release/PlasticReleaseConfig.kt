@@ -13,12 +13,16 @@ object PlasticReleaseConfig: ConfigTask {
     override fun timeOut(): Long = 20_000
 
     override fun configRun() {
+
         SendToJzdo.findAll()
         GetFromJzdo.findAll()
         IvrSendRequest.findAll()
         IvrGetResponse.findAll()
-        GetIiaAccept.findAll()
+        CheckWaitOci.findAll()
+        OutSmsData.findAll()
+        ReleaseCheckAll.findAll()
 
+        // include HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see
         this.executeTasks()
     }
 

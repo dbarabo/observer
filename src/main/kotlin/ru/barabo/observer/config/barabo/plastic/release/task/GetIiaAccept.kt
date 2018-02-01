@@ -37,7 +37,7 @@ object GetIiaAccept: FileFinder, FileProcessor {
 
     fun File.moveFileHCardInToday() :File {
 
-        val hCardInToday = File("${hCardInToday()}/${name}")
+        val hCardInToday = File("${hCardInToday()}/$name")
         copyTo(hCardInToday, true)
         delete()
 

@@ -40,15 +40,15 @@ object ExecuteCtlMtl : SingleSelector {
         return State.OK
     }
 
-    private val SUBJECT_ALL_EXEC ="Пластик: Информация по обработанному файлу CTL/MTL"
+    private const val SUBJECT_ALL_EXEC ="Пластик: Информация по обработанному файлу CTL/MTL"
 
-    private val SUBJECT_NONE_EXEC ="\u265E\u2602\u2622\u260E\u265E\u2602\u2622\u260E Пластик: Не все док-ты обработаны в файле CTL/MTL"
+    private const val SUBJECT_NONE_EXEC ="\u265E\u2602\u2622\u260E\u265E\u2602\u2622\u260E Пластик: Не все док-ты обработаны в файле CTL/MTL"
 
     fun isNoneExecAllDocuments(info :String?) :Boolean = info?.indexOf(CHECK_ALL_EXEC_DOCUMENTS)?:-1 < 0
 
-    private val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
+    private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 
-    private val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.processCtlMtl(?) }"
+    private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.processCtlMtl(?) }"
 
-    private val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedCtl(?, ?) }"
+    private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedCtl(?, ?) }"
 }

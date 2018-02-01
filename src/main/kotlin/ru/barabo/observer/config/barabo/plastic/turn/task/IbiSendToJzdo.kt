@@ -4,6 +4,8 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
+import ru.barabo.observer.config.barabo.plastic.turn.task.OutIbi.hCardOutFileToday
+import ru.barabo.observer.config.barabo.plastic.turn.task.OutIbi.hCardOutToday
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -20,15 +22,15 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(OutIbi::hCardOutTodayFolder, "IBI_.*"))
+    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::hCardOutFileToday, "IBI_.*"))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0))
 
-    fun hCardOutSentTodayFolder(): File = "${OutIbi.hCardOutTodayFolder().absolutePath}/sent".byFolderExists()
+    fun hCardOutSentTodayFolder(): File = "${hCardOutToday()}/sent".byFolderExists()
 
     fun hCardOutSentTodayByFolder(): String = hCardOutSentTodayFolder().absolutePath
 
-    val TO_JZDO_SENT = "\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown"
+    const val TO_JZDO_SENT = "\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown"
 
     fun toJzdoSent(): String = TO_JZDO_SENT
 

@@ -18,8 +18,8 @@ object UploadFromCorrespond: FileMover, FileFinder {
 
     override val isMove: Boolean = false
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true,
-            LocalTime.of(0, 9), LocalTime.of(23, 51), Duration.ofSeconds(30))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, true,
+            LocalTime.of(0, 9), LocalTime.of(23, 51), Duration.ofSeconds(20))
 
     override fun name(): String = "Отправка"
 

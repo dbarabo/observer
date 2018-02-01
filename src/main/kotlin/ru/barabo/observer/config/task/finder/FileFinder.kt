@@ -10,7 +10,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.regex.Pattern
 
-interface FileFinder :Executor {
+interface FileFinder: Executor {
     val fileFinderData :List<FileFinderData>
 
     override fun findAbstract(): Executor?  = findFiles()
@@ -31,10 +31,10 @@ interface FileFinder :Executor {
         try {
             fileFinderData.forEach { ff ->
 
-             LoggerFactory.getLogger(FileFinder::class.java).error("ff ${ff.search}")
+             //LoggerFactory.getLogger(FileFinder::class.java).error("ff ${ff.search}")
 
              ff.directory().listFiles { f ->
-                  // (!f.isDirectory) &&
+                   (!f.isDirectory) &&
                     ( ff.search?.isFind(f.name, ff.isNegative)?:true ) &&
                     ( (!ff.isModifiedTodayOnly) || f.isModifiedMore(startDayNow) ) &&
 
@@ -42,7 +42,7 @@ interface FileFinder :Executor {
                 }?.forEach {
                     val newElem = createNewElem(it)
 
-                    LoggerFactory.getLogger(FileFinder::class.java).error("createElem $newElem")
+                    //LoggerFactory.getLogger(FileFinder::class.java).error("createElem $newElem")
 
                     StoreSimple.save(newElem)
 
@@ -63,7 +63,7 @@ private fun File.isModifiedMore(moreTime :Long) :Boolean = lastModified() >= mor
 fun Pattern.isFind(name :String, isNegative :Boolean): Boolean {
     var isFind :Boolean = this.matcher(name)?.matches()?:false?:false
 
-    LoggerFactory.getLogger(FileFinder::class.java).error("isFind isFind=$isFind name=$name isNegative=$isNegative")
+    //LoggerFactory.getLogger(FileFinder::class.java).error("isFind isFind=$isFind name=$name isNegative=$isNegative")
 
     if(isNegative) {
         isFind = !isFind

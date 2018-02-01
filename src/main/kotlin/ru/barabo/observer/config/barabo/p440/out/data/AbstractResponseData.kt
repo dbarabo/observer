@@ -30,11 +30,11 @@ abstract class AbstractResponseData : ResponseData {
             "where r.id = ? and r.fns_from = f.id $addWhere"
 
 
-    open protected fun addSeparFields(): String = ""
+    protected open fun addSeparFields(): String = ""
 
-    open protected fun addSeparTables(): String = ""
+    protected open fun addSeparTables(): String = ""
 
-    open protected fun addWhere(): String = ""
+    protected open fun addWhere(): String = ""
 
     override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {
         val rowData = AfinaQuery.select(
@@ -46,13 +46,13 @@ abstract class AbstractResponseData : ResponseData {
     }
 
     companion object {
-        fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
+        fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())!!
     }
 
     /**
      * default first select // r.FNS_FROM, r.IS_PB, r.FILE_NAME, f.FILE_NAME,
      */
-    open protected fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
+    protected open fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
         fromFns = rowData[0] as Number
 

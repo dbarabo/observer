@@ -2,6 +2,7 @@ package ru.barabo.observer.config.barabo.plastic.turn.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.barabo.plastic.release.task.GetIiaAccept.moveFileHCardInToday
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.barabo.plastic.turn.loader.Column
 import ru.barabo.observer.config.barabo.plastic.turn.loader.PosLengthLoader
@@ -20,8 +21,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 
 object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
-
-
 
     val hCardIn = if(TaskMapper.isAfinaBase()) "H:/КартСтандарт/in" else "C:/КартСтандарт/in"
 
@@ -43,15 +42,7 @@ object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
 
         this.load(file, Charset.forName("CP1251"))
 
-        val moveFile = File("${hCardInToday()}/${file.name}")
-
-        file.copyTo(moveFile, true)
-        file.delete()
-    }
-
-    private fun restFromString(rest :String?) :Double {
-
-        return (rest?.trim()?.toLong()?.toDouble()?:0.0) / 100
+        val moveFile = file.moveFileHCardInToday()
     }
 
     override val bodyColumns: Array<Column> = arrayOf(

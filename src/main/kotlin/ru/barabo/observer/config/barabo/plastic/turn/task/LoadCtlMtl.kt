@@ -20,7 +20,7 @@ import java.util.regex.Pattern
 object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
-            "(C|M)TL\\d\\d\\d\\d\\d\\d\\d\\d_.*"))
+            "(C|M)TL.*_0226.*"))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
 

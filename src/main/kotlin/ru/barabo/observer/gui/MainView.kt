@@ -118,7 +118,7 @@ class MainView: View(), StoreListener<TreeElem> {
 
                 VBox.setVgrow(treeTable, Priority.ALWAYS)
 
-                treeTable?.root?.children?.forEach {
+                this.treeTable?.root?.children?.forEach {
                     it?.children?.forEach { it.expandedProperty().set(false) }
                 }
 
@@ -189,7 +189,7 @@ private fun treeTable(rootGroup :TreeElem) :TreeTableView<TreeElem> {
 
         root = TreeItem(rootGroup)
 
-        //column("Задача", TreeElem::task)
+        column("Задача", TreeElem::task)
 
         column("Имя", TreeElem::name)
 
@@ -199,15 +199,11 @@ private fun treeTable(rootGroup :TreeElem) :TreeTableView<TreeElem> {
 
         column("Создан", TreeElem::created)
 
-
         column("Обработан", TreeElem::executed)
-
 
         column("Кол-во", TreeElem::count)
 
-
         column("Ошибка", TreeElem::error)
-
 
         populate { it.value.group?.childs }
 

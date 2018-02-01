@@ -5,8 +5,12 @@ import ru.barabo.observer.afina.AfinaConnect
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.correspondent.Correspondent
+import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.ActionTask
 
 object TaskMapper {
@@ -68,9 +72,9 @@ object TaskMapper {
 
     fun stopConfigList() = configList.forEach { it.stoping() }
 
-    private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent/*, PtkPsd, TicketPtkPsd, OtherCbr*/)
+    private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
 
-    private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig)
+    private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
 
     //private fun mapItem(objTask :ActionTask) :Pair<String, ActionTask> = Pair(objTask.javaClass.canonicalName, objTask)
 }

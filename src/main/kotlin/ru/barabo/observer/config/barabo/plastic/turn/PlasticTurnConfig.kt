@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.turn
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.plastic.FinderHcardIn
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import java.util.*
 
@@ -13,16 +14,15 @@ object PlasticTurnConfig: ConfigTask {
 
     override fun configRun() {
 
-        LoadAfp.findAll()
-        LoadCtlMtl.findAll()
-        LoadObi.findAll()
-        LoadObr.findAll()
-        LoadRestAccount.findAll()
+        // include HcardInObject.actionTask
+        FinderHcardIn.findAll()
         OutIbi.findAll()
         OutIbiAll.findAll()
         ExecuteCtlMtl.findAll()
         ExecuteObi.findAll()
         IbiSendToJzdo.findAll()
+        OutRestCheck.findAll()
+        OutRegisterAquiring.findAll()
 
         this.executeTasks()
     }

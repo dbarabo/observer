@@ -41,9 +41,14 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/CTL20180125_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        //val elem = Elem(File("C:/КартСтандарт/test/CTL20180125_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
-        elem.task?.execute(elem)
+        File("C:/КартСтандарт/test/").listFiles { f -> !f.isDirectory && f.name.indexOf("CTL")==0}.forEach {
+
+            val elem = Elem(it, LoadCtlMtl, Duration.ZERO)
+
+            elem.task?.execute(elem)
+        }
     }
 
     //@Test
@@ -70,6 +75,14 @@ class LoaderTest {
     //@Test
     fun execObi() {
         val elem = Elem(idElem = 1172320580, task = ExecuteObi)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun outRegisterAquiring() {
+
+        val elem = Elem(idElem = 1172032472/*1172458967*/, task = OutRegisterAquiring)
 
         elem.task?.execute(elem)
     }

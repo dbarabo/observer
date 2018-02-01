@@ -28,16 +28,16 @@ class ExtractMainResponseData :AbstractRequestResponse() {
     var countAddFiles :Int = 0
 
     companion object {
-        private val INSERT_BVD_RESPONSE = "insert into od.ptkb_440p_response (id, FNS_FROM, IS_PB, STATE, FILE_NAME, SENT) " +
+        private const val INSERT_BVD_RESPONSE = "insert into od.ptkb_440p_response (id, FNS_FROM, IS_PB, STATE, FILE_NAME, SENT) " +
                 "values (classified.nextval, ?, ?, 2, ?, sysdate) "
 
-        private val SELECT_MAIN_EXTRACT_ACCOUNT =  "{ ? = call od.PTKB_440P.getExtractAccounts( ? ) }"
+        private const val SELECT_MAIN_EXTRACT_ACCOUNT =  "{ ? = call od.PTKB_440P.getExtractAccounts( ? ) }"
 
-        private val SELECT_EXTRACT_EXISTS_OPERATION = "{ ? = call od.PTKB_440P.isExistsOperation( ? ) }"
+        private const val SELECT_EXTRACT_EXISTS_OPERATION = "{ ? = call od.PTKB_440P.isExistsOperation( ? ) }"
 
-        private val EXEC_OPERATION_ACCOUNT =  "call od.PTKB_EXPORT_EXTRACT(?, ?, ?, ?, 0)"
+        private const val EXEC_OPERATION_ACCOUNT =  "call od.PTKB_EXPORT_EXTRACT(?, ?, ?, ?, 0)"
 
-        private val SELECT_EXTRACT = "select p.oper, substr(p.Description, 1, 160), p.SHIFR, p.NUMBER_DOC, " +
+        private const val SELECT_EXTRACT = "select p.oper, substr(p.Description, 1, 160), p.SHIFR, p.NUMBER_DOC, " +
                 "p.DATE_DOC, p.BANK_ACCOUNT, p.BANK_NAME, p.BANK_BIK, p.PAY_NAME, p.PAY_INN, p.PAY_KPP, " +
                 "p.PAY_ACCOUNT, p.SUM_DEB, p.SUM_CRED from od.PTKB_TMP_EXTRACT p where sid = ? order by ORD"
     }

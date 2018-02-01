@@ -10,7 +10,7 @@ object PnoLoader : GeneralLoader<PnoFromFns>() {
 
     override fun name(): String = "Загрузка PNO-файла (инкасс)"
 
-    override fun saveOtherData(data :PnoFromFns, idFromFns :Number, idPayer :Number, sessionSetting: SessionSetting) {
+    override fun saveOtherData(data: PnoFromFns, idFromFns: Number, idPayer: Number, sessionSetting: SessionSetting) {
 
         val pnoData =  (data.fromFnsInfo as OrderTax).pnoData
 

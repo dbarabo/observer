@@ -1,5 +1,6 @@
 package ru.barabo.observer.store.derby
 
+import javafx.application.Platform
 import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.config.ConfigTask
@@ -41,14 +42,8 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     }
 
     @Synchronized
-    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean {
-
-        val isExists = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
-
-        logger.error("isExists^$isExists")
-
-        return isExists
-    }
+    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean
+            = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
 
     @Synchronized
     fun getLastItemsNoneState(task : ActionTask, noneState :State = State.ARCHIVE) :Elem? {
@@ -79,16 +74,22 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     @Synchronized
     fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
-            = dataList.filter { it.state == state &&
+            = dataList.filter { it.state === state &&
             isContainsTask(it.task) &&
             (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
                     executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
 
+    @Synchronized
+    fun findFirstByConditionName(state: State = State.OK, task: ActionTask, isConditionName: (String)-> Boolean) :Elem? =
+        dataList.firstOrNull { it.state == state && it.task === task && isConditionName(it.name) }
+
 
     @Synchronized
-    fun checkDate(dateCheck :LocalDate) {
+    fun checkDate(dateCheck: LocalDate) {
         if(actualDate.dayOfYear !=  dateCheck.dayOfYear) {
-            readData(dateCheck)
+            Platform.runLater({ run {
+                readData(dateCheck)
+            } })
         }
     }
 
@@ -101,26 +102,32 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         //simpleSave(item)
 
         if(oldId == null) {
-
             synchronized(dataList) { dataList.add(item) }
-
-            addElemToGroup(item)
-
-        } else {
-
-            checkMoveElemFromGroup(item)
         }
+
+        updateTreeElem(item, oldId == null)
 
         sentInfoRefreshAll()
     }
 
-    private fun checkMoveElemFromGroup(elem :Elem) {
+    private fun updateTreeElem(item: Elem, isAdd: Boolean) {
+
+        Platform.runLater({ run {
+
+            val group = if(isAdd) addElemToGroup(item) else checkMoveElemFromGroup(item)
+
+            group.group?.let { synchronized(it){ it.prepareTaskGroup() } }
+        } })
+    }
+
+    @Synchronized
+    private fun checkMoveElemFromGroup(elem :Elem):TreeElem {
 
         val config = root.group!!.childs.first { it.group!!.config === elem.task!!.config() }
 
         val taskGroup = config.group!!.findFirstGroupByTaskState(elem.task, elem.state)
 
-        processRootElem(config, elem, taskGroup) ?: processTaskGroup(config, elem, taskGroup)
+        return processRootElem(config, elem, taskGroup) ?: processTaskGroup(config, elem, taskGroup)
     }
 
     private fun findSource(config: TreeElem, elem: Elem): Pair<TreeElem, TreeElem> {
@@ -144,38 +151,36 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         return Pair(oldTaskGroup!!, findItem!!)
     }
 
-    private fun processTaskGroup(config: TreeElem, elem: Elem, newTaskGroup: TreeElem?) {
+    private fun processTaskGroup(config: TreeElem, elem: Elem, newTaskGroup: TreeElem?) :TreeElem {
 
         val (oldTaskGroup, findItem) = findSource(config, elem)
 
         if(newTaskGroup?.group?.taskGroup?.task === oldTaskGroup.group?.taskGroup?.task &&
-                newTaskGroup?.group?.taskGroup?.state === oldTaskGroup.group?.taskGroup?.state) return
+                newTaskGroup?.group?.taskGroup?.state === oldTaskGroup.group?.taskGroup?.state) return oldTaskGroup
 
-        oldTaskGroup.group!!.childs -= findItem
+        oldTaskGroup.removeChild(findItem, config)
 
-        newTaskGroup?.group?.childs?.add(findItem) ?: config.addTaskGroup(elem).group?.childs?.add(findItem)
+        return newTaskGroup?.apply{ group?.childs?.add(findItem) }
+                ?: config.addTaskGroup(elem).apply { group?.childs?.add(findItem) }
     }
 
     private fun processRootElem(config: TreeElem, elem: Elem, taskGroup: TreeElem? ): TreeElem? {
 
         val singleElem = config.group!!.childs.firstOrNull { it.elem === elem } ?: return null
 
-        if(taskGroup != null) {
-            config.group!!.childs -= singleElem
-
-            taskGroup.group!!.childs += singleElem
-
-        } else {
-            val newGroup = config.addTaskGroup(elem)
-
-            if(newGroup !== config) {
+        return taskGroup?.apply {
                 config.group!!.childs -= singleElem
 
-                newGroup.group!!.childs += singleElem
-            }
-        }
+                group!!.childs += singleElem
 
-        return singleElem
+            } ?: config.addTaskGroup(elem).apply {
+
+                if(this !== config) {
+                    config.group!!.childs -= singleElem
+
+                    group!!.childs += singleElem
+                }
+            }
     }
 
     @Synchronized
@@ -186,7 +191,8 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             dataList.clear()
         }
         synchronized(root.group!!.childs) {
-            root.group!!.childs.clear()
+            root.group!!.childs.removeAll(root.group!!.childs)
+            //root.group!!.childs.clear()
         }
 
         template.select(Elem::class.java) { _: Elem?, row: Elem ->
@@ -200,7 +206,8 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     }
 
-    private fun addElemToGroup(elem: Elem) {
+    @Synchronized
+    private fun addElemToGroup(elem: Elem) :TreeElem {
 
         val config = root.group!!.childs.firstOrNull { it.group!!.config === elem.task!!.config() }
                 ?: root.addConfig(elem.task!!.config())
@@ -209,13 +216,17 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
                 ?: config.addTaskGroup(elem)
 
         taskGroup.group!!.childs += TreeElem(elem)
+
+        return taskGroup
     }
 }
 
 class TreeElem(var elem: Elem? = null,
                var group: TreeGroup? = null) {
 
-    val name :String get() = elem?.name ?: (group?.config?.name()) ?: (group?.taskGroup?.task?.name()) ?: "!!!!!"
+    val task :String get() = elem?.task?.name() ?: (group?.config?.name()) ?: (group?.taskGroup?.task?.name()) ?: "!"
+
+    val name :String get() = elem?.name ?: ""
 
     val state :String get() = elem?.state?.label ?: (group?.taskGroup?.state?.label) ?:""
 
@@ -230,6 +241,15 @@ class TreeElem(var elem: Elem? = null,
     val count: String get() = group?.childs?.size?.toString() ?: ""
 
     val error :String get() = elem?.error?:""
+
+    fun removeChild(delItem: TreeElem, parent: TreeElem) {
+
+        group!!.childs -= delItem
+
+        if(group!!.childs.isEmpty()) {
+            parent.group!!.childs -= this
+        }
+    }
 
     fun addConfig(config: ConfigTask): TreeElem {
 
@@ -278,10 +298,9 @@ class TreeGroup(val config: ConfigTask? = null,
 
     fun prepareTaskGroup() {
 
-        val comparatorDateTimeNull = object : Comparator<LocalDateTime?> {
-            override fun compare(x : LocalDateTime?, y: LocalDateTime?) =
-                    if(x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                            y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
+        val comparatorDateTimeNull = Comparator<LocalDateTime?> { x, y ->
+            if(x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
+                    y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
         }
 
         taskGroup?.created = childs.map { it.elem?.created }.minWith(comparatorDateTimeNull)?: LocalDateTime.MIN

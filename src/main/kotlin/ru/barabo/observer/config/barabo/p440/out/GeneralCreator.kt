@@ -10,6 +10,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.data.AbstractResponseData
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.X440P
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.WeekAccess
@@ -56,24 +57,17 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
     companion object {
 
-        private val STATE_SAVED = 2
+        private const val STATE_SAVED = 2
 
-        private val UPDATE_STATE_RESPONSE = "update od.PTKB_440P_RESPONSE set state = $STATE_SAVED, updated = sysdate, sent = sysdate where id = ?"
+        private const val UPDATE_STATE_RESPONSE = "update od.PTKB_440P_RESPONSE set state = $STATE_SAVED, updated = sysdate, sent = sysdate where id = ?"
 
         private val logger = LoggerFactory.getLogger(GeneralCreator::class.java)!!
 
-        fun sendFolder440p(): File = "X:/440-П/${Get440pFiles.todayFolder()}/Отправка".byFolderExists()
+        fun sendFolder440p(): File = "$X440P/${Get440pFiles.todayFolder()}/Отправка".byFolderExists()
 
         private fun failSendFolder440p() :File = "${sendFolder440p().absolutePath}/Fail".byFolderExists()
 
-        inline fun <reified T : AbstractToFns> create(responseData :AbstractResponseData, name :String) : GeneralCreator<T> {
-
-            return object:GeneralCreator<T>(responseData, T::class) {
-                override fun name() = name
-            }
-        }
-
-        private val XML_HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
+        private const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
 
         fun saveXml(fileName :String, xmlData :Any) {
 

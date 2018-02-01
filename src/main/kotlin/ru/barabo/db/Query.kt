@@ -183,7 +183,7 @@ open class Query (private val dbConnection :DbConnection) {
                        sessionSetting : SessionSetting = SessionSetting(false),
                        outParamTypes :IntArray? = null) :List<Any?>? {
 
-        logger.info(query)
+        logger.info("!!!!!!!!!!!!!!!!!$query")
 
         params?.forEach { logger.info(it.toString()) }
 

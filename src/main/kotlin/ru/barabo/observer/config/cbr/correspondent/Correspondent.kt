@@ -10,11 +10,9 @@ object Correspondent : ConfigTask {
 
     override var timer: Timer? = null
 
-    //override var exitStatus: ExitStatus = ExitStatus.STOP
-
     val logger = LoggerFactory.getLogger(Correspondent::class.java)!!
 
-    override fun timeOut(): Long = 5_000
+    override fun timeOut(): Long = 15_000
 
     override fun name() :String = "Корр. Счёт"
 

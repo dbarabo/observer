@@ -19,10 +19,10 @@ class RestResponseData :AbstractRequestResponse() {
     }
 
     companion object {
-        private val SELECT_REST_ACCOUNT =  "{ ? = call od.PTKB_440P.getRestAccounts( ? ) }"
+        private const val SELECT_REST_ACCOUNT =  "{ ? = call od.PTKB_440P.getRestAccounts( ? ) }"
     }
 
-    lateinit var viewHelpVar :String
+    private lateinit var viewHelpVar :String
 
     lateinit var restAccountList :List<RestAccount>
 
