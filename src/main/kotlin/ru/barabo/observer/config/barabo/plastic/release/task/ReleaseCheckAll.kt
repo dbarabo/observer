@@ -2,7 +2,7 @@ package ru.barabo.observer.config.barabo.plastic.release.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
+import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -24,7 +24,7 @@ object ReleaseCheckAll: Periodical {
 
     override fun name(): String = "Пластик Выпуск: Проверить Всё"
 
-    override fun config(): ConfigTask = PlasticTurnConfig
+    override fun config(): ConfigTask = PlasticReleaseConfig
 
     override fun execute(elem: Elem): State {
         AfinaQuery.execute(EXEC_CHECK_RELEASE)

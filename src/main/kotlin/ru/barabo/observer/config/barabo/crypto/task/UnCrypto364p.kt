@@ -2,13 +2,14 @@ package ru.barabo.observer.config.barabo.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.cbr.ptkpsd.task.Send364pSign
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
-import ru.barabo.observer.crypto.Verba
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -25,12 +26,17 @@ object UnCrypto364p : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = CryptoConfig
 
-    fun unCrypto364p() :File = File("X:/364-П/${Send364pSign.todayFolder()}")
+    private val X364P = if(TaskMapper.isAfinaBase())"X:/364-П" else "C:/364-П"
+
+    fun unCrypto364p(): File = "$X364P/${Get440pFiles.todayFolder()}".byFolderExists()
 
     override fun processFile(file: File) {
 
-        Verba.unCrypto(file.parentFile, file.name)
+        UnCryptoPacket.addFileToPacket(file, unCrypto364p()/*ToUncrypto440p.getUncFolder440p()*/, true)
 
-        Verba.unSignFile(file)
+        //Verba.unCrypto(file.parentFile, file.name)
+
+        //Verba.unSignFile(file)
     }
+
 }

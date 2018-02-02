@@ -32,9 +32,9 @@ object LoadRateThb : SingleSelector {
         return State.OK
     }
 
-    private val EXEC_RATE_THB = "call od.ptkb_auto_kursCb_load(1000131339, ?)"
+    private const val EXEC_RATE_THB = "call od.ptkb_auto_kursCb_load(1000131339, ?)"
 
-    private val USD_THB_SITE = "http://www.bloomberg.com/quote/USDthb:cur"
+    private const val USD_THB_SITE = "http://www.bloomberg.com/quote/USDthb:cur"
 
     private fun thbRate() : Double {
 

@@ -31,11 +31,19 @@ repositories {
     }
 }
 
-compileJava.options.encoding = 'UTF-8'
+//compileJava.options.encoding = 'UTF-8'
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
+compileJava.options.encoding = 'CP1251'
+
+//tasks.withType(JavaCompile) {
+//    options.encoding =  defaultEncoding
+//}
+
+//tasks.withType(JavaCompile) {
+//    options.encoding = 'UTF-8'
+//}
+
+
 
 
 dependencies {

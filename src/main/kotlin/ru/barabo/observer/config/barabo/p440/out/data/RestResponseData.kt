@@ -15,7 +15,7 @@ class RestResponseData :AbstractRequestResponse() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        initRestAccounts(idResponse)
+        initRestAccounts(idFromFns() )
     }
 
     companion object {
@@ -28,9 +28,9 @@ class RestResponseData :AbstractRequestResponse() {
 
     override fun getViewHelp(): String = viewHelpVar
 
-    private fun initRestAccounts(idResponse: Number) {
+    private fun initRestAccounts(idFromFns: Number) {
 
-        val accounts = AfinaQuery.selectCursor(SELECT_REST_ACCOUNT, arrayOf(idResponse))
+        val accounts = AfinaQuery.selectCursor(SELECT_REST_ACCOUNT, arrayOf(idFromFns))
 
         restAccountList = accounts.map { RestAccount(it[0] as? String,
                     it[1]?.let { x -> (x as String).trim().toUpperCase() }, it[2] as? String, it[3] as? Number) }

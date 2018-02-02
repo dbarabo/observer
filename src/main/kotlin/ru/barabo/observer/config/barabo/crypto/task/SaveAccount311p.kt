@@ -30,11 +30,11 @@ object SaveAccount311p : SingleSelector {
 
     override fun config(): ConfigTask = CryptoConfig
 
-    private val SELECT_FILENAME = "select od.PTKB_FNS_EXPORT_XML.getFileName(?) from dual"
+    private const val SELECT_FILENAME = "select od.PTKB_FNS_EXPORT_XML.getFileName(?) from dual"
 
-    private val SELECT_DATAFILE = "select od.PTKB_FNS_EXPORT_XML.getDataFileXml(?) from dual"
+    private const val SELECT_DATAFILE = "select od.PTKB_FNS_EXPORT_XML.getDataFileXml(?) from dual"
 
-    private val HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
+    private const val HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
 
     override fun execute(elem: Elem): State {
         val fileName = AfinaQuery.selectValue(SELECT_FILENAME, arrayOf(elem.idElem)) as String

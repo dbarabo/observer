@@ -28,8 +28,10 @@ object Cmd {
 
     private fun cTemp(prefix :String) =  "$TEMP_FOLDER/$prefix${Date().time}" // "c:/temp/$prefix${Date().time}"
 
+    private fun String.cyrReplace() =  this.replace("[^A-Za-z0-9] ".toRegex(), "F")
+
     fun tempFolder(prefix :String) : File {
-        val temp = File(cTemp(prefix) )
+        val temp = File(cTemp(prefix.cyrReplace()) )
 
         temp.mkdirs()
 

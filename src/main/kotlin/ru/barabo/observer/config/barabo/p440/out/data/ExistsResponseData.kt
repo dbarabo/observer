@@ -16,7 +16,7 @@ class ExistsResponseData :AbstractRequestResponse() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        initExistsAccounts(idResponse)
+        initExistsAccounts(idFromFns())
     }
 
     companion object {
@@ -29,9 +29,9 @@ class ExistsResponseData :AbstractRequestResponse() {
 
     override fun getViewHelp(): String = viewHelpVar
 
-    private fun initExistsAccounts(idResponse: Number) {
+    private fun initExistsAccounts(idFromFns: Number) {
 
-        val accounts = AfinaQuery.selectCursor(SELECT_EXISTS_ACCOUNT, arrayOf(idResponse))
+        val accounts = AfinaQuery.selectCursor(SELECT_EXISTS_ACCOUNT, arrayOf(idFromFns))
 
         existsAccountList = accounts.map { ExistsAccount(it[0] as? String, it[1]?.let { x -> (x as String).trim().toUpperCase() },
                 it[2] as? String, it[3] as? Date, it[4] as? Date) }

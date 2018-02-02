@@ -73,7 +73,7 @@ open class CryptoUnCryptoPacket(private val name :String, private val cryptoFun 
 
         val tempFolder = Cmd.tempFolder(folderTo.name)
 
-        val newElem = Elem(tempFolder, this,  Duration.ofMinutes(5), folderTo.absolutePath)
+        val newElem = Elem(tempFolder, this,  Duration.ofMinutes(2), folderTo.absolutePath)
 
         StoreSimple.save(newElem)
 

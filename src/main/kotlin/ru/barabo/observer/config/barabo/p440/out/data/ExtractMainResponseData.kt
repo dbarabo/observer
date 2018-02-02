@@ -46,7 +46,7 @@ class ExtractMainResponseData :AbstractRequestResponse() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        val isExistsOperation = initExtractAccounts(idResponse)
+        val isExistsOperation = initExtractAccounts(idFromFns() /*idResponse*/)
 
         if(isExistsOperation) {
 
@@ -98,9 +98,9 @@ class ExtractMainResponseData :AbstractRequestResponse() {
                         OutType.EXTRACT_ADDITIONAL.dbValue, addResponseData.fileNameResponseTemplate()), sessionSetting)
     }
 
-    private fun initExtractAccounts(idResponse: Number) :Boolean {
+    private fun initExtractAccounts(idFromFns: Number) :Boolean {
 
-        val accounts = AfinaQuery.selectCursor(SELECT_MAIN_EXTRACT_ACCOUNT, arrayOf(idResponse))
+        val accounts = AfinaQuery.selectCursor(SELECT_MAIN_EXTRACT_ACCOUNT, arrayOf(idFromFns))
 
         var isDepositAccountOnly = true
 
@@ -141,7 +141,7 @@ class ExtractMainResponseData :AbstractRequestResponse() {
         viewHelpVar = if(isDepositAccountOnly) TypeResponseValue.EXTRACT_DEPOSIT.fnsValue
                         else TypeResponseValue.EXTRACT_NO_DEPOSIT.fnsValue
 
-        return accounts.isNotEmpty() && getExistsOperation(idResponse)
+        return accounts.isNotEmpty() && getExistsOperation(idFromFns)
     }
 
     private fun getExistsOperation(idResponse: Number) :Boolean {

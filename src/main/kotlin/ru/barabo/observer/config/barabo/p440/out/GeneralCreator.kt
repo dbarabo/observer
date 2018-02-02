@@ -109,6 +109,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
             xstream.useAttributeFor(String::class.java)
             xstream.useAttributeFor(Int::class.java)
             xstream.useAttributeFor(Boolean::class.java)
+            xstream.useAttributeFor(Integer::class.java)
 
             xstream.processAnnotations(AbstractToFns::class.java)
             xstream.processAnnotations(PbInfoPart::class.java)

@@ -2,10 +2,7 @@
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.barabo.p440.task.PbSaver
-import ru.barabo.observer.config.barabo.p440.task.Process440p
-import ru.barabo.observer.config.barabo.p440.task.RestSaver
-import ru.barabo.observer.config.barabo.p440.task.RpoLoader
+import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -105,11 +102,25 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun loadZsv() {
+        //val elem = Elem(File("C:/440-П/test/ZSV10507717_132720180130_000152.xml"), ZsvLoader, Duration.ZERO)
+
+        val elem = Elem(File("C:/440-П/test/ZSV10507717_132720180130_000164.xml"), ZsvLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+
 
     //@Test
-    fun execRpo() {
+    fun exec440p() {
 
-        val elem = Elem(idElem = 1172496436, task = Process440p)
+        //val elem = Elem(idElem = 1172496436, task = Process440p)
+
+        //val elem = Elem(idElem = 1172496444, task = Process440p)
+
+        val elem = Elem(idElem = 1172496446, task = Process440p)
 
         elem.task?.execute(elem)
     }
@@ -122,11 +133,23 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun outBos() {
         val elem = Elem(idElem = 1172496442, task = RestSaver)
 
         elem.task?.execute(elem)
     }
+
+    @Test
+    fun outBvsExtract() {
+        //val elem = Elem(idElem = 1172496449, task = ExtractMainSaver)
+
+        val elem = Elem(idElem = 1172496453, task = ExtractMainSaver)
+
+        elem.task?.execute(elem)
+    }
+
+
+
 
 }
