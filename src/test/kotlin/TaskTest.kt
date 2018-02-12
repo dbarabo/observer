@@ -1,5 +1,4 @@
 
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.sql.Timestamp
@@ -103,11 +102,17 @@ class TaskTest {
                 "20180119_06:26:24".substring(0, 17)).time).toString())
     }
 
-    @Test
+    //@Test
     fun testDiv() {
         logger.error((("6946559".trim().toLong().toDouble()) / 100).toString())
     }
 
+    //@Test
+    fun testUtf8() {
+        logger.error("☹☹☹⛔⛔⛔✚✚✚☘☘⛄⛄⛄✖✖✖")
+
+
+    }
 
 
 }

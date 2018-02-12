@@ -232,15 +232,23 @@ class TreeElem(var elem: Elem? = null,
 
     val id: String get() = elem?.idElem?.toString() ?: ""
 
-    val created: String get() = elem?.created?.let { DateTimeFormatter.ofPattern("HH:mm:ss").format( it) }
-            ?: group?.taskGroup?.created?.let {  DateTimeFormatter.ofPattern("HH:mm:ss").format( it) } ?: ""
+    val created: String get() = elem?.created?.formatter()
+            ?: group?.taskGroup?.created?.formatter() ?: ""
 
-    val executed: String get() = elem?.executed?.let { DateTimeFormatter.ofPattern("HH:mm:ss").format( it) }
-            ?: group?.taskGroup?.executed?.let {  DateTimeFormatter.ofPattern("HH:mm:ss").format( it) } ?: ""
+    val executed: String get() = elem?.executed?.formatter()
+            ?: group?.taskGroup?.executed?.formatter() ?: ""
 
     val count: String get() = group?.childs?.size?.toString() ?: ""
 
     val error :String get() = elem?.error?:""
+
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")
+
+    private fun LocalDateTime.formatter(): String = if(dayOfYear == LocalDateTime.now().dayOfYear)
+        timeFormatter.format(this) else dateTimeFormatter.format(this)
+
 
     fun removeChild(delItem: TreeElem, parent: TreeElem) {
 

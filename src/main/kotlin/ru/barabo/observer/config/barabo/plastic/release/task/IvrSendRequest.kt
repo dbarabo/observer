@@ -41,16 +41,16 @@ object IvrSendRequest: SingleSelector {
         return State.OK
     }
 
-    private val IVR_SEND_TO_PATH = "\\\\jzdo/c$/quasionline-1.0.0/files/request"
+    private const val IVR_SEND_TO_PATH = "\\\\jzdo/c$/quasionline-1.0.0/files/request"
 
 
-    private val SELECT_REQUEST = "select CARD_NUMBER, CARD_VALID_TO, PHONE, FILE_NAME from od.PTKB_IVR_REGISTER where id = ?"
+    private const val SELECT_REQUEST = "select CARD_NUMBER, CARD_VALID_TO, PHONE, FILE_NAME from od.PTKB_IVR_REGISTER where id = ?"
 
     private fun dataRequest(cardNumber :String, cardEnd :String, phone :String) :String =
             "<allowPinSetting>\n" +
                     "\t<request>\n" +
                     "\t\t<callingSystemId>0226</callingSystemId>\n" +
-                    "\t\t<cardId>$cardNumber=>$cardEnd</cardId>\n" +
+                    "\t\t<cardId>$cardNumber=$cardEnd</cardId>\n" +
                     "\t\t<cardIdType>P</cardIdType>\n" +
                     "\t\t<clientPhone>$phone</clientPhone>\n" +
                     "\t</request>\n" +

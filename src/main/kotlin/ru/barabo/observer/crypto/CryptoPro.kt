@@ -9,15 +9,15 @@ object CryptoPro {
 
     private val logger = LoggerFactory.getLogger(CryptoPro::class.java)!!
 
-    private val CRYPTO_PATH = "C:/progra~1/crypto~1/CSP"
+    private const val CRYPTO_PATH = "C:/progra~1/crypto~1/CSP"
 
-    private val CRYPTO_PROGRAM = "csptest.exe"
+    private const val CRYPTO_PROGRAM = "csptest.exe"
 
-    private val CRYPTO_FULL_PATH = "$CRYPTO_PATH/$CRYPTO_PROGRAM"
+    private const val CRYPTO_FULL_PATH = "$CRYPTO_PATH/$CRYPTO_PROGRAM"
 
-    private val CERTIFICATE_MY = "-my brykina@ptkb.ru"
+    private const val CERTIFICATE_MY = "-my brykina@ptkb.ru"
 
-    private val CERTIFICATE_TO = "-cert support@nbki.ru"
+    private const val CERTIFICATE_TO = "-cert support@nbki.ru"
 
     private fun signCommand(sourceFile: String, signedFile :String) =
             "$CRYPTO_FULL_PATH -sfsign -sign -detached -add -in $sourceFile -out $signedFile $CERTIFICATE_MY"

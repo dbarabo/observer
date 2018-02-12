@@ -40,6 +40,7 @@ object TaskMapper {
                 when (build.toUpperCase().trim()) {
             "CBR" -> { cbrConfigs() }
             "BARABO" -> { baraboConfigs() }
+            "TEST" -> { testConfig() }
             else -> { throw SessionException("TaskMapper build name is unknown $build") }
         }
 
@@ -75,6 +76,8 @@ object TaskMapper {
     private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
 
     private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
+
+    private fun testConfig() :List<ConfigTask> = listOf(PlasticTurnConfig)
 
     //private fun mapItem(objTask :ActionTask) :Pair<String, ActionTask> = Pair(objTask.javaClass.canonicalName, objTask)
 }

@@ -22,7 +22,7 @@ object CheckWaitOci: Periodical {
 
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
-    override val count: Long = 1
+    override var count: Long = 1
 
     override var lastPeriod: LocalDateTime? = null
 
@@ -57,11 +57,11 @@ object CheckWaitOci: Periodical {
 
         waitList.forEach {
 
-            val idContent = waitList[0] as Number
+            val idContent = it[0] as Number
 
-            val line = waitList[1] as String
+            val line = it[1] as String
 
-            val fileName = waitList[2] as String
+            val fileName = it[2] as String
 
             GetOciData.processOciLine(idContent, line, fileName, settingSession)
 

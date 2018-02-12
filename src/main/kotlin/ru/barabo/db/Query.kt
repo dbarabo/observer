@@ -11,9 +11,9 @@ open class Query (private val dbConnection :DbConnection) {
     companion object {
         private val logger = LoggerFactory.getLogger(Query::class.java)
 
-        private val ERROR_STATEMENT_NULL = "statement is null"
+        private const val ERROR_STATEMENT_NULL = "statement is null"
 
-        private val ERROR_RESULTSET_NULL = "ResultSet is null"
+        private const val ERROR_RESULTSET_NULL = "ResultSet is null"
     }
 
     private var uniqueSession : AtomicLong = AtomicLong(1L)
@@ -321,7 +321,7 @@ open class Query (private val dbConnection :DbConnection) {
             session.isFree = true
 
             if(transactType == TransactType.ROLLBACK || transactType == TransactType.COMMIT) {
-                logger.error("FREE SESSION ${session.session}")
+                //logger.error("FREE SESSION ${session.session}")
                 session.idSession = null
             }
          } catch (e :SQLException) {

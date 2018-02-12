@@ -14,9 +14,9 @@ import java.io.File
 abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
     companion object {
-        private val INSERT_TICKET = "{ call od.PTKB_440P.insertTicket(?, ?, ?, ?, ?, ?, ?) }"
+        private const val INSERT_TICKET = "{ call od.PTKB_440P.insertTicket(?, ?, ?, ?, ?, ?, ?) }"
 
-        private val SUBJECT_440P_ERROR = "440-П Ошибка в квитанциях"
+        private const val SUBJECT_440P_ERROR = "440-П Ошибка в квитанциях"
     }
 
     override fun processFile(file: File) {

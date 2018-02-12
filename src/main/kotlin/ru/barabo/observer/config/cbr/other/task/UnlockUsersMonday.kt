@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
 object UnlockUsersMonday : Periodical {
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
-    override val count: Long = 1
+    override var count: Long = 1
 
     override var lastPeriod: LocalDateTime? = null
 
@@ -30,7 +30,7 @@ object UnlockUsersMonday : Periodical {
 
     override fun config(): ConfigTask = OtherCbr
 
-    private val CALL_UNLOCK_USERS = "{call od.unlock_from_morningworks(?)}"
+    private const val CALL_UNLOCK_USERS = "{call od.unlock_from_morningworks(?)}"
 
     override fun execute(elem: Elem): State {
 

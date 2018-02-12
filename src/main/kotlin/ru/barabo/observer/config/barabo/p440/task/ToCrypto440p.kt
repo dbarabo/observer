@@ -27,6 +27,6 @@ object ToCrypto440p: FileProcessor, FileFinder {
 
     override fun processFile(file: File) {
 
-        CryptoPacket.addFileToPacket(file, Send440pArchive.sendFolderCrypto440p(), true,"vrb" )
+        CryptoPacket.addFileToPacket(file, Send440pArchive.sendFolderCrypto440p(), false,"vrb" )
     }
 }

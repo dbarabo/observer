@@ -3,12 +3,12 @@ package ru.barabo.observer.gui
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuItem
 import ru.barabo.observer.config.task.ActionTask
-import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.resources.ResourcesManager
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import ru.barabo.observer.store.derby.TreeElem
 import tornadofx.plusAssign
+import java.time.LocalDateTime
 import java.util.*
 
 class ActionMenu : Menu("Действия", ResourcesManager.icon("action.png")) {
@@ -122,7 +122,10 @@ private fun TreeElem.toStateNone() {
 private fun TreeElem.toExecute() {
 
     elem?.apply {
-        if(task is Executor) (task as Executor).executeElem(this)
+        state = State.NONE
+        executed = LocalDateTime.now()
+
+        StoreSimple.save(this)
     }
 }
 

@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
 object RooWaitCancel : Periodical {
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
-    override val count: Long = 1
+    override var count: Long = 1
 
     override var lastPeriod: LocalDateTime? = null
 

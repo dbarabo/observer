@@ -18,6 +18,7 @@ object PlasticTurnConfig: ConfigTask {
         FinderHcardIn.findAll()
         OutIbi.findAll()
         OutIbiAll.findAll()
+        ExecuteAfp.findAll()
         ExecuteCtlMtl.findAll()
         ExecuteObi.findAll()
         IbiSendToJzdo.findAll()

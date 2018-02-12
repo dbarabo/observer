@@ -22,7 +22,7 @@ object PlasticReleaseConfig: ConfigTask {
         OutSmsData.findAll()
         ReleaseCheckAll.findAll()
 
-        // include HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see
+        // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig
         this.executeTasks()
     }
 

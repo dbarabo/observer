@@ -1,8 +1,8 @@
 
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -43,14 +43,9 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        //val elem = Elem(File("C:/КартСтандарт/test/CTL20180125_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/CTL20180208_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
-        File("C:/КартСтандарт/test/").listFiles { f -> !f.isDirectory && f.name.indexOf("CTL")==0}.forEach {
-
-            val elem = Elem(it, LoadCtlMtl, Duration.ZERO)
-
-            elem.task?.execute(elem)
-        }
+        elem.task?.execute(elem)
     }
 
     //@Test
@@ -69,7 +64,7 @@ class LoaderTest {
 
     //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1172320200, task = ExecuteCtlMtl)
+        val elem = Elem(idElem = 1172762442, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
     }
@@ -140,7 +135,7 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun outBvsExtract() {
         //val elem = Elem(idElem = 1172496449, task = ExtractMainSaver)
 
@@ -150,6 +145,22 @@ class LoaderTest {
     }
 
 
+    //@Test
+    fun oiaProcess() {
+        //val elem = Elem(idElem = 1172496453, task = GetOiaConfirm)
 
+        val elem = Elem(File("H:/КартСтандарт/in/OIA_20180202_054637_0226"), GetOiaConfirm, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun ociProcess() {
+        //val elem = Elem(idElem = 1172496453, task = GetOiaConfirm)
+
+        val elem = Elem(File("H:/КартСтандарт/in/OIA_20180202_054637_0226"), GetOiaConfirm, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
 
 }

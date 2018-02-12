@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit
 object OutIbi: Periodical {
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val count: Long = 5
+    override var count: Long = 5
 
     override var lastPeriod: LocalDateTime? = null
 

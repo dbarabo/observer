@@ -40,7 +40,7 @@ interface ConfigTask {
 
     fun executeTasks() {
 
-       val items = StoreSimple.getItems() {it?.config() == this}
+       val items = StoreSimple.getItems {it?.config() == this}
 
         for (item in items) {
 

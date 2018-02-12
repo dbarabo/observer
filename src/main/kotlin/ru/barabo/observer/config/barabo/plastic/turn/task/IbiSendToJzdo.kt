@@ -30,7 +30,7 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
 
     fun hCardOutSentTodayByFolder(): String = hCardOutSentTodayFolder().absolutePath
 
-    const val TO_JZDO_SENT = "\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown"
+    private const val TO_JZDO_SENT = "\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown"
 
     fun toJzdoSent(): String = TO_JZDO_SENT
 
@@ -49,7 +49,7 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
         file.delete()
     }
 
-    private val SUBJECT_ERROR_IBI_EXISTS = "Ошибка Пластик: Попытка отправить незарегистрированный IBI-файл"
+    private const val SUBJECT_ERROR_IBI_EXISTS = "Ошибка Пластик: Попытка отправить незарегистрированный IBI-файл"
 
     private fun errorBody(idFile :Any?, file :File) = "IBI-файл не найден в таблице PTKB_IBI_MAIN.ID=$idFile Файл:${file.name}"
 
@@ -67,5 +67,5 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
         return exists != null
     }
 
-    private val SELECT_ID_IBI = "select id from od.PTKB_IBI_MAIN m where m.id = ?"
+    private const val SELECT_ID_IBI = "select id from od.PTKB_IBI_MAIN m where m.id = ?"
 }

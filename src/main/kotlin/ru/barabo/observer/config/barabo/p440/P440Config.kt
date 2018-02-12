@@ -26,6 +26,9 @@ object P440Config: ConfigTask {
         AddToArchive440p.findAll()
         SignArchive440p.findAll()
 
+        Ticket440pCbr.findAll()
+        Ticket440pFns.findAll()
+
         this.executeTasks()
     }
 }

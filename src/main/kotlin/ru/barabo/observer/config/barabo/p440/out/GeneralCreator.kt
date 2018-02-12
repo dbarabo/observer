@@ -35,6 +35,8 @@ import ru.barabo.observer.store.State
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.nio.charset.Charset
 import java.time.Duration
 import java.time.LocalTime
@@ -108,6 +110,10 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
             xstream.useAttributeFor(String::class.java)
             xstream.useAttributeFor(Int::class.java)
+            xstream.useAttributeFor(Long::class.java)
+            xstream.useAttributeFor(Double::class.java)
+            xstream.useAttributeFor(BigDecimal::class.java)
+            xstream.useAttributeFor(BigInteger::class.java)
             xstream.useAttributeFor(Boolean::class.java)
             xstream.useAttributeFor(Integer::class.java)
 

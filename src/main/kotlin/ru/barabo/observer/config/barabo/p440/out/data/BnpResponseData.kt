@@ -38,20 +38,20 @@ class BnpResponseData :AbstractResponseData() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        checkCodes = rowData[4] as String
+        checkCodes = rowData[4] as? String
 
-        numberPno = rowData[4] as String
+        numberPno = rowData[4] as? String
 
-        datePno = rowData[5] as Date
+        datePno = rowData[5] as? Date
 
-        codeFns = rowData[6] as String
+        codeFns = rowData[6] as? String
 
-        sumPnoKopeika = rowData[7] as Number
+        sumPnoKopeika = rowData[7] as? Number
 
         payer = PayerJur(rowData[8] as? String, rowData[9] as? String, rowData[10] as? String)
 
-        sumPartExecKopeika = rowData[11] as Number
+        sumPartExecKopeika = rowData[11] as? Number
 
-        account = rowData[12] as String
+        account = rowData[12] as? String
     }
 }

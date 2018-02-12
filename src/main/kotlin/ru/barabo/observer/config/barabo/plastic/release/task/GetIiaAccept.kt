@@ -67,7 +67,7 @@ object GetIiaAccept: FileFinder, FileProcessor {
         } else throw IOException("Файл акцепта не соответствует состоянию пакета в ptkb_plastic_pack.state=${state?.label} файл:${file.name}")
     }
 
-    private val SELECT_PACKET = "select id, state from od.ptkb_plastic_pack where instr(upper(app_file), ?) > 0"
+    private const val SELECT_PACKET = "select id, state from od.ptkb_plastic_pack where instr(upper(app_file), ?) > 0"
 
     private fun updateAccept(isAccept: Boolean, idPacket: Number, state: StateRelease, error: String, file: File) {
 
@@ -84,7 +84,7 @@ object GetIiaAccept: FileFinder, FileProcessor {
         }
     }
 
-    private val UPDATE_PACKET_ERROR = "update od.ptkb_plastic_pack set updated = sysdate, state = ?, error = ? where id = ?"
+    private const val UPDATE_PACKET_ERROR = "update od.ptkb_plastic_pack set updated = sysdate, state = ?, error = ? where id = ?"
 
     private fun updateError(idPacket: Number, state: StateRelease, error: String, file :File) {
 
@@ -115,7 +115,7 @@ object GetIiaAccept: FileFinder, FileProcessor {
             "Состояние: ${state.label}" +
             "Ошибка:$error"
 
-    private val SUBJECT_ERROR = "Пластик: Выпуск Ошибка в файле Акцепта"
+    private const val SUBJECT_ERROR = "Пластик: Выпуск Ошибка в файле Акцепта"
 
 
     private fun updateState(idPacket: Number, state: StateRelease) {
@@ -138,8 +138,8 @@ object GetIiaAccept: FileFinder, FileProcessor {
         }
     }
 
-    private val UPDATE_PACKET_STATE = "update od.ptkb_plastic_pack set updated = sysdate, state = ? where id = ?"
+    private const val UPDATE_PACKET_STATE = "update od.ptkb_plastic_pack set updated = sysdate, state = ? where id = ?"
 
-    private val UPDATE_CONTENT_STATE = "update od.ptkb_plast_pack_content set state = ? where PLASTIC_PACK = ?"
+    private const val UPDATE_CONTENT_STATE = "update od.ptkb_plast_pack_content set state = ? where PLASTIC_PACK = ?"
 
 }

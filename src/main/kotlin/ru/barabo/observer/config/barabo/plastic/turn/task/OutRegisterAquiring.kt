@@ -4,7 +4,6 @@ import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
-import ru.barabo.observer.config.barabo.plastic.turn.task.OutIbi.hCardOutToday
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -127,7 +126,7 @@ object OutRegisterAquiring: SingleSelector {
 
         val end = (terminalInfo[2] as String).replace("[.:\\s]".toRegex(), "")
 
-        return File("${hCardOutToday()}/Register_${terminal}_${start}_$end.xls")
+        return File("${IbiSendToJzdo.hCardOutSentTodayFolder()}/Register_${terminal}_${start}_$end.xls")
     }
 
     private fun MutableMap<String, Any>.putHeader(transfer: Array<Any?>) {

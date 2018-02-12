@@ -16,6 +16,7 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
+import java.nio.charset.Charset
 
 /**
  * RESPONSE_OK_ALL -> (OCI_ALL | ?)
@@ -56,7 +57,7 @@ object GetOciData: FileFinder, FileProcessor {
 
     private fun processOciFile(file: File, settingSession: SessionSetting) {
 
-        file.readLines().forEach { line ->
+        file.readLines(Charset.forName("CP1251")).drop(1).forEach { line ->
 
             val idApplication =  line.substring(337, 337 + 12).trim()
 
@@ -68,7 +69,7 @@ object GetOciData: FileFinder, FileProcessor {
         }
     }
 
-    fun processOciLine(idContent: Number, line: String, fileName: String, settingSession: SessionSetting) {
+    fun processOciLine(idContent: Any, line: String, fileName: String, settingSession: SessionSetting) {
         AfinaQuery.execute(EXECUTE_OCI, arrayOf(idContent, line, fileName), settingSession)
     }
 

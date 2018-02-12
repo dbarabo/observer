@@ -40,7 +40,7 @@ object CryptoNbki : FileFinder, FileProcessor {
         return folder
     }
 
-    private val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
+    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 
     override fun processFile(file: File) {
 
@@ -52,11 +52,9 @@ object CryptoNbki : FileFinder, FileProcessor {
 
         val signedFile = File("${cryptoFile.absolutePath}.p7s")
 
-        CryptoPro.sign(file, signedFile)
+        CryptoPro.sign(cryptoFile, signedFile)
 
-        val zipFile = File("${cryptoFile.absolutePath}.zip")
-
-        Archive.createZip(zipFile, file, signedFile)
+        val zipFile =  Archive.packToZip("${cryptoFile.absolutePath}.zip", cryptoFile, signedFile)
 
         val encodeFile = File("${zipFile.absolutePath}.p7m")
 

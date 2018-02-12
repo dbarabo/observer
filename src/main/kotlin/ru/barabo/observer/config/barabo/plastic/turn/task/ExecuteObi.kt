@@ -35,7 +35,7 @@ object ExecuteObi: SingleSelector {
             Triple(BaraboSmtp.AUTO, emptyArray(), SUBJECT_NONE_EXEC) else
             Triple(BaraboSmtp.CHECKER_PLASTIC, BaraboSmtp.YA, SUBJECT_ALL_EXEC)
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.PLASTIC, cc = cc, bcc = bcc, subject = subject, body = info?:"",
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = cc, bcc = bcc, subject = subject, body = info?:"",
                 charsetSubject = "UTF-8")
 
         return State.OK

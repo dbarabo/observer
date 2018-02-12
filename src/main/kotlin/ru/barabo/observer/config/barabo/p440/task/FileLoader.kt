@@ -1,7 +1,5 @@
 package ru.barabo.observer.config.barabo.p440.task
 
-import ru.barabo.observer.config.cbr.ticket.task.Ticket440pCbr
-import ru.barabo.observer.config.cbr.ticket.task.Ticket440pFns
 import ru.barabo.observer.config.task.ActionTask
 
 enum class FileLoader(val actionTask : ActionTask, val prefixFile :String) {

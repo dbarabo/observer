@@ -1,7 +1,8 @@
-package ru.barabo.observer.config.cbr.ticket.task
+package ru.barabo.observer.config.barabo.p440.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
+import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -21,5 +22,5 @@ object Ticket440pCbr : TicketLoader<IzvFromFns>(), FileFinder {
 
     override fun name(): String = "440-П Квиток на архив"
 
-    override fun config(): ConfigTask = TicketPtkPsd
+    override fun config(): ConfigTask = P440Config
 }

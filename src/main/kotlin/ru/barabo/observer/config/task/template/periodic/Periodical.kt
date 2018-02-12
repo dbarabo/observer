@@ -12,7 +12,7 @@ interface Periodical : Executor, ActionTask {
 
     val unit :ChronoUnit
 
-    val count :Long
+    var count :Long
 
     var lastPeriod :LocalDateTime?
 

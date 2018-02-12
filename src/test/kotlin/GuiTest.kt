@@ -1,4 +1,4 @@
-import org.junit.Test
+
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.gui.startLaunch
 
@@ -10,5 +10,6 @@ class GuiTest {
     fun firstTest() {
         startLaunch(Array<String>(0, {""}))
     }
+
 
 }

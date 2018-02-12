@@ -44,8 +44,6 @@ compileJava.options.encoding = 'CP1251'
 //}
 
 
-
-
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 

@@ -163,45 +163,72 @@ class MenuItemConfigStartStop(private val menuBar :MenuBar,
     }
 }
 
-private fun getFontColor(state :State, isConfig :Boolean) :Color {
+private fun colorByElem(elem: TreeElem?): Color {
 
-    if(isConfig) return Color.BLACK
+    val state = elem?.elem?.state ?: elem?.group?.taskGroup?.state
 
-    return when(state){
-        State.OK -> Color.GRAY
+    return when (state) {
+        State.NONE->Color.DARKBLUE
+        State.OK -> Color.BLACK
         State.ERROR -> Color.RED
-        State.ARCHIVE -> Color.LIGHTGRAY
+        State.ARCHIVE -> Color.GRAY
+        State.PROCESS -> Color.YELLOWGREEN
         else -> Color.BLACK
     }
 }
 
-private fun getColorBackGround(isConfig :Boolean, isSelected :Boolean) :String {
+private fun backGroundColorRow(elem: TreeElem?): Pair<Color, String> {
 
-    return if(isConfig) "-fx-background-color: lightgray;" else "-fx-background-color: white;"
-}
+    val color = colorByElem(elem)
 
-private fun getFontStyle(isEmptyChild :Boolean) :String {
-    return if(isEmptyChild) "" else "-fx-font-weight: bold;"
+    val backGround = if(elem?.group?.config != null)
+        "-fx-background-color:lightgray;-fx-font-weight: bold;"
+        else "-fx-background-color:white;"
+
+    return Pair(color, backGround)
 }
 
 private fun treeTable(rootGroup :TreeElem) :TreeTableView<TreeElem> {
-    return TreeTableView<TreeElem>().apply {
+
+   val cellRowFormatter :(TreeTableCell<*, *>.(Any?) -> Unit) = {
+       val elem = this.treeTableRow?.treeItem?.value
+
+       if(elem is TreeElem?) {
+
+            val (color, background) = backGroundColorRow(elem)
+
+            //this.treeTableRow?.style = background
+
+            //this.treeTableRow?.textFill = color
+
+            this.textFill = color
+
+            this.style = background
+
+            this.text = this.item as? String
+        }
+   }
+
+   return TreeTableView<TreeElem>().apply {
+
+       this.style = ".tree-table-row-cell:selected { -fx-text-background-color:green; -fx-background-color: steelblue; -fx-selection-bar: steelblue;} " +
+               ".tree-table-row-cell:selected .text { -fx-fill: green; }"
 
         root = TreeItem(rootGroup)
 
-        column("Задача", TreeElem::task)
+        column("Задача", TreeElem::task).cellFormat(formatter = cellRowFormatter)
 
-        column("Имя", TreeElem::name)
+        column("Имя", TreeElem::name).cellFormat(formatter = cellRowFormatter)
 
-        column("Статус", TreeElem::state)
+        column("Статус", TreeElem::state).cellFormat(formatter = cellRowFormatter)
 
-        column("id", TreeElem::id)
+        column("id", TreeElem::id).cellFormat(formatter = cellRowFormatter)
 
-        column("Создан", TreeElem::created)
+        column("Создан", TreeElem::created).cellFormat(formatter = cellRowFormatter)
 
-        column("Обработан", TreeElem::executed)
+        column("Обработан", TreeElem::executed).cellFormat(formatter = cellRowFormatter)
 
-        column("Кол-во", TreeElem::count)
+        column("Кол-во", TreeElem::count).cellFormat(formatter = cellRowFormatter)
 
         column("Ошибка", TreeElem::error)
 

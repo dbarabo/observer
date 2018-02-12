@@ -21,7 +21,7 @@ object CreateAccount311p : Periodical {
 
     override val unit: ChronoUnit =  ChronoUnit.DAYS
 
-    override val count: Long = 1
+    override var count: Long = 1
 
     override var lastPeriod: LocalDateTime? = null
 
@@ -32,9 +32,9 @@ object CreateAccount311p : Periodical {
 
     override fun config(): ConfigTask = CryptoConfig
 
-    private val EXEC_CREATE_JUR_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_JUR}"
+    private const val EXEC_CREATE_JUR_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_JUR}"
 
-    private val EXEC_CREATE_PHYSIC_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_PHYS}"
+    private const val EXEC_CREATE_PHYSIC_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_PHYS}"
 
     override fun execute(elem: Elem): State {
 

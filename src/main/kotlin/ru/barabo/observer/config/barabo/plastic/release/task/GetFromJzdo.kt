@@ -18,7 +18,7 @@ object GetFromJzdo: FileMover, FileFinder {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true)
 
-    val GET_FROM_JZDO = "\\\\jzdo/c$/jzdo/files/doc/in/cs/unknown"
+    const val GET_FROM_JZDO = "\\\\jzdo/c$/jzdo/files/doc/in/cs/unknown"
 
     fun getFromJzdo(): File = File(GET_FROM_JZDO)
 

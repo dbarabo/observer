@@ -4,12 +4,15 @@ import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.config.task.finder.isFind
+import java.io.BufferedInputStream
 import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
-import java.net.URI
-import java.nio.file.*
-import java.util.*
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.regex.Pattern
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 
 object Archive {
@@ -50,7 +53,7 @@ object Archive {
 
             val files: Array<File>? = tempFolder.listFiles { f ->  search.isFind(f.name, false)}
 
-            newFiles = if(files == null) null else  files.copyOf()
+            newFiles = files?.copyOf()
 
             files?.indices?.forEach { newFiles!![it] = files[it].copyTo(File(toFolder + "/" + files[it].name), overwrite = true ) }
 
@@ -79,32 +82,23 @@ object Archive {
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")
 
-    fun createZip(zipFile :File, vararg files :File) :File {
+    fun packToZip(zipFilePath: String, vararg files: File) :File {
+        File(zipFilePath).let { if (it.exists()) it.delete() }
 
-        val zipSystem = createZipFileSystem(zipFile.absolutePath)
+        val zipFile = Files.createFile(Paths.get(zipFilePath))
 
-        val root = zipSystem.getPath("/").toString()
-
-        files.forEach {
-            val source = Paths.get(it.absolutePath)
-
-            val dest = zipSystem.getPath(root, it.name)
-
-            Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING)
+        ZipOutputStream(Files.newOutputStream(zipFile)).use { out ->
+            for (file in files) {
+                FileInputStream(file).use { fi ->
+                    BufferedInputStream(fi).use { origin ->
+                        val entry = ZipEntry(file.name)
+                        out.putNextEntry(entry)
+                        origin.copyTo(out)
+                    }
+                }
+            }
         }
 
-        return zipFile
-    }
-
-    @Throws(IOException::class)
-    private fun createZipFileSystem(zipFilename: String, create: Boolean = true): FileSystem {
-
-        val uri = URI.create("jar:file:${Paths.get(zipFilename).toUri().path}")
-
-        val env = HashMap<String, String>()
-        if (create) {
-            env.put("create", "true")
-        }
-        return FileSystems.newFileSystem(uri, env)
+        return File(zipFilePath)
     }
 }

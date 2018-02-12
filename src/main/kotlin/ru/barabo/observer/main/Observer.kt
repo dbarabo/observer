@@ -20,6 +20,8 @@ object Observer {
 
         TaskMapper.init(config, "AFINA")
 
+        //TaskMapper.init("TEST", "TEST")
+
         logger.info("run ConfigList")
         TaskMapper.runConfigList()
 

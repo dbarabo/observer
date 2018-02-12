@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter
 
 object TicketSimple : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","...0.(0|_)05\\.717", isModifiedTodayOnly = true)
+            listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","...\\d.(0|_)05\\.717", isModifiedTodayOnly = true)
             )
 
     override fun isContainsTask(task: ActionTask?): Boolean = task?.config() == this.config()

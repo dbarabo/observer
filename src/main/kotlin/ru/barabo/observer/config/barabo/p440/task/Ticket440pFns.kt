@@ -1,11 +1,12 @@
-package ru.barabo.observer.config.cbr.ticket.task
+package ru.barabo.observer.config.barabo.p440.task
 
 import oracle.jdbc.OracleTypes
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.OutType
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -27,10 +28,9 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
     override val accessibleData: AccessibleData =
             AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
 
-    override fun config(): ConfigTask = TicketPtkPsd
+    override fun config(): ConfigTask = P440Config
 
     override fun name(): String = "440-П Квитки из ИФНС"
-
 
     /**
      * добавляет в задачи - файл с ошибкой - чтобы его потом отправить по одному
@@ -45,12 +45,14 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
         try {
             val (responseId, typeResponse) = parseResponse(file, sessionSetting)
 
-            val repeatCreator = OutType.creatorByDbValue(typeResponse)
-                    ?: throw Exception("Не найден creator с типом $typeResponse")
+            responseId?.let {
+                val repeatCreator = OutType.creatorByDbValue(typeResponse!!)
+                        ?: throw Exception("Не найден creator с типом $typeResponse")
 
-            val newElem = Elem(responseId, file.nameWithoutExtension, repeatCreator, Duration.ofHours(7))
+                val newElem = Elem(responseId, file.nameWithoutExtension, repeatCreator, Duration.ofHours(7))
 
-            StoreSimple.save(newElem)
+                StoreSimple.save(newElem)
+            }
 
             AfinaQuery.commitFree(sessionSetting)
         } catch (e: Exception) {
@@ -58,15 +60,15 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
         }
     }
 
-    private val EXEC_REPEAT_RESPONSE = "{ call od.PTKB_440P.addFileByFailTicket(?, ?, ?) }"
+    private const val EXEC_REPEAT_RESPONSE = "{ call od.PTKB_440P.addFileByFailTicket(?, ?, ?) }"
 
-    private fun parseResponse(fileTicket: File, sessionSetting: SessionSetting): Pair<Number, Int> {
+    private fun parseResponse(fileTicket: File, sessionSetting: SessionSetting): Pair<Number?, Int?> {
 
         val outValues = AfinaQuery.execute(query = EXEC_REPEAT_RESPONSE,
                 params = arrayOf(fileTicket.nameWithoutExtension),
                 sessionSetting = sessionSetting,
                 outParamTypes = intArrayOf(OracleTypes.NUMBER, OracleTypes.NUMBER))
 
-        return Pair(outValues!![0] as Number, (outValues[1] as Number).toInt())
+        return Pair(outValues!![0] as? Number,(outValues[1] as? Number)?.toInt())
     }
 }

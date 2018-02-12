@@ -2,7 +2,6 @@ package ru.barabo.observer.config.barabo.plastic.release.task
 
 import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
-import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
@@ -17,6 +16,7 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import java.io.File
+import java.nio.charset.Charset
 
 /**
  * SENT_OK -> (RESPONSE_OK_ALL | RESPONSE_ERROR_ALL)
@@ -39,61 +39,78 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
         val hCardInToday = file.moveFileHCardInToday()
 
-        val settingSession = AfinaQuery.uniqueSession()
+        //val settingSession = AfinaQuery.uniqueSession()
 
         try {
 
-            processOiaFile(hCardInToday, settingSession)
+            processOiaFile(hCardInToday/*, settingSession*/)
 
         } catch (e :Exception) {
             logger.error("processFile", e)
 
-            AfinaQuery.rollbackFree(settingSession)
+            //AfinaQuery.rollbackFree(settingSession)
 
             throw SessionException(e.message?:"")
         }
 
-        AfinaQuery.commitFree(settingSession)
+       // AfinaQuery.commitFree(settingSession)
 
         CheckWaitOci.execute(Elem())
     }
 
-    private fun processOiaFile(file :File, settingSession: SessionSetting) {
+    private fun processOiaFile(file :File/*, settingSession: SessionSetting*/) {
 
         var errorList = ""
 
         val packetList = HashSet<Number>()
 
-        file.readLines().forEach {
+        for (line in file.readLines(Charset.forName("CP1251"))) {
+        //file.readLines().forEach {
 
-            val idApplication =  it.substring(58, 58 + 12).trim()
+            val idApplication =  line.substring(58, 58 + 12).trim()
 
-            val priorState = priorStateForOia(it.substring(49, 49 + 9).trim())
+            val priorState = priorStateForOia(line.substring(49, 49 + 9).trim())
 
-            val result = it.substring(110).trim()
+            val result = line.substring(110).trim()
 
-            val iiaFile = it.substring(18, 18 + 30).trim()
+            val iiaFile = line.substring(18, 18 + 30).trim()
+
+           // logger.error("idApplication=$idApplication")
+           // logger.error("priorState=$priorState")
+           // logger.error("result=$result")
+           // logger.error("iiaFile=$iiaFile")
 
             val content = AfinaQuery.select(SELECT_CONTENT_ID, arrayOf(idApplication, priorState.dbValue))
 
             if(content.size != 1) {
-                errorList += errorInfo(file, it, idApplication, priorState, result, iiaFile)
+                errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile)
 
-                return@forEach
+                continue
+                //return@forEach
             }
 
             val idContent = content[0][0] as Number
 
-            packetList += content[0][1] as Number
+            //logger.error("idContent=$idContent")
 
-            val nextState = nextState(idContent, priorState, result, settingSession)
+            val packet = content[0][1] as Number
+
+            //logger.error("packet=$packet")
+
+            packetList += packet
+
+            val nextState = nextState(idContent, priorState, result/*, settingSession*/)
+
+           // logger.error("nextState=$nextState")
 
             if(nextState == StateRelease.RESPONSE_ERROR_ALL || nextState == StateRelease.SMS_RESPONSE_ERROR_ALL_OIA) {
-                errorList += errorInfo(file, it, idApplication, priorState, result, iiaFile, nextState)
+                errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile, nextState)
             }
         }
 
-        processPacketList(packetList, file, settingSession)
+        //AfinaQuery.commitFree(settingSession)
+
+        processPacketList(packetList, file/*, settingSession*/)
 
         processErrorList(errorList)
     }
@@ -122,20 +139,28 @@ object GetOiaConfirm: FileFinder, FileProcessor {
             "стейт перехода:$nextState\n"
     }
 
-    private fun processPacketList(packets: Set<Number>, file: File, settingSession: SessionSetting) {
+    private fun processPacketList(packets: Set<Number>, file: File/*, settingSession: SessionSetting*/) {
 
         packets.forEach { packet ->
 
+           // logger.error("processPacketList packet=$packet")
+
             AfinaQuery.execute(UPDATE_PACKET_FILE,
-                    arrayOf(file.nameWithoutExtension, packet, file.nameWithoutExtension), settingSession)
+                    arrayOf(file.nameWithoutExtension, packet, file.nameWithoutExtension)/*, settingSession*/)
 
-            AfinaQuery.execute(EXEC_NO_SMS_CHECK, arrayOf(packet), settingSession)
+           // logger.error("UPDATE_PACKET_FILE is executed")
 
-            val states = AfinaQuery.select(SELECT_STATE_PACKET, arrayOf(packet), settingSession)
+            AfinaQuery.execute(EXEC_NO_SMS_CHECK, arrayOf(packet)/*, settingSession*/)
+
+            //logger.error("EXEC_NO_SMS_CHECK is executed")
+
+            val states = AfinaQuery.select(SELECT_STATE_PACKET, arrayOf(packet)/*, settingSession*/)
 
             val sumState = processStates(states)
 
             sumState?.let { AfinaQuery.execute(UPDATE_PACKET_STATE, arrayOf(it.dbValue, packet))  }
+
+           // logger.error("UPDATE_PACKET_STATE is executed sumState=$sumState")
         }
     }
 
@@ -173,7 +198,7 @@ object GetOiaConfirm: FileFinder, FileProcessor {
     private const val UPDATE_PACKET_FILE = "update od.ptkb_plastic_pack set updated = sysdate, " +
             "LOAD_FILES = LOAD_FILES || ? || ';' where id = ? and instr(nvl(LOAD_FILES, ' '), ?) <= 0"
 
-    private fun nextState(idContent: Number, state: StateRelease, result: String, settingSession: SessionSetting): StateRelease {
+    private fun nextState(idContent: Number, state: StateRelease, result: String/*, settingSession: SessionSetting*/): StateRelease {
 
         val isOk = "Processed OK".equals(result, true)
 
@@ -185,7 +210,11 @@ object GetOiaConfirm: FileFinder, FileProcessor {
                 StateRelease.RESPONSE_ERROR_ALL else StateRelease.SMS_RESPONSE_ERROR_ALL_OIA
         }
 
-        AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent), settingSession)
+        //logger.error(UPDATE_CONTENT_STATE)
+
+        //logger.error("nextState.dbValue=${nextState.dbValue} result=$result idContent=$idContent")
+
+        AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent)/*, settingSession*/)
 
         return nextState
     }

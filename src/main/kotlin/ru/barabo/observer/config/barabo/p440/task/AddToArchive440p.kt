@@ -30,7 +30,7 @@ object AddToArchive440p: FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData = AccessibleData()
 
-    private val EXEC_ADD_TO_ARCHIVE = "{ call od.PTKB_440P.setToArchiveFile(?, ?) }"
+    private const val EXEC_ADD_TO_ARCHIVE = "{ call od.PTKB_440P.setToArchiveFile(?, ?) }"
 
     override fun processFile(file: File) {
 
