@@ -33,7 +33,7 @@ object CheckerIsSendPtkPsd : FileFinder, FileProcessor {
         }
     }
 
-   private val ERROR_SUBJECT = "Ошибка! Файл по ПТК ПСД не отправлен"
+   private const val ERROR_SUBJECT = "Ошибка! Файл по ПТК ПСД не отправлен"
 
    private fun errorBody(fileName : String) = "Файл <<$fileName>> по ПТК ПСД не отправлен. Возможные причины:\n" +
            "\t1. Файл уже отправлялся (в наблюдателе в группе 'Перенос ПТК ПСД' находим и переводим в неисполнен)\n" +

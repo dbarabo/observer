@@ -10,13 +10,13 @@ object Verba {
 
     private val logger = LoggerFactory.getLogger(Verba::class.java)!!
 
-    private val VERBA_PATH = "C:/progra~1/mdprei/-ow~1"
+    private const val VERBA_PATH = "C:/progra~1/mdprei/-ow~1"
 
-    private val VERBA_PROGRAM = "FColseOW.exe"
+    private const val VERBA_PROGRAM = "FColseOW.exe"
 
     private val VERBA_FILE = File("$VERBA_PATH/$VERBA_PROGRAM")
 
-    private val SIGNER_PROGRAM = "wftesto.exe"
+    private const val SIGNER_PROGRAM = "wftesto.exe"
 
     private val SIGNER_FULL_PATH = "${Cmd.LIB_FOLDER}/$SIGNER_PROGRAM"
 
@@ -31,13 +31,13 @@ object Verba {
     //private val CBR_550P_SIGN_DISK = "G:\\"
 
 
-    private val CBR_SIGN_KEY = "717194100510"
+    private const val CBR_SIGN_KEY = "717194100510"
 
-    private val CBR_SIGN_DISK = "a:\\"
+    private const val CBR_SIGN_DISK = "a:\\"
 
-    private val BARABO_SIGN_KEY = "717194100517"
+    private const val BARABO_SIGN_KEY = "717194100517"
 
-    private val BARABO_SIGN_DISK = "a:\\"
+    private const val BARABO_SIGN_DISK = "a:\\"
 
     private fun cmdSign(fromFile :File, signedFile :File, keyDisk :String, keyNumber :String) =
             "$SIGNER_FULL_PATH s ${fromFile.absolutePath} ${signedFile.absolutePath} $keyDisk $keyNumber"
@@ -122,10 +122,15 @@ object Verba {
         try {
             Cmd.execCmd(cmd)
         } catch (e :Exception) {
+            logger.error("cryptoUncryptoAllFolder", e)
+
             scriptFile.delete()
+
             throw IOException(e.message)
         }
-        scriptFile.delete()
+        if(!scriptFile.delete()) {
+            logger.error("cryptoUncryptoAllFolder file is not delete file=${scriptFile.absolutePath}")
+        }
     }
 
     fun unSignFile(file :File) :File {
@@ -159,9 +164,12 @@ object Verba {
         try {
             Cmd.execCmd(cmd)
         } catch (e :Exception) {
+            logger.error("cryptoUncrypto", e)
             scriptFile.delete()
             throw IOException(e.message)
         }
+
+        scriptFile.delete()
 
         if(!tempFile.renameTo(file)) {
             tempFolder.deleteFolder()

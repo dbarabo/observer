@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
+import ru.barabo.observer.config.cbr.other.task.CheckOpenArchiveDay
+import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import java.io.File
@@ -162,5 +164,23 @@ class LoaderTest {
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun checkOpenArchiveDay() {
+
+        val elem = Elem(idElem = 57558470, name = "16.02.2018", task = CheckOpenArchiveDay)
+
+        elem.task?.execute(elem)
+    }
+
+
+    //@Test
+    fun execOpenArchiveDay() {
+
+        val elem = Elem(idElem = 0, task = ExecOpenArchiveDay)
+
+        elem.task?.execute(elem)
+    }
+
 
 }

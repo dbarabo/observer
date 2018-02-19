@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.StoreDb
@@ -65,7 +66,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
         return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
 
-                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:1_000_000_000_000_000 >
+                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:Long.MAX_VALUE >
                         executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() ) &&
 
                 (target?.let { tar -> tar == it.target  } ?: true )
@@ -87,6 +88,9 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     @Synchronized
     fun checkDate(dateCheck: LocalDate) {
         if(actualDate.dayOfYear !=  dateCheck.dayOfYear) {
+
+            InfoHtmlData.sendInfo(actualDate, root)
+
             Platform.runLater({ run {
                 readData(dateCheck)
             } })
@@ -192,7 +196,6 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         }
         synchronized(root.group!!.childs) {
             root.group!!.childs.removeAll(root.group!!.childs)
-            //root.group!!.childs.clear()
         }
 
         template.select(Elem::class.java) { _: Elem?, row: Elem ->
@@ -203,7 +206,6 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         }
 
         root.group!!.childs.forEach { it.group?.prepareAllTaskForConfig() }
-
     }
 
     @Synchronized
@@ -244,7 +246,7 @@ class TreeElem(var elem: Elem? = null,
 
     private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
-    private val dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd HH:mm")
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM HH:mm")
 
     private fun LocalDateTime.formatter(): String = if(dayOfYear == LocalDateTime.now().dayOfYear)
         timeFormatter.format(this) else dateTimeFormatter.format(this)

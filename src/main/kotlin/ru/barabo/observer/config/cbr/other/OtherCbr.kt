@@ -9,8 +9,6 @@ object OtherCbr: ConfigTask {
 
     override var timer: Timer? = null
 
-    // override var exitStatus: ExitStatus = ExitStatus.STOP
-
     val logger = LoggerFactory.getLogger(OtherCbr::class.java)!!
 
     override fun timeOut(): Long = 30_000
@@ -28,6 +26,10 @@ object OtherCbr: ConfigTask {
         CecReportProcess.findAll()
         CheckTicket440p.findAll()
         CheckTicketArchive440p.findAll()
+
+        CheckOpenArchiveDay.findAll()
+
+        ExecOpenArchiveDay.findAll()
 
         executeTasks()
     }

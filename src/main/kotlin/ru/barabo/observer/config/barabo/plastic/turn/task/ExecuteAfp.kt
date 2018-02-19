@@ -17,7 +17,7 @@ object ExecuteAfp: SingleSelector {
     override val select: String = "select id, FILE_NAME || ' (' || CHECK_COUNT_AUTH || ')' name " +
             "from od.ptkb_afp where state = 0 and nvl(CHECK_COUNT_AUTH, 0) != 0 order by PC_CREATED, FILE_ORDER"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
             workTimeTo =  LocalTime.of(23, 45), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "AFP Обработать"

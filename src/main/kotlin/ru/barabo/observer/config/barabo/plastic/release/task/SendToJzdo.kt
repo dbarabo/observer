@@ -19,7 +19,9 @@ object SendToJzdo : FileMover, FileFinder {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0))
 
-    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::hCardOutFileToday, "(IIA_|RATE|ZWU_).*"))
+    override val fileFinderData: List<FileFinderData> = listOf(
+            FileFinderData(::hCardOutFileToday, "(IIA_|RATE|ZWU_|ZUP_).*"),
+            FileFinderData(::hCardOutFileToday, "20\\d\\d_\\d\\d_\\d_0226\\.txt"))
 
     override val pathsTo: Array<() -> String> = arrayOf(IbiSendToJzdo::hCardOutSentTodayByFolder, IbiSendToJzdo::toJzdoSent)
 

@@ -309,8 +309,6 @@ open class Query (private val dbConnection :DbConnection) {
 
     private fun closeQueryData(session :Session, transactType :TransactType = TransactType.ROLLBACK, statement :Statement? = null, resultSet :ResultSet? = null) {
 
-        //logger.error("closeQueryData ${session.session}")
-
         try {
             resultSet?.close()
 
@@ -321,7 +319,6 @@ open class Query (private val dbConnection :DbConnection) {
             session.isFree = true
 
             if(transactType == TransactType.ROLLBACK || transactType == TransactType.COMMIT) {
-                //logger.error("FREE SESSION ${session.session}")
                 session.idSession = null
             }
          } catch (e :SQLException) {
@@ -334,14 +331,11 @@ open class Query (private val dbConnection :DbConnection) {
         when (transactType) {
             TransactType.ROLLBACK -> {
                 session.session.rollback()
-                logger.error("session is ROLLBACK session.idSession=${session.session}")
             }
             TransactType.COMMIT -> {
                 session.session.commit()
-                //logger.error("session is COMMIT session.idSession=${session.session}")
             }
             else -> {
-                //logger.error("session is NOTHING_ session.idSession=${session.session}")
             }
         }
     }
@@ -360,7 +354,6 @@ fun PreparedStatement.setParams(inParams :Array<Any?>? = null, shiftOutParams :I
 
             this.setNull(index + 1 + shiftOutParams, Type.getSqlTypeByClass(inParams[index] as Class<*>))
         } else {
-            //LoggerFactory.getLogger(Query::class.java).error("PARAMS: index=$index  inParams=${inParams[index]}")
 
             this.setObject(index + 1 + shiftOutParams, inParams[index])
         }

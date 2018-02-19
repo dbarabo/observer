@@ -23,7 +23,7 @@ object CheckTicket440p : SingleSelector {
 
     override fun config(): ConfigTask = OtherCbr
 
-    private val SELECT_FILES = "select r.file_name, to_char(r.sent, 'dd.mm.yy hh24:mi:ss') " +
+    private const val SELECT_FILES = "select r.file_name, to_char(r.sent, 'dd.mm.yy hh24:mi:ss') " +
             "from od.ptkb_440p_response r where r.state != 99 and od.getWorkDayBack(sysdate, 3) > r.sent"
 
     override fun execute(elem: Elem) :State {
@@ -35,7 +35,7 @@ object CheckTicket440p : SingleSelector {
         return State.OK
     }
 
-    private val SUBJECT_440P_ERROR = "440-П Ошибка"
+    private const val SUBJECT_440P_ERROR = "440-П Ошибка"
 
     private fun errorMessage(files :String) = "На отправленные файлы до сих пор нет квитанций от ИФНС \n$files"
 

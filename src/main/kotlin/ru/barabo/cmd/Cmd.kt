@@ -42,6 +42,8 @@ object Cmd {
 
     val LIB_FOLDER = "$JAR_FOLDER/lib"
 
+    val LOG_FOLDER = "$JAR_FOLDER/log"
+
     private val TEMP_FOLDER = "$JAR_FOLDER/temp"
 
     fun createFolder(folderPath :String) :File {

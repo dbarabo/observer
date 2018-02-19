@@ -11,7 +11,7 @@ data class HtmlContent(private val title: String,
 
         var index = -1
 
-        return headerTable.values.joinToString {
+        return headerTable.values.joinToString("") {
             index++
 
             "<td align=\"$it\">${toStringNull(row[index])}</td>\n"
