@@ -17,7 +17,7 @@ object CheckOpenArchiveDay : SingleSelector {
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(19, 0),
             workTimeTo = LocalTime.of(22, 0))
 
-    override fun name(): String = "Открыт Архивный день"
+    override fun name(): String = "Есть Открытый Архив. день"
 
     override fun config(): ConfigTask = OtherCbr
 
@@ -30,5 +30,5 @@ object CheckOpenArchiveDay : SingleSelector {
         return State.OK
     }
 
-    private fun openArchiveDay(day: String) = "Открыт архивный день $day"
+    private fun openArchiveDay(day: String) = "Обнаружен Открытый архивный день $day"
 }

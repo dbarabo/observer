@@ -22,7 +22,7 @@ object ExecOpenArchiveDay: Periodical {
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(21, 0),
             workTimeTo = LocalTime.of(23, 59) )
 
-    override fun name(): String = "Открыть Ахивный день"
+    override fun name(): String = "Архивный день - открытие"
 
     override fun config(): ConfigTask = OtherCbr
 

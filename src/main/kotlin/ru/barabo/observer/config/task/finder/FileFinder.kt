@@ -31,8 +31,6 @@ interface FileFinder: Executor {
         try {
             fileFinderData.forEach { ff ->
 
-             //LoggerFactory.getLogger(FileFinder::class.java).error("ff ${ff.search}")
-
              ff.directory().listFiles { f ->
                    (!f.isDirectory) &&
                     ( ff.search?.isFind(f.name, ff.isNegative)?:true ) &&
@@ -41,8 +39,6 @@ interface FileFinder: Executor {
                     (!findElemInStore(f.lastModified(), f.name))
                 }?.forEach {
                     val newElem = createNewElem(it)
-
-                    //LoggerFactory.getLogger(FileFinder::class.java).error("createElem $newElem")
 
                     StoreSimple.save(newElem)
 
@@ -62,8 +58,6 @@ private fun File.isModifiedMore(moreTime :Long) :Boolean = lastModified() >= mor
 
 fun Pattern.isFind(name :String, isNegative :Boolean): Boolean {
     var isFind :Boolean = this.matcher(name)?.matches()?:false?:false
-
-    //LoggerFactory.getLogger(FileFinder::class.java).error("isFind isFind=$isFind name=$name isNegative=$isNegative")
 
     if(isNegative) {
         isFind = !isFind

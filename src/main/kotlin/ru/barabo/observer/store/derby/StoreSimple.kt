@@ -59,7 +59,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             if(maxX > maxY) 1 else -1
         }
 
-        return dataList.filter { it.task == task && it.state != noneState }.maxWith(comparatorElemMaxTime)
+        return dataList.filter { it.task === task && it.state != noneState }.maxWith(comparatorElemMaxTime)
     }
 
     @Synchronized

@@ -10,19 +10,23 @@ import java.time.temporal.ChronoUnit
 
 interface Periodical : Executor, ActionTask {
 
-    val unit :ChronoUnit
+    val unit: ChronoUnit
 
-    var count :Long
+    var count: Long
 
-    var lastPeriod :LocalDateTime?
+    var lastPeriod: LocalDateTime?
 
-    override fun actionTask() :ActionTask = this
+    override fun actionTask(): ActionTask = this
 
-    override fun findAbstract() :Executor? = findPeriodItems()
+    override fun findAbstract(): Executor? = findPeriodItems()
 
-    private fun findPeriodItems() :Executor? {
+    private fun findPeriodItems(): Executor? {
 
-        lastPeriod = lastPeriod?.let { lastPeriod }?: readLastPeriod()
+        lastPeriod = lastPeriod?.let { lastPeriod } ?: readLastPeriod()
+
+        if(unit === ChronoUnit.DAYS) {
+            lastPeriod = lastPeriod!!.withHour(0)
+        }
 
         val timeCount = lastPeriod!!.until(LocalDateTime.now(), unit)
 
@@ -49,7 +53,6 @@ interface Periodical : Executor, ActionTask {
 
         val lastItem = StoreSimple.getLastItemsNoneState(this)
 
-        return lastItem?.executed?.let { lastItem.executed }?:lastItem?.created
-                ?: LocalDateTime.MIN
+        return lastItem?.executed ?: lastItem?.created ?: LocalDateTime.MIN
     }
 }
