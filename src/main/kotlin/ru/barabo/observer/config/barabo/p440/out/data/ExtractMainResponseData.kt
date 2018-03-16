@@ -106,6 +106,10 @@ class ExtractMainResponseData :AbstractRequestResponse() {
 
         var index = 1
 
+        extractMainAccountList.clear()
+
+        countAddFiles = 0
+
         for (row in accounts) {
 
             val typeAccount = row[1]?.let { (row[1] as String).trim().toUpperCase() }

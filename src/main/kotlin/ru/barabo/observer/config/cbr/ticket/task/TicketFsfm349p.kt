@@ -33,7 +33,7 @@ object TicketFsfm349p : FileFinder, FileProcessor {
     override fun processFile(file: File) {
         val files = Archive.extractFromCab(file, ticket349p())
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, subject = name(), body = body(files) )
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.AUTO, subject = name(), body = body(files) )
     }
 
     private fun body(files: Array<File>?): String =

@@ -1,6 +1,7 @@
 
 import org.junit.Before
 import org.slf4j.LoggerFactory
+import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
@@ -182,5 +183,12 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun execLoadBik() {
+
+        val elem = Elem(idElem = 0, task = LoadBik)
+
+        elem.task?.execute(elem)
+    }
 
 }

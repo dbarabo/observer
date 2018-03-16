@@ -26,6 +26,23 @@ object Cmd {
         }
     }
 
+    fun execDos(cmdDos: String) {
+        try {
+            val execCmd = arrayOf("cmd.exe", "/C", cmdDos)
+
+            val process = Runtime.getRuntime().exec(execCmd)
+
+            StreamReader(process.errorStream, logger::error).start()
+            StreamReader(process.inputStream, logger::info).start()
+
+            process.waitFor()
+        } catch (e :Exception) {
+
+            logger.error("execCmd", e)
+            throw Exception(e.message)
+        }
+    }
+
     private fun cTemp(prefix :String) =  "$TEMP_FOLDER/$prefix${Date().time}" // "c:/temp/$prefix${Date().time}"
 
     private fun String.cyrReplace() =  this.replace("[^A-Za-z0-9] ".toRegex(), "F")
@@ -63,3 +80,4 @@ fun File.deleteFolder() {
 
     this.delete()
 }
+

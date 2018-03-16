@@ -13,6 +13,7 @@ import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.nio.charset.Charset
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -27,58 +28,106 @@ object OutRestCheck: SingleSelector {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    private const val NEXT_TIME_MINUTE = 10L
-
     override fun execute(elem: Elem): State {
 
-        if(!isCtlExecFound() ) {
-
-            elem.executed = LocalDateTime.now().plusMinutes(NEXT_TIME_MINUTE)
-
-            return State.NONE
+        if(!isCtlExecAllDocumentFound()) {
+            return if(isEndTime() ) processNoneExecAllDocument(elem) else waitToNextTime(elem)
         }
 
-        val data = createHtmlData()
+        return processExecAllDocument(elem)
+    }
 
-        val file = File("${hCardOutSentTodayFolder()}/${elem.name}.html")
+    private fun isCtlExecAllDocumentFound(): Boolean {
+        val ctlDocument = StoreSimple.findFirstByConditionName(task = ExecuteCtlMtl, isConditionName = ::isContainsName)
 
-        file.writeText(data, Charset.forName("CP1251"))
+        return ctlDocument?.let { isAllExecDoc(it.idElem) } ?: false
+    }
 
-        BaraboSmtp.sendStubThrows( to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = SUBJECT_REST,
-                body = bodyRest(file), attachments = arrayOf(file))
+    private fun isAllExecDoc(idElem: Long?): Boolean {
+        val existsNoneDoc = AfinaQuery.selectValue(SELECT_IS_EXISTS_NONE_EXEC_DOC, arrayOf(idElem)) as Number?
+
+        return existsNoneDoc?.let { it.toInt() == 0 } ?: false
+    }
+
+    private const val SELECT_IS_EXISTS_NONE_EXEC_DOC = "select od.PTKB_PLASTIC_TURN.isExistsNoneExecCtlDoc(?) from dual"
+
+    private fun isEndTime() = LocalTime.now().hour >= 23
+
+    private fun waitToNextTime(elem: Elem): State {
+        elem.executed = LocalDateTime.now().plusMinutes(NEXT_TIME_MINUTE)
+
+        return State.NONE
+    }
+
+    private const val NEXT_TIME_MINUTE = 15L
+
+    private fun processNoneExecAllDocument(elem: Elem): State {
+
+        val file = createReview(elem.name)
+
+        file?.let { sendMailFile(NONE_EXEC_SUBJECT, it) }
 
         return State.OK
     }
 
+    private fun processExecAllDocument(elem: Elem): State {
+
+        val file = createReview(elem.name)
+
+        file?.let { sendMailFile(EXEC_SUBJECT, it) }
+
+        return State.OK
+    }
+
+    private fun createReview(nameRest: String): File? {
+
+        val data = createHtmlData() ?: return null
+
+        val file = fileReview(nameRest)
+
+        file.writeText(data, Charset.forName("CP1251"))
+
+        return file
+    }
+
+    private fun fileReview(nameRest: String) = File("${hCardOutSentTodayFolder()}/$nameRest.html")
+
+    private fun sendMailFile(subject: String, fileSend: File) {
+        BaraboSmtp.sendStubThrows( to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
+                body = bodyRest(fileSend), attachments = arrayOf(fileSend))
+    }
+
+    private const val NONE_EXEC_SUBJECT = "✖✖✖ Сверка остатков из Картстандарта - есть неисполненные док-ты"
+
+    private const val EXEC_SUBJECT = "Сверка остатков Картстандарта и Афины"
+
     private fun bodyRest(file: File) = "В файле вложения ${file.name} находится таблица сверки остатков\n" +
             "Отсутствие данных в таблице означает, что расхождений остатков нет"
 
-    private const val SUBJECT_REST = "Сверка остатков Картстандарта и Афины"
+    private fun createHtmlData(): String? {
 
-    private fun createHtmlData(): String {
+        val data = AfinaQuery.selectCursor(SELECT_REVIEW)
 
-        val data = AfinaQuery.selectCursor(SELECT_REST)
+        if(data.isEmpty()) return null
 
-        val content = HtmlContent("Сверка остатков", "Сверка остатков", HEADER_TABLE, data)
+        val content = HtmlContent(titleHtml(), titleHtml(), HEADER_TABLE, data)
 
         return content.html()
     }
 
-    private val HEADER_TABLE = mapOf<String, String>(
-            "п/п" to "right",
+    private fun titleHtml() = "Сверка остатков на ${LocalDate.now()}"
+
+    private val HEADER_TABLE = mapOf(
             "Счет" to "left",
             "Клиент" to "left",
-            "Дата остатка" to "center",
             "Остаток в ПЦ"  to "right",
-            "Остаток в Афине"  to "right",
-            "Off-line оборот"  to "right",
-            "On-line оборот"  to "right",
-            "Сумма несовпадения"  to "right")
+            "Остаток на основ. счете"  to "right",
+            "Остаток на внебаланс. счете"  to "right",
+            "Остаток на техн. овер"  to "right",
+            "Сумма несовпадения"  to "right",
+            "Последняя операция" to "center")
 
-    private const val SELECT_REST = "{ ? = call od.PTKB_PLASTIC_TURNOUT.getRestAfinaPc( sysdate, 0, 30) }"
-
-    private fun isCtlExecFound(): Boolean =
-            StoreSimple.findFirstByConditionName(task = ExecuteCtlMtl, isConditionName = ::isContainsName) != null
+    private const val SELECT_REVIEW = "{ ? = call od.PTKB_PLASTIC_TURNOUT.getReviewRestAllCard(sysdate) }"
 
     private fun isContainsName(name: String): Boolean = name.indexOf(ctlToday() ) >= 0
 

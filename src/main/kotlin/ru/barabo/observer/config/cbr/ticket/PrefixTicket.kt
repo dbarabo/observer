@@ -14,7 +14,8 @@ enum class PrefixTicket(private val prefix :String,
     LEGAL("0z", TicketLegalText, TicketLegalCab),
     VAL_VBK("nz", null, TicketVbkArchive),
     P550("wz", GetProcess550pFiles, Ticket550p),
-    P440 ("mz", null, Get440pFiles);
+    P440 ("mz", null, Get440pFiles),
+    P407 ("fz", Ticket407CabXml, Ticket407ArjXml);
 
     companion object {
 

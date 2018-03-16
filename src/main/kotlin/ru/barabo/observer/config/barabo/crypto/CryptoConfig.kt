@@ -22,6 +22,7 @@ object CryptoConfig : ConfigTask {
         SaveAccount311p.findAll()
         InfoRequest349p.findAll()
         LoadRateThb.findAll()
+        LoadBik.findAll()
 
         this.executeTasks()
     }

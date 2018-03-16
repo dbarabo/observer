@@ -12,6 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.regex.Pattern
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 
@@ -101,4 +102,21 @@ object Archive {
 
         return File(zipFilePath)
     }
+
+    fun upPackFromZip(zipFilePath: String) {
+
+        val zipFile = File(zipFilePath).parentFile
+
+        ZipFile(zipFilePath).use { zip ->
+            zip.entries().asSequence().forEach { entry ->
+                zip.getInputStream(entry).use { input ->
+                    File("${zipFile.absolutePath}/${entry.name}").outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+            }
+        }
+    }
+
+
 }

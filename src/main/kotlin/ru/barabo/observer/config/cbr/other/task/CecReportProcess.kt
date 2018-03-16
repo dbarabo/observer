@@ -61,7 +61,7 @@ object CecReportProcess : FileFinder, FileProcessor {
         return idRequest
     }
 
-    private val SUBJECT_CEC = "ЦИК ОТЧЕТ (CEC REPORT)"
+    private const val SUBJECT_CEC = "ЦИК ОТЧЕТ (CEC REPORT)"
 
     private fun bodyFileCec(file: File) = "файл для отправки данных находится по адресу ${file.absolutePath}"
 

@@ -23,7 +23,7 @@ object BaraboSmtp :SendMail {
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru", "zharova@ptkb.ru").onlyAfina()
 
     val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
