@@ -8,13 +8,12 @@ object PtkPsd : ConfigTask {
 
     override var timer: Timer? = null
 
-    // override var exitStatus: ExitStatus = ExitStatus.STOP
-
     override fun name(): String = "ПТК ПСД"
 
     override fun timeOut(): Long = 20_000
 
     override fun configRun() {
+
 
         // find all
         SendByPtkPsdNoXml.findAll()
@@ -24,13 +23,9 @@ object PtkPsd : ConfigTask {
         CheckerIsSendPtkPsd.findAll()
         Send440pArchive.findAll()
 
+        Load101FormXml.findAll()
+
         // execute all
         executeTasks()
-//        SendByPtkPsdNoXml.executeAll()
-//        SendXmlByPtkbPsd.executeAll()
-//        SendByPtkPsdCopy.executeAll()
-//        Send364pSign.executeAll()
-//        CheckerIsSendPtkPsd.executeAll()
-//        Send440pArchive.executeAll()
     }
 }

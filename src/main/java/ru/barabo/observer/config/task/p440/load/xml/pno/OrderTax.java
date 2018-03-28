@@ -170,7 +170,7 @@ public final class OrderTax implements FromFnsInfo {
 
 	@Override
 	public java.sql.Date getAddDate() {
-		return null; // addDate ÍÅ ÄÀÒÀ XmlLoader.parseDate(addDate);
+		return null;
 	}
 
 	@Override

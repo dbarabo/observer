@@ -15,10 +15,7 @@ import ru.barabo.observer.store.State
 import java.io.File
 import java.nio.charset.Charset
 import java.sql.Clob
-import java.time.Duration
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 object OutSmsData: SingleSelector {
     override val select: String = "select id, name from od.ptkb_plastic_pack where state = ${StateRelease.OCI_ALL.dbValue}"
@@ -50,24 +47,29 @@ object OutSmsData: SingleSelector {
 
     private const val CREATE_FILE_SMS = "{ call od.PTKB_PLASTIC_AUTO.createSmsFileData(?, ?, ?) }"
 
-    private fun iiaFile(): String = "IIA_${dateTimeFormat(getNextTime() )}_0226"
+    private fun iiaFile(): String =  AfinaQuery.selectValue(SELECT_IIA_FILE) as String
 
-    private fun dateTimeFormat(date: LocalDateTime) = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(date)
+    private const val SELECT_IIA_FILE = "select od.PTKB_PLASTIC_AUTO.getFileNameIIA from dual"
 
-    private fun getNextTime(): LocalDateTime {
 
-        synchronized(iiaPriorSecond) {
-
-            var time = LocalDateTime.now().withNano(0)
-
-            while(Duration.between(iiaPriorSecond, time).seconds <= 0L) {
-                time = time.plusSeconds(1)
-            }
-            iiaPriorSecond = time
-        }
-
-        return iiaPriorSecond
-    }
-
-    private var iiaPriorSecond: LocalDateTime = LocalDateTime.now().withNano(0)
+//    private fun iiaFile(): String = "IIA_${dateTimeFormat(getNextTime() )}_0226"
+//
+//    private fun dateTimeFormat(date: LocalDateTime) = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(date)
+//
+//    private fun getNextTime(): LocalDateTime {
+//
+//        synchronized(iiaPriorSecond) {
+//
+//            var time = LocalDateTime.now().withNano(0)
+//
+//            while(Duration.between(iiaPriorSecond, time).seconds <= 0L) {
+//                time = time.plusSeconds(1)
+//            }
+//            iiaPriorSecond = time
+//        }
+//
+//        return iiaPriorSecond
+//    }
+//
+//    private var iiaPriorSecond: LocalDateTime = LocalDateTime.now().withNano(0)
 }

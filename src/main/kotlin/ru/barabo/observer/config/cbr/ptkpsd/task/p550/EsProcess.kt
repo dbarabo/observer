@@ -26,7 +26,7 @@ object EsProcess {
 
     fun folder550pOut() :String = "X:/550-П/Out/${todayFolder()}"
 
-    val PREFIX_TICKET = "UV_0021_0000_"
+    const val PREFIX_TICKET = "UV_0021_0000_"
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
@@ -39,7 +39,7 @@ object EsProcess {
         saveXml(ticket550, ticketFile(inXml))
     }
 
-    private val HEADER_UTF8 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    private const val HEADER_UTF8 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 
     private fun saveXml(ticket550 :Kvit550, outXml :File) {
 

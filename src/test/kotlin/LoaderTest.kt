@@ -4,9 +4,11 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
+import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.CheckOpenArchiveDay
 import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
+import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import java.io.File
@@ -190,5 +192,26 @@ class LoaderTest {
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun saveOutSmsData() {
+
+        val elem = Elem(idElem = 1174165244, task = OutSmsData)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun loadForm101() {
+
+        //val f101Xml = XmlLoaderF101<F101Xml>().load(File("C:/440-П/test/Ф101_40507717.xml"))
+
+        //logger.error("f101Xml=$f101Xml")
+
+        val elem = Elem(File("C:/440-П/test/Ф101_40507717.xml"), Load101FormXml, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
 
 }

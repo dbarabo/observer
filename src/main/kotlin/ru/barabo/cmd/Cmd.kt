@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 object Cmd {
 
@@ -13,18 +14,29 @@ object Cmd {
     fun execCmd(cmd :String) {
 
         try {
+            val start = System.nanoTime()
+
             val process = Runtime.getRuntime().exec(cmd)
 
             StreamReader(process.errorStream, logger::error).start()
             StreamReader(process.inputStream, logger::info).start()
 
-            process.waitFor()
+            process.waitFor(MAX_WAIT_MINUTES, TimeUnit.MINUTES)
+
+            val temporal = System.nanoTime() - start
+
+            if(temporal > TimeUnit.MINUTES.toNanos(MAX_WAIT_MINUTES - 1) ) {
+                logger.error("execCmd cmd=$cmd waitNanos=$temporal")
+            }
         } catch (e :Exception) {
 
             logger.error("execCmd", e)
             throw Exception(e.message)
         }
     }
+
+    private const val MAX_WAIT_MINUTES = 20L
+
 
     fun execDos(cmdDos: String) {
         try {

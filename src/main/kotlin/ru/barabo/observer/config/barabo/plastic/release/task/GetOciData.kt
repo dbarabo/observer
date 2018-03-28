@@ -98,8 +98,8 @@ object GetOciData: FileFinder, FileProcessor {
 
         AfinaQuery.execute(EXECUTE_WAIT_OCI, arrayOf(idContent, line, file.name), settingSession)
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.YA, subject = SUBJECT_OCI,
-                body = "Состояние ptkb_plast_pack_content.id=$idContent еще не изменилось, а OCI-файл уже есть file=${file.name}")
+//        BaraboSmtp.sendStubThrows(to = BaraboSmtp.YA, subject = SUBJECT_OCI,
+//                body = "Состояние ptkb_plast_pack_content.id=$idContent еще не изменилось, а OCI-файл уже есть file=${file.name}")
 
         return null
     }
