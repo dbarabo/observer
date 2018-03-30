@@ -21,8 +21,14 @@ object DbSaver101Form {
 
         val f101Xml = XmlLoaderForm101<F101Xml>().load(file101)
 
-        f101Xml.saveDbData()
+        if(f101Xml.isUniqueDb()) {
+            f101Xml.saveDbData()
+        }
     }
+
+    private fun F101Xml.isUniqueDb() = AfinaQuery.selectValue(SELECT_101F_BY_UID, arrayOf(uid) ) == null
+
+    private const val SELECT_101F_BY_UID = "select id from od.PTKB_PTKPSD_101FORM where UID_ID = ?"
 
     private fun F101Xml.saveDbData() {
         val uniSession = AfinaQuery.uniqueSession()
@@ -52,7 +58,7 @@ object DbSaver101Form {
         val mainId = AfinaQuery.nextSequence(uniSession)
 
         val params :Array<Any?> =
-                arrayOf(mainId, reportDate.toDateByFormatter(), typeReport, createDateTime.toDateTimeByXml() )
+                arrayOf(mainId, reportDate.toDateByFormatter(), typeReport, createDateTime.toDateTimeByXml(), uid)
 
         AfinaQuery.execute(INSERT_MAIN_TABLE, params, uniSession)
 
@@ -72,8 +78,8 @@ object DbSaver101Form {
 
 
     private const val INSERT_MAIN_TABLE =
-            "insert into od.PTKB_PTKPSD_101FORM (id, DATE_REPORT, TYPE_REPORT, CREATED_FILE_REPORT) values " +
-                    "(?, ?, ?, ?)"
+            "insert into od.PTKB_PTKPSD_101FORM (id, DATE_REPORT, TYPE_REPORT, CREATED_FILE_REPORT, UID_ID) values " +
+                    "(?, ?, ?, ?, ?)"
 
     private fun F101Xml.saveTableDetails(idMain: Number, uniSession: SessionSetting) {
 

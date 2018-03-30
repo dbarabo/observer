@@ -25,7 +25,7 @@ object TicketXml :FileFinder, FileProcessor {
 
     override fun name(): String = "Разные (XML)"
 
-    fun ptkPostStore() :File = File("c:/PTK PSD/Post/Store/${todayFolder()}")
+    private fun ptkPostStore() :File = File("c:/PTK PSD/Post/Store/${todayFolder()}")
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 

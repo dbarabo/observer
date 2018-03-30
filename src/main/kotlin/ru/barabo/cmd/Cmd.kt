@@ -25,8 +25,10 @@ object Cmd {
 
             val temporal = System.nanoTime() - start
 
-            if(temporal > TimeUnit.MINUTES.toNanos(MAX_WAIT_MINUTES - 1) ) {
+            if(temporal >= TimeUnit.MINUTES.toNanos(MAX_WAIT_MINUTES) ) {
                 logger.error("execCmd cmd=$cmd waitNanos=$temporal")
+
+                throw IOException("TimeOut execCmd cmd=$cmd waitNanos=$temporal")
             }
         } catch (e :Exception) {
 
@@ -40,6 +42,8 @@ object Cmd {
 
     fun execDos(cmdDos: String) {
         try {
+            val start = System.nanoTime()
+
             val execCmd = arrayOf("cmd.exe", "/C", cmdDos)
 
             val process = Runtime.getRuntime().exec(execCmd)
@@ -47,7 +51,15 @@ object Cmd {
             StreamReader(process.errorStream, logger::error).start()
             StreamReader(process.inputStream, logger::info).start()
 
-            process.waitFor()
+            process.waitFor(MAX_WAIT_MINUTES, TimeUnit.MINUTES)
+
+            val temporal = System.nanoTime() - start
+
+            if(temporal >= TimeUnit.MINUTES.toNanos(MAX_WAIT_MINUTES) ) {
+                logger.error("execDos cmd=$cmdDos waitNanos=$temporal")
+
+                throw IOException("TimeOut execDos cmd=$cmdDos waitNanos=$temporal")
+            }
         } catch (e :Exception) {
 
             logger.error("execCmd", e)

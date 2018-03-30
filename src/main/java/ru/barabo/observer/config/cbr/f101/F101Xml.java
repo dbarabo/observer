@@ -6,6 +6,10 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias("Ф0409101")
 public class F101Xml {
 
+    @XStreamAlias("УникИдОЭС")
+    @XStreamAsAttribute
+    private String uid;
+
     @XStreamAlias("ОтчДата")
     @XStreamAsAttribute
     private String reportDate;
@@ -26,6 +30,10 @@ public class F101Xml {
 
     @XStreamAlias("ИнфПК")
     private InfoPc infoPc;
+
+    public String getUid() {
+        return uid;
+    }
 
     public String getReportDate() {
         return reportDate;

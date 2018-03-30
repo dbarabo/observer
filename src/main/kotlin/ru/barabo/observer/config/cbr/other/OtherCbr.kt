@@ -31,6 +31,8 @@ object OtherCbr: ConfigTask {
 
         ExecOpenArchiveDay.findAll()
 
+        CorrectPrim.findAll()
+
         executeTasks()
     }
 
