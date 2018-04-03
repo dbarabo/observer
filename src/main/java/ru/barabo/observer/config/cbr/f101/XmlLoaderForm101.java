@@ -35,6 +35,8 @@ public class XmlLoaderForm101<E> {
         xstream.processAnnotations(TotalOffBalanceGroup.class);
         xstream.processAnnotations(TotalTime.class);
         xstream.processAnnotations(TotalTrust.class);
+        xstream.processAnnotations(TimeAccount.class);
+
         xstream.processAnnotations(Trust.class);
         xstream.processAnnotations(InfoPc.class);
 

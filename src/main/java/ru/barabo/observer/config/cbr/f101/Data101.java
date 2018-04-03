@@ -20,6 +20,9 @@ public class Data101 {
     @XStreamAlias("ИтогВнебал")
     private TotalOffBalanceGroup totalOffBalanceGroup;
 
+    @XStreamAlias("Срочные")
+    private TimeAccount timeAccount;
+
     @XStreamAlias("ИтогоСрочные")
     private TotalTime totalTime;
 

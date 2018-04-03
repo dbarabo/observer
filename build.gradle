@@ -12,8 +12,6 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 
-//mainClassName = 'ru.barabo.observer.main.ObserverKt'
-
 kotlin {
     experimental {
         coroutines "enable"
@@ -31,10 +29,10 @@ repositories {
 }
 
 // for cbr config
-//compileJava.options.encoding = 'UTF-8'
+compileJava.options.encoding = 'UTF-8'
 
 // for barabo config
-compileJava.options.encoding = 'CP1251'
+//compileJava.options.encoding = 'CP1251'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
