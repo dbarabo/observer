@@ -23,6 +23,8 @@ object CryptoConfig : ConfigTask {
         InfoRequest349p.findAll()
         LoadRateThb.findAll()
         LoadBik.findAll()
+        CryptoExchange.findAll()
+        CryptoLegalization.findAll()
 
         this.executeTasks()
     }

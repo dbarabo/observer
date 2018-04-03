@@ -16,4 +16,5 @@ data class FileFinderData (val directory :()->File,
     public constructor(directory :()->File, regExp :String, isNegative :Boolean = false, isModifiedTodayOnly :Boolean = false)
             : this(directory, Pattern.compile(regExp, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE),
             isNegative, isModifiedTodayOnly  )
-}
+
+    }

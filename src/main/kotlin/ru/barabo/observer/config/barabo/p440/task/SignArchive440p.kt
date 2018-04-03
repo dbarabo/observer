@@ -29,7 +29,7 @@ object SignArchive440p: SingleSelector {
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
             workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
 
-    private val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
+    private const val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
 
     override fun execute(elem: Elem): State {
 

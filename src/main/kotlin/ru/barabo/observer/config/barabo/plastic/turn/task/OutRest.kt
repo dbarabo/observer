@@ -11,6 +11,7 @@ import ru.barabo.observer.store.State
 import ru.barabo.smtp.GetMail
 import ru.barabo.smtp.MailProperties
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 object OutRest: Periodical {
@@ -20,7 +21,8 @@ object OutRest: Periodical {
 
     override var lastPeriod: LocalDateTime? = null
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData =
+            AccessibleData(workWeek = WeekAccess.ALL_DAYS, workTimeFrom = LocalTime.of(6, 0))
 
     override fun name(): String = "Выгрузка Остатков"
 
