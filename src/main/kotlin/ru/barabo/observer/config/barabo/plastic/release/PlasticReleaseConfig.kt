@@ -2,6 +2,7 @@ package ru.barabo.observer.config.barabo.plastic.release
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.release.task.*
+import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
 import java.util.*
 
 object PlasticReleaseConfig: ConfigTask {
@@ -20,6 +21,7 @@ object PlasticReleaseConfig: ConfigTask {
         IvrGetResponse.findAll()
         CheckWaitOci.findAll()
         OutSmsData.findAll()
+        OutRest.findAll()
         ReleaseCheckAll.findAll()
 
         // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig

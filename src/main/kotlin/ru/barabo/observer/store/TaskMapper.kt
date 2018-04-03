@@ -12,14 +12,18 @@ import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.test.TestConfig
 
 object TaskMapper {
 
     private var configList :List<ConfigTask> = emptyList()
 
-    private var build :String = ""
+    private var build: String = ""
 
-    private var isAfina :Boolean = false
+    private var isAfina: Boolean = false
+
+    var masterPswd: String = "K.,jqRf;lsq"
+    private set
 
     fun objectByClass(clazzName :String) :ActionTask {
         val clazz = Class.forName(clazzName).kotlin
@@ -44,7 +48,9 @@ object TaskMapper {
             else -> { throw SessionException("TaskMapper build name is unknown $build") }
         }
 
-        initBase(baseConnect)
+        val baseConnectReal = if(build == "TEST") "TEST" else baseConnect
+
+        initBase(baseConnectReal)
     }
 
     private fun initBase(baseConnect :String) {
@@ -77,7 +83,5 @@ object TaskMapper {
 
     private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
 
-    private fun testConfig() :List<ConfigTask> = listOf(PlasticTurnConfig)
-
-    //private fun mapItem(objTask :ActionTask) :Pair<String, ActionTask> = Pair(objTask.javaClass.canonicalName, objTask)
+    private fun testConfig() :List<ConfigTask> = listOf(TestConfig)
 }

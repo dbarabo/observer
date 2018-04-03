@@ -48,11 +48,11 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private var fileId :Any? = null
 
-    private val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSum( ? ) }"
+    private const val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSum( ? ) }"
 
-    private val SUBJECT_ERROR = "Ошибка в Чек-сумме файла CTL/MTL"
+    private const val SUBJECT_ERROR = "Ошибка в Чек-сумме файла CTL/MTL"
 
-    private val EXEC_TO_ERROR_STATE = "update od.PTKB_CTL_MTL set state = 2 where id = ?"
+    private const val EXEC_TO_ERROR_STATE = "update od.PTKB_CTL_MTL set state = 2 where id = ?"
 
     private fun bodyError(text :String) =
             "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> не сходится чек-сумма $text"
@@ -90,9 +90,9 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private fun fileProcessName(value: String?) :Any = fileProcess.name
 
-    private val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
+    private const val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
 
-    private val DATE_FORMAT = "yyyyMMdd"
+    private const val DATE_FORMAT = "yyyyMMdd"
 
     fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
 

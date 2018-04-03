@@ -15,14 +15,13 @@ object Observer {
         val config = when(comp) {
             "BARABO" -> "BARABO"
             "OPERATOR" -> "CBR"
+            "BARABO_" -> "TEST"
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
 
         TaskMapper.init(config, "AFINA")
 
         //TaskMapper.init("TEST", "TEST")
-
-        logger.info("run ConfigList")
         TaskMapper.runConfigList()
 
         logger.info("start Launch")

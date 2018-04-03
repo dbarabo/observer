@@ -31,10 +31,10 @@ repositories {
 }
 
 // for cbr config
-compileJava.options.encoding = 'UTF-8'
+//compileJava.options.encoding = 'UTF-8'
 
 // for barabo config
-//compileJava.options.encoding = 'CP1251'
+compileJava.options.encoding = 'CP1251'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -62,6 +62,8 @@ dependencies {
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
+    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
 
     //compile group: 'com.oracle.jdbc', name: 'ojdbc8', version: '12+'
     //compile 'com.github.noraui:ojdbc8:jar:12.2.0.1'

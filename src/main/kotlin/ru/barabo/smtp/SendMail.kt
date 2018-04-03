@@ -14,7 +14,7 @@ interface SendMail {
 
     val smtpProperties:SmtpProperties
 
-    private fun propSmtp() :Properties {
+    fun propSmtp() :Properties {
         val properties = Properties()
 
         properties.setProperty("mail.transport.protocol", "smtp")
@@ -82,10 +82,9 @@ interface SendMail {
     @Synchronized
     private fun smtpSession() : Session {
 
-        val session = //Session.getDefaultInstance(propSmtp(), authenticator())
-                Session.getInstance(propSmtp(), authenticator() )
+        val session = Session.getInstance(propSmtp(), authenticator() )
 
-        session.debug = false//true
+        session.debug = false
 
         return session
     }

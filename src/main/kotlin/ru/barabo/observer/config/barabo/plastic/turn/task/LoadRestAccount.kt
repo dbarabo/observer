@@ -42,7 +42,7 @@ object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
 
         this.load(file, Charset.forName("CP1251"))
 
-        val moveFile = file.moveFileHCardInToday()
+       file.moveFileHCardInToday()
     }
 
     override val bodyColumns: Array<Column> = arrayOf(

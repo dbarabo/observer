@@ -20,7 +20,7 @@ interface Periodical : Executor, ActionTask {
 
     override fun findAbstract(): Executor? = findPeriodItems()
 
-    private fun findPeriodItems(): Executor? {
+    fun findPeriodItems(): Executor? {
 
         lastPeriod = lastPeriod?.let { lastPeriod } ?: readLastPeriod()
 
@@ -34,16 +34,25 @@ interface Periodical : Executor, ActionTask {
 
         val timeNewElem = LocalDateTime.now()
 
+        saveNewElemInStore(timeNewElem)
+
+        lastPeriod = timeNewElem
+
+        return this
+    }
+
+    fun saveNewElemInStore(timeNewElem: LocalDateTime): Elem? {
+
         val elem = Elem(task = this,
-                   idElem = timeNewElem.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli(),
-                   name = "$count${unit.name}",
-                   executed = executedTime(timeNewElem) )
+                idElem = timeNewElem.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli(),
+                name = "$count${unit.name}",
+                executed = executedTime(timeNewElem) )
 
         lastPeriod = timeNewElem
 
         StoreSimple.save(elem)
 
-        return this
+        return elem
     }
 
     private fun executedTime(timeCreated :LocalDateTime) :LocalDateTime? =
