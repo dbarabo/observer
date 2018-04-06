@@ -10,7 +10,7 @@ import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import java.sql.Date
+import java.sql.Timestamp
 import java.time.Duration
 import java.time.LocalDate
 
@@ -32,7 +32,7 @@ object CorrectPrim : SingleSelector {
 
         AfinaQuery.execute(EXEC_CORRECT_PRIM, arrayOf(reportDate))
 
-        sendReportCorrect(elem.idElem, reportDate as Date)
+        sendReportCorrect(elem.idElem, reportDate as Timestamp)
 
         return State.OK
     }
@@ -41,11 +41,12 @@ object CorrectPrim : SingleSelector {
 
     private const val EXEC_CORRECT_PRIM = "call od.PTKB_PRECEPT.correctPrimBalance(?)"
 
-    private fun sendReportCorrect(idElem: Long?, dateReport: Date) {
+    private fun sendReportCorrect(idElem: Long?, dateReport: Timestamp) {
 
-        val html = createHtmlData(idElem, dateReport.toLocalDate())
+        val html = createHtmlData(idElem, dateReport.toLocalDateTime().toLocalDate())
 
-        html?.let { sendHtmlTable(it, dateReport.toLocalDate()) } ?: sendTextOnlyEmpty(dateReport.toLocalDate())
+        html?.let { sendHtmlTable(it, dateReport.toLocalDateTime().toLocalDate()) }
+                ?: sendTextOnlyEmpty(dateReport.toLocalDateTime().toLocalDate())
     }
 
     private fun sendHtmlTable(htmlData: String, date: LocalDate) {
