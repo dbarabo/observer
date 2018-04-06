@@ -1,19 +1,18 @@
-package ru.barabo.observer.config.cbr.other
+package ru.barabo.observer.config.cbr.other.task
 
-import ru.barabo.cmd.Cmd
-import ru.barabo.cmd.deleteFolder
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import java.io.File
-import java.nio.charset.Charset
-import java.util.*
+import java.sql.Date
+import java.time.Duration
+import java.time.LocalDate
 
 object CorrectPrim : SingleSelector {
 
@@ -21,7 +20,7 @@ object CorrectPrim : SingleSelector {
             "select id, to_char(date_report, 'dd.mm.yyyy') from od.ptkb_ptkpsd_101form where state = 0 " +
                     "and upper(TYPE_REPORT) = 'НЕРЕГУЛЯРНАЯ'"
 
-    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, executeWait = null)
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override fun name(): String = "Правка показателей ежеднев."
 
@@ -42,42 +41,37 @@ object CorrectPrim : SingleSelector {
 
     private const val EXEC_CORRECT_PRIM = "call od.PTKB_PRECEPT.correctPrimBalance(?)"
 
-    private fun sendReportCorrect(idElem :Long?, dateReport: Date) {
+    private fun sendReportCorrect(idElem: Long?, dateReport: Date) {
 
-        val file = createReportFile(idElem, dateReport)?: return
+        val html = createHtmlData(idElem, dateReport.toLocalDate())
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = titleHtml(dateReport),
-                body = titleHtml(dateReport), attachments = arrayOf(file))
-
-        file.parentFile.deleteFolder()
+        html?.let { sendHtmlTable(it, dateReport.toLocalDate()) } ?: sendTextOnlyEmpty(dateReport.toLocalDate())
     }
 
-    private fun createReportFile(idElem :Long?, dateReport: Date): File? {
-        val data = createHtmlData(idElem, dateReport) ?: return null
-
-        val tempFolder = Cmd.tempFolder("f100")
-
-        val file = File("${tempFolder.absoluteFile}/$REPORT_FILE")
-
-        file.writeText(data, Charset.forName("CP1251"))
-
-        return file
+    private fun sendHtmlTable(htmlData: String, date: LocalDate) {
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.BOOKER, cc = BaraboSmtp.PRIM_AUTO, subject = date.titleCorrect(),
+                body = htmlData, subtypeBody = "html")
     }
 
-    private const val REPORT_FILE = "reportPrim101.html"
+    private fun sendTextOnlyEmpty(date: LocalDate) {
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.BOOKER, cc = BaraboSmtp.PRIM_AUTO, subject = date.titleEmptyCorrect(),
+                body = date.titleEmptyCorrect())
+    }
 
-    private fun createHtmlData(idElem: Long?, dateReport: Date): String? {
+    private fun createHtmlData(idElem: Long?, dateReport: LocalDate): String? {
 
         val data = AfinaQuery.selectCursor(CURSOR_REPORT_CORRECT, arrayOf(idElem))
 
         if(data.isEmpty()) return null
 
-        val content = HtmlContent(titleHtml(dateReport), titleHtml(dateReport), HEADER_TABLE, data)
+        val content = HtmlContent(dateReport.titleCorrect(), dateReport.titleCorrect(), HEADER_TABLE, data)
 
         return content.html()
     }
 
-    private fun titleHtml(dateReport: Date) = "Измененные показатели на $dateReport"
+    private fun LocalDate.titleCorrect() = "Измененные показатели на $this (за ${this.minusDays(1)})"
+
+    private fun LocalDate.titleEmptyCorrect() = "Нет изменений показателей на $this (за ${this.minusDays(1)})"
 
     private val HEADER_TABLE = mapOf(
             "Счет" to "left",

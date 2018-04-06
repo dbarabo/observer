@@ -27,11 +27,11 @@ object TicketFtsText : FileFinder, FileProcessor/*  FileMover*/ {
 
     override fun config(): ConfigTask = TicketPtkPsd
 
-    override fun name() :String = "(ФТС-Текст)"
+    override fun name(): String = "(ФТС-Текст)"
 
-    fun ticketFts() :String = "X:/VAL/FTS/Квитки/${todayFolder()}"
+    fun ticketFts(): String = "X:/VAL/FTS/Квитки/${todayFolder()}"
 
-    fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file: File) {
         Archive.extractFromCab(file, TicketFtsText.ticketFts(), ".*\\.xml")

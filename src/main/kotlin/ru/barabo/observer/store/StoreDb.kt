@@ -25,7 +25,7 @@ abstract class StoreDb<in T :Any, G>(
         storeListener.refreshAll(getRootElem())
     }
 
-    protected abstract fun getRootElem() :G
+    /*protected*/ abstract fun getRootElem() :G
 
     protected fun sentInfoRefreshAll() {
         storeListenerList.forEach {it.refreshAll(getRootElem() )}

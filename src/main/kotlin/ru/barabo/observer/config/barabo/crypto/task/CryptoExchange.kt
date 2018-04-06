@@ -33,6 +33,10 @@ object CryptoExchange : FileFinder, FileProcessor {
 
         val moveFile = File("${pathToCrypto()}\\${cryptoFile.name}")
 
+        if(moveFile.exists()) {
+            moveFile.delete()
+        }
+
         if(!cryptoFile.renameTo(moveFile)) {
             throw IOException("file is not renamed ${cryptoFile.absolutePath}")
         }

@@ -15,7 +15,8 @@ enum class PrefixTicket(private val prefix :String,
     VAL_VBK("nz", null, TicketVbkArchive),
     P550("wz", GetProcess550pFiles, Ticket550p),
     P440 ("mz", null, Get440pFiles),
-    P407 ("fz", Ticket407CabXml, Ticket407ArjXml);
+    P407 ("fz", Ticket407CabXml, Ticket407ArjXml),
+    P4077 ("rf", Ticket4077Cbr, Ticket4077RosFin);
 
     companion object {
 

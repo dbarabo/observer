@@ -12,9 +12,9 @@ import javax.mail.internet.*
 
 interface SendMail {
 
-    val smtpProperties:SmtpProperties
+    val smtpProperties: SmtpProperties
 
-    fun propSmtp() :Properties {
+    fun propSmtp(): Properties {
         val properties = Properties()
 
         properties.setProperty("mail.transport.protocol", "smtp")
@@ -29,9 +29,10 @@ interface SendMail {
 
     fun sendStubThrows(to :Array<String> = emptyArray(), cc :Array<String> = emptyArray(), bcc :Array<String> = emptyArray(),
                        subject :String, body :String, attachments :Array<File> = emptyArray(),
-                       charsetSubject :String = smtpProperties.charsetSubject) {
+                       charsetSubject :String = smtpProperties.charsetSubject,
+                       subtypeBody: String = "plain") {
         try {
-            send(to, cc, bcc, subject, body, attachments, charsetSubject)
+            send(to, cc, bcc, subject, body, attachments, charsetSubject, subtypeBody)
         } catch (e :SmtpException) {
             LoggerFactory.getLogger(SendMail::class.java).error("sendStubThrows", e)
         }
@@ -40,7 +41,8 @@ interface SendMail {
     @Throws(SmtpException::class)
     fun send(to :Array<String> = emptyArray(), cc :Array<String> = emptyArray(), bcc :Array<String> = emptyArray(),
              subject :String, body :String, attachments :Array<File> = emptyArray(),
-             charsetSubject :String = smtpProperties.charsetSubject) {
+             charsetSubject :String = smtpProperties.charsetSubject,
+             subtypeBody: String = "plain" ) {
 
         try {
             val smtpSession = smtpSession()
@@ -48,7 +50,7 @@ interface SendMail {
             synchronized(smtpSession) {
                 val message = createMessage(smtpSession, subject, to, cc, bcc, charsetSubject)
 
-                message.addPartsMessage(body, attachments)
+                message.addPartsMessage(body, attachments, subtypeBody)
 
                 smtpSession.messageSend(message)
             }
@@ -112,10 +114,6 @@ interface SendMail {
         LoggerFactory.getLogger(SendMail::class.java)?.info("host=${smtpProperties.host} " +
                 "user==${smtpProperties.user} password==${smtpProperties.password}")
 
-       // transport.isConnected = true
-
-       //transport.connect()
-
         LoggerFactory.getLogger(SendMail::class.java)?.info("transport.connected= ${this.transport.isConnected}")
 
 
@@ -125,15 +123,15 @@ interface SendMail {
     }
 
     @Throws(UnsupportedEncodingException::class, MessagingException::class)
-    private fun MimeMessage.addPartsMessage(body :String, attachments :Array<File>) {
+    private fun MimeMessage.addPartsMessage(body :String, attachments :Array<File>, subtypeBody: String = "plain") {
         if(attachments.isEmpty()) {
-            this.setText(body, smtpProperties.charsetBody)
+            this.setText(body, smtpProperties.charsetBody, subtypeBody)
             return
         }
 
         val multipart = MimeMultipart("mixed")
         val textBodyPart = MimeBodyPart()
-        textBodyPart.setContent(body, "text/plain; charset=utf-8")
+        textBodyPart.setContent(body, "text/$subtypeBody; charset=utf-8")
         multipart.addBodyPart(textBodyPart)
 
         attachments.forEach {

@@ -6,8 +6,6 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.TreeElem
-import java.io.File
-import java.nio.charset.Charset
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,11 +21,7 @@ object InfoHtmlData {
 
         val data = createHtmlData(title, body, root)
 
-        val file = File("${folderPath()}/${date.fileNameHtml()}")
-
-        file.writeText(data, Charset.forName("CP1251"))
-
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = title, body = "", attachments = arrayOf(file))
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = title, body = data, subtypeBody = "html")
     }
 
     private fun TreeElem.isEmptyElemTask(): Boolean = group?.childs?.firstOrNull() === null

@@ -9,10 +9,13 @@ import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.CheckOpenArchiveDay
 import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
+import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
+import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.time.Duration
+import java.time.LocalDate
 
 class LoaderTest {
 
@@ -211,6 +214,11 @@ class LoaderTest {
         val elem = Elem(File("C:/440-П/test/Ф101_40507717.xml"), Load101FormXml, Duration.ZERO)
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun sentHtmlReport() {
+        InfoHtmlData.sendInfo(LocalDate.now(), StoreSimple.getRootElem())
     }
 
 

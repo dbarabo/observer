@@ -63,18 +63,26 @@ object OutRestCheck: SingleSelector {
 
     private fun processNoneExecAllDocument(elem: Elem): State {
 
-        val file = createReview(elem.name)
+        //val file = createReview(elem.name)
 
-        file?.let { sendMailFile(NONE_EXEC_SUBJECT, it) }
+        //file?.let { sendMailFile(NONE_EXEC_SUBJECT, it) }
+
+        val data = createHtmlData() ?: return State.OK
+
+        sendMailFile(NONE_EXEC_SUBJECT, data)
 
         return State.OK
     }
 
     private fun processExecAllDocument(elem: Elem): State {
 
-        val file = createReview(elem.name)
+        //val file = createReview(elem.name)
 
-        file?.let { sendMailFile(EXEC_SUBJECT, it) }
+        val data = createHtmlData() ?: return State.OK
+
+        sendMailFile(EXEC_SUBJECT, data)
+
+        //file?.let { sendMailFile(EXEC_SUBJECT, it) }
 
         return State.OK
     }
@@ -92,9 +100,9 @@ object OutRestCheck: SingleSelector {
 
     private fun fileReview(nameRest: String) = File("${hCardOutSentTodayFolder()}/$nameRest.html")
 
-    private fun sendMailFile(subject: String, fileSend: File) {
+    private fun sendMailFile(subject: String, data: String) {
         BaraboSmtp.sendStubThrows( to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
-                body = bodyRest(fileSend), attachments = arrayOf(fileSend))
+                body = data, subtypeBody = "html") //, attachments = arrayOf(fileSend))
     }
 
     private const val NONE_EXEC_SUBJECT = "✖✖✖ Сверка остатков из Картстандарта - есть неисполненные док-ты"

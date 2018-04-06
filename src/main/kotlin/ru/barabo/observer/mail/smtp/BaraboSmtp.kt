@@ -9,11 +9,19 @@ import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpProperties
 import java.io.File
 
-object BaraboSmtp :SendMail {
+object BaraboSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru", user = "debara",
             password = "Sn909957", from = "debara@ptkb.ru")
 
     val YA = arrayOf(smtpProperties.from)
+
+    val OPER = arrayOf("oper@ptkb.ru")
+
+    val PRIM_AUTO = if(TaskMapper.isAfinaBase())
+        arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru") else YA
+
+    val BOOKER = if(TaskMapper.isAfinaBase())
+        arrayOf("buh1@ptkb.ru", "nesteryk@ptkb.ru", "sidorenko@ptkb.ru", "onuchina@ptkb.ru") else YA
 
     val AUTO = if(TaskMapper.isAfinaBase()) arrayOf("auto@ptkb.ru") else YA
 
@@ -25,7 +33,7 @@ object BaraboSmtp :SendMail {
 
     val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru", "zharova@ptkb.ru").onlyAfina()
 
-    val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
+    private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
     val TTS = arrayOf("tts@ptkb.ru").onlyAfina()
 
@@ -101,25 +109,25 @@ object BaraboSmtp :SendMail {
         }
     }
 
-    private val REMART_SUBJECT = "По ремарту"
+    private const val REMART_SUBJECT = "По ремарту"
 
-    private val REMART_BODY = "From:05guprim@vladivostok.cbr.ru"
+    private const val REMART_BODY = "From:05guprim@vladivostok.cbr.ru"
 
     fun sentByRemart(file : File) {
 
         send(to = REMART_GROUP, bcc = REMART_BCC, subject = REMART_SUBJECT, body = REMART_BODY, attachments = arrayOf(file))
     }
 
-    private val OTK_SUBJECT = "From 05otk@vladivostok.cbr.ru"
+    private const val OTK_SUBJECT = "From 05otk@vladivostok.cbr.ru"
 
     fun sendToTtsFromOtk(file : File) {
 
         send(to = TTS, bcc = REMART_BCC, subject = OTK_SUBJECT, body = " ", attachments = arrayOf(file))
     }
 
-    private val OTK_UNKNOWN_SUBJECT = "Возможно важное вложение от 05otk@vladivostok.cbr.ru"
+    private const val OTK_UNKNOWN_SUBJECT = "Возможно важное вложение от 05otk@vladivostok.cbr.ru"
 
-    private val OTK_UNKNOWN_BODY =
+    private const val OTK_UNKNOWN_BODY =
             "Внимание, это вложение не было распознано как информация о справочниках и/или классификаторах.\n" +
                     "Возможно это важное вложение от 05otk@vladivostok.cbr.ru"
 
@@ -129,7 +137,7 @@ object BaraboSmtp :SendMail {
                 attachments = arrayOf(file))
     }
 
-    private val CBR_UNKNOWN_SUBJECT = "Возможно важное вложение от 05NikitaTI@vladivostok.cbr.ru"
+    private const val CBR_UNKNOWN_SUBJECT = "Возможно важное вложение от 05NikitaTI@vladivostok.cbr.ru"
 
     fun sendToSbFromCbr(file : File) {
 
