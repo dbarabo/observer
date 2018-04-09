@@ -33,6 +33,8 @@ object OtherCbr: ConfigTask {
 
         CorrectPrim.findAll()
 
+        RestrictUsersArchiveDay.findAll()
+
         executeTasks()
     }
 
