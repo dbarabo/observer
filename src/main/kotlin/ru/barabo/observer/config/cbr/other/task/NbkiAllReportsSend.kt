@@ -42,7 +42,7 @@ object NbkiAllReportsSend : Periodical {
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
-    private val FILL_DATA_NBKI = "{call od.PTKB_NBKI.fillAllData}"
+    private const val FILL_DATA_NBKI = "{call od.PTKB_NBKI.fillAllData}"
 
     override fun execute(elem: Elem): State {
 
@@ -57,9 +57,9 @@ object NbkiAllReportsSend : Periodical {
         return State.OK
     }
 
-    private val SUBJECT_REPORT_XLS = "NBKI REPORT"
+    private const val SUBJECT_REPORT_XLS = "NBKI REPORT"
 
-    private val BODY_REPORT_XLS = "Внимание, файл для отправки в НБКИ готов и будет отправлен сегодня " +
+    private const val BODY_REPORT_XLS = "Внимание, файл для отправки в НБКИ готов и будет отправлен сегодня " +
             "в 16:00. Пожалуйста, проверьте корректность данных по вложенному отчету. Обратите внимание, " +
             "что отчет, книга Excel, содержит пять листов данных. На каждом листе могут быть отправляемые данные." +
             " Если захотите распечатать отчет, то установите масштаб страницы в 75% от натуральной величины."
@@ -84,7 +84,7 @@ object NbkiAllReportsSend : Periodical {
     }
 
 
-    private val SELECT_XLS_SHEET = "select OD.PTKB_NBKI.getExcelData(?, 0) from dual"
+    private const val SELECT_XLS_SHEET = "select OD.PTKB_NBKI.getExcelData(?, 0) from dual"
 
     private fun xlsSheetData(sheetOrder :Int) :SheetData? {
 
@@ -107,9 +107,9 @@ object NbkiAllReportsSend : Periodical {
         return sheetData
     }
 
-    private val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
+    private const val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
 
-    private val SELECT_TEXT_FILE = "select OD.PTKB_NBKI.getFileName from dual"
+    private const val SELECT_TEXT_FILE = "select OD.PTKB_NBKI.getFileName from dual"
 
     private fun createNbkiTextFile() :String? {
 

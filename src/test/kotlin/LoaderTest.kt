@@ -8,6 +8,8 @@ import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.CheckOpenArchiveDay
 import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
+import ru.barabo.observer.config.cbr.other.task.ExecuteGroupRateLoan
+import ru.barabo.observer.config.cbr.other.task.ExecuteOverdraftJuric
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.store.Elem
@@ -219,6 +221,20 @@ class LoaderTest {
     //@Test
     fun sentHtmlReport() {
         InfoHtmlData.sendInfo(LocalDate.now(), StoreSimple.getRootElem())
+    }
+
+    //@Test
+    fun executeOverdraftJuric() {
+        val elem = Elem(task = ExecuteOverdraftJuric)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun executeGroupRateLoan() {
+        val elem = Elem(task = ExecuteGroupRateLoan)
+
+        elem.task?.execute(elem)
     }
 
 

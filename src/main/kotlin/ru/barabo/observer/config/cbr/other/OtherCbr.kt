@@ -21,19 +21,22 @@ object OtherCbr: ConfigTask {
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
         ResponseToOrderCbr.findAll()
+
         NbkiAllReportsSend.findAll()
         UnlockUsersMonday.findAll()
+
         CecReportProcess.findAll()
         CheckTicket440p.findAll()
         CheckTicketArchive440p.findAll()
 
         CheckOpenArchiveDay.findAll()
-
         ExecOpenArchiveDay.findAll()
+        RestrictUsersArchiveDay.findAll()
 
         CorrectPrim.findAll()
+        ExecuteOverdraftJuric.findAll()
+        ExecuteGroupRateLoan.findAll()
 
-        RestrictUsersArchiveDay.findAll()
 
         executeTasks()
     }

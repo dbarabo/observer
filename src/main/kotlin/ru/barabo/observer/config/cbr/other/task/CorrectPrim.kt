@@ -20,7 +20,7 @@ object CorrectPrim : SingleSelector {
             "select id, to_char(date_report, 'dd.mm.yyyy') from od.ptkb_ptkpsd_101form where state = 0 " +
                     "and upper(TYPE_REPORT) = 'НЕРЕГУЛЯРНАЯ'"
 
-    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, executeWait = Duration.ZERO)
 
     override fun name(): String = "Правка показателей ежеднев."
 
