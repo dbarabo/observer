@@ -1,5 +1,7 @@
 package ru.barabo.observer.config.cbr.other.task
 
+import org.slf4j.LoggerFactory
+import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.OtherCbr
@@ -14,6 +16,8 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 object ExecuteGroupRateLoan: Periodical {
+
+    val logger = LoggerFactory.getLogger(ExecuteGroupRateLoan::class.java)!!
 
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
@@ -30,7 +34,7 @@ object ExecuteGroupRateLoan: Periodical {
 
     override fun execute(elem: Elem): State {
 
-        if(LocalTime.now().hour == 23) {
+        if(LocalTime.now().hour >= 21) {
             return State.ARCHIVE
         }
 
@@ -41,7 +45,11 @@ object ExecuteGroupRateLoan: Periodical {
 
             AfinaQuery.execute(query = EXECUTE_GROUP_RATE_LOAN_PHYSIC, sessionSetting = session)
         } catch (e: Exception) {
+            logger.error("execute", e)
+
             AfinaQuery.rollbackFree(session)
+
+            throw SessionException(e.message?:"")
         }
         AfinaQuery.commitFree(session)
 
