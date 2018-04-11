@@ -26,7 +26,7 @@ object ExecuteGroupRateLoan: Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(8, 10), LocalTime.of(23, 50), Duration.ofHours(15))
+            LocalTime.of(8, 10), LocalTime.of(23, 50), Duration.ofHours(13))
 
     override fun name(): String = "Учет Всех %% Сегодня"
 
@@ -35,6 +35,7 @@ object ExecuteGroupRateLoan: Periodical {
     override fun execute(elem: Elem): State {
 
         if(LocalTime.now().hour >= 21) {
+            elem.executed = LocalDateTime.now()
             return State.ARCHIVE
         }
 

@@ -37,6 +37,7 @@ object OtherCbr: ConfigTask {
         ExecuteOverdraftJuric.findAll()
         ExecuteGroupRateLoan.findAll()
 
+        GeneralExecReserve283p.findAll()
 
         executeTasks()
     }

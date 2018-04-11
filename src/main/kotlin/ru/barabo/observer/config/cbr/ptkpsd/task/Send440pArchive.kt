@@ -14,7 +14,7 @@ import java.io.File
 import java.time.Duration
 import java.time.LocalTime
 
-object Send440pArchive :SingleSelector {
+object Send440pArchive : SingleSelector {
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 3"
 
