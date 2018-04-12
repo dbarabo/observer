@@ -92,6 +92,11 @@ class MainView: View(), StoreListener<TreeElem> {
     override fun refreshAll(rootElem: TreeElem) {
 
         if(treeTable != null) {
+            Platform.runLater({
+                run {
+                    treeTable?.refresh()
+                }
+            })
             return
         }
 
