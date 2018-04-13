@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
-object ExecOpenArchiveDay : Periodical {
+object ExecuteReglamentRun : Periodical {
 
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
@@ -19,19 +19,19 @@ object ExecOpenArchiveDay : Periodical {
 
     override var lastPeriod: LocalDateTime? = null
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(21, 0),
-            workTimeTo = LocalTime.of(23, 59) )
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 3),
+            workTimeTo = LocalTime.of(8, 59) )
 
-    override fun name(): String = "Архивный день - открытие"
+    override fun name(): String = "Запуск регламента"
 
     override fun config(): ConfigTask = OtherCbr
 
     override fun execute(elem: Elem): State {
 
-        AfinaQuery.execute(EXEC_OPEN_ARCHIVE_DAY)
+        AfinaQuery.execute(EXEC_REGLAMENT_RUN)
 
         return State.OK
     }
 
-    private const val EXEC_OPEN_ARCHIVE_DAY = "{ call od.PTKB_PRECEPT.reopenOperDay }"
+    private const val EXEC_REGLAMENT_RUN = "{ call od.PTKB_PRECEPT.runReglamentArchiveDay }"
 }

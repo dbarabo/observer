@@ -36,10 +36,10 @@ object OtherCbr: ConfigTask {
         CorrectPrim.findAll()
         ExecuteOverdraftJuric.findAll()
         ExecutePosPot.findAll()
+        ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()
         GeneralExecReserve283p.findAll()
-
 
         executeTasks()
     }
