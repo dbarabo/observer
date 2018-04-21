@@ -27,7 +27,7 @@ object GeneralExecReserve283p : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(9, 0), LocalTime.of(23, 0), Duration.ZERO)
+            LocalTime.of(10, 10), LocalTime.of(23, 0), Duration.ZERO)
 
     override fun name(): String = "Резерв учтенных %%"
 

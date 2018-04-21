@@ -63,10 +63,6 @@ object OutRestCheck: SingleSelector {
 
     private fun processNoneExecAllDocument(elem: Elem): State {
 
-        //val file = createReview(elem.name)
-
-        //file?.let { sendMailFile(NONE_EXEC_SUBJECT, it) }
-
         val data = createHtmlData() ?: return State.OK
 
         sendMailFile(NONE_EXEC_SUBJECT, data)
@@ -76,13 +72,10 @@ object OutRestCheck: SingleSelector {
 
     private fun processExecAllDocument(elem: Elem): State {
 
-        //val file = createReview(elem.name)
-
         val data = createHtmlData() ?: return State.OK
 
         sendMailFile(EXEC_SUBJECT, data)
 
-        //file?.let { sendMailFile(EXEC_SUBJECT, it) }
 
         return State.OK
     }
