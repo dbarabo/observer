@@ -11,6 +11,7 @@ import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
 import ru.barabo.observer.config.cbr.other.task.ExecuteGroupRateLoan
 import ru.barabo.observer.config.cbr.other.task.ExecuteOverdraftJuric
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
+import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -72,12 +73,6 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun execCtl() {
-        val elem = Elem(idElem = 1172762442, task = ExecuteCtlMtl)
-
-        elem.task?.execute(elem)
-    }
 
     //@Test
     fun execObi() {
@@ -237,5 +232,16 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
+   // @Test
+    fun load550P() {
+        EsProcess.process(File("C:/440-П/test/CB_ES550P_20180423_002.XML"))
+    }
+
+   // @Test
+    fun execCtl() {
+        val elem = Elem(idElem = 1175068040, task = ExecuteCtlMtl)
+
+        elem.task?.execute(elem)
+    }
 
 }

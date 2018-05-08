@@ -76,7 +76,7 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         }
     }
 
-    private val SUBJECT_INFO = "Получены и обработаны файлы по 550-П"
+    private const val SUBJECT_INFO = "Получены и обработаны файлы по 550-П"
 
     private fun sendMailFilesInfo(archiveFileName :String, xmlInFiles :Array<File>?) {
 

@@ -71,8 +71,6 @@ interface QuoteSeparatorLoader {
 
         val sessionSetting = AfinaQuery.uniqueSession()
 
-        //LoggerFactory.getLogger(QuoteSeparatorLoader::class.java).error("sessionSetting.id=${sessionSetting.idSession}")
-
         var order = 0
 
         var headerId :Any? = null
