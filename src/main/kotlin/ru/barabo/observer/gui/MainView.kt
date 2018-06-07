@@ -126,16 +126,6 @@ class MainView: View(), StoreListener<TreeElem> {
                 this.treeTable?.root?.children?.forEach {
                     it?.children?.forEach { it.expandedProperty().set(false) }
                 }
-
-//                val fontMetrics = Toolkit.getToolkit().fontLoader.getFontMetrics(treeTable?.columns?.get(0)?.label()?.font)
-//
-//                val defaultValues = arrayOf("Проверка отправки ПТК ПСД", "В Архиве",
-//                        "KESDT_0021_0000_20171227_001.ARJ", "1171576789", "23:59:59", "23:59:59", "9999", "Нет ошибок Да")
-//
-//                defaultValues.indices.forEach {
-//                    treeTable?.columns?.get(it)?.prefWidth = fontMetrics.computeStringWidth(defaultValues[it]).toDouble() + 5
-//                }
-
             }
         })
     }
@@ -201,10 +191,6 @@ private fun treeTable(rootGroup :TreeElem) :TreeTableView<TreeElem> {
        if(elem is TreeElem?) {
 
             val (color, background) = backGroundColorRow(elem)
-
-            //this.treeTableRow?.style = background
-
-            //this.treeTableRow?.textFill = color
 
             this.textFill = color
 

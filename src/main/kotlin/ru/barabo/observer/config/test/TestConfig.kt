@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
+import ru.barabo.observer.config.barabo.plastic.turn.task.LoadCtlMtl
 import java.util.*
 
 object TestConfig : ConfigTask {
@@ -13,7 +13,9 @@ object TestConfig : ConfigTask {
 
     override fun configRun() {
 
-        OutRest.findAll()
+        LoadCtlMtl.findAll()
+
+        //ExecuteCtlMtl.findAll()
 
         this.executeTasks()
     }

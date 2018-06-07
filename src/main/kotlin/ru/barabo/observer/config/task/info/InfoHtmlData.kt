@@ -21,7 +21,7 @@ object InfoHtmlData {
 
         val data = createHtmlData(title, body, root)
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = title, body = data, subtypeBody = "html")
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.OPER_YA, subject = title, body = data, subtypeBody = "html")
     }
 
     private fun TreeElem.isEmptyElemTask(): Boolean = group?.childs?.firstOrNull() === null

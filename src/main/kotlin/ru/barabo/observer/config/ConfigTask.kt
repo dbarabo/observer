@@ -46,7 +46,5 @@ interface ConfigTask {
 
             (item.task as? Executor)?.executeElem(item)
         }
-
-                //.forEach {  it.task?.execute(it) }
     }
 }

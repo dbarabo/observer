@@ -21,7 +21,6 @@ object Observer {
 
         TaskMapper.init(config, "AFINA")
 
-        //TaskMapper.init("TEST", "TEST")
         TaskMapper.runConfigList()
 
         logger.info("start Launch")

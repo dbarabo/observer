@@ -17,6 +17,8 @@ object BaraboSmtp : SendMail {
 
     val OPER = arrayOf("oper@ptkb.ru")
 
+    val OPER_YA = arrayOf("oper@ptkb.ru", smtpProperties.from)
+
     val PRIM_AUTO = if(TaskMapper.isAfinaBase())
         arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru") else YA
 
@@ -47,7 +49,8 @@ object BaraboSmtp : SendMail {
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru", "zharova@ptkb.ru", "zdorovec@ptkb.ru").onlyAfina()
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru",
+            "zharova@ptkb.ru", "zdorovec@ptkb.ru", "koleev@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
 

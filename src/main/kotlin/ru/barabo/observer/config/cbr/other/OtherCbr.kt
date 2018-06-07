@@ -32,10 +32,13 @@ object OtherCbr: ConfigTask {
         CheckOpenArchiveDay.findAll()
         ExecOpenArchiveDay.findAll()
         RestrictUsersArchiveDay.findAll()
+        CheckActializationEntryDouble.findAll()
+
+        // disable from 23.05.2018
+        // ExecuteOverdraftJuric.findAll()
+        // ExecutePosPot.findAll()
 
         CorrectPrim.findAll()
-        ExecuteOverdraftJuric.findAll()
-        ExecutePosPot.findAll()
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()

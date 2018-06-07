@@ -6,10 +6,7 @@ import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
-import ru.barabo.observer.config.cbr.other.task.CheckOpenArchiveDay
-import ru.barabo.observer.config.cbr.other.task.ExecOpenArchiveDay
-import ru.barabo.observer.config.cbr.other.task.ExecuteGroupRateLoan
-import ru.barabo.observer.config.cbr.other.task.ExecuteOverdraftJuric
+import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -52,12 +49,6 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/CTL20180208_0226.0001"), LoadCtlMtl, Duration.ZERO)
-
-        elem.task?.execute(elem)
-    }
 
     //@Test
     fun loadAfp() {
@@ -237,11 +228,24 @@ class LoaderTest {
         EsProcess.process(File("C:/440-П/test/CB_ES550P_20180423_002.XML"))
     }
 
-   // @Test
-    fun execCtl() {
-        val elem = Elem(idElem = 1175068040, task = ExecuteCtlMtl)
+    //@Test
+    fun loadCtlMtl() {
+        val elem = Elem(File("C:/КартСтандарт/test/MTL20180531_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun execCtl() {
+        val elem = Elem(idElem = 1176402544, task = ExecuteCtlMtl)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun execCheckActializationEntryDouble() {
+        val elem = Elem(idElem = 57425917, task = CheckActializationEntryDouble)
+
+        elem.task?.execute(elem)
+    }
 }
