@@ -9,9 +9,9 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
     companion object {
 
-        private val TRY_CONNECT_MAX = 3
+        private const val TRY_CONNECT_MAX = 4
 
-        private val ERROR_TRY_MAX_CONNECT = "Кол-во попыток подключений превысило $TRY_CONNECT_MAX"
+        private const val ERROR_TRY_MAX_CONNECT = "Кол-во попыток подключений превысило $TRY_CONNECT_MAX"
     }
 
     private val pool = ArrayList<Session>()
@@ -138,7 +138,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         try {
             connect.autoCommit = false
 
-            connect.transactionIsolation = Connection.TRANSACTION_READ_COMMITTED
+            connect.transactionIsolation = Connection.TRANSACTION_READ_COMMITTED//TRANSACTION_SERIALIZABLE //TRANSACTION_READ_COMMITTED
 
             connect.isReadOnly = isRead
 

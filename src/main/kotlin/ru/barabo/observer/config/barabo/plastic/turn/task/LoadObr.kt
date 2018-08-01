@@ -28,6 +28,8 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
 
     override fun processFile(file: File) {
 
+        isExistsError = false
+
         fileProcess = file
 
         load(file, Charset.forName("CP1251"))
@@ -42,7 +44,9 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
         }
     }
 
-    private val SELECT_ERROR_OBR =  "{ ? = call od.PTKB_PLASTIC_TURNOUT.getErrorListByFile( ? ) }"
+    private var isExistsError = false
+
+    private const val SELECT_ERROR_OBR =  "{ ? = call od.PTKB_PLASTIC_TURNOUT.getErrorListByFile( ? ) }"
 
     private fun headerError(file :File) = "OBR-файл ${file.name} пришел с ошибками\n"
 
@@ -80,13 +84,11 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
         return idFile
     }
 
-    private val SELECT_EXISTS_ID = "select id from od.PTKB_IBI_MAIN m where m.id = ?"
+    private const val SELECT_EXISTS_ID = "select id from od.PTKB_IBI_MAIN m where m.id = ?"
 
     override val tailQuery: String? = null
 
-    private var isExistsError = false
-
-    lateinit private var idFile :Any
+    private lateinit var idFile :Any
 
     override fun getTypeLine(line: String, order: Int): TypeLine {
         if(line.length < 6) return TypeLine.NOTHING

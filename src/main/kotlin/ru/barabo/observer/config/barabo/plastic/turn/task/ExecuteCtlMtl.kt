@@ -32,7 +32,7 @@ object ExecuteCtlMtl : SingleSelector {
                 outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String
 
         val (cc, bcc, subject) = if(isNoneExecAllDocuments(info))
-            Triple(BaraboSmtp.AUTO, emptyArray(), SUBJECT_NONE_EXEC) else
+            Triple(BaraboSmtp.AUTO, BaraboSmtp.DOPIKI, SUBJECT_NONE_EXEC) else
             Triple(BaraboSmtp.CHECKER_PLASTIC, BaraboSmtp.YA, SUBJECT_ALL_EXEC)
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = cc, bcc = bcc, subject = subject, body = info?:"", charsetSubject = "UTF-8")

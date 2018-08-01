@@ -148,9 +148,9 @@ class ExtractMainResponseData :AbstractRequestResponse() {
         return accounts.isNotEmpty() && getExistsOperation(idFromFns)
     }
 
-    private fun getExistsOperation(idResponse: Number) :Boolean {
+    private fun getExistsOperation(idFromFns: Number) :Boolean {
 
-        val accounts = AfinaQuery.selectCursor(SELECT_EXTRACT_EXISTS_OPERATION, arrayOf(idResponse))
+        val accounts = AfinaQuery.selectCursor(SELECT_EXTRACT_EXISTS_OPERATION, arrayOf(idFromFns))
 
         return accounts.isNotEmpty() && (accounts[0][0] as? Number)?.toInt() != 0
     }

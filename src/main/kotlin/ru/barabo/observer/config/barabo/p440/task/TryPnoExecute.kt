@@ -38,9 +38,11 @@ object TryPnoExecute : SingleSelector {
         return State.OK
     }
 
-    private val MAX_WAIT_HOURS: Long = 24
+    private const val MAX_WAIT_HOURS: Long = 24
 
-    private val SUBJECT_DOCUMENT_NOT_EXEC = "440-П Документ не исполнен"
+    private const val MAX_STOP_HOURS: Long = 26
+
+    private const val SUBJECT_DOCUMENT_NOT_EXEC = "440-П Документ не исполнен"
 
     private val WAIT_EXECUTE = Duration.ofHours(1)
 
@@ -51,7 +53,7 @@ object TryPnoExecute : SingleSelector {
 
         val hoursWait = date.until(LocalDateTime.now(), ChronoUnit.HOURS)
 
-        if(hoursWait > MAX_WAIT_HOURS) {
+        if(hoursWait > MAX_WAIT_HOURS && hoursWait < MAX_STOP_HOURS) {
             BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_DOCUMENT_NOT_EXEC,
                     body = bodyNotExecDocument(date, elem))
         }

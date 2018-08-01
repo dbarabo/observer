@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
-object ExecutePosPot: Periodical {
+object ExecutePosPot : Periodical {
 
     val logger = LoggerFactory.getLogger(ExecutePosPot::class.java)!!
 

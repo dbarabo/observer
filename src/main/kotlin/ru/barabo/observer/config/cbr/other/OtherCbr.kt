@@ -44,6 +44,8 @@ object OtherCbr: ConfigTask {
         ExecuteGroupRateLoan.findAll()
         GeneralExecReserve283p.findAll()
 
+        CorrDepartmentGoHome.findAll()
+
         executeTasks()
     }
 

@@ -1,7 +1,9 @@
 
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
+import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
@@ -245,6 +247,13 @@ class LoaderTest {
     //@Test
     fun execCheckActializationEntryDouble() {
         val elem = Elem(idElem = 57425917, task = CheckActializationEntryDouble)
+
+        elem.task?.execute(elem)
+    }
+
+    @Test
+    fun execLoadRateThb() {
+        val elem = Elem(task = LoadRateThb)
 
         elem.task?.execute(elem)
     }

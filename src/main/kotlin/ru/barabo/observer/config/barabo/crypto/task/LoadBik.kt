@@ -30,7 +30,7 @@ object LoadBik : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(7, 30), LocalTime.of(23, 30), Duration.ZERO)
+            LocalTime.of(21, 0), LocalTime.of(23, 30), Duration.ZERO)
 
     override fun name(): String = "Загрузка Биков"
 

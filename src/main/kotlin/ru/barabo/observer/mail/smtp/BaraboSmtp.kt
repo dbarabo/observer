@@ -23,9 +23,11 @@ object BaraboSmtp : SendMail {
         arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru") else YA
 
     val BOOKER = if(TaskMapper.isAfinaBase())
-        arrayOf("buh1@ptkb.ru", "nesteryk@ptkb.ru", "sidorenko@ptkb.ru", "onuchina@ptkb.ru") else YA
+        arrayOf("buh1@ptkb.ru", "nesteryk@ptkb.ru", "kudryavceva@ptkb.ru") else YA
 
     val AUTO = if(TaskMapper.isAfinaBase()) arrayOf("auto@ptkb.ru") else YA
+
+    val DOPIKI = arrayOf("dedyaeva@ptkb.ru", "pashkina@ptkb.ru", "kovshova@ptkb.ru", "stepnova@ptkb.ru", "derevenskih@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
@@ -43,7 +45,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_PLASTIC = arrayOf("dummy@ptkb.ru", "oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
-    val DELB_PLASTIC = arrayOf("cards@ptkb.ru", "plastik@ptkb.ru", "dedyaeva@ptkb.ru").onlyAfina()
+    val DELB_PLASTIC = arrayOf("cards@ptkb.ru", "plastik@ptkb.ru").onlyAfina()
 
     private val SB_TTS = arrayOf("albert@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
