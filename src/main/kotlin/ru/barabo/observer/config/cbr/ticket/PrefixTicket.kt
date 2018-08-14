@@ -16,20 +16,21 @@ enum class PrefixTicket(private val prefix :String,
     P550("wz", GetProcess550pFiles, Ticket550p),
     P440 ("mz", null, Get440pFiles),
     P407 ("fz", Ticket407CabXml, Ticket407ArjXml),
-    P4077 ("rf", Ticket4077Cbr, Ticket4077RosFin);
+    P4077 ("rf", Ticket4077Cbr, Ticket4077RosFin),
+    P390 ("ns", Ticket390IzvXml, Get390pArchive);
 
     companion object {
 
         private val HASH_PREFIX_TICKET = PrefixTicket.values().map {
             Pair(it.prefix, Pair(it.text0Ticket, it.cab_Ticket) ) }.toMap()
 
-        fun ticketByPrefix(name: String, nullTask :ActionTask) :ActionTask {
+        fun ticketByPrefix(name: String, nullTask: ActionTask): ActionTask {
 
             val isFirst = if(name.length >= 6) name.substring(5, 6) == "0"
             else throw Exception("mask file is not valid name= $name")
 
             return HASH_PREFIX_TICKET[name.substring(0, 2)]
-                    ?.let { if(isFirst) it.first else it.second }?:nullTask
+                    ?.let { if(isFirst) it.first else it.second } ?: nullTask
         }
     }
 
