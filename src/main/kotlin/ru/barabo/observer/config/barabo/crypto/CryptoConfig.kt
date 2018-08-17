@@ -26,6 +26,9 @@ object CryptoConfig : ConfigTask {
         CryptoExchange.findAll()
         CryptoLegalization.findAll()
 
+        CreateSaveResponse390p.findAll()
+        Sign390pArchive.findAll()
+
         this.executeTasks()
     }
 
