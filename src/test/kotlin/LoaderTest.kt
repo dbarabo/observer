@@ -1,6 +1,5 @@
 
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
@@ -237,9 +236,9 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1176939858, task = ExecuteCtlMtl)
+        val elem = Elem(idElem = 1179296203, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
     }

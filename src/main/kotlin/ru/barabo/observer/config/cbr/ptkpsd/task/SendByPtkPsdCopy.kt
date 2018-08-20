@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.ptkpsd.task
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.crypto.task.CreateSaveResponse390p
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -16,7 +17,8 @@ import java.time.format.DateTimeFormatter
 object SendByPtkPsdCopy : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(::x311pJur, "A.*07717.*\\.ARJ"),
-                   FileFinderData(::x311pPhisyc, "BN07717.*\\.ARJ") )
+                   FileFinderData(::x311pPhisyc, "BN07717.*\\.ARJ"),
+                   FileFinderData(CreateSaveResponse390p::sendFolder390p, "AFT_0507717.*\\.ARJ"))
 
 
     override val pathsTo: Array<()->String> = arrayOf(::cPtkPostPost, SendByPtkPsdNoXml::dArchiveOutToday)
