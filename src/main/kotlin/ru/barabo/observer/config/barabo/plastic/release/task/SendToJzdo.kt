@@ -20,7 +20,7 @@ object SendToJzdo : FileMover, FileFinder {
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0))
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(::hCardOutFileToday, "(IIA_|RATE|ZWU_|ZUP_|ZCP_).*"),
+            FileFinderData(::hCardOutFileToday, "(IIA_|RATE|ZWU_|ZUP_|ZCP_|ZWS_).*"),
             FileFinderData(::hCardOutFileToday, "20\\d\\d_\\d\\d_\\d_0226\\.txt"),
             FileFinderData(::hCardOutFileToday, "BIRTH_DATE_0226\\.csv")
             )
