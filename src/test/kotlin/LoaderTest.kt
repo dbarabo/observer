@@ -1,5 +1,6 @@
 
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
@@ -255,5 +256,10 @@ class LoaderTest {
         val elem = Elem(task = LoadRateThb)
 
         elem.task?.execute(elem)
+    }
+
+    @Test
+    fun loadRateThb() {
+        logger.error("thbRate=${LoadRateThb.thbRate()}")
     }
 }

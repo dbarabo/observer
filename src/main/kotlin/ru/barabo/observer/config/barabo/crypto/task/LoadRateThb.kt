@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
 import org.jsoup.Jsoup
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
@@ -14,7 +15,7 @@ import java.time.LocalTime
 
 object LoadRateThb : SingleSelector {
 
-    //private val logger = LoggerFactory.getLogger(LoadRateThb::class.java)
+    private val logger = LoggerFactory.getLogger(LoadRateThb::class.java)
 
     override val select: String = "select dt.classified from doctree dt where dt.doctype = 1000131174 " +
             "and dt.docstate = 1000000034 and trunc(dt.validfromdate) = trunc(sysdate) and rownum = 1"
@@ -37,23 +38,15 @@ object LoadRateThb : SingleSelector {
 
     private const val EXEC_RATE_THB = "call od.ptkb_auto_kursCb_load(1000131339, ?)"
 
-    /*
-     *  перешли на https с 03.07.2018
-     */
-    private const val USD_THB_SITE = "https://www.bloomberg.com/quote/USDTHB:CUR"
+    private const val USD_THB_SITE = "https://www.finanz.ru/valyuty/usd-thb" //"https://www.bloomberg.com/quote/USDTHB:CUR"
 
-    private fun thbRate() : Double {
+    fun thbRate() : Double {
 
-       val item = Jsoup.connect(USD_THB_SITE).get().getElementsByAttributeValue("itemprop", "price")
-               ?.firstOrNull { !it.attr("content").trim().isEmpty() }
+       val body = Jsoup.connect(USD_THB_SITE).get().body()
 
-        //logger.error("item=$item")
+       val find = body.allElements.firstOrNull { it.text().matches("\\d\\d,\\d\\d\\d\\d THB.*".toRegex()) }
+               ?:throw Exception("Not found rate by XX,YYYY THB template")
 
-        /* старый дизайн сайта был - закончился 2015-06-04
-             Element mainHeaderElement = doc.select("span.price").first();
-             value = mainHeaderElement.childNode(0).outerHtml().trim();
-         */
-
-        return item!!.attr("content").trim().toDouble()
+       return find.text().substringBefore("THB").replace(",", ".").trim().toDouble()
     }
 }
