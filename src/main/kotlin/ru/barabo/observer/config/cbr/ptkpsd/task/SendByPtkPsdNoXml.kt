@@ -16,9 +16,9 @@ import java.util.regex.Pattern
 
 object SendByPtkPsdNoXml : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData({ File("c:/PTK PSD/Post/out") }, Pattern.compile("Ф.*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true ),
-                   FileFinderData({ File("c:/PTK PSD/Post/Post") }, Pattern.compile("Ф.*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true ),
-                   FileFinderData({ File("X:/Отчеты") }, Pattern.compile("Ф.*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true )
+            listOf(FileFinderData({ File("c:/PTK PSD/Post/out") }, Pattern.compile("(Ф|F).*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true ),
+                   FileFinderData({ File("c:/PTK PSD/Post/Post") }, Pattern.compile("(Ф|F).*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true ),
+                   FileFinderData({ File("X:/Отчеты") }, Pattern.compile("(Ф|F).*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE), true )
                    )
 
     override val pathsTo: Array<()->String> = arrayOf(SendByPtkPsdCopy::cPtkPostPost, SendByPtkPsdNoXml::dArchiveOutToday)

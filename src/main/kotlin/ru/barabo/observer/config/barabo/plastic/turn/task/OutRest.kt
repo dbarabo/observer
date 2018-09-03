@@ -30,7 +30,7 @@ object OutRest: Periodical {
 
     override fun execute(elem: Elem): State {
 
-        CheckerMail.checkMessages()
+        try { CheckerMail.checkMessages() } catch (e: Exception){}
 
         return State.OK
     }

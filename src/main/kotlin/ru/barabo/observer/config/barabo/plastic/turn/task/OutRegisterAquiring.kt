@@ -19,7 +19,7 @@ object OutRegisterAquiring: SingleSelector {
             "where m.created >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 " +
             "and substr(m.file_name, 1, 3) = 'MTL'"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(12, 0))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(17, 30))
 
     override fun name(): String = "Отправить реестры по эквайрингу"
 
@@ -38,8 +38,6 @@ object OutRegisterAquiring: SingleSelector {
 
     private const val SELECT_TERMINALS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTerminals( ? ) }"
 
-    private const val SELECT_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTransfers( ?, ? ) }"
-
     private fun processTerminals(terminals: List<Array<Any?>>, idMtl: Number) {
 
         val titleVar = createTerminalVar()
@@ -56,15 +54,17 @@ object OutRegisterAquiring: SingleSelector {
 
             val transfers = AfinaQuery.selectCursor(SELECT_TRANSFERS, arrayOf(idMtl, terminalId))
 
-            createRegister(excelProcess, transfers)
+            createRegister(excelProcess, transfers, terminalId, idMtl)
 
             sendMailRegister(it, file)
         }
     }
 
-    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN.getRegisterByTransactCtl( ? ) }"
+    private const val SELECT_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTransfers( ?, ? ) }"
 
-    private fun createRegister(excelProcess: ExcelSimple, transfers: List<Array<Any?>>) {
+    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN.getRegisterByTransactCtl( ?, ?, ? ) }"
+
+    private fun createRegister(excelProcess: ExcelSimple, transfers: List<Array<Any?>>, terminalId: String, idMtl: Number) {
 
         val transferVar = createTransferVar()
 
@@ -76,8 +76,10 @@ object OutRegisterAquiring: SingleSelector {
 
             val transferId = it[0] as Number
 
+            val isPay = if(it[6].toString() == "Возврат") 4 else 2
+
             val transactions =
-                    AfinaQuery.selectCursor(SELECT_TRANSACT_TRANSFER, arrayOf(transferId))
+                    AfinaQuery.selectCursor(SELECT_TRANSACT_TRANSFER, arrayOf(idMtl, terminalId, isPay) /*arrayOf(transferId)*/)
 
             transferVar["SUM_LOOP"] = createTransactData(excelProcess, transactions)
 

@@ -75,14 +75,6 @@ class LoaderTest {
     }
 
     //@Test
-    fun outRegisterAquiring() {
-
-        val elem = Elem(idElem = 1172032472/*1172458967*/, task = OutRegisterAquiring)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
     fun loadPno() {
         //val elem = Elem(File("C:/440-П/test/PNO10507717_253720180131_000066.xml"), PnoLoader, Duration.ZERO)
 
@@ -258,8 +250,16 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun loadRateThb() {
         logger.error("thbRate=${LoadRateThb.thbRate()}")
+    }
+
+    @Test
+    fun outRegisterAquiring() {
+
+        val elem = Elem(idElem = 1179806957, task = OutRegisterAquiring)
+
+        elem.task?.execute(elem)
     }
 }
