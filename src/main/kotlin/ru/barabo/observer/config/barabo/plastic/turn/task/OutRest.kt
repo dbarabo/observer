@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
+import com.sun.mail.util.MailConnectException
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.Executor
@@ -41,9 +42,12 @@ object OutRest: Periodical {
 
     override fun findAll() : Executor? {
 
-        super.findAll()?.apply {
-            (this as OutRest).execute(STUB_ELEM)
-        }
+        try {
+            super.findAll()?.apply {
+                (this as OutRest).execute(STUB_ELEM)
+            }
+        } catch (e: MailConnectException){}
+
         return null
     }
 }
@@ -59,4 +63,6 @@ object CheckerMail : GetMail {
     override val subjectStartSelect: String = "!SQL-SELECT:"
 
     override val subjectStartExec: String = "!SQL-EXECUTE:"
+
+    override fun isErrorToLog() = false
 }

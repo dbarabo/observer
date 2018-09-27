@@ -14,6 +14,9 @@ public final class Address {
 	@XStreamAlias("КодРегион")
 	private String region;
 
+	@XStreamAlias("КодРегиона")
+	private String regiona;
+
 	@XStreamAlias("Район")
 	private String rayon;
 

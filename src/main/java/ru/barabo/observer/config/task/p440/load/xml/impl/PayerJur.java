@@ -16,6 +16,9 @@ public final class PayerJur implements ParamsQuery {
 	@XStreamAlias(" œœ")
 	private String kpp;
 
+	@XStreamAlias(" œœﬁÀ")
+	private String kppJul;
+
 	@XStreamAlias("Õ‡ËÏﬁÀ")
 	private String name;
 
@@ -26,7 +29,8 @@ public final class PayerJur implements ParamsQuery {
 	}
 
 	public String getKpp() {
-		return kpp;
+
+		return kpp == null || kpp.isEmpty() ? kppJul : kpp;
 	}
 
 	public String getName() {
@@ -53,7 +57,7 @@ public final class PayerJur implements ParamsQuery {
 	public List<Object> getParams() {
 
 		return new ArrayList<Object>(Arrays.asList(inn == null ? String.class : inn,
-				kpp == null ? String.class : kpp,
+				getKpp() == null ? String.class : getKpp(),
 				name == null ? String.class : name,
 				PayerType.Juric.getValueDb()));
 	}

@@ -37,6 +37,8 @@ interface GetMail : SendMail {
 
     private fun inbox() = "INBOX"
 
+    fun isErrorToLog() = true
+
     fun checkMessages() {
 
         try {
@@ -46,7 +48,7 @@ interface GetMail : SendMail {
 
             store.close()
         } catch (e: Exception) {
-            LoggerFactory.getLogger(GetMail::class.java).error("checkMessages", e)
+            if(isErrorToLog() ) LoggerFactory.getLogger(GetMail::class.java).error("checkMessages", e)
         }
     }
 
@@ -98,7 +100,7 @@ interface GetMail : SendMail {
             messages.forEach { it.process() }
         } catch (e: MessagingException) {
 
-            LoggerFactory.getLogger(GetMail::class.java).error("checkMessages.messages", e)
+            if(isErrorToLog()) LoggerFactory.getLogger(GetMail::class.java).error("checkMessages.messages", e)
 
             close(false)
 

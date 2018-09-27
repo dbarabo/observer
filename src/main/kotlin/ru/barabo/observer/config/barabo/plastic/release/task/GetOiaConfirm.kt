@@ -39,33 +39,26 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
         val hCardInToday = file.moveFileHCardInToday()
 
-        //val settingSession = AfinaQuery.uniqueSession()
-
         try {
 
-            processOiaFile(hCardInToday/*, settingSession*/)
+            processOiaFile(hCardInToday)
 
         } catch (e :Exception) {
             logger.error("processFile", e)
 
-            //AfinaQuery.rollbackFree(settingSession)
-
             throw SessionException(e.message?:"")
         }
-
-       // AfinaQuery.commitFree(settingSession)
 
         CheckWaitOci.execute(Elem())
     }
 
-    private fun processOiaFile(file :File/*, settingSession: SessionSetting*/) {
+    private fun processOiaFile(file :File) {
 
         var errorList = ""
 
         val packetList = HashSet<Number>()
 
         for (line in file.readLines(Charset.forName("CP1251"))) {
-        //file.readLines().forEach {
 
             val idApplication =  line.substring(58, 58 + 12).trim()
 
@@ -75,42 +68,31 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
             val iiaFile = line.substring(18, 18 + 30).trim()
 
-           // logger.error("idApplication=$idApplication")
-           // logger.error("priorState=$priorState")
-           // logger.error("result=$result")
-           // logger.error("iiaFile=$iiaFile")
-
             val content = AfinaQuery.select(SELECT_CONTENT_ID, arrayOf(idApplication, priorState.dbValue))
 
-            if(content.size != 1) {
+            if(content.isEmpty()) {
                 errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile)
 
                 continue
-                //return@forEach
             }
 
-            val idContent = content[0][0] as Number
+            content.forEach {
 
-            //logger.error("idContent=$idContent")
+                val idContent = it[0] as Number
 
-            val packet = content[0][1] as Number
+                val packet = it[1] as Number
 
-            //logger.error("packet=$packet")
+                packetList += packet
 
-            packetList += packet
+                val nextState = nextState(idContent, priorState, result)
 
-            val nextState = nextState(idContent, priorState, result/*, settingSession*/)
-
-           // logger.error("nextState=$nextState")
-
-            if(nextState == StateRelease.RESPONSE_ERROR_ALL || nextState == StateRelease.SMS_RESPONSE_ERROR_ALL_OIA) {
-                errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile, nextState)
+                if(nextState == StateRelease.RESPONSE_ERROR_ALL || nextState == StateRelease.SMS_RESPONSE_ERROR_ALL_OIA) {
+                    errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile, nextState)
+                }
             }
         }
 
-        //AfinaQuery.commitFree(settingSession)
-
-        processPacketList(packetList, file/*, settingSession*/)
+        processPacketList(packetList, file)
 
         processErrorList(errorList)
     }
@@ -139,28 +121,20 @@ object GetOiaConfirm: FileFinder, FileProcessor {
             "стейт перехода:$nextState\n"
     }
 
-    private fun processPacketList(packets: Set<Number>, file: File/*, settingSession: SessionSetting*/) {
+    private fun processPacketList(packets: Set<Number>, file: File) {
 
         packets.forEach { packet ->
 
-           // logger.error("processPacketList packet=$packet")
-
             AfinaQuery.execute(UPDATE_PACKET_FILE,
-                    arrayOf(file.nameWithoutExtension, packet, file.nameWithoutExtension)/*, settingSession*/)
+                    arrayOf(file.nameWithoutExtension, packet, file.nameWithoutExtension))
 
-           // logger.error("UPDATE_PACKET_FILE is executed")
+            AfinaQuery.execute(EXEC_NO_SMS_CHECK, arrayOf(packet))
 
-            AfinaQuery.execute(EXEC_NO_SMS_CHECK, arrayOf(packet)/*, settingSession*/)
-
-            //logger.error("EXEC_NO_SMS_CHECK is executed")
-
-            val states = AfinaQuery.select(SELECT_STATE_PACKET, arrayOf(packet)/*, settingSession*/)
+            val states = AfinaQuery.select(SELECT_STATE_PACKET, arrayOf(packet))
 
             val sumState = processStates(states)
 
             sumState?.let { AfinaQuery.execute(UPDATE_PACKET_STATE, arrayOf(it.dbValue, packet))  }
-
-           // logger.error("UPDATE_PACKET_STATE is executed sumState=$sumState")
         }
     }
 
@@ -198,7 +172,7 @@ object GetOiaConfirm: FileFinder, FileProcessor {
     private const val UPDATE_PACKET_FILE = "update od.ptkb_plastic_pack set updated = sysdate, " +
             "LOAD_FILES = LOAD_FILES || ? || ';' where id = ? and instr(nvl(LOAD_FILES, ' '), ?) <= 0"
 
-    private fun nextState(idContent: Number, state: StateRelease, result: String/*, settingSession: SessionSetting*/): StateRelease {
+    private fun nextState(idContent: Number, state: StateRelease, result: String): StateRelease {
 
         val isOk = "Processed OK".equals(result, true)
 
@@ -209,10 +183,6 @@ object GetOiaConfirm: FileFinder, FileProcessor {
             if(state == StateRelease.SENT_OK)
                 StateRelease.RESPONSE_ERROR_ALL else StateRelease.SMS_RESPONSE_ERROR_ALL_OIA
         }
-
-        //logger.error(UPDATE_CONTENT_STATE)
-
-        //logger.error("nextState.dbValue=${nextState.dbValue} result=$result idContent=$idContent")
 
         AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent)/*, settingSession*/)
 
