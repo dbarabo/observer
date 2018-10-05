@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -13,12 +14,15 @@ import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.nio.charset.Charset
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 object OutRestCheck: SingleSelector {
+
+    private val logger = LoggerFactory.getLogger(OutRestCheck::class.java)
 
     override val select: String = "select id, file_name from od.ptkb_plastic_acc where trunc(created) = trunc(sysdate)"
 
@@ -94,7 +98,7 @@ object OutRestCheck: SingleSelector {
     private fun fileReview(nameRest: String) = File("${hCardOutSentTodayFolder()}/$nameRest.html")
 
     private fun sendMailFile(subject: String, data: String) {
-        BaraboSmtp.sendStubThrows( to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
                 body = data, subtypeBody = "html") //, attachments = arrayOf(fileSend))
     }
 
@@ -111,10 +115,46 @@ object OutRestCheck: SingleSelector {
 
         if(data.isEmpty()) return null
 
-        val content = HtmlContent(titleHtml(), titleHtml(), HEADER_TABLE, data)
+        val checkLimitData = checkLimit(data)
+
+        if(checkLimitData.isEmpty()) return null
+
+        val content = HtmlContent(titleHtml(), titleHtml(), HEADER_TABLE, checkLimitData)
 
         return content.html()
     }
+
+    private fun checkLimit(data: List<Array<Any?>>): List<Array<Any?>> {
+
+        val checkData = ArrayList<Array<Any?>>()
+
+        for(row in data) {
+
+            val limitOrError = AfinaQuery.selectValue(SELECT_LIMIT_ACCOUNT,  arrayOf(row[0])) as? String
+
+            val limit = limitOrError?.trim()?.toIntOrNull()?.toDouble()?.let { it / 100 }
+
+            val deltaIndex = HEADER_TABLE.keys.indexOf("Сумма несовпадения")
+
+            var newDelta = (row[deltaIndex] as? Number)?.toDouble()?:0.0
+
+            newDelta -= limit?:0.0
+
+            if((newDelta*100.0).toInt() == 0) continue
+
+            val indexLimit = HEADER_TABLE.keys.indexOf("Лимит по счету")
+
+            row[deltaIndex] = NumberFormat.getCurrencyInstance().format(newDelta).substringBeforeLast("руб.")
+
+            row[indexLimit] = limit?.let { NumberFormat.getCurrencyInstance().format(it).substringBeforeLast("руб.") } ?: limitOrError
+
+            checkData += row
+        }
+
+        return checkData
+    }
+
+    private const val SELECT_LIMIT_ACCOUNT = "select od.PTKB_PLASTIC_TURNOUT.getLimitCardAccount(?) from dual"
 
     private fun titleHtml() = "Сверка остатков на ${LocalDate.now()}"
 
@@ -125,6 +165,7 @@ object OutRestCheck: SingleSelector {
             "Остаток на основ. счете"  to "right",
             "Остаток на внебаланс. счете"  to "right",
             "Остаток на техн. овер"  to "right",
+            "Лимит по счету" to "right",
             "Сумма несовпадения"  to "right",
             "Последняя операция" to "center")
 

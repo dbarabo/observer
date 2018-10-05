@@ -1,6 +1,5 @@
 
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
@@ -54,7 +53,7 @@ class LoaderTest {
 
     //@Test
     fun loadAfp() {
-        val elem = Elem(File("C:/КартСтандарт/test/AFP20180124_0226.0011"), LoadAfp, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/AFP20180924_0226.0013"), LoadAfp, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -224,14 +223,21 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/CTL20180817_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/CTL20180925_0226.0001"), LoadCtlMtl, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun execAfp() {
+        val elem = Elem(idElem = 1179223102, task = ExecuteAfp)
 
         elem.task?.execute(elem)
     }
 
     //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1179296203, task = ExecuteCtlMtl)
+        val elem = Elem(idElem = 1179222578, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
     }
@@ -255,11 +261,28 @@ class LoaderTest {
         logger.error("thbRate=${LoadRateThb.thbRate()}")
     }
 
-    @Test
+    //@Test
     fun outRegisterAquiring() {
 
         val elem = Elem(idElem = 1179806957, task = OutRegisterAquiring)
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun outRestCheck() {
+
+        val elem = Elem(task = OutRestCheck)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testToIntOrNull() {
+
+        val x = "ACCOUNT[2017810058]".toIntOrNull()
+
+        logger.error("x=$x")
+    }
+
 }
