@@ -18,6 +18,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.sql.Clob
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object CecReportProcess : FileFinder, FileProcessor {
@@ -36,12 +37,11 @@ object CecReportProcess : FileFinder, FileProcessor {
 
     private fun xCecResponseToday() = "X:/ЦИК/${todayFolder()}/ОТВЕТЫ"
 
-
     override fun processFile(file: File) {
 
         val idRequest = loadXmlData(file)
 
-        idRequest?.let { sendMailData(sendResponseData(it, file), file)  } ?: sendMailData(null, file)
+        idRequest?.let { sendMailData(sendResponseData(it, file), file) } ?: sendMailData(null, file)
     }
 
     private fun loadXmlData(file: File) :Number? {
@@ -71,15 +71,15 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val body = file?.let { bodyFileCec(it) } ?: bodyEmptyCec(fileRequest)
 
-        val attachment = file?.let { arrayOf(it) } ?: emptyArray()
+        val attachment = file?.let { arrayOf(it) } ?: arrayOf(emptyResponse(fileRequest))
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.AUTO, subject = SUBJECT_CEC,
                 body = body, attachments = attachment)
     }
 
-    private val SELECT_FILENAME = "select od.PTKB_CEC.getFileName(?) from dual"
+    private const val SELECT_FILENAME = "select od.PTKB_CEC.getFileName(?) from dual"
 
-    private val SELECT_DEPUTY_DATA = "select od.PTKB_CEC.getDeputyData(?, ?) from dual"
+    private const val SELECT_DEPUTY_DATA = "select od.PTKB_CEC.getDeputyData(?, ?) from dual"
 
     private fun sendResponseData(idRequest :Number, file: File) :File? {
 
@@ -94,7 +94,31 @@ object CecReportProcess : FileFinder, FileProcessor {
         return fileResponse
     }
 
-    private val INSERT_REQUEST = "insert into OD.PTKB_IZBIRKOM_REQUEST (id, FILE_NAME, ID_REQ, DATE_REQ) " +
+    /**
+     * return empty response by file request fileRequest
+     */
+    private fun emptyResponse(fileRequest: File): File {
+
+        val responseDateTime = LocalDateTime.now()
+
+        val requestDate = fileRequest.nameWithoutExtension.substringAfter('_').substringBefore('_')
+
+        val requestNumber = fileRequest.nameWithoutExtension.substringAfter("_Z_")
+
+        val responseFile = File("${OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_$CEC_CODE.xml")
+
+        val textResponse = emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY() )
+
+        responseFile.writeText(textResponse)
+
+        return responseFile
+    }
+
+    private const val OUR_CODE = "K1022500001325"
+
+    private const val CEC_CODE = "F1027700466640"
+
+    private const val INSERT_REQUEST = "insert into OD.PTKB_IZBIRKOM_REQUEST (id, FILE_NAME, ID_REQ, DATE_REQ) " +
             "values (?, ?, ?, to_date(?, 'dd.mm.yyyy') )"
 
     private fun Zapros.saveRequest(file: File, sessionSetting : SessionSetting) :Number {
@@ -107,7 +131,7 @@ object CecReportProcess : FileFinder, FileProcessor {
         return sequence
     }
 
-    private val INSERT_PERSON = "insert into OD.PTKB_IZBIRKOM ( ID_REQUEST, id, PERS_FAMILY, BIRTHDAY, DOC_CODE,  DOC_SERIA, " +
+    private const val INSERT_PERSON = "insert into OD.PTKB_IZBIRKOM ( ID_REQUEST, id, PERS_FAMILY, BIRTHDAY, DOC_CODE,  DOC_SERIA, " +
             " DOC_NUMBER, NEKONF_ADRESS,  BIRTHPLACE,  SERV_VRNKAND, SERV_CODE_SUBJ, SERV_COMPANY, SERV_SYST, SERV_NAME, " +
             "SERV_SUBJ,  SERV_DATE, PERS_ID, PERS_NAME, PERS_SURNAME, KONF_ADRESS, PERS_CODE_ADR) " +
             "values (?, classified.nextval, ?, to_date(?, 'dd.mm.yyyy'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
@@ -140,4 +164,26 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         AfinaQuery.execute(INSERT_PERSON, params, sessionSetting)
     }
+
+    private fun emptyTicketTemplate(dateTimeTicket: String, //031018_112512
+                                    requestNumber: String, //0039
+                                    requestDate: String, //021018
+                                    createDate: String) /*dd.MM.yyyy*/ =
+            """<?xml version="1.0" encoding="UTF-8"?>
+<File xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VO_CIK_CB_K_6.xsd">
+  <AcknowledgementType>10</AcknowledgementType>
+  <ResultCode>1000</ResultCode>
+  <ResultText>Информация по проверяемым лицам отсутствует</ResultText>
+  <To>$CEC_CODE</To>
+  <From>$OUR_CODE</From>
+  <MessageID>${OUR_CODE}_${dateTimeTicket}_K_${requestNumber}_1000_$CEC_CODE</MessageID>
+  <CorrelationMessageID>${CEC_CODE}_${requestDate}_Z_$requestNumber</CorrelationMessageID>
+  <MessageType>2</MessageType>
+  <Priority>5</Priority>
+  <CreateTime>$createDate</CreateTime>
+</File>"""
+
+    private fun LocalDateTime.formatDateTime() = DateTimeFormatter.ofPattern("ddMMyy_HHmmss").format(this)
+
+    private fun LocalDateTime.formatDateDDMMYYYY() = DateTimeFormatter.ofPattern("dd.MM.yyyy").format(this)
 }

@@ -1,5 +1,6 @@
 
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
@@ -284,5 +285,34 @@ class LoaderTest {
 
         logger.error("x=$x")
     }
+
+    //@Test
+    fun cecReportProcess() {
+
+        val elem = Elem(task = CecReportProcess, path = "X:\\ЦИК\\2018.10.05\\Запрос", name = "F1027700466640_021018_Z_0039.xml")
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+//    fun testSubstring() {
+//
+//        val responseDateTime = LocalDateTime.now()
+//
+//        val fileRequest = File("X:\\ЦИК\\2018.10.05\\Запрос/F1027700466640_021018_Z_0039.xml")
+//
+//        val requestDate = fileRequest.nameWithoutExtension.substringAfter('_').substringBefore('_')
+//        logger.error("requestDate=$requestDate")
+//
+//        val requestNumber = fileRequest.nameWithoutExtension.substringAfter("_Z_")
+//        logger.error("requestNumber=$requestNumber")
+//
+//        val responseFile = File("${CecReportProcess.OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_${CecReportProcess.CEC_CODE}.xml")
+//        logger.error("responseFile=$responseFile")
+//
+//        val textResponse = CecReportProcess.emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY())
+//        logger.error("textResponse=$textResponse")
+//    }
+
 
 }
