@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -15,6 +16,9 @@ import java.io.File
 import java.time.LocalTime
 
 object OutRegisterAquiring: SingleSelector {
+
+    private val logger = LoggerFactory.getLogger(OutRegisterAquiring::class.java)
+
     override val select: String = "select m.id, m.file_name from od.ptkb_ctl_mtl m " +
             "where m.created >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 " +
             "and substr(m.file_name, 1, 3) = 'MTL'"
@@ -52,17 +56,23 @@ object OutRegisterAquiring: SingleSelector {
 
             val excelProcess = ExcelSimple(file, TEMPLATE_REGISTER).createTitle(titleVar)
 
-            val transfers = AfinaQuery.selectCursor(SELECT_TRANSFERS, arrayOf(idMtl, terminalId))
+            var transfers = AfinaQuery.selectCursor(SELECT_TRANSFERS, arrayOf(idMtl, terminalId))
 
-            if(transfers.isEmpty()) continue
+            if(transfers.isEmpty()) {
+                transfers = AfinaQuery.selectCursor(SELECT_NOT_EXEC_TRANSFERS, arrayOf(idMtl, terminalId))
+            }
 
-            createRegister(excelProcess, transfers, terminalId, idMtl)
+            if(transfers.isNotEmpty()) {
+                createRegister(excelProcess, transfers, terminalId, idMtl)
 
-            sendMailRegister(terminal, file)
+                sendMailRegister(terminal, file)
+            }
         }
     }
 
     private const val SELECT_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTransfers( ?, ? ) }"
+
+    private const val SELECT_NOT_EXEC_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringNotExecutedTrans( ?, ? ) }"
 
     private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN.getRegisterByTransactCtl( ?, ?, ? ) }"
 
