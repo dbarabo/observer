@@ -42,21 +42,23 @@ object OutRegisterAquiring: SingleSelector {
 
         val titleVar = createTerminalVar()
 
-        terminals.forEach {
+        for (terminal in terminals) {
 
-            val terminalId = it[0] as String
+            val terminalId = terminal[0] as String
 
-            titleVar.putTitleData(it)
+            titleVar.putTitleData(terminal)
 
-            val file = getFileName(it)
+            val file = getFileName(terminal)
 
             val excelProcess = ExcelSimple(file, TEMPLATE_REGISTER).createTitle(titleVar)
 
             val transfers = AfinaQuery.selectCursor(SELECT_TRANSFERS, arrayOf(idMtl, terminalId))
 
+            if(transfers.isEmpty()) continue
+
             createRegister(excelProcess, transfers, terminalId, idMtl)
 
-            sendMailRegister(it, file)
+            sendMailRegister(terminal, file)
         }
     }
 
@@ -73,8 +75,6 @@ object OutRegisterAquiring: SingleSelector {
             transferVar.putHeader(it)
 
             excelProcess.createHeader(transferVar)
-
-            val transferId = it[0] as Number
 
             val isPay = if(it[6].toString() == "Возврат") 4 else 2
 
