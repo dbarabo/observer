@@ -1,19 +1,16 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
-import org.slf4j.LoggerFactory
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
-import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo.hCardOutSentTodayFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
+import ru.barabo.observer.mail.smtp.BaraboSmtp.DELB_PLASTIC
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
-import java.io.File
-import java.nio.charset.Charset
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,7 +19,7 @@ import java.time.format.DateTimeFormatter
 
 object OutRestCheck: SingleSelector {
 
-    private val logger = LoggerFactory.getLogger(OutRestCheck::class.java)
+    //private val logger = LoggerFactory.getLogger(OutRestCheck::class.java)
 
     override val select: String = "select id, file_name from od.ptkb_plastic_acc where trunc(created) = trunc(sysdate)"
 
@@ -35,10 +32,10 @@ object OutRestCheck: SingleSelector {
     override fun execute(elem: Elem): State {
 
         if(!isCtlExecAllDocumentFound()) {
-            return if(isEndTime() ) processNoneExecAllDocument(elem) else waitToNextTime(elem)
+            return if(isEndTime() ) processNoneExecAllDocument() else waitToNextTime(elem)
         }
 
-        return processExecAllDocument(elem)
+        return processExecAllDocument()
     }
 
     private fun isCtlExecAllDocumentFound(): Boolean {
@@ -65,7 +62,7 @@ object OutRestCheck: SingleSelector {
 
     private const val NEXT_TIME_MINUTE = 15L
 
-    private fun processNoneExecAllDocument(elem: Elem): State {
+    private fun processNoneExecAllDocument(): State {
 
         val data = createHtmlData() ?: return State.OK
 
@@ -74,7 +71,7 @@ object OutRestCheck: SingleSelector {
         return State.OK
     }
 
-    private fun processExecAllDocument(elem: Elem): State {
+    private fun processExecAllDocument(): State {
 
         val data = createHtmlData() ?: return State.OK
 
@@ -84,19 +81,6 @@ object OutRestCheck: SingleSelector {
         return State.OK
     }
 
-    private fun createReview(nameRest: String): File? {
-
-        val data = createHtmlData() ?: return null
-
-        val file = fileReview(nameRest)
-
-        file.writeText(data, Charset.forName("CP1251"))
-
-        return file
-    }
-
-    private fun fileReview(nameRest: String) = File("${hCardOutSentTodayFolder()}/$nameRest.html")
-
     private fun sendMailFile(subject: String, data: String) {
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
                 body = data, subtypeBody = "html") //, attachments = arrayOf(fileSend))
@@ -105,9 +89,6 @@ object OutRestCheck: SingleSelector {
     private const val NONE_EXEC_SUBJECT = "✖✖✖ Сверка остатков из Картстандарта - есть неисполненные док-ты"
 
     private const val EXEC_SUBJECT = "Сверка остатков Картстандарта и Афины"
-
-    private fun bodyRest(file: File) = "В файле вложения ${file.name} находится таблица сверки остатков\n" +
-            "Отсутствие данных в таблице означает, что расхождений остатков нет"
 
     private fun createHtmlData(): String? {
 

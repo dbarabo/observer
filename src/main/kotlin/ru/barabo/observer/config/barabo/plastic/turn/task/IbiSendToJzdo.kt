@@ -14,6 +14,7 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
+import java.time.Duration
 import java.time.LocalTime
 
 object IbiSendToJzdo : FileFinder, FileProcessor {
@@ -24,7 +25,8 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::hCardOutFileToday, "IBI_.*"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0))
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, isDuplicateName = false,
+            workTimeFrom = LocalTime.of(7, 0))
 
     fun hCardOutSentTodayFolder(): File = "${hCardOutToday()}/sent".byFolderExists()
 

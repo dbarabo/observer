@@ -1,8 +1,5 @@
 package ru.barabo.observer.mail.smtp
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.smtp.SendMail
@@ -19,13 +16,11 @@ object BaraboSmtp : SendMail {
 
     val OPER_YA = arrayOf("oper@ptkb.ru", smtpProperties.from)
 
-    val PRIM_AUTO = if(TaskMapper.isAfinaBase())
-        arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru") else YA
+    val PRIM_AUTO = arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru").onlyAfinaOrYa()
 
-    val BOOKER = if(TaskMapper.isAfinaBase())
-        arrayOf("buh1@ptkb.ru", "nesteryk@ptkb.ru", "kudryavceva@ptkb.ru") else YA
+    val BOOKER = arrayOf("buh1@ptkb.ru", "kudryavceva@ptkb.ru").onlyAfinaOrYa()
 
-    val AUTO = if(TaskMapper.isAfinaBase()) arrayOf("auto@ptkb.ru") else YA
+    val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
     val DOPIKI = arrayOf("dedyaeva@ptkb.ru", "pashkina@ptkb.ru", "kovshova@ptkb.ru", "stepnova@ptkb.ru", "derevenskih@ptkb.ru").onlyAfina()
 
@@ -35,15 +30,13 @@ object BaraboSmtp : SendMail {
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val CHECKER_390P = arrayOf("zharova@ptkb.ru", "faiz@ptkb.ru", "konyaeva@ptkb.ru", "makarovanv@ptkb.ru").onlyAfina()
+    val CHECKER_390P = arrayOf("faiz@ptkb.ru", "konyaeva@ptkb.ru", "makarovanv@ptkb.ru", "okina@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru", "zharova@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("faiz@ptkb.ru", "makarovanv@ptkb.ru", "konyaeva@ptkb.ru", "okina@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
     val TTS = arrayOf("tts@ptkb.ru").onlyAfina()
-
-    val PLASTIC = arrayOf("plastik@ptkb.ru").onlyAfina()
 
     val CHECKER_PLASTIC = arrayOf("dummy@ptkb.ru", "oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
@@ -54,9 +47,11 @@ object BaraboSmtp : SendMail {
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
     private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru",
-            "zharova@ptkb.ru", "zdorovec@ptkb.ru", "koleev@ptkb.ru").onlyAfina()
+            "zdorovec@ptkb.ru", "koleev@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
+
+    private fun Array<String>.onlyAfinaOrYa() = if(TaskMapper.isAfinaBase()) this else YA
 
     fun errorSend(error :String, subject :String, to :Array<String> = AUTO) {
 
@@ -90,29 +85,6 @@ object BaraboSmtp : SendMail {
 
         synchronized(suspendElems) {
             suspendElems.add(elem)
-        }
-    }
-
-    suspend private fun suspendErrorSend(elem :Elem) = errorSend(elem)
-
-    suspend private fun sendElems() {
-
-        synchronized(suspendElems) {
-
-            suspendElems.forEach { suspendErrorSend(it) }
-
-            suspendElems.clear()
-        }
-    }
-
-    fun sendSuspendElem() {
-        synchronized(suspendElems) { if(suspendElems.isEmpty()) return }
-
-        runBlocking(CommonPool) {
-            val job = launch(CommonPool) {
-                sendElems()
-            }
-            job.join()
         }
     }
 
