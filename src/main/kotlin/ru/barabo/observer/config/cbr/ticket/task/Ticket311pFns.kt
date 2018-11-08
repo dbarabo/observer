@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
+import org.slf4j.LoggerFactory
 import org.w3c.dom.Element
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
@@ -20,6 +21,8 @@ import java.util.regex.Pattern
 import javax.xml.parsers.DocumentBuilderFactory
 
 object Ticket311pFns: FileFinder, FileProcessor {
+
+    private val logger = LoggerFactory.getLogger(Ticket311pFns::class.java)
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","2z..._05\\.717", isModifiedTodayOnly = true))
@@ -56,14 +59,25 @@ object Ticket311pFns: FileFinder, FileProcessor {
         saveTicket(head?.getAttribute("НомСооб"), head?.getAttribute("РезОбр"), fileXml)
     }
 
-    private val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
+    private const val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
 
-    private val UPDATE_REGISTER = "update od.ptkb_361p_register rp set rp.KWIT_DATE = sysdate, " +
+    private const val UPDATE_REGISTER = "update od.ptkb_361p_register rp set rp.KWIT_DATE = sysdate, " +
             "rp.KWIT_RESULT = ?, rp.KWIT_FILENAME = ?, rp.KWIT_DATA = ? where rp.id = ?"
 
-    private fun saveTicket(numberMessage :String?, resultMessage :String?, fileXml :File) {
+    private fun saveTicket(numberMessage: String?, resultMessage: String?, fileXml: File) {
 
-        val number = (numberMessage!!.trim().toLong() % 1000000).toInt()
+        val number =try {
+            if(numberMessage.isNullOrEmpty()) getNumberByFile(fileXml)
+            else (numberMessage!!.trim().toLong() % 1000000).toInt()
+        } catch (e: Exception) {
+            logger.error("saveTicket", e)
+
+            logger.error("numberMessage=$numberMessage")
+
+            logger.error("fileXml=$fileXml")
+
+            throw Exception(e.message!!)
+        }
 
         val idRegister = AfinaQuery.selectValue(SELECT_ID_REGISTER, arrayOf(number)) as? Number
 
@@ -72,4 +86,7 @@ object Ticket311pFns: FileFinder, FileProcessor {
 
         AfinaQuery.execute(UPDATE_REGISTER, params)
     }
+
+    private fun getNumberByFile(fileXml: File): Int = (fileXml.nameWithoutExtension
+            .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
 }

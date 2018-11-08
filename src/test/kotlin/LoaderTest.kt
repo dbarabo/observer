@@ -295,6 +295,15 @@ class LoaderTest {
     }
 
     //@Test
+    fun parseIntLong() {
+       val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
+                .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
+
+        logger.error("value=$value")
+    }
+
+
+    //@Test
 //    fun testSubstring() {
 //
 //        val responseDateTime = LocalDateTime.now()
