@@ -61,9 +61,6 @@ interface Periodical : Executor, ActionTask {
         return elem
     }
 
-    private fun executedTime(timeCreated :LocalDateTime) :LocalDateTime? =
-            accessibleData.executeWait?.let { timeCreated.plusSeconds(it.seconds) }
-
     private fun readLastPeriod(): LocalDateTime {
 
         val lastItem = StoreSimple.getLastItemsNoneState(this)

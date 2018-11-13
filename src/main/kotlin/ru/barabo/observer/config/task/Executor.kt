@@ -10,6 +10,10 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 interface Executor {
+
+    fun executedTime(timeCreated: LocalDateTime = LocalDateTime.now()): LocalDateTime? =
+            accessibleData.executeWait?.let { timeCreated.plusSeconds(it.seconds) }
+
     val accessibleData :AccessibleData
 
     fun actionTask() :ActionTask

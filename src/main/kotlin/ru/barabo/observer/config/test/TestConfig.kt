@@ -1,7 +1,8 @@
 package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadCtlMtl
+import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
+import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringWeek
 import java.util.*
 
 object TestConfig : ConfigTask {
@@ -13,9 +14,11 @@ object TestConfig : ConfigTask {
 
     override fun configRun() {
 
-        LoadCtlMtl.findAll()
-
+        //LoadCtlMtl.findAll()
         //ExecuteCtlMtl.findAll()
+
+        //OutRegisterAquiringWeek.findAll()
+        //OutRegisterAquiringMonth.findAll()
 
         this.executeTasks()
     }

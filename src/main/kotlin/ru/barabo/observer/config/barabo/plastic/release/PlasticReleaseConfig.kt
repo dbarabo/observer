@@ -25,6 +25,7 @@ object PlasticReleaseConfig: ConfigTask {
         ReleaseCheckAll.findAll()
 
         OutRegisterAquiringMonth.findAll()
+        OutRegisterAquiringWeek.findAll()
 
         // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig
         this.executeTasks()

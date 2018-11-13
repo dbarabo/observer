@@ -33,7 +33,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     val logger = LoggerFactory.getLogger(StoreSimple::class.java)!!
 
     @Synchronized
-    fun addNotExistsByIdElem(item :Elem):Boolean {
+    fun addNotExistsByIdElem(item :Elem): Boolean {
         val exist = dataList.firstOrNull { (it.task == item.task) && (it.idElem == item.idElem)}
 
         if(exist == null) {
@@ -41,6 +41,9 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         }
         return exist == null
     }
+
+    @Synchronized
+    fun findElemById(idElem: Long, task: ActionTask): Elem? = dataList.firstOrNull {(it.task == task) && (it.idElem == idElem)}
 
     @Synchronized
     fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean

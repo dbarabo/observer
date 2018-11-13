@@ -1,6 +1,8 @@
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.net.InetAddress
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -114,5 +116,10 @@ class TaskTest {
 
     }
 
+    //@Test
+    fun getLocalHost() {
+        logger.error(InetAddress.getLocalHost().hostName.toUpperCase())
 
+
+    }
 }
