@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
-import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -17,7 +16,7 @@ import java.time.LocalTime
 
 object OutRegisterAquiring: SingleSelector {
 
-    private val logger = LoggerFactory.getLogger(OutRegisterAquiring::class.java)
+    //private val logger = LoggerFactory.getLogger(OutRegisterAquiring::class.java)
 
     override val select: String = "select m.id, m.file_name from od.ptkb_ctl_mtl m " +
             "where m.created >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 " +
@@ -65,10 +64,11 @@ object OutRegisterAquiring: SingleSelector {
             if(transfers.isNotEmpty()) {
                 createRegister(excelProcess, transfers, terminalId, idMtl)
 
-                sendMailRegister(terminal, file)
+                file.sendMailRegister(terminal)
             }
         }
     }
+
 
     private const val SELECT_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTransfers( ?, ? ) }"
 
@@ -89,9 +89,9 @@ object OutRegisterAquiring: SingleSelector {
             val isPay = if(it[6].toString() == "Возврат") 4 else 2
 
             val transactions =
-                    AfinaQuery.selectCursor(SELECT_TRANSACT_TRANSFER, arrayOf(idMtl, terminalId, isPay) /*arrayOf(transferId)*/)
+                    AfinaQuery.selectCursor(SELECT_TRANSACT_TRANSFER, arrayOf(idMtl, terminalId, isPay) )
 
-            transferVar["SUM_LOOP"] = createTransactData(excelProcess, transactions)
+            transferVar["SUM_LOOP"] = transactions.createTransactData(excelProcess)
 
             excelProcess.createTail(transferVar)
         }
@@ -99,25 +99,25 @@ object OutRegisterAquiring: SingleSelector {
         excelProcess.save()
     }
 
-    private fun createTransactData(excelProcess: ExcelSimple, transactions: List<Array<Any?>>): Double {
-
+    internal fun List<Array<Any?>>.createTransactData(excelSimple: ExcelSimple): Double {
         var sumData  = 0.0
 
         val transactVar = createTransactVar()
 
-        transactions.forEach {
+        for (transact in this) {
+            transactVar.putBodyRow(transact)
 
-            transactVar.putBodyRow(it)
-
-            excelProcess.createBodyRow(transactVar)
+            excelSimple.createBodyRow(transactVar)
 
             sumData += (transactVar["amount_loop"] as Number).toDouble()
         }
 
+        sumData = Math.round(sumData * 100.0) / 100.0
+
         return sumData
     }
 
-    private fun MutableMap<String, Any>. putTitleData(terminal: Array<Any?>) {
+    internal fun MutableMap<String, Any>.putTitleData(terminal: Array<Any?>) {
 
         this["TerminalId"] = terminal[0]?.let { it as String}?:""
 
@@ -184,31 +184,31 @@ object OutRegisterAquiring: SingleSelector {
 
     private val TEMPLATE_REGISTER = File("${Cmd.LIB_FOLDER}/acquir.xls")
 
-    private fun createTerminalVar(): MutableMap<String, Any> = mutableMapOf(
+    internal fun createTerminalVar(): MutableMap<String, Any> = mutableMapOf(
             "dtStart" to "",
             "dtEnd" to "",
             "TerminalId" to "",
             "CompanyName" to "",
             "adressCompany" to "")
-
-    private fun sendMailRegister(terminalInfo: Array<Any?>, file: File) {
-        val mailTo = if(TaskMapper.isAfinaBase()) terminalInfo[5] as? String else null
-
-        val mailCc = if(TaskMapper.isAfinaBase()) terminalInfo[6] as? String else null
-
-        if(!TaskMapper.isAfinaBase() || mailTo != null || mailCc != null) {
-
-            BaraboSmtp.sendStubThrows(to = mailTo?.let { arrayOf(mailTo) }?: emptyArray(),
-                    cc = mailCc?.let { arrayOf(mailCc) }?: emptyArray(),
-                    bcc = BaraboSmtp.YA,
-                    subject = SUBJECT_REGISTER,
-                    body = BODY_REGISTER,
-                    attachments = arrayOf(file)
-            )
-        }
-    }
-
-    private const val SUBJECT_REGISTER = "Реестр транзакций"
-
-    private const val BODY_REGISTER = "Реестр транзакций по эквайринговым операциям в POS-терминале. Реестр находится во вложении"
 }
+
+internal fun File.sendMailRegister(terminalInfo: Array<Any?>, subjectMail: String = SUBJECT_REGISTER) {
+    val mailTo = if(TaskMapper.isAfinaBase()) terminalInfo[5] as? String else null
+
+    val mailCc = if(TaskMapper.isAfinaBase()) terminalInfo[6] as? String else null
+
+    if(!TaskMapper.isAfinaBase() || mailTo != null || mailCc != null) {
+
+        BaraboSmtp.sendStubThrows(to = mailTo?.let { arrayOf(mailTo) }?: emptyArray(),
+                cc = mailCc?.let { arrayOf(mailCc) }?: emptyArray(),
+                bcc = BaraboSmtp.YA,
+                subject = subjectMail,
+                body = BODY_REGISTER,
+                attachments = arrayOf(this)
+        )
+    }
+}
+
+private const val SUBJECT_REGISTER = "Реестр транзакций"
+
+private const val BODY_REGISTER = "Реестр транзакций по эквайринговым операциям в POS-терминале. Реестр находится во вложении"

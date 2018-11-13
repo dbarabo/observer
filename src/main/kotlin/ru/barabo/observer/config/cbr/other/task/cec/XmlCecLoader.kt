@@ -28,10 +28,11 @@ class XmlCecLoader<E> {
         return xstream
     }
 
-    fun load(file : File) :E {
+    fun load(file : File): E {
 
         val fileInputStream = FileInputStream(file)
 
+        @Suppress("UNCHECKED_CAST")
         val xml = xstream().fromXML(fileInputStream) as E
 
         fileInputStream.close()

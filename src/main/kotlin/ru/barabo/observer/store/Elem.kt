@@ -65,9 +65,9 @@ data class Elem (
 
         private val logger = LoggerFactory.getLogger(Elem::class.java)
 
-        override fun selectParams() :Array<Any?>? =  Array(1, {if(TaskMapper.isAfinaBase()) 1 else 0 })
+        override fun selectParams() :Array<Any?>? =  Array(1) {if(TaskMapper.isAfinaBase()) 1 else 0 }
 
-        override fun convertToBase(value :Any) :Any {
+    override fun convertToBase(value :Any) :Any {
                 logger.info("value=$value")
                 logger.info("class=${value.javaClass.canonicalName}")
 

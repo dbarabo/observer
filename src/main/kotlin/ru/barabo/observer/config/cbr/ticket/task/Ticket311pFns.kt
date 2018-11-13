@@ -68,7 +68,7 @@ object Ticket311pFns: FileFinder, FileProcessor {
 
         val number =try {
             if(numberMessage.isNullOrEmpty()) getNumberByFile(fileXml)
-            else (numberMessage!!.trim().toLong() % 1000000).toInt()
+            else (numberMessage.trim().toLong() % 1000000).toInt()
         } catch (e: Exception) {
             logger.error("saveTicket", e)
 

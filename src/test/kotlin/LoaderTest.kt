@@ -6,6 +6,7 @@ import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
+import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
@@ -266,6 +267,13 @@ class LoaderTest {
     fun outRegisterAquiring() {
 
         val elem = Elem(idElem = 1181803901, task = OutRegisterAquiring)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun outRegisterAquiringMonth() {
+        val elem = Elem(task = OutRegisterAquiringMonth)
 
         elem.task?.execute(elem)
     }

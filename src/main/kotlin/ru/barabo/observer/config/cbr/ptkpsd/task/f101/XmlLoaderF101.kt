@@ -81,6 +81,7 @@ class XmlLoaderF101<E> {
 
         val fileInputStream = FileInputStream(file)
 
+        @Suppress("UNCHECKED_CAST")
         val xml = xstream().fromXML(fileInputStream) as E
 
         fileInputStream.close()

@@ -8,7 +8,6 @@ import jxl.format.BorderLineStyle
 import jxl.format.Colour
 import jxl.write.*
 import jxl.write.WritableFont.ARIAL
-import jxl.write.WritableFont.NO_BOLD
 import jxl.write.biff.RowsExceededException
 import ru.barabo.cmd.Cmd
 import java.io.File
@@ -63,7 +62,7 @@ object ExcelNbkiCreator {
 
     private fun getDefaultCellFormat(): WritableCellFormat {
         //установка шрифта
-        val arial12ptBold = WritableFont(ARIAL, 10, NO_BOLD)
+        val arial12ptBold = WritableFont(ARIAL, 10/*, WritableFont.NO_BOLD*/)
         var arial12BoldFormat = WritableCellFormat(arial12ptBold)
 
         try {

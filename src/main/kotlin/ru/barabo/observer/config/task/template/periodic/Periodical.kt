@@ -22,13 +22,19 @@ interface Periodical : Executor, ActionTask {
 
     fun findPeriodItems(): Executor? {
 
-        lastPeriod = lastPeriod?.let { lastPeriod } ?: readLastPeriod()
+        var periodTime = lastPeriod ?: readLastPeriod()
 
-        if(unit === ChronoUnit.DAYS) {
-            lastPeriod = lastPeriod!!.withHour(0)
+        if(unit == ChronoUnit.MONTHS) {
+            periodTime = periodTime.withDayOfMonth(0)
         }
 
-        val timeCount = lastPeriod!!.until(LocalDateTime.now(), unit)
+        if(unit in listOf(ChronoUnit.DAYS, ChronoUnit.MONTHS) ) {
+            periodTime = periodTime.withHour(0)
+        }
+
+        val timeCount = periodTime.until(LocalDateTime.now(), unit)
+
+        lastPeriod = periodTime
 
         if(timeCount < count) return null
 
@@ -58,7 +64,7 @@ interface Periodical : Executor, ActionTask {
     private fun executedTime(timeCreated :LocalDateTime) :LocalDateTime? =
             accessibleData.executeWait?.let { timeCreated.plusSeconds(it.seconds) }
 
-    private fun readLastPeriod() :LocalDateTime {
+    private fun readLastPeriod(): LocalDateTime {
 
         val lastItem = StoreSimple.getLastItemsNoneState(this)
 

@@ -30,15 +30,17 @@ repositories {
 
 
 // for cbr config
-compileJava.options.encoding = 'UTF-8'
+//compileJava.options.encoding = 'UTF-8'
 
 // for barabo config
-//compileJava.options.encoding = 'CP1251'
+compileJava.options.encoding = 'CP1251'
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    //compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.19.3'
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.19.3'
 
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
@@ -76,7 +78,7 @@ dependencies {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.2"
+        languageVersion = "1.3"
     }
 }
 

@@ -21,7 +21,8 @@ class ActionMenu : Menu("Действия", ResourcesManager.icon("action.png"))
             value?.getActionMenuItems()?.forEach {
 
                 val menuItem = MenuItem(it.first)
-                menuItem.setOnAction{_ -> it.second() }
+
+                menuItem.setOnAction{ _ -> it.second() }
                 this += menuItem
             }
         }
@@ -40,10 +41,7 @@ private fun  TreeElem.getActionMenuItems() :List<Pair<String, ()->Unit>> {
     return list
 }
 
-
-private fun TreeElem.itemsByTask(task : ActionTask) :List<Pair<String, ()->Unit>> {
-    return emptyList()
-}
+private fun itemsByTask(task: ActionTask) :List<Pair<String, ()->Unit>> = emptyList()
 
 private fun TreeElem.defaultItemsByState(state :State) :List<Pair<String, ()->Unit>> {
 
