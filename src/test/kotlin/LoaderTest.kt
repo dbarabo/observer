@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
@@ -179,10 +180,15 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
+    @Test
+    fun saveOutOutApplicationData() {
+        OutApplicationData.execute(idPacket = 1182748836)
+    }
+
     //@Test
     fun saveOutSmsData() {
 
-        val elem = Elem(idElem = 1174165244, task = OutSmsData)
+        val elem = Elem(idElem = 1182782271, task = OutSmsData)
 
         elem.task?.execute(elem)
     }

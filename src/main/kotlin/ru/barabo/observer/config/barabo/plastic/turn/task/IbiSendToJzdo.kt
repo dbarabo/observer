@@ -12,9 +12,9 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.nio.charset.Charset
-import java.time.Duration
 import java.time.LocalTime
 
 object IbiSendToJzdo : FileFinder, FileProcessor {
@@ -32,7 +32,7 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
 
     fun hCardOutSentTodayByFolder(): String = hCardOutSentTodayFolder().absolutePath
 
-    private const val TO_JZDO_SENT = "\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown"
+    private val TO_JZDO_SENT = if(TaskMapper.isAfinaBase())"\\\\jzdo/c$/jzdo/files/doc/out/cs/unknown" else "c:/temp"
 
     fun toJzdoSent(): String = TO_JZDO_SENT
 
