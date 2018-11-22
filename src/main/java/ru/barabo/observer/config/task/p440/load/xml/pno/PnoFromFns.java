@@ -4,10 +4,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.FromFnsInfo;
 
-@XStreamAlias("‘‡ÈÎ")
+@XStreamAlias("–§–∞–π–ª")
 final public class PnoFromFns extends AbstractFromFns {
 
-	@XStreamAlias("œŒ–”◊—◊≈“Õ")
+	@XStreamAlias("–ü–û–†–£–ß–°–ß–ï–¢–ù")
 	private OrderTax orderTax;
 
 	@Override

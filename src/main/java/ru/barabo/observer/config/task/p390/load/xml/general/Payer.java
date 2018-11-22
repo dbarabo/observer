@@ -4,14 +4,14 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Address;
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerJur;
 
-@XStreamAlias("—‚Â‰œÎ")
+@XStreamAlias("–°–≤–µ–¥–ü–ª")
 public class Payer {
-    @XStreamAlias("œÎ‡ÚﬁÀ")
+    @XStreamAlias("–ü–ª–∞—Ç–Æ–õ")
     protected PayerJur juric;
 
-    @XStreamAlias("œÎ‡Ú‘À")
+    @XStreamAlias("–ü–ª–∞—Ç–§–õ")
     protected PayerPhysicIp physicIp;
 
-    @XStreamAlias("¿‰ÂÒœÎ‡Ú")
+    @XStreamAlias("–ê–¥—Ä–µ—Å–ü–ª–∞—Ç")
     protected Address address;
 }

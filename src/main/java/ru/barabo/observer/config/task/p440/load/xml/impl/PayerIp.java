@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("œÎ»œ")
+@XStreamAlias("–ü–ª–ò–ü")
 public final class PayerIp implements ParamsQuery {
 
-	@XStreamAlias("»ÕÕ»œ")
+	@XStreamAlias("–ò–ù–ù–ò–ü")
 	private String inn;
 
-	@XStreamAlias("‘»Œ")
+	@XStreamAlias("–§–ò–û")
 	private Fio fio;
 
 	transient private Number idClient;

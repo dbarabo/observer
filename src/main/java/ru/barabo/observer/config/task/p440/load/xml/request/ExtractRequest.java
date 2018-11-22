@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@XStreamAlias("ÇÀÏÍÎÂÛÏÈÑ")
+@XStreamAlias("Ğ—ĞĞŸĞĞĞ’Ğ«ĞŸĞ˜Ğ¡")
 public final class ExtractRequest extends AbstractRequest {
 
-	@XStreamAlias("ÇàÏåğèîä")
+	@XStreamAlias("Ğ—Ğ°ĞŸĞµÑ€Ğ¸Ğ¾Ğ´")
 	private Period period;
 
-	@XStreamAlias("ÏîÂñåì")
+	@XStreamAlias("ĞŸĞ¾Ğ’ÑĞµĞ¼")
 	private Integer isAll;
 
-	@XStreamImplicit(itemFieldName = "ÏîÓêàçàííûì")
+	@XStreamImplicit(itemFieldName = "ĞŸĞ¾Ğ£ĞºĞ°Ğ·Ğ°Ğ½Ğ½Ñ‹Ğ¼")
 	private List<Account> accounts;
 
 	@Override

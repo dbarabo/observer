@@ -5,37 +5,37 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@XStreamAlias("АдрПлат")
+@XStreamAlias("РђРґСЂРџР»Р°С‚")
 public final class Address {
 
-	@XStreamAlias("Индекс")
+	@XStreamAlias("РРЅРґРµРєСЃ")
 	private String index;
 
-	@XStreamAlias("КодРегион")
+	@XStreamAlias("РљРѕРґР РµРіРёРѕРЅ")
 	private String region;
 
-	@XStreamAlias("КодРегиона")
+	@XStreamAlias("РљРѕРґР РµРіРёРѕРЅР°")
 	private String regiona;
 
-	@XStreamAlias("Район")
+	@XStreamAlias("Р Р°Р№РѕРЅ")
 	private String rayon;
 
-	@XStreamAlias("Город")
+	@XStreamAlias("Р“РѕСЂРѕРґ")
 	private String city;
 
-	@XStreamAlias("НаселПункт")
+	@XStreamAlias("РќР°СЃРµР»РџСѓРЅРєС‚")
 	private String town;
 
-	@XStreamAlias("Улица")
+	@XStreamAlias("РЈР»РёС†Р°")
 	private String street;
 
-	@XStreamAlias("Дом")
+	@XStreamAlias("Р”РѕРј")
 	private String house;
 
-	@XStreamAlias("Корпус")
+	@XStreamAlias("РљРѕСЂРїСѓСЃ")
 	private String corpus;
 
-	@XStreamAlias("Кварт")
+	@XStreamAlias("РљРІР°СЂС‚")
 	private String flat;
 	
 	public Address() {}

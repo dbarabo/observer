@@ -2,19 +2,19 @@ package ru.barabo.observer.config.task.p440.out.xml.extract;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("ĞåêâÏëàò")
+@XStreamAlias("Ğ ĞµĞºĞ²ĞŸĞ»Ğ°Ñ‚")
 public class PayerInfo {
 
-	@XStreamAlias("ÍàèìÏÏ")
+	@XStreamAlias("ĞĞ°Ğ¸Ğ¼ĞŸĞŸ")
 	private String name;
 
-	@XStreamAlias("ÈÍÍÏÏ")
+	@XStreamAlias("Ğ˜ĞĞĞŸĞŸ")
 	private String inn;
 
-	@XStreamAlias("ÊÏÏÏÏ")
+	@XStreamAlias("ĞšĞŸĞŸĞŸĞŸ")
 	private String kpp;
 
-	@XStreamAlias("ÍîìÑ÷ÏÏ")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡ĞŸĞŸ")
 	private String account;
 
 	public PayerInfo(String name, String inn, String kpp, String account) {

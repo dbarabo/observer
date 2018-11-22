@@ -2,13 +2,13 @@ package ru.barabo.observer.config.task.p440.load.xml.impl;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("Ñ÷åò")
+@XStreamAlias("Ğ¡Ñ‡ĞµÑ‚")
 public final class Account {
 
-	@XStreamAlias("ÍîìÑ÷")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ¡Ñ‡")
 	private String code;
 
-	@XStreamAlias("ÂèäÑ÷")
+	@XStreamAlias("Ğ’Ğ¸Ğ´Ğ¡Ñ‡")
 	private String type;
 
 	public String getCode() {

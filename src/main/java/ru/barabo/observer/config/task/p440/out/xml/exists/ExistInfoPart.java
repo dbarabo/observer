@@ -10,31 +10,31 @@ import ru.barabo.observer.config.task.p440.out.xml.AbstractInfoPart;
 import java.util.Date;
 import java.util.List;
 
-@XStreamAlias("СПРБННАЛИЧ")
+@XStreamAlias("РЎРџР Р‘РќРќРђР›РР§")
 public class ExistInfoPart extends AbstractInfoPart {
 
-	@XStreamAlias("НомСправ")
+	@XStreamAlias("РќРѕРјРЎРїСЂР°РІ")
 	private String numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
 
-	@XStreamAlias("ТипСправ")
+	@XStreamAlias("РўРёРїРЎРїСЂР°РІ")
 	private String typeHelp = "1";
 
-	@XStreamAlias("НомЗапр")
+	@XStreamAlias("РќРѕРјР—Р°РїСЂ")
 	private String requestNumber;
 
-	@XStreamAlias("ДатаЗапр")
+	@XStreamAlias("Р”Р°С‚Р°Р—Р°РїСЂ")
 	private String requestDate;
 
-	@XStreamAlias("ВидСпр")
-	private String viewHelp; // берем из базы
+	@XStreamAlias("Р’РёРґРЎРїСЂ")
+	private String viewHelp; // Р±РµСЂРµРј РёР· Р±Р°Р·С‹
 
-	@XStreamAlias("ДейстПоСост")
+	@XStreamAlias("Р”РµР№СЃС‚РџРѕРЎРѕСЃС‚")
 	private String actualDate = XmlLoader.formatDate(new Date());
 
-	@XStreamImplicit(itemFieldName = "Сведения")
+	@XStreamImplicit(itemFieldName = "РЎРІРµРґРµРЅРёСЏ")
 	private List<ExistsAccount> existsList;
 
-	@XStreamAlias("ПредБанка")
+	@XStreamAlias("РџСЂРµРґР‘Р°РЅРєР°")
 	private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
 	public ExistInfoPart(ExistsResponseData responseData) {

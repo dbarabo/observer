@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ApoInfo extends AbstractApx {
 
-	@XStreamAlias("НомОтмРеш")
+	@XStreamAlias("РќРѕРјРћС‚РјР РµС€")
 	private String subNumber;
 
-	@XStreamAlias("ДатаОтмРеш")
+	@XStreamAlias("Р”Р°С‚Р°РћС‚РјР РµС€")
 	private String subDate;
 
-	@XStreamImplicit(itemFieldName = "ВозобнПоруч")
+	@XStreamImplicit(itemFieldName = "Р’РѕР·РѕР±РЅРџРѕСЂСѓС‡")
 	private List<PnoCancel> pnoCancel;
 
 	@Override

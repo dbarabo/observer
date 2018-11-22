@@ -296,7 +296,7 @@ open class Query (private val dbConnection :DbConnection) {
 
         while(resultSet.next()) {
 
-            val row = Array<Any?>(resultSet.metaData.columnCount, {null})
+            val row = Array<Any?>(resultSet.metaData.columnCount) {null}
 
             for (index in 1 .. resultSet.metaData.columnCount) {
                 row[index - 1] = resultSet.getObject(index)

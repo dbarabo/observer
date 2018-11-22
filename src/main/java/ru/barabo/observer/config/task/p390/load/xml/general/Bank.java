@@ -2,14 +2,14 @@ package ru.barabo.observer.config.task.p390.load.xml.general;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("¡‡ÌÍ")
+@XStreamAlias("–ë–∞–Ω–∫")
 public class Bank {
-    @XStreamAlias("¡» ")
+    @XStreamAlias("–ë–ò–ö")
     protected String bik;
 
-    @XStreamAlias("Õ‡ËÏ¡")
+    @XStreamAlias("–ù–∞–∏–º–ë")
     protected String name;
 
-    @XStreamAlias("ÕÓÏ‘")
+    @XStreamAlias("–ù–æ–º–§")
     protected String filial;
 }

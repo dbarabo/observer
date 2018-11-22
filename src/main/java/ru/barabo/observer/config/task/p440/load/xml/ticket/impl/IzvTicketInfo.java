@@ -8,22 +8,22 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-@XStreamAlias("ИЗВЦБКОНТР")
+@XStreamAlias("РР—Р’Р¦Р‘РљРћРќРўР ")
 public class IzvTicketInfo implements IzvTicket {
 
-	@XStreamAlias("ИмяФайла")
+	@XStreamAlias("РРјСЏР¤Р°Р№Р»Р°")
 	private String fileNameResponse;
 	
-	@XStreamAlias("КодРезПроверки")
+	@XStreamAlias("РљРѕРґР РµР·РџСЂРѕРІРµСЂРєРё")
 	private String codeResultCheck;
 	
-	@XStreamAlias("ДатаВремяПроверки")
+	@XStreamAlias("Р”Р°С‚Р°Р’СЂРµРјСЏРџСЂРѕРІРµСЂРєРё")
 	private String dateTimeTicket;
 
-	@XStreamAlias("Пояснение")
+	@XStreamAlias("РџРѕСЏСЃРЅРµРЅРёРµ")
 	private String errorDescription;
 
-	@XStreamAlias("ДатаВремяПериода")
+	@XStreamAlias("Р”Р°С‚Р°Р’СЂРµРјСЏРџРµСЂРёРѕРґР°")
 	private String accessDateTime;
 
 	@Override

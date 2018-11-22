@@ -2,13 +2,13 @@ package ru.barabo.observer.config.task.p440.load.xml.impl;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias(" ›—œ")
+@XStreamAlias("–ö–≠–°–ü")
 public final class Kesp {
 
-	@XStreamAlias("»‰ ›—œ")
+	@XStreamAlias("–ò–¥–ö–≠–°–ü")
 	private String idKesp;
 
-	@XStreamAlias("¬‡Î ›—œ")
+	@XStreamAlias("–í–∞–ª–ö–≠–°–ü")
 	private String currency;
 
 	public String getIdKesp() {

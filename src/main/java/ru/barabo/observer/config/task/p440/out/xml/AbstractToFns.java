@@ -10,25 +10,25 @@ public class AbstractToFns {
 
 	final static transient protected Logger logger = Logger.getLogger(AbstractToFns.class.getName());
 
-	@XStreamAlias("ИдЭС")
+	@XStreamAlias("РРґР­РЎ")
 	final protected String guid = UUID.randomUUID().toString();
 
-	@XStreamAlias("ВерсПрог")
+	@XStreamAlias("Р’РµСЂСЃРџСЂРѕРі")
 	final protected String versionProgram = "JAFINA 5.1";
 
-	@XStreamAlias("ТелОтпр")
+	@XStreamAlias("РўРµР»РћС‚РїСЂ")
 	final protected String pnoneSender = "(423)222-98-82";
 
-	@XStreamAlias("ФамОтпр")
-	final protected String familySender = "БРЫКИНА";
+	@XStreamAlias("Р¤Р°РјРћС‚РїСЂ")
+	final protected String familySender = "Р‘Р Р«РљРРќРђ";
 
-	@XStreamAlias("ДолжнОтпр")
-	final protected String fnsPostSender = "Специалист по сопровождению";
+	@XStreamAlias("Р”РѕР»Р¶РЅРћС‚РїСЂ")
+	final protected String fnsPostSender = "РЎРїРµС†РёР°Р»РёСЃС‚ РїРѕ СЃРѕРїСЂРѕРІРѕР¶РґРµРЅРёСЋ";
 
-	@XStreamAlias("ВерсФорм")
+	@XStreamAlias("Р’РµСЂСЃР¤РѕСЂРј")
 	final protected String fnsFormatVersion = "3.00";
 
-	@XStreamAlias("ТипИнф")
+	@XStreamAlias("РўРёРїРРЅС„")
 	private String typeInfo;
 
 	public AbstractToFns(ResponseData responseData) {

@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo;
 
-@XStreamAlias("‘‡ÈÎ")
+@XStreamAlias("–§–∞–π–ª")
 public class IzvFromFns extends AbstractTicket {
 
-	@XStreamAlias("»«¬÷¡ ŒÕ“–")
+	@XStreamAlias("–ò–ó–í–¶–ë–ö–û–ù–¢–†")
 	private IzvTicketInfo izvTicket;
 
 	@Override

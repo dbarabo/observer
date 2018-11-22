@@ -10,28 +10,28 @@ import java.util.Date;
 
 abstract public class AbstractInfoPart {
 
-	@XStreamAlias("ÍàèìÏîäòâ")
+	@XStreamAlias("ĞĞ°Ğ¸Ğ¼ĞŸĞ¾Ğ´Ñ‚Ğ²")
 	private String pbFileName;
 
-	@XStreamAlias("ÄàòàÔîğì")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ¤Ğ¾Ñ€Ğ¼")
 	private String dateCreate = XmlLoader.formatDate(new Date());
 
-	@XStreamAlias("ÄàòàÍàïğ")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°ĞĞ°Ğ¿Ñ€")
 	private String dateSend = XmlLoader.formatDate(new Date());
 
-	@XStreamAlias("ÑâÍÎ")
+	@XStreamAlias("Ğ¡Ğ²ĞĞ")
 	private FnsXml fns;
 
-	@XStreamAlias("ÑâÁàíê")
+	@XStreamAlias("Ğ¡Ğ²Ğ‘Ğ°Ğ½Ğº")
 	private BankXml ourBank = BankXml.ourBank();
 
-	@XStreamAlias("ÏëŞË")
+	@XStreamAlias("ĞŸĞ»Ğ®Ğ›")
 	private PayerJur payerJur;
 
-	@XStreamAlias("ÏëÈÏ")
+	@XStreamAlias("ĞŸĞ»Ğ˜ĞŸ")
 	private PayerIp payerIp;
 
-	@XStreamAlias("ÏëÔË")
+	@XStreamAlias("ĞŸĞ»Ğ¤Ğ›")
 	private PayerPhysic payerPhysic;
 
 	abstract protected void setDateRequest(String dateRequest);

@@ -5,22 +5,22 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.sql.Date;
 
-@XStreamAlias("ĞÅØÍÎÎÒÌÅÍ")
+@XStreamAlias("Ğ Ğ•Ğ¨ĞĞĞĞ¢ĞœĞ•Ğ")
 final public class DecisionCancel extends AbstractDecision {
 
-	@XStreamAlias("ÄàòàĞåøÎò")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ ĞµÑˆĞÑ‚")
 	private String cancelDate;
 
-	@XStreamAlias("ÍîìĞåøÎò")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ ĞµÑˆĞÑ‚")
 	private String cancelNumber;
 
-	@XStreamAlias("ÍîìĞåøÂÎ")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ ĞµÑˆĞ’Ğ")
 	private String subNumber;
 
-	@XStreamAlias("ÄàòàĞåøÂÎ")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ ĞµÑˆĞ’Ğ")
 	private String subDate;
 
-	@XStreamAlias("ÂèäĞåø")
+	@XStreamAlias("Ğ’Ğ¸Ğ´Ğ ĞµÑˆ")
 	private String mainType;
 
 	@Override

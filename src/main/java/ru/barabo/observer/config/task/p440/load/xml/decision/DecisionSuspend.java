@@ -5,19 +5,19 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.sql.Date;
 
-@XStreamAlias("ĞÅØÍÎÏĞÈÎÑ")
+@XStreamAlias("Ğ Ğ•Ğ¨ĞĞĞŸĞ Ğ˜ĞĞ¡")
 final public class DecisionSuspend extends AbstractDecision {
 
-	@XStreamAlias("ÑóìÂçûñê")
+	@XStreamAlias("Ğ¡ÑƒĞ¼Ğ’Ğ·Ñ‹ÑĞº")
 	private String mainSum;
 
-	@XStreamAlias("ÍîìĞåøÂçûñê")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ ĞµÑˆĞ’Ğ·Ñ‹ÑĞº")
 	private String addNumber;
 
-	@XStreamAlias("ÄàòàĞåøÂçûñê")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ ĞµÑˆĞ’Ğ·Ñ‹ÑĞº")
 	private String addDate;
 
-	@XStreamAlias("Îáñòîÿò")
+	@XStreamAlias("ĞĞ±ÑÑ‚Ğ¾ÑÑ‚")
 	private String mainDescription;
 
 	@Override

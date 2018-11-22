@@ -5,29 +5,29 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.sql.Date;
 
-@XStreamAlias("ПриостПоруч")
+@XStreamAlias("РџСЂРёРѕСЃС‚РџРѕСЂСѓС‡")
 public class PnoCancel {
 
-	@XStreamAlias("НомПоруч")
+	@XStreamAlias("РќРѕРјРџРѕСЂСѓС‡")
 	private String addNumberOldPno;
 
-	@XStreamAlias("ДатаПоруч")
+	@XStreamAlias("Р”Р°С‚Р°РџРѕСЂСѓС‡")
 	private String addDateOldPno;
 
-	@XStreamAlias("ВидПоруч")
+	@XStreamAlias("Р’РёРґРџРѕСЂСѓС‡")
 	private String mainType;
 
-	@XStreamAlias("НомСчПл")
+	@XStreamAlias("РќРѕРјРЎС‡РџР»")
 	private String account;
 
 
-	@XStreamAlias("ВидСч")
+	@XStreamAlias("Р’РёРґРЎС‡")
 	private String typeAccount;
 
-	@XStreamAlias("НаимФПоруч")
+	@XStreamAlias("РќР°РёРјР¤РџРѕСЂСѓС‡")
 	private String descriptionFilePno;
 
-	@XStreamAlias("СумПлат")
+	@XStreamAlias("РЎСѓРјРџР»Р°С‚")
 	private String mainSum;
 
 	public String getAddNumberOldPno() {

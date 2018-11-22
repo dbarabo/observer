@@ -9,31 +9,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("ÏÔË")
+@XStreamAlias("ĞŸĞ¤Ğ›")
 public final class PayerPhysic implements ParamsQuery {
 
-	@XStreamAlias("ÈÍÍÔË")
+	@XStreamAlias("Ğ˜ĞĞĞ¤Ğ›")
 	private String inn;
 
-	@XStreamAlias("ÄàòàĞîæä")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ Ğ¾Ğ¶Ğ´")
 	private String birthDay;
 
-	@XStreamAlias("ÌåñòîĞîæä")
+	@XStreamAlias("ĞœĞµÑÑ‚Ğ¾Ğ Ğ¾Ğ¶Ğ´")
 	private String birthPlace;
 
-	@XStreamAlias("ÊîäÄÓË")
+	@XStreamAlias("ĞšĞ¾Ğ´Ğ”Ğ£Ğ›")
 	private String codeDoc;
 
-	@XStreamAlias("ÑåğÍîìÄîê")
+	@XStreamAlias("Ğ¡ĞµÑ€ĞĞ¾Ğ¼Ğ”Ğ¾Ğº")
 	private String lineNumberDoc;
 
-	@XStreamAlias("ÄàòàÄîê")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ”Ğ¾Ğº")
 	private String dateDoc;
 
-	@XStreamAlias("ÔÈÎ")
+	@XStreamAlias("Ğ¤Ğ˜Ğ")
 	private Fio fio;
 
-	@XStreamAlias("ÀäğÏëàò")
+	@XStreamAlias("ĞĞ´Ñ€ĞŸĞ»Ğ°Ñ‚")
 	private Address address;
 	
 	transient private Number idClient;

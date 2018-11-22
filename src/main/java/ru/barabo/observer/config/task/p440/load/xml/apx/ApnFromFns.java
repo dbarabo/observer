@@ -4,10 +4,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.FromFnsInfo;
 
-@XStreamAlias("Ôàéë")
+@XStreamAlias("Ğ¤Ğ°Ğ¹Ğ»")
 public class ApnFromFns extends AbstractFromFns {
 
-	@XStreamAlias("ĞÅØÍÎÏÄÏÎĞ")
+	@XStreamAlias("Ğ Ğ•Ğ¨ĞĞĞŸĞ”ĞŸĞĞ ")
 	private ApnInfo apn;
 
 	@Override

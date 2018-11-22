@@ -11,45 +11,45 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
 
 import java.util.List;
 
-@XStreamAlias("Решение")
+@XStreamAlias("Р РµС€РµРЅРёРµ")
 public class Decision {
 
-    @XStreamAlias("НомРешПр")
+    @XStreamAlias("РќРѕРјР РµС€РџСЂ")
     protected String numberDecisionApply;
 
-    @XStreamAlias("ДатаРешПр")
+    @XStreamAlias("Р”Р°С‚Р°Р РµС€РџСЂ")
     protected String dateDecisionApply; // "2018-09-03"
 
-    @XStreamAlias("Обстоят")
+    @XStreamAlias("РћР±СЃС‚РѕСЏС‚")
     protected String mainDescription;
 
-    @XStreamAlias("СумВзыск")
+    @XStreamAlias("РЎСѓРјР’Р·С‹СЃРє")
     private String mainSum;
 
-    @XStreamAlias("НомТреб")
+    @XStreamAlias("РќРѕРјРўСЂРµР±")
     private String numberClaim;
 
-    @XStreamAlias("ДатаТреб")
+    @XStreamAlias("Р”Р°С‚Р°РўСЂРµР±")
     private String dateClaim;
 
-    @XStreamAlias("НомРешВзыск")
+    @XStreamAlias("РќРѕРјР РµС€Р’Р·С‹СЃРє")
     private String numberDecisionPenalty;
 
-    @XStreamAlias("ДатаРешВзыск")
+    @XStreamAlias("Р”Р°С‚Р°Р РµС€Р’Р·С‹СЃРє")
     private String dateDecisionPenalty;
 
-    @XStreamAlias("СведТО")
+    @XStreamAlias("РЎРІРµРґРўРћ")
     private Custom custom;
 
-    @XStreamAlias("ФИОРук")
+    @XStreamAlias("Р¤РРћР СѓРє")
     private Fio fioHead;
 
-    @XStreamAlias("Банк")
+    @XStreamAlias("Р‘Р°РЅРє")
     private Bank bank;
 
-    @XStreamAlias("СведПл")
+    @XStreamAlias("РЎРІРµРґРџР»")
     private Payer payer;
 
-    @XStreamImplicit(itemFieldName = "Счет")
+    @XStreamImplicit(itemFieldName = "РЎС‡РµС‚")
     private List<Account> accounts;
 }

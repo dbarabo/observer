@@ -13,9 +13,6 @@ final public class DateUtils {
 	final static transient private Logger logger = Logger.getLogger(DateUtils.class.getName());
 
 	/**
-	 * @param dataFile
-	 * @param otherFile
-	 * @param minDate
 	 * @return true - если дата dataFile больше даты файла otherFile или в
 	 *         случае otherFile=null больше minDate
 	 */

@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.AdditionalResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.AbstractToFns;
 
-@XStreamAlias("Ôàéë")
+@XStreamAlias("Ğ¤Ğ°Ğ¹Ğ»")
 public class AdditionalExtractXml extends AbstractToFns {
 
-	@XStreamAlias("ÂÛÏÁÍÄÎÏÎË")
+	@XStreamAlias("Ğ’Ğ«ĞŸĞ‘ĞĞ”ĞĞŸĞĞ›")
 	private AddExtractInfoPart addExtractInfoPart;
 
 	public AdditionalExtractXml(AdditionalResponseData additionalResponseData) {

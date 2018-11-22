@@ -78,13 +78,13 @@ class LoaderTest {
 
     //@Test
     fun loadPno() {
-        //val elem = Elem(File("C:/440-П/test/PNO10507717_253720180131_000066.xml"), PnoLoader, Duration.ZERO)
+        val elem = Elem(File("D:/440-П/test/PNO10507717_253720180131_000068.xml"), PnoLoader, Duration.ZERO)
 
         //val elem = Elem(File("C:/440-П/test/ROO10507717_253620180131_000015.xml"), RooLoader, Duration.ZERO)
 
         //val elem = Elem(File("C:/440-П/test/ZSV10507717_250820180131_000024.xml"), ZsvLoader, Duration.ZERO)
 
-        val elem = Elem(File("C:/440-П/test/RPO10507717_254320180130_000753.xml"), RpoLoader, Duration.ZERO)
+        //val elem = Elem(File("C:/440-П/test/RPO10507717_254320180130_000753.xml"), RpoLoader, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -112,10 +112,9 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-
     //@Test
     fun outPb() {
-        val elem = Elem(idElem = 1172496441, task = PbSaver)
+        val elem = Elem(idElem = 1182796352, task = PbSaver)
 
         elem.task?.execute(elem)
     }
@@ -180,7 +179,7 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun saveOutOutApplicationData() {
         OutApplicationData.execute(idPacket = 1182748836)
     }

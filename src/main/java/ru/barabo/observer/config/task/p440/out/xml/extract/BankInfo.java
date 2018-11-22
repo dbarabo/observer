@@ -2,16 +2,16 @@ package ru.barabo.observer.config.task.p440.out.xml.extract;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("–ÂÍ‚¡‡ÌÍ‡")
+@XStreamAlias("–†–µ–∫–≤–ë–∞–Ω–∫–∞")
 public class BankInfo {
 
-	@XStreamAlias("ÕÓÏ Ó—˜")
+	@XStreamAlias("–ù–æ–º–ö–æ—Ä–°—á")
 	private String corrAccount;
 
-	@XStreamAlias("Õ‡ËÏ¡œ")
+	@XStreamAlias("–ù–∞–∏–º–ë–ü")
 	private String name;
 
-	@XStreamAlias("¡» ¡œ")
+	@XStreamAlias("–ë–ò–ö–ë–ü")
 	private String bik;
 
 	public BankInfo(String corrAccount, String name, String bik) {

@@ -6,31 +6,31 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 
-@XStreamAlias("Операции")
+@XStreamAlias("РћРїРµСЂР°С†РёРё")
 public class OperationAccount {
 
 	final static transient private Logger logger = Logger.getLogger(OperationAccount.class
 			.getName());
 
-	@XStreamAlias("ИдБлок")
+	@XStreamAlias("РРґР‘Р»РѕРє")
 	private Integer orderFile;
 
-	@XStreamAlias("ДатаОпер")
+	@XStreamAlias("Р”Р°С‚Р°РћРїРµСЂ")
 	private String operDate;
 
-	@XStreamAlias("НазнПл")
+	@XStreamAlias("РќР°Р·РЅРџР»")
 	private String description;
 
-	@XStreamAlias("РеквДок")
+	@XStreamAlias("Р РµРєРІР”РѕРє")
 	private DocumentInfo documentInfo;
 
-	@XStreamAlias("РеквБанка")
+	@XStreamAlias("Р РµРєРІР‘Р°РЅРєР°")
 	private BankInfo bankInfo;
 
-	@XStreamAlias("РеквПлат")
+	@XStreamAlias("Р РµРєРІРџР»Р°С‚")
 	private PayerInfo payerInfo;
 
-	@XStreamAlias("СуммаОпер")
+	@XStreamAlias("РЎСѓРјРјР°РћРїРµСЂ")
 	private AmountInfo amountInfo;
 
 	private OperationAccount(Integer orderFile) {

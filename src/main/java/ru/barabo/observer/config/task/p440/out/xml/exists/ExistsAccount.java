@@ -5,22 +5,22 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 
-@XStreamAlias("Сведения")
+@XStreamAlias("РЎРІРµРґРµРЅРёСЏ")
 public class ExistsAccount {
 
-	@XStreamAlias("НомСч")
+	@XStreamAlias("РќРѕРјРЎС‡")
 	private String code;
 
-	@XStreamAlias("ВидСч")
+	@XStreamAlias("Р’РёРґРЎС‡")
 	private String type;
 
-	@XStreamAlias("ДатаОткр")
+	@XStreamAlias("Р”Р°С‚Р°РћС‚РєСЂ")
 	private String opened;
 
-	@XStreamAlias("ДатаЗакр")
+	@XStreamAlias("Р”Р°С‚Р°Р—Р°РєСЂ")
 	private String closed;
 
-	@XStreamAlias("КодВал")
+	@XStreamAlias("РљРѕРґР’Р°Р»")
 	private String currency;
 
 	public ExistsAccount(String code, String type, String currency, Date opened, Date closed) {

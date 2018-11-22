@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.FromFnsInfo;
 
-@XStreamAlias("‘‡ÈÎ")
+@XStreamAlias("–§–∞–π–ª")
 final public class ZsoFromFns extends AbstractFromFns {
 
-	@XStreamAlias("«¿œÕŒŒ—“¿“")
+	@XStreamAlias("–ó–ê–ü–ù–û–û–°–¢–ê–¢")
 	private RestRequest restRequest;
 
 	@Override

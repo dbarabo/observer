@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import java.util.List;
 
-@XStreamAlias("ĞÅØÍÎÒÇÏÎĞ")
+@XStreamAlias("Ğ Ğ•Ğ¨ĞĞĞ¢Ğ—ĞŸĞĞ ")
 public class ApzInfo extends AbstractApx {
 
-	@XStreamImplicit(itemFieldName = "ÎòîçâÏîğó÷")
+	@XStreamImplicit(itemFieldName = "ĞÑ‚Ğ¾Ğ·Ğ²ĞŸĞ¾Ñ€ÑƒÑ‡")
 	private List<PnoCancel> pnoCancel;
 
 	@Override

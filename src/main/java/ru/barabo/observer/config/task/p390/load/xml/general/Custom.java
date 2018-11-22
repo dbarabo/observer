@@ -2,15 +2,15 @@ package ru.barabo.observer.config.task.p390.load.xml.general;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("СведТО")
+@XStreamAlias("РЎРІРµРґРўРћ")
 public class Custom {
 
-    @XStreamAlias("КодТО")
+    @XStreamAlias("РљРѕРґРўРћ")
     protected String code;
 
-    @XStreamAlias("НаименТО")
+    @XStreamAlias("РќР°РёРјРµРЅРўРћ")
     protected String name;
 
-    @XStreamAlias("НаселПункт")
+    @XStreamAlias("РќР°СЃРµР»РџСѓРЅРєС‚")
     protected String city;
 }

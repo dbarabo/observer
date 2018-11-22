@@ -18,25 +18,25 @@ abstract public class AbstractDecision extends AbstractFromFnsInfo {
 	final static transient protected Logger logger = Logger.getLogger(AbstractDecision.class
 			.getName());
 
-	@XStreamAlias("ÁÈÊ")
+	@XStreamAlias("Ğ‘Ğ˜Ğš")
 	private String bankBik;
 
-	@XStreamAlias("ÍàèìÁ")
+	@XStreamAlias("ĞĞ°Ğ¸Ğ¼Ğ‘")
 	private String bankName;
 
-	@XStreamAlias("ÄàòàĞåøÏğ")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ ĞµÑˆĞŸÑ€")
 	private String dateDecision;
 
-	@XStreamAlias("ÍîìĞåøÏğ")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ ĞµÑˆĞŸÑ€")
 	private String numberDecision;
 
-	@XStreamAlias("ÊîäÎñíîâ")
+	@XStreamAlias("ĞšĞ¾Ğ´ĞÑĞ½Ğ¾Ğ²")
 	private String mainCode;
 
-	@XStreamImplicit(itemFieldName = "Ñ÷åò")
+	@XStreamImplicit(itemFieldName = "Ğ¡Ñ‡ĞµÑ‚")
 	private List<Account> accounts;
 
-	@XStreamImplicit(itemFieldName = "ÊİÑÏ")
+	@XStreamImplicit(itemFieldName = "ĞšĞ­Ğ¡ĞŸ")
 	private List<Kesp> kesps;
 
 	@Override

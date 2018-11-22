@@ -13,16 +13,16 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 	final static transient protected Logger logger = Logger.getLogger(AbstractFromFns.class
 			.getName());
 
-	@XStreamAlias("ДолжнОтпр")
+	@XStreamAlias("Р”РѕР»Р¶РЅРћС‚РїСЂ")
 	protected String fnsPost;
 
-	@XStreamAlias("ТелОтпр")
+	@XStreamAlias("РўРµР»РћС‚РїСЂ")
 	protected String fnsPhone;
 
-	@XStreamAlias("ФамОтпр")
+	@XStreamAlias("Р¤Р°РјРћС‚РїСЂ")
 	protected String fnsFio;
 
-	@XStreamAlias("ТипИнф")
+	@XStreamAlias("РўРёРїРРЅС„")
 	protected String typeInfo;
 
 	abstract protected FromFnsInfo getFromFnsInfo();

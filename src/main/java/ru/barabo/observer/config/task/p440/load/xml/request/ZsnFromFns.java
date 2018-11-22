@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.FromFnsInfo;
 
-@XStreamAlias("‘‡ÈÎ")
+@XStreamAlias("–§–∞–π–ª")
 final public class ZsnFromFns extends AbstractFromFns {
 
-	@XStreamAlias("«¿œÕŒÕ¿À»◊")
+	@XStreamAlias("–ó–ê–ü–ù–û–ù–ê–õ–ò–ß")
 	private ExistsRequest existsRequest;
 
 	@Override

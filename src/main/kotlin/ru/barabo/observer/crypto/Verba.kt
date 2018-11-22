@@ -3,6 +3,7 @@ package ru.barabo.observer.crypto
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.deleteFolder
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.io.IOException
 
@@ -52,7 +53,12 @@ object Verba {
     fun signByBarabo(file :File) :File = signFile(file, BARABO_SIGN_DISK, BARABO_SIGN_KEY)
 
     private fun checkerVerba() {
-        if(!VERBA_FILE.exists()) throw IOException("Verba not found")
+        if(!VERBA_FILE.exists()) {
+
+            if (TaskMapper.isAfinaBase()) {
+                throw IOException("Verba not found")
+            }
+        }
     }
 
     @Throws(IOException::class)

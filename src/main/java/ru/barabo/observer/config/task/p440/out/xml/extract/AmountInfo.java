@@ -4,13 +4,13 @@ package ru.barabo.observer.config.task.p440.out.xml.extract;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
-@XStreamAlias("СуммаОпер")
+@XStreamAlias("РЎСѓРјРјР°РћРїРµСЂ")
 public class AmountInfo {
 
-	@XStreamAlias("Дебет")
+	@XStreamAlias("Р”РµР±РµС‚")
 	private String debet;
 
-	@XStreamAlias("Кредит")
+	@XStreamAlias("РљСЂРµРґРёС‚")
 	private String credit;
 
 	public AmountInfo(Number debet, Number credit) {

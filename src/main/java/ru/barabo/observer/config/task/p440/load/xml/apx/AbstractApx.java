@@ -12,25 +12,25 @@ import java.util.List;
 
 public abstract class AbstractApx extends AbstractFromFnsInfo {
 
-	@XStreamAlias("ÍîìĞåø")
+	@XStreamAlias("ĞĞ¾Ğ¼Ğ ĞµÑˆ")
 	private String mainNumber;
 
-	@XStreamAlias("ÄàòàĞåø")
+	@XStreamAlias("Ğ”Ğ°Ñ‚Ğ°Ğ ĞµÑˆ")
 	private String mainDate;
 
-	@XStreamAlias("ÁàíêÏë")
+	@XStreamAlias("Ğ‘Ğ°Ğ½ĞºĞŸĞ»")
 	private String bankName;
 
-	@XStreamAlias("ÁÈÊÁÏë")
+	@XStreamAlias("Ğ‘Ğ˜ĞšĞ‘ĞŸĞ»")
 	private String bankBik;
 
-	@XStreamAlias("ÈÍÍÍÏ")
+	@XStreamAlias("Ğ˜ĞĞĞĞŸ")
 	private String payerInn;
 
-	@XStreamAlias("ÊÏÏÍÏ")
+	@XStreamAlias("ĞšĞŸĞŸĞĞŸ")
 	private String payerKpp;
 
-	@XStreamAlias("Ñóììà")
+	@XStreamAlias("Ğ¡ÑƒĞ¼Ğ¼Ğ°")
 	private String sumPartRur;
 
 	abstract protected List<PnoCancel> getPnoCancelList();

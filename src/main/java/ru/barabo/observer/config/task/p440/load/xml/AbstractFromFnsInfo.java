@@ -6,20 +6,20 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.FnsXml;
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerXml;
 
 /**
- * содержит общие для всех кроме PNO(там вообще маразм какой-то) атрибуты и теги
+ * СЃРѕРґРµСЂР¶РёС‚ РѕР±С‰РёРµ РґР»СЏ РІСЃРµС… РєСЂРѕРјРµ PNO(С‚Р°Рј РІРѕРѕР±С‰Рµ РјР°СЂР°Р·Рј РєР°РєРѕР№-С‚Рѕ) Р°С‚СЂРёР±СѓС‚С‹ Рё С‚РµРіРё
  * 
  * @author debara
  *
  */
 abstract public class AbstractFromFnsInfo implements FromFnsInfo {
 
-	@XStreamAlias("СвНО")
+	@XStreamAlias("РЎРІРќРћ")
 	protected FnsXml fns;
 
-	@XStreamAlias("СвПл")
+	@XStreamAlias("РЎРІРџР»")
 	protected PayerXml payer;
 
-	@XStreamAlias("Руководитель")
+	@XStreamAlias("Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ")
 	@XStreamOmitField
 	protected Object ignoredElement;
 

@@ -5,18 +5,18 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
 
 /**
- * представитель банка
+ * РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊ Р±Р°РЅРєР°
  * 
  * @author debara
  *
  */
-@XStreamAlias("ПредБанка")
+@XStreamAlias("РџСЂРµРґР‘Р°РЅРєР°")
 public class SenderBank {
 
-	@XStreamAlias("Должность")
+	@XStreamAlias("Р”РѕР»Р¶РЅРѕСЃС‚СЊ")
 	private String office;
 
-	@XStreamAlias("ФИО")
+	@XStreamAlias("Р¤РРћ")
 	private Fio sender;
 
 	public SenderBank(String office, String firstName, String lastName, String secondName) {
@@ -25,8 +25,8 @@ public class SenderBank {
 		sender = new Fio(firstName, lastName, secondName);
 	}
 
-	public static SenderBank OUR_MAIN_UOD = new SenderBank("Начальник УОД",
-			"Людмила", "Файзулина", "Габтерфетовна");
+	public static SenderBank OUR_MAIN_UOD = new SenderBank("РќР°С‡Р°Р»СЊРЅРёРє РЈРћР”",
+			"Р›СЋРґРјРёР»Р°", "Р¤Р°Р№Р·СѓР»РёРЅР°", "Р“Р°Р±С‚РµСЂС„РµС‚РѕРІРЅР°");
 
 
 	public static SenderBank create(String[] items) {

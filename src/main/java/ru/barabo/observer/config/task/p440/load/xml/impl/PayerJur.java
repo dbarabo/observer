@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@XStreamAlias("œÎﬁÀ")
+@XStreamAlias("–ü–ª–Æ–õ")
 public final class PayerJur implements ParamsQuery {
 
-	@XStreamAlias("»ÕÕﬁÀ")
+	@XStreamAlias("–ò–ù–ù–Æ–õ")
 	private String inn;
 
-	@XStreamAlias(" œœ")
+	@XStreamAlias("–ö–ü–ü")
 	private String kpp;
 
-	@XStreamAlias(" œœﬁÀ")
+	@XStreamAlias("–ö–ü–ü–Æ–õ")
 	private String kppJul;
 
-	@XStreamAlias("Õ‡ËÏﬁÀ")
+	@XStreamAlias("–ù–∞–∏–º–Æ–õ")
 	private String name;
 
 	transient private Number idClient;

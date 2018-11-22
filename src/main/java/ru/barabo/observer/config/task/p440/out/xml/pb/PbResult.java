@@ -2,19 +2,19 @@ package ru.barabo.observer.config.task.p440.out.xml.pb;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("Результат")
+@XStreamAlias("Р РµР·СѓР»СЊС‚Р°С‚")
 public class PbResult {
 
-	@XStreamAlias("КодРезПроверки")
+	@XStreamAlias("РљРѕРґР РµР·РџСЂРѕРІРµСЂРєРё")
 	private String code;
 	
-	@XStreamAlias("Пояснение")
+	@XStreamAlias("РџРѕСЏСЃРЅРµРЅРёРµ")
 	private String description;
 
-	@XStreamAlias("КодРекв")
+	@XStreamAlias("РљРѕРґР РµРєРІ")
 	private String attributeCode;
 
-	@XStreamAlias("ЗначРекв")
+	@XStreamAlias("Р—РЅР°С‡Р РµРєРІ")
 	private String attributeValue;
 
 	public PbResult(String code, String description, String attributeCode, String attributeValue) {

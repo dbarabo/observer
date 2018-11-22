@@ -3,16 +3,16 @@ package ru.barabo.observer.config.task.p440.load.xml.pno;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
-@XStreamAlias("ПорВал")
+@XStreamAlias("РџРѕСЂР’Р°Р»")
 public final class OrderTaxVal {
 
-	@XStreamAlias("ДатаПорВал")
+	@XStreamAlias("Р”Р°С‚Р°РџРѕСЂР’Р°Р»")
 	private String datePorVal;
 
-	@XStreamAlias("НомВалСч")
+	@XStreamAlias("РќРѕРјР’Р°Р»РЎС‡")
 	private String accountPorVal;
 
-	@XStreamAlias("НомПорВал")
+	@XStreamAlias("РќРѕРјРџРѕСЂР’Р°Р»")
 	private String numberPorVal;
 
 	public java.sql.Date getDatePorVal() {
