@@ -42,7 +42,8 @@ object OtherCbr: ConfigTask {
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()
-        GeneralExecReserve283p.findAll()
+        // ruta check
+        //GeneralExecReserve283p.findAll()
 
         CorrDepartmentGoHome.findAll()
 

@@ -169,7 +169,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
     override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
-            false, LocalTime.of(10, 0), LocalTime.of(15, 45), Duration.ofSeconds(1))
+            false, LocalTime.of(9, 15), LocalTime.of(15, 45), Duration.ofSeconds(1))
 
     private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
         val construct =  classXml.constructors.iterator().next()

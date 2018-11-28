@@ -1,7 +1,9 @@
 
+import oracle.jdbc.OracleTypes
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
@@ -11,6 +13,7 @@ import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
+import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -18,6 +21,7 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.sql.Clob
 import java.time.Duration
 import java.time.LocalDate
 
@@ -28,6 +32,18 @@ class LoaderTest {
     @Before
     fun initTestBase() {
         TaskMapper.init("BARABO", "TEST")
+    }
+
+
+    //@Test
+    fun testHmacIbi() {
+
+        val execHmac = "{ call od.PTKB_PLASTIC_TURNOUT.testHmac(?, ?) }"
+
+        val data = AfinaQuery.execute(query = execHmac,
+                outParamTypes = intArrayOf(OracleTypes.CLOB, OracleTypes.VARCHAR))
+
+        OutIbi.saveFile(data!![1] as String, (data[0] as Clob).clob2string())
     }
 
     //@Test
