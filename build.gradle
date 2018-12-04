@@ -9,14 +9,12 @@ buildscript {
     }
 }
 
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Xmx1g']
+}
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
 
 sourceCompatibility = 1.8
 

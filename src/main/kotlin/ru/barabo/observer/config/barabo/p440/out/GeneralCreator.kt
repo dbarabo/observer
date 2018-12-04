@@ -57,6 +57,51 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
     override fun config(): ConfigTask = P440Config
 
+
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
+            false,
+            //LocalTime.of(9, 15),
+            LocalTime.of(11, 30),
+            LocalTime.of(15, 45), Duration.ofSeconds(1))
+
+    override fun actionTask(selectorValue: Any?): ActionTask {
+
+        if(selectorValue !is Number) throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue")
+
+        val creator = OutType.creatorByDbValue( selectorValue.toInt() )
+
+        return creator ?: throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue")
+    }
+
+    override fun actionTask(): ActionTask = this
+
+    override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
+
+    private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
+        val construct =  classXml.constructors.iterator().next()
+
+        return construct.call(responseData)
+    }
+
+    override fun execute(elem: Elem): State {
+
+        val sessionSetting = AfinaQuery.uniqueSession()
+
+        responseData.init(elem.idElem!!, sessionSetting)
+
+        val xmlData = createXml(clazzXml, responseData)
+
+        saveXml(responseData.fileNameResponse(), xmlData)
+
+        validateXml(responseData.fileNameResponse(), responseData.xsdSchema())
+
+        AfinaQuery.execute(UPDATE_STATE_RESPONSE, arrayOf(elem.idElem), sessionSetting)
+
+        AfinaQuery.commitFree(sessionSetting)
+
+        return State.OK
+    }
+
     companion object {
 
         private const val STATE_SAVED = 2
@@ -153,46 +198,5 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
             return xstream
         }
-    }
-
-    override fun actionTask(selectorValue: Any?): ActionTask {
-
-        if(selectorValue !is Number) throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue")
-
-        val creator = OutType.creatorByDbValue( selectorValue.toInt() )
-
-        return creator ?: throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue")
-    }
-
-    override fun actionTask(): ActionTask = this
-
-    override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
-
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
-            false, LocalTime.of(9, 15), LocalTime.of(15, 45), Duration.ofSeconds(1))
-
-    private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
-        val construct =  classXml.constructors.iterator().next()
-
-        return construct.call(responseData)
-    }
-
-    override fun execute(elem: Elem): State {
-
-        val sessionSetting = AfinaQuery.uniqueSession()
-
-        responseData.init(elem.idElem!!, sessionSetting)
-
-        val xmlData = createXml(clazzXml, responseData)
-
-        saveXml(responseData.fileNameResponse(), xmlData)
-
-        validateXml(responseData.fileNameResponse(), responseData.xsdSchema())
-
-        AfinaQuery.execute(UPDATE_STATE_RESPONSE, arrayOf(elem.idElem), sessionSetting)
-
-        AfinaQuery.commitFree(sessionSetting)
-
-        return State.OK
     }
 }

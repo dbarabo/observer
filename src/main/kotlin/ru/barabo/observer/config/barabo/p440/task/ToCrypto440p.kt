@@ -20,8 +20,13 @@ object ToCrypto440p: FileProcessor, FileFinder {
 
     override fun config(): ConfigTask = P440Config
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
-            false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+    override val accessibleData: AccessibleData = AccessibleData(
+            WeekAccess.ALL_DAYS,
+            false,
+            //LocalTime.MIN,
+            LocalTime.of(11, 30),
+            LocalTime.MAX,
+            Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::sendFolder440p, "B(VD|VS|NS|NP|OS).*\\.xml"))
 

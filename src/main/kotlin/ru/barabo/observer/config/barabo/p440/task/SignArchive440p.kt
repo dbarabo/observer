@@ -23,11 +23,14 @@ object SignArchive440p: SingleSelector {
 
     override fun config(): ConfigTask = P440Config
 
+
+    override val accessibleData: AccessibleData = AccessibleData(
+            workTimeFrom = LocalTime.of(11, 30), //LocalTime.of(8, 0),
+            workTimeTo = LocalTime.of(18, 0),
+            executeWait = Duration.ofSeconds(5))
+
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +
             "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 1/24)"
-
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
 
     private const val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
 

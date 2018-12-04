@@ -51,7 +51,7 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 		FromFnsInfo fromFnsInfo = getFromFnsInfo();
 
 		if (fromFnsInfo == null || fromFnsInfo.getBank() == null || fromFnsInfo.getFns() == null
-				|| fromFnsInfo.getPayer() == null) {
+				/*|| fromFnsInfo.getPayer() == null*/) {
 			return null;
 		}
 

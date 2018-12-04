@@ -23,8 +23,12 @@ open class CryptoUnCryptoPacket(private val name :String, private val cryptoFun 
 
     override fun config(): ConfigTask = CryptoConfig
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
-    false, LocalTime.MIN, LocalTime.MAX, Duration.ofMinutes(5))
+    override val accessibleData: AccessibleData = AccessibleData(
+            WeekAccess.ALL_DAYS,
+    false,
+            LocalTime.MIN,
+            LocalTime.MAX,
+            Duration.ofMinutes(5))
 
     override fun findAbstract(): Executor? = null
 

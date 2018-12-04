@@ -7,10 +7,13 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
+import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
+import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
@@ -21,6 +24,7 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.net.URI
 import java.sql.Clob
 import java.time.Duration
 import java.time.LocalDate
@@ -32,8 +36,24 @@ class LoaderTest {
     @Before
     fun initTestBase() {
         TaskMapper.init("BARABO", "TEST")
+
+        com.sun.javafx.application.PlatformImpl.startup {}
     }
 
+
+    //@Test
+    fun uriBaseTest() {
+
+        AutoUpdatePlasticJarCritical.findAbstract()
+
+        StoreSimple.getItems {it?.config() == PlasticReleaseConfig}
+                .forEach {
+                    val remoteFilePath = it.remoteFilePath()
+                    logger.error("remoteFilePath=${remoteFilePath.absoluteFile}")
+
+                    logger.error("isExists=${remoteFilePath.exists()}")
+                }
+    }
 
     //@Test
     fun testHmacIbi() {

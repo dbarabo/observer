@@ -24,7 +24,9 @@ object SaveAccount311p : SingleSelector {
             "where trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(10, 0), LocalTime.of(16, 0), Duration.ofSeconds(1))
+            LocalTime.of(11, 30),
+            //LocalTime.of(10, 0),
+            LocalTime.of(16, 0), Duration.ofSeconds(1))
 
     override fun name(): String = "311-П 2.Сохранить и зашифровать"
 

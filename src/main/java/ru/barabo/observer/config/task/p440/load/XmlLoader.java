@@ -35,7 +35,7 @@ public class XmlLoader<E> {
 
 	final static transient private Logger logger = Logger.getLogger(XmlLoader.class.getName());
 
-	protected static final Map<String, Class> MY_HASH_ANNOTATION_FILE;
+	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE;
 	static {
 		Hashtable<String, Class> tmp =
 				new Hashtable<String, Class>();

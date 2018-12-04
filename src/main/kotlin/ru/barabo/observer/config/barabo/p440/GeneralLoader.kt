@@ -40,7 +40,7 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
 
-    private fun actionTask(name :String) : ActionTask {
+    protected fun actionTask(name :String) : ActionTask {
 
         val actionTask = FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
 
@@ -49,15 +49,9 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     override fun processFile(file: File) {
 
-        val data = XmlLoader<T>().load(file)
+        val data = convertFromXml(file)
 
         val uniqueSession = AfinaQuery.uniqueSession()
-
-        //logger.error("data=${data}")
-
-        //logger.error("data.listColumns=${data.listColumns}")
-
-        //logger.error("data.payer=${data.payer}")
 
         try {
             val idFromFns = data.saveData(file, uniqueSession)
@@ -77,11 +71,26 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
         AfinaQuery.commitFree(uniqueSession)
 
-        val fileLoaded = File("${folderLoaded440p().absolutePath}/${file.name}")
-
-        file.copyTo(fileLoaded, true)
-        file.delete()
+        file.moveToLoaded()
     }
+
+    private fun convertFromXml(file: File): T {
+        return try {
+            XmlLoader<T>().load(file)
+        } catch (e: Exception) {
+            logger.error("XmlLoader.load", e)
+
+            throw XmlLoadException(e.message ?: "")
+        }
+    }
+}
+
+internal fun File.moveToLoaded() {
+    val fileLoaded = File("${folderLoaded440p().absolutePath}/${name}")
+
+    copyTo(fileLoaded, true)
+
+    delete()
 }
 
 fun ParamsQuery.saveData(idFromFns :Number, sessionSetting: SessionSetting, queryTemplate :(String, String) -> String) :Number {
@@ -104,7 +113,7 @@ fun ParamsQuery.saveData(idFromFns :Number, sessionSetting: SessionSetting, quer
 private fun insertPayer(columns :String, questions :String) =
         "insert into od.ptkb_440p_client ($columns) values ($questions)"
 
-private fun AbstractFromFns.saveData(file :File, sessionSetting: SessionSetting) :Number {
+internal fun AbstractFromFns.saveData(file :File, sessionSetting: SessionSetting) :Number {
 
     val idFromFns = AfinaQuery.nextSequence(sessionSetting)
 

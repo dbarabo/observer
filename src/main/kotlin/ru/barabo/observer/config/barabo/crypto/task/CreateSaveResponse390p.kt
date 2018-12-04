@@ -25,7 +25,9 @@ import java.util.*
 object CreateSaveResponse390p : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData
-            = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+            = AccessibleData(WeekAccess.ALL_DAYS, false,
+            LocalTime.of(11, 30),
+            LocalTime.MAX, Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(Get390pArchive::getFolder390p,"(AFT|TPO|TOO).*\\.(ARJ|VRB)") )
