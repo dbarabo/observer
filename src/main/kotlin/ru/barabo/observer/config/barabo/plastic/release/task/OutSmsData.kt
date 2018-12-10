@@ -50,26 +50,4 @@ object OutSmsData: SingleSelector {
     internal fun iiaFile(): String =  AfinaQuery.selectValue(SELECT_IIA_FILE) as String
 
     private const val SELECT_IIA_FILE = "select od.PTKB_PLASTIC_AUTO.getFileNameIIA from dual"
-
-
-//    private fun iiaFile(): String = "IIA_${dateTimeFormat(getNextTime() )}_0226"
-//
-//    private fun dateTimeFormat(date: LocalDateTime) = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(date)
-//
-//    private fun getNextTime(): LocalDateTime {
-//
-//        synchronized(iiaPriorSecond) {
-//
-//            var time = LocalDateTime.now().withNano(0)
-//
-//            while(Duration.between(iiaPriorSecond, time).seconds <= 0L) {
-//                time = time.plusSeconds(1)
-//            }
-//            iiaPriorSecond = time
-//        }
-//
-//        return iiaPriorSecond
-//    }
-//
-//    private var iiaPriorSecond: LocalDateTime = LocalDateTime.now().withNano(0)
 }

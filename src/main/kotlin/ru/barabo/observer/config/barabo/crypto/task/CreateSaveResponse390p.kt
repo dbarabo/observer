@@ -26,7 +26,7 @@ object CreateSaveResponse390p : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false,
-            LocalTime.of(11, 30),
+            LocalTime.MIN,
             LocalTime.MAX, Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> =

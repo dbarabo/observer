@@ -88,14 +88,11 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
     override val headerQuery: String? = "insert into od.PTKB_CTL_MTL (id, type, file_receiver, " +
             "file_branch_receiver, PC_CREATED, file_order, pc_process, file_name) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
-    private fun fileProcessName(value: String?) :Any = fileProcess.name
-
     private const val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
 
     private const val DATE_FORMAT = "yyyyMMdd"
 
     fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
-
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
      2 to ::parseToString,
@@ -104,7 +101,7 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
             6 to ::parseDateTime,
             7 to ::parseInt,
             8 to ::parseDateTime,
-            -1 to ::fileProcessName)
+            -1 to { _: String? -> fileProcess.name})
 
     override val bodyQuery: String? = ("insert into od.PTKB_TRANSACT_CTL_MTL (id, ptkb_ctl_mtl, row_order, " +
             "groupid_transact, id_transact, authorize_id, transact_pair_id, transact_type_bo, transact_type_fe, " +

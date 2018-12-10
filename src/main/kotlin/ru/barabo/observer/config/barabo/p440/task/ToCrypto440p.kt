@@ -23,8 +23,7 @@ object ToCrypto440p: FileProcessor, FileFinder {
     override val accessibleData: AccessibleData = AccessibleData(
             WeekAccess.ALL_DAYS,
             false,
-            //LocalTime.MIN,
-            LocalTime.of(11, 30),
+            LocalTime.MIN,
             LocalTime.MAX,
             Duration.ofSeconds(1))
 

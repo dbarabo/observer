@@ -16,8 +16,7 @@ object Sign390pArchive : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(11, 30),
-            //LocalTime.of(8, 0),
+            LocalTime.of(8, 0),
             LocalTime.of(20, 0), Duration.ofMinutes(10))
 
     override val fileFinderData: List<FileFinderData> =

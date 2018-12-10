@@ -47,18 +47,18 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private var fileId :Any? = null
 
-    private val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSumAfp( ? ) }"
+    private const val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSumAfp( ? ) }"
 
-    private val SUBJECT_ERROR = "Ошибка в Чек-сумме файла AFP"
+    private const val SUBJECT_ERROR = "Ошибка в Чек-сумме файла AFP"
 
-    private val EXEC_TO_ERROR_STATE = "update od.PTKB_AFP set state = 2 where id = ?"
+    private const val EXEC_TO_ERROR_STATE = "update od.PTKB_AFP set state = 2 where id = ?"
 
     private fun bodyError(text :String) =
-            "В загруженном файле <${fileProcess.name}> CTL.id:<${fileId}> не сходится чек-сумма $text"
+            "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> не сходится чек-сумма $text"
 
     private fun checkSum(fileId :Any?) {
 
-        val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId)).get(0)
+        val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId))[0]
 
         var textCheck :String? = null
 
@@ -87,15 +87,13 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
     override val headerQuery: String? = "insert into od.PTKB_AFP (id, file_receiver, pc_created, " +
             "file_order, period_start, period_end, file_name) values (?, ?, ?, ?, ?, ?, ?)"
 
-    private fun fileProcessName(value :String?) :Any = fileProcess.name
-
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
-     4 to ::parseToString,
-            5 to LoadCtlMtl::parseDateTime,
-            6 to ::parseInt,
-            7 to LoadCtlMtl::parseDateTime,
-            8 to LoadCtlMtl::parseDateTime,
-            -1 to ::fileProcessName)
+        4 to ::parseToString,
+        5 to LoadCtlMtl::parseDateTime,
+        6 to ::parseInt,
+        7 to LoadCtlMtl::parseDateTime,
+        8 to LoadCtlMtl::parseDateTime,
+        -1 to {_ :String? -> fileProcess.name })
 
     override val bodyQuery: String? = ("insert into od.PTKB_AFP_RECORD (id, afp, row_order, auth_id, transact_type_fe, " +
             "account_number, card_number, local_oper, pc_oper, auth_direction, account_currency, account_amount, " +

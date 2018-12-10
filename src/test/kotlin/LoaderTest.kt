@@ -19,12 +19,13 @@ import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
+import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
-import java.net.URI
 import java.sql.Clob
 import java.time.Duration
 import java.time.LocalDate
@@ -35,10 +36,23 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("BARABO", "TEST")
+        TaskMapper.init("TEST", "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
+
+    //@Test
+    fun loanInfoSaver() {
+        LoanInfoSaver.findAll()
+
+        StoreSimple.getItems {it?.config() == TestConfig }.forEach {
+
+            logger.error("elem=$it")
+
+            (it.task as? Executor)?.executeElem(it)
+        }
+    }
+
 
 
     //@Test
@@ -266,7 +280,7 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/CTL20181026_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/MTL20181206_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -280,7 +294,7 @@ class LoaderTest {
 
     //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1181972978, task = ExecuteCtlMtl)
+        val elem = Elem(idElem = 1183627072, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
     }

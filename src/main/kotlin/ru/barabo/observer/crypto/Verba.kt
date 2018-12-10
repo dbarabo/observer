@@ -22,12 +22,12 @@ object Verba {
     private val SIGNER_FULL_PATH = "${Cmd.LIB_FOLDER}/$SIGNER_PROGRAM"
 
     /**
-     * NOT USED BEFORE 2017-12-21
+     * NOT USED AFTER 2017-12-21
      */
     //private val CBR_550P_SIGN_KEY = "700794200901"
 
     /**
-     * NOT USED BEFORE 2017-12-21
+     * NOT USED AFTER 2017-12-21
      */
     //private val CBR_550P_SIGN_DISK = "G:\\"
 

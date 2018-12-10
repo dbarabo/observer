@@ -44,7 +44,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     @Synchronized
     fun findElemByFile(name: String, path: String, task: ActionTask) : Elem? =
-            dataList.firstOrNull {(it.task == task) && (it.name == it.name) && (it.path == it.path) }
+            dataList.firstOrNull {(it.task == task) && (it.name == name) && (it.path == path) }
 
     @Synchronized
     fun findElemById(idElem: Long, task: ActionTask): Elem? = dataList.firstOrNull {(it.task == task) && (it.idElem == idElem)}

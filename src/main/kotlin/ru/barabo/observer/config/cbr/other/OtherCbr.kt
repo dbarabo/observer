@@ -42,10 +42,12 @@ object OtherCbr: ConfigTask {
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()
-        // ruta check
+        // rita check
         //GeneralExecReserve283p.findAll()
 
         CorrDepartmentGoHome.findAll()
+
+        LoanInfoSaver.findAll()
 
         executeTasks()
     }

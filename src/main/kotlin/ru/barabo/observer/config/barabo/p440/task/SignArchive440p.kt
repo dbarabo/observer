@@ -25,7 +25,7 @@ object SignArchive440p: SingleSelector {
 
 
     override val accessibleData: AccessibleData = AccessibleData(
-            workTimeFrom = LocalTime.of(11, 30), //LocalTime.of(8, 0),
+            workTimeFrom = LocalTime.of(8, 0),
             workTimeTo = LocalTime.of(18, 0),
             executeWait = Duration.ofSeconds(5))
 

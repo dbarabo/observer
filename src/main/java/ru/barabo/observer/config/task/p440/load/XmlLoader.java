@@ -37,8 +37,7 @@ public class XmlLoader<E> {
 
 	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE;
 	static {
-		Hashtable<String, Class> tmp =
-				new Hashtable<String, Class>();
+		Hashtable<String, Class> tmp = new Hashtable<>();
 
 		for (TypeFileLoad type : TypeFileLoad.values()) {
 			tmp.put(type.getPrefixFile(), type.getClazz());
@@ -113,22 +112,6 @@ public class XmlLoader<E> {
 		return formatter.format(date);
 	}
 
-	public static String formatDateFile() {
-		return formatDateFile(new Date());
-	}
-
-	private static String DATE_FILE_FORMAT = "yyyyMMdd";
-
-	public static String formatDateFile(Date date) {
-		if (date == null) {
-			return null;
-		}
-
-		SimpleDateFormat formatter = new SimpleDateFormat(DATE_FILE_FORMAT);
-
-		return formatter.format(date);
-	}
-
 	public static java.sql.Date parseDate(String date) {
 		if (date == null || "".equals(date.trim())) {
 			return null;
@@ -136,7 +119,7 @@ public class XmlLoader<E> {
 
 		SimpleDateFormat formatter = new SimpleDateFormat(XML_DATE_FORMAT);
 
-		java.sql.Date result = null;
+		java.sql.Date result;
 
 		try {
 			result = new java.sql.Date(formatter.parse(date).getTime());
@@ -194,8 +177,8 @@ public class XmlLoader<E> {
 
 	public E load(File file) {
 
-		FileInputStream fl = null;
-		E objectXml = null;
+		FileInputStream fl;
+		E objectXml;
 
 		try {
 			fl = new FileInputStream(file);
