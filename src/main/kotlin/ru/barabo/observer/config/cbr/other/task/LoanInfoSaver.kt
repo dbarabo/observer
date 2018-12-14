@@ -20,7 +20,7 @@ object LoanInfoSaver : SingleSelector {
 
     override fun config(): ConfigTask = OtherCbr
 
-    override fun name(): String = "Выгрузка информации по кредитам LoanInfo"
+    override fun name(): String = "Выгрузка инфо по кредитам LoanInfo"
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
             workTimeFrom = LocalTime.of(9, 0), workTimeTo = LocalTime.of(19, 0) )

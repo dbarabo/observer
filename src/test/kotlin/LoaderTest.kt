@@ -280,7 +280,7 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/MTL20181206_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/MTL20181214_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -292,9 +292,9 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    //@Test
+   // @Test
     fun execCtl() {
-        val elem = Elem(idElem = 1183627072, task = ExecuteCtlMtl)
+        val elem = Elem(idElem = 1183969915/*1183950507*/, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
     }

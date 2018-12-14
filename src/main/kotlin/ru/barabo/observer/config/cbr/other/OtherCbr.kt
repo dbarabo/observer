@@ -47,6 +47,7 @@ object OtherCbr: ConfigTask {
 
         CorrDepartmentGoHome.findAll()
 
+        LoanInfoCreator.findAll()
         LoanInfoSaver.findAll()
 
         executeTasks()
