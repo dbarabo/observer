@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.release.task.autoupdate
 
+import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -15,6 +16,8 @@ import java.time.LocalDateTime
 
 abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
+    private val logger = LoggerFactory.getLogger(AutoUpdatePlasticJar::class.java)
+
     override fun config(): ConfigTask = PlasticReleaseConfig
 
     protected abstract fun params(): Array<Any?>?
@@ -23,14 +26,20 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
     override fun findAbstract(): Executor? {
 
-        val count = AfinaQuery.selectCursor(SELECT, params() ).map {
-            Elem(idElem = (it[0] as? Number)?.toLong(),
-                    name = it[1] as String,
-                    path = (it[2] as? String) ?: "",
-                    task = this,
-                    executed = calcExecutedByState(it[3] as? Number)  )}
+        val count = try {
+            AfinaQuery.selectCursor(SELECT, params() ).map {
+                Elem(idElem = (it[0] as? Number)?.toLong(),
+                        name = it[1] as String,
+                        path = (it[2] as? String) ?: "",
+                        task = this,
+                        executed = calcExecutedByState(it[3] as? Number)  )}
 
-                .filter { StoreSimple.addNotExistsByIdElem(it) }.count()
+                    .filter { StoreSimple.addNotExistsByIdElem(it) }.count()
+        } catch (e: Exception) {
+            logger.error("findAbstract", e)
+
+            0
+        }
 
         return if(count == 0) null else this
     }
