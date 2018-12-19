@@ -29,7 +29,7 @@ object TryPnoExecute : SingleSelector {
         override fun execute(elem: Elem): State {
 
         try {
-            AfinaQuery.execute(Process440p.EXEC_440P, arrayOf(elem.idElem) )
+            AfinaQuery.executeStubLogException(Process440p.EXEC_440P, arrayOf(elem.idElem) )
         } catch (e: Exception) {
             val date = parseDateTime(e.message) ?: throw SQLException(e.message)
 

@@ -34,7 +34,7 @@ open class Query (private val dbConnection :DbConnection) {
     fun select(query :String, params :Array<Any?>? = null,
                        sessionSetting : SessionSetting = SessionSetting(true) ) :List<Array<Any?>> {
 
-        logger.info("select=" + query)
+        logger.info("select=$query")
 
         val (session, statement, resultSet) = prepareSelect(query, params, sessionSetting)
 
@@ -84,7 +84,7 @@ open class Query (private val dbConnection :DbConnection) {
                sessionSetting : SessionSetting = SessionSetting(true),
                callBack :(isNewRow :Boolean, value :Any?, column :String?)->Unit) {
 
-        logger.info("select=" + query)
+        logger.info("select=$query")
 
         val (session, statement, resultSet) = prepareSelect(query, params, sessionSetting)
 
@@ -139,7 +139,7 @@ open class Query (private val dbConnection :DbConnection) {
         }
     }
 
-    private fun executePrepared(session :Session, queryRequest :QueryRequest, outParamTypes :IntArray?) :List<Any?>? {
+    private fun executePrepared(session :Session, queryRequest :QueryRequest, outParamTypes :IntArray?, isWriteLogError: Boolean = true) :List<Any?>? {
 
         val result = if(outParamTypes?.size?:0 == 0) null else ArrayList<Any?>()
 
@@ -154,11 +154,10 @@ open class Query (private val dbConnection :DbConnection) {
                 }
             }
         } catch (e : SQLException) {
-            logger.error("query=${queryRequest.query}")
-            logger.error("outParamTypes.size=${outParamTypes?.size}")
-            outParamTypes?.forEach { logger.error(it.toString()) }
 
-            logger.error("execute Call", e)
+            if(isWriteLogError) {
+                writeErrorLog(e, queryRequest, outParamTypes)
+            }
 
             if(dbConnection.isRestartSessionException(session, false, e.message?:"")) {
 
@@ -178,20 +177,46 @@ open class Query (private val dbConnection :DbConnection) {
         return result
     }
 
+    private fun writeErrorLog(e: SQLException, queryRequest: QueryRequest, outParamTypes: IntArray?) {
+        logger.error("query=$queryRequest.query")
+
+        logger.error("inParams.size=${queryRequest.params?.size}")
+        queryRequest.params?.forEach { logger.error(it.toString()) }
+
+        logger.error("outParamTypes.size=${outParamTypes?.size}")
+        outParamTypes?.forEach { logger.error(it.toString()) }
+
+        logger.error("execute Call", e)
+    }
+
     @Throws(SessionException::class)
     fun execute(query :String, params :Array<Any?>? = null,
                        sessionSetting : SessionSetting = SessionSetting(false),
                        outParamTypes :IntArray? = null) :List<Any?>? {
-
-        logger.info("!!!!!!!!!!!!!!!!!$query")
-
-        params?.forEach { logger.info(it.toString()) }
 
         val session = dbConnection.getSession(sessionSetting)
 
         val queryRequest = prepareExecute(session, query, params, outParamTypes)
 
         val resultList = executePrepared(session, queryRequest, outParamTypes)
+
+        closeQueryData(session, sessionSetting.transactType, queryRequest.statement)
+
+        return resultList
+    }
+
+    /**
+     * stubbed log exception when catch exception on execute query
+     */
+    @Throws(SessionException::class)
+    fun executeStubLogException(query :String, params :Array<Any?>? = null, sessionSetting : SessionSetting = SessionSetting(false),
+                             outParamTypes :IntArray? = null) :List<Any?>? {
+
+        val session = dbConnection.getSession(sessionSetting)
+
+        val queryRequest = prepareExecute(session, query, params, outParamTypes)
+
+        val resultList = executePrepared(session, queryRequest, outParamTypes, isWriteLogError = false)
 
         closeQueryData(session, sessionSetting.transactType, queryRequest.statement)
 
@@ -274,7 +299,7 @@ open class Query (private val dbConnection :DbConnection) {
     @Throws(SessionException::class)
     private fun fetchData(resultSet : ResultSet, callBack :(isNewRow :Boolean, value :Any?, column :String?)->Unit) {
 
-        val columns = Array(resultSet.metaData.columnCount, {""})
+        val columns = Array(resultSet.metaData.columnCount) {""}
 
         for (index in 1 .. resultSet.metaData.columnCount) {
             columns[index - 1] = resultSet.metaData.getColumnName(index)?.toUpperCase()!!
