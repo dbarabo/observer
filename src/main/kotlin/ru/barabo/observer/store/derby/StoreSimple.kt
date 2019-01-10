@@ -49,6 +49,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     @Synchronized
     fun findElemById(idElem: Long, task: ActionTask): Elem? = dataList.firstOrNull {(it.task == task) && (it.idElem == idElem)}
 
+
     @Synchronized
     fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean
             = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
@@ -98,9 +99,9 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
             InfoHtmlData.sendInfo(actualDate, root)
 
-            Platform.runLater({ run {
+            Platform.runLater { run {
                 readData(dateCheck)
-            } })
+            } }
         }
     }
 
@@ -123,12 +124,12 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     private fun updateTreeElem(item: Elem, isAdd: Boolean) {
 
-        Platform.runLater({ run {
+        Platform.runLater { run {
 
             val group = if(isAdd) addElemToGroup(item) else checkMoveElemFromGroup(item)
 
             group.group?.let { synchronized(it){ it.prepareTaskGroup() } }
-        } })
+        } }
     }
 
     @Synchronized
