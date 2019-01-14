@@ -27,7 +27,7 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    override var patternCsvQuote: Pattern? = null
+    //override var patternCsvQuote: Pattern? = null
 
     private lateinit var fileProcess : File
 

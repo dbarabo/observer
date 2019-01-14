@@ -29,6 +29,8 @@ import java.io.File
 import java.sql.Clob
 import java.time.Duration
 import java.time.LocalDate
+import java.util.*
+import java.util.regex.Pattern
 
 class LoaderTest {
 
@@ -40,6 +42,42 @@ class LoaderTest {
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
+
+    private fun separ() = ";"
+
+    //@Test
+    fun quoteCsvTestRegex() {
+        val text =
+                "TR;58;116030547764;116031459732;2937320473;;CMTP502;TPTP205;22620810600020720005;4755450117030235;20190110003154;20190110033154;D;810;810;810;2015600;2015600;2015600;200000000005528;\"RU        SU25CQTG;3   \";;643;;Pet;18503;20001999;320473;20190111;20190111;9985;4511;74377739010010004230355;901000423035;E;000150V05000;;Petrozavodsk;;0000020156000000000081020190110033154000002015600810"
+
+        val regex = "${separ()}(?=([^\"]*\"[^\"]*\")*[^\"]*$)"
+
+        val splitted = text.split(regex.toRegex())
+
+        splitted.forEach {
+            logger.error(it)
+        }
+        logger.error(null)
+
+        //val patternCsvQuote = Pattern.compile(regex)
+
+       // val matcher = patternCsvQuote!!.matcher(text)
+
+//        val fields = ArrayList<String>()
+//
+//        while (matcher.find()) {
+//            var group = matcher.group(1)?:null
+//
+//            if (group?.isNotEmpty() == true && '"' == group[0]) {
+//                group = matcher.group(2)
+//            }
+//
+//            group = group?.replace("\n".toRegex(), "\"")
+//
+//            logger.error(group?:"")
+//        }
+    }
+
 
     //@Test
     fun loanInfoSaver() {
@@ -280,7 +318,7 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/MTL20181227_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/test/CTL20190114_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }

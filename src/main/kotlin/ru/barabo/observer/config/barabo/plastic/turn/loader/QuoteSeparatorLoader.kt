@@ -7,8 +7,6 @@ import java.io.File
 import java.math.BigInteger
 import java.nio.charset.Charset
 import java.util.*
-import java.util.regex.Pattern
-
 
 interface QuoteSeparatorLoader {
 
@@ -24,38 +22,11 @@ interface QuoteSeparatorLoader {
 
     val tailQuery :String?
 
-    var patternCsvQuote :Pattern?
-
     fun separator() :String = ";"
 
-    private fun csvQuote() = "(\"([^\"]*)\"|[^${separator()}]*)(${separator()}|$)"
+    private fun csvQuote() = "${separator()}(?=([^\"]*\"[^\"]*\")*[^\"]*$)"
 
-    private fun patternCsvQuote() = Pattern.compile(csvQuote())
-
-    private fun parseCsvQuote(lineIn: String) :List<String> {
-
-        val line = lineIn.replace("\"".toRegex(), "\n")
-
-        patternCsvQuote = patternCsvQuote?.let { patternCsvQuote } ?:patternCsvQuote()
-
-        val matcher = patternCsvQuote!!.matcher(line)
-
-        val fields = ArrayList<String>()
-
-        while (matcher.find()) {
-            var group = matcher.group(1)?:null
-
-            if (group?.isNotEmpty() == true && '"' == group[0]) {
-                group = matcher.group(2)
-            }
-
-            group = group?.replace("\n".toRegex(), "\"")
-
-            fields.add(group?:"")
-        }
-
-        return fields
-    }
+    private fun parseCsvQuote(lineIn: String) :List<String> = lineIn.split(csvQuote().toRegex())
 
     fun parseInt(value :String?) :Any {
         val length = value?.trim()?.length?:0

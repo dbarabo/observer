@@ -15,7 +15,6 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
-import java.util.regex.Pattern
 
 object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
@@ -28,7 +27,7 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    override var patternCsvQuote: Pattern? = null
+    //override var patternCsvQuote: Pattern? = null
 
     private lateinit var fileProcess :File
 
