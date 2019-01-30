@@ -27,8 +27,6 @@ object LoadCtlMtl : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    //override var patternCsvQuote: Pattern? = null
-
     private lateinit var fileProcess :File
 
     override fun processFile(file: File) {

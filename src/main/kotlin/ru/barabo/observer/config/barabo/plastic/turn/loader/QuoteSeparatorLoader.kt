@@ -102,8 +102,8 @@ interface QuoteSeparatorLoader {
 
     fun getTypeLine(fields :List<String>, order :Int) :TypeLine
 
-    private fun processLine(fields :List<String>, query :String?, id :Any?, columns :Map<Int, (String?)->Any>,
-                            sessionSetting :SessionSetting, isExecOnlyExistsValues :Boolean = true) {
+    private fun processLine(fields: List<String>, query: String?, id: Any?, columns: Map<Int, (String?)->Any>,
+                            sessionSetting: SessionSetting, isExecOnlyExistsValues: Boolean = true) {
 
         if(query == null) return
 

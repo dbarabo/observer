@@ -4,6 +4,7 @@ import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.cbr.other.task.form101.BalanceChecker101f
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -33,6 +34,8 @@ object CorrectPrim : SingleSelector {
         AfinaQuery.execute(EXEC_CORRECT_PRIM, arrayOf(reportDate))
 
         sendReportCorrect(elem.idElem, reportDate as Timestamp)
+
+        elem.idElem?.let{ BalanceChecker101f.check101form( it, reportDate as Timestamp) }
 
         return State.OK
     }
