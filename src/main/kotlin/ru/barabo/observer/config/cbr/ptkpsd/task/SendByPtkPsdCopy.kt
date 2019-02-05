@@ -25,7 +25,7 @@ object SendByPtkPsdCopy : FileMover, FileFinder {
 
     fun cPtkPostPost() :String = "C:/PTK_POST/POST"
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false, LocalTime.MIN, LocalTime.of(17, 0), Duration.ofHours(3))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false, LocalTime.MIN, LocalTime.of(16, 0), Duration.ofHours(3))
 
     override val isMove: Boolean = false
 

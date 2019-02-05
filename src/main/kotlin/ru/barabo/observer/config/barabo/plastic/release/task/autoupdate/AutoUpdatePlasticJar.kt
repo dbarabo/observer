@@ -27,8 +27,9 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
     override fun findAbstract(): Executor? {
 
         val count = try {
-            AfinaQuery.selectCursor(SELECT, params() ).map {
-                Elem(idElem = (it[0] as? Number)?.toLong(),
+            AfinaQuery.selectCursor(SELECT, params() )
+                .filter {(it[2] as? String)?.substringBeforeLast('.', "6")?.last() != '5'}
+                .map {Elem(idElem = (it[0] as? Number)?.toLong(),
                         name = it[1] as String,
                         path = (it[2] as? String) ?: "",
                         task = this,

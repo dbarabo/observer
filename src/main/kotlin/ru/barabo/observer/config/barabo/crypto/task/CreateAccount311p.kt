@@ -26,7 +26,7 @@ object CreateAccount311p : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(9, 0), LocalTime.of(16, 0), Duration.ofHours(1))
+            LocalTime.of(9, 0), LocalTime.of(15, 45), Duration.ofHours(1))
 
     override fun name(): String = "311-П 1. Запустить выгрузку"
 

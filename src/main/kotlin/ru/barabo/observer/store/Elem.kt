@@ -4,10 +4,12 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.ConverterValue
 import ru.barabo.db.annotation.*
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.task.Executor
 import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.reflect.full.isSubclassOf
 
@@ -126,7 +128,15 @@ data class Elem (
 
             task = actionTask
 
-            executed = if(waitExecuted == null) null else created.plusSeconds(waitExecuted.seconds)
+            val execTime = if(waitExecuted == null) null else created.plusSeconds(waitExecuted.seconds)
+
+            executed = if(execTime == null || actionTask !is Executor) execTime
+                                else {
+
+                if(!actionTask.isWorkTimeByTime(execTime.toLocalTime()) ) {
+                    execTime.truncatedTo(ChronoUnit.DAYS).plusSeconds(actionTask.accessibleData.workTimeTo.toSecondOfDay().toLong())
+                } else execTime
+            }
         }
 
         fun getFile() :File = File(path + "/" + name)

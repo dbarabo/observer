@@ -25,7 +25,7 @@ object Send440pArchive : SingleSelector {
 
     override fun config(): ConfigTask = PtkPsd
 
-    private val EXEC_SEND_ARCHIVE = "call od.PTKB_440P.execSendArchive(?, ?)"
+    private const val EXEC_SEND_ARCHIVE = "call od.PTKB_440P.execSendArchive(?, ?)"
 
     fun sendFolderCrypto440p() :File = "${GeneralCreator.sendFolder440p().absolutePath}/crypto".byFolderExists()
 

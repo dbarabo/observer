@@ -14,25 +14,29 @@ interface Executor {
     fun executedTime(timeCreated: LocalDateTime = LocalDateTime.now()): LocalDateTime? =
             accessibleData.executeWait?.let { timeCreated.plusSeconds(it.seconds) }
 
-    val accessibleData :AccessibleData
+    val accessibleData: AccessibleData
 
-    fun actionTask() :ActionTask
+    fun actionTask(): ActionTask
 
-    fun findAbstract() :Executor?
+    fun findAbstract(): Executor?
 
-    fun isAccess() :Boolean = isWorkTime() && isWeekAccess()
+    fun isAccess(): Boolean = isWorkTime() && isWeekAccess()
 
-    fun findAll() :Executor? = if(isAccess()) findAbstract() else null
+    fun findAll(): Executor? = if(isAccess()) findAbstract() else null
 
-    private fun isWorkTime() :Boolean = if(accessibleData.workTimeFrom < accessibleData.workTimeTo) {
-        (accessibleData.workTimeFrom <= LocalTime.now() && LocalTime.now() <= accessibleData.workTimeTo)
-    } else {
-        (accessibleData.workTimeFrom <= LocalTime.now() || LocalTime.now() <= accessibleData.workTimeTo)
-    }
+    private fun isWorkTime(time: LocalTime = LocalTime.now()): Boolean =
+            if(accessibleData.workTimeFrom < accessibleData.workTimeTo) {
+                (accessibleData.workTimeFrom <= time && time <= accessibleData.workTimeTo)
+            } else {
+                (accessibleData.workTimeFrom <= time || time <= accessibleData.workTimeTo)
+            }
 
-    private fun isWeekAccess() :Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
+    fun isWorkTimeByTime(time: LocalTime): Boolean = isWorkTime(time)
 
-    fun executeElem(elem : Elem, isSuspend :Boolean = false) {
+
+    private fun isWeekAccess(): Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
+
+    fun executeElem(elem: Elem, isSuspend: Boolean = false) {
         synchronized(elem.state) {
 
             if(elem.state == State.OK || elem.state == State.PROCESS || elem.state == State.ARCHIVE) return
@@ -68,7 +72,7 @@ interface Executor {
         checkSendMailError(elemErrorFull, isSuspend)
     }
 
-    private fun checkSendMailError(elem : Elem, isSuspend :Boolean) {
+    private fun checkSendMailError(elem: Elem, isSuspend: Boolean) {
         if(elem.state != State.ERROR || elem.task?.isSendError()?.not() == true) return
 
         if(!isSuspend) {
@@ -78,7 +82,7 @@ interface Executor {
         }
     }
 
-    private fun executeAll() :Executor? {
+    private fun executeAll(): Executor? {
 
         val items = StoreSimple.getItems(State.NONE) { it == actionTask() }
 
