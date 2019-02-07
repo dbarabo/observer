@@ -112,8 +112,8 @@ object BaraboSmtp : SendMail {
 
     fun sendToTtsUnknownFile(file : File) {
 
-        send(to = MANAGERS_AUTO, cc = SB_TTS, bcc = REMART_BCC, subject = OTK_UNKNOWN_SUBJECT, body = OTK_UNKNOWN_BODY,
-                attachments = arrayOf(file))
+        send(to = MANAGERS_AUTO, cc = SB_TTS, bcc = REMART_BCC, subject = OTK_UNKNOWN_SUBJECT,
+                body = OTK_UNKNOWN_BODY, attachments = arrayOf(file))
     }
 
     private const val CBR_UNKNOWN_SUBJECT = "Возможно важное вложение от 05NikitaTI@vladivostok.cbr.ru"

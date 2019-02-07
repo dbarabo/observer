@@ -16,7 +16,10 @@ import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
+import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
+import ru.barabo.observer.config.cbr.other.task.form101.CheckerRedSaldo
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
+import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.Executor
@@ -27,6 +30,7 @@ import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.sql.Clob
+import java.sql.Timestamp
 import java.time.Duration
 import java.time.LocalDate
 import java.util.*
@@ -44,6 +48,18 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun checkSaldoAbsent() {
+        CheckerRedSaldo.checkSaldo(Timestamp(Date().time))
+
+        CheckerAbsentBalance.checkAbsent()
+    }
+
+    //@Test
+    fun checkerAllBalance() {
+        CheckerAllBalance.execute(Elem())
+    }
 
     //@Test
     fun quoteCsvTestRegex() {

@@ -12,26 +12,50 @@ object BalanceChecker101f {
      *  check sent 101 form by calculate rest & turn from real balance
      *  if exists problem then send mail with fail data
      */
-    fun check101form(idForm101: Long, dateReport: Timestamp) {
+    fun check101form(idForm101: Number, dateReport: Timestamp, isSmashError: Boolean = false) {
 
         AfinaQuery.execute(EXEC_CHECK_BALANCE, arrayOf(idForm101))
 
         val title = dateReport.toLocalDateTime().toLocalDate().titleCorrect(idForm101)
 
-        val html = createHtmlData(idForm101, title)
+        val html = createHtmlData(idForm101, title, isSmashError)
 
         html?.let { sendHtmlTable(it, title) }
     }
 
-    private fun createHtmlData(idForm101: Long, title: String): String? {
+    private fun createHtmlData(idForm101: Number, title: String, isSmashError: Boolean): String? {
 
         val data = AfinaQuery.selectCursor(CURSOR_BALANCE_ERROR, arrayOf(idForm101))
 
         if(data.isEmpty()) return null
 
+        if(isSmashError) setSmashError(data)
+
         val content = HtmlContent(title, title, HEADER_TABLE, data)
 
         return content.html()
+    }
+
+    private fun setSmashError(data: List<Array<Any?>>) {
+        for (row in data) {
+
+            val inDiff = (row[3] as Number).toInt()
+
+            val outDiff = (row[4] as Number).toInt()
+
+            val turnDebetDiff = (row[5] as Number).toInt()
+
+            val turnCreditDiff = (row[6] as Number).toInt()
+
+            if(inDiff <= 1 &&
+               outDiff <= 1 &&
+               turnDebetDiff <= 2 &&
+               turnCreditDiff <= 2) {
+                val params = arrayOf(row[row.lastIndex])
+
+                AfinaQuery.execute(EXEC_SMASH_ERROR_PTKB, params)
+            }
+        }
     }
 
     private val HEADER_TABLE = mapOf(
@@ -51,14 +75,16 @@ object BalanceChecker101f {
             "Кредит Сдан"  to "right",
             "Кредит Реал"  to "right")
 
-    private fun LocalDate.titleCorrect(id101Form: Long) =
-            "Несоответствие баланса со сданной 101 формой на $this ptkb_ptkpsd_101form_detail.id = $id101Form"
+    private fun LocalDate.titleCorrect(id101Form: Number) =
+            "Несоответствие баланса со сданной 101 формой на $this ptkb_ptkpsd_101form_detail.id = ${id101Form.toLong()}"
 
     private const val EXEC_CHECK_BALANCE = "{ call od.PTKB_PRECEPT.check101ByPtkbPsd101Id(?) }"
 
+    private const val EXEC_SMASH_ERROR_PTKB = "update od.ptkb_ptkpsd_101form_detail set CHECKER = 1 where id = ?"
+
     private const val CURSOR_BALANCE_ERROR = "{ ? = call od.PTKB_PRECEPT.get101Diff(null, ? ) }"
 
-    private fun sendHtmlTable(htmlData: String, title: String) {
+    fun sendHtmlTable(htmlData: String, title: String) {
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = title, body = htmlData, subtypeBody = "html")
     }
 }

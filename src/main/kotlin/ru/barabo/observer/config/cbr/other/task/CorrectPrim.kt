@@ -35,7 +35,7 @@ object CorrectPrim : SingleSelector {
 
         sendReportCorrect(elem.idElem, reportDate as Timestamp)
 
-        elem.idElem?.let{ BalanceChecker101f.check101form( it, reportDate) }
+        elem.idElem?.let{ BalanceChecker101f.check101form( it, reportDate, isSmashError = true) }
 
         return State.OK
     }
