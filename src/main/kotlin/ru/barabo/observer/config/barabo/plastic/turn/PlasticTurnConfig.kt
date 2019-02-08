@@ -25,6 +25,8 @@ object PlasticTurnConfig: ConfigTask {
         OutRestCheck.findAll()
         OutRegisterAquiring.findAll()
 
+        OutIbiFakeData.findAll()
+
         this.executeTasks()
     }
 }
