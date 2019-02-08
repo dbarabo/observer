@@ -8,13 +8,15 @@ import java.time.LocalDate
 
 object CheckerRedSaldo {
 
-    fun checkSaldo(dateReport: Timestamp) {
+    fun isCheckSaldo(dateReport: Timestamp): Boolean {
 
         val title = dateReport.toLocalDateTime().toLocalDate().title()
 
         val html = createHtmlData(dateReport, title)
 
         html?.let { sendHtmlTable(it, title) }
+
+        return !html.isNullOrEmpty()
     }
 
     private fun createHtmlData(dateReport: Timestamp, title: String): String? {

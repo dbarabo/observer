@@ -25,6 +25,10 @@ object PtkPsd : ConfigTask {
 
         Load101FormXml.findAll()
 
+        CheckerAllBalance.findAll()
+
+        CheckerRedSaldoNow.findAll()
+
         // execute all
         executeTasks()
     }

@@ -67,7 +67,7 @@ object CreateSaveResponse390p : FileFinder, FileProcessor {
 
         responseFile.writeText(responseText, Charset.forName("CP1251"))
 
-        Verba.signByBarabo(responseFile)
+        Verba.signBy390p(responseFile)
 
         responseFile.addToArchiveSend()
     }
@@ -79,7 +79,9 @@ object CreateSaveResponse390p : FileFinder, FileProcessor {
         Archive.addToArj(archive.absolutePath, arrayOf(this) )
     }
 
-    private fun getArchiveName() = "AFT_0507717_FTS0000_${todayArchiveMask()}_001.ARJ"
+   // private fun getArchiveName() = "AFT_0507717_FTS0000_${todayArchiveMask()}_001.ARJ"
+
+    private fun getArchiveName() = "AFT_0507717_FTS0000_${todayArchiveMask()}_002.ARJ"
 
     private fun todayArchiveMask() :String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
 

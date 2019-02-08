@@ -33,8 +33,10 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     val logger = LoggerFactory.getLogger(StoreSimple::class.java)!!
 
     @Synchronized
-    fun addNotExistsByIdElem(item :Elem): Boolean {
-        val exist = dataList.firstOrNull { (it.task == item.task) && (it.idElem == item.idElem)}
+    fun addNotExistsByIdElem(item :Elem, stateFind: State? = null): Boolean {
+        val exist = dataList.firstOrNull {
+            ((it.task == item.task) && (it.idElem == item.idElem)) &&
+            (stateFind?.let { st -> it.state == st } ?: true ) }
 
         if(exist == null) {
             save(item)

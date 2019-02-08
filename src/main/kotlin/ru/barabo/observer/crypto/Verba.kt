@@ -38,7 +38,11 @@ object Verba {
 
     private const val BARABO_SIGN_KEY = "717194100517"
 
+    private const val P390_SIGN_KEY = "717194100524"
+
     private const val BARABO_SIGN_DISK = "a:\\"
+
+    private const val P390_SIGN_DISK = "J:\\"
 
     private fun cmdSign(fromFile :File, signedFile :File, keyDisk :String, keyNumber :String) =
             "$SIGNER_FULL_PATH s ${fromFile.absolutePath} ${signedFile.absolutePath} $keyDisk $keyNumber"
@@ -51,6 +55,9 @@ object Verba {
     fun signByCbr(file :File) :File = signFile(file, CBR_SIGN_DISK, CBR_SIGN_KEY)
 
     fun signByBarabo(file :File) :File = signFile(file, BARABO_SIGN_DISK, BARABO_SIGN_KEY)
+
+    fun signBy390p(file :File) :File = signFile(file, P390_SIGN_DISK, P390_SIGN_KEY)
+
 
     private fun checkerVerba() {
         if(!VERBA_FILE.exists()) {

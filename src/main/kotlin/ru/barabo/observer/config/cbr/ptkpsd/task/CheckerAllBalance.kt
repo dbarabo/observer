@@ -41,7 +41,7 @@ object CheckerAllBalance : Periodical {
 
             BalanceChecker101f.check101form(datePair[1] as Number, dateOn)
 
-            CheckerRedSaldo.checkSaldo(dateOn)
+            CheckerRedSaldo.isCheckSaldo(dateOn)
         }
 
         CheckerDoubleTurn.checkDouble()

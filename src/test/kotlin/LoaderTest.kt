@@ -1,7 +1,6 @@
 
 import oracle.jdbc.OracleTypes
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
@@ -34,7 +33,6 @@ import java.sql.Timestamp
 import java.time.Duration
 import java.time.LocalDate
 import java.util.*
-import java.util.regex.Pattern
 
 class LoaderTest {
 
@@ -51,7 +49,7 @@ class LoaderTest {
 
     //@Test
     fun checkSaldoAbsent() {
-        CheckerRedSaldo.checkSaldo(Timestamp(Date().time))
+        CheckerRedSaldo.isCheckSaldo(Timestamp(Date().time))
 
         CheckerAbsentBalance.checkAbsent()
     }
