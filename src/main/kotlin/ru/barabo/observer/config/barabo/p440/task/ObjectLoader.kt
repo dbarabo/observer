@@ -46,7 +46,7 @@ object RooLoader : GeneralLoader<RooFromFns>() {
         elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
         BaraboSmtp.errorSend(elem)
 
-        val rooPb2 = RooFromFns.EmptyRooFromFns()
+        val rooPb2 = RooFromFns.emptyRooFromFns()
 
         val uniqueSession = AfinaQuery.uniqueSession()
 
@@ -79,7 +79,44 @@ object ZsoLoader : GeneralLoader<ZsoFromFns>() {
 
 object ZsvLoader : GeneralLoader<ZsvFromFns>() {
 
+    private val logger = LoggerFactory.getLogger(ZsvLoader::class.java)
+
     override fun name(): String = "Загрузка ZSV-файла (выписка)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2File(file)
+        }
+    }
+
+    private fun createPb2File(file: File) {
+        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
+
+        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        BaraboSmtp.errorSend(elem)
+
+        val zsvPb2 = ZsvFromFns.emptyZsvFromFns()
+
+        val uniqueSession = AfinaQuery.uniqueSession()
+
+        try {
+            zsvPb2.saveData(file, uniqueSession)
+
+            AfinaQuery.commitFree(uniqueSession)
+        } catch (e: Exception) {
+
+            logger.error("createPb2File", e)
+
+            AfinaQuery.rollbackFree(uniqueSession)
+
+            throw SessionException(e.message ?: "")
+        }
+
+        file.moveToLoaded()
+    }
 }
 
 object ApnLoader : GeneralLoader<ApnFromFns>() {

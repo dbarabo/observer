@@ -45,6 +45,21 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
         return if(count == 0) null else this
     }
 
+    override fun execute(elem: Elem): State {
+
+        if(!NEW_PLASTIC_JAR.exists()) return State.NONE
+
+        val oldJar = elem.remoteFilePath()
+
+        return if((!oldJar.exists()) || oldJar.delete()) {
+            NEW_PLASTIC_JAR.copyTo( File("${oldJar.parent}\\$PROGRAM_JAR"), true )
+
+            AfinaQuery.execute(UPDATE_STATE, elem.paramsUpdateState())
+
+            State.OK
+        } else State.NONE
+    }
+
     companion object {
         private const val SELECT = "{ ? = call od.PTKB_PLASTIC_AUTO.selectForUpdateVesionPrograms( ?, ? ) }"
 
@@ -68,28 +83,14 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
             else LocalDateTime.now().plusSeconds(5)
 
 
-    override fun execute(elem: Elem): State {
-
-        if(!NEW_PLASTIC_JAR.exists()) return State.NONE
-
-        val oldJar = elem.remoteFilePath()
-
-        return if((!oldJar.exists()) || oldJar.delete()) {
-            NEW_PLASTIC_JAR.copyTo( File("${oldJar.parent}\\$PROGRAM_JAR"), true )
-
-            AfinaQuery.execute(UPDATE_STATE, elem.paramsUpdateState())
-
-            State.OK
-        } else State.NONE
-    }
 
     private fun Elem.paramsUpdateState(): Array<Any?> = arrayOf(PROGRAM_NAME, name, path)
 }
 
 fun Elem.remoteFilePath(): File  = if(name.isRemoteNetDisk()) File(name) else File(URI(createNetPath(name, path)))
 
-private fun String.isRemoteNetDisk() = "\\/HIJKPSTVWXZ".contains(substring(1..1).toUpperCase())
+fun String.isRemoteNetDisk() = "\\/HIJKPSTVWXZ".contains(substring(1..1).toUpperCase()) || "\\/HIJKPSTVWXZ".contains(substring(0..0).toUpperCase())
 
-private fun createNetPath(localFullPath: String, ipAddress: String) =  "file://///$ipAddress${localFullPath.addAdmin()}"  //"\\\\$ipAddress\\${localFullPath.substring(1).addAdmin()}"
+private fun createNetPath(localFullPath: String, ipAddress: String) =  "file://///$ipAddress/${localFullPath.addAdmin()}"  //"\\\\$ipAddress\\${localFullPath.substring(1).addAdmin()}"
 
 private fun String.addAdmin() =  this.replace(':', '$')

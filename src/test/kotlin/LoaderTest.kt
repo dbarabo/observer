@@ -1,6 +1,7 @@
 
 import oracle.jdbc.OracleTypes
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
@@ -12,6 +13,7 @@ import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJa
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
+import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
@@ -46,6 +48,22 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+
+    //@Test
+    fun testZsvLoad() {
+
+        val file = File("C:/Картстандарт/test/ZSV10507717_631020190211_000025.xml")
+
+        ZsvLoader.processFile(file)
+    }
+
+    //@Test
+    fun testIsRemoteNetDisk() {
+        val remote = "I:/Modules/java/new/plastic.jar"
+
+        logger.error(remote.isRemoteNetDisk().toString())
+    }
 
     //@Test
     fun checkSaldoAbsent() {

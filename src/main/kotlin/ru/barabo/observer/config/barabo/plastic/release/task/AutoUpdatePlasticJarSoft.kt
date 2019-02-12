@@ -12,5 +12,5 @@ object AutoUpdatePlasticJarSoft : AutoUpdatePlasticJar() {
     override fun name(): String = "AutoUpdate Plastic.jar Теневой"
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-            workTimeFrom = LocalTime.of(18, 0), workTimeTo = LocalTime.of(9, 0))
+            workTimeFrom = LocalTime.of(15, 0), workTimeTo = LocalTime.of(9, 0))
 }

@@ -26,7 +26,7 @@ final public class RooFromFns extends AbstractFromFns {
         return decisionCancel;
     }
 
-    static public RooFromFns EmptyRooFromFns() {
+    static public RooFromFns emptyRooFromFns() {
         RooFromFns rooFromFns = new RooFromFns();
 
         rooFromFns.decisionCancel = new DecisionCancel();
