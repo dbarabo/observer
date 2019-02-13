@@ -18,6 +18,7 @@ import ru.barabo.observer.config.task.p440.load.xml.request.ZsvFromFns
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.nio.charset.Charset
 
 object RpoLoader : GeneralLoader<RpoFromFns>() {
 
@@ -74,7 +75,94 @@ object ZsnLoader : GeneralLoader<ZsnFromFns>() {
 
 object ZsoLoader : GeneralLoader<ZsoFromFns>() {
 
+    private val logger = LoggerFactory.getLogger(ZsoLoader::class.java)
+
     override fun name(): String = "Загрузка ZSO-файла (остатки)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2File(file)
+        }
+    }
+
+    private fun createPb2File(file: File) {
+
+        val type = getErrorTypeFormat(file)
+
+        type?.let { createErrorTypeFormat(file, it) } ?: createErrorUncrypto(file)
+    }
+
+    private fun getErrorTypeFormat(file: File): String? {
+
+        val text = try {
+            file.readText(Charset.forName("windows-1251"))
+        } catch (e: Exception) {
+
+            return null
+        }
+
+        val startIndex = text.indexOf("ТипИнф=")
+
+        val endIndex = text.indexOf("ВерсПрог=")
+
+        if(startIndex < 0 || endIndex <= startIndex) {
+            return null
+        }
+
+        val subText =  text.substring(startIndex + 7, endIndex)
+
+        val quoteStart =  subText.indexOf('"')
+
+        val quoteEnd =  subText.lastIndexOf('"')
+
+        if(quoteStart < 0 || quoteEnd <= quoteStart) {
+            return null
+        }
+
+        return subText.substring(quoteStart + 1, quoteEnd)
+    }
+
+    private fun createErrorTypeFormat(file: File, typeFormat: String) {
+
+        val zsoTypeFormat = ZsoFromFns.emptyZsoFromFnsErrorTypeFormat(typeFormat)
+
+        createError(zsoTypeFormat, file)
+    }
+
+
+    private fun createErrorUncrypto(file: File) {
+        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
+
+        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        BaraboSmtp.errorSend(elem)
+
+        val zsoPb2 = ZsoFromFns.emptyZsoFromFns()
+
+        createError(zsoPb2, file)
+    }
+
+    private fun createError(zsoError: ZsoFromFns, file: File) {
+
+        val uniqueSession = AfinaQuery.uniqueSession()
+
+        try {
+            zsoError.saveData(file, uniqueSession)
+
+            AfinaQuery.commitFree(uniqueSession)
+        } catch (e: Exception) {
+
+            logger.error("createPb2File", e)
+
+            AfinaQuery.rollbackFree(uniqueSession)
+
+            throw SessionException(e.message ?: "")
+        }
+
+        file.moveToLoaded()
+    }
 }
 
 object ZsvLoader : GeneralLoader<ZsvFromFns>() {

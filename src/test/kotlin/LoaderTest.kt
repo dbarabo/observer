@@ -51,6 +51,22 @@ class LoaderTest {
 
 
     //@Test
+    fun test440pExec() {
+
+        val elem = Elem(idElem = 1186215304L)
+
+        Process440p.execute(elem)
+    }
+
+    //@Test
+    fun testZsoLoad() {
+
+        val file = File("C:/Картстандарт/test/ZSO10507717_250820190212_516920.xml")
+
+        ZsoLoader.processFile(file)
+    }
+
+    //@Test
     fun testZsvLoad() {
 
         val file = File("C:/Картстандарт/test/ZSV10507717_631020190211_000025.xml")
