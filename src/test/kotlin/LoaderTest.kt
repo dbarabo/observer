@@ -15,6 +15,8 @@ import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
+import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
+import ru.barabo.observer.config.barabo.plastic.turn.checker.MtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
@@ -42,12 +44,45 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "TEST")
+        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
 
-        com.sun.javafx.application.PlatformImpl.startup {}
+        //com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testExecAfpSchema() {
+
+        val elem = Elem(idElem = 1186463097, task = ExecuteAfp)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testLoadAfp() {
+        val elem = Elem(File("C:/КартСтандарт/test/AFP20190218_0226.0024"), LoadAfp, Duration.ZERO)
+
+        LoadAfp.execute(elem)
+    }
+
+    //@Test
+    fun testMtlChecker() {
+        MtlChecker.check()
+    }
+
+    //@Test
+    fun testCtlChecker() {
+        CtlChecker.check()
+    }
+
+    //@Test
+    fun testCtlNewExec() {
+        val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.testProcCtl(?) }"
+
+        AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(1186187440L))
+    }
+
 
 
     //@Test
@@ -138,7 +173,6 @@ class LoaderTest {
             (it.task as? Executor)?.executeElem(it)
         }
     }
-
 
 
     //@Test

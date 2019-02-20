@@ -30,6 +30,8 @@ object RemartMail : FileFinder, FileProcessor {
 
     override fun processFile(file :File) {
 
+        if(file.name.equals("image001.png", true) && file.length() < 10240L) return
+
         val directoryTo = File("${file.parent}/${todayFolder()}")
         if(!directoryTo.exists()) {
             directoryTo.mkdirs()

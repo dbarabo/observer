@@ -48,7 +48,7 @@ object ExecuteAfp: SingleSelector {
 
     private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 
-    private const val EXEC_AFP = "{ call od.PTKB_PLASTIC_TURN.processAfp(?) }"
+    private const val EXEC_AFP = "{ call od.PTKB_PLASTIC_TURN.processAfpBySchema(?) }" //"{ call od.PTKB_PLASTIC_TURN.processAfp(?) }"
 
     private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedAfp(?, ?) }"
 }
