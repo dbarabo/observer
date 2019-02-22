@@ -45,7 +45,7 @@ object ExecuteObi: SingleSelector {
 
     private val SUBJECT_NONE_EXEC ="\u265E\u2602\u2622\u260E\u265E\u2602\u2622\u260E Пластик: Не все док-ты обработаны в файле OBI_GC_FEE"
 
-    private val EXEC_OBI = "{ call od.PTKB_PLASTIC_TURN.processObiLoaded(?) }"
+    private val EXEC_OBI = "{ call od.PTKB_PLASTIC_TURN.processsObiBySchema(?) }" //"{ call od.PTKB_PLASTIC_TURN.processObiLoaded(?) }"
 
     private val CALL_INFO_OBI = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedObi(?, ?) }"
 }

@@ -61,7 +61,7 @@ abstract class OutRegisterAquiringRange : EventAction {
 
     abstract fun selectCursorTerminals(): String
 
-    private fun List<Array<Any?>>.processTerminals() {
+    internal fun List<Array<Any?>>.processTerminals() {
         val titleVar = OutRegisterAquiring.createTerminalVar()
 
         for (terminal in this) {

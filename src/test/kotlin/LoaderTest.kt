@@ -38,6 +38,8 @@ import java.time.Duration
 import java.time.LocalDate
 import java.util.*
 
+import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
+
 class LoaderTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
@@ -52,12 +54,57 @@ class LoaderTest {
     private fun separ() = ";"
 
     //@Test
+    fun outRegisterAquiringMonth() {
+        //val elem = Elem(task = OutRegisterAquiringMonth)
+
+        //elem.task?.execute(elem)
+
+        val termArr: Array<Any?> = arrayOf("J224501", "01/01/2019", "31/01/2019", "Leman", "")
+
+        val list = listOf(termArr)
+
+        list.processTerminals()
+
+        /*
+
+        this["TerminalId"] = terminal[0]?.let { it as String}?:""
+
+        this["dtStart"] = terminal[1]?.let { it as String}?:""
+
+        this["dtEnd"] = terminal[2]?.let { it as String}?:""
+
+        this["CompanyName"] = terminal[3]?.let { it as String}?:""
+
+        this["adressCompany"] = terminal[4]?.let { it as String}?:""
+
+        OutRegisterAquiringMonth.createRegisters()*/
+    }
+
+    //@Test
+    fun loadCtlMtl() {
+        val elem = Elem(File("C:/КартСтандарт/test/MTL20190221_0226.0001"), LoadCtlMtl, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun execCtl() {
+        val elem = Elem(idElem = 1186566990, task = ExecuteCtlMtl) //1186566414
+
+        elem.task?.execute(elem)
+
+        logger.error("Ok")
+    }
+
+    //@Test
     fun testExecAfpSchema() {
 
         val elem = Elem(idElem = 1186463097, task = ExecuteAfp)
 
         elem.task?.execute(elem)
     }
+
+
 
     //@Test
     fun testLoadAfp() {
@@ -398,26 +445,6 @@ class LoaderTest {
         EsProcess.process(File("C:/440-П/test/CB_ES550P_20180423_002.XML"))
     }
 
-    //@Test
-    fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/CTL20190114_0226.0001"), LoadCtlMtl, Duration.ZERO)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
-    fun execAfp() {
-        val elem = Elem(idElem = 1179223102, task = ExecuteAfp)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
-    fun execCtl() {
-        val elem = Elem(idElem = 1184393667, task = ExecuteCtlMtl)
-
-        elem.task?.execute(elem)
-    }
 
     //@Test
     fun execCheckActializationEntryDouble() {
@@ -446,12 +473,7 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun outRegisterAquiringMonth() {
-        val elem = Elem(task = OutRegisterAquiringMonth)
 
-        elem.task?.execute(elem)
-    }
 
     //@Test
     fun outRestCheck() {

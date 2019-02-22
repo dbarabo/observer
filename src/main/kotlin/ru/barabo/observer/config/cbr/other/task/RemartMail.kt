@@ -30,8 +30,6 @@ object RemartMail : FileFinder, FileProcessor {
 
     override fun processFile(file :File) {
 
-        if(file.name.equals("image001.png", true) && file.length() < 10240L) return
-
         val directoryTo = File("${file.parent}/${todayFolder()}")
         if(!directoryTo.exists()) {
             directoryTo.mkdirs()
@@ -43,6 +41,8 @@ object RemartMail : FileFinder, FileProcessor {
         }
 
         if(!file.renameTo(destinationFile)) throw IOException("file it`s not renamed ${file.absolutePath}")
+
+        if(destinationFile.name.equals("image001.png", true) && destinationFile.length() < 10240L) return
 
         BaraboSmtp.sentByRemart(destinationFile)
     }

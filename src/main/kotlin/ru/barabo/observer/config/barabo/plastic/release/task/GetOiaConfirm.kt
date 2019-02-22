@@ -62,13 +62,23 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
             val idApplication =  line.substring(58, 58 + 12).trim()
 
-            val priorState = priorStateForOia(line.substring(49, 49 + 9).trim())
+            var priorState = priorStateForOia(line.substring(49, 49 + 9).trim())
 
             val result = line.substring(110).trim()
 
             val iiaFile = line.substring(18, 18 + 30).trim()
 
-            val content = AfinaQuery.select(SELECT_CONTENT_ID, arrayOf(idApplication, priorState.dbValue))
+            var content = AfinaQuery.select(SELECT_CONTENT_ID, arrayOf(idApplication, priorState.dbValue))
+
+            if(content.isEmpty() && priorState != StateRelease.SMS_SENT_ACCESS) {
+
+                val newPrior = priorStateForOia("BTRT35")
+                val newContent = AfinaQuery.select(SELECT_CONTENT_ID, arrayOf(idApplication, newPrior.dbValue))
+                if(newContent.isNotEmpty()) {
+                    priorState = newPrior
+                    content = newContent
+                }
+            }
 
             if(content.isEmpty()) {
                 errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile)

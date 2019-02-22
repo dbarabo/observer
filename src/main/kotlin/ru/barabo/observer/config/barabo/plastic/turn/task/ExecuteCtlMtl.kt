@@ -49,7 +49,7 @@ object ExecuteCtlMtl : SingleSelector {
 
     private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 
-    private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.processCtlMtl(?) }"
+    private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.procCtlMtlBySchema(?) }" // "{ call od.PTKB_PLASTIC_TURN.processCtlMtl(?) }"
 
     private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedCtl(?, ?) }"
 }
