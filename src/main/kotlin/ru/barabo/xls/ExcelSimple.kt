@@ -212,9 +212,7 @@ data class ColumnXls(val index: Int,
 
       if(!isSimpleVar()) return false
 
-       val value = titleVar[value]
-
-       return (value is Number) //&& format.isNumber
+       return (simpleValue(titleVar) is Number) //&& format.isNumber
     }
 
     fun getVal(titleVar: Map<String, Any>): Any {
