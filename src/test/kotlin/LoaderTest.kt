@@ -46,12 +46,41 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/* "TEST"*/)
 
         //com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testSetLimitBlock() {
+       // val EXEC_BLOCK = "{ call od.PTKB_440P.runSetBlockByAccountList }"
+
+       // AfinaQuery.execute(EXEC_BLOCK)
+    }
+
+    //@Test
+    fun loadRpo() {
+        //val elem = Elem(File("D:/440-П/test/PNO10507717_253720180131_000068.xml"), PnoLoader, Duration.ZERO)
+
+        val elem = Elem(File("C:/Картстандарт/test/ROO10507717_254320190226_000000.xml"), RooLoader, Duration.ZERO)
+
+        //val elem = Elem(File("C:/440-П/test/ZSV10507717_250820180131_000024.xml"), ZsvLoader, Duration.ZERO)
+
+        //val elem = Elem(File("C:/Картстандарт/test/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+
+    //@Test
+    fun test440pExec() {
+
+        val elem = Elem(idElem = 1186863533L) // RPO=1186808886L
+
+        Process440p.execute(elem)
+    }
 
     //@Test
     fun outRegisterAquiringMonth() {
@@ -128,16 +157,6 @@ class LoaderTest {
         val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.testProcCtl(?) }"
 
         AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(1186187440L))
-    }
-
-
-
-    //@Test
-    fun test440pExec() {
-
-        val elem = Elem(idElem = 1186215304L)
-
-        Process440p.execute(elem)
     }
 
     //@Test
@@ -289,19 +308,6 @@ class LoaderTest {
     //@Test
     fun execObi() {
         val elem = Elem(idElem = 1172320580, task = ExecuteObi)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
-    fun loadPno() {
-        val elem = Elem(File("D:/440-П/test/PNO10507717_253720180131_000068.xml"), PnoLoader, Duration.ZERO)
-
-        //val elem = Elem(File("C:/440-П/test/ROO10507717_253620180131_000015.xml"), RooLoader, Duration.ZERO)
-
-        //val elem = Elem(File("C:/440-П/test/ZSV10507717_250820180131_000024.xml"), ZsvLoader, Duration.ZERO)
-
-        //val elem = Elem(File("C:/440-П/test/RPO10507717_254320180130_000753.xml"), RpoLoader, Duration.ZERO)
 
         elem.task?.execute(elem)
     }

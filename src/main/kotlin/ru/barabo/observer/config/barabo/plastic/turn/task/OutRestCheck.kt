@@ -145,6 +145,7 @@ object OutRestCheck: SingleSelector {
             "Остаток на основ. счете"  to "right",
             "Остаток на внебаланс. счете"  to "right",
             "Остаток на техн. овер"  to "right",
+            "Заблокированные суммы" to "right",
             "Лимит по счету" to "right",
             "Сумма несовпадения"  to "right",
             "Последняя операция" to "center")

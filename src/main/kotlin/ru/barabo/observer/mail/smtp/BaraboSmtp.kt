@@ -23,7 +23,7 @@ object BaraboSmtp : SendMail {
     val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
     val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "kovshova@ptkb.ru",
-            "stepnova@ptkb.ru", "derevenskih@ptkb.ru").onlyAfina()
+            "stepnova@ptkb.ru", "progr_s@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
@@ -33,7 +33,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_390P = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru", "okina@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 

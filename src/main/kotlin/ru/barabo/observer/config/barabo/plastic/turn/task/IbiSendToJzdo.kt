@@ -26,7 +26,7 @@ object IbiSendToJzdo : FileFinder, FileProcessor {
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::hCardOutFileToday, "IBI_.*"))
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, isDuplicateName = false,
-            workTimeFrom = LocalTime.of(4, 0))
+            workTimeFrom = LocalTime.of(4, 0) )
 
     fun hCardOutSentTodayFolder(): File = "${hCardOutToday()}/sent".byFolderExists()
 
