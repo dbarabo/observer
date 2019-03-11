@@ -47,7 +47,7 @@ object BaraboSmtp : SendMail {
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "rodionova@ptkb.ru",
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "buh1@ptkb.ru",
             "zdorovec@ptkb.ru", "koleev@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()

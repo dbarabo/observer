@@ -31,7 +31,8 @@ object CheckerDoubleTurn {
             "Сумма" to "right",
             "Кол-во дублей" to "right",
             "min operdate" to "right",
-            "max operdate" to "right")
+            "max operdate" to "right",
+            "№ док-та" to "left")
 
     private const val TITLE = "Задвоение проводок в балансе"
 

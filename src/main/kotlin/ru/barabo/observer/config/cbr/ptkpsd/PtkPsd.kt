@@ -28,6 +28,7 @@ object PtkPsd : ConfigTask {
         CheckerAllBalance.findAll()
 
         CheckerRedSaldoNow.findAll()
+        CheckerDoubleTurnPeriod.findAll()
 
         // execute all
         executeTasks()
