@@ -26,7 +26,7 @@ object ExecutePosPot : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(8, 10), LocalTime.of(15, 0), Duration.ZERO)
+            LocalTime.of(8, 55), LocalTime.of(15, 0), null)
 
     override fun name(): String = "Сделать ПОС-ПОТ"
 

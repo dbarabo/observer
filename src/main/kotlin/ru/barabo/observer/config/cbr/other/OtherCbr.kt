@@ -36,7 +36,7 @@ object OtherCbr: ConfigTask {
 
         // disable from 23.05.2018
         // ExecuteOverdraftJuric.findAll()
-        // ExecutePosPot.findAll()
+        ExecutePosPot.findAll()
 
         CorrectPrim.findAll()
         ExecuteReglamentRun.findAll()
