@@ -39,6 +39,8 @@ object BalanceChecker101f {
     private fun setSmashError(data: List<Array<Any?>>) {
         for (row in data) {
 
+            val account = row[0] as? String
+
             val inDiff = (row[3] as Number).toInt()
 
             val outDiff = (row[4] as Number).toInt()
@@ -47,16 +49,27 @@ object BalanceChecker101f {
 
             val turnCreditDiff = (row[6] as Number).toInt()
 
-            if(inDiff <= 1 &&
-               outDiff <= 1 &&
-               turnDebetDiff <= 2 &&
-               turnCreditDiff <= 2) {
+            if(isDefaultDiff(inDiff, outDiff, turnDebetDiff, turnCreditDiff) ||
+               isDiff60323Rest2(account, inDiff, outDiff, turnDebetDiff, turnCreditDiff)){
                 val params = arrayOf(row[row.lastIndex])
 
                 AfinaQuery.execute(EXEC_SMASH_ERROR_PTKB, params)
             }
         }
     }
+
+    private fun isDiff60323Rest2(account: String?, inDiff: Int, outDiff: Int, turnDebetDiff: Int, turnCreditDiff: Int): Boolean =
+           (account  == "60323" &&//in listOf("60323", "30110", "30233") &&/
+            inDiff <= 2 &&
+            outDiff <= 2 &&
+            turnDebetDiff <= 2 &&
+            turnCreditDiff <= 2)
+
+    private fun isDefaultDiff(inDiff: Int, outDiff: Int, turnDebetDiff: Int, turnCreditDiff: Int): Boolean =
+            (inDiff <= 1 &&
+            outDiff <= 1 &&
+            turnDebetDiff <= 2 &&
+            turnCreditDiff <= 2)
 
     private val HEADER_TABLE = mapOf(
             "Счет" to "left",

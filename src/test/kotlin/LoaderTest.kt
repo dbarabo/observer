@@ -1,4 +1,3 @@
-
 import oracle.jdbc.OracleTypes
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +10,7 @@ import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
 import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
-import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth
+import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
@@ -19,6 +18,7 @@ import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.MtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 import ru.barabo.observer.config.cbr.other.task.*
+import ru.barabo.observer.config.cbr.other.task.form101.BalanceChecker101f
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerRedSaldo
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
@@ -38,20 +38,26 @@ import java.time.Duration
 import java.time.LocalDate
 import java.util.*
 
-import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
-
 class LoaderTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/* "TEST"*/)
+        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
 
         //com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun checkBalance() {
+
+        arrayOf(1187206779,1187166434 ,1187119750 ,1187086732 ,1187072349 ,1187066126 ,1187032797).forEach {
+            BalanceChecker101f.check101form(it, Timestamp(Date().time), true)
+        }
+    }
 
     //@Test
     fun testSetLimitBlock() {

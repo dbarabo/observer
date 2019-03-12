@@ -20,7 +20,7 @@ object CheckerDoubleTurnPeriod : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData =
-            AccessibleData(workTimeFrom = LocalTime.of(8, 30), workTimeTo = LocalTime.of(20, 0))
+            AccessibleData(workTimeFrom = LocalTime.of(8, 15), workTimeTo = LocalTime.of(20, 0))
 
     override fun name(): String = "Проверка задвоения проводок"
 
