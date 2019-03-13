@@ -47,7 +47,8 @@ object OutSmsData: SingleSelector {
 
     private const val CREATE_FILE_SMS = "{ call od.PTKB_PLASTIC_AUTO.createSmsFileData(?, ?, ?) }"
 
-    internal fun iiaFile(): String =  AfinaQuery.selectValue(SELECT_IIA_FILE) as String
-
-    private const val SELECT_IIA_FILE = "select od.PTKB_PLASTIC_AUTO.getFileNameIIA from dual"
 }
+
+private const val SELECT_IIA_FILE = "select od.PTKB_PLASTIC_AUTO.getFileNameIIA from dual"
+
+fun iiaFile(): String =  AfinaQuery.selectValue(SELECT_IIA_FILE) as String

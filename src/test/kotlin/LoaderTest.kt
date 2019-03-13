@@ -46,7 +46,7 @@ class LoaderTest {
     fun initTestBase() {
         TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
 
-        //com.sun.javafx.application.PlatformImpl.startup {}
+        com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"

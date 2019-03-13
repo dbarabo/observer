@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.other
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.task.*
+import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
 import java.util.*
 
 object OtherCbr: ConfigTask {
@@ -49,6 +50,8 @@ object OtherCbr: ConfigTask {
 
         LoanInfoCreator.findAll()
         LoanInfoSaver.findAll()
+
+        SendBlockUnblockAccountPC.findAll()
 
         executeTasks()
     }

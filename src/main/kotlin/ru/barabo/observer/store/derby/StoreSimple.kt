@@ -57,20 +57,31 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
 
     @Synchronized
-    fun getLastItemsNoneState(task : ActionTask, noneState :State = State.ARCHIVE) :Elem? {
+    fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE) :Elem? {
 
-        val comparatorElemMaxTime = Comparator<Elem> { x, y ->
-            val maxX = x.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
-                    ?:x.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
-
-            val maxY = y.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
-                    ?:y.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
-
-            if(maxX > maxY) 1 else -1
-        }
+        val comparatorElemMaxTime = comparatorElemByExecTime()
 
         return dataList.filter { it.task === task && it.state != noneState }.maxWith(comparatorElemMaxTime)
     }
+
+    @Synchronized
+    fun getLastItemByState(task: ActionTask, findState: State = State.NONE): Elem? {
+
+        val comparatorElemMaxTime = comparatorElemByExecTime()
+
+        return dataList.filter { it.task === task && it.state == findState }.maxWith(comparatorElemMaxTime)
+    }
+
+    private fun comparatorElemByExecTime(): Comparator<Elem> = Comparator<Elem> { x, y ->
+        val maxX = x.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                ?:x.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
+
+        val maxY = y.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                ?:y.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
+
+        if(maxX > maxY) 1 else -1
+    }
+
 
     @Synchronized
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {

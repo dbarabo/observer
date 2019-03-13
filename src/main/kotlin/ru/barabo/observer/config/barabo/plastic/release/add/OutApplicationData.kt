@@ -4,6 +4,7 @@ import oracle.jdbc.OracleTypes
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.release.task.SendToJzdo
+import ru.barabo.observer.config.barabo.plastic.release.task.iiaFile
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutIbi
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import java.io.File
@@ -16,7 +17,7 @@ object OutApplicationData {
 
     fun execute(idPacket: Long) {
 
-        val iiaFile = OutSmsData.iiaFile()
+        val iiaFile = iiaFile()
 
         val data = AfinaQuery.execute(query = CREATE_FILE_APPLICATION, params = arrayOf(idPacket, iiaFile),
                 outParamTypes = intArrayOf(OracleTypes.CLOB))

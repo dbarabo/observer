@@ -40,7 +40,8 @@ interface ConfigTask {
 
     fun executeTasks() {
 
-       val items = StoreSimple.getItems {it?.config() == this}
+       val items = StoreSimple.getItems { it?.config() == this }
+               .filter { (it.task as? Executor)?.isAccess() == true }
 
         for (item in items) {
 
