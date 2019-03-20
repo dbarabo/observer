@@ -31,8 +31,8 @@ object Ticket407ArjXml: FileFinder, FileProcessor {
 
         val arjArchive = Archive.extractFromCab(file, ticket407pRfm(), ".*\\.arj")
 
-        arjArchive?.forEach {
-            val xmlFiles = Archive.extractFromArj(it, ticket407pRfm(), ".*\\.xml")
+        arjArchive?.forEach { arj ->
+            val xmlFiles = Archive.extractFromArj(arj, ticket407pRfm(), ".*\\.xml")
 
             xmlFiles?.forEach { Verba.unSignFile(it) }
         }

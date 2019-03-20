@@ -6,6 +6,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.cycle.StateRelease
+import ru.barabo.observer.config.barabo.plastic.release.cycle.TypePacket
 import ru.barabo.observer.config.barabo.plastic.release.task.GetIiaAccept.moveFileHCardInToday
 import ru.barabo.observer.config.barabo.plastic.turn.task.LoadRestAccount
 import ru.barabo.observer.config.task.AccessibleData
@@ -52,7 +53,7 @@ object GetOiaConfirm: FileFinder, FileProcessor {
         CheckWaitOci.execute(Elem())
     }
 
-    private fun processOiaFile(file :File) {
+    private fun processOiaFile(file: File) {
 
         var errorList = ""
 
@@ -62,7 +63,9 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
             val idApplication =  line.substring(58, 58 + 12).trim()
 
-            var priorState = priorStateForOia(line.substring(49, 49 + 9).trim())
+            val btrtType = line.substring(49, 49 + 9).trim()
+
+            var priorState = priorStateForOia(btrtType)
 
             val result = line.substring(110).trim()
 
@@ -92,9 +95,11 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
                 val packet = it[1] as Number
 
+                val typePacket = TypePacket.getTypePacketByDbValue((it[2] as Number).toInt())
+
                 packetList += packet
 
-                val nextState = nextState(idContent, priorState, result)
+                val nextState = nextState(idContent, priorState, result, typePacket)
 
                 if(nextState == StateRelease.RESPONSE_ERROR_ALL || nextState == StateRelease.SMS_RESPONSE_ERROR_ALL_OIA) {
                     errorList += errorInfo(file, line, idApplication, priorState, result, iiaFile, nextState)
@@ -182,26 +187,39 @@ object GetOiaConfirm: FileFinder, FileProcessor {
     private const val UPDATE_PACKET_FILE = "update od.ptkb_plastic_pack set updated = sysdate, " +
             "LOAD_FILES = LOAD_FILES || ? || ';' where id = ? and instr(nvl(LOAD_FILES, ' '), ?) <= 0"
 
-    private fun nextState(idContent: Number, state: StateRelease, result: String): StateRelease {
+    private fun nextState(idContent: Number, state: StateRelease, result: String, typePacket: TypePacket?): StateRelease {
 
         val isOk = "Processed OK".equals(result, true)
 
         val nextState = if(isOk) {
             if(state == StateRelease.SENT_OK)
-                StateRelease.RESPONSE_OK_ALL else StateRelease.SMS_RESPONSE_OK_ALL_OIA
+                StateRelease.RESPONSE_OK_ALL
+            else StateRelease.SMS_RESPONSE_OK_ALL_OIA
         } else {
             if(state == StateRelease.SENT_OK)
-                StateRelease.RESPONSE_ERROR_ALL else StateRelease.SMS_RESPONSE_ERROR_ALL_OIA
+                StateRelease.RESPONSE_ERROR_ALL
+            else StateRelease.SMS_RESPONSE_ERROR_ALL_OIA
         }
 
-        AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent)/*, settingSession*/)
+        AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent))
+
+        sendSmsForBtrt15BlockUnblock(isOk, typePacket, idContent)
 
         return nextState
     }
 
+    private fun sendSmsForBtrt15BlockUnblock(isOk: Boolean, typePacket: TypePacket?, idContent: Number) {
+
+        if(isOk && (typePacket in listOf(TypePacket.BTRT15_ACTIVE, TypePacket.BTRT15_SUSPEND)) ) {
+            AfinaQuery.execute(EXEC_SEND_SMS_BLOCK_UNBLOCK, arrayOf(idContent) )
+        }
+    }
+
+    private const val EXEC_SEND_SMS_BLOCK_UNBLOCK = "{ call od.PTKB_PLASTIC_AUTO.sendSmsBlockUnblock(?) }"
+
     private const val UPDATE_CONTENT_STATE = "update od.ptkb_plast_pack_content set state = ?, msg_oia = ? where id = ?"
 
-    private const val SELECT_CONTENT_ID = "select pc.id, pc.plastic_pack from ObjDesc o, od.ptkb_plast_pack_content pc" +
+    private const val SELECT_CONTENT_ID = "select pc.id, pc.plastic_pack, pc.TYPE_PACK from ObjDesc o, od.ptkb_plast_pack_content pc" +
             " where o.DescText = ? and pc.app_card = o.doc and pc.state = ?"
 
     private fun priorStateForOia(btrtType: String) : StateRelease =

@@ -37,7 +37,7 @@ public final class Address {
 
 	@XStreamAlias("Кварт")
 	private String flat;
-	
+
 	public Address() {}
 	
 	

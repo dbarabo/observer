@@ -5,6 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.cycle.StateRelease
+import ru.barabo.observer.config.barabo.plastic.release.cycle.TypePacket
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutIbi.hCardOutToday
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.task.AccessibleData
@@ -18,7 +19,11 @@ import java.sql.Clob
 import java.time.LocalTime
 
 object OutSmsData: SingleSelector {
-    override val select: String = "select id, name from od.ptkb_plastic_pack where state = ${StateRelease.OCI_ALL.dbValue}"
+    override val select: String = """
+select id, name from od.ptkb_plastic_pack
+where state = ${StateRelease.OCI_ALL.dbValue}
+  and type_packet not in ( ${TypePacket.BTRT15_SUSPEND.dbValue} , ${TypePacket.BTRT15_ACTIVE.dbValue} )
+"""
 
     override fun name(): String = "SMS - on/off"
 

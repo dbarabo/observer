@@ -41,8 +41,8 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
 
         val tempFolder = Cmd.tempFolder("p550")
 
-        arjArchives?.forEach {
-            val xmlCrypto = Archive.extractFromArj(it, tempFolder.absolutePath)
+        arjArchives?.forEach { arj ->
+            val xmlCrypto = Archive.extractFromArj(arj, tempFolder.absolutePath)
 
             Verba.unCryptoAndUnSigned(tempFolder, "*.XML")
 

@@ -40,7 +40,7 @@ open class Query (private val dbConnection :DbConnection) {
 
         val tableData = try {
             fetchData(resultSet)
-        }catch (e : SQLException) {
+        }catch (e : Exception) {
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
             logger.error("fetch", e)
@@ -64,7 +64,7 @@ open class Query (private val dbConnection :DbConnection) {
 
         val tableData = try {
             fetchData(request.resultSetCursor!!)
-        }catch (e : SQLException) {
+        }catch (e : Exception) {
 
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
@@ -90,7 +90,7 @@ open class Query (private val dbConnection :DbConnection) {
 
         try {
             fetchData(resultSet, callBack)
-        }catch (e : SQLException) {
+        }catch (e : Exception) {
             logger.error("fetch", e)
             closeQueryData(session, TransactType.ROLLBACK, statement, resultSet)
             throw SessionException(e.message as String)
@@ -122,7 +122,7 @@ open class Query (private val dbConnection :DbConnection) {
             else
                 QueryRequest(query, params, session.session.prepareCall(query)?.setParams(outParamTypes as IntArray, params))
 
-        } catch (e : SQLException) {
+        } catch (e : Exception) {
             logger.error("QUERY=$query")
             params?.forEach { logger.error(it?.toString()) }
             logger.error("outParamTypes.size=${outParamTypes?.size}")
@@ -230,7 +230,7 @@ open class Query (private val dbConnection :DbConnection) {
             session.session.prepareCall(query)
                     ?.setParams(intArrayOf(OracleTypes.CURSOR), params) as OracleCallableStatement
 
-        } catch (e: SQLException) {
+        } catch (e: Exception) {
 
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
@@ -247,7 +247,7 @@ open class Query (private val dbConnection :DbConnection) {
 
             statement.getCursor(1)
 
-        } catch (e: SQLException) {
+        } catch (e: Exception) {
             logger.error("executeCursor", e)
 
             if(dbConnection.isRestartSessionException(session, sessionSetting.isReadTransact, e.message?:"")) {
@@ -267,7 +267,7 @@ open class Query (private val dbConnection :DbConnection) {
 
         val statement = try {
             session.session.prepareStatement(query)?.setParams(params)?: throw SessionException(ERROR_STATEMENT_NULL)
-        } catch (e : SQLException) {
+        } catch (e : Exception) {
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
             logger.error("prepareStatement", e)
@@ -282,7 +282,8 @@ open class Query (private val dbConnection :DbConnection) {
 
         val resultSet = try {
             statement.executeQuery() ?: throw SessionException(ERROR_RESULTSET_NULL)
-        } catch (e : SQLException) {
+        } catch (e: Exception) {
+            logger.error("query=$query")
             logger.error("executeQuery", e)
 
             if(dbConnection.isRestartSessionException(session, sessionSetting.isReadTransact, e.message?:"")) {
@@ -346,7 +347,7 @@ open class Query (private val dbConnection :DbConnection) {
             if(transactType == TransactType.ROLLBACK || transactType == TransactType.COMMIT) {
                 session.idSession = null
             }
-         } catch (e :SQLException) {
+         } catch (e :Exception) {
             logger.error("closeQueryData", e)
         }
     }

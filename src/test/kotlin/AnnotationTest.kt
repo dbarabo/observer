@@ -1,7 +1,9 @@
 
+import com.thoughtworks.xstream.XStream
+import com.thoughtworks.xstream.io.xml.DomDriver
 import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.task.finder.isFind
+import java.io.File
 import java.util.regex.Pattern
 
 

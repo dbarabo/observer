@@ -6,8 +6,11 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.time.LocalDateTime
 import java.time.LocalTime
+
 
 interface Executor {
 
@@ -16,13 +19,15 @@ interface Executor {
 
     val accessibleData: AccessibleData
 
+    fun myClassName() =  Executor::class.qualifiedName ?: "Executor::class"
+
     fun actionTask(): ActionTask
 
     fun findAbstract(): Executor?
 
     fun isAccess(): Boolean = isWorkTime() && isWeekAccess()
 
-    fun findAll(): Executor? = if(isAccess()) findAbstract() else null
+    fun findAll(): Executor? = sendFindAllError { if(isAccess()) findAbstract() else null }
 
     private fun isWorkTime(time: LocalTime = LocalTime.now()): Boolean =
             if(accessibleData.workTimeFrom < accessibleData.workTimeTo) {
@@ -70,6 +75,29 @@ interface Executor {
         StoreSimple.save(elem)
 
         checkSendMailError(elemErrorFull, isSuspend)
+    }
+
+    private fun sendFindAllError(process: ()->Executor?): Executor? =
+        try {
+            process()
+        } catch (e: Exception) {
+            sendFindAllError(e)
+
+            null
+        }
+
+    private fun sendFindAllError(e: Exception) {
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.YA, subject = "Ошибка поиска ${myClassName()}", body = getStackTrace(e))
+    }
+
+    private fun getStackTrace(throwable: Throwable): String {
+        val sw = StringWriter()
+
+        val pw = PrintWriter(sw, true)
+
+        throwable.printStackTrace(pw)
+
+        return sw.buffer.toString()
     }
 
     private fun checkSendMailError(elem: Elem, isSuspend: Boolean) {

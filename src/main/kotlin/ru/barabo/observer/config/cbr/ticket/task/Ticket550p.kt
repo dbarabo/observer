@@ -31,7 +31,7 @@ object Ticket550p: FileFinder, FileProcessor {
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
-    private val SUBJECT_MAIL = "Квитки по 550-П"
+    private const val SUBJECT_MAIL = "Квитки по 550-П"
 
     override fun processFile(file : File) {
         val ticketFiles = Archive.extractFromCab(file, in550p())

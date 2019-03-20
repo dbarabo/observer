@@ -69,7 +69,7 @@ object CheckActializationEntryDouble: SingleSelector {
 
     private fun sendReport(data: List<Array<Any?>>, date: Date?): State {
 
-        val title = "Дублирование Общих пап с проводками Актуализации в $date опердне"
+        val title = "Ошибка(неточно) Дубль Общих пап с проводками Актуализации в $date опердне"
 
         val report = createHtmlData(title, data)
 

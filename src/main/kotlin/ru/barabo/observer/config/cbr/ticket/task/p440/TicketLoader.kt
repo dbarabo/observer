@@ -46,7 +46,7 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
         }
     }
 
-    open protected fun processFailInfo(info :TicketInfo, file :File) {
+    protected open fun processFailInfo(info :TicketInfo, file :File) {
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_440P_ERROR, body = info.errorText(file) )
     }

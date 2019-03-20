@@ -2,6 +2,7 @@ package ru.barabo.observer.config.task.p440.load.xml.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
+import ru.barabo.observer.config.task.p440.load.ver4.total.Motive;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFnsInfo;
 import ru.barabo.observer.config.task.p440.load.xml.Bank;
 import ru.barabo.observer.config.task.p440.load.xml.impl.BankXml;
@@ -9,6 +10,8 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.BankXml;
 import java.sql.Date;
 
 abstract public class AbstractRequest extends AbstractFromFnsInfo {
+	@XStreamAlias("ИдЗапр")
+	protected String idRequest; // version 4.0
 
 	@XStreamAlias("НомЗапр")
 	protected String mainNumber;
@@ -27,6 +30,9 @@ abstract public class AbstractRequest extends AbstractFromFnsInfo {
 
 	@XStreamAlias("ТипЗапр")
 	protected String mainStatus;
+
+	@XStreamAlias("МотивЗапр")
+	protected Motive motive;  // version 4.0
 
 	@XStreamAlias("СвБанк")
 	protected BankXml bank;

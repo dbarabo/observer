@@ -27,12 +27,20 @@ data class HtmlContent(private val title: String,
     private fun tableData(): String =
         data.joinToString("\t</tr>\n\t<tr>", "\n\t<tr>", "\n\t</tr>") { tableRow(it) }
 
-    fun html() :String {
+    fun html(): String {
         val headerBody = htmlHeader() + tableData()
 
         return "<html> <head>  <title> $title </title> ${tableStyle()} </head> <body> $body <table border=\"1\"> $headerBody </table>  </body> </html>"
     }
 
-    private fun tableStyle(): String = "<style> table { width: 100%; border: 4px double black; border-collapse: collapse; } " +
-            "th {border: 1px solid black; } td { border: 1px solid black; } </style>"
+    fun htmlBodyOnly(): String {
+        val headerBody = htmlHeader() + tableData()
+
+        return "<body> $body <table border=\"1\"> $headerBody </table>  </body> "
+    }
 }
+
+fun htmlHeaderOnly(): String = "<html> <head>  <title> </title> ${tableStyle()} </head>"
+
+private fun tableStyle(): String = "<style> table { width: 100%; border: 4px double black; border-collapse: collapse; } " +
+        "th {border: 1px solid black; } td { border: 1px solid black; } </style>"

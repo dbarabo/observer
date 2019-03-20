@@ -13,7 +13,6 @@ import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
-import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.io.File
@@ -28,7 +27,7 @@ object SendBlockUnblockAccountPC : SinglePerpetual {
 
     override val countTimes: Long = 2
 
-    override fun config(): ConfigTask = TestConfig//OtherCbr
+    override fun config(): ConfigTask = OtherCbr
 
     override fun name(): String = "(Раз\\)Блокировка карт.счетов в ПЦ"
 

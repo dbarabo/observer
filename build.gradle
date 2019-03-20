@@ -52,7 +52,7 @@ dependencies {
 
     compile group: 'com.lowagie', name: 'itext-rtf', version: '2.1.7'
 
-    compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.10'
+    compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.11'
 
     compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
 

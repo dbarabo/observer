@@ -9,6 +9,7 @@ import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
 import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
+import ru.barabo.observer.config.barabo.plastic.release.task.GetOciData
 import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
 import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
@@ -44,7 +45,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/* "TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -52,11 +53,45 @@ class LoaderTest {
     private fun separ() = ";"
 
     //@Test
+    fun test440pExec() {
+
+        val elem = Elem(idElem = 1187605445L)// женя 1187580606L) // RPO=1186808886L
+
+        Process440p.execute(elem)
+    }
+
+    //@Test
+    fun loadZsn() {
+        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
+
+        //val elem = Elem(File("D:/440-П/test/PNO10507717_253720180131_000068.xml"), PnoLoader, Duration.ZERO)
+
+        //val elem = Elem(File("C:/Картстандарт/test/ROO10507717_254320190226_000000.xml"), RooLoader, Duration.ZERO)
+
+        // женя
+        //val elem = Elem(File("C:/Картстандарт/test/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
+
+        val elem = Elem(File("C:/Картстандарт/test/рита/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+        //@Test
+    fun processOci() {
+
+        val file = File("H:/in/2019/03/13/OCI_20190313_123101_0226")
+
+        GetOciData.processFile(file)
+    }
+
+    //@Test
     fun checkBalance() {
 
-        arrayOf(1187206779,1187166434 ,1187119750 ,1187086732 ,1187072349 ,1187066126 ,1187032797).forEach {
-            BalanceChecker101f.check101form(it, Timestamp(Date().time), true)
-        }
+        BalanceChecker101f.allCheckerForm()
+
+        /*arrayOf(1181259487,1181355012,1181379408,1181399004,1181427774,1181468982,1181236600,1181142910,1181178506).forEach {
+            BalanceChecker101f.check101form(it, Timestamp(Date().time))
+        }*/
     }
 
     //@Test
@@ -80,13 +115,7 @@ class LoaderTest {
     }
 
 
-    //@Test
-    fun test440pExec() {
 
-        val elem = Elem(idElem = 1186863533L) // RPO=1186808886L
-
-        Process440p.execute(elem)
-    }
 
     //@Test
     fun outRegisterAquiringMonth() {

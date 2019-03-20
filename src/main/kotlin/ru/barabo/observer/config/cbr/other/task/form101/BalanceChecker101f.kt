@@ -1,8 +1,11 @@
 package ru.barabo.observer.config.cbr.other.task.form101
 
 import ru.barabo.html.HtmlContent
+import ru.barabo.html.htmlHeaderOnly
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.mail.smtp.BaraboSmtp
+import java.io.File
+import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.time.LocalDate
 
@@ -22,6 +25,54 @@ object BalanceChecker101f {
 
         html?.let { sendHtmlTable(it, title) }
     }
+
+    fun allCheckerForm() {
+
+        val ptk101 = AfinaQuery.select(SELECT_ALL_101)
+
+        val data = StringBuilder()
+
+        data.append(htmlHeaderOnly())
+
+        for (id in ptk101) {
+            data.append( check101formReturnBody(id[0] as Number) )
+        }
+
+        data.append("</html>")
+
+        val file = File("C:/Temp/f101.html")
+
+        file.writeText(data.toString(), Charset.forName("cp1251"))
+    }
+
+    private const val SELECT_ALL_101 = """
+select max(f.id)
+  from od.ptkb_ptkpsd_101form f
+ where f.state = 1
+   and f.date_report < to_date('01.01.2019', 'dd.mm.yyyy')
+group by f.date_report
+order by f.date_report
+    """
+
+    private fun check101formReturnBody(idForm101: Number): String {
+        //AfinaQuery.execute(EXEC_CHECK_BALANCE, arrayOf(idForm101))
+
+        val date = AfinaQuery.selectValue(SELECT_DATE_PTK_101, arrayOf(idForm101)) as String
+
+        return createHtmlBodyOnly(idForm101, date)
+    }
+
+    private fun createHtmlBodyOnly(idForm101: Number, date: String): String {
+        val data = AfinaQuery.selectCursor(CURSOR_BALANCE_ERROR, arrayOf(idForm101))
+
+        if(data.isEmpty()) return ""
+
+        val title = "Расхождение с 101 формой ЗА $date"
+
+        return HtmlContent(title, title, HEADER_TABLE, data).htmlBodyOnly()
+    }
+
+    private const val SELECT_DATE_PTK_101 = "select to_char(f.date_report - 1, 'dd.mm.yyyy') from od.ptkb_ptkpsd_101form f where id = ?"
 
     private fun createHtmlData(idForm101: Number, title: String, isSmashError: Boolean): String? {
 

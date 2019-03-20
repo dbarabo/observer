@@ -14,7 +14,6 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
-import java.util.regex.Pattern
 
 object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 

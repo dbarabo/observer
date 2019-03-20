@@ -17,8 +17,8 @@ object ExecuteCtlMtl : SingleSelector {
     override val select: String = "select id, FILE_NAME || ' (' || CHECK_COUNT_TRANSACT || ')' name " +
             "from od.ptkb_ctl_mtl where state = 0 and nvl(CHECK_COUNT_TRANSACT, 0) != 0 order by PC_CREATED, FILE_ORDER"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo =  LocalTime.of(23, 45), executeWait = Duration.ofMinutes(1))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
+            workTimeTo =  LocalTime.of(18, 45), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "CTL/MTL Обработать"
 

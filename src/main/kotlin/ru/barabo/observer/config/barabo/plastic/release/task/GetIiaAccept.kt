@@ -117,7 +117,6 @@ object GetIiaAccept: FileFinder, FileProcessor {
 
     private const val SUBJECT_ERROR = "Пластик: Выпуск Ошибка в файле Акцепта"
 
-
     private fun updateState(idPacket: Number, state: StateRelease) {
 
         val settingSession = AfinaQuery.uniqueSession()
@@ -129,12 +128,12 @@ object GetIiaAccept: FileFinder, FileProcessor {
 
             AfinaQuery.commitFree(settingSession)
 
-        } catch (e :Exception) {
+        } catch (e: Exception) {
             logger.error("updateState", e)
 
             AfinaQuery.rollbackFree(settingSession)
 
-            throw SessionException(e.message?:"")
+            throw SessionException(e.message ?: "")
         }
     }
 

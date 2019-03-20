@@ -42,7 +42,7 @@ object TryPnoExecute : SingleSelector {
 
     private const val MAX_STOP_HOURS: Long = 26
 
-    private const val SUBJECT_DOCUMENT_NOT_EXEC = "440-П Документ не исполнен"
+    private const val SUBJECT_DOCUMENT_NOT_EXEC = "440-П Ошибка Документ не исполнен"
 
     private val WAIT_EXECUTE = Duration.ofHours(1)
 
@@ -63,7 +63,7 @@ object TryPnoExecute : SingleSelector {
         return State.NONE
     }
 
-    private val ORA_20000 = "ORA-20000:"
+    private const val ORA_20000 = "ORA-20000:"
 
     private fun parseDateTime(dateWithError :String?): LocalDateTime? {
 

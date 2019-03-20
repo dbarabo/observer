@@ -12,6 +12,12 @@ public final class FnsXml implements Fns {
 	@XStreamAlias("НаимНО")
 	private String nameFns;
 
+	@XStreamAlias("Телефон")
+	private String phone;
+
+	@XStreamAlias("ФИОДЛ")
+	private Fio fioInspector;
+
 	public FnsXml() {
 	}
 

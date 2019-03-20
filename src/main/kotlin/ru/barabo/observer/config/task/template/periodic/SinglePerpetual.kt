@@ -26,7 +26,7 @@ interface SinglePerpetual : Executor, ActionTask {
 
         val nextItem = if(lastItem?.state == State.NONE) lastItem else createNewElem(lastItem)
 
-        nextItem.executed = getNextTimeByExec(nextItem)
+        nextItem.executed = LocalDateTime.now().plus(countTimes, unit) // getNextTimeByExec(nextItem)
 
         return this
     }

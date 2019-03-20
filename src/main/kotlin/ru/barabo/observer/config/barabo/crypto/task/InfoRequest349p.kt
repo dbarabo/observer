@@ -41,7 +41,7 @@ object InfoRequest349p : FileFinder, FileProcessor {
                 subject = SUBJECT_349P, body = body349p())
     }
 
-    private val SUBJECT_349P = "Пришел запрос от ФСФМ по 349-П"
+    private const val SUBJECT_349P = "Пришел запрос от ФСФМ по 349-П"
 
     private fun body349p() = "Пришел запрос от ФСФМ по 349-П. Файлы находятся по адресу:${folder349p()}"
 }

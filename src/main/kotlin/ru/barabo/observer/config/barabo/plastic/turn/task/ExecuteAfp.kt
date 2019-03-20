@@ -18,7 +18,7 @@ object ExecuteAfp: SingleSelector {
             "from od.ptkb_afp where state = 0 and nvl(CHECK_COUNT_AUTH, 0) != 0 order by PC_CREATED, FILE_ORDER"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
-            workTimeTo =  LocalTime.of(23, 45), executeWait = Duration.ofMinutes(1))
+            workTimeTo =  LocalTime.of(23, 0), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "AFP Обработать"
 
