@@ -1,5 +1,6 @@
 package ru.barabo.observer.mail.smtp
 
+import ru.barabo.observer.crypto.MasterKey
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.smtp.SendMail
@@ -7,8 +8,8 @@ import ru.barabo.smtp.SmtpProperties
 import java.io.File
 
 object BaraboSmtp : SendMail {
-    override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru", user = "debara",
-            password = "Sn909957", from = "debara@ptkb.ru")
+    override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru", user = MasterKey.value("SMTP_USER"),
+            password = MasterKey.value("SMTP_PSWD"), from = MasterKey.value("SMTP_FROM") )
 
     val YA = arrayOf(smtpProperties.from)
 

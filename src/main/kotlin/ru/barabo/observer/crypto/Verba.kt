@@ -44,19 +44,18 @@ object Verba {
 
     private const val P390_SIGN_DISK = "J:\\"
 
-    private fun cmdSign(fromFile :File, signedFile :File, keyDisk :String, keyNumber :String) =
+    private fun cmdSign(fromFile: File, signedFile: File, keyDisk: String, keyNumber: String) =
             "$SIGNER_FULL_PATH s ${fromFile.absolutePath} ${signedFile.absolutePath} $keyDisk $keyNumber"
 
-    private fun cmdUnSign(file :File) = "$SIGNER_FULL_PATH u ${file.absolutePath}"
-
+    private fun cmdUnSign(file: File) = "$SIGNER_FULL_PATH u ${file.absolutePath}"
 
     private fun tempFolder() = Cmd.tempFolder("c")
 
-    fun signByCbr(file :File) :File = signFile(file, CBR_SIGN_DISK, CBR_SIGN_KEY)
+    fun signByCbr(file: File): File = signFile(file, CBR_SIGN_DISK, CBR_SIGN_KEY)
 
-    fun signByBarabo(file :File) :File = signFile(file, BARABO_SIGN_DISK, BARABO_SIGN_KEY)
+    fun signByBarabo(file: File): File = signFile(file, BARABO_SIGN_DISK, BARABO_SIGN_KEY)
 
-    fun signBy390p(file :File) :File = signFile(file, P390_SIGN_DISK, P390_SIGN_KEY)
+    fun signBy390p(file: File): File = signFile(file, P390_SIGN_DISK, P390_SIGN_KEY)
 
 
     private fun checkerVerba() {
@@ -69,7 +68,7 @@ object Verba {
     }
 
     @Throws(IOException::class)
-    private fun signFile(file :File, keyDisk :String, keyNumber :String) :File {
+    private fun signFile(file: File, keyDisk: String, keyNumber: String): File {
         checkerVerba()
 
         val tempFolder = tempFolder()
@@ -85,7 +84,7 @@ object Verba {
 
         try {
             Cmd.execCmd(cmd)
-        } catch (e :Exception) {
+        } catch (e: Exception) {
             logger.error("signFile", e)
 
             tempFile.renameTo(file)
@@ -100,33 +99,33 @@ object Verba {
         return file
     }
 
-    fun signBaraboAndCrypto(folderCrypto :File, mask :String = "*.*") {
+    fun signBaraboAndCrypto(folderCrypto: File, mask: String = "*.*") {
 
         folderCrypto.listFiles()?.filter { !it.isDirectory }?.forEach { signByBarabo(it) }
 
         cryptoFolder(folderCrypto, mask)
     }
 
-    fun cryptoFolder(folderCrypto :File, mask :String = "*.*") {
+    fun cryptoFolder(folderCrypto: File, mask: String = "*.*") {
         checkerVerba()
 
         cryptoUncryptoAllFolder("crypt", folderCrypto, mask)
     }
 
-    fun unCryptoAndUnSigned(folderUnCrypto :File, mask :String = "*.*") {
+    fun unCryptoAndUnSigned(folderUnCrypto: File, mask: String = "*.*") {
 
         unCrypto(folderUnCrypto, mask)
 
         folderUnCrypto.listFiles()?.filter { !it.isDirectory }?.forEach { unSignFile(it) }
     }
 
-    fun unCrypto(folderUnCrypto :File, mask :String = "*.*") {
+    fun unCrypto(folderUnCrypto: File, mask: String = "*.*") {
         checkerVerba()
 
         cryptoUncryptoAllFolder("decrypt", folderUnCrypto, mask)
     }
 
-    private fun cryptoUncryptoAllFolder(command :String, folder :File, mask :String = "*.*") {
+    private fun cryptoUncryptoAllFolder(command: String, folder: File, mask: String = "*.*") {
 
         val scriptFile = createScriptFile(command, folder, mask)
 
@@ -134,7 +133,7 @@ object Verba {
 
         try {
             Cmd.execCmd(cmd)
-        } catch (e :Exception) {
+        } catch (e: Exception) {
             logger.error("cryptoUncryptoAllFolder", e)
 
             scriptFile.delete()
@@ -146,19 +145,19 @@ object Verba {
         }
     }
 
-    fun unSignFile(file :File) :File {
+    fun unSignFile(file: File): File {
 
         Cmd.execCmd(cmdUnSign(file))
 
         return file
     }
 
-    fun unCryptoFile(file :File) :File {
+    fun unCryptoFile(file: File): File {
 
         return cryptoUncrypto(file, "decrypt")
     }
 
-    private fun cryptoUncrypto(file :File, command :String) :File {
+    private fun cryptoUncrypto(file: File, command: String): File {
         checkerVerba()
 
         val tempFolder = tempFolder()
@@ -176,7 +175,7 @@ object Verba {
 
         try {
             Cmd.execCmd(cmd)
-        } catch (e :Exception) {
+        } catch (e: Exception) {
             logger.error("cryptoUncrypto", e)
             scriptFile.delete()
             throw IOException(e.message)
@@ -195,12 +194,12 @@ object Verba {
         return file
     }
 
-    fun cryptoFile(file :File) :File {
+    fun cryptoFile(file: File): File {
 
         return cryptoUncrypto(file, "crypt")
      }
 
-    private fun createScriptFile(command :String, folderUnCrypto :File, mask :String) :File {
+    private fun createScriptFile(command: String, folderUnCrypto: File, mask: String): File {
 
         val fileScript = File("$VERBA_PATH/${folderUnCrypto.name}.scr")
 

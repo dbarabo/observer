@@ -1,5 +1,6 @@
 package ru.barabo.observer.mail.smtp
 
+import ru.barabo.observer.crypto.MasterKey
 import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpException
 import ru.barabo.smtp.SmtpProperties
@@ -9,7 +10,7 @@ object CbrSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(
     host ="12.70.91.5",
     user = "0507717",
-    password = "Pt07kb717",
+    password = MasterKey.value("CBR_PSWD"),
     from = "0507717@svk.vladivostok.cbr.ru")
 
 

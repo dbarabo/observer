@@ -1,5 +1,6 @@
 package ru.barabo.observer.mail.smtp
 
+import ru.barabo.observer.crypto.MasterKey
 import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpProperties
 import java.io.File
@@ -8,7 +9,7 @@ object NbkiSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(
             host = "ns.ptkb.ru",
             user = "nbki",
-            password = "xbckjdjq",
+            password = MasterKey.value("NBKI_PSWD"),
             from = "nbki@ptkb.ru")
 
     private val NBKI = arrayOf("credithistory@nbki.ru")
