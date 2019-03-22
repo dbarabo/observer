@@ -52,9 +52,10 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     fun findElemById(idElem: Long, task: ActionTask): Elem? = dataList.firstOrNull {(it.task == task) && (it.idElem == idElem)}
 
 
-    @Synchronized
-    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean
-            = dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
+    fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean =
+        synchronized(dataList) {
+            dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
+        }
 
     @Synchronized
     fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE) :Elem? {

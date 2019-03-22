@@ -203,17 +203,22 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
         AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent))
 
-        sendSmsForBtrt15BlockUnblock(isOk, typePacket, idContent)
+        advancedProcessLockUnLock(typePacket, isOk, idContent)
+
 
         return nextState
     }
 
-    private fun sendSmsForBtrt15BlockUnblock(isOk: Boolean, typePacket: TypePacket?, idContent: Number) {
+    private fun advancedProcessLockUnLock(typePacket: TypePacket?, isOk: Boolean, idContent: Number) {
 
-        if(isOk && (typePacket in listOf(TypePacket.BTRT15_ACTIVE, TypePacket.BTRT15_SUSPEND)) ) {
-            AfinaQuery.execute(EXEC_SEND_SMS_BLOCK_UNBLOCK, arrayOf(idContent) )
-        }
+        if(typePacket !in listOf(TypePacket.BTRT15_ACTIVE, TypePacket.BTRT15_SUSPEND)) return
+
+        val execProcByStatus = if(isOk) EXEC_SEND_SMS_BLOCK_UNBLOCK else EXEC_CHANGE_STATE_TO_FAIL
+
+        AfinaQuery.execute(execProcByStatus, arrayOf(idContent))
     }
+
+    private const val EXEC_CHANGE_STATE_TO_FAIL = "{ call od.PTKB_PLASTIC_AUTO.changeStateCardToForeverFail(?) }"
 
     private const val EXEC_SEND_SMS_BLOCK_UNBLOCK = "{ call od.PTKB_PLASTIC_AUTO.sendSmsBlockUnblock(?) }"
 

@@ -17,7 +17,7 @@ interface FileFinder: Executor {
 
     fun isContainsTask(task :ActionTask?): Boolean = (task == this)
 
-    fun findElemInStore(idElem :Long, name :String) :Boolean =
+    fun findElemInStore(idElem :Long, name :String): Boolean =
             StoreSimple.existsElem(::isContainsTask, idElem, name, accessibleData.isDuplicateName)
 
     fun createNewElem(file :File) :Elem = Elem(file, actionTask(), accessibleData.executeWait)

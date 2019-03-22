@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.cbr.ptkpsd.task
 
 import oracle.jdbc.OracleTypes
-import ru.barabo.db.SessionException
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
@@ -114,42 +113,58 @@ object SendBlockUnblockAccountPC : SinglePerpetual {
     }
 
     private fun addAccountsToUnBlocks(session: SessionSetting): Long? {
-        val accounts = AfinaQuery.selectCursor(SELECT_UNBLOCK)
+        val accounts = AfinaQuery.selectCursor(query = SELECT_UNBLOCK, sessionSetting = session)
 
-        var priorPacket: Long? = null
+        var packetId: Long? = null
 
         for(accountParams in accounts) {
-            val packetId = AfinaQuery.execute(EXEC_ADD_UNBLOCK, accountParams, session, intArrayOf(OracleTypes.NUMBER))!![0] as? Number
-                    ?: throw SessionException("Не удалось добавить счет в пакет на РАЗблокировку accountId=${accountParams[0]}")
 
-            if(packetId.toLong() != (priorPacket?.let { it } ?: packetId.toLong() ) ) {
-                throw SessionException("При добавлении счетов пакет разблок, пакет обновился: packetId=$packetId priorPacket = $priorPacket")
-            }
-
-            priorPacket = packetId.toLong()
+            packetId = processCardAccountToUnlock(accountParams, session)
         }
 
-        return priorPacket
+        return packetId
     }
 
     private fun addAccountsToBlockList(session: SessionSetting): Long? {
-        val accounts = AfinaQuery.selectCursor(SELECT_BLOCK_ACCOUNTS)
+        val accounts = AfinaQuery.selectCursor(query = SELECT_BLOCK_ACCOUNTS, sessionSetting = session)
 
-        var priorPacket: Long? = null
+        var packetId: Long? = null
 
         for(accountParams in accounts) {
-            val packetId = AfinaQuery.execute(EXEC_ADD_BLOCK_ACCOUNT, accountParams, session, intArrayOf(OracleTypes.NUMBER))!![0] as? Number
-                    ?: throw SessionException("Не удалось добавить счет в пакет на блокировку accountId=${accountParams[0]}")
 
-            if(packetId.toLong() != (priorPacket?.let { it } ?: packetId.toLong() ) ) {
-                throw SessionException("При добавлении счетов пакет, пакет обновился: packetId=$packetId priorPacket = $priorPacket")
-            }
-
-            priorPacket = packetId.toLong()
+            packetId = processCardAccountToBlock(accountParams, session)
         }
 
-        return priorPacket
+        return packetId
     }
+
+    private fun processCardAccountToUnlock(accountParams: Array<Any?>, session: SessionSetting): Long? {
+        val cardAccountList = AfinaQuery.selectCursor(SELECT_UNLOCK_CARDS, accountParams, session)
+
+        var packetId: Long? = null
+
+        for(cardParam in cardAccountList) {
+            packetId = (AfinaQuery.execute(EXEC_ADD_UNLOCK_CARD, cardParam, session, intArrayOf(OracleTypes.NUMBER))!![0] as? Number)?.toLong()
+        }
+
+        return packetId
+    }
+
+    private fun processCardAccountToBlock(accountParams: Array<Any?>, session: SessionSetting): Long? {
+        val cardAccountList = AfinaQuery.selectCursor(SELECT_BLOCK_CARDS, accountParams, session)
+
+        var packetId: Long? = null
+
+        for(cardParam in cardAccountList) {
+            packetId = (AfinaQuery.execute(EXEC_ADD_BLOCK_CARD, cardParam, session, intArrayOf(OracleTypes.NUMBER))!![0] as? Number)?.toLong()
+        }
+
+        return packetId
+    }
+
+    private const val SELECT_UNLOCK_CARDS = "{ ? = call od.PTKB_PLASTIC_AUTO.getLockCardListToUnBlock(?) }"
+
+    private const val SELECT_BLOCK_CARDS = "{ ? = call od.PTKB_PLASTIC_AUTO.getActiveCardListToBlock(?) }"
 
     private const val TARGET_BLOCK = "BLOCK"
 
@@ -157,11 +172,11 @@ object SendBlockUnblockAccountPC : SinglePerpetual {
 
     private const val SELECT_BLOCK_ACCOUNTS: String = "{ ? = call od.PTKB_440P.getCardAccountsMustBeBlock }"
 
-    private const val EXEC_ADD_BLOCK_ACCOUNT: String = "{ call od.PTKB_PLASTIC_AUTO.addToSuspendAccount(?, ?) }"
+    private const val EXEC_ADD_UNLOCK_CARD = "{ call od.PTKB_PLASTIC_AUTO.addToUnlockCard(?, ?) }"
+
+    private const val EXEC_ADD_BLOCK_CARD = "{ call od.PTKB_PLASTIC_AUTO.addToSuspendCard(?, ?) }"
 
     private const val SELECT_UNBLOCK: String = "{ ? = call od.PTKB_440P.getCardAccountsMustBeUnBlock }"
-
-    private const val EXEC_ADD_UNBLOCK: String = "{ call od.PTKB_PLASTIC_AUTO.addToUnblockAccount(?, ?) }"
 
     private const val EXEC_CREATE_FILE_BLOCK_UNBLOCK: String = "{ call od.PTKB_PLASTIC_AUTO.createFileBlockUnBlockAccount(?, ?, ?) }"
 }
