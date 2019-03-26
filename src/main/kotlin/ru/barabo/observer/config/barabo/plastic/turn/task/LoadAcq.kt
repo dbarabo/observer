@@ -15,18 +15,18 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 
-object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
+object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(LoadRestAccount.hCardIn,"AFP20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d"))
+            FileFinderData(LoadRestAccount.hCardIn,"AFP_ACQ20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d"))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
 
-    override fun name(): String = "Загрузка AFP-файла"
+    override fun name(): String = "Загрузка Эквайринг ACQ-файла"
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
-    private lateinit var fileProcess : File
+    private lateinit var fileProcess: File
 
     override fun processFile(file: File) {
 
@@ -42,16 +42,16 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
         file.delete()
     }
 
-    private var fileId :Any? = null
+    private var fileId: Any? = null
 
-    private const val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSumAfp( ? ) }"
+    private const val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.selectCheckSumAcq( ? ) }"
 
-    private const val SUBJECT_ERROR = "Ошибка в Чек-сумме файла AFP"
+    private const val SUBJECT_ERROR = "Ошибка в Чек-сумме файла AFP_ACQ"
 
-    private const val EXEC_TO_ERROR_STATE = "update od.PTKB_AFP set state = 2 where id = ?"
+    private const val EXEC_TO_ERROR_STATE = "update od.PTKB_ACQ set state = 2 where id = ?"
 
     private fun bodyError(text :String) =
-            "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> не сходится чек-сумма $text"
+            "В загруженном файле <${fileProcess.name}> AFP_ACQ.id:<$fileId> не сходится чек-сумма $text"
 
     private fun checkSum(fileId :Any?) {
 
@@ -81,55 +81,57 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
         return fileId
     }
 
-    override val headerQuery: String? = "insert into od.PTKB_AFP (id, file_receiver, pc_created, " +
-            "file_order, period_start, period_end, file_name) values (?, ?, ?, ?, ?, ?, ?)"
+    override val headerQuery: String? = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
+            "file_order, period_start, period_end, file_name, CREATED) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
-        4 to ::parseToString,
-        5 to LoadCtlMtl::parseDateTime,
-        6 to ::parseInt,
-        7 to LoadCtlMtl::parseDateTime,
-        8 to LoadCtlMtl::parseDateTime,
-        -1 to {_ :String? -> fileProcess.name })
+            4 to ::parseToString,
+            6 to LoadCtlMtl::parseDateTime,
+            7 to ::parseInt,
+            8 to LoadCtlMtl::parseDateTime,
+            9 to LoadCtlMtl::parseDateTime,
+            -1 to {_: String? -> fileProcess.name },
+            -2 to {_ -> java.sql.Timestamp(fileProcess.lastModified())} )
 
-    override val bodyQuery: String? = ("insert into od.PTKB_AFP_RECORD (id, afp, row_order, auth_id, transact_type_fe, " +
-            "account_number, card_number, local_oper, pc_oper, auth_direction, account_currency, account_amount, " +
-            "fee_direction, fee_amount, auth_currency, auth_amount, terminal_id, merchant_id, merchant_name, " +
-            "merchant_country, merchant_state, merchant_city, merchant_postal, pay_system_id_number, " +
-            "authorize_approval_code, merchant_category_code, retrieval_ref_number, reversal_flag, description) " +
-            "values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    override val bodyQuery: String? = """
+insert into od.PTKB_ACQ_RECORD (id, ACQ, row_order, auth_id, transact_type_fe, card_number,
+local_oper, pc_oper, auth_direction, AUTH_CURRENCY, AUTH_AMOUNT,
+fee_direction, fee_amount, terminal_id, merchant_id, merchant_name,
+merchant_country, merchant_state, merchant_city, merchant_postal, pay_system_id_number,
+authorize_approval_code, merchant_category_code, retrieval_ref_number, reversal_flag, description,
+IS_PHYSICAL_TERMINAL)
+values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
 
     override val bodyColumns: Map<Int, (String?) -> Any> = mapOf(
             1 to ::parseInt,
             2 to ::parseInt,
             3 to ::parseToString,
-            4 to ::parseToString,
-            5 to ::parseToString,
+            4 to ::parseToString, // card_number
+            5 to LoadCtlMtl::parseDateTime,
             6 to LoadCtlMtl::parseDateTime,
-            7 to LoadCtlMtl::parseDateTime,
-            8 to ::parseToString,
-            9 to ::parseInt,
-            10 to ::parseInt,
-            11 to ::parseToString,
-            12 to ::parseInt,
-            13 to ::parseInt,
-            14 to ::parseInt,
+            7 to ::parseToString,
+            8 to ::parseInt,
+            9 to ::parseInt, // auth_amount
+            10 to ::parseToString,
+            11 to ::parseInt,
+            12 to ::parseToString,
+            13 to ::parseToString,
+            14 to ::parseToString, // merchant_name
             15 to ::parseToString,
             16 to ::parseToString,
             17 to ::parseToString,
             18 to ::parseToString,
-            19 to ::parseToString,
+            19 to ::parseToString, // pay_system_id_number
             20 to ::parseToString,
             21 to ::parseToString,
             22 to ::parseToString,
-            23 to ::parseToString,
-            24 to ::parseToString,
-            25 to ::parseToString,
-            26 to ::parseInt,
-            27 to ::parseToString)
+            23 to ::parseInt,
+            24 to ::parseToString, // description
+            25 to ::parseInt // IS_PHYSICAL_TERMINAL
+            )
 
-    override val tailQuery: String? = "{ call od.PTKB_PLASTIC_TURN.setTailAfp(?, ?, ?)}"
+    override val tailQuery: String? = "{ call od.PTKB_PLASTIC_TURN.setTailAcq(?, ?, ?)}"
 
     override val tailColumns: Map<Int, (String?) -> Any> = mapOf(2 to ::parseInt, 3 to ::parseInt)
 

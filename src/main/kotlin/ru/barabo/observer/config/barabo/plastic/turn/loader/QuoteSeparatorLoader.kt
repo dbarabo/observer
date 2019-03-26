@@ -111,7 +111,7 @@ interface QuoteSeparatorLoader {
 
         if(isExecOnlyExistsValues && values.isEmpty()) return
 
-        val params :MutableList<Any> = ArrayList()
+        val params: MutableList<Any> = ArrayList()
 
         id?.let { params.add(it) }
 

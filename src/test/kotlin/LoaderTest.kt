@@ -45,12 +45,19 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/* "TEST"*/)
+        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testLoadAcq() {
+        val elem = Elem(File("C:/КартСтандарт/test/AFP_ACQ20190315_0226.0023"), LoadAcq, Duration.ZERO)
+
+        LoadAcq.execute(elem)
+    }
 
     //@Test
     fun test440pExec() {

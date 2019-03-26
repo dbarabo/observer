@@ -17,6 +17,7 @@ enum class HcardInObject(private val regExp: Regex, private val actionTask: Acti
     IIA_ACCEPT("IIA_........_......_0226\\.(ACCEPT|ERROR)".toRegex(RegexOption.IGNORE_CASE), GetIiaAccept),
     OIA("OIA_........_......_0226".toRegex(RegexOption.IGNORE_CASE), GetOiaConfirm),
     OCI("OCI_........_......_0226".toRegex(RegexOption.IGNORE_CASE), GetOciData),
+    ACQ("AFP_ACQ20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d".toRegex(RegexOption.IGNORE_CASE), LoadAcq),
     MOVE_ALL("НИКОГДА_НЕ_ВЫПОЛНИТСЯ".toRegex(RegexOption.IGNORE_CASE), MoveHcardIn);
 
     companion object {
