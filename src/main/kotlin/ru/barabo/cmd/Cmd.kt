@@ -71,7 +71,7 @@ object Cmd {
 
     private fun String.cyrReplace() =  this.replace("[^A-Za-z0-9] ".toRegex(), "F")
 
-    fun tempFolder(prefix :String) : File {
+    fun tempFolder(prefix: String = "") : File {
         val temp = File(cTemp(prefix.cyrReplace()) )
 
         temp.mkdirs()

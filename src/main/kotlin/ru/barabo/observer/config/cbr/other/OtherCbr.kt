@@ -37,7 +37,7 @@ object OtherCbr: ConfigTask {
 
         // disable from 23.05.2018
         // ExecuteOverdraftJuric.findAll()
-        ExecutePosPot.findAll()
+        //ExecutePosPot.findAll()
 
         CorrectPrim.findAll()
         ExecuteReglamentRun.findAll()
@@ -52,6 +52,8 @@ object OtherCbr: ConfigTask {
         LoanInfoSaver.findAll()
 
         SendBlockUnblockAccountPC.findAll()
+
+        ReportSender.findAll()
 
         executeTasks()
     }

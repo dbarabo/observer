@@ -29,6 +29,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
+import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
@@ -45,12 +46,19 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testReportXlsLockCards() {
+
+        ReportXlsLockCards.createReport()
+    }
+
 
     //@Test
     fun testLoadAcq() {

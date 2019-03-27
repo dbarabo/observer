@@ -203,20 +203,37 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
         AfinaQuery.execute(UPDATE_CONTENT_STATE, arrayOf(nextState.dbValue, result, idContent))
 
-        advancedProcessLockUnLock(typePacket, isOk, idContent)
-
-
-        return nextState
+        return advancedProcessLockUnLock(nextState, typePacket, isOk, idContent, result)
     }
 
-    private fun advancedProcessLockUnLock(typePacket: TypePacket?, isOk: Boolean, idContent: Number) {
+    private fun advancedProcessLockUnLock(nextState: StateRelease, typePacket: TypePacket?,
+                                          isOk: Boolean, idContent: Number, result: String): StateRelease {
 
-        if(typePacket !in listOf(TypePacket.BTRT15_ACTIVE, TypePacket.BTRT15_SUSPEND)) return
+        if(typePacket !in listOf(TypePacket.BTRT15_ACTIVE, TypePacket.BTRT15_SUSPEND)) return nextState
 
         val execProcByStatus = if(isOk) EXEC_SEND_SMS_BLOCK_UNBLOCK else EXEC_CHANGE_STATE_TO_FAIL
 
         AfinaQuery.execute(execProcByStatus, arrayOf(idContent))
+
+        if(isOk || (typePacket == TypePacket.BTRT15_ACTIVE)) return nextState
+
+        return processResultLock(result)
     }
+
+    private fun processResultLock(result: String): StateRelease {
+
+        return if(isSuccessFailInvalidCard(result) ) {
+            StateRelease.RESPONSE_OK_ALL
+        } else {
+            StateRelease.RESPONSE_ERROR_ALL
+        }
+    }
+
+    private fun isSuccessFailInvalidCard(result: String): Boolean =
+            (result.indexOf("Command STCC01 cannot change hot card status from CHST9 to CHST3;", 0, true) >= 0) ||
+            (result.indexOf("new statuses of the card are the same as previous (CRST0, CHST3) - (CRST0, CHST3);", 0, true) >= 0)
+
+
 
     private const val EXEC_CHANGE_STATE_TO_FAIL = "{ call od.PTKB_PLASTIC_AUTO.changeStateCardToForeverFail(?) }"
 
