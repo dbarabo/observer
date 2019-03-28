@@ -16,9 +16,7 @@ import java.time.format.DateTimeFormatter
 
 object SendByPtkPsdCopy : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(::x311pJur, "A.*07717.*\\.ARJ"),
-                   FileFinderData(::x311pPhisyc, "BN07717.*\\.ARJ"),
-                   FileFinderData(CreateSaveResponse390p::sendFolder390p, "AFT_0507717.*\\.ARJ"))
+            listOf(FileFinderData(CreateSaveResponse390p::sendFolder390p, "AFT_0507717.*\\.ARJ"))
 
 
     override val pathsTo: Array<()->String> = arrayOf(::cPtkPostPost, SendByPtkPsdNoXml::dArchiveOutToday)
@@ -31,11 +29,5 @@ object SendByPtkPsdCopy : FileMover, FileFinder {
 
     override fun config(): ConfigTask = PtkPsd
 
-    override fun name(): String = "Отправка (311-П)"
-
-    private fun x311pJur() :File = File("X:/311-П/Отправка/${todayFolder()}/CRYPTO")
-
-    private fun x311pPhisyc() :File = File("X:/311-П/ФИЗИКИ/Отправка/${todayFolder()}/CRYPTO")
-
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    override fun name(): String = "Отправка 390-П(все без подписи)"
 }

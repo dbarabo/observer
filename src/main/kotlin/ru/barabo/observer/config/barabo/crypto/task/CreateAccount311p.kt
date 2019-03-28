@@ -26,19 +26,19 @@ object CreateAccount311p : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(9, 0), LocalTime.of(15, 45), Duration.ofHours(1))
+            LocalTime.of(10, 0), LocalTime.of(15, 50), Duration.ofHours(1))
 
     override fun name(): String = "311-П 1. Запустить выгрузку"
 
     override fun config(): ConfigTask = CryptoConfig
 
-    private const val EXEC_CREATE_JUR_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_JUR}"
+    private const val EXEC_CREATE_JUR_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execJurDataPriorDay }"
 
-    private const val EXEC_CREATE_PHYSIC_ACCOUNT = "{call od.PTKB_EXEC_FILL_ACCOUNT_PHYS}"
+    private const val EXEC_CREATE_PHYSIC_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execDataPriorDay }"
 
     override fun execute(elem: Elem): State {
 
-        var error :String? = null
+        var error: String? = null
 
         try {
             AfinaQuery.execute(EXEC_CREATE_JUR_ACCOUNT)
@@ -51,7 +51,7 @@ object CreateAccount311p : Periodical {
 
         AfinaQuery.execute(EXEC_CREATE_PHYSIC_ACCOUNT)
 
-        error?.let { SessionException(it) }
+        error?.let { throw SessionException(it) }
 
         return State.OK
     }

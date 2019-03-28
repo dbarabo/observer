@@ -25,7 +25,7 @@ object Ticket311pCbr : FileFinder, FileProcessor {
 
     override fun name(): String = "(311-П ЦБ)"
 
-    fun ticket311p() :String = "x:/311-П/ФИЗИКИ/KVIT/${todayFolder()}"
+    fun ticket311p() :String = "X:/311-П/ФИЗИКИ/KVIT/${todayFolder()}"
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 

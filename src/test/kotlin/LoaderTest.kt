@@ -1,6 +1,5 @@
 import oracle.jdbc.OracleTypes
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
@@ -28,6 +27,8 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
+import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.task.p311.ticket.TicketCbr
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
@@ -46,12 +47,26 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/*"TEST"*/)
+        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testXmlLoaderCbrTicket311p() {
+
+        val file = File("C:/Картстандарт/test/UV")
+
+        file.listFiles().filter { !it.isDirectory }.forEach {
+            XmlLoaderCbrTicket311p.processFile(it)
+        }
+    }
+
+    private fun TicketCbr.asString(): String = "$archiveName : $resultArchive ${this.nameRecords?.fileRecords?.joinToString(";") { it.fileName  }}"
+
+
 
     //@Test
     fun testReportXlsLockCards() {

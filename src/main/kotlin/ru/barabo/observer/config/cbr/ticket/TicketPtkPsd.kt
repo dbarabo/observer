@@ -4,6 +4,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ticket.task.ResponseXlsFor
 import ru.barabo.observer.config.cbr.ticket.task.TicketSimple
 import ru.barabo.observer.config.cbr.ticket.task.TicketXml
+import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import java.util.*
 
 object TicketPtkPsd : ConfigTask {
@@ -18,6 +19,8 @@ object TicketPtkPsd : ConfigTask {
 
         TicketXml.findAll()
         TicketSimple.findAll() // must be last
+
+        XmlLoaderCbrTicket311p.findAll()
 
         ResponseXlsFor.findAll()
 

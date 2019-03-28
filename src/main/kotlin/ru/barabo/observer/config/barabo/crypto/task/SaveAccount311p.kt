@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
+import oracle.jdbc.OracleTypes
 import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
@@ -15,16 +16,14 @@ import ru.barabo.observer.store.State
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
-import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 object SaveAccount311p : SingleSelector {
     override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
             "where trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(10, 0),
+            LocalTime.of(11, 0),
             LocalTime.of(16, 0), Duration.ofSeconds(1))
 
     override fun name(): String = "311-П 2.Сохранить и зашифровать"
@@ -56,34 +55,36 @@ object SaveAccount311p : SingleSelector {
 
         Verba.cryptoFile(cryptoFile)
 
-        val archive = archiveName(cryptoFile)
+        val archive = archiveName(elem.idElem, cryptoFile)
 
         Archive.addToArj(archive.absolutePath, arrayOf(cryptoFile) )
 
         return State.OK
     }
 
-    private fun String.isPhysic() = (indexOf("SF") == 0)
+    private fun String.isPhysic() = indexOf("SF") == 0
 
-    private fun archiveName(fileToArchive :File) :File {
+    private fun archiveName(idFile: Long?, fileToArchive: File): File {
 
-        val archive = if (fileToArchive.name.isPhysic()) "BN07717${archiveMask()}0001.ARJ"
-                             else "AN07717${archiveMask()}0001.ARJ"
+        val archive = AfinaQuery.execute(query = EXEC_ADD_TO_ARCHIVE,
+                params = arrayOf(fileToArchive.nameWithoutExtension, idFile),
+                outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as String
 
-        return File("${fileToArchive.parent}/$archive")
+        return File("${fileToArchive.parent}/$archive.ARJ")
     }
 
-    private fun archiveMask() :String = DateTimeFormatter.ofPattern("yyMMdd").format(LocalDate.now())
-
-    private fun fullFile(fileName :String) :File {
+    private fun fullFile(fileName :String): File {
 
         val folder = if (fileName.isPhysic() ) physicFolder() else juricFoler()
 
         return File("${folder.absolutePath}/$fileName")
     }
 
-    private fun physicFolder() :File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${Send364pSign.todayFolder()}")
+    fun cryptoFolder(isPhysic: Boolean): String =  if(isPhysic) physicFolder().absolutePath else juricFoler().absolutePath + "/CRYPTO"
 
-    private fun juricFoler() :File = Cmd.createFolder("X:/311-П/Отправка/${Send364pSign.todayFolder()}")
+    private fun physicFolder(): File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${Send364pSign.todayFolder()}")
 
+    private fun juricFoler(): File = Cmd.createFolder("X:/311-П/Отправка/${Send364pSign.todayFolder()}")
+
+    private const val EXEC_ADD_TO_ARCHIVE = "{ call od.PTKB_440P.addToArchive311p(?, ?, ?) }"
 }

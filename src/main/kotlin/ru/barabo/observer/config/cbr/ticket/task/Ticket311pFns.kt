@@ -62,7 +62,7 @@ object Ticket311pFns: FileFinder, FileProcessor {
     private const val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
 
     private const val UPDATE_REGISTER = "update od.ptkb_361p_register rp set rp.KWIT_DATE = sysdate, " +
-            "rp.KWIT_RESULT = ?, rp.KWIT_FILENAME = ?, rp.KWIT_DATA = ? where rp.id = ?"
+            "rp.KWIT_RESULT = ?, rp.KWIT_FILENAME = ?, rp.KWIT_DATA = ?, rp.STATE = 9 where rp.id = ?"
 
     private fun saveTicket(numberMessage: String?, resultMessage: String?, fileXml: File) {
 

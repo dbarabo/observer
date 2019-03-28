@@ -18,10 +18,11 @@ object PtkPsd : ConfigTask {
         // find all
         SendByPtkPsdNoXml.findAll()
         SendXmlByPtkbPsd.findAll()
-        SendByPtkPsdCopy.findAll()
         Send364pSign.findAll()
-        CheckerIsSendPtkPsd.findAll()
         Send440pArchive.findAll()
+        Send311pArchive.findAll()
+        SendByPtkPsdCopy.findAll()
+        CheckerIsSendPtkPsd.findAll()
 
         Load101FormXml.findAll()
 

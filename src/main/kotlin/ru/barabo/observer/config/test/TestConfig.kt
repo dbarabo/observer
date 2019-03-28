@@ -27,7 +27,7 @@ object TestConfig : ConfigTask {
 
         //SendBlockUnblockAccountPC.findAll()
 
-        LoadAcq.findAll()
+        //LoadAcq.findAll()
 
         this.executeTasks()
     }
