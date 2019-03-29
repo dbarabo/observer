@@ -80,7 +80,9 @@ object SaveAccount311p : SingleSelector {
         return File("${folder.absolutePath}/$fileName")
     }
 
-    fun cryptoFolder(isPhysic: Boolean): String =  if(isPhysic) physicFolder().absolutePath else juricFoler().absolutePath + "/CRYPTO"
+    fun cryptoFolder(isPhysic: Boolean): String = "${folder311pByType(isPhysic)}/CRYPTO"
+
+    private fun folder311pByType(isPhysic: Boolean) = if(isPhysic) physicFolder().absolutePath else juricFoler().absolutePath
 
     private fun physicFolder(): File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${Send364pSign.todayFolder()}")
 

@@ -10,7 +10,7 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.time.LocalTime
 
-object CheckTicketArchive440p: SingleSelector {
+object CheckTicketArchive440p : SingleSelector {
 
     override val select: String =
             "select id, FILE_NAME from od.ptkb_440p_archive where state != 99 and sysdate - created > 2/24"

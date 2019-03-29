@@ -41,9 +41,10 @@ object XmlLoaderCbrTicket311p : FileFinder, FileProcessor {
     private fun TicketCbr.updateFilesTicket() {
 
         nameRecords?.fileRecords?.forEach {
-            AfinaQuery.execute(EXEC_FILE_TICKET_LOAD, arrayOf(it.fileName.trim(), resultArchive.trim()))
+            AfinaQuery.execute(EXEC_FILE_TICKET_LOAD, arrayOf(it.fileName.trim().substringBeforeLast("."), resultArchive.trim()))
         }
     }
+
 
     private fun TicketCbr.updateArchiveResultCode() {
         val archiveName = archiveName?.trim()?.substringBeforeLast(".") ?: throw SessionException("Не найдено имя архива")

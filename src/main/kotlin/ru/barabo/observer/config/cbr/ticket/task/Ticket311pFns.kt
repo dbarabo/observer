@@ -1,8 +1,10 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
+import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import org.w3c.dom.Element
 import ru.barabo.archive.Archive
+import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
@@ -13,6 +15,7 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.Verba
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
@@ -61,8 +64,7 @@ object Ticket311pFns: FileFinder, FileProcessor {
 
     private const val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
 
-    private const val UPDATE_REGISTER = "update od.ptkb_361p_register rp set rp.KWIT_DATE = sysdate, " +
-            "rp.KWIT_RESULT = ?, rp.KWIT_FILENAME = ?, rp.KWIT_DATA = ?, rp.STATE = 9 where rp.id = ?"
+    private const val UPDATE_REGISTER = "{ call od.PTKB_440P.loadTicketFileFns311p(?, ?, ?, ?, ?) }"
 
     private fun saveTicket(numberMessage: String?, resultMessage: String?, fileXml: File) {
 
@@ -79,14 +81,36 @@ object Ticket311pFns: FileFinder, FileProcessor {
             throw Exception(e.message!!)
         }
 
-        val idRegister = AfinaQuery.selectValue(SELECT_ID_REGISTER, arrayOf(number)) as? Number
+        val idRegister = AfinaQuery.selectValue(SELECT_ID_REGISTER, arrayOf(number)) as? Number ?:
+                                    throw SessionException("Не найден ptkb_361p_register.id по номеру $number")
 
-        val params :Array<Any?> = arrayOf(resultMessage, fileXml.name,
-                fileXml.readText(Charset.forName("CP1251")), idRegister)
+        val ticketBody = fileXml.readText(Charset.forName("CP1251"))
 
-        AfinaQuery.execute(UPDATE_REGISTER, params)
+        val params :Array<Any?> = arrayOf(resultMessage, fileXml.name, ticketBody, idRegister)
+
+        val resultCode = (AfinaQuery.execute(query = UPDATE_REGISTER, params =  params,
+                outParamTypes = intArrayOf(OracleTypes.NUMBER))?.get(0) as Number).toInt()
+
+        if(resultCode != 9) {
+            sendError(resultMessage, fileXml.name, ticketBody, idRegister)
+        }
     }
 
     private fun getNumberByFile(fileXml: File): Int = (fileXml.nameWithoutExtension
             .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
+
+
+    private fun sendError(resultMessage: String?, ticketFileName: String, ticketBody: String, idRegister: Number) {
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_311P_ERROR,
+                body = errorMessage(ticketFileName, resultMessage, ticketBody, idRegister))
+    }
+
+    private const val SUBJECT_311P_ERROR = "311-П Ошибка в квитке от ФНС"
+
+    private fun errorMessage(fileName: String, resultMessage: String?, ticketBody: String?, regId: Number) =
+            "На отправленный файл получена квитанция из ФНС с ошибкой \n" +
+                    "\tФайл квитка: $fileName\n" +
+                    "\tКод ошибки: $resultMessage\n" +
+                    "\tid : $regId\n" +
+                    "\tОписание: $ticketBody"
 }

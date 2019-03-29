@@ -30,6 +30,10 @@ object OtherCbr: ConfigTask {
         CheckTicket440p.findAll()
         CheckTicketArchive440p.findAll()
 
+        CheckTicketArchive311p.findAll()
+        CheckTicketCbrFile311p.findAll()
+        CheckTicketFns311p.findAll()
+
         CheckOpenArchiveDay.findAll()
         ExecOpenArchiveDay.findAll()
         RestrictUsersArchiveDay.findAll()
