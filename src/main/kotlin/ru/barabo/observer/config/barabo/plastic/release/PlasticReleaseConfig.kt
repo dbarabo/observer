@@ -1,13 +1,10 @@
 package ru.barabo.observer.config.barabo.plastic.release
 
-import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.plastic.release.task.*
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
-import java.util.*
 
-object PlasticReleaseConfig: ConfigTask {
-
-    override var timer: Timer? = null
+object PlasticReleaseConfig: AbstractConfig() {
 
     override fun name(): String = "Пластик: Выпуск/Перевыпуск"
 

@@ -1,16 +1,10 @@
 package ru.barabo.observer.config.cbr.other
 
-import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
-import java.util.*
 
-object OtherCbr: ConfigTask {
-
-    override var timer: Timer? = null
-
-    val logger = LoggerFactory.getLogger(OtherCbr::class.java)!!
+object OtherCbr: AbstractConfig() {
 
     override fun timeOut(): Long = 30_000
 

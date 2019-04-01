@@ -2,6 +2,7 @@ package ru.barabo.observer.store
 
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaConnect
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.barabo.p440.P440Config
@@ -12,7 +13,12 @@ import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.test.TestConcurrencyConfig
 import ru.barabo.observer.config.test.TestConfig
+import ru.barabo.observer.mail.smtp.BaraboSmtp
+import java.sql.Timestamp
+import java.util.*
+import kotlin.concurrent.timer
 
 object TaskMapper {
 
@@ -53,12 +59,12 @@ object TaskMapper {
         initBase(baseConnectReal)
     }
 
-    private fun initBase(baseConnect :String) {
+    private fun initBase(baseConnect: String) {
         if(baseConnect != "AFINA" && baseConnect != "TEST") {
             throw SessionException("baseConnect must be contains only AFINA or TEST values")
         }
 
-        isAfina = baseConnect =="AFINA"
+        isAfina = baseConnect == "AFINA"
 
         AfinaConnect.init(isAfina)
     }
@@ -67,7 +73,7 @@ object TaskMapper {
 
     fun build() = build
 
-    fun configList() :List<ConfigTask> = configList
+    fun configList(): List<ConfigTask> = configList
 
     fun runConfigList() {
         if(configList.isEmpty()) {
@@ -75,13 +81,57 @@ object TaskMapper {
         }
 
         configList.forEach { it.starting() }
+
+        startChecker()
     }
 
-    fun stopConfigList() = configList.forEach { it.stoping() }
+    fun stopConfigList() {
+        stopingChecker()
 
-    private fun cbrConfigs() :List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
+        configList.forEach { it.stoping() }
+    }
 
-    private fun baraboConfigs() :List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
+    private fun cbrConfigs(): List<ConfigTask> = listOf(Correspondent, PtkPsd, TicketPtkPsd, OtherCbr)
 
-    private fun testConfig() :List<ConfigTask> = listOf(TestConfig)
+    private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
+
+    private fun testConfig(): List<ConfigTask> = listOf(TestConfig, TestConcurrencyConfig)
+
+    private var timerChecker: Timer? = null
+
+    private fun startChecker() {
+        timerChecker = timer(name = build, initialDelay = 10_000, daemon = false, period = 60*10_000) {
+            AfinaQuery.execute(updateBuild(build) )
+
+            checkOtherBuilds()
+        }
+    }
+
+    private fun checkOtherBuilds() {
+        AfinaQuery.select(selectOtherBuilds(build) ).forEach {
+            val buildName = it[0] as? String ?: "???"
+
+            val lastWork = it[1] as Date
+
+            val message = "Похоже приложение observer.jar с билдом $buildName не запущено и не отвечает с $lastWork"
+
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = message, body = message)
+
+            AfinaQuery.execute(updateBuild(buildName) )
+        }
+    }
+
+    private fun stopingChecker() {
+
+        timerChecker?.cancel()
+        timerChecker?.purge()
+
+        timerChecker = null
+    }
 }
+
+private fun updateBuild(build: String) =
+        "update od.PTKB_VERSION_JAR set DUE = sysdate where PROGRAM = 'OBSERVER.JAR' and BUILD = '$build'"
+
+private fun selectOtherBuilds(build: String) =
+        "select BUILD, DUE from od.PTKB_VERSION_JAR where PROGRAM = 'OBSERVER.JAR' and coalesce(BUILD, '!') != '$build' and (sysdate - DUE > 40/(60*24) )"

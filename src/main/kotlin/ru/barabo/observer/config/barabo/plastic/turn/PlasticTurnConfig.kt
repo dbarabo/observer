@@ -1,12 +1,10 @@
 package ru.barabo.observer.config.barabo.plastic.turn
 
-import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.plastic.FinderHcardIn
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
-import java.util.*
 
-object PlasticTurnConfig: ConfigTask {
-    override var timer: Timer?  = null
+object PlasticTurnConfig: AbstractConfig() {
 
     override fun name(): String = "Пластик: Обороты"
 

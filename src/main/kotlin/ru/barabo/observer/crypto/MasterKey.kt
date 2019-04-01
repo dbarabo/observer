@@ -19,6 +19,8 @@ object MasterKey {
 
     private val data = HashMap<String, String>()
 
+   // private val logger = LoggerFactory.getLogger(MasterKey::class.java)
+
     init {
 
         loadKeys()

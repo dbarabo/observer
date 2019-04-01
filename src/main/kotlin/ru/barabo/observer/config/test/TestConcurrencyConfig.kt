@@ -2,9 +2,9 @@ package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.AbstractConfig
 
-object TestConfig : AbstractConfig() {
+object TestConcurrencyConfig : AbstractConfig() {
 
-    override fun name(): String = "TEST!!!"
+    override fun name(): String = "TEST-CONCURRENCY!!!"
 
     override fun timeOut(): Long = 20_000
 
@@ -21,6 +21,8 @@ object TestConfig : AbstractConfig() {
         //SendBlockUnblockAccountPC.findAll()
 
         //LoadAcq.findAll()
+
+        Thread.sleep(1000*60*2)
 
         this.executeTasks()
     }

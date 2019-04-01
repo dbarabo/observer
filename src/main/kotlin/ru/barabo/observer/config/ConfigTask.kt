@@ -10,20 +10,17 @@ import kotlin.concurrent.timer
  */
 interface ConfigTask {
 
-    var timer : Timer?
+    var timer: Timer?
 
-    fun name() :String
+    fun name(): String
 
     fun configRun()
 
-    fun timeOut() :Long
+    fun timeOut(): Long
 
-    fun starting() {
+    fun starting()
 
-        startConfig()
-    }
-
-    fun isRun() :Boolean = timer != null
+    fun isRun(): Boolean = timer != null
 
     fun stoping() {
 
@@ -31,11 +28,6 @@ interface ConfigTask {
        timer?.purge()
 
        timer = null
-    }
-
-    private fun startConfig() {
-
-        timer = timer(name = this.javaClass.simpleName, initialDelay = 10_000, daemon = false, period = timeOut()) { configRun() }
     }
 
     fun executeTasks() {

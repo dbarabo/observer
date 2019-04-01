@@ -1,12 +1,9 @@
 package ru.barabo.observer.config.cbr.ptkpsd
 
-import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.ptkpsd.task.*
-import java.util.*
 
-object PtkPsd : ConfigTask {
-
-    override var timer: Timer? = null
+object PtkPsd : AbstractConfig() {
 
     override fun name(): String = "ПТК ПСД"
 

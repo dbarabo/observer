@@ -1,12 +1,9 @@
 package ru.barabo.observer.config.barabo.p440
 
-import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.p440.task.*
-import java.util.*
 
-object P440Config: ConfigTask {
-
-    override var timer: Timer? = null
+object P440Config: AbstractConfig() {
 
     override fun name(): String = "440-П"
 
