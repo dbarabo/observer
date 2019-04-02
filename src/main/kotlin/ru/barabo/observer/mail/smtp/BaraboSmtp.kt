@@ -34,7 +34,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_390P = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru", "okina@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "okina@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 

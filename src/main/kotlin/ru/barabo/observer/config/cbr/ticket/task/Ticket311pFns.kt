@@ -101,7 +101,7 @@ object Ticket311pFns: FileFinder, FileProcessor {
 
 
     private fun sendError(resultMessage: String?, ticketFileName: String, ticketBody: String, idRegister: Number) {
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_311P_ERROR,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.AUTO, subject = SUBJECT_311P_ERROR,
                 body = errorMessage(ticketFileName, resultMessage, ticketBody, idRegister))
     }
 

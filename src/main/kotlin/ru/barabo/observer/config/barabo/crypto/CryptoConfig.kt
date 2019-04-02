@@ -15,8 +15,11 @@ object CryptoConfig : AbstractConfig() {
         UnSign364p.findAll()
         CryptoNbki.findAll()
         UnCryptoNbki.findAll()
+
         CreateAccount311p.findAll()
         SaveAccount311p.findAll()
+        RecreateAfterError311p.findAll()
+
         InfoRequest349p.findAll()
         LoadRateThb.findAll()
         CryptoExchange.findAll()
