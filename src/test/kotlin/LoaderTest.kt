@@ -25,9 +25,9 @@ import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
-import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.task.p311.ticket.TicketCbr
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
@@ -53,6 +53,16 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+   // @Test
+    fun testMails() {
+        val SELECT_EMAIL_LAID_OFF = "{ ? = call od.PTKB_PLASTIC_REPORT.getMailLaidOffEmployees }"
+
+        val mails = AfinaQuery.selectCursor(SELECT_EMAIL_LAID_OFF).joinToString {  "'${it[0]}'" }
+
+        logger.error(mails)
+    }
+
 
     //@Test
     fun testXmlLoaderCbrTicket311p() {

@@ -21,7 +21,7 @@ where (sysdate > a.sent + 1/24
        sysdate >= trunc(sysdate) + (15.5/24)
       )
       and (  a.state != 9
-          or a.return_code != 'ПРИНЯТ'
+          or coalesce(a.return_code, '!') != 'ПРИНЯТ'
       )
     """
 

@@ -5,7 +5,7 @@ import ru.barabo.db.DbSetting
 import ru.barabo.db.SessionException
 import ru.barabo.observer.crypto.MasterKey
 
-object AfinaConnect: DbConnection(
+object AfinaConnect : DbConnection(
         DbSetting("oracle.jdbc.driver.OracleDriver",
                 "",
                 MasterKey.value("AFINA_USER"),

@@ -53,6 +53,8 @@ object OtherCbr: AbstractConfig() {
 
         ReportSender.findAll()
 
+        MantisUserDisabled.findAll()
+
         executeTasks()
     }
 

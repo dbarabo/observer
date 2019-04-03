@@ -59,6 +59,10 @@ object MasterKey {
         data[key] = value
     }
 
+    fun clearAll() {
+        data.clear()
+    }
+
     fun saveKeys() {
 
         val text = "$key\n" + data.entries.joinToString("\n") { "${it.key}=${toCrypto(it.value)}" }
