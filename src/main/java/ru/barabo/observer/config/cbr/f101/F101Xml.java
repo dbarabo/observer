@@ -28,6 +28,9 @@ public class F101Xml {
     @XStreamAlias("Данные101")
     private Data101 data101;
 
+    @XStreamAlias("Пояснение")
+    private String clarification;
+
     @XStreamAlias("ИнфПК")
     private InfoPc infoPc;
 

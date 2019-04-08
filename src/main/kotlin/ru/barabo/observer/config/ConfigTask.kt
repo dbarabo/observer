@@ -3,7 +3,6 @@ package ru.barabo.observer.config
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.derby.StoreSimple
 import java.util.*
-import kotlin.concurrent.timer
 
 /**
  * Описание конфигурации
