@@ -17,6 +17,7 @@ object Observer {
             "OPERATOR" -> "CBR"
             "BARABO_" -> "TEST"
             "OTMINPT" -> "TEST"
+            "DSPO" -> "TEST"
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
 

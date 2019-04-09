@@ -24,7 +24,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     private val dataList = ArrayList<Elem>()
 
-    private var actualDate = LocalDate.now()
+    private var actualDate: LocalDate = LocalDate.now()
 
     init {
         StoreSimple.readData()
@@ -32,16 +32,19 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     val logger = LoggerFactory.getLogger(StoreSimple::class.java)!!
 
-    @Synchronized
-    fun addNotExistsByIdElem(item :Elem, stateFind: State? = null): Boolean {
-        val exist = dataList.firstOrNull {
-            ((it.task == item.task) && (it.idElem == item.idElem)) &&
-            (stateFind?.let { st -> it.state == st } ?: true ) }
+    fun addNotExistsByIdElem(item: Elem, stateFind: State? = null): Boolean {
 
-        if(exist == null) {
-            save(item)
+        val newElem = synchronized(dataList) {
+            dataList.firstOrNull { (it.task == item.task) &&
+                                   (it.idElem == item.idElem) &&
+                                   it.state == (stateFind ?: it.state) }
         }
-        return exist == null
+
+        if(newElem != null) return false
+
+        save(item)
+
+        return true
     }
 
     @Synchronized
@@ -65,15 +68,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         return dataList.filter { it.task === task && it.state != noneState }.maxWith(comparatorElemMaxTime)
     }
 
-    @Synchronized
-    fun getLastItemByState(task: ActionTask, findState: State = State.NONE): Elem? {
-
-        val comparatorElemMaxTime = comparatorElemByExecTime()
-
-        return dataList.filter { it.task === task && it.state == findState }.maxWith(comparatorElemMaxTime)
-    }
-
-    private fun comparatorElemByExecTime(): Comparator<Elem> = Comparator<Elem> { x, y ->
+    private fun comparatorElemByExecTime(): Comparator<Elem> = Comparator { x, y ->
         val maxX = x.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
                 ?:x.created.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L
 
@@ -82,7 +77,6 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
         if(maxX > maxY) 1 else -1
     }
-
 
     @Synchronized
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
@@ -163,12 +157,12 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         var findItem: TreeElem? = null
 
         run find@{
-             config.group!!.childs.forEach {
+             config.group!!.childs.forEach { treeElem ->
 
-                findItem = it.group?.childs?.firstOrNull { it.elem === elem }
+                findItem = treeElem.group?.childs?.firstOrNull { it.elem === elem }
 
                 if(findItem != null) {
-                    oldTaskGroup = it
+                    oldTaskGroup = treeElem
                     return@find
                 }
             }
