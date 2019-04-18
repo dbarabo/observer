@@ -2,13 +2,27 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.store.Shift
+import java.io.File
 import java.net.InetAddress
+import java.nio.charset.Charset
 
 class ShiftTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
-    @Test
+    //@Test
+    fun findRow() {
+        File("c:/temp/BVD1_ZSV10507717_254320190403_367859_20190410_0021_000001_000001.xml")
+                .readLines(Charset.forName("CP1251"))
+                .forEach {
+                    if(it.contains("<РеквПлат") && !it.contains("НаимПП=")) {
+                        logger.error(it)
+                    }
+                }
+    }
+
+
+    //@Test
     fun firstShifTest() {
 
 //        val primterkombank = Shift.encrypt("primterkombank@gmail.com")

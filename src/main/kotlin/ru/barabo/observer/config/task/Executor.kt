@@ -41,7 +41,7 @@ interface Executor {
 
     private fun isWeekAccess(): Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
 
-    fun executeElem(elem: Elem, isSuspend: Boolean = false) {
+    fun executeElem(elem: Elem) {
         synchronized(elem.state) {
 
             if(elem.state == State.OK || elem.state == State.PROCESS || elem.state == State.ARCHIVE) return
@@ -74,7 +74,7 @@ interface Executor {
 
         StoreSimple.save(elem)
 
-        checkSendMailError(elemErrorFull, isSuspend)
+        checkSendMailError(elemErrorFull)
     }
 
     private fun sendFindAllError(process: ()->Executor?): Executor? =
@@ -100,21 +100,17 @@ interface Executor {
         return sw.buffer.toString()
     }
 
-    private fun checkSendMailError(elem: Elem, isSuspend: Boolean) {
+    private fun checkSendMailError(elem: Elem) {
         if(elem.state != State.ERROR || elem.task?.isSendError()?.not() == true) return
 
-        if(!isSuspend) {
-            BaraboSmtp.errorSend(elem)
-        } else {
-            BaraboSmtp.addSuspendElem(elem)
-        }
+        BaraboSmtp.errorSend(elem)
     }
 
     private fun executeAll(): Executor? {
 
         val items = StoreSimple.getItems(State.NONE) { it == actionTask() }
 
-        items.forEach { executeElem(it, isSuspend = false) }
+        items.forEach { executeElem(it) }
 
         //BaraboSmtp.sendSuspendElem()
 

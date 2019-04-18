@@ -28,7 +28,7 @@ object BaraboSmtp : SendMail {
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
-    val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru", "neganova@ptkb.ru", "dummy@ptkb.ru").onlyAfina()
+    val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru").onlyAfina()
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
@@ -79,15 +79,6 @@ object BaraboSmtp : SendMail {
     fun errorSend(elem :Elem) {
 
         sendStubThrows(to = AUTO, subject = errorSubjectElem(elem), body = errorBodyElem(elem))
-    }
-
-    private val suspendElems = ArrayList<Elem>()
-
-    fun addSuspendElem(elem :Elem) {
-
-        synchronized(suspendElems) {
-            suspendElems.add(elem)
-        }
     }
 
     private const val REMART_SUBJECT = "По ремарту"

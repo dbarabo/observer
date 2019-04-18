@@ -73,7 +73,7 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val attachment = file?.let { arrayOf(it) } ?: arrayOf(emptyResponse(fileRequest))
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.AUTO, subject = SUBJECT_CEC,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.CHECKER_550P, subject = SUBJECT_CEC,
                 body = body, attachments = attachment)
     }
 
