@@ -51,6 +51,12 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
         val oldJar = elem.remoteFilePath()
 
+        if(!oldJar.name.contains(".jar", ignoreCase = true) ) {
+            AfinaQuery.execute(UPDATE_STATE, elem.paramsUpdateState())
+
+            return State.OK
+        }
+
         return if((!oldJar.exists()) || oldJar.delete()) {
             NEW_PLASTIC_JAR.copyTo( File("${oldJar.parent}\\$PROGRAM_JAR"), true )
 
