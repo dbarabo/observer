@@ -1,6 +1,7 @@
 package ru.barabo.observer.mail.smtp
 
 import ru.barabo.observer.crypto.MasterKey
+import ru.barabo.observer.mail.smtp.BaraboSmtp.onlyAfina
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.smtp.SendMail
@@ -21,12 +22,14 @@ object BaraboSmtp : SendMail {
 
     val BOOKER = arrayOf("buh1@ptkb.ru", "kudryavceva@ptkb.ru").onlyAfinaOrYa()
 
-    val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
+    val AUTO = arrayOf("auto@ptkb.ru", "dbarabo@gmail.com").onlyAfinaOrYa()
 
     val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "porublev@ptkb.ru",
             "stepnova@ptkb.ru", "progr_s@ptkb.ru", "naumova@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
+
+    val PTK_PSD_CHECKER = arrayOf("ptkpsd@ptkb.ru").onlyAfina()
 
     val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru").onlyAfina()
 

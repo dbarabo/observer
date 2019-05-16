@@ -36,6 +36,8 @@ class AnnotationTest {
 
         val str1 = "KWTFCB_BNP1_PNO10507717_251020180109_000072_20180110_0021.XML"
 
+        //str1.substringBeforeLast()
+
         val str2 = "IZVTUB_AFN_0507717_MIFNS00_20180112_00001.xml"
 
         val str3 = "APN10507717_254320180111_000316.xml"

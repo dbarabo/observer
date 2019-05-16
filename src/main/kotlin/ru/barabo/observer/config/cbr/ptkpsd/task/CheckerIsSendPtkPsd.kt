@@ -41,6 +41,6 @@ object CheckerIsSendPtkPsd : FileFinder, FileProcessor {
 
    private fun errorSendFileByPtkPsd(fileName : String) {
 
-       BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, bcc = BaraboSmtp.AUTO, subject = ERROR_SUBJECT, body = errorBody(fileName))
+       BaraboSmtp.sendStubThrows(to = BaraboSmtp.PTK_PSD_CHECKER, bcc = BaraboSmtp.OPER, subject = ERROR_SUBJECT, body = errorBody(fileName))
    }
 }
