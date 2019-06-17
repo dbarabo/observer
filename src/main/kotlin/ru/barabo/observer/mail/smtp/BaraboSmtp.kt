@@ -1,7 +1,6 @@
 package ru.barabo.observer.mail.smtp
 
 import ru.barabo.observer.crypto.MasterKey
-import ru.barabo.observer.mail.smtp.BaraboSmtp.onlyAfina
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.smtp.SendMail
@@ -22,7 +21,7 @@ object BaraboSmtp : SendMail {
 
     val BOOKER = arrayOf("buh1@ptkb.ru", "kudryavceva@ptkb.ru").onlyAfinaOrYa()
 
-    val AUTO = arrayOf("auto@ptkb.ru", "dbarabo@gmail.com").onlyAfinaOrYa()
+    val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
     val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "porublev@ptkb.ru",
             "stepnova@ptkb.ru", "progr_s@ptkb.ru", "naumova@ptkb.ru").onlyAfina()
@@ -51,8 +50,8 @@ object BaraboSmtp : SendMail {
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "buh1@ptkb.ru",
-            "zdorovec@ptkb.ru", "koleev@ptkb.ru").onlyAfina()
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "koleev@ptkb.ru",
+            "fedina@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
 

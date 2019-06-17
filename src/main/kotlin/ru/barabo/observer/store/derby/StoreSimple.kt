@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 
 object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
@@ -22,23 +23,23 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     private var root :TreeElem = TreeElem(group = TreeGroup())
 
-    private val dataList = ArrayList<Elem>()
+    private val dataList = CopyOnWriteArrayList<Elem>() //ArrayList<Elem>()
 
     private var actualDate: LocalDate = LocalDate.now()
 
     init {
-        StoreSimple.readData()
+        readData()
     }
 
     val logger = LoggerFactory.getLogger(StoreSimple::class.java)!!
 
     fun addNotExistsByIdElem(item: Elem, stateFind: State? = null): Boolean {
 
-        val newElem = synchronized(dataList) {
+        val newElem = /*synchronized(dataList) {*/
             dataList.firstOrNull { (it.task == item.task) &&
                                    (it.idElem == item.idElem) &&
                                    it.state == (stateFind ?: it.state) }
-        }
+       // }
 
         if(newElem != null) return false
 
@@ -47,20 +48,20 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         return true
     }
 
-    @Synchronized
+    //@Synchronized
     fun findElemByFile(name: String, path: String, task: ActionTask) : Elem? =
             dataList.firstOrNull {(it.task == task) && (it.name == name) && (it.path == path) }
 
-    @Synchronized
+    //@Synchronized
     fun findElemById(idElem: Long, task: ActionTask): Elem? = dataList.firstOrNull {(it.task == task) && (it.idElem == idElem)}
 
 
     fun existsElem(isContainsTask :(ActionTask?)->Boolean, idElem :Long, name :String, isDuplicateName: Boolean): Boolean =
-        synchronized(dataList) {
+        //synchronized(dataList) {
             dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
-        }
+        //}
 
-    @Synchronized
+    //@Synchronized
     fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE) :Elem? {
 
         val comparatorElemMaxTime = comparatorElemByExecTime()
@@ -78,7 +79,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         if(maxX > maxY) 1 else -1
     }
 
-    @Synchronized
+    //@Synchronized
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
         return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
 
@@ -89,14 +90,14 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         }
     }
 
-    @Synchronized
+    //@Synchronized
     fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
             = dataList.filter { it.state === state &&
             isContainsTask(it.task) &&
             (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
                     executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
 
-    @Synchronized
+    //@Synchronized
     fun findFirstByConditionName(state: State = State.OK, task: ActionTask, isConditionName: (String)-> Boolean) :Elem? =
         dataList.firstOrNull { it.state == state && it.task === task && isConditionName(it.name) }
 
@@ -122,7 +123,9 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         //simpleSave(item)
 
         if(oldId == null) {
-            synchronized(dataList) { dataList.add(item) }
+            //synchronized(dataList) {
+                dataList.add(item)
+            //}
         }
 
         updateTreeElem(item, oldId == null)
@@ -140,7 +143,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         } }
     }
 
-    @Synchronized
+    //@Synchronized
     private fun checkMoveElemFromGroup(elem :Elem):TreeElem {
 
         val config = root.group!!.childs.first { it.group!!.config === elem.task!!.config() }
@@ -203,20 +206,23 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             }
     }
 
-    @Synchronized
+    //@Synchronized
     private fun readData(dateCheck : LocalDate = LocalDate.now()) {
         actualDate = dateCheck
 
-        synchronized(dataList) {
+        //synchronized(dataList) {
             dataList.clear()
-        }
+        //}
+
         synchronized(root.group!!.childs) {
             root.group!!.childs.removeAll(root.group!!.childs)
         }
 
         template.select(Elem::class.java) { _: Elem?, row: Elem ->
 
-            synchronized(dataList) { dataList.add(row) }
+            //synchronized(dataList) {
+                dataList.add(row)
+            //}
 
             this.addElemToGroup(row)
         }
@@ -224,7 +230,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         root.group!!.childs.forEach { it.group?.prepareAllTaskForConfig() }
     }
 
-    @Synchronized
+    //@Synchronized
     private fun addElemToGroup(elem: Elem) :TreeElem {
 
         val config = root.group!!.childs.firstOrNull { it.group!!.config === elem.task!!.config() }

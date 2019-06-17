@@ -1,8 +1,10 @@
 package ru.barabo.observer.config.cbr.correspondent.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.correspondent.Correspondent
 import ru.barabo.observer.config.task.AccessibleData
+import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
@@ -14,6 +16,7 @@ import java.time.format.DateTimeFormatter
 
 
 object DownLoadToCorrespond : FileMover, FileFinder {
+
     override val fileFinderData: List<FileFinderData> =
         listOf(FileFinderData("c:/TA/Block_ras/in", ".*\\.(ED|EDS|SF|SFD)"))
 

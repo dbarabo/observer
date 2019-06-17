@@ -57,6 +57,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
     override fun config(): ConfigTask = P440Config
 
+    override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
             false,
@@ -73,8 +74,6 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
     }
 
     override fun actionTask(): ActionTask = this
-
-    override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 
     private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
         val construct =  classXml.constructors.iterator().next()

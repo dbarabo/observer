@@ -1,5 +1,7 @@
 package ru.barabo.observer.config.cbr.ptkpsd.task
 
+import org.slf4j.LoggerFactory
+import ru.barabo.cmd.Cmd
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -15,6 +17,8 @@ import java.time.Duration
 import java.time.LocalTime
 
 object Send440pArchive : SingleSelector {
+
+    private val logger = LoggerFactory.getLogger(Send440pArchive::class.java)
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 3"
 
@@ -52,6 +56,8 @@ object Send440pArchive : SingleSelector {
         } catch (e :Exception) {
 
             AfinaQuery.rollbackFree(sessionSetting)
+
+            logger.error("SendByPtkPsdCopy", e)
 
             throw SessionException(e.message?:"")
         }

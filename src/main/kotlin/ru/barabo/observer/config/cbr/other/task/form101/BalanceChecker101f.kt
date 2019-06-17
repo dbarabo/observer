@@ -100,8 +100,8 @@ order by f.date_report
 
             val turnCreditDiff = (row[6] as Number).toInt()
 
-            if(isDefaultDiff(inDiff, outDiff, turnDebetDiff, turnCreditDiff) ||
-               isDiff60323Rest2(account, inDiff, outDiff, turnDebetDiff, turnCreditDiff)){
+            if(isDefaultDiff(inDiff, outDiff, turnDebetDiff, turnCreditDiff) /*||
+               isDiff60323Rest2(account, inDiff, outDiff, turnDebetDiff, turnCreditDiff)*/){
                 val params = arrayOf(row[row.lastIndex])
 
                 AfinaQuery.execute(EXEC_SMASH_ERROR_PTKB, params)
@@ -117,8 +117,8 @@ order by f.date_report
             turnCreditDiff <= 2)
 
     private fun isDefaultDiff(inDiff: Int, outDiff: Int, turnDebetDiff: Int, turnCreditDiff: Int): Boolean =
-            (inDiff <= 1 &&
-            outDiff <= 1 &&
+            (inDiff <= 2 &&
+            outDiff <= 2 &&
             turnDebetDiff <= 2 &&
             turnCreditDiff <= 2)
 
