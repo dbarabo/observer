@@ -1,8 +1,8 @@
-package ru.barabo.observer.config.cbr.other.task
+package ru.barabo.observer.config.cbr.ibank.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -13,7 +13,7 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 object LoanInfoCreator : Periodical {
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = IBank
 
     override fun name(): String = "Создать инфо по кредитам LoanInfo"
 

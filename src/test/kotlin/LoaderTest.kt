@@ -1,5 +1,6 @@
 import oracle.jdbc.OracleTypes
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
@@ -17,6 +18,9 @@ import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFi
 import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.MtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
+import ru.barabo.observer.config.cbr.ibank.task.CheckAccountFaktura
+import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
+import ru.barabo.observer.config.cbr.ibank.task.UploadExtract
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.other.task.form101.BalanceChecker101f
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
@@ -47,12 +51,28 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testCheckAccountFaktura() {
+
+        val elem = Elem(idElem = 0L, task = CheckAccountFaktura)
+
+        CheckAccountFaktura.execute(elem)
+    }
+
+    //@Test
+    fun testUploadExtract() {
+
+        val elem = Elem(idElem = 0L, task = UploadExtract)
+
+        UploadExtract.execute(elem)
+    }
 
    // @Test
     fun testMails() {

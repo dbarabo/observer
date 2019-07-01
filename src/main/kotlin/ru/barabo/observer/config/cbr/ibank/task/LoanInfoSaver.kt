@@ -1,11 +1,11 @@
-package ru.barabo.observer.config.cbr.other.task
+package ru.barabo.observer.config.cbr.ibank.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -18,7 +18,7 @@ import java.time.LocalTime
 
 object LoanInfoSaver : SingleSelector {
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = IBank
 
     override fun name(): String = "Выгрузка инфо по кредитам LoanInfo"
 
@@ -31,7 +31,7 @@ object LoanInfoSaver : SingleSelector {
 
         val clob = selectValueType<Clob>(SELECT_CLOB, arrayOf(elem.idElem)) ?: return State.ERROR
 
-        val fileSave = File("$PATH_FAKTURA${elem.name}")
+        val fileSave = File("$PATH_FAKTURA_OUTBOX${elem.name}")
 
         fileSave.writeText(clob.clobToString(), Charset.forName("cp1251"))
 
@@ -42,7 +42,7 @@ object LoanInfoSaver : SingleSelector {
 
     private const val SELECT_CLOB = "select LOANINFOTEXT from od.PTKB_LOAN_INFO where ID = ?"
 
-    private val PATH_FAKTURA = "\\\\192.168.0.31\\D$\\work\\fxgate\\outbox\\".ifTest("\\\\192.168.0.31\\D$\\temp\\")
+    val PATH_FAKTURA_OUTBOX = "\\\\192.168.0.31\\D$\\work\\fxgate\\outbox\\".ifTest("\\\\192.168.0.31\\D$\\temp\\")
 
     private const val EXECUTED_STATE_CLOB = "update od.PTKB_LOAN_INFO set STATUS = 1 where id = ?"
 }

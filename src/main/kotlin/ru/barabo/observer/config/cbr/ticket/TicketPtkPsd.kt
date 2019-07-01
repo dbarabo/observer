@@ -1,10 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.cbr.ticket.task.ResponseXlsFor
-import ru.barabo.observer.config.cbr.ticket.task.TicketSimple
-import ru.barabo.observer.config.cbr.ticket.task.TicketXml
-import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.cbr.ticket.task.*
 
 object TicketPtkPsd : AbstractConfig() {
 
@@ -20,6 +17,8 @@ object TicketPtkPsd : AbstractConfig() {
         XmlLoaderCbrTicket311p.findAll()
 
         ResponseXlsFor.findAll()
+
+        EfudkoResponseObserver.findAll()
 
         // execute all
         executeTasks()

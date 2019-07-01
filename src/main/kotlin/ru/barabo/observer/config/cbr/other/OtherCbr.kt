@@ -1,6 +1,8 @@
 package ru.barabo.observer.config.cbr.other
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.cbr.ibank.task.LoanInfoCreator
+import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
 
@@ -45,9 +47,6 @@ object OtherCbr: AbstractConfig() {
         //GeneralExecReserve283p.findAll()
 
         CorrDepartmentGoHome.findAll()
-
-        LoanInfoCreator.findAll()
-        LoanInfoSaver.findAll()
 
         SendBlockUnblockAccountPC.findAll()
 
