@@ -61,18 +61,24 @@ object UploadExtract : SinglePerpetual {
     private fun extractAccount(accountId: Number, tempFolderPath: String) {
         val session = AfinaQuery.uniqueSession()
 
+        val startTime = System.currentTimeMillis()
+
         try {
             val data = AfinaQuery.execute(EXEC_EXTRACT_ACCOUNT, arrayOf(accountId), session, intArrayOf(OracleTypes.CLOB, OracleTypes.VARCHAR))
 
             val fileName = data!![1] as? String
 
-            logger.error("Extract fileName=$fileName")
-
             createFile(fileName, (data[0] as? Clob)?.clob2string(), tempFolderPath)
 
             AfinaQuery.commitFree(session)
 
+            val timeLength = System.currentTimeMillis() - startTime
+
+            logger.error("Extract fileName=$fileName\t $timeLength")
+
         } catch (e: Exception) {
+            logger.error("extractAccount", e)
+
             AfinaQuery.rollbackFree(session)
 
             throw Exception(e)

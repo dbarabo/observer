@@ -22,7 +22,45 @@ import java.nio.charset.Charset
 
 object RpoLoader : GeneralLoader<RpoFromFns>() {
 
+    private val logger = LoggerFactory.getLogger(RpoLoader::class.java)
+
     override fun name(): String = "Загрузка RPO-файла (арест)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: XmlLoadException) {
+            createPb2File(file)
+        }
+    }
+
+    private fun createPb2File(file: File) {
+
+        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
+
+        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        BaraboSmtp.errorSend(elem)
+
+        val rpoPb2 = RpoFromFns.emptyRpoFromFns()
+
+        val uniqueSession = AfinaQuery.uniqueSession()
+
+        try {
+            rpoPb2.saveData(file, uniqueSession)
+
+            AfinaQuery.commitFree(uniqueSession)
+        } catch (e: Exception) {
+
+            logger.error("createPb2File", e)
+
+            AfinaQuery.rollbackFree(uniqueSession)
+
+            throw SessionException(e.message ?: "")
+        }
+
+        file.moveToLoaded()
+    }
 }
 
 object RooLoader : GeneralLoader<RooFromFns>() {
@@ -219,7 +257,45 @@ object ApoLoader : GeneralLoader<ApoFromFns>() {
 
 object ApzLoader : GeneralLoader<ApzFromFns>() {
 
+    private val logger = LoggerFactory.getLogger(ApzLoader::class.java)
+
     override fun name(): String = "Загрузка APZ-файла (отзыв. инкасс)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: XmlLoadException) {
+            createPb2File(file)
+        }
+    }
+
+    private fun createPb2File(file: File) {
+
+        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
+
+        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        BaraboSmtp.errorSend(elem)
+
+        val apzPb2 = ApzFromFns.emptyApzFromFns()
+
+        val uniqueSession = AfinaQuery.uniqueSession()
+
+        try {
+            apzPb2.saveData(file, uniqueSession)
+
+            AfinaQuery.commitFree(uniqueSession)
+        } catch (e: Exception) {
+
+            logger.error("createPb2File", e)
+
+            AfinaQuery.rollbackFree(uniqueSession)
+
+            throw SessionException(e.message ?: "")
+        }
+
+        file.moveToLoaded()
+    }
 }
 
 

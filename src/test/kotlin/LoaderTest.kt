@@ -3,6 +3,7 @@ import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
@@ -39,6 +40,7 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.nio.charset.Charset
 import java.sql.Clob
 import java.sql.Timestamp
 import java.time.Duration
@@ -57,6 +59,24 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+
+    //@Test
+    fun extractBtrt30() {
+
+        val file = File("C:/IIA_20190702_130000_0226")
+
+        val query = "{ call od.PTKB_PLASTIC_AUTO.createBTRT30File(?, ?, ?)} "
+
+        val firstParamId =1193954571L
+
+        val uniqueSession = AfinaQuery.uniqueSession()
+
+        val clob = AfinaQuery.execute(query, arrayOf(firstParamId, file.name),
+                uniqueSession, intArrayOf(OracleTypes.CLOB))!![0] as Clob
+
+        file.writeText(clob.clobToString(), charset = Charset.forName("cp1251"))
+    }
 
     //@Test
     fun testCheckAccountFaktura() {

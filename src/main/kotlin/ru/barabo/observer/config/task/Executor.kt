@@ -42,6 +42,7 @@ interface Executor {
     private fun isWeekAccess(): Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
 
     fun executeElem(elem: Elem) {
+
         synchronized(elem.state) {
 
             if(elem.state == State.OK || elem.state == State.PROCESS || elem.state == State.ARCHIVE) return
