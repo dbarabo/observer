@@ -5,6 +5,7 @@ import ru.barabo.observer.config.cbr.ibank.task.CheckAccountFaktura
 import ru.barabo.observer.config.cbr.ibank.task.LoanInfoCreator
 import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
 import ru.barabo.observer.config.cbr.ibank.task.UploadExtract
+import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 
 object IBank : AbstractConfig() {
 
@@ -19,6 +20,9 @@ object IBank : AbstractConfig() {
 
         LoanInfoCreator.findAll()
         LoanInfoSaver.findAll()
+
+
+        CheckerAllBalance.findAll()
 
         executeTasks()
     }

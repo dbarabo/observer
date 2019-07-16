@@ -2,10 +2,10 @@ package ru.barabo.observer.config.cbr.ibank.task
 
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
-import ru.barabo.cmd.Cmd
-import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.cbr.correspondent.task.DownLoadToCorrespond.dTaBack
 import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.task.AccessibleData
@@ -42,26 +42,21 @@ object UploadExtract : SinglePerpetual {
 
         if(accounts.isEmpty() ) return State.NONE
 
-        val tempFolder = Cmd.tempFolder("ibank_")
+        val copyFolder = dTaBack().byFolderExists()
 
         for (account in accounts) {
 
             if(account.isEmpty()) continue
 
             account[0]?.let {
-                extractAccount(it as Number, tempFolder.absolutePath)
+                extractAccount(it as Number, copyFolder.absolutePath)
             }
         }
-
-        tempFolder.deleteFolder()
-
         return State.NONE
     }
 
     private fun extractAccount(accountId: Number, tempFolderPath: String) {
         val session = AfinaQuery.uniqueSession()
-
-        val startTime = System.currentTimeMillis()
 
         try {
             val data = AfinaQuery.execute(EXEC_EXTRACT_ACCOUNT, arrayOf(accountId), session, intArrayOf(OracleTypes.CLOB, OracleTypes.VARCHAR))
@@ -71,11 +66,6 @@ object UploadExtract : SinglePerpetual {
             createFile(fileName, (data[0] as? Clob)?.clob2string(), tempFolderPath)
 
             AfinaQuery.commitFree(session)
-
-            val timeLength = System.currentTimeMillis() - startTime
-
-            logger.error("Extract fileName=$fileName\t $timeLength")
-
         } catch (e: Exception) {
             logger.error("extractAccount", e)
 
@@ -99,8 +89,6 @@ object UploadExtract : SinglePerpetual {
         val fakturaPathFile = File("${LoanInfoSaver.PATH_FAKTURA_OUTBOX}${file.name}")
 
         file.copyTo(fakturaPathFile, true)
-
-        file.delete()
     }
 
     private const val HEADER_XML = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>"

@@ -28,7 +28,7 @@ abstract class AbstractConfig : ConfigTask {
 
     private var lastWorkTime: AtomicLong = AtomicLong(System.currentTimeMillis())
 
-    private fun checkWorkConfig() {
+    fun checkWorkConfig() {
 
         val now = System.currentTimeMillis()
 

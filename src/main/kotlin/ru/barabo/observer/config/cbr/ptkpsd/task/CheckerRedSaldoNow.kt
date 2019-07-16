@@ -7,12 +7,14 @@ import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
+import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.sql.Timestamp
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 object CheckerRedSaldoNow : Executor, ActionTask {
@@ -21,7 +23,10 @@ object CheckerRedSaldoNow : Executor, ActionTask {
 
     override fun name(): String = "Красное сальдо при закрытии"
 
-    override val accessibleData: AccessibleData = AccessibleData(executeWait = Duration.ofMinutes(1))
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
+            workTimeFrom = LocalTime.of(4, 0),
+            workTimeTo = LocalTime.of(23, 55),
+            executeWait = Duration.ofMinutes(1))
 
     override fun config(): ConfigTask = PtkPsd
 

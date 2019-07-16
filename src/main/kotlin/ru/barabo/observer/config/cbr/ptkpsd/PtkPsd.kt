@@ -23,8 +23,6 @@ object PtkPsd : AbstractConfig() {
 
         Load101FormXml.findAll()
 
-        CheckerAllBalance.findAll()
-
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
 

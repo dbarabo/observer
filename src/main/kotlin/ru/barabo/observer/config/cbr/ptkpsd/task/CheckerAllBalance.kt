@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.cbr.other.task.form101.BalanceChecker101f
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerDoubleTurn
@@ -29,11 +30,13 @@ object CheckerAllBalance : Periodical {
 
     override fun name(): String = "Проверка баланса за 20 дат"
 
-    override fun config(): ConfigTask = PtkPsd
+    override fun config(): ConfigTask = IBank
 
     override fun execute(elem: Elem): State {
 
         val dates = AfinaQuery.selectCursor(CURSOR_20_LAST_DATES)
+
+        val checkUpdateDate = if(dates.size >= 10) dates[9] else emptyArray()
 
         for (datePair in dates) {
 
@@ -42,6 +45,10 @@ object CheckerAllBalance : Periodical {
             BalanceChecker101f.check101form(datePair[1] as Number, dateOn)
 
             CheckerRedSaldo.isCheckSaldo(dateOn)
+
+            if(datePair === checkUpdateDate) {
+                IBank.checkWorkConfig()
+            }
         }
 
         CheckerDoubleTurn.checkDouble()
