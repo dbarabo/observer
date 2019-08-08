@@ -29,15 +29,21 @@ where co.doctype = 1007403095
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(4, 0),
             workTimeTo = LocalTime.of(23, 55), executeWait = null)
 
-    override fun name(): String = "Зачистить показатели с арх. даты"
+    override fun name(): String = "Пересчитать показатели с арх. даты в РУБ"
 
     override fun config(): ConfigTask = PtkPsd
 
     override fun execute(elem: Elem): State {
         AfinaQuery.execute(query = EXEC_CLEAR_PRIM, params = arrayOf(elem.idElem))
 
+        AfinaQuery.execute(query = CALC_RUR_PRIM, params = arrayOf(elem.idElem))
+
         return State.OK
     }
 
     private const val EXEC_CLEAR_PRIM = "{ call od.PTKB_PRECEPT.clearPrimAfter(?) }"
+
+    private const val CALC_RUR_PRIM = "{ call od.PTKB_PRECEPT.calcPrimRur(?) }"
+
+
 }
