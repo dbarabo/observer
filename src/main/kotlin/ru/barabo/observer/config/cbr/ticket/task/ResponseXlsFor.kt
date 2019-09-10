@@ -32,6 +32,6 @@ object ResponseXlsFor: FileFinder, FileProcessor {
         val (xls) = Archive.extractFromCab(file, TICKET_342P_FOLDER, ".*\\.xls")!!
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.BOOKER, bcc = BaraboSmtp.OPER, subject = "Файл XLS для ФОР",
-                body = "Файл размещен по адресу $TICKET_342P_FOLDER/${xls.name}")
+                body = "Файл размещен по адресу $TICKET_342P_FOLDER/${xls.name}", attachments = arrayOf(xls) )
     }
 }

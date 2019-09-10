@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.correspondent
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.correspondent.task.DownLoadToCorrespond
+import ru.barabo.observer.config.cbr.correspondent.task.SleepTest
 import ru.barabo.observer.config.cbr.correspondent.task.UploadFromCorrespond
 
 object Correspondent : AbstractConfig() {
@@ -12,8 +13,10 @@ object Correspondent : AbstractConfig() {
 
     override fun configRun() {
 
-        DownLoadToCorrespond.findAll()
-        UploadFromCorrespond.findAll()
+        //DownLoadToCorrespond.findAll()
+        //UploadFromCorrespond.findAll()
+
+        SleepTest.findAll()
 
         executeTasks()
     }

@@ -25,7 +25,7 @@ object CorrDepartmentGoHome : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(19, 15), LocalTime.of(21, 0), Duration.ZERO)
+            LocalTime.of(18, 45), LocalTime.of(21, 0), Duration.ZERO)
 
     override fun name(): String = "Коррсчет свалил домой"
 

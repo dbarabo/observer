@@ -61,14 +61,14 @@ class LoaderTest {
     private fun separ() = ";"
 
 
-    //@Test
+   // @Test
     fun extractBtrt30() {
 
-        val file = File("C:/IIA_20190702_130000_0226")
+        val file = File("C:/IIA_20190821_090000_0226")
 
         val query = "{ call od.PTKB_PLASTIC_AUTO.createBTRT30File(?, ?, ?)} "
 
-        val firstParamId =1193954571L
+        val firstParamId = 1192328637L
 
         val uniqueSession = AfinaQuery.uniqueSession()
 

@@ -43,29 +43,28 @@ interface Executor {
 
     fun executeElem(elem: Elem) {
 
-        synchronized(elem.state) {
+        if(elem.state == State.OK || elem.state == State.PROCESS || elem.state == State.ARCHIVE) return
 
-            if(elem.state == State.OK || elem.state == State.PROCESS || elem.state == State.ARCHIVE) return
+        synchronized(elem.state) { elem.state = State.PROCESS}
 
-            elem.state = State.PROCESS
+        try {
+            val state = elem.task!!.execute(elem)
 
-            try {
-                elem.state = elem.task!!.execute(elem)
+            synchronized(elem.state) { elem.state = state}
 
-            } catch (e: Exception) {
+        } catch (e: Exception) {
 
-                LoggerFactory.getLogger(Executor::class.java).error("execute", e)
+            LoggerFactory.getLogger(Executor::class.java).error("execute", e)
 
-                elem.state = State.ERROR
-                elem.error = e.message
+            synchronized(elem.state) { elem.state = State.ERROR }
+            elem.error = e.message
+        }
+        elem.executed = when (elem.state) {
+            State.OK, State.ERROR -> {
+                LocalDateTime.now()
             }
-            elem.executed = when (elem.state) {
-                State.OK, State.ERROR -> {
-                    LocalDateTime.now()
-                }
-                else -> {
-                    elem.executed
-                }
+            else -> {
+                elem.executed
             }
         }
 

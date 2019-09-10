@@ -358,6 +358,7 @@ open class Query (private val dbConnection :DbConnection) {
             TransactType.ROLLBACK -> {
                 session.session.rollback()
             }
+            TransactType.COMMIT_MONOPOLY,
             TransactType.COMMIT -> {
                 session.session.commit()
             }

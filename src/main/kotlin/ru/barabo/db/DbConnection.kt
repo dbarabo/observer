@@ -15,21 +15,18 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         private const val ERROR_TRY_MAX_CONNECT = "Кол-во попыток подключений превысило $TRY_CONNECT_MAX"
     }
 
-    private val pool = /*ArrayList*/ CopyOnWriteArrayList<Session>()
+    private val pool = CopyOnWriteArrayList<Session>()
 
     init {
-        Class.forName(dbSetting.driver)//.newInstance()
+        Class.forName(dbSetting.driver)
     }
 
     @Throws(SessionException::class)
-    fun getSession(sessionSetting :SessionSetting):Session {
+    fun getSession(sessionSetting :SessionSetting): Session =
+        getTrySession(0, sessionSetting.isReadTransact, sessionSetting.transactType, sessionSetting.idSession)
 
-        return getTrySession(0, sessionSetting.isReadTransact, sessionSetting.transactType, sessionSetting.idSession)
-    }
 
     private fun closeSession(connect :Session) {
-        // synchronized(pool){ pool.remove(connect) }
-
         try {
             pool.remove(connect)
 
@@ -41,17 +38,22 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
 
     private fun closeDeathSessions() {
-        val deathList = /*synchronized(pool) {*/ pool.filter { !it.checkConnect(dbSetting.selectCheck) } //}
+        val deathList = pool.filter {it.isFree && !it.checkConnect(dbSetting.selectCheck) }
 
         deathList.forEach { closeSession(it) }
     }
 
+    private fun checkAndCloseDeathSession(session :Session) {
+        if(!session.checkConnect(dbSetting.selectCheck) ) {
+            closeSession(session)
+        }
+    }
+
     private fun isDeathSession(session :Session) :Boolean {
         closeDeathSessions()
+        checkAndCloseDeathSession(session)
 
-        //synchronized(pool){
-            return !pool.contains(session)
-        //}
+        return !pool.contains(session)
     }
 
     private fun isRestartByNewSession(session :Session, isRead :Boolean) :Boolean {
@@ -60,11 +62,9 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
         session.session = newSession.session
 
-        //synchronized(pool) {
-            pool.remove(newSession)
-            pool.add(session)
-            return true
-        //}
+        pool.remove(newSession)
+        pool.add(session)
+        return true
     }
 
     fun isRestartSessionException(session :Session, isRead :Boolean, exceptionMessage: String) :Boolean {
@@ -154,29 +154,21 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
         val session = Session(connect, false, idSession)
 
-        //synchronized(pool) {
-            pool.add(session)
-        //}
+        pool.add(session)
 
         logger.error("CONNECT IS CREATE ${dbSetting.url}")
         return session
     }
 
-    private fun getFreeSession(isReadTransact :Boolean) :Session? {
+    private fun getFreeSession(isReadTransact :Boolean) :Session? =
+        pool.firstOrNull {it.isFree && it.idSession == null && it.session.isReadOnly == isReadTransact}
 
-        //synchronized(pool) {
-            return pool.firstOrNull {it.isFree && it.idSession == null && it.session.isReadOnly == isReadTransact}
-        //}
-    }
 
     @Throws(SessionException::class)
     private fun getSessionById(idSessionFind: Long, isReadTransact :Boolean) :Session? {
+        val session = pool.firstOrNull {it.idSession == idSessionFind}
 
-        //synchronized(pool) {
-            val session = pool.firstOrNull {it.idSession == idSessionFind}
-
-            return session?.let { it } ?:
-                    getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
-        //}
+        return session?.let { it } ?:
+            getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
     }
 }

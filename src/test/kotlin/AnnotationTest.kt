@@ -1,15 +1,69 @@
 
-import com.thoughtworks.xstream.XStream
-import com.thoughtworks.xstream.io.xml.DomDriver
-import org.junit.Test
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.util.regex.Pattern
+import kotlin.concurrent.timer
 
 
 class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
+
+    //@Test
+    fun testThreadLong() {
+       var threadLong: Long = 0L
+
+       timer(name = "thread 1", initialDelay = 1000, daemon = false, period = 500) {
+            while(true) {
+                logger.error("GET1 threadLong=$threadLong")
+
+              /*  threadLong = System.currentTimeMillis()
+
+                logger.error("SET1 threadLong=$threadLong")
+*/
+                Thread.sleep(1000)
+            }
+        }
+
+        timer(name = "THREAD 2", initialDelay = 1000, daemon = false, period = 500) {
+            while(true) {
+                logger.error("GET2 threadLong")
+
+                /*      logger.error("GET2 threadLong=$threadLong")
+
+                threadLong = System.currentTimeMillis()
+
+                   logger.error("SET2 threadLong=$threadLong")
+   */
+                Thread.sleep(1000)
+            }
+        }
+
+        timer(name = "thread 3", initialDelay = 1000, daemon = false, period = 500) {
+            while(true) {
+                logger.error("GET3 threadLong")
+              /*  logger.error("GET3 threadLong=$threadLong")
+
+                threadLong = System.currentTimeMillis()
+
+                logger.error("SET3 threadLong=$threadLong")
+*/
+                Thread.sleep(1000)
+            }
+        }
+
+        timer(name = "THREAD 4", initialDelay = 1000, daemon = false, period = 500) {
+            while(true) {
+                logger.error("GET4 threadLong")
+            /*    logger.error("GET4 threadLong=$threadLong")
+
+                threadLong = System.currentTimeMillis()
+
+                logger.error("SET4 threadLong=$threadLong")
+*/
+                Thread.sleep(1000)
+            }
+        }
+    }
 
     //@Test
     fun testRegExp2() {

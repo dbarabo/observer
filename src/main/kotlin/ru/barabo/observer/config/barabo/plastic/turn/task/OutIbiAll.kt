@@ -22,7 +22,7 @@ object OutIbiAll : Periodical {
 
     override var lastPeriod: LocalDateTime? = null
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0), LocalTime.of(8, 0))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(0, 15), LocalTime.of(6, 0))
 
     override fun name(): String = "Выгрузка оборотов Проверочная"
 

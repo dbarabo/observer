@@ -1,5 +1,7 @@
 package ru.barabo.observer.config
 
+import org.slf4j.LoggerFactory
+import ru.barabo.observer.config.cbr.turncard.task.TurnOutOnline
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.derby.StoreSimple
 import java.util.*

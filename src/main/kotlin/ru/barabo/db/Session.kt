@@ -23,7 +23,7 @@ data class Session (var session : Connection,
             // session.commit()
 
             true
-        } catch (e : SQLException) {
+        } catch (e : Exception) {
             logger.error("checkConnect false", e)
             false
         }

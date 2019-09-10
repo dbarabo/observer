@@ -14,8 +14,10 @@ object PlasticTurnConfig: AbstractConfig() {
 
         // include HcardInObject.actionTask
         FinderHcardIn.findAll()
-        OutIbi.findAll()
+
+        //OutIbi.findAll()
         OutIbiAll.findAll()
+
         ExecuteAfp.findAll()
         ExecuteCtlMtl.findAll()
         ExecuteObi.findAll()

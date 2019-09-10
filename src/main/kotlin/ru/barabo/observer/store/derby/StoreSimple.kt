@@ -23,7 +23,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     private var root :TreeElem = TreeElem(group = TreeGroup())
 
-    private val dataList = CopyOnWriteArrayList<Elem>() //ArrayList<Elem>()
+    private val dataList = CopyOnWriteArrayList<Elem>()
 
     private var actualDate: LocalDate = LocalDate.now()
 
@@ -61,7 +61,6 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
         //}
 
-    //@Synchronized
     fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE) :Elem? {
 
         val comparatorElemMaxTime = comparatorElemByExecTime()

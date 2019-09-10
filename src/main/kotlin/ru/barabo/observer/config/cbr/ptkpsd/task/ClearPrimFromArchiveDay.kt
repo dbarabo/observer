@@ -15,7 +15,7 @@ object ClearPrimFromArchiveDay : SingleSelector {
     private val logger = LoggerFactory.getLogger(ClearPrimFromArchiveDay::class.java)
 
     override val select: String = """
-select co.doc, to_char(co.arcdate, 'dd.mm.yyyy')
+select co.doc, to_char(co.arcdate, 'dd.mm.yyyy') || ' (' || to_char(co.arcdate, 'day') || ')'
 from od.changeoperdate co,
   od.doctree dt
 where co.doctype = 1007403095
