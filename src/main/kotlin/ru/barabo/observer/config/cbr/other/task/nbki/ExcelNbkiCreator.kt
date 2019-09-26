@@ -91,7 +91,7 @@ object ExcelNbkiCreator {
 
         for (rowData in data) {
 
-            if (rowData?.size?:-1 < colCount) break
+            if(rowData == null) break
 
             for (col in 0 until colCount) {
 
@@ -106,15 +106,19 @@ object ExcelNbkiCreator {
                 fmt.setBackground(Colour.WHITE)
                 cellFrmt = fmt
 
-                marker?.mark(col, rowData?.get(col)?:"", cellFrmt)
+                val cellValue = rowData.getColumn(col)
 
-                val lab = Label(col, row, rowData?.get(col)?:"", cellFrmt)
+                marker?.mark(col, cellValue, cellFrmt)
+
+                val lab = Label(col, row, cellValue, cellFrmt)
 
                 sheet.addCell(lab)
             }
             row++
         }
     }
+
+    private fun RowData.getColumn(columnIndex: Int): String = if(this.size > columnIndex) this[columnIndex]?:"" else ""
 }
 
 internal class Marker(private val isEqual: BooleanArray,

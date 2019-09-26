@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.other.task.nbki.ArraySheetData
@@ -38,15 +39,15 @@ object NbkiAllReportsSend : Periodical {
 
     override fun config(): ConfigTask = OtherCbr
 
-    private fun xNbkiToday() = "X:/НБКИ/${todayFolder()}"
+    private fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
+
+    private fun xNbkiToday() = "${xNbki()}${todayFolder()}"
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
-    private const val FILL_DATA_NBKI = "{call od.PTKB_NBKI.fillAllData}"
-
     override fun execute(elem: Elem): State {
 
-        AfinaQuery.execute(FILL_DATA_NBKI)
+        fillData()
 
         val fileName = createNbkiTextFile() ?: return State.ARCHIVE
 
@@ -56,6 +57,12 @@ object NbkiAllReportsSend : Periodical {
 
         return State.OK
     }
+
+    private fun fillData() {
+        AfinaQuery.execute(FILL_DATA_NBKI)
+    }
+
+    private const val FILL_DATA_NBKI = "{call od.PTKB_NBKI.fillAllData}"
 
     private const val SUBJECT_REPORT_XLS = "NBKI REPORT"
 
@@ -88,7 +95,6 @@ object NbkiAllReportsSend : Periodical {
 
     private fun xlsSheetData(sheetOrder :Int) :SheetData? {
 
-
         val clob = AfinaQuery.selectValue(SELECT_XLS_SHEET, arrayOf(sheetOrder)) as Clob?
 
         return clob?.let { parseSheetClob(it.clob2string() ) }
@@ -106,10 +112,6 @@ object NbkiAllReportsSend : Periodical {
 
         return sheetData
     }
-
-    private const val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
-
-    private const val SELECT_TEXT_FILE = "select OD.PTKB_NBKI.getFileName from dual"
 
     private fun createNbkiTextFile() :String? {
 
@@ -132,4 +134,8 @@ object NbkiAllReportsSend : Periodical {
         }
         return fileName
     }
+
+    private const val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
+
+    private const val SELECT_TEXT_FILE = "select OD.PTKB_NBKI.getFileName from dual"
 }
