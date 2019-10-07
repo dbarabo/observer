@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.other.task
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.other.task.nbki.ArraySheetData
 import ru.barabo.observer.config.cbr.other.task.nbki.ExcelNbkiCreator
@@ -58,7 +59,7 @@ object NbkiAllReportsSend : Periodical {
         return State.OK
     }
 
-    private fun fillData() {
+    /*private*/ fun fillData() {
         AfinaQuery.execute(FILL_DATA_NBKI)
     }
 
@@ -77,7 +78,7 @@ object NbkiAllReportsSend : Periodical {
                 body = BODY_REPORT_XLS, attachments = arrayOf(xlsFile))
     }
 
-    private fun createNbkiXlsFile(fileName :String) :File {
+    /*private*/ fun createNbkiXlsFile(fileName :String) :File {
 
         val xlsFile = File("${xNbkiToday()}/$fileName.xls")
 
@@ -100,7 +101,7 @@ object NbkiAllReportsSend : Periodical {
         return clob?.let { parseSheetClob(it.clob2string() ) }
     }
 
-    private fun parseSheetClob(data :String) :SheetData {
+    private fun parseSheetClob(data: String): SheetData {
 
         val rows = data.split("\n")
 
@@ -113,18 +114,29 @@ object NbkiAllReportsSend : Periodical {
         return sheetData
     }
 
-    private fun createNbkiTextFile() :String? {
+    fun createGuarantorTextFile(): String? {
+        val fileName = AfinaQuery.selectValue(SELECT_TEXT_FILE) as String
+
+        val textClob = AfinaQuery.selectValue(SELECT_TEXT_GURANTOR_ONLY) as Clob
+
+        val folder = xNbkiToday().byFolderExists()
+
+        val textFile = File("${folder.absolutePath}/$fileName.txt")
+
+        textFile.writeText(textClob.clob2string(), Charset.forName("CP1251") )
+
+        return fileName
+    }
+
+    /*private*/ fun createNbkiTextFile(): String? {
 
         val fileName = AfinaQuery.selectValue(SELECT_TEXT_FILE) as String
 
         val textClob = AfinaQuery.selectValue(SELECT_TEXT_DATA) as Clob
 
-        val folder = File(xNbkiToday())
-        if(!folder.exists()) {
-            folder.mkdirs()
-        }
+        val folder = xNbkiToday().byFolderExists()
 
-        val textFile = File("${xNbkiToday()}/$fileName.txt")
+        val textFile = File("${folder.absolutePath}/$fileName.txt")
 
         textFile.writeText(textClob.clob2string(), Charset.forName("CP1251") )
 
@@ -134,6 +146,8 @@ object NbkiAllReportsSend : Periodical {
         }
         return fileName
     }
+
+    private const val SELECT_TEXT_GURANTOR_ONLY = "select OD.PTKB_NBKI.getOnlyTrGuarantorTUTDF600 from dual"
 
     private const val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
 

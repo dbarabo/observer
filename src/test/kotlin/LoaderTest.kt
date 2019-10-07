@@ -53,18 +53,18 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init(/*"BARABO"*/"TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
 
-    // @Test
+    @Test
     fun nbki60Test() {
         //NbkiAllReportsSend.fillData()
 
-        //val fileName = NbkiAllReportsSend.createNbkiTextFile() ?: throw Exception("!!!!")
+        val fileName = NbkiAllReportsSend.createGuarantorTextFile() ?: throw Exception("!!!!")
         //logger.error("fileName=$fileName")
 
         //val xlsFile = NbkiAllReportsSend.createNbkiXlsFile(fileName)
