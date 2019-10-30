@@ -23,8 +23,8 @@ object BaraboSmtp : SendMail {
 
     val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
-    val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "porublev@ptkb.ru",
-            "stepnova@ptkb.ru", "progr_s@ptkb.ru", "naumova@ptkb.ru").onlyAfina()
+    val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "severina@ptkb.ru",
+            "progr_s@ptkb.ru", "naumova@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
@@ -34,9 +34,9 @@ object BaraboSmtp : SendMail {
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val CHECKER_390P = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru").onlyAfina()
+    val CHECKER_390P = arrayOf("zubareva@ptkb.ru", "farahova@ptkb.ru", "konyaeva@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("atracheva@ptkb.ru", "farahova@ptkb.ru", "okina@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("zubareva@ptkb.ru", "farahova@ptkb.ru", "okina@ptkb.ru", "shvydko@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
@@ -113,7 +113,7 @@ object BaraboSmtp : SendMail {
                 body = OTK_UNKNOWN_BODY, attachments = arrayOf(file))
     }
 
-    private const val CBR_UNKNOWN_SUBJECT = "Возможно важное вложение от 05NikitaTI@vladivostok.cbr.ru"
+    private const val CBR_UNKNOWN_SUBJECT = "Возможно важное вложение от 05Ostrogolo@vladivostok.cbr.ru"
 
     fun sendToSbFromCbr(file : File) {
 

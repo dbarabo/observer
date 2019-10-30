@@ -11,9 +11,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.regex.Pattern
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
-import java.util.zip.ZipOutputStream
+import java.util.zip.*
 
 
 object Archive {
@@ -83,7 +81,7 @@ object Archive {
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")
 
-    fun packToZip(zipFilePath: String, vararg files: File) :File {
+    fun packToZip(zipFilePath: String, vararg files: File): File {
         File(zipFilePath).let { if (it.exists()) it.delete() }
 
         val zipFile = Files.createFile(Paths.get(zipFilePath))
@@ -118,5 +116,36 @@ object Archive {
         }
     }
 
+    fun packToGZip(gzipFullPath: String, fileToGZip: File): File {
+
+        val gzipFile = File(gzipFullPath).apply { if (this.exists()) this.delete() }
+
+        val gzipFilePath = Files.createFile(Paths.get(gzipFullPath))
+
+        GZIPOutputStream(Files.newOutputStream(gzipFilePath)).use { out ->
+            FileInputStream(fileToGZip).use { fi ->
+                    BufferedInputStream(fi).use { origin ->
+                           origin.copyTo(out)
+                    }
+                }
+        }
+
+        return gzipFile
+    }
+
+    fun unPackFromGZip(gzipFullPath: String, unzipFileName: String): File {
+
+        val gzipFolder = File(gzipFullPath).parentFile
+
+        val unzipFile = File("${gzipFolder.absolutePath}/${unzipFileName}")
+
+        GZIPInputStream(FileInputStream(gzipFullPath)).use { input ->
+            unzipFile.outputStream().use { output->
+                input.copyTo(output)
+            }
+        }
+
+        return unzipFile
+    }
 
 }

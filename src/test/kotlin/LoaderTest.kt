@@ -60,7 +60,7 @@ class LoaderTest {
 
     private fun separ() = ";"
 
-    @Test
+    //@Test
     fun nbki60Test() {
         //NbkiAllReportsSend.fillData()
 

@@ -1,6 +1,7 @@
 
 import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.archive.Archive
 import java.io.File
 import java.net.InetAddress
 import java.sql.Timestamp
@@ -14,11 +15,21 @@ class TaskTest {
     val logger = LoggerFactory.getLogger(TaskTest::class.java)
 
 
-
     private fun isWorkTime(workTimeFrom :LocalTime, workTimeTo :LocalTime) :Boolean = if(workTimeFrom < workTimeTo) {
         (workTimeFrom <= LocalTime.now() && LocalTime.now() <= workTimeTo)
     } else {
         (workTimeFrom <= LocalTime.now() || LocalTime.now() <= workTimeTo)
+    }
+
+    //@Test
+    fun gzipPackUpPackTest() {
+        val gzipFile = Archive.packToGZip("c://temp//test.txt.gz", File("c://test.txt"))
+
+        logger.error("gzipFile=$gzipFile")
+
+        val unzipFile = Archive.unPackFromGZip("c://temp//test.txt.gz", "test.txt")
+
+        logger.error("unzipFile=$unzipFile")
     }
 
     //@Test
