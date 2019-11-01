@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.gui.startLaunch
 import ru.barabo.observer.store.TaskMapper
 import java.net.InetAddress
-import kotlin.concurrent.timer
 
 object Observer {
     val logger = LoggerFactory.getLogger(Observer::class.java)!!
@@ -33,6 +32,5 @@ object Observer {
 }
 
 fun main(args:Array<String>) {
-
     Observer.startConfigs(args)
 }

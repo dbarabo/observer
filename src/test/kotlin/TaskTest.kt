@@ -1,7 +1,8 @@
 
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
+import ru.barabo.observer.crypto.CertificateType
+import ru.barabo.observer.crypto.Scad
 import java.io.File
 import java.net.InetAddress
 import java.sql.Timestamp
@@ -19,6 +20,28 @@ class TaskTest {
         (workTimeFrom <= LocalTime.now() && LocalTime.now() <= workTimeTo)
     } else {
         (workTimeFrom <= LocalTime.now() || LocalTime.now() <= workTimeTo)
+    }
+
+    //@Test
+    fun scadTest() {
+
+        val source = File("c:\\temp\\source.txt")
+
+        val sign = File("c:\\temp\\source.sgn")
+
+        val encode = File("c:\\temp\\source.vrb")
+
+        val decodeSign = File("c:\\temp\\source.ssgn")
+
+        val unSignAndDecode = File("c:\\temp\\source.unsgns")
+
+        Scad.sign(source, sign)
+
+        Scad.encode(sign, encode, CertificateType.FNS)
+
+        Scad.decode(encode, decodeSign)
+
+        Scad.unSign(decodeSign, unSignAndDecode)
     }
 
     //@Test
