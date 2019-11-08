@@ -26,6 +26,10 @@ object P440Config: AbstractConfig() {
         Ticket440pCbr.findAll()
         Ticket440pFns.findAll()
 
+        // TEST SCAD!!!
+        // UncryptoScad440p.findAll()
+        // CryptoScad440p.findAll()
+
         this.executeTasks()
     }
 }

@@ -38,7 +38,6 @@ object Scad {
                 CertificateType.FNS -> "reclistFns.txt"
                 CertificateType.FNS_FSS -> "reclistFnsFss.txt"
                 CertificateType.FTS -> "reclistFts.txt"
-                else -> throw Exception("not found for $certificateType")
             }
 
     private fun processCmd(cmd: String, file: File): File {
