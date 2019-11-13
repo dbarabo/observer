@@ -38,13 +38,11 @@ object BaraboSmtp : SendMail {
 
     val MANAGERS_UOD = arrayOf("zubar@ptkb.ru", "farahova@ptkb.ru", "okina@ptkb.ru", "shvydko@ptkb.ru").onlyAfina()
 
-    private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "dummy@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
-
-    val DUMMY_ONLY = arrayOf("dummy@ptkb.ru")
+    private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
     val TTS = arrayOf("tts@ptkb.ru").onlyAfina()
 
-    val CHECKER_PLASTIC = arrayOf("dummy@ptkb.ru", "oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
+    val CHECKER_PLASTIC = arrayOf("oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
     val DELB_PLASTIC = arrayOf("cards@ptkb.ru", "plastik@ptkb.ru").onlyAfina()
 
@@ -53,7 +51,7 @@ object BaraboSmtp : SendMail {
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
     private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "koleev@ptkb.ru",
-            "fedina@ptkb.ru").onlyAfina()
+            "buh1@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
 

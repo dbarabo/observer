@@ -36,7 +36,7 @@ object LoanInfoCreator : Periodical {
             AfinaQuery.execute(EXEC_CREATE_LOAN_INFO)
         } catch (e: SessionException) {
 
-            BaraboSmtp.sendStubThrows(to = BaraboSmtp.DUMMY_ONLY, bcc = BaraboSmtp.OPER, subject = name(), body = e.message)
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.OPER, subject = name(), body = e.message)
             return State.ARCHIVE
         }
 
