@@ -22,7 +22,8 @@ object SendToJzdo : FileMover, FileFinder {
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::hCardOutFileToday, "(IIA_|RATE|ZWU_|ZUP_|ZCP_|ZWS_|ZCI_).*"),
             FileFinderData(::hCardOutFileToday, "20\\d\\d_\\d\\d_\\d_0226\\.txt"),
-            FileFinderData(::hCardOutFileToday, ".*\\.(csv|xls|xlsx|doc|docx)")
+            FileFinderData(::hCardOutFileToday, ".*\\.(csv|xls|xlsx|doc|docx)"),
+            FileFinderData(::hCardOutFileToday, "ZA._0226_\\d\\d\\d\\d\\d\\d\\d\\d\\.jpg")
             )
 
     override val pathsTo: Array<() -> String> = arrayOf(IbiSendToJzdo::hCardOutSentTodayByFolder, IbiSendToJzdo::toJzdoSent)

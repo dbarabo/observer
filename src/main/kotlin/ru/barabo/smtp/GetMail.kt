@@ -61,7 +61,7 @@ interface GetMail : SendMail {
         return store
     }
 
-    @Synchronized
+   // @Synchronized
     private fun mailSession(): Session =  Session.getInstance(propMail(), authenticator() ).apply { debug = false }
 
 
