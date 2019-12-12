@@ -34,7 +34,7 @@ object NbkiAllReportsSend : Periodical {
     override var count: Long = 1
 
     override val accessibleData: AccessibleData =  AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(8, 0), LocalTime.of(19, 0), Duration.ofMinutes(1))
+            LocalTime.of(7, 0), LocalTime.of(16, 0), Duration.ofMinutes(1))
 
     override fun name(): String = "НБКИ отправить отчет"
 

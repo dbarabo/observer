@@ -64,7 +64,7 @@ class LoaderTest {
     fun nbki60Test() {
         //NbkiAllReportsSend.fillData()
 
-        val fileName = NbkiAllReportsSend.createGuarantorTextFile() ?: throw Exception("!!!!")
+        // val fileName = NbkiAllReportsSend.createGuarantorTextFile() ?: throw Exception("!!!!")
         //logger.error("fileName=$fileName")
 
         //val xlsFile = NbkiAllReportsSend.createNbkiXlsFile(fileName)

@@ -81,7 +81,6 @@ interface SendMail {
         return message
     }
 
-    @Synchronized
     private fun smtpSession() : Session {
 
         val session = Session.getInstance(propSmtp(), authenticator() )

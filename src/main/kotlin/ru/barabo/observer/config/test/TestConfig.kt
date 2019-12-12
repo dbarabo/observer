@@ -6,9 +6,11 @@ object TestConfig : AbstractConfig() {
 
     override fun name(): String = "TEST!!!"
 
-    override fun timeOut(): Long = 20_000
+    override fun timeOut(): Long = 5_000
 
     override fun configRun() {
+
+        //SftpLoad.findAll()
 
         //LoadCtlMtl.findAll()
         //ExecuteCtlMtl.findAll()

@@ -19,8 +19,8 @@ object ExecuteReglamentRun : Periodical {
 
     override var lastPeriod: LocalDateTime? = null
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 3),
-            workTimeTo = LocalTime.of(8, 59) )
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 5),
+            workTimeTo = LocalTime.of(11, 59) )
 
     override fun name(): String = "Запуск регламента"
 

@@ -15,8 +15,8 @@ object Observer {
         val config = when(comp) {
             "BARABO" -> "BARABO"
             "OPERATOR" -> "CBR"
+            "JZDO" -> "JZDO"
             "BARABO_" -> "TEST"
-            "OTMINPT" -> "TEST"
             "DSPO" -> "TEST"
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
