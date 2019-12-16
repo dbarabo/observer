@@ -3,9 +3,68 @@ package ru.barabo.observer.crypto
 import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.deleteFolder
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import java.io.File
+import java.lang.Exception
 
 object ScadComplex {
+
+    fun unsignAndMoveSource(signFile: File, moveSourceFolder: File? = null): File {
+
+        val tempFolder = Cmd.tempFolder("unsgn")
+        val copySign = File("${tempFolder.absolutePath}/${signFile.name}")
+        signFile.copyTo(copySign, true)
+
+        val unsign = File("${tempFolder.absolutePath}/${signFile.name}_unsgn")
+        Scad.unSign(copySign, unsign)
+
+        if(moveSourceFolder != null) {
+            val newSource = File("${moveSourceFolder.absolutePath}/${signFile.name}")
+            signFile.copyTo(newSource, true)
+            signFile.delete()
+        }
+        unsign.copyTo(signFile, true)
+        tempFolder.deleteFolder()
+
+        return signFile
+    }
+
+    fun signAndMoveSource(sourceFile: File, moveSourceFolder: File? = null): File {
+
+        val newSourceFolder = moveSourceFolder ?: sourceFile.parentFile?.parentFile ?: throw Exception("parent not found")
+
+        newSourceFolder.absolutePath.byFolderExists()
+
+        val tempFolder = Cmd.tempFolder("sgn")
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(copySource, true)
+
+        val sign = File("${tempFolder.absolutePath}/${sourceFile.name}_sgn")
+        Scad.sign(copySource, sign)
+
+        val newSource = File("${newSourceFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(newSource, true)
+        sourceFile.delete()
+
+        sign.copyTo(sourceFile, true)
+
+        tempFolder.deleteFolder()
+
+        return sourceFile
+    }
+
+    fun cryptoOnlyFtsVal(sourceFile: File, encodeFile: File, isDelSource: Boolean = true): File {
+
+        val file = gzipCrypto(sourceFile, encodeFile, CertificateType.FTS_VAL, "fts")
+
+        if(!file.exists()) throw Exception("file not found ${encodeFile.absolutePath}")
+
+        if(isDelSource) {
+            sourceFile.delete()
+        }
+
+        return encodeFile
+    }
 
     fun fullEncode311p(sourceFile: File, encodeFile: File, isAddFss: Boolean = true): File
             = signGzipEncodeFns(sourceFile, encodeFile, isAddFss, "p311")
@@ -13,6 +72,30 @@ object ScadComplex {
     fun fullEncode440p(sourceFile: File, encodeFile: File): File = signGzipEncodeFns(sourceFile, encodeFile, false, "p440")
 
     fun fullDecode440p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p440")
+
+    fun fullDecode364p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p364")
+
+    private fun gzipCrypto(sourceFile: File, encodeFile: File, certType: CertificateType, prefix: String): File {
+        val tempFolder = Cmd.tempFolder(prefix)
+
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(copySource, true)
+
+        val gzip = File("${tempFolder.absolutePath}/${sourceFile.name}_gz")
+
+        Archive.packToGZip(gzip.absolutePath, copySource)
+        copySource.delete()
+
+        val encode = File("${tempFolder.absolutePath}/${encodeFile.name}")
+
+        Scad.encode(gzip, encode, certType)
+
+        encode.copyTo(encodeFile, true)
+
+        tempFolder.deleteFolder()
+
+        return encodeFile
+    }
 
     private fun signGzipEncodeFns(sourceFile: File, encodeFile: File, isAddFss: Boolean, prefix: String): File {
         val tempFolder = Cmd.tempFolder(prefix)

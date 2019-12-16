@@ -105,5 +105,5 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         return "${EsProcess.folder550pOut()}/ARH550P_0021_0000_${todayBlind()}_00$max.arj"
     }
 
-    private fun todayBlind() :String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
+    fun todayBlind(): String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
 }

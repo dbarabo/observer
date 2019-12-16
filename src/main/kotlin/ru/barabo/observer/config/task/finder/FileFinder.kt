@@ -56,7 +56,7 @@ interface FileFinder: Executor {
 
 private fun File.isModifiedMore(moreTime :Long) :Boolean = lastModified() >= moreTime
 
-fun Pattern.isFind(name :String, isNegative :Boolean): Boolean {
+fun Pattern.isFind(name :String, isNegative:Boolean = false): Boolean {
     var isFind :Boolean = this.matcher(name)?.matches()?:false?:false
 
     if(isNegative) {

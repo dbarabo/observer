@@ -38,6 +38,7 @@ object Scad {
                 CertificateType.FNS -> "reclistFns.txt"
                 CertificateType.FNS_FSS -> "reclistFnsFss.txt"
                 CertificateType.FTS -> "reclistFts.txt"
+                CertificateType.FTS_VAL -> "reclistValAll.txt"
             }
 
     private fun processCmd(cmd: String, file: File): File {
@@ -89,5 +90,6 @@ object Scad {
 enum class CertificateType {
     FNS,
     FNS_FSS,
-    FTS
+    FTS,
+    FTS_VAL
 }

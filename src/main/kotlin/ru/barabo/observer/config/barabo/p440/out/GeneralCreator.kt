@@ -7,10 +7,10 @@ import org.xml.sax.SAXException
 import ru.barabo.cmd.XmlValidator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.data.AbstractResponseData
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.X440P
+import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.WeekAccess
@@ -55,7 +55,7 @@ fun String.byFolderExists(): File {
 
 abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
-    override fun config(): ConfigTask = P440Config
+    override fun config(): ConfigTask = ScadConfig // P440Config
 
     override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 

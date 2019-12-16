@@ -12,23 +12,22 @@ object P440Config: AbstractConfig() {
     override fun configRun() {
 
         PnoLoader.findAll() // add all 440p files without ticket KWT & IZV
-        PbSaver.findAll() // add all 440p records to out
 
         Process440p.findAll()
         TryPnoExecute.findAll()
         RooWaitCancel.findAll()
 
-        ToUncrypto440p.findAll()
-        ToCrypto440p.findAll()
-        AddToArchive440p.findAll()
-        SignArchive440p.findAll()
+        // with starting 16.12.2019 Crypto system only scad signature
 
-        Ticket440pCbr.findAll()
-        Ticket440pFns.findAll()
+        // PbSaver.findAll() // add all 440p records to out
+        // ToUncrypto440p.findAll()
+        // ToCrypto440p.findAll()
+        // SignArchive440p.findAll()
 
-        // TEST SCAD!!!
-        // UncryptoScad440p.findAll()
-        // CryptoScad440p.findAll()
+        // AddToArchive440p.findAll()
+
+        // Ticket440pCbr.findAll()
+        // Ticket440pFns.findAll()
 
         this.executeTasks()
     }

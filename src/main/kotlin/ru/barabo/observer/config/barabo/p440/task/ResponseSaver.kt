@@ -45,18 +45,3 @@ object ExtractMainSaver : GeneralCreator<ExtractMainXml>(ExtractMainResponseData
     override fun name(): String = "Выгрузка выписки"
 }
 
-object PbSaverScad : GeneralCreator<PbXml>(PbResponseData(), PbXml::class) {
-
-    override fun name(): String = "Выгрузка PB-файла SCAD"
-
-    override fun execute(elem: Elem): State {
-        val result = super.execute(elem)
-
-        val signFile = File("${sendFolder440p().absolutePath}/${responseData.fileNameResponse()}")
-
-        Verba.signByBarabo(signFile)
-
-        return result
-    }
-}
-
