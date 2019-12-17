@@ -30,6 +30,7 @@ import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -46,6 +47,7 @@ import java.sql.Timestamp
 import java.time.Duration
 import java.time.LocalDate
 import java.util.*
+import java.util.regex.Pattern
 
 class LoaderTest {
 
@@ -59,6 +61,20 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun fileMax() {
+
+
+        val search = Pattern.compile("ARH550P_0021_0000_${GetProcess550pFiles.todayBlind()}_...\\.arj",
+                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
+        val max = (File("X:/550-П/Out/2019/12/16").listFiles { f ->
+            !f.isDirectory && search.matcher(f.name).find()}
+                ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.max()?:0)+ 1
+
+        logger.error("max=$max")
+    }
 
     //@Test
     fun nbki60Test() {

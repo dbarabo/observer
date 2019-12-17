@@ -53,9 +53,9 @@ object ScadComplex {
         return sourceFile
     }
 
-    fun cryptoOnlyFtsVal(sourceFile: File, encodeFile: File, isDelSource: Boolean = true): File {
+    fun cryptoOnlyFtsVal(sourceFile: File, encodeFile: File, certType: CertificateType, isDelSource: Boolean = true): File {
 
-        val file = gzipCrypto(sourceFile, encodeFile, CertificateType.FTS_VAL, "fts")
+        val file = gzipCrypto(sourceFile, encodeFile, certType, certType.name.substring(0..3))
 
         if(!file.exists()) throw Exception("file not found ${encodeFile.absolutePath}")
 

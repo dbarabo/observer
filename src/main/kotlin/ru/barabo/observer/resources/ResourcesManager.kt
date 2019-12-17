@@ -3,6 +3,7 @@ package ru.barabo.observer.resources
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import org.slf4j.LoggerFactory
+import java.io.File
 
 object ResourcesManager {
     val logger = LoggerFactory.getLogger(ResourcesManager::class.java)!!
@@ -37,4 +38,21 @@ object ResourcesManager {
         logger.info("ResourcesManager pathResource=$path")
         return path
     }
-}
+
+    fun copyFromJar(folderTo: File, resourcePath: String): File? {
+
+        val nameRes = resourcePath.substringAfterLast("/")
+
+        val fileOut = File("${folderTo.absolutePath}/$nameRes")
+
+        val stream = javaClass.getResourceAsStream(resourcePath)
+
+        stream?.use { input ->
+            fileOut.outputStream().use { fileOut ->
+                input.copyTo(fileOut)
+            }
+        }
+
+        return stream?.let { fileOut }
+    }
+ }

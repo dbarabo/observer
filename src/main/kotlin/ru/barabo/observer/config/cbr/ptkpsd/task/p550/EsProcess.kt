@@ -17,11 +17,11 @@ import java.time.format.DateTimeFormatter
 
 object EsProcess {
 
-    fun process(inXml :File) {
+    fun process(inXml :File): File {
 
         val esIn = XmlLoader<CbEs550pXml>().load(inXml)
 
-        generateResponse(esIn, inXml)
+        return generateResponse(esIn, inXml)
     }
 
     fun folder550pOut() :String = "X:/550-П/Out/${todayFolder()}"
@@ -32,11 +32,11 @@ object EsProcess {
 
     private fun ticketFile(file :File) = File("${folder550pOut()}/$PREFIX_TICKET${file.name}")
 
-    private fun generateResponse(esIn :CbEs550pXml, inXml :File) {
+    private fun generateResponse(esIn: CbEs550pXml, inXml: File): File {
 
         val ticket550 = Kvit550(esIn, inXml)
 
-        saveXml(ticket550, ticketFile(inXml))
+        return ticketFile(inXml).apply { saveXml(ticket550, this) }
     }
 
     private const val HEADER_UTF8 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

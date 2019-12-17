@@ -42,16 +42,15 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         val tempFolder = Cmd.tempFolder("p550")
 
         arjArchives?.forEach { arj ->
-            val xmlCrypto = Archive.extractFromArj(arj, tempFolder.absolutePath)
+            Archive.extractFromArj(arj, tempFolder.absolutePath)
 
-            Verba.unCryptoAndUnSigned(tempFolder, "*.XML")
-
+            // Verba.unCryptoAndUnSigned(tempFolder, "*.XML")
             tempFolder.listFiles()?.filter { !it.isDirectory }?.forEach {
                 it.renameTo(File("${folder550pIn()}/${it.name}"))
             }
 
             tempFolder.delete()
-
+/*
             val search = Pattern.compile("CB.*\\.XML", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
             val xmlInFiles = File(folder550pIn()).listFiles { f ->
@@ -73,6 +72,8 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
             SendByPtkPsdCopy.executeFile(signFile)
 
             sendMailFilesInfo(archiveFileName, xmlCrypto)
+
+ */
         }
     }
 

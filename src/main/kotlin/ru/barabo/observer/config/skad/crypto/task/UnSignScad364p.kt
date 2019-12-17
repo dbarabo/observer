@@ -2,7 +2,6 @@ package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.skad.crypto.ScadConfig
-import ru.barabo.observer.config.skad.crypto.task.SignScadOnlyFile.srcFolder
 import ru.barabo.observer.config.skad.crypto.task.UnCryptoScad364p.unCrypto364p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess

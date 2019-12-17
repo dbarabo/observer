@@ -77,6 +77,34 @@ object Archive {
         }
     }
 
+    fun addToArj(archiveFullPath: String, file: File) {
+
+        Cmd.execCmd( addToArj(archiveFullPath, file.absolutePath) )
+    }
+
+    /*
+    fun addToArjByTemp(archive: File, fileAdd :File) {
+        val tempDir = tempFolder()
+
+        val tempFile = File("${tempDir.absolutePath}/${fileAdd.name}")
+
+        fileAdd.copyTo(tempFile, overwrite = true)
+
+        val archiveName = "${tempDir.absolutePath}\\${archive.name}"
+
+        val tempArchive = File(archiveName)
+
+        if(archive.exists()) {
+            archive.copyTo(tempArchive, overwrite = true)
+        }
+
+        addToArj(archiveName, tempFile.absolutePath)
+
+        tempArchive.copyTo(archive, overwrite = true)
+
+        tempDir.deleteFolder()
+    }*/
+
     private fun tempFolder() :File = Cmd.tempFolder("a")
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")

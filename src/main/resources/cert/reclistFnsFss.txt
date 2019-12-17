@@ -1,0 +1,8 @@
+[General]
+Number=2
+[Recipient1]
+Type=Subject
+Value=CN=FNS,O=FNS,ST=00
+[Recipient2]
+Type=Subject
+Value=CN=FSS,ST=00

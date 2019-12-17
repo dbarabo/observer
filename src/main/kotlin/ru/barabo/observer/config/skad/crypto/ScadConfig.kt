@@ -26,11 +26,15 @@ object ScadConfig : AbstractConfig() {
         Ticket440pFns.findAll()
 
         CryptoFtsValScad.findAll()
+        CryptoValCb181UScad.findAll()
         SignScadOnlyFile.findAll()
+        SignScadCbFts181U.findAll()
         UnCryptoScad364p.findAll()
         UnSignScad364p.findAll()
 
-        Response550pScad.findAll()
+        Uncrypto550pScad.findAll()
+        SignScadSend550p.findAll()
+
 
         executeTasks()
     }

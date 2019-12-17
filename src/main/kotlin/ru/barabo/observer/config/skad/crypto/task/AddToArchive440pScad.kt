@@ -1,14 +1,14 @@
-package ru.barabo.observer.config.skad.crypto
+package ru.barabo.observer.config.skad.crypto.task
 
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
 import ru.barabo.observer.config.barabo.p440.task.AddToArchive440p
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
+import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScad.sourceFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder

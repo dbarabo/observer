@@ -79,7 +79,7 @@ object Cmd {
         return temp
     }
 
-    private val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
+    val JAR_FOLDER = File(Cmd::class.java.protectionDomain.codeSource.location.path).parentFile.path
 
     val LIB_FOLDER = "$JAR_FOLDER/lib"
 

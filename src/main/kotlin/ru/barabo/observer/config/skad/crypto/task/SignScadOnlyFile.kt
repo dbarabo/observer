@@ -13,28 +13,34 @@ import ru.barabo.observer.crypto.ScadComplex
 import java.io.File
 import java.time.LocalTime
 
-object SignScadOnlyFile : FileFinder, FileProcessor {
+object SignScadOnlyFile : SignInOut("X:\\VAL\\FTS\\Sign_FTS") {
 
-    override val fileFinderData: List<FileFinderData> = listOf( FileFinderData({ File(PATH_FROM) }) )
+    override fun name(): String = "Проставить ЭЦП Scad Fts/Val"
+}
 
-    private const val PATH_FROM = "X:\\VAL\\FTS\\Sign_FTS\\in"
+object SignScadCbFts181U : SignInOut("X:\\VAL\\CB\\Sign_CB") {
+
+    override fun name(): String = "Проставить ЭЦП Scad ЦБ VAL 181-У"
+}
+
+open class SignInOut(private val path: String) :  FileFinder, FileProcessor {
+
+    override val fileFinderData: List<FileFinderData> = listOf( FileFinderData( { File("$path\\in") } ) )
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, isDuplicateName = true,
             workTimeFrom = LocalTime.of(6, 0))
 
-    override fun name(): String = "Проставить ЭЦП Scad Fts/Val "
+    override fun name(): String = "Проставить ЭЦП Scad In/Out"
 
     override fun config(): ConfigTask = ScadConfig
 
-    private fun pathToSign() = "X:\\VAL\\FTS\\Sign_FTS\\out".byFolderExists().absolutePath
-
-    fun srcFolder() = "D:\\archive_all\\${Get440pFiles.todayFolder()}".byFolderExists()
-
     override fun processFile(file: File) {
-        val destination = File("${pathToSign()}\\${file.name}")
+        val destination = File("$path\\out\\${file.name}")
 
-        ScadComplex.signAndMoveSource(file, srcFolder() )
+        ScadComplex.signAndMoveSource(file, srcFolder())
         file.copyTo(destination, true)
         file.delete()
     }
 }
+
+fun srcFolder() = "D:\\archive_all\\${Get440pFiles.todayFolder()}".byFolderExists()

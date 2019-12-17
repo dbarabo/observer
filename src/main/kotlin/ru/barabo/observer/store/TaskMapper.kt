@@ -25,7 +25,8 @@ object TaskMapper {
 
     private var configList :List<ConfigTask> = emptyList()
 
-    private var build: String = ""
+    var build: String = ""
+    private set
 
     private var isAfina: Boolean = false
 

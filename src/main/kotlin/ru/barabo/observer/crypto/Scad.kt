@@ -3,6 +3,9 @@ package ru.barabo.observer.crypto
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.Cmd.CERT_FOLDER
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.resources.ResourcesManager
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.io.IOException
 
@@ -17,9 +20,39 @@ object Scad {
 
     private const val CRYPTO_FULL_PATH = "$CRYPTO_PATH/$CRYPTO_PROGRAM"
 
+    init {
+        initCertFiles()
+    }
+
+    private fun initCertFiles() {
+        if(initConfig() ) {
+            initFiles()
+        }
+    }
+
+    private fun initConfig(): Boolean {
+
+        val resPath = "/cert/${TaskMapper.build}/$PKI_CONF_FILE"
+
+        return ResourcesManager.copyFromJar(File(Cmd.JAR_FOLDER), resPath) != null
+    }
+
+    private fun initFiles() {
+        CERT_FOLDER.byFolderExists()
+
+        for (certType in CertificateType.values() ) {
+
+            val resPath = "/cert/${certType.certFile}"
+
+            ResourcesManager.copyFromJar(File(CERT_FOLDER), resPath)
+        }
+    }
+
+    private const val PKI_CONF_FILE = "pki1.conf"
+
     private fun encodeCommand(sourceFile: String, encodeFile: String, certificateType: CertificateType): String {
 
-        val certificate = getCertificate(certificateType)
+        val certificate = certificateType.certFile
 
         return "$CRYPTO_FULL_PATH -encrypt -in $sourceFile -out $encodeFile -reclist $CERT_FOLDER\\$certificate -profile $DEF_PROFILE"
     }
@@ -32,14 +65,6 @@ object Scad {
 
     private fun unSignCommand(sourceFile: String, unsignFile: String): String =
             "$CRYPTO_FULL_PATH -verify -in $sourceFile -out $unsignFile -delete -1 -profile $DEF_PROFILE"
-
-    private fun getCertificate(certificateType: CertificateType): String =
-            when(certificateType) {
-                CertificateType.FNS -> "reclistFns.txt"
-                CertificateType.FNS_FSS -> "reclistFnsFss.txt"
-                CertificateType.FTS -> "reclistFts.txt"
-                CertificateType.FTS_VAL -> "reclistValAll.txt"
-            }
 
     private fun processCmd(cmd: String, file: File): File {
         try {
@@ -87,9 +112,10 @@ object Scad {
     }
 }
 
-enum class CertificateType {
-    FNS,
-    FNS_FSS,
-    FTS,
-    FTS_VAL
+enum class CertificateType(val certFile: String) {
+    FNS("reclistFns.txt"),
+    FNS_FSS("reclistFnsFss.txt"),
+    FTS("reclistFts.txt"),
+    FTS_VAL("reclistValAll.txt"),
+    FTS_CB181U("reclistFtsCb181U.txt")
 }
