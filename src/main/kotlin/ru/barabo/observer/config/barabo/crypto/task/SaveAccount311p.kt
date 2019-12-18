@@ -7,6 +7,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send364pSign
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -80,13 +81,9 @@ object SaveAccount311p : SingleSelector {
         return File("${folder.absolutePath}/$fileName")
     }
 
-    fun cryptoFolder(isPhysic: Boolean): String = "${folder311pByType(isPhysic)}/CRYPTO"
+    private fun physicFolder(): File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${todayFolder()}")
 
-    private fun folder311pByType(isPhysic: Boolean) = if(isPhysic) physicFolder().absolutePath else juricFoler().absolutePath
-
-    private fun physicFolder(): File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${Send364pSign.todayFolder()}")
-
-    private fun juricFoler(): File = Cmd.createFolder("X:/311-П/Отправка/${Send364pSign.todayFolder()}")
+    private fun juricFoler(): File = Cmd.createFolder("X:/311-П/Отправка/${todayFolder()}")
 
     private const val EXEC_ADD_TO_ARCHIVE = "{ call od.PTKB_440P.addToArchive311p(?, ?, ?) }"
 }

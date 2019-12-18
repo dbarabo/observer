@@ -27,6 +27,8 @@ object PlasticReleaseConfig: AbstractConfig() {
         AutoUpdatePlasticJarCritical.findAll()
         AutoUpdatePlasticJarSoft.findAll()
 
+        OutSalaryResponseFile.findAll()
+
         // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig
         this.executeTasks()
     }

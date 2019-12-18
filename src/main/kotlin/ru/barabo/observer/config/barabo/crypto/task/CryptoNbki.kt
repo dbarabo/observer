@@ -4,7 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.cbr.ptkpsd.task.Send364pSign
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -28,7 +28,7 @@ object CryptoNbki : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = CryptoConfig
 
-    fun cryptoNbki() : File = File("X:/НБКИ/${Send364pSign.todayFolder()}")
+    fun cryptoNbki() : File = File("X:/НБКИ/${todayFolder()}")
 
     private fun cryptoFolder(file: File) :File {
         val folder = File("${file.parent}/CRYPTO")

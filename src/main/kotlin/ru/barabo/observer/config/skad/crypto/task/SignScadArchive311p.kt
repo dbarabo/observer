@@ -4,8 +4,8 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.task.SaveAccount311p
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send311pArchive
+import ru.barabo.observer.config.cbr.ptkpsd.task.Send311pArchive.cryptoFolder
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -32,7 +32,7 @@ object SignScadArchive311p : SingleSelector {
 
         val isPhysic = selectValueType<Number>(Send311pArchive.SELECT_TYPE_ARCHIVE, arrayOf(idArchive))?.toInt() != 0
 
-        val archive = File("${SaveAccount311p.cryptoFolder(isPhysic)}/${elem.name}.ARJ")
+        val archive = File("${cryptoFolder(isPhysic)}/${elem.name}.ARJ")
 
         val sessionSetting  = AfinaQuery.uniqueSession()
 

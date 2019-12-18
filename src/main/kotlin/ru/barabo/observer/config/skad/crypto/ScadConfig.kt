@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.skad.crypto
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.barabo.p440.task.Ticket440pCbr
 import ru.barabo.observer.config.barabo.p440.task.Ticket440pFns
 import ru.barabo.observer.config.skad.crypto.task.*
 
@@ -15,6 +14,7 @@ object ScadConfig : AbstractConfig() {
 
         SaveAndCryptoScad311p.findAll()
         SignScadArchive311p.findAll()
+        Ticket311pFnsLoadScad.findAll()
 
         UncryptoScad440p.findAll()
         CryptoScad440p.findAll()
@@ -22,7 +22,6 @@ object ScadConfig : AbstractConfig() {
         PbSaverScad.findAll()
         SignScadArchive440p.findAll()
 
-        Ticket440pCbr.findAll()
         Ticket440pFns.findAll()
 
         CryptoFtsValScad.findAll()
@@ -34,7 +33,6 @@ object ScadConfig : AbstractConfig() {
 
         Uncrypto550pScad.findAll()
         SignScadSend550p.findAll()
-
 
         executeTasks()
     }

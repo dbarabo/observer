@@ -1,11 +1,12 @@
 package ru.barabo.observer.config.cbr.ptkpsd.task
 
+import ru.barabo.cmd.Cmd
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.task.SaveAccount311p
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.store.Elem
@@ -30,7 +31,7 @@ object Send311pArchive : SingleSelector {
 
         val isPhysic = selectValueType<Number>(SELECT_TYPE_ARCHIVE, arrayOf(idArchive))?.toInt() != 0
 
-        val archive = File("${SaveAccount311p.cryptoFolder(isPhysic)}/${elem.name}.ARJ")
+        val archive = File("${cryptoFolder(isPhysic)}/${elem.name}.ARJ")
 
         val sessionSetting  = AfinaQuery.uniqueSession()
 
@@ -50,6 +51,14 @@ object Send311pArchive : SingleSelector {
 
         return State.OK
     }
+
+    fun cryptoFolder(isPhysic: Boolean): String = "${folder311pByType(isPhysic)}/CRYPTO"
+
+    private fun folder311pByType(isPhysic: Boolean) = if(isPhysic) physicFolder().absolutePath else juricFoler().absolutePath
+
+    private fun physicFolder(): File = Cmd.createFolder("X:/311-П/ФИЗИКИ/Отправка/${todayFolder()}")
+
+    private fun juricFoler(): File = Cmd.createFolder("X:/311-П/Отправка/${todayFolder()}")
 
     private const val EXEC_SEND_ARCHIVE = "{ call od.PTKB_440P.sendArchive311p( ? ) }"
 

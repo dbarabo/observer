@@ -1,5 +1,6 @@
 package ru.barabo.observer.mail.smtp
 
+import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.crypto.MasterKey
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -8,7 +9,7 @@ import ru.barabo.smtp.SmtpProperties
 import java.io.File
 
 object BaraboSmtp : SendMail {
-    override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru", user = MasterKey.value("SMTP_USER"),
+    override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru".ifTest("87.226.243.181"), user = MasterKey.value("SMTP_USER"),
             password = MasterKey.value("SMTP_PSWD"), from = MasterKey.value("SMTP_FROM") )
 
     val YA = arrayOf(smtpProperties.from)
@@ -52,6 +53,10 @@ object BaraboSmtp : SendMail {
 
     private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "koleev@ptkb.ru",
             "buh1@ptkb.ru").onlyAfina()
+
+    val IBANK_RECEIPTOR = arrayOf("sapunov@ptkb.ru").onlyAfina()
+
+    val IBANK_DELB = arrayOf("tts@ptkb.ru", "cards@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
 

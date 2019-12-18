@@ -9,11 +9,8 @@ import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
-import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
-import ru.barabo.observer.config.barabo.plastic.release.task.GetOciData
-import ru.barabo.observer.config.barabo.plastic.release.task.GetOiaConfirm
+import ru.barabo.observer.config.barabo.plastic.release.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
-import ru.barabo.observer.config.barabo.plastic.release.task.OutSmsData
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
 import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
@@ -55,7 +52,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("BARABO"/*"TEST"*/, "AFINA"/*"TEST"*/)
+        TaskMapper.init("TEST", "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -74,6 +71,18 @@ class LoaderTest {
                 ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.max()?:0)+ 1
 
         logger.error("max=$max")
+    }
+
+    @Test
+    fun testOutSalaryResponseFile() {
+
+        val data = AfinaQuery.selectCursor(OutSalaryResponseFile.select)[0]
+
+        val elem = Elem(data[0] as Number?,
+                if(data.size < 2)null else data[1] as String?,
+                OutSalaryResponseFile, OutSalaryResponseFile.accessibleData.executeWait)
+
+        OutSalaryResponseFile.execute(elem)
     }
 
     //@Test
@@ -471,13 +480,6 @@ class LoaderTest {
         //val elem = Elem(idElem = 1172496444, task = Process440p)
 
         val elem = Elem(idElem = 1172496446, task = Process440p)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
-    fun outPb() {
-        val elem = Elem(idElem = 1182796352, task = PbSaver)
 
         elem.task?.execute(elem)
     }

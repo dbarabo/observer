@@ -8,7 +8,6 @@ import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
-import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 
@@ -23,8 +22,6 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
     }
 
     override fun processFile(file: File) {
-
-        // Verba.unSignFile(file)
 
         val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
         ScadComplex.unsignAndMoveSource(file, folderTo)

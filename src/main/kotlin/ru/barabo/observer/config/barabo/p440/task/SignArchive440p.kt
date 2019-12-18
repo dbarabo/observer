@@ -8,7 +8,6 @@ import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
-import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.io.File
@@ -49,7 +48,7 @@ object SignArchive440p: SingleSelector {
         try {
             if(!archive.exists()) throw SessionException("file not found ${archive.absolutePath}")
 
-            Verba.signByBarabo(archive)
+            // Verba.signByBarabo(archive)
         } catch (e :Exception) {
             logger.error("execute", e)
 

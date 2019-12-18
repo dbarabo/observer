@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.ptkpsd
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.barabo.p440.task.Ticket440pCbr
 import ru.barabo.observer.config.cbr.ptkpsd.task.*
 
 object PtkPsd : AbstractConfig() {
@@ -15,7 +16,6 @@ object PtkPsd : AbstractConfig() {
         // find all
         SendByPtkPsdNoXml.findAll()
         SendXmlByPtkbPsd.findAll()
-        Send364pSign.findAll()
         Send440pArchive.findAll()
         Send311pArchive.findAll()
         SendByPtkPsdCopy.findAll()
@@ -27,6 +27,10 @@ object PtkPsd : AbstractConfig() {
 
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
+
+        // Send364pSign.findAll()
+
+        Ticket440pCbr.findAll()
 
         // execute all
         executeTasks()
