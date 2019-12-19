@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.barabo.crypto.task.ExecExchangeCb
 
 object TestConfig : AbstractConfig() {
 
@@ -23,6 +24,8 @@ object TestConfig : AbstractConfig() {
         //SendBlockUnblockAccountPC.findAll()
 
         //LoadAcq.findAll()
+
+        // ExecExchangeCb.findAll()
 
         this.executeTasks()
     }

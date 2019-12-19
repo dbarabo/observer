@@ -19,7 +19,7 @@ object AfinaQuery : Query(AfinaConnect) {
     private const val SELECT_IS_HOLIDAY = "select od.isHoliday(?, 1000131227) from dual"
 
     @Synchronized
-    fun isWorkDayNow() :Boolean {
+    fun isWorkDayNow(): Boolean {
         val dateNow = LocalDate.now()
 
         val isWork = isWorkDay[dateNow]

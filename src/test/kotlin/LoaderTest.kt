@@ -73,7 +73,7 @@ class LoaderTest {
         logger.error("max=$max")
     }
 
-    @Test
+    //@Test
     fun testOutSalaryResponseFile() {
 
         val data = AfinaQuery.selectCursor(OutSalaryResponseFile.select)[0]

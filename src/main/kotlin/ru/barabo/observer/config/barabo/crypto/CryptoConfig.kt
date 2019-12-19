@@ -18,6 +18,7 @@ object CryptoConfig : AbstractConfig() {
         RecreateAfterError311p.findAll()
 
         LoadRateThb.findAll()
+        ExecExchangeCb.findAll()
 
         // with starting 16-12-2019 verba off
         // SaveAccount311p.findAll()
