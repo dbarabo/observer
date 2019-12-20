@@ -30,10 +30,12 @@ object Archive {
 
     @Throws(IOException::class)
     fun extractFromZip(zipFile :File, toFolder :String, regExp :String = ".*") :Array<File>? =
-            extractFromArchive(zipFile, toFolder, regExp, "zip")
+            extractFromZip(zipFile, toFolder, regExp, "zip")
+
+
 
     @Throws(IOException::class)
-    private fun extractFromArchive(cabFile :File, toFolder :String, regExp :String, extArchive :String) :Array<File>? {
+    private fun extractFromArchive(cabFile :File, toFolder :String, regExp :String, extArchive :String): Array<File>? {
 
         val tempCab = tempArchive(extArchive)
 
@@ -82,29 +84,6 @@ object Archive {
         Cmd.execCmd( addToArj(archiveFullPath, file.absolutePath) )
     }
 
-    /*
-    fun addToArjByTemp(archive: File, fileAdd :File) {
-        val tempDir = tempFolder()
-
-        val tempFile = File("${tempDir.absolutePath}/${fileAdd.name}")
-
-        fileAdd.copyTo(tempFile, overwrite = true)
-
-        val archiveName = "${tempDir.absolutePath}\\${archive.name}"
-
-        val tempArchive = File(archiveName)
-
-        if(archive.exists()) {
-            archive.copyTo(tempArchive, overwrite = true)
-        }
-
-        addToArj(archiveName, tempFile.absolutePath)
-
-        tempArchive.copyTo(archive, overwrite = true)
-
-        tempDir.deleteFolder()
-    }*/
-
     private fun tempFolder() :File = Cmd.tempFolder("a")
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")
@@ -129,19 +108,63 @@ object Archive {
         return File(zipFilePath)
     }
 
-    fun upPackFromZip(zipFilePath: String) {
+    @Throws(IOException::class)
+    private fun extractFromZip(cabFile: File, toFolder: String, regExp: String, extArchive: String): Array<File>? {
+
+        val tempCab = tempArchive(extArchive)
+
+        val tempFolder = File(tempCab.parent)
+
+        val search = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
+        val newFiles: Array<File>?
+
+        try {
+            cabFile.copyTo(tempCab, true)
+
+            val unpackFiles = upPackFromZip(tempCab.absolutePath)?.filter { search.isFind(it.name) }?.toTypedArray()
+
+            tempCab.delete()
+
+            newFiles = unpackFiles?.copyOf()
+
+            unpackFiles?.indices?.forEach {
+                newFiles!![it] = unpackFiles[it].copyTo(File(toFolder + "/" + unpackFiles[it].name), overwrite = true )
+            }
+
+            tempFolder.deleteFolder()
+        } catch (e :IOException) {
+            logger.error("extractFromCab", e)
+
+            tempFolder.deleteFolder()
+
+            throw IOException(e.message)
+        }
+        return newFiles
+    }
+
+    fun upPackFromZip(zipFilePath: String): Array<File>? {
 
         val zipFile = File(zipFilePath).parentFile
+
+        val listFiles = ArrayList<File>()
 
         ZipFile(zipFilePath).use { zip ->
             zip.entries().asSequence().forEach { entry ->
                 zip.getInputStream(entry).use { input ->
-                    File("${zipFile.absolutePath}/${entry.name}").outputStream().use { output ->
+
+                    val file = File("${zipFile.absolutePath}/${entry.name}")
+
+                    file.outputStream().use { output ->
                         input.copyTo(output)
                     }
+
+                    listFiles += file
                 }
             }
         }
+
+        return if(listFiles.isEmpty()) null else listFiles.toTypedArray()
     }
 
     fun packToGZip(gzipFullPath: String, fileToGZip: File): File {

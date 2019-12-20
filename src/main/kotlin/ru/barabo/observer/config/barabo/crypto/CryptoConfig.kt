@@ -18,7 +18,8 @@ object CryptoConfig : AbstractConfig() {
         RecreateAfterError311p.findAll()
 
         LoadRateThb.findAll()
-        ExecExchangeCb.findAll()
+        FixedExchangeCb.findAll()
+        ExecuteExchangeCb.findAll()
 
         // with starting 16-12-2019 verba off
         // SaveAccount311p.findAll()
@@ -33,7 +34,8 @@ object CryptoConfig : AbstractConfig() {
 
         // это тоже надо отрубить, но потом
         CreateSaveResponse390p.findAll()
-        InfoRequest349p.findAll()
+
+        // InfoRequest349p.findAll()
 
         this.executeTasks()
     }

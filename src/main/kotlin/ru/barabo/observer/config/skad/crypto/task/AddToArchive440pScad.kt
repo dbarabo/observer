@@ -27,8 +27,8 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
     override fun config(): ConfigTask = ScadConfig
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(::sourceFolder, "PB\\d.*\\.xml")
-    //        FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
+            FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),
+            FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
     )
 
     override val accessibleData: AccessibleData = AccessibleData()

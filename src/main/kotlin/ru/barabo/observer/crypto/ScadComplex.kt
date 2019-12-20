@@ -5,7 +5,6 @@ import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import java.io.File
-import java.lang.Exception
 
 object ScadComplex {
 
@@ -75,6 +74,8 @@ object ScadComplex {
 
     fun fullDecode364p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p364")
 
+    fun decodeAny(sourceFile: File, decodeFile: File? = null): File = decodeUngzip(sourceFile, decodeFile, "any")
+
     private fun gzipCrypto(sourceFile: File, encodeFile: File, certType: CertificateType, prefix: String): File {
         val tempFolder = Cmd.tempFolder(prefix)
 
@@ -133,7 +134,7 @@ object ScadComplex {
         val unzip = File("${tempFolder.absolutePath}/${decodeFile.name}_unz")
         Archive.unPackFromGZip(decode.absolutePath, unzip.name)
 
-        val unsign =   File("${tempFolder.absolutePath}/${decodeFile.name}")
+        val unsign = File("${tempFolder.absolutePath}/${decodeFile.name}")
 
         Scad.unSign(unzip, unsign)
 
@@ -142,5 +143,26 @@ object ScadComplex {
         tempFolder.deleteFolder()
 
         return decodeFile
+    }
+
+    private fun decodeUngzip(sourceFile: File, decodeFile: File? = null, prefix: String): File {
+        val tempFolder = Cmd.tempFolder(prefix)
+
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(copySource, true)
+
+        val decode = File("${tempFolder.absolutePath}/${sourceFile.name}_dec")
+        Scad.decode(copySource, decode)
+
+        val unzip = File("${tempFolder.absolutePath}/${sourceFile.name}_unz")
+        Archive.unPackFromGZip(decode.absolutePath, unzip.name)
+
+        val newDecode = decodeFile ?: sourceFile
+
+        unzip.copyTo(newDecode, true)
+
+        tempFolder.deleteFolder()
+
+        return newDecode
     }
 }

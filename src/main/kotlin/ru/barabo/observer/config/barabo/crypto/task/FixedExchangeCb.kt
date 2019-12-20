@@ -11,16 +11,16 @@ import ru.barabo.observer.store.State
 import java.time.Duration
 import java.time.LocalTime
 
-object ExecExchangeCb : SingleSelector {
+object FixedExchangeCb : SingleSelector {
     override val select: String = "select dt.classified from doctree dt where dt.doctype = 1000131174 " +
             "and dt.docstate = 1000000034 and trunc(dt.validfromdate) = trunc(sysdate) and rownum = 1"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false,
-            LocalTime.of(7, 0), LocalTime.of(14, 0), Duration.ofMinutes(5))
+            LocalTime.of(7, 0), LocalTime.of(14, 0), Duration.ofSeconds(50))
 
     // override fun isAccess()  = super.isAccess() && (/*!*/AfinaQuery.isWorkDayNow())
 
-    override fun name(): String = "Утверждение курса ЦБ"
+    override fun name(): String = "Фиксирование курса ЦБ"
 
     override fun config(): ConfigTask = CryptoConfig
 

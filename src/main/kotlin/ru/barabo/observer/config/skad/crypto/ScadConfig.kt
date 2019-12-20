@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.skad.crypto
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.barabo.crypto.task.InfoRequest349p
 import ru.barabo.observer.config.barabo.p440.task.Ticket440pFns
 import ru.barabo.observer.config.skad.crypto.task.*
 
@@ -33,6 +34,8 @@ object ScadConfig : AbstractConfig() {
 
         Uncrypto550pScad.findAll()
         SignScadSend550p.findAll()
+
+        InfoRequest349p.findAll()
 
         executeTasks()
     }
