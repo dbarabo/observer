@@ -23,9 +23,7 @@ import kotlin.concurrent.timer
 
 object TaskMapper {
 
-    private var configList :List<ConfigTask> = emptyList()
-
-    var build: String = ""
+    lateinit var buildInfo: BuildInfo
     private set
 
     private var isAfina: Boolean = false
@@ -36,29 +34,19 @@ object TaskMapper {
     fun objectByClass(clazzName :String) :ActionTask {
         val clazz = Class.forName(clazzName).kotlin
 
-        return (clazz.objectInstance ?: clazz.java.newInstance())as ActionTask
+        return (clazz.objectInstance ?: clazz.java.newInstance()) as ActionTask
     }
 
     @Throws(SessionException::class)
     fun init(build :String, baseConnect :String) {
 
-        if(this.build.isNotEmpty()) {
+        if(::buildInfo.isInitialized) {
             throw SessionException("TaskMapper already initialized")
         }
 
-        this.build = build
+        buildInfo = getBuildInfoByBuild(build)
 
-        this.configList =
-                when (build.toUpperCase().trim()) {
-            "CBR" -> { cbrConfigs() }
-            "BARABO" -> { baraboConfigs() }
-            "JZDO" -> { jzdoConfigs() }
-            "SCAD" -> { scadSignatureConfigs() }
-            "TEST" -> { testConfig() }
-            else -> { throw SessionException("TaskMapper build name is unknown $build") }
-        }
-
-        val baseConnectReal = if(build == "TEST") "TEST" else baseConnect
+        val baseConnectReal = if(buildInfo.build == "TEST") "TEST" else baseConnect
 
         initBase(baseConnectReal)
     }
@@ -75,16 +63,8 @@ object TaskMapper {
 
     fun isAfinaBase() = isAfina
 
-    fun build() = build
-
-    fun configList(): List<ConfigTask> = configList
-
     fun runConfigList() {
-        if(configList.isEmpty()) {
-            throw SessionException("TaskMapper is not initialized")
-        }
-
-        configList.forEach { it.starting() }
+        buildInfo.configs.forEach { it.starting() }
 
         startChecker()
     }
@@ -92,31 +72,21 @@ object TaskMapper {
     fun stopConfigList() {
         stopingChecker()
 
-        configList.forEach { it.stoping() }
+        buildInfo.configs.forEach { it.stoping() }
     }
-
-    private fun cbrConfigs(): List<ConfigTask> = listOf(TurnCard, IBank, /*Correspondent,*/ PtkPsd, TicketPtkPsd, OtherCbr)
-
-    private fun jzdoConfigs(): List<ConfigTask> = listOf(UPayConfig)
-
-    private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig)
-
-    private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
-
-    private fun testConfig(): List<ConfigTask> = listOf(TestConfig)
 
     private var timerChecker: Timer? = null
 
     private fun startChecker() {
-        timerChecker = timer(name = build, initialDelay = 10_000, daemon = false, period = 60*10_000) {
-            AfinaQuery.execute(updateBuild(build) )
+        timerChecker = timer(name = buildInfo.build, initialDelay = 10_000, daemon = false, period = 60*10_000) {
+            AfinaQuery.execute(updateBuild(buildInfo.build) )
 
             checkOtherBuilds()
         }
     }
 
     private fun checkOtherBuilds() {
-        AfinaQuery.select(selectOtherBuilds(build) ).forEach {
+        AfinaQuery.select(selectOtherBuilds(buildInfo.build) ).forEach {
             val buildName = it[0] as? String ?: "???"
 
             val lastWork = it[1] as Date
@@ -143,3 +113,24 @@ private fun updateBuild(build: String) =
 
 private fun selectOtherBuilds(build: String) =
         "select BUILD, DUE from od.PTKB_VERSION_JAR where PROGRAM = 'OBSERVER.JAR' and coalesce(BUILD, '!') != '$build' and (sysdate - DUE > 40/(60*24) )"
+
+enum class BuildInfo(val build: String, val configs: List<ConfigTask>) {
+    Cbr("CBR", cbrConfigs()),
+    Barabo("BARABO", baraboConfigs()),
+    Jzdo("JZDO", jzdoConfigs()),
+    Scad("SCAD", scadSignatureConfigs()),
+    Test("TEST", testConfig())
+}
+
+private fun getBuildInfoByBuild(build: String): BuildInfo =
+        BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
+
+private fun cbrConfigs(): List<ConfigTask> = listOf(TurnCard, IBank, PtkPsd, TicketPtkPsd, OtherCbr)
+
+private fun jzdoConfigs(): List<ConfigTask> = listOf(UPayConfig)
+
+private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig)
+
+private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig, P440Config, PlasticTurnConfig, PlasticReleaseConfig)
+
+private fun testConfig(): List<ConfigTask> = listOf(TestConfig)

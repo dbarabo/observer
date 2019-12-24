@@ -36,10 +36,9 @@ abstract class AbstractConfig : ConfigTask {
 
         val nowWaitTime = now - MAX_WAIT_TIME
 
-        TaskMapper.configList()
+        TaskMapper.buildInfo.configs
                 .filter { ((it as? AbstractConfig)?.lastWorkTime?.get() ?: now) < nowWaitTime }
                 .forEach { sendErrorConfigNotRespond(it as AbstractConfig)  }
-
     }
 
     private fun sendErrorConfigNotRespond(config: AbstractConfig) {

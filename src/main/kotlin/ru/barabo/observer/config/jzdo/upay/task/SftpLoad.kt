@@ -36,7 +36,7 @@ object SftpLoad : SinglePerpetual  {
 
     private const val REMOTE_PATH = "/OUT"
 
-    private fun archivePathToday() = "$ARCHIVE_PATH/${Get440pFiles.todayFolder()}".byFolderExists()
+    fun archivePathToday() = "$ARCHIVE_PATH/${Get440pFiles.todayFolder()}".byFolderExists()
 
     override fun execute(elem: Elem): State {
 

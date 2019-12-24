@@ -2,6 +2,8 @@ package ru.barabo.observer.crypto
 
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
+import ru.barabo.observer.store.BuildInfo
+import ru.barabo.observer.store.TaskMapper
 import java.io.File
 import java.io.IOException
 
@@ -15,29 +17,54 @@ object CryptoPro {
 
     private const val CRYPTO_FULL_PATH = "$CRYPTO_PATH/$CRYPTO_PROGRAM"
 
-    private const val CERTIFICATE_MY = "-my brykina@ptkb.ru"
+    private val certificateData: CertificateData = initCertByBuild(TaskMapper.buildInfo)
 
-    private const val CERTIFICATE_TO = "-cert support@nbki.ru"
+    private fun signCommand(sourceFile: String, signedFile: String) =
+            "$CRYPTO_FULL_PATH -sfsign -sign -detached -add -in $sourceFile -out $signedFile -my ${certificateData.my}"
 
-    private fun signCommand(sourceFile: String, signedFile :String) =
-            "$CRYPTO_FULL_PATH -sfsign -sign -detached -add -in $sourceFile -out $signedFile $CERTIFICATE_MY"
+    private fun encodeCommand(sourceFile: String, encodeFile: String) =
+            "$CRYPTO_FULL_PATH -sfenc -encrypt -in $sourceFile -out $encodeFile -cert ${certificateData.to}"
 
+    private fun decodeCommand(sourceFile: String, decodeFile: String) =
+            "$CRYPTO_FULL_PATH -sfenc -decrypt -in $sourceFile -out $decodeFile -my ${certificateData.my} ${passwordIfExists(certificateData.password)}"
 
-    private fun encodeCommand(sourceFile: String, encodeFile :String) =
-            "$CRYPTO_FULL_PATH -sfenc -encrypt -in $sourceFile -out $encodeFile $CERTIFICATE_TO"
+    private fun passwordIfExists(password: String?): String = password?.let { "-password $it" } ?: ""
 
-    private fun decodeCommand(sourceFile: String, decodeFile :String) =
-            "$CRYPTO_FULL_PATH -sfenc -decrypt -in $sourceFile -out $decodeFile $CERTIFICATE_MY"
+    private fun unsignCommand(signedFile: String, unSignedFile: String, cert: String) =
+            "$CRYPTO_FULL_PATH -sfsign -verify -in $signedFile -out $unSignedFile -my $cert"
 
     @Throws(IOException::class)
-    fun sign(source: File, signed : File) :File {
+    fun unsign(signed: File, unSigned: File): File {
+
+        if(unSigned.exists()) {
+            unSigned.delete()
+        }
+
+        for(cert in certificateData.unsignList) {
+            val cmd = unsignCommand(signed.absolutePath, unSigned.absolutePath, cert)
+
+            val fileUnsign = try {
+                processCmd(cmd, unSigned)
+            }  catch (exception: IOException) {
+                null
+            }
+
+            if(fileUnsign != null) return fileUnsign
+        }
+
+        throw IOException("file ${signed.absolutePath} is not unsigned for unsigned ${unSigned.absolutePath}")
+    }
+
+    @Throws(IOException::class)
+    fun sign(source: File, signed: File): File {
 
         val cmd = signCommand(source.absolutePath, signed.absolutePath)
 
         return processCmd(cmd, signed)
     }
 
-    private fun processCmd(cmd :String, file :File) :File {
+    @Throws(IOException::class)
+    private fun processCmd(cmd: String, file: File) :File {
         try {
             Cmd.execCmd(cmd)
         } catch (e :Exception) {
@@ -61,10 +88,27 @@ object CryptoPro {
     }
 
     @Throws(IOException::class)
-    fun decode(source: File, decoded : File) :File {
+    fun decode(source: File, decoded: File) :File {
 
         val cmd = decodeCommand(source.absolutePath, decoded.absolutePath)
 
         return processCmd(cmd, decoded)
     }
 }
+
+data class CertificateData(val my: String, val to: String, val unsignList: List<String> = emptyList(), val password: String? = null)
+
+private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
+    when (buildInfo) {
+    BuildInfo.Barabo -> baraboCertificateData()
+
+    BuildInfo.Jzdo -> jzdoCertificateData()
+
+    else ->  throw Exception("for build ${buildInfo.build} certificate setting not found")
+    }
+
+private fun baraboCertificateData(): CertificateData = CertificateData("brykina@ptkb.ru", "support@nbki.ru", listOf("support@nbki.ru") )
+
+private fun jzdoCertificateData(): CertificateData = CertificateData("koleev@ptkb.ru", "e.krivonosov@cft.ru",
+        listOf("e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")
+

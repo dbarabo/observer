@@ -35,7 +35,7 @@ object UnCryptoNbki : FileFinder, FileProcessor {
         return folder
     }
 
-    private val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
+    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 
     override fun processFile(file: File) {
 

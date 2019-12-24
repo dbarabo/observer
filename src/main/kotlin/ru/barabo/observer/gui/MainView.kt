@@ -59,7 +59,7 @@ class MainView: View(), StoreListener<TreeElem> {
     private val menuBar = MenuBar()
 
     init {
-        title = "Наблюдатель: [${afinaTitle()}] Сборка:${TaskMapper.build()}"
+        title = "Наблюдатель: [${afinaTitle()}] Сборка:${TaskMapper.buildInfo.build}"
 
         menuItems(menuBar, menuBar.menu("Запустить", graphic = ResourcesManager.icon("play.png")),true)
 
@@ -84,7 +84,7 @@ class MainView: View(), StoreListener<TreeElem> {
 
         menu.addChildIfPossible(Separator())
 
-        menu.items.addAll( TaskMapper.configList().map{ MenuItemConfigStartStop(menuBar, it, isStart) })
+        menu.items.addAll( TaskMapper.buildInfo.configs.map{ MenuItemConfigStartStop(menuBar, it, isStart) })
 
         return menu
     }

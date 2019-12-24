@@ -2,6 +2,7 @@ package ru.barabo.observer.config.jzdo.upay
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.jzdo.upay.task.SftpLoad
+import ru.barabo.observer.config.jzdo.upay.task.UncryptoUPay
 
 object UPayConfig : AbstractConfig() {
     override fun name(): String = "Union Pay"
@@ -10,6 +11,7 @@ object UPayConfig : AbstractConfig() {
 
     override fun configRun() {
         SftpLoad.findAll()
+        UncryptoUPay.findAll()
 
         executeTasks()
     }

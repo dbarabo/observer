@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.task.info
 
-import ru.barabo.cmd.Cmd
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -15,9 +14,9 @@ object InfoHtmlData {
 
         if(root.isEmptyElemTask()) return
 
-        val title = "Отчет по сборке ${TaskMapper.build()} за ${date.formatDay()}"
+        val title = "Отчет по сборке ${TaskMapper.buildInfo.build} за ${date.formatDay()}"
 
-        val body = "Ежедневный Итоговый отчет по сборке ${TaskMapper.build()} за ${date.formatDay()}"
+        val body = "Ежедневный Итоговый отчет по сборке ${TaskMapper.buildInfo.build} за ${date.formatDay()}"
 
         val data = createHtmlData(title, body, root)
 
@@ -26,13 +25,7 @@ object InfoHtmlData {
 
     private fun TreeElem.isEmptyElemTask(): Boolean = group?.childs?.firstOrNull() === null
 
-    private fun LocalDate.fileNameHtml() = "${TaskMapper.build().toLowerCase()}-${formatFileName()}.html"
-
-    private fun LocalDate.formatFileName() = DateTimeFormatter.ofPattern("yyyyMMdd").format(this)
-
     private fun LocalDate.formatDay() = DateTimeFormatter.ofPattern("dd.MM.yyyy").format(this)
-
-    private fun folderPath() = Cmd.LOG_FOLDER
 
     private fun createHtmlData(title: String, body: String, root: TreeElem): String {
         val data = processData(root)

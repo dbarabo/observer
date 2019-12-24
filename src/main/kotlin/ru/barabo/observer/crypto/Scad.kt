@@ -32,7 +32,7 @@ object Scad {
 
     private fun initConfig(): Boolean {
 
-        val resPath = "/cert/${TaskMapper.build}/$PKI_CONF_FILE"
+        val resPath = "/cert/${TaskMapper.buildInfo.build}/$PKI_CONF_FILE"
 
         return ResourcesManager.copyFromJar(File(Cmd.JAR_FOLDER), resPath) != null
     }
