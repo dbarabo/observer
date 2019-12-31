@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.Elem
@@ -18,7 +18,7 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
     private val logger = LoggerFactory.getLogger(AutoUpdatePlasticJar::class.java)
 
-    override fun config(): ConfigTask = PlasticReleaseConfig
+    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
 
     protected abstract fun params(): Array<Any?>?
 

@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
 import ru.barabo.observer.config.barabo.p440.task.AddToArchive440p
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
-import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScad.sourceFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -16,22 +16,23 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import java.io.File
+import java.time.LocalTime
 import java.util.regex.Pattern
 
 object AddToArchive440pScad : FileFinder, FileProcessor {
 
     private val logger = LoggerFactory.getLogger(AddToArchive440p::class.java)
 
-    override fun name(): String = "Добавить Scad в архив 440-П"
+    override fun name(): String = "Добавить файл в архив 440-П"
 
-    override fun config(): ConfigTask = ScadConfig
+    override fun config(): ConfigTask = P440Config // ScadConfig
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),
             FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
     )
 
-    override val accessibleData: AccessibleData = AccessibleData()
+    override val accessibleData: AccessibleData = AccessibleData(workTimeTo = LocalTime.of(18, 30))
 
     private val PATTERN_PB =  Pattern.compile("PB\\d.*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 

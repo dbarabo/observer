@@ -2,6 +2,7 @@ package ru.barabo.observer.config.barabo.p440
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.skad.crypto.task.AddToArchive440pScad
 
 object P440Config: AbstractConfig() {
 
@@ -16,6 +17,8 @@ object P440Config: AbstractConfig() {
         Process440p.findAll()
         TryPnoExecute.findAll()
         RooWaitCancel.findAll()
+
+        AddToArchive440pScad.findAll()
 
         // with starting 16.12.2019 Crypto system only scad signature
 

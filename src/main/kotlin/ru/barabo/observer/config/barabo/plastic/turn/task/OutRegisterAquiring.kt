@@ -3,7 +3,7 @@ package ru.barabo.observer.config.barabo.plastic.turn.task
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -16,17 +16,16 @@ import java.time.LocalTime
 
 object OutRegisterAquiring: SingleSelector {
 
-    //private val logger = LoggerFactory.getLogger(OutRegisterAquiring::class.java)
+    override val select: String = """
+select m.id, m.file_name from od.ptkb_ctl_mtl m
+where m.created >= trunc(sysdate-3) and m.check_count_transact != 0 and m.state = 1 
+and substr(m.file_name, 1, 3) = 'MTL'"""
 
-    override val select: String = "select m.id, m.file_name from od.ptkb_ctl_mtl m " +
-            "where m.created >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 " +
-            "and substr(m.file_name, 1, 3) = 'MTL'"
-
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(17, 30))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 30))
 
     override fun name(): String = "Отправить реестры по эквайрингу"
 
-    override fun config(): ConfigTask = PlasticTurnConfig
+    override fun config(): ConfigTask = PlasticOutSide //PlasticTurnConfig
 
     override fun execute(elem: Elem): State {
 

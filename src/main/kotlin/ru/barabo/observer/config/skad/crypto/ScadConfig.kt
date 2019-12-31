@@ -19,7 +19,6 @@ object ScadConfig : AbstractConfig() {
 
         UncryptoScad440p.findAll()
         CryptoScad440p.findAll()
-        AddToArchive440pScad.findAll()
         PbSaverScad.findAll()
         SignScadArchive440p.findAll()
 

@@ -24,7 +24,7 @@ object FinderHcardIn: FileFinder {
 
         val objectTask = HcardInObject.objectByFileName(file.name, MoveHcardIn)
 
-        val executeWait = if(objectTask is Executor)objectTask.accessibleData.executeWait else Duration.ZERO
+        val executeWait = if(objectTask is Executor)objectTask.accessibleData.executeWait else Duration.ofSeconds(1)
 
         return Elem(file, objectTask, executeWait)
     }

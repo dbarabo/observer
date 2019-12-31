@@ -15,17 +15,26 @@ import java.math.BigInteger
 import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.time.LocalDateTime
 
-object LoadObi : FileFinder, FileProcessor, PosLengthLoader {
+object LoadObi : FileFinder, ObiLoad() {
+
+    override lateinit var fileProcess: File
+
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
             "OBI_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_0226_GC_FEE"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override fun name(): String = "Загрузка OBI/OBM-файла"
 
     override fun config(): ConfigTask  = PlasticTurnConfig
+}
+
+abstract class ObiLoad : FileProcessor, PosLengthLoader {
+
+    protected abstract var fileProcess: File
 
     override fun processFile(file: File) {
 
@@ -38,12 +47,6 @@ object LoadObi : FileFinder, FileProcessor, PosLengthLoader {
         file.copyTo(moveFile, true)
         file.delete()
     }
-
-    private lateinit var fileProcess :File
-
-    private val OBI_DATE_FORMAT = "MMddyyyy"
-
-    private val OBI_DATE_TIME_FORMAT = "MMddyyyyHHmmss"
 
     fun parseObiDate(date :String?, longFormat:String, shortFormat:String) : Any {
         val length = date?.trim()?.length?:0
@@ -121,3 +124,7 @@ object LoadObi : FileFinder, FileProcessor, PosLengthLoader {
         }
     }
 }
+
+private const val OBI_DATE_FORMAT = "MMddyyyy"
+
+private const val OBI_DATE_TIME_FORMAT = "MMddyyyyHHmmss"

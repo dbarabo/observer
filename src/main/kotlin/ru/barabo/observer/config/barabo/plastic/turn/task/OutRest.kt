@@ -2,11 +2,11 @@ package ru.barabo.observer.config.barabo.plastic.turn.task
 
 import com.sun.mail.util.MailConnectException
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
-import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.smtp.GetMail
@@ -27,7 +27,7 @@ object OutRest: Periodical {
 
     override fun name(): String = "Выгрузка Остатков"
 
-    override fun config(): ConfigTask = TestConfig//PlasticReleaseConfig
+    override fun config(): ConfigTask = PlasticOutSide
 
     override fun execute(elem: Elem): State {
 

@@ -2,6 +2,8 @@ package ru.barabo.observer.config.barabo.crypto
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.crypto.task.*
+import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
+import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarSoft
 
 object CryptoConfig : AbstractConfig() {
 
@@ -13,13 +15,6 @@ object CryptoConfig : AbstractConfig() {
 
         CryptoNbki.findAll()
         UnCryptoNbki.findAll()
-
-        CreateAccount311p.findAll()
-        RecreateAfterError311p.findAll()
-
-        LoadRateThb.findAll()
-        FixedExchangeCb.findAll()
-        ExecuteExchangeCb.findAll()
 
         // with starting 16-12-2019 verba off
         // SaveAccount311p.findAll()

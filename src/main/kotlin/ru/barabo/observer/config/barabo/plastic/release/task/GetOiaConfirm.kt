@@ -18,6 +18,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import java.io.File
 import java.nio.charset.Charset
+import java.time.Duration
 
 /**
  * SENT_OK -> (RESPONSE_OK_ALL | RESPONSE_ERROR_ALL)
@@ -31,7 +32,7 @@ object GetOiaConfirm: FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = PlasticReleaseConfig
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(LoadRestAccount.hCardIn,"OIA_........_......_0226"))

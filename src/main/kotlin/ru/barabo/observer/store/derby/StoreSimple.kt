@@ -138,12 +138,12 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
             val group = if(isAdd) addElemToGroup(item) else checkMoveElemFromGroup(item)
 
-            group.group?.let { synchronized(it){ it.prepareTaskGroup() } }
+            group?.group?.let { synchronized(it){ it.prepareTaskGroup() } }
         } }
     }
 
     //@Synchronized
-    private fun checkMoveElemFromGroup(elem :Elem):TreeElem {
+    private fun checkMoveElemFromGroup(elem :Elem): TreeElem? {
 
         val config = root.group!!.childs.first { it.group!!.config === elem.task!!.config() }
 
@@ -152,7 +152,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         return processRootElem(config, elem, taskGroup) ?: processTaskGroup(config, elem, taskGroup)
     }
 
-    private fun findSource(config: TreeElem, elem: Elem): Pair<TreeElem, TreeElem> {
+    private fun findSource(config: TreeElem, elem: Elem): Pair<TreeElem?, TreeElem?> {
 
         var oldTaskGroup: TreeElem? = null
 
@@ -170,17 +170,21 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             }
         }
 
-        return Pair(oldTaskGroup!!, findItem!!)
+        return Pair(oldTaskGroup, findItem)
     }
 
-    private fun processTaskGroup(config: TreeElem, elem: Elem, newTaskGroup: TreeElem?) :TreeElem {
+    private fun processTaskGroup(config: TreeElem, elem: Elem, newTaskGroup: TreeElem?): TreeElem? {
 
         val (oldTaskGroup, findItem) = findSource(config, elem)
 
-        if(newTaskGroup?.group?.taskGroup?.task === oldTaskGroup.group?.taskGroup?.task &&
-                newTaskGroup?.group?.taskGroup?.state === oldTaskGroup.group?.taskGroup?.state) return oldTaskGroup
+        if(newTaskGroup?.group?.taskGroup?.task === oldTaskGroup?.group?.taskGroup?.task &&
+                newTaskGroup?.group?.taskGroup?.state === oldTaskGroup?.group?.taskGroup?.state) return oldTaskGroup
 
-        oldTaskGroup.removeChild(findItem, config)
+        if(findItem == null) {
+            return oldTaskGroup
+        }
+
+        oldTaskGroup?.removeChild(findItem, config)
 
         return newTaskGroup?.apply{ group?.childs?.add(findItem) }
                 ?: config.addTaskGroup(elem).apply { group?.childs?.add(findItem) }

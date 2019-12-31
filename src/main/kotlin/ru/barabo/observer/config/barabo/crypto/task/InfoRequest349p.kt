@@ -9,7 +9,6 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
-import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.time.Duration
@@ -33,8 +32,6 @@ object InfoRequest349p : FileFinder, FileProcessor {
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file: File) {
-
-        Verba.unCryptoFile(file)
 
         ScadComplex.decodeAny(file)
 

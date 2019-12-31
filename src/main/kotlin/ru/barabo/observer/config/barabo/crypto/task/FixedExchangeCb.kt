@@ -2,7 +2,7 @@ package ru.barabo.observer.config.barabo.crypto.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -22,7 +22,7 @@ object FixedExchangeCb : SingleSelector {
 
     override fun name(): String = "Фиксирование курса ЦБ"
 
-    override fun config(): ConfigTask = CryptoConfig
+    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
 
     override fun execute(elem: Elem): State {
         AfinaQuery.execute(EXEC_EXCHANGE_CBR, params = arrayOf(elem.idElem))

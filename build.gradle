@@ -68,6 +68,8 @@ dependencies {
 
     compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 
+    // compile group: 'com.mastercard.api', name: 'currency-conversion', version: '1.0.+'
+
     compile name: 'ojdbc6'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'

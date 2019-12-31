@@ -5,6 +5,7 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -30,7 +31,7 @@ object CreateAccount311p : Periodical {
 
     override fun name(): String = "311-П 1. Запустить выгрузку"
 
-    override fun config(): ConfigTask = CryptoConfig
+    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
 
     private const val EXEC_CREATE_JUR_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execJurDataPriorDay }"
 

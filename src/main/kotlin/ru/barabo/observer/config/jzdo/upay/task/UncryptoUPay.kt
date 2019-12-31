@@ -25,7 +25,7 @@ object UncryptoUPay : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = UPayConfig
 
-    private fun uncryptoFolder() = "${archivePathToday().absolutePath}/uncrypto".byFolderExists()
+    fun uncryptoFolder() = "${archivePathToday().absolutePath}/uncrypto".byFolderExists()
 
     override fun processFile(file: File) {
         val decodeName = if(file.extension.toLowerCase() == "enc") file.nameWithoutExtension else "${file.name}_dec"

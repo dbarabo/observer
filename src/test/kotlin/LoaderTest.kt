@@ -1,7 +1,9 @@
 import oracle.jdbc.OracleTypes
+import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
@@ -29,6 +31,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.task.p311.ticket.TicketCbr
@@ -38,13 +41,20 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.io.FileInputStream
 import java.nio.charset.Charset
 import java.sql.Clob
 import java.sql.Timestamp
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.math.roundToLong
+
 
 class LoaderTest {
 
@@ -260,14 +270,22 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/test/MTL20190221_0226.0001"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/CTL20191225_0226.9000"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
 
     //@Test
+    fun loadMtlUPay() {
+        val elem = Elem(File("C:/КартСтандарт/ZKMTL_20190909_0999.0001"), LoadMtlUPay, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+
+    //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1186566990, task = ExecuteCtlMtl) //1186566414
+        val elem = Elem(idElem = 1203641469, task = ExecuteCtlMtl) //1186566414
 
         elem.task?.execute(elem)
 
@@ -601,12 +619,48 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
+
     //@Test
     fun execLoadRateThb() {
         val elem = Elem(task = LoadRateThb)
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun masterTest() {
+
+        /*
+        val consumerKey = "your consumer key" // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
+
+        val keyAlias = "keyalias" // For production: change this to the key alias you chose when you created your production key
+
+        val keyPassword = "keystorepassword" // For production: change this to the key alias you chose when you created your production key
+
+        val s = FileInputStream("path to your .p12 private key file") // e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
+
+        ApiConfig.setAuthentication(OAuthAuthentication(consumerKey, s, keyAlias, keyPassword)) // You only need to set this once
+
+        ApiConfig.setDebug(true) // Enable http wire logging
+
+        // This is needed to change the environment to run the sample code. For production: use ApiConfig.setSandbox(false);
+        // This is needed to change the environment to run the sample code. For production: use ApiConfig.setSandbox(false);
+        ApiConfig.setEnvironment(Environment.parse("sandbox_mtf"))
+
+
+        val map = RequestMap()
+        map["fxDate"] = "2019-09-30"
+        map["transCurr"] = "ALL"
+        map["crdhldBillCurr"] = "DZD"
+        map["bankFee"] = "5"
+        map["transAmt"] = "23"
+
+        val response = ConversionRate.query(map)
+
+        logger.error("${response["data.conversionRate"]}")
+*/
+    }
+
 
     //@Test
     fun loadRateThb() {
@@ -675,6 +729,61 @@ class LoaderTest {
 //        val textResponse = CecReportProcess.emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY())
 //        logger.error("textResponse=$textResponse")
 //    }
+
+    //@Test
+    fun loadSite() {
+
+        val site = "https://usa.visa.com/support/consumer/travel-support/exchange-rate-calculator.html?amount=100.48&fee=0.0&exchangedate=12%2F27%2F2019&fromCurr=USD&toCurr=RUB&submitButton=Calculate+exchange+rate"
+
+        val body = Jsoup.connect(site).get().body()
+
+        val find = body.allElements?.firstOrNull { it.className()?.indexOf("currency-convertion-result")?:-1 >= 0 }
+
+        find?.let {
+
+            val start = find.text().indexOf("Russian Ruble =")
+
+            val end = find.text().indexOf("United States Dollar")
+
+            if(start in 0 until end) {
+                val txt = find.text().substring(start + "Russian Ruble =".length, end).trim()
+
+                logger.error(txt.trim())
+
+                val amount: Long = (txt.toDouble() * 100).roundToLong()
+
+                logger.error("$amount")
+            }
+        }
+
+
+      //  logger.error(body.text())
+    }
+
+    @Test
+    fun testVisaCalculator() {
+        logger.error("${VisaCalculator.convertRurToUsd(10000, LocalDateTime.of(2019, 1, 1, 0, 0))}")
+    }
+
+    //@Test
+    fun decFormat() {
+        val otherSymbols = DecimalFormatSymbols()
+        otherSymbols.decimalSeparator = '.'
+        val format = DecimalFormat("#.##", otherSymbols)
+
+        val value: Long= 100048
+
+        logger.error(format.format(value/100.0 ))
+    }
+
+    //@Test
+    fun dateFormat() {
+        val value = DateTimeFormatter.ofPattern("MM%2'F'dd%2'F'yyyy").format(LocalDateTime.now())
+
+        logger.error(value)
+    }
+
+
 
 
 }

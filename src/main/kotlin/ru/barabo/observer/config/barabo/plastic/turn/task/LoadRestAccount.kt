@@ -18,6 +18,7 @@ import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.Duration
 import java.time.LocalTime
 
 object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
@@ -28,7 +29,7 @@ object LoadRestAccount : FileFinder, FileProcessor, PosLengthLoader {
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(hCardIn, "ACC_\\d{8}_\\d{6}_0226"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(6, 0))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(6, 0), executeWait = Duration.ofSeconds(1))
 
     override fun name(): String = "Загрузка остатков по счетам"
 

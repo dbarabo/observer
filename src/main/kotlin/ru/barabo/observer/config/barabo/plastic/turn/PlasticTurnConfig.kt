@@ -4,7 +4,7 @@ import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.plastic.FinderHcardIn
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
 
-object PlasticTurnConfig: AbstractConfig() {
+object PlasticTurnConfig : AbstractConfig() {
 
     override fun name(): String = "Пластик: Обороты"
 
@@ -23,7 +23,6 @@ object PlasticTurnConfig: AbstractConfig() {
         ExecuteObi.findAll()
         IbiSendToJzdo.findAll()
         OutRestCheck.findAll()
-        OutRegisterAquiring.findAll()
 
         //OutIbiFakeData.findAll()
 

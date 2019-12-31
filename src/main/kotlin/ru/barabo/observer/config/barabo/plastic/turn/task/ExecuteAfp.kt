@@ -14,8 +14,12 @@ import java.time.LocalTime
 
 object ExecuteAfp: SingleSelector {
 
-    override val select: String = "select id, FILE_NAME || ' (' || CHECK_COUNT_AUTH || ')' name " +
-            "from od.ptkb_afp where state = 0 and nvl(CHECK_COUNT_AUTH, 0) != 0 order by PC_CREATED, FILE_ORDER"
+    override val select: String = """
+        select a.id, a.FILE_NAME || ' (' || a.CHECK_COUNT_AUTH || ')' name 
+        from od.ptkb_afp a where a.state = 0 and nvl(a.CHECK_COUNT_AUTH, 0) != 0 
+        and exists (select 1 from od.ptkb_afp_record fr where fr.afp = a.id and fr.state = 0)
+        order by a.PC_CREATED, a.FILE_ORDER
+    """
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
             workTimeTo =  LocalTime.of(23, 0), executeWait = Duration.ofMinutes(1))
@@ -31,16 +35,13 @@ object ExecuteAfp: SingleSelector {
         val info = AfinaQuery.execute(query = CALL_INFO_CTL, params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String
 
-        val (cc, bcc, subject) = if(isNoneExecAllDocuments(info))
-            Triple(BaraboSmtp.AUTO, emptyArray(), SUBJECT_NONE_EXEC) else
-            Triple(BaraboSmtp.CHECKER_PLASTIC, BaraboSmtp.YA, SUBJECT_ALL_EXEC)
-
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = cc, bcc = bcc, subject = subject, body = info?:"", charsetSubject = "UTF-8")
+        if(isNoneExecAllDocuments(info)) {
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = BaraboSmtp.AUTO,
+                    subject = SUBJECT_NONE_EXEC, body = info?:"", charsetSubject = "UTF-8")
+        }
 
         return State.OK
     }
-
-    private const val SUBJECT_ALL_EXEC = "Пластик: Информация по обработанному файлу AFP"
 
     private const val SUBJECT_NONE_EXEC = "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны в файле AFP"
 
@@ -48,7 +49,7 @@ object ExecuteAfp: SingleSelector {
 
     private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 
-    private const val EXEC_AFP = "{ call od.PTKB_PLASTIC_TURN.processAfpBySchema(?) }" //"{ call od.PTKB_PLASTIC_TURN.processAfp(?) }"
+    private const val EXEC_AFP = "{ call od.PTKB_PLASTIC_TURN.processAfpBySchema(?) }"
 
     private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedAfp(?, ?) }"
 }

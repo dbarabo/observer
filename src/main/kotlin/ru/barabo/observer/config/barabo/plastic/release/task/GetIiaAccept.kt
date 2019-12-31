@@ -17,6 +17,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
+import java.time.Duration
 
 /**
  * SENT -> (SENT_OK | SENT_ERROR)
@@ -30,7 +31,7 @@ object GetIiaAccept: FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = PlasticReleaseConfig
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(LoadRestAccount.hCardIn,"IIA_........_......_0226\\.(ACCEPT|ERROR)"))

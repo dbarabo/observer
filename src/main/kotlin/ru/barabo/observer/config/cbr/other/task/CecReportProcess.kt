@@ -2,7 +2,9 @@ package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.other.task.cec.FileXml
 import ru.barabo.observer.config.cbr.other.task.cec.Person
@@ -31,11 +33,13 @@ object CecReportProcess : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData( ::xCecToday, ".*\\.xml"))
 
-    private fun xCecToday() = File("X:/ЦИК/${todayFolder()}/Запрос")
+    private val X_CEC = "X:/ЦИК".ifTest("C:/ЦИК")
+
+    private fun xCecToday() = File("$X_CEC/${todayFolder()}/Запрос")
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(LocalDate.now())
 
-    private fun xCecResponseToday() = "X:/ЦИК/${todayFolder()}/ОТВЕТЫ"
+    private fun xCecResponseToday() = "$X_CEC/${todayFolder()}/Ответ".byFolderExists()
 
     override fun processFile(file: File) {
 
@@ -87,7 +91,7 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val data = AfinaQuery.selectValue(SELECT_DEPUTY_DATA, arrayOf(idRequest, file.name)) as Clob? ?: return null
 
-        val fileResponse = File("${xCecResponseToday()}/$fileResponseName")
+        val fileResponse = File("${xCecResponseToday().absolutePath}/$fileResponseName")
 
         fileResponse.writeText(data.clob2string())
 
@@ -105,7 +109,7 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val requestNumber = fileRequest.nameWithoutExtension.substringAfter("_Z_")
 
-        val responseFile = File("${OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_$CEC_CODE.xml")
+        val responseFile = File("${xCecResponseToday().absolutePath}/${OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_$CEC_CODE.xml")
 
         val textResponse = emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY() )
 

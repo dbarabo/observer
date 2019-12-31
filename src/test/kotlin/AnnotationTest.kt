@@ -1,12 +1,38 @@
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.cmd.XmlValidator
+import java.io.File
 import java.util.regex.Pattern
+import javax.xml.XMLConstants
+import javax.xml.transform.stream.StreamSource
+import javax.xml.validation.SchemaFactory
 import kotlin.concurrent.timer
 
 
 class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
+
+    //@Test
+    fun testXmlValidate() {
+        validate(File("loan2680420191225163729.xml"), File("loan-info.xsd"))
+    }
+
+    fun validate(xmlFile: File, xsd: File/*xsdInJar: String?*/) {
+
+        val xmlStream = StreamSource(xmlFile)
+
+        val schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+
+        //val urlXsd = XmlValidator::class.java.javaClass.getResource(xsdInJar)
+
+        val schema = schemaFactory.newSchema(xsd)
+
+        val validator = schema!!.newValidator()
+
+        validator.validate(xmlStream)
+    }
 
     //@Test
     fun testThreadLong() {

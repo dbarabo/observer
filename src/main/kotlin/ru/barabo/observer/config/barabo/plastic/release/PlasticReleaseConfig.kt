@@ -18,16 +18,7 @@ object PlasticReleaseConfig: AbstractConfig() {
         IvrGetResponse.findAll()
         CheckWaitOci.findAll()
         OutSmsData.findAll()
-        OutRest.findAll()
         ReleaseCheckAll.findAll()
-
-        OutRegisterAquiringMonth.findAll()
-        OutRegisterAquiringWeek.findAll()
-
-        AutoUpdatePlasticJarCritical.findAll()
-        AutoUpdatePlasticJarSoft.findAll()
-
-        OutSalaryResponseFile.findAll()
 
         // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig
         this.executeTasks()

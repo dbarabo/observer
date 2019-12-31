@@ -3,12 +3,12 @@ package ru.barabo.observer.config.barabo.plastic.release.registers
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring.createTransactData
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring.putTitleData
 import ru.barabo.observer.config.barabo.plastic.turn.task.sendMailRegister
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.EventAction
@@ -30,7 +30,7 @@ abstract class OutRegisterAquiringRange : EventAction {
 
     override fun name(): String = "Периодические реестры по эквайрингу"
 
-    override fun config(): ConfigTask = PlasticReleaseConfig
+    override fun config(): ConfigTask = PlasticOutSide // PlasticReleaseConfig
 
     override fun getEventActionNow(): IdName {
 

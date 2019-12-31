@@ -14,13 +14,14 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
+import java.time.Duration
 
 object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(LoadRestAccount.hCardIn,"AFP20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d"))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override fun name(): String = "Загрузка AFP-файла"
 

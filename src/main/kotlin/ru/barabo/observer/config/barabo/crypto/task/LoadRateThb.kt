@@ -4,7 +4,7 @@ import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -25,7 +25,7 @@ object LoadRateThb : SingleSelector {
 
     override fun name(): String = "Курс THB -загрузка"
 
-    override fun config(): ConfigTask = CryptoConfig
+    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
 
     override fun execute(elem: Elem): State {
 

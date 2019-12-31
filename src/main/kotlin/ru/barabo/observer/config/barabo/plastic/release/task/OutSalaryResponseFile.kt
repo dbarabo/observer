@@ -5,8 +5,8 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -29,7 +29,7 @@ object OutSalaryResponseFile : SingleSelector {
 
     override fun name(): String = "Отправить ответ по зарплат. файлу"
 
-    override fun config(): ConfigTask = PlasticReleaseConfig
+    override fun config(): ConfigTask = PlasticOutSide // PlasticReleaseConfig
 
     override fun execute(elem: Elem): State {
         val companyData = AfinaQuery.execute(EXEC_READ_COMPANY, arrayOf(elem.idElem), SessionSetting(false),

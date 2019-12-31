@@ -21,7 +21,7 @@ object IvrGetResponse: FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, workTimeFrom = LocalTime.of(7, 0))
 
-    private val IVR_RESPONSE_PATH = "\\\\jzdo/c$/quasionline-1.0.0/files/response"
+    private const val IVR_RESPONSE_PATH = "\\\\jzdo/c$/quasionline-1.0.0/files/response"
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(IVR_RESPONSE_PATH,"ivr_\\d{14}_\\d{4}\\.xml"))
 

@@ -17,6 +17,7 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
+import java.time.Duration
 
 /**
  * RESPONSE_OK_ALL -> (OCI_ALL | ?)
@@ -29,7 +30,7 @@ object GetOciData: FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = PlasticReleaseConfig
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, executeWait = Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(LoadRestAccount.hCardIn,"OCI_........_......_0226"))
