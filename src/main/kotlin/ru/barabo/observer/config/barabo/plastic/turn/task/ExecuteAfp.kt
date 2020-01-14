@@ -21,8 +21,8 @@ object ExecuteAfp: SingleSelector {
         order by a.PC_CREATED, a.FILE_ORDER
     """
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
-            workTimeTo =  LocalTime.of(23, 0), executeWait = Duration.ofMinutes(1))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 50),
+            workTimeTo =  LocalTime.of(23, 0), executeWait = Duration.ofSeconds(30) )
 
     override fun name(): String = "AFP Обработать"
 
@@ -38,12 +38,16 @@ object ExecuteAfp: SingleSelector {
         if(isNoneExecAllDocuments(info)) {
             BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = BaraboSmtp.AUTO,
                     subject = SUBJECT_NONE_EXEC, body = info?:"", charsetSubject = "UTF-8")
+        } else {
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.YA, subject = subjectExec(elem.name), body = info?:"", charsetSubject = "UTF-8")
         }
 
         return State.OK
     }
 
     private const val SUBJECT_NONE_EXEC = "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны в файле AFP"
+
+    private fun subjectExec(fileName: String) = "Пластик: Обработан $fileName"
 
     private fun isNoneExecAllDocuments(info :String?) :Boolean = info?.indexOf(CHECK_ALL_EXEC_DOCUMENTS)?:-1 < 0
 

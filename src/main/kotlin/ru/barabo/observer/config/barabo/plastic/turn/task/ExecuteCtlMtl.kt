@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
 import oracle.jdbc.OracleTypes
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
@@ -14,11 +15,13 @@ import java.time.LocalTime
 
 object ExecuteCtlMtl : SingleSelector {
 
+    private val logger = LoggerFactory.getLogger(ExecuteCtlMtl::class.java)
+
     override val select: String = "select id, FILE_NAME || ' (' || CHECK_COUNT_TRANSACT || ')' name " +
             "from od.ptkb_ctl_mtl where state = 0 and nvl(CHECK_COUNT_TRANSACT, 0) != 0 order by PC_CREATED, FILE_ORDER"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 45),
-            workTimeTo =  LocalTime.of(18, 45), executeWait = Duration.ofMinutes(1))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 59),
+            workTimeTo =  LocalTime.of(19, 0), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "CTL/MTL Обработать"
 
@@ -26,7 +29,23 @@ object ExecuteCtlMtl : SingleSelector {
 
     override fun execute(elem: Elem): State {
 
-        AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(elem.idElem))
+        logger.error("before create ExecuteCtlMtl = ${LocalTime.now()}")
+        AfinaQuery.execute(CREATE_CTL_MTL, arrayOf(elem.idElem))
+        logger.error("after create ExecuteCtlMtl = ${LocalTime.now()}")
+
+        try {
+            AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(elem.idElem))
+        } catch (e: Exception) {
+            logger.error(EXEC_CTL_MTL, e)
+
+            elem.state = State.ERROR
+            elem.error = e.message
+            checkSendMailError(elem)
+            elem.error = elem.error?.let{ if(it.length <= 500) it else it.substring(0, 500) }
+
+            return State.OK
+        }
+        logger.error("after execute ExecuteCtlMtl = ${LocalTime.now()}")
 
         val info = AfinaQuery.execute(query = CALL_INFO_CTL, params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String
@@ -49,7 +68,9 @@ object ExecuteCtlMtl : SingleSelector {
 
     private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 
-    private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.procCtlMtlBySchema(?) }"
+    private const val CREATE_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.procCtlMtlBySchema(?) }"
+
+    private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.executeCtlMtlDocuments(?) }"
 
     private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedCtl(?, ?) }"
 }

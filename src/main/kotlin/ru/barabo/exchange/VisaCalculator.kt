@@ -43,7 +43,6 @@ object VisaCalculator {
     private fun siteTemplate(rur: String, dateConvert: String) = "$SITE_HEADER$rur&fee=0.0&exchangedate=$dateConvert$SITE_TAIL"
 
     private const val SITE_HEADER = "https://usa.visa.com/support/consumer/travel-support/exchange-rate-calculator.html?amount="
-    // "100.48&fee=0.0&exchangedate=12%2F27%2F2019&fromCurr=USD&toCurr=RUB&submitButton=Calculate+exchange+rate"
 
     private const val SITE_TAIL = "&fromCurr=USD&toCurr=RUB&submitButton=Calculate+exchange+rate"
 

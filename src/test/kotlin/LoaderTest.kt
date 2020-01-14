@@ -295,7 +295,7 @@ class LoaderTest {
     //@Test
     fun testExecAfpSchema() {
 
-        val elem = Elem(idElem = 1186463097, task = ExecuteAfp)
+        val elem = Elem(idElem = 1204552531, task = ExecuteAfp)
 
         elem.task?.execute(elem)
     }
@@ -760,7 +760,7 @@ class LoaderTest {
       //  logger.error(body.text())
     }
 
-    @Test
+    //@Test
     fun testVisaCalculator() {
         logger.error("${VisaCalculator.convertRurToUsd(10000, LocalDateTime.of(2019, 1, 1, 0, 0))}")
     }

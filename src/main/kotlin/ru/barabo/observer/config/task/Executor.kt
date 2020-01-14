@@ -100,7 +100,7 @@ interface Executor {
         return sw.buffer.toString()
     }
 
-    private fun checkSendMailError(elem: Elem) {
+    fun checkSendMailError(elem: Elem) {
         if(elem.state != State.ERROR || elem.task?.isSendError()?.not() == true) return
 
         BaraboSmtp.errorSend(elem)

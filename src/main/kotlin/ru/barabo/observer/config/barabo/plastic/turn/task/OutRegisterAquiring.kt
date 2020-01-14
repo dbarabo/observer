@@ -18,10 +18,11 @@ object OutRegisterAquiring: SingleSelector {
 
     override val select: String = """
 select m.id, m.file_name from od.ptkb_ctl_mtl m
-where m.created >= trunc(sysdate-3) and m.check_count_transact != 0 and m.state = 1 
-and substr(m.file_name, 1, 3) = 'MTL'"""
+where m.updated >= trunc(sysdate-1) and m.check_count_transact != 0 and m.state = 1 
+and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
+"""
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 30))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(17, 30))
 
     override fun name(): String = "Отправить реестры по эквайрингу"
 
