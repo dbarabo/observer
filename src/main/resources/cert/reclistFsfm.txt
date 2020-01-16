@@ -1,0 +1,5 @@
+[General]
+Number=1
+[Recipient1]
+Type=Subject
+Value=CN=FSFM,ST=00

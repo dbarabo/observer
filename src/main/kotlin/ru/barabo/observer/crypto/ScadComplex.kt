@@ -4,6 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.skad.crypto.task.nameDateToday
 import java.io.File
 
 object ScadComplex {
@@ -51,6 +52,42 @@ object ScadComplex {
 
         return sourceFile
     }
+
+    fun crypto4077U(sourceFile: File): File {
+        val tempFolder = Cmd.tempFolder("u4077")
+
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(copySource, true)
+
+        val sign = File("${tempFolder.absolutePath}/${sourceFile.name}_sgn")
+        Scad.sign(copySource, sign)
+
+        val signGzip = File("${tempFolder.absolutePath}/${sourceFile.name}_sgz")
+
+        Archive.packToGZip(signGzip.absolutePath, sign)
+
+        copySource.delete()
+
+        val encode = copySource
+
+        Scad.encode(signGzip, encode, CertificateType.FSFM)
+
+        val arjArchive = File("${tempFolder.absolutePath}/${arjArchiveNameToday()}")
+        Archive.addToArj(arjArchive.absolutePath, arrayOf(encode) )
+
+        val signArj = File("${tempFolder.absolutePath}/${arjArchive.name}_sgz")
+        Scad.sign(arjArchive, signArj)
+
+        val destArchive = File("${sourceFile.parent}/${arjArchive.name}")
+
+        signArj.copyTo(destArchive, true)
+
+        tempFolder.deleteFolder()
+
+        return destArchive
+    }
+
+    private fun arjArchiveNameToday() = "FM4077U_040507717_${nameDateToday()}_001.ARJ"
 
     fun cryptoOnlyFtsVal(sourceFile: File, encodeFile: File, certType: CertificateType, isDelSource: Boolean = true): File {
 

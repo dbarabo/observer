@@ -36,6 +36,10 @@ object ScadConfig : AbstractConfig() {
 
         InfoRequest349p.findAll()
 
+        Crypto4077UScad.findAll()
+
+
+
         executeTasks()
     }
 }

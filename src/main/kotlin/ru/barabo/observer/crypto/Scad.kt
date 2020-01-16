@@ -117,5 +117,6 @@ enum class CertificateType(val certFile: String) {
     FNS_FSS("reclistFnsFss.txt"),
     FTS("reclistFts.txt"),
     FTS_VAL("reclistValAll.txt"),
-    FTS_CB181U("reclistFtsCb181U.txt")
+    FTS_CB181U("reclistFtsCb181U.txt"),
+    FSFM("reclistFsfm.txt")
 }

@@ -27,7 +27,7 @@ object SignScadSend550p : FileFinder, FileProcessor {
 
     override fun name(): String = "Подписать scad и отправить"
 
-    private const val ptkPsdOutPath = "p:"
+    const val ptkPsdOutPath = "p:"
 
     private fun folder550pOutSrc() = "${folder550pOut().absolutePath}/src".byFolderExists()
 
