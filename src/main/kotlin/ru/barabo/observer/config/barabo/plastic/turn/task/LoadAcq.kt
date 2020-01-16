@@ -87,10 +87,10 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
             4 to ::parseToString,
-            6 to LoadCtlMtl::parseDateTime,
+            6 to ::parseDateTime,
             7 to ::parseInt,
-            8 to LoadCtlMtl::parseDateTime,
-            9 to LoadCtlMtl::parseDateTime,
+            8 to ::parseDateTime,
+            9 to ::parseDateTime,
             -1 to {_: String? -> fileProcess.name },
             -2 to {_ -> java.sql.Timestamp(fileProcess.lastModified())} )
 
@@ -109,8 +109,8 @@ values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             2 to ::parseInt,
             3 to ::parseToString,
             4 to ::parseToString, // card_number
-            5 to LoadCtlMtl::parseDateTime,
-            6 to LoadCtlMtl::parseDateTime,
+            5 to ::parseDateTime,
+            6 to ::parseDateTime,
             7 to ::parseToString,
             8 to ::parseInt,
             9 to ::parseInt, // auth_amount

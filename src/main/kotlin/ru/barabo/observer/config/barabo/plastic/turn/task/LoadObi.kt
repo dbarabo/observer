@@ -48,16 +48,6 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
         file.delete()
     }
 
-    fun parseObiDate(date :String?, longFormat:String, shortFormat:String) : Any {
-        val length = date?.trim()?.length?:0
-
-        if(length == 0) return LocalDateTime::class.javaObjectType
-
-        val format = if(length < longFormat.length)shortFormat else longFormat
-
-        return Timestamp(SimpleDateFormat(format).parse(date).time)
-    }
-
     private fun parseObiDate(date :String?) : Any = parseObiDate(date, OBI_DATE_TIME_FORMAT, OBI_DATE_FORMAT)
 
     override val headerColumns: Array<Column> = arrayOf(
@@ -123,6 +113,16 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
             else-> throw Exception("not found type string $line")
         }
     }
+}
+
+fun parseObiDate(date :String?, longFormat:String, shortFormat:String) : Any {
+    val length = date?.trim()?.length?:0
+
+    if(length == 0) return LocalDateTime::class.javaObjectType
+
+    val format = if(length < longFormat.length)shortFormat else longFormat
+
+    return Timestamp(SimpleDateFormat(format).parse(date).time)
 }
 
 private const val OBI_DATE_FORMAT = "MMddyyyy"

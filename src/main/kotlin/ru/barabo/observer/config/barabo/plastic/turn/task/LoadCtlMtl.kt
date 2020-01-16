@@ -6,7 +6,6 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.barabo.plastic.turn.loader.QuoteSeparatorLoader
 import ru.barabo.observer.config.barabo.plastic.turn.loader.TypeLine
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadObi.parseObiDate
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -140,8 +139,6 @@ open class CtlLoader : QuoteSeparatorLoader {
 
     private fun indicator(value :String?) :Any = if(isCtl) parseToString(value) else ""
 
-    fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
-
     private fun checkSum(fileId :Any?) {
 
         val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId))[0]
@@ -180,6 +177,8 @@ open class CtlLoader : QuoteSeparatorLoader {
         file.delete()
     }
 }
+
+fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
 
 private const val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
 

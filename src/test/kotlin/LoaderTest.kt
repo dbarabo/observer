@@ -285,7 +285,7 @@ class LoaderTest {
 
     //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1203641469, task = ExecuteCtlMtl) //1186566414
+        val elem = Elem(idElem = 1203981602, task = ExecuteCtlMtl) //1186566414
 
         elem.task?.execute(elem)
 
@@ -441,10 +441,10 @@ class LoaderTest {
         LoadRestAccount.execute(elem)
     }
 
-    //@Test
+   // @Test
     fun loadObi() {
 
-        val elem = Elem(File("C:/КартСтандарт/test/OBI_20180111_060206_0226_GC_FEE"), LoadObi, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/ZKOBI_20200116_080024_0133_FEE"), LoadObi, Duration.ZERO)
 
         LoadObi.execute(elem)
     }
@@ -453,6 +453,19 @@ class LoaderTest {
     fun loadObr() {
         val elem = Elem(File("C:/КартСтандарт/test/OBR_20171205_161447_0226"), LoadObr, Duration.ZERO)
 
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun loadLoadRateTT057() {
+
+        val elem3 = Elem(File("C:/КартСтандарт/TT057T0.20200114124641.001"), LoadRateTT057, Duration.ZERO)
+        elem3.task?.execute(elem3)
+
+        val elem2 = Elem(File("C:/КартСтандарт/TT057T0.20200113123804.001"), LoadRateTT057, Duration.ZERO)
+        elem2.task?.execute(elem2)
+
+        val elem = Elem(File("C:/КартСтандарт/TT057T0.20200113123802.001"), LoadRateTT057, Duration.ZERO)
         elem.task?.execute(elem)
     }
 
@@ -703,8 +716,10 @@ class LoaderTest {
 
     //@Test
     fun parseIntLong() {
-       val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
-                .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
+       //val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
+        //        .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
+
+        val value =   "000000608900000".toLong() / 10000000.0
 
         logger.error("value=$value")
     }

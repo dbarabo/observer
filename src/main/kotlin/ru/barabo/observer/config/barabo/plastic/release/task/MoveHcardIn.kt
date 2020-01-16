@@ -20,7 +20,7 @@ object MoveHcardIn: FileMover {
     override fun config(): ConfigTask = PlasticReleaseConfig
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom =  LocalTime.of(0, 45),
-            workTimeTo = LocalTime.of(23, 45), executeWait = Duration.ofSeconds(1) )
+            workTimeTo = LocalTime.of(23, 45), executeWait = Duration.ZERO )
 
     override fun findAbstract(): Executor? = null
 }

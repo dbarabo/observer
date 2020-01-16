@@ -87,10 +87,10 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
         4 to ::parseToString,
-        5 to LoadCtlMtl::parseDateTime,
+        5 to ::parseDateTime,
         6 to ::parseInt,
-        7 to LoadCtlMtl::parseDateTime,
-        8 to LoadCtlMtl::parseDateTime,
+        7 to ::parseDateTime,
+        8 to ::parseDateTime,
         -1 to {_ :String? -> fileProcess.name })
 
     override val bodyQuery: String? = ("insert into od.PTKB_AFP_RECORD (id, afp, row_order, auth_id, transact_type_fe, " +
@@ -107,8 +107,8 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
             3 to ::parseToString,
             4 to ::parseToString,
             5 to ::parseToString,
-            6 to LoadCtlMtl::parseDateTime,
-            7 to LoadCtlMtl::parseDateTime,
+            6 to ::parseDateTime,
+            7 to ::parseDateTime,
             8 to ::parseToString,
             9 to ::parseInt,
             10 to ::parseInt,
