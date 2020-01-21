@@ -3,6 +3,7 @@ package ru.barabo.observer.config.barabo.crypto.task
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -15,27 +16,15 @@ import java.time.LocalTime
 
 object UnCryptoNbki : FileFinder, FileProcessor {
 
+    override fun name(): String = "НБКИ Расшифровать"
+
+    override fun config(): ConfigTask = CryptoConfig
+
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(CryptoNbki::cryptoNbki,"K301BB000001.*\\.p7m"))
-
-    override fun name(): String = "НБКИ Расшифровать"
-
-    override fun config(): ConfigTask = CryptoConfig
-
-    private fun unCryptoFolder(file: File) : File {
-        val folder = File("${file.parent}/UNCRYPTO")
-
-        if(!folder.exists()) {
-            folder.mkdirs()
-        }
-
-        return folder
-    }
-
-    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 
     override fun processFile(file: File) {
 
@@ -51,4 +40,16 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
         Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
     }
+
+    private fun unCryptoFolder(file: File) : File {
+        val folder = File("${file.parent}/UNCRYPTO")
+
+        if(!folder.exists()) {
+            folder.mkdirs()
+        }
+
+        return folder
+    }
+
+    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 }

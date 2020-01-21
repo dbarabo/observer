@@ -104,6 +104,8 @@ private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
 
     BuildInfo.Jzdo -> jzdoCertificateData()
 
+    BuildInfo.Scad -> baraboCertificateData()
+
     else ->  throw Exception("for build ${buildInfo.build} certificate setting not found")
     }
 

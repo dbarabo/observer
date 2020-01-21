@@ -32,6 +32,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
+import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.task.p311.ticket.TicketCbr
@@ -270,7 +271,7 @@ class LoaderTest {
 
     //@Test
     fun loadCtlMtl() {
-        val elem = Elem(File("C:/КартСтандарт/CTL20191225_0226.9000"), LoadCtlMtl, Duration.ZERO)
+        val elem = Elem(File("C:/КартСтандарт/MTL20200109_0226.0001"), LoadCtlMtl, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
@@ -283,9 +284,9 @@ class LoaderTest {
     }
 
 
-    //@Test
+    @Test
     fun execCtl() {
-        val elem = Elem(idElem = 1203981602, task = ExecuteCtlMtl) //1186566414
+        val elem = Elem(idElem = 1204883376, task = ExecuteCtlMtl) //1186566414
 
         elem.task?.execute(elem)
 
@@ -684,6 +685,14 @@ class LoaderTest {
     fun outRegisterAquiring() {
 
         val elem = Elem(idElem = 1181803901, task = OutRegisterAquiring)
+
+        elem.task?.execute(elem)
+    }
+
+
+    //@Test
+    fun testVisaLoaderRate() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = LoadVisaRate)
 
         elem.task?.execute(elem)
     }

@@ -5,6 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.task.AccessibleData
+import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
@@ -21,8 +22,9 @@ object ExecuteAfp: SingleSelector {
         order by a.PC_CREATED, a.FILE_ORDER
     """
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 50),
-            workTimeTo =  LocalTime.of(23, 0), executeWait = Duration.ofSeconds(30) )
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
+            workTimeFrom = LocalTime.of(7, 50), workTimeTo =  LocalTime.of(23, 15),
+            executeWait = Duration.ofSeconds(30) )
 
     override fun name(): String = "AFP Обработать"
 
@@ -38,16 +40,12 @@ object ExecuteAfp: SingleSelector {
         if(isNoneExecAllDocuments(info)) {
             BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = BaraboSmtp.AUTO,
                     subject = SUBJECT_NONE_EXEC, body = info?:"", charsetSubject = "UTF-8")
-        } else {
-            BaraboSmtp.sendStubThrows(to = BaraboSmtp.YA, subject = subjectExec(elem.name), body = info?:"", charsetSubject = "UTF-8")
         }
 
         return State.OK
     }
 
     private const val SUBJECT_NONE_EXEC = "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны в файле AFP"
-
-    private fun subjectExec(fileName: String) = "Пластик: Обработан $fileName"
 
     private fun isNoneExecAllDocuments(info :String?) :Boolean = info?.indexOf(CHECK_ALL_EXEC_DOCUMENTS)?:-1 < 0
 

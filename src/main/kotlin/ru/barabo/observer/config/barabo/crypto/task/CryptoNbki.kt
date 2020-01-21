@@ -5,6 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -18,29 +19,15 @@ import java.time.LocalTime
 
 object CryptoNbki : FileFinder, FileProcessor {
 
+    override fun name(): String = "НБКИ Зашифровать-отправить"
+
+    override fun config(): ConfigTask = CryptoConfig
+
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofHours(8))
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.txt"))
-
-    override fun name(): String = "НБКИ Зашифровать-отправить"
-
-    override fun config(): ConfigTask = CryptoConfig
-
-    fun cryptoNbki() : File = File("X:/НБКИ/${todayFolder()}")
-
-    private fun cryptoFolder(file: File) :File {
-        val folder = File("${file.parent}/CRYPTO")
-
-        if(!folder.exists()) {
-            folder.mkdirs()
-        }
-
-        return folder
-    }
-
-    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 
     override fun processFile(file: File) {
 
@@ -61,5 +48,19 @@ object CryptoNbki : FileFinder, FileProcessor {
         CryptoPro.encode(zipFile, encodeFile)
 
         NbkiSmtp.sendToNbki(encodeFile)
-   }
+    }
+
+    fun cryptoNbki() : File = File("X:/НБКИ/${todayFolder()}")
+
+    private fun cryptoFolder(file: File) :File {
+        val folder = File("${file.parent}/CRYPTO")
+
+        if(!folder.exists()) {
+            folder.mkdirs()
+        }
+
+        return folder
+    }
+
+    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 }

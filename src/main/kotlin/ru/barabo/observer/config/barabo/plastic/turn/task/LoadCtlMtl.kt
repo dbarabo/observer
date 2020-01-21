@@ -139,11 +139,11 @@ open class CtlLoader : QuoteSeparatorLoader {
 
     private fun indicator(value :String?) :Any = if(isCtl) parseToString(value) else ""
 
-    private fun checkSum(fileId :Any?) {
+    private fun checkSumStatus(fileId :Any?) {
 
         val values = AfinaQuery.selectCursor(SELECT_CURSOR_CHECK_SUM, arrayOf(fileId))[0]
 
-        var textCheck :String? = null
+        var textCheck: String? = null
 
         if( (values[0] as? Number)?.toInt() != (values[1] as? Number)?.toInt() ) {
             textCheck = "Не сходится кол-во транзакций в Чек-сумме и файле в Чек-сумме:${values[0]} в файле:${values[1]}\n"
@@ -153,10 +153,10 @@ open class CtlLoader : QuoteSeparatorLoader {
             textCheck += "Не сходится кол-во сумма транзакций в Чек-сумме и файле в Чек-сумме:${values[2]} в файле:${values[3]}\n"
         }
 
-        textCheck?.apply {
-            AfinaQuery.execute(EXEC_TO_ERROR_STATE, arrayOf(fileId))
+        textCheck?.let {
+            AfinaQuery.execute(EXEC_TO_STATE, arrayOf(ERROR_STATUS, fileId))
 
-            BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_ERROR, body = bodyError(this))
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_ERROR, body = bodyError(it))
         }
     }
 
@@ -169,7 +169,7 @@ open class CtlLoader : QuoteSeparatorLoader {
 
         load(file, Charset.forName("CP1251"))
 
-        checkSum(fileId)
+        checkSumStatus(fileId)
 
         val moveFile = File("${LoadRestAccount.hCardInToday()}/${file.name}")
 
@@ -177,6 +177,8 @@ open class CtlLoader : QuoteSeparatorLoader {
         file.delete()
     }
 }
+
+private const val ERROR_STATUS = 2
 
 fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
 
@@ -188,4 +190,4 @@ private const val SELECT_CURSOR_CHECK_SUM = "{ ? = call od.PTKB_PLASTIC_TURN.sel
 
 private const val SUBJECT_ERROR = "Ошибка в Чек-сумме файла CTL/MTL"
 
-private const val EXEC_TO_ERROR_STATE = "update od.PTKB_CTL_MTL set state = 2 where id = ?"
+const val EXEC_TO_STATE = "update od.PTKB_CTL_MTL set state = ? where id = ?"

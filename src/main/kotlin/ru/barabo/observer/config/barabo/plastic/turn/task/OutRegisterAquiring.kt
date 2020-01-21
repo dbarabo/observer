@@ -18,7 +18,7 @@ object OutRegisterAquiring: SingleSelector {
 
     override val select: String = """
 select m.id, m.file_name from od.ptkb_ctl_mtl m
-where m.updated >= trunc(sysdate-1) and m.check_count_transact != 0 and m.state = 1 
+where m.updated >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 
 and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
 """
 
@@ -195,13 +195,13 @@ and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
 internal fun File.sendMailRegister(terminalInfo: Array<Any?>, subjectMail: String = SUBJECT_REGISTER) {
     val mailTo = if(TaskMapper.isAfinaBase()) terminalInfo[5] as? String else null
 
-    val mailCc = if(TaskMapper.isAfinaBase()) terminalInfo[6] as? String else null
+    // val mailCc = if(TaskMapper.isAfinaBase()) terminalInfo[6] as? String else null
 
-    if(!TaskMapper.isAfinaBase() || mailTo != null || mailCc != null) {
+    if(!TaskMapper.isAfinaBase() || mailTo != null /*|| mailCc != null*/) {
 
         BaraboSmtp.sendStubThrows(to = mailTo?.let { arrayOf(mailTo) }?: emptyArray(),
-                cc = mailCc?.let { arrayOf(mailCc) }?: emptyArray(),
-                bcc = BaraboSmtp.YA,
+                // cc = mailCc?.let { arrayOf(mailCc) }?: emptyArray(),
+                // bcc = BaraboSmtp.YA,
                 subject = subjectMail,
                 body = BODY_REGISTER,
                 attachments = arrayOf(this)
