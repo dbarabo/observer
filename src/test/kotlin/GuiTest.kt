@@ -1,6 +1,8 @@
 
 import org.slf4j.LoggerFactory
+import ru.barabo.cmd.Cmd
 import ru.barabo.observer.gui.startLaunch
+import java.io.File
 
 class GuiTest {
 
@@ -8,8 +10,16 @@ class GuiTest {
 
     //@Test
     fun firstTest() {
-        startLaunch(Array<String>(0, {""}))
+        startLaunch(Array(0, {""}))
     }
 
+    //@Test
+    fun changeDir() {
+        logger.error("CURRENT_BEFORE=${File( "." ).canonicalPath}")
+
+        Cmd.execDos("C: && cd C:\\Temp\\doc\\xsd && git add . && git commit -m \"autocommit\" ")
+
+        logger.error("CURRENT_AFTER=${File( "." ).canonicalPath}")
+    }
 
 }
