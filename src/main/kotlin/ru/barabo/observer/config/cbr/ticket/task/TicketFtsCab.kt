@@ -9,7 +9,6 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
-import ru.barabo.observer.crypto.Verba
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -26,8 +25,6 @@ object TicketFtsCab: FileFinder, FileProcessor {
 
     override fun name(): String = "ФТС-Архивы"
 
-    fun ticketFts() :String = "X:/VAL/FTS/Квитки/${TicketFtsText.todayFolder()}"
-
     override fun processFile(file : File) {
 
         val files = Archive.extractFromCab(file, TicketFtsText.ticketFts(), ".*\\.arj")
@@ -38,8 +35,6 @@ object TicketFtsCab: FileFinder, FileProcessor {
 
         File(TicketFtsText.ticketFts()).listFiles {
             f -> (!f.isDirectory) && search.isFind(f.name, false)   }?.forEach {
-
-            Verba.unSignFile(it)
         }
     }
 }

@@ -19,6 +19,10 @@ import java.time.temporal.ChronoUnit
 
 object CheckerAllBalance : Periodical {
 
+    override fun name(): String = "Проверка баланса за 20 дат"
+
+    override fun config(): ConfigTask = IBank
+
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
     override var count: Long = 1
@@ -27,10 +31,6 @@ object CheckerAllBalance : Periodical {
 
     override val accessibleData: AccessibleData =
             AccessibleData(workTimeFrom = LocalTime.of(23, 0), workTimeTo = LocalTime.of(23, 59, 59))
-
-    override fun name(): String = "Проверка баланса за 20 дат"
-
-    override fun config(): ConfigTask = IBank
 
     override fun execute(elem: Elem): State {
 

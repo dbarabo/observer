@@ -21,8 +21,6 @@ object PtkPsd : AbstractConfig() {
         SendByPtkPsdCopy.findAll()
         CheckerIsSendPtkPsd.findAll()
 
-        ClearPrimFromArchiveDay.findAll()
-
         Load101FormXml.findAll()
 
         CheckerRedSaldoNow.findAll()

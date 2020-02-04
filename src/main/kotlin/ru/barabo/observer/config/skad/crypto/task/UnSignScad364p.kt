@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.cbr.ticket.task.TicketFtsText.ticketFtsDirectory
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.task.UnCryptoScad364p.unCrypto364p
 import ru.barabo.observer.config.task.AccessibleData
@@ -15,15 +16,16 @@ import java.time.LocalTime
 
 object UnSignScad364p  : FileFinder, FileProcessor {
 
+    override fun name(): String = "Scad Снять ЭЦП"
+
+    override fun config(): ConfigTask = ScadConfig
+
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
-    override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true))
-
-    override fun name(): String = "364-П Scad Снять ЭЦП"
-
-    override fun config(): ConfigTask = ScadConfig
+    override val fileFinderData: List<FileFinderData> = listOf(
+            FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true),
+            FileFinderData(::ticketFtsDirectory,"(FC|FS|NC|NS).*\\.xml"))
 
     override fun processFile(file: File) {
 

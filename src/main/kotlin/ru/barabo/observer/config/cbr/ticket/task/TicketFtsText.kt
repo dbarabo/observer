@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ticket.task
 
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -19,10 +20,6 @@ object TicketFtsText : FileFinder, FileProcessor/*  FileMover*/ {
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","tz...005\\.717", isModifiedTodayOnly = true))
 
-    //override val pathsTo: Array<() -> String> = arrayOf(TicketFtsText::ticketFts)
-
-    //override val isMove: Boolean = false
-
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
     override fun config(): ConfigTask = TicketPtkPsd
@@ -31,9 +28,11 @@ object TicketFtsText : FileFinder, FileProcessor/*  FileMover*/ {
 
     fun ticketFts(): String = "X:/VAL/FTS/Квитки/${todayFolder()}"
 
+    fun ticketFtsDirectory(): File = ticketFts().byFolderExists()
+
     fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file: File) {
-        Archive.extractFromCab(file, TicketFtsText.ticketFts(), ".*\\.xml")
+        Archive.extractFromCab(file, ticketFts(), ".*\\.xml")
     }
 }

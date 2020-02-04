@@ -27,6 +27,7 @@ import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerRedSaldo
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
+import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
@@ -121,6 +122,14 @@ class LoaderTest {
                 uniqueSession, intArrayOf(OracleTypes.CLOB))!![0] as Clob
 
         file.writeText(clob.clobToString(), charset = Charset.forName("cp1251"))
+    }
+
+    //@Test
+    fun testClearPrimFromArchiveDay() {
+
+        val elem = Elem(idElem = 75363011L, task = ClearPrimFromArchiveDay)
+
+        ClearPrimFromArchiveDay.execute(elem)
     }
 
     //@Test

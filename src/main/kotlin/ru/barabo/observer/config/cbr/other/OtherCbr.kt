@@ -4,6 +4,7 @@ import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.ibank.task.LoanInfoCreator
 import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
 import ru.barabo.observer.config.cbr.other.task.*
+import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
 
 object OtherCbr: AbstractConfig() {
@@ -49,6 +50,8 @@ object OtherCbr: AbstractConfig() {
         CorrDepartmentGoHome.findAll()
 
         SendBlockUnblockAccountPC.findAll()
+
+        ClearPrimFromArchiveDay.findAll()
 
         ReportSender.findAll()
 

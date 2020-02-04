@@ -14,6 +14,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.cbr.turncard.TurnCard
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
+import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
@@ -134,4 +135,4 @@ private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Co
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 
-private fun testConfig(): List<ConfigTask> = listOf(TestConfig)
+private fun testConfig(): List<ConfigTask> = listOf( Acquiring /*TestConfig*/)
