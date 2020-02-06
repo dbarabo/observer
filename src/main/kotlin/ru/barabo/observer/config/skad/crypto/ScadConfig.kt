@@ -37,8 +37,8 @@ object ScadConfig : AbstractConfig() {
         InfoRequest349p.findAll()
 
         Crypto4077UScad.findAll()
-
-
+        AddSign600P.findAll()
+        CryptoArchive600P.findAll()
 
         executeTasks()
     }

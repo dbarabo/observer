@@ -67,11 +67,11 @@ object Cmd {
         }
     }
 
-    private fun cTemp(prefix :String) =  "$TEMP_FOLDER/$prefix${Date().time}" // "c:/temp/$prefix${Date().time}"
+    private fun cTemp(prefix: String) =  "$TEMP_FOLDER/$prefix${Date().time}" // "c:/temp/$prefix${Date().time}"
 
     private fun String.cyrReplace() =  this.replace("[^A-Za-z0-9] ".toRegex(), "F")
 
-    fun tempFolder(prefix: String = "") : File {
+    fun tempFolder(prefix: String = ""): File {
         val temp = File(cTemp(prefix.cyrReplace()) )
 
         temp.mkdirs()
@@ -89,7 +89,7 @@ object Cmd {
 
     private val TEMP_FOLDER = "$JAR_FOLDER/temp"
 
-    fun createFolder(folderPath :String) :File {
+    fun createFolder(folderPath: String): File {
 
         val folder = File(folderPath)
 

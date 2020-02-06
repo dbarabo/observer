@@ -53,6 +53,57 @@ object ScadComplex {
         return sourceFile
     }
 
+    fun signAddArchive600p(sourceFile: File, arjArchiveFile: File): File {
+        val tempFolder = Cmd.tempFolder("p600")
+
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}_src")
+        sourceFile.copyTo(copySource, true)
+
+        val sign = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        Scad.sign(copySource, sign)
+        copySource.delete()
+
+        val tempArjArchive = File("${tempFolder.absolutePath}/${arjArchiveFile.name}")
+        if(arjArchiveFile.exists()) {
+            arjArchiveFile.copyTo(tempArjArchive, true)
+        }
+        Archive.addToArj(tempArjArchive.absolutePath, arrayOf(sign) )
+
+        arjArchiveFile.parent.byFolderExists()
+
+        tempArjArchive.copyTo(arjArchiveFile, true)
+
+        tempFolder.deleteFolder()
+
+        return arjArchiveFile
+    }
+
+    fun cryptoArchive600p(sourceFile: File, copySrcDirectory: File): File {
+        val tempFolder = Cmd.tempFolder("p600")
+
+        val copySource = File("${tempFolder.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(copySource, true)
+
+        val gzip = File("${tempFolder.absolutePath}/${sourceFile.name}_gz")
+        Archive.packToGZip(gzip.absolutePath, copySource)
+
+        val encode = File("${tempFolder.absolutePath}/${sourceFile.name}_enc")
+        Scad.encode(gzip, encode, CertificateType.FSFM)
+
+        copySource.delete()
+        val sign = copySource
+        Scad.sign(encode, sign)
+
+        val sourceArchive = File("${copySrcDirectory.absolutePath}/${sourceFile.name}")
+        sourceFile.copyTo(sourceArchive, true)
+        sourceFile.delete()
+        sign.copyTo(sourceFile, true)
+
+        tempFolder.deleteFolder()
+
+        return sourceFile
+    }
+
     fun crypto4077U(sourceFile: File): File {
         val tempFolder = Cmd.tempFolder("u4077")
 
