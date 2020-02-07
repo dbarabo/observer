@@ -23,7 +23,7 @@ object CryptoArchive600P : FileFinder, FileProcessor {
             workTimeTo = LocalTime.of(23, 30), executeWait = Duration.ofMinutes(2) )
 
     override val fileFinderData: List<FileFinderData> =
-            listOf( FileFinderData( ::pathCryptoToday, "DIFM_040507717.*\\.ARJ" ) )
+            listOf( FileFinderData( ::pathCryptoToday, "ARHKRFM_040507717_.*\\.ARJ" ) )
 
     override fun processFile(file: File) {
 

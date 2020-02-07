@@ -26,7 +26,7 @@ object Ticket407CabXml: FileFinder, FileProcessor {
 
     private fun ticket407pCb() :String = "K:/ARH_LEG/407-П/ИЭС_ЦБ/${TicketFtsText.todayFolder()}"
 
-    override fun processFile(file : File) {
+    override fun processFile(file: File) {
 
         val files = Archive.extractFromCab(file, ticket407pCb(), ".*\\.xml")
 

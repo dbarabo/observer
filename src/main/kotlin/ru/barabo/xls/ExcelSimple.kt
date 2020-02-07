@@ -1,45 +1,30 @@
 package ru.barabo.xls
 
-import jxl.Workbook
 import jxl.write.*
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.regex.Pattern
 
 class ExcelSimple(newFile: File, template: File) {
 
-    private val logger = LoggerFactory.getLogger(ExcelSimple::class.java)
-
-    private val templateBook: Workbook = Workbook.getWorkbook(template)
-
-    private val newBook: WritableWorkbook
+    private val newBook: WritableWorkbook = createNewBook(newFile, template)
 
     private var rowPosition: Int = 0
 
     private val templateData: List<RowXls>
 
     init {
-        try {
-            newBook = Workbook.createWorkbook(newFile, templateBook)
-
-            templateBook.close()
-
-            templateData = initData(newBook.getSheet(0))
-        } catch (e: Exception) {
-
-            logger.error("ExcelSimple init", e)
-
-            templateBook.close()
-
-            throw Exception(e.message)
-        }
+        templateData = initData(newBook.getSheet(0))
     }
 
-    fun save() {
-        newBook.write()
+    fun save() = newBook.save()
 
-        newBook.close()
-    }
+    fun createTitle(titleVar: Map<String, Any>) = createRowType(titleVar, RowTypes.TITLE)
+
+    fun createHeader(headerVar: Map<String, Any>) = createRowType(headerVar, RowTypes.HEADER)
+
+    fun createTail(tailVar: Map<String, Any>) = createRowType(tailVar, RowTypes.TAIL)
+
+    fun createBodyRow(bodyVar: Map<String, Any>) = createRowType(bodyVar, RowTypes.BODY)
 
     private fun initData(sheet: WritableSheet): List<RowXls> {
 
@@ -78,51 +63,7 @@ class ExcelSimple(newFile: File, template: File) {
         return rowData
     }
 
-    fun createTitle(titleVar: Map<String, Any>): ExcelSimple {
-
-        return createRowType(titleVar, RowTypes.TITLE)
-    }
-
-    fun createHeader(headerVar: Map<String, Any>): ExcelSimple {
-
-        return createRowType(headerVar, RowTypes.HEADER)
-    }
-
-    fun createTail(tailVar: Map<String, Any>): ExcelSimple {
-
-       return createRowType(tailVar, RowTypes.TAIL)
-    }
-
-    fun createBodyRow(bodyVar: Map<String, Any>): ExcelSimple {
-
-        return createRowType(bodyVar, RowTypes.BODY)
-    }
-
     private fun findMinIndexRowType(rowType: RowTypes): Int = templateData.filter { it.type === rowType }.map { it.index }.min()?:0
-
-    private fun WritableSheet.addRow(rowIndex: Int) {
-
-        this.insertRow(rowIndex)
-
-        // новая строка уходит вверх - поэтому копируем с нижней(с большей)
-        this.copyRow(rowIndex, rowIndex+1)
-    }
-
-    private fun WritableSheet.copyRow(srcRowIndex: Int, destRowIndex: Int) {
-
-        for (col in 1 until columns) {
-            val readCell = getWritableCell(col, srcRowIndex)
-
-            val newCell = readCell.copyTo(col, destRowIndex)
-
-            readCell.cellFormat?.let {
-
-                newCell.cellFormat = WritableCellFormat(it)
-            }
-
-            this.addCell(newCell)
-        }
-    }
 
     private fun createRowType(variable: Map<String, Any>, rowType: RowTypes): ExcelSimple {
         val sheet = newBook.getSheet(0)
@@ -252,6 +193,6 @@ enum class RowTypes {
 
     companion object {
 
-        fun typeByString(nameType: String):RowTypes = RowTypes.values().firstOrNull { it.name == nameType} ?: TITLE
+        fun typeByString(nameType: String): RowTypes = values().firstOrNull { it.name == nameType} ?: TITLE
     }
 }

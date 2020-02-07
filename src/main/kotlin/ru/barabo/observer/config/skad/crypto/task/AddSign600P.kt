@@ -36,6 +36,7 @@ object AddSign600P : FileFinder, FileProcessor {
 
     fun pathCryptoToday() = File("${pathToday()}/crypto")
 
-    private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_01_000.ARJ"
+    private fun arjArchiveNameToday() = "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+            //"DIFM_040507717_${nameDateToday()}_01_000.ARJ"
 }
 

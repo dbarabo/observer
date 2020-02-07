@@ -72,6 +72,17 @@ class LoaderTest {
     private fun separ() = ";"
 
     //@Test
+    fun selectWithMetaData() {
+        val meta = //AfinaQuery.selectWithMetaData("select count(*) from dual where 1=0")
+                AfinaQuery.selectCursorWithMetaData("{ ? = call OD.PTKB_PLASTIC_AUTO.getCardsByMode(?, ?, ?) }",
+                        arrayOf(1, "", "") )
+
+        meta.columns.forEach { logger.error(it) }
+
+        meta.types.forEach { logger.error("type=$it") }
+    }
+
+    //@Test
     fun fileMax() {
 
 

@@ -13,6 +13,7 @@ import ru.barabo.observer.store.TaskMapper
 import ru.barabo.xls.ExcelSimple
 import java.io.File
 import java.time.LocalTime
+import kotlin.math.roundToLong
 
 object OutRegisterAquiring: SingleSelector {
 
@@ -74,7 +75,7 @@ and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
 
     private const val SELECT_NOT_EXEC_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringNotExecutedTrans( ?, ? ) }"
 
-    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN.getRegisterByTransactCtl( ?, ?, ? ) }"
+    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN. ( ?, ?, ? ) }"
 
     private fun createRegister(excelProcess: ExcelSimple, transfers: List<Array<Any?>>, terminalId: String, idMtl: Number) {
 
@@ -112,7 +113,7 @@ and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
             sumData += (transactVar["amount_loop"] as Number).toDouble()
         }
 
-        sumData = Math.round(sumData * 100.0) / 100.0
+        sumData = (sumData * 100.0).roundToLong() / 100.0
 
         return sumData
     }

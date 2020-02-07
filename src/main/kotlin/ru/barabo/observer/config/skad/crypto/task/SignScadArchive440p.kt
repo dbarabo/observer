@@ -30,7 +30,7 @@ object SignScadArchive440p : SingleSelector {
             executeWait = Duration.ofSeconds(5))
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +
-            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 10/(24*60))"
+            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 4/(24*60))"
 
     private const val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
 
