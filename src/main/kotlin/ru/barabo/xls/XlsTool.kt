@@ -41,7 +41,6 @@ fun WritableSheet.addRow(rowIndex: Int) {
 
     this.insertRow(rowIndex)
 
-    // новая строка уходит вверх - поэтому копируем с нижней(с большей)
     this.copyRow(rowIndex, rowIndex+1)
 }
 

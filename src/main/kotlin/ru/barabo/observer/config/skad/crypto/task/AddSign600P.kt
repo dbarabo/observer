@@ -30,7 +30,7 @@ object AddSign600P : FileFinder, FileProcessor {
         ScadComplex.signAddArchive600p(file, arjArchive)
     }
 
-    private const val path = "H:/ПОД ФТ/comita/600-П"
+    private const val path = "H:/ПОД ФТ/comita/600-П/ARHKRFM"
 
     fun pathToday() = File("$path/${nameDateToday()}")
 

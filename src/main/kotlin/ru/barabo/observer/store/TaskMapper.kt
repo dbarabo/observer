@@ -18,7 +18,6 @@ import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
-import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.util.*
 import kotlin.concurrent.timer

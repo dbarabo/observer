@@ -20,9 +20,8 @@ object OutRegisterAquiring: SingleSelector {
     override val select: String = """
 select m.id, m.file_name from od.ptkb_ctl_mtl m
 where m.updated >= trunc(sysdate) and m.check_count_transact != 0 and m.state = 1 
-and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
+and substr(m.file_name, 1, 3) = 'MTL'
 """
-
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(17, 30))
 
     override fun name(): String = "Отправить реестры по эквайрингу"
@@ -75,7 +74,7 @@ and substr(m.file_name, 1, 3) in ('MTL', 'ZKM')
 
     private const val SELECT_NOT_EXEC_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringNotExecutedTrans( ?, ? ) }"
 
-    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN. ( ?, ?, ? ) }"
+    private const val SELECT_TRANSACT_TRANSFER = "{? = call od.PTKB_PLASTIC_TURN.getRegisterByTransactCtl( ?, ?, ? ) }"
 
     private fun createRegister(excelProcess: ExcelSimple, transfers: List<Array<Any?>>, terminalId: String, idMtl: Number) {
 

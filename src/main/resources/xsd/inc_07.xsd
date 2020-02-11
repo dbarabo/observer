@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:include schemaLocation="data_types.xsd"/> 
+<!--
+*****************************************************************************************
+		Выписка из электронного реестра операций с наличной валютой и чеками
+*****************************************************************************************
+-->		
+<xs:element name="ВыпискаИзРеестраОпер">
+  <xs:complexType>  
+    <xs:sequence>
+      <xs:element name="СлужЧасть">
+        <xs:annotation>
+          <xs:documentation>Cлужебная часть Выписки из электронного реестра операций с наличной валютой и чеками</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ВерсФорм">
+              <xs:annotation>
+                <xs:documentation>Версия формата</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="10"/>
+                </xs:restriction>
+              </xs:simpleType>  
+            </xs:element>  
+            <xs:element name="ВерсПрог">
+              <xs:annotation>
+                <xs:documentation>Версия передающей программы</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:minLength value="1"/>
+                  <xs:maxLength value="50"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+			<xs:element name="ДатВып" type="Дата">
+			  <xs:annotation>
+				<xs:documentation>Дата формирования Выписки</xs:documentation>
+			  </xs:annotation>	
+			</xs:element>
+			<xs:element name="ВремВып" type="Время8">
+			  <xs:annotation>
+				<xs:documentation>Время формирования Выписки</xs:documentation>
+			  </xs:annotation>
+			</xs:element>
+			<xs:element name="НачДат" type="Дата">
+			  <xs:annotation>
+				<xs:documentation>Начальная дата периода</xs:documentation>
+			  </xs:annotation>
+			</xs:element>
+			<xs:element name="КонечДат" type="Дата">
+			  <xs:annotation>
+				<xs:documentation>Конечная дата периода</xs:documentation>
+			  </xs:annotation>
+			</xs:element>
+			<xs:element name="ФИООтвСотрудн" type="ФИО">
+			  <xs:annotation>
+				<xs:documentation>ФИО уполномоченного лица</xs:documentation>
+			  </xs:annotation>
+			</xs:element>
+			<xs:element name="ТелОтвСотрудн" type="Телефон">
+			  <xs:annotation>
+				<xs:documentation>Телефон (телефоны) уполномоченного лица</xs:documentation>
+			  </xs:annotation>
+			</xs:element>
+		  </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="ИнфЧасть">
+		<xs:annotation>
+		  <xs:documentation>Информационная часть Выписки из электронного реестра операций с наличной валютой и чеками</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+		  <xs:sequence>
+			  <xs:element name="НаимКО" type="Т250">
+				  <xs:annotation>
+					  <xs:documentation>Сокращенное наименование кредитной организации (филиала)</xs:documentation>
+				  </xs:annotation>
+			  </xs:element>
+			  <xs:element name="РегНомКО">
+				  <xs:annotation>
+					  <xs:documentation>Регистрационный номер кредитной организации</xs:documentation>
+				  </xs:annotation>
+				  <xs:simpleType>
+					  <xs:restriction base="xs:string">
+						  <xs:pattern value="[0-9]{1,4}"/>
+					  </xs:restriction>
+				  </xs:simpleType>
+			  </xs:element>
+			  <xs:element name="СведОФил" minOccurs="0" maxOccurs="unbounded">
+				  <xs:annotation>
+					  <xs:documentation>Сведения о кредитной организации и ее филиалах, Реестры которых включены в Выписку</xs:documentation>
+				  </xs:annotation>
+				  <xs:complexType>
+				    <xs:sequence>
+					  <xs:element name="НомФл">
+						<xs:annotation>
+							<xs:documentation>Порядковый номер филиала кредитной организации</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+						  <xs:restriction base="xs:string">
+						    <xs:pattern value="[0-9]{1,4}|"/>
+						  </xs:restriction>
+						</xs:simpleType>
+					  </xs:element>
+					  <xs:element name="СведОбОпер" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Сведения об операциях с наличной валютой и чеками</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+						  <xs:sequence>
+							<xs:element name="НомРеестр">
+							<xs:annotation>
+								<xs:documentation>Порядковый номер Реестра</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+					   				<xs:pattern value="[0-9]{1,16}"/>
+								</xs:restriction>
+							</xs:simpleType>
+							</xs:element>
+							<xs:element name="НомОпер">
+								<xs:annotation>
+									<xs:documentation>Порядковый номер операции</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+					   					<xs:pattern value="[0-9]{1,16}"/>
+  									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ДатаОпер" type="Дата">
+								<xs:annotation>
+									<xs:documentation>Дата совершения операции</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ВремОпер" type="Время5">
+								<xs:annotation>
+									<xs:documentation>Время совершения операции</xs:documentation>
+								</xs:annotation>  
+							</xs:element>
+							<xs:element name="КодВидОпер">
+								<xs:annotation>
+									<xs:documentation>Код вида операции</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+					   					<xs:pattern value="[0-9]{2}"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="КодВалПрин">
+								<xs:annotation>
+									<xs:documentation>Код принятой валюты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+					 				<xs:restriction base="xs:string">
+										<xs:pattern value="[0-9]{3}|"/>
+					 				</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="КурсВал">
+								<xs:annotation>
+									<xs:documentation>Курс иностранной валюты (кросс-курс) по операции</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+					  					<xs:pattern value="([0-9]{1,15}\.[0-9]{1,7}|[0-9]{1,15})|"/>
+									</xs:restriction>
+								</xs:simpleType>	
+							</xs:element>
+							<xs:element name="СумПрин">
+								<xs:annotation>
+									<xs:documentation>Сумма принятой валюты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+					 					<xs:pattern value="([0-9]{1,15}\.[0-9]{1,2}|[0-9]{1,15})|"/>
+					 				</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="КодВалВыд">
+								<xs:annotation>
+									<xs:documentation>Код выданной валюты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+					  					<xs:pattern value="[0-9]{3}|"/>
+									</xs:restriction>
+								</xs:simpleType>	
+							</xs:element>
+							<xs:element name="СумВыд">
+								<xs:annotation>
+									<xs:documentation>Сумма выданной валюты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="([0-9]{1,15}\.[0-9]{1,2}|[0-9]{1,15})|"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ПризИспКарта">
+								<xs:annotation>
+					  				<xs:documentation>Признак использования платежной карты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="0|1"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="КолЧек">
+								<xs:annotation>
+									<xs:documentation>Количество чеков</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="[0-9]{1,16}|"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="КодВалЧек">
+								<xs:annotation>
+									<xs:documentation>Код валюты</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="[0-9]{3}|"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="СумЧек">
+								<xs:annotation>
+									<xs:documentation>Сумма</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="([0-9]{1,15}\.[0-9]{1,2}|[0-9]{1,15})|"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="НомСчет">
+								<xs:annotation>
+									<xs:documentation>Номер счета</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="0"/>
+										<xs:maxLength value="20"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ПризОпДовер">
+								<xs:annotation>
+									<xs:documentation>Признак осуществления операции по доверенности</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="0|1"/>
+									</xs:restriction>
+								</xs:simpleType>	
+							</xs:element>
+							<xs:element name="ГраждФЛ">
+								<xs:annotation>
+									<xs:documentation>Гражданство физического лица</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="[0-9]{3}|"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						  </xs:sequence>
+					    </xs:complexType>
+				      </xs:element>	  
+				    </xs:sequence>
+				  </xs:complexType>	
+			  </xs:element>
+		  </xs:sequence>
+		</xs:complexType>
+	  </xs:element>
+    </xs:sequence>
+  </xs:complexType>    
+</xs:element>  
+</xs:schema>

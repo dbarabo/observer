@@ -29,9 +29,9 @@ object CryptoArchive600P : FileFinder, FileProcessor {
 
         val signArchive = ScadComplex.cryptoArchive600p(file, pathArchiveSrcToday() )
 
-        // val copyOut = File("${SignScadSend550p.ptkPsdOutPath}/${signArchive.name}")
+        val copyOut = File("${SignScadSend550p.ptkPsdOutPath}/${signArchive.name}")
 
-        // signArchive.copyTo(copyOut, true)
+        signArchive.copyTo(copyOut, true)
     }
 
     private fun pathArchiveSrcToday() = "${AddSign600P.pathToday()}/src".byFolderExists()

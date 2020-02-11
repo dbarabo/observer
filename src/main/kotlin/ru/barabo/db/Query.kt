@@ -463,4 +463,3 @@ private class QueryRequest(val query :String,
 
 
 data class WithMetaData(val data: List<Array<Any?>>, val columns: List<String>, val types: List<Int>)
-
