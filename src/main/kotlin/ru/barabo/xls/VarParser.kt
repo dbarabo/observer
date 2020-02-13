@@ -50,17 +50,81 @@ class ExprParser {
     private fun findOrCreateVar(varName: String): Var {
         if(varName.isBlank() ) throw Exception("var name is Blank")
 
-        return vars.firstOrNull { it.name == varName } ?: createVar(varName)
+        val varList = varName.split(VAR_SEPARATOR)
+
+        val varMain = varList[0]
+
+        val varAppender = if(varList.size > 1)varList[1].trim() else ""
+
+        val varFind = vars.firstOrNull { it.name == varMain.trim() }
+
+        if(varAppender.isBlank()) return varFind ?: createVar(varName)
+
+        if(varFind?.value?.type != VarType.RECORD) throw Exception("appender $varAppender may be only VarType.RECORD")
+
+        return (varFind.value.value as Record).columns.firstOrNull { it.name == varAppender } ?: throw Exception("column record not found:$varName")
+    }
+
+    private fun findVar(varFullName: String): Var? {
+        val varList = varFullName.split(VAR_SEPARATOR)
+
+        val varMain = varList[0].trim()
+
+        val varAppender = if(varList.size > 1) varList[1].trim() else ""
+
+        val varFind = vars.firstOrNull { it.name == varMain } ?: return null
+
+        if(varAppender.isBlank() ) return varFind
+/*
+        return when(varFind.value.type)
+        VarType.RECORD ->
+
+
+
+        if(varFind?.value?.type !in listOf(VarType.RECORD, VarType.CURSOR) ) throw Exception("$varFullName may be only RECORD or CURSOR")
+
+*/
+        return null
     }
 
     private fun parseExpr(expression: String): VarExpr {
         return when {
             isSelect(expression) -> createSelectVar(expression)
-            //isVar(expression) -> byVar(expression)
+            isConst(expression) -> createConst(expression)
+            isVar(expression) -> byVar(expression)
             //isCursorCall(expression) -> createCursorAnyVar(expression)
             //isFun(expression) -> byFunExpr(expression)
             else -> throw Exception("not parse expr:$expression")
         }
+    }
+
+    private fun byVar(expression: String): VarExpr {
+        TODO()
+    }
+
+    private fun createConst(expression: String): VarExpr {
+
+        if(expression[0] == CHAR_TYPE) {
+            return VarExpr(VarResult(VarType.VARCHAR, getVarchar(expression)), "")
+        }
+        val number = getNumber(expression)
+
+        val type = if(number is Double) VarType.NUMBER else VarType.INT
+
+        return VarExpr(VarResult(type, number), "")
+    }
+
+    private fun getNumber(expression: String): Number {
+        val value: Number? = if (expression.indexOf(DOUBLE_SEPARATOR) > 0) expression.toDoubleOrNull()
+                          else expression.toLongOrNull()
+
+        return value ?: throw Exception("expression is not number:$expression")
+    }
+
+    private fun getVarchar(expression: String): String {
+        val pos = expression.substring(1).indexOf(CHAR_TYPE)
+
+        return if(pos >= 0) expression.substring(1, pos + 1) else expression.substring(1)
     }
 
     private fun createSelectVar(expression: String): VarExpr {
@@ -93,6 +157,15 @@ class ExprParser {
         return SqlVarsInfo(varsList, newValue)
     }
 
+   //  private fun getVarByName()
+
+    private fun isVar(expression: String): Boolean = expression.isNotEmpty() && expression[0] == VAR
+
+    private fun isConst(expression: String): Boolean {
+        return  expression.isNotEmpty() &&
+                (expression[0] == CHAR_TYPE || expression[0].isDigit() || expression[0] == MINUS)
+    }
+
     private fun isSelect(expression: String): Boolean = expression.toUpperCase().indexOf("SELECT ") == 0
 
     private fun createVar(varName: String): Var = Var(varName, VarResult.UNDEFINED).apply { vars.add(this) }
@@ -101,6 +174,14 @@ class ExprParser {
 private data class VarExpr(val vars: ReturnResult, val info: String)
 
 private data class SqlVarsInfo(val vars: List<ReturnResult>, val info: String)
+
+private const val MINUS = '-'
+
+private const val VAR_SEPARATOR = '.'
+
+private const val DOUBLE_SEPARATOR = '.'
+
+private const val CHAR_TYPE = '\''
 
 private const val END_COMMAND = ';'
 

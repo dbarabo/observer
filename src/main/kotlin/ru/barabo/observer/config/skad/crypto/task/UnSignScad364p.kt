@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.cbr.ticket.task.Ticket407ArjXml.ticket407pRfm
 import ru.barabo.observer.config.cbr.ticket.task.TicketFtsText.ticketFtsDirectory
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.task.UnCryptoScad364p.unCrypto364p
@@ -25,7 +26,9 @@ object UnSignScad364p  : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true),
-            FileFinderData(::ticketFtsDirectory,"(FC|FS|NC|NS).*\\.xml"))
+            FileFinderData(::ticketFtsDirectory,"(FC|FS|NC|NS).*\\.xml"),
+            FileFinderData(::ticket407pRfmFolder, "PI_RFM.*\\.xml")
+    )
 
     override fun processFile(file: File) {
 
@@ -33,4 +36,6 @@ object UnSignScad364p  : FileFinder, FileProcessor {
 
         if(!file.exists()) throw Exception("unsign file not found ${file.absolutePath}")
     }
+
+    private fun ticket407pRfmFolder() = File(ticket407pRfm())
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class InfoFilial {
 
     @XStreamAlias("НомФл")
-    private String filialNumber = "0";
+    private String filialNumber = "";
 
     @XStreamImplicit(itemFieldName = "СведОбОпер")
     private List<InfoOper> infoOperList;

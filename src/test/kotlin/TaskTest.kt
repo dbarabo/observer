@@ -1,4 +1,5 @@
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.crypto.CertificateType
@@ -148,6 +149,17 @@ class TaskTest {
         logger.error("☹☹☹⛔⛔⛔✚✚✚☘☘⛄⛄⛄✖✖✖")
 
 
+    }
+
+    @Test
+    fun testSplitKortege() {
+
+        val a= "".split('.')
+
+        val b = if(a.size > 1) a[1] else ""
+
+        logger.error("a=${a[0]}")
+        logger.error("b=$b")
     }
 
     //@Test

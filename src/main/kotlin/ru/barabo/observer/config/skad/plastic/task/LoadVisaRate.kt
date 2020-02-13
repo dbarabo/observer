@@ -30,7 +30,7 @@ where ad.onedate > sysdate-15
 order by ad.onedate"""
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false,
-            LocalTime.of(7, 0), LocalTime.of(8, 30), Duration.ZERO)
+            LocalTime.of(2, 10), LocalTime.of(8, 30), Duration.ZERO)
 
     override fun execute(elem: Elem): State {
 

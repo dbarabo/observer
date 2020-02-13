@@ -8,6 +8,7 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.crypto.ScadComplex
 import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
@@ -25,7 +26,7 @@ object Ticket407ArjXml: FileFinder, FileProcessor {
 
     override fun name(): String = "407-П Ответ ZRFM"
 
-    private fun ticket407pRfm() :String = "K:/ARH_LEG/407-П/ИЭС_РФМ/${TicketFtsText.todayFolder()}"
+    fun ticket407pRfm(): String = "K:/ARH_LEG/407-П/ИЭС_РФМ/${TicketFtsText.todayFolder()}"
 
     override fun processFile(file : File) {
 
@@ -33,8 +34,6 @@ object Ticket407ArjXml: FileFinder, FileProcessor {
 
         arjArchive?.forEach { arj ->
             val xmlFiles = Archive.extractFromArj(arj, ticket407pRfm(), ".*\\.xml")
-
-            xmlFiles?.forEach { Verba.unSignFile(it) }
         }
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, subject = "407-П Ответ ZRFM", body = "Квитки в папке ${ticket407pRfm()}")

@@ -8,7 +8,7 @@ import java.util.List;
 public class InfoPart {
 
     @XStreamAlias("НаимКО")
-    private String bankName = "ООО ПРИМТЕРКОМБАНК";
+    private String bankName = "ООО \"Примтеркомбанк\"";
 
     @XStreamAlias("РегНомКО")
     private String regNumberBank = "21";

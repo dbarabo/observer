@@ -89,6 +89,13 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
         }
     }
 
+    fun getCountByTask(task: ActionTask, state: State = State.OK, nameContains: String? = null): Int
+            = dataList.filter { it.state === state &&
+            it.task == task &&
+            it.executed?.toLocalDate() == LocalDate.now() &&
+            (nameContains == null || it.name.indexOf(nameContains) >= 0)
+    }.count()
+
     //@Synchronized
     fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
             = dataList.filter { it.state === state &&

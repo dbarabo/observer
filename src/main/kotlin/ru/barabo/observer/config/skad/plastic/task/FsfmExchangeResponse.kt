@@ -13,6 +13,7 @@ import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.p600.exchange.ExtractRegisterOper
@@ -30,15 +31,15 @@ object FsfmExchangeResponse : SingleSelector {
 
     override fun config(): ConfigTask = PlasticOutSide
 
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
+            workTimeFrom = LocalTime.of(8, 0), workTimeTo = LocalTime.of(15, 50),
+            executeWait = Duration.ZERO)
+
     override val select: String = """
 select e.id,  vp.label
 from od.PTKB_FSFM_REQUEST_EXCHANGE e 
 join od.vpclient vp on vp.classified = e.vpclient
 where e.state = 0"""
-
-    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-            workTimeFrom = LocalTime.of(8, 0), workTimeTo = LocalTime.of(15, 50),
-            executeWait = Duration.ZERO)
 
     override fun execute(elem: Elem): State {
 
@@ -52,12 +53,22 @@ where e.state = 0"""
 
         val fileRequest = dateStartEnd[2] as String
 
-        XmlSaver.createXml(start, end, fileRequest, data)
+        val fileResponse = XmlSaver.createXml(start, end, fileRequest, data)
 
         AfinaQuery.execute(EXEC_STATE, arrayOf(elem.idElem))
 
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.OPER, subject = "600-П Выписка по ВОП сформирована",
+                body = bodyInfo(elem.name, fileRequest, fileResponse), attachments = arrayOf(fileResponse))
+
         return State.OK
     }
+
+    private fun bodyInfo(name: String, fileRequest: String, fileResponse: File) =
+"""Выписка по ВОП для ФСФМ сформирована
+Файл запроса: $fileRequest
+Клиент: $name
+Файл выписки: ${fileResponse.absolutePath}
+""".trimIndent()
 
     private const val SELECT_EXCHANGE600P = "{ ? = call od.PTKB_PRECEPT.getExchange600p(?) }"
 
@@ -69,7 +80,7 @@ where e.state = 0"""
 
 object XmlSaver {
 
-    fun createXml(start: Date, end: Date, fileRequest: String, data: List<Array<Any?>>) {
+    fun createXml(start: Date, end: Date, fileRequest: String, data: List<Array<Any?>>): File {
 
         val xmlData = ExtractRegisterOper(data, start, end)
 
@@ -78,6 +89,8 @@ object XmlSaver {
         saveXml(file, xmlData)
 
         XmlValidator.validate(file, "/xsd/inc_07.xsd")
+
+        return file
     }
 
     private fun saveXml(file: File, xmlData: Any) {

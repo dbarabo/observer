@@ -40,6 +40,8 @@ object ScadConfig : AbstractConfig() {
         AddSign600P.findAll()
         CryptoArchive600P.findAll()
 
+        AddSignMain600P.findAll()
+
         executeTasks()
     }
 }

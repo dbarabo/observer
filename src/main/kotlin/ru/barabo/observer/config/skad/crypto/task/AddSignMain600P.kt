@@ -7,34 +7,37 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
+import ru.barabo.observer.store.State
+import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
 
-object AddSign600P : FileFinder, FileProcessor {
+object AddSignMain600P : FileFinder, FileProcessor {
 
-    override fun name(): String = "600-П sign Квитки-в Архив"
+    override fun name(): String = "600-П sign Ответ-в Архив"
 
     override fun config(): ConfigTask = ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData( workTimeFrom = LocalTime.of(9, 0),
             workTimeTo = LocalTime.of(23, 0), executeWait = Duration.ofSeconds(1) )
 
-    override val fileFinderData: List<FileFinderData> = listOf( FileFinderData( ::pathTicketToday, null ) )
+    override val fileFinderData: List<FileFinderData> = listOf( FileFinderData( ::pathMainToday, null ) )
 
     override fun processFile(file: File) {
 
-        val arjArchive = File("${pathCryptoTicketToday().absolutePath}/${arjArchiveNameToday()}")
+        val arjArchive = File("${pathCryptoMainToday().absolutePath}/${arjArchiveNameToday()}")
 
         ScadComplex.signAddArchive600p(file, arjArchive)
     }
 
-    private fun pathTicketToday() = File("$pathTicket/${nameDateToday()}")
+    private fun pathMainToday() = File("$pathMain/${nameDateToday()}")
 
-    fun pathCryptoTicketToday() = File("${pathTicketToday()}/crypto")
+    fun pathCryptoMainToday() = File("${pathMainToday()}/crypto")
 
-    private fun arjArchiveNameToday() = "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+    private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_0${getCountSend()}_000.ARJ"
 
-    private const val pathTicket = "H:/ПОД ФТ/comita/600-П/ARHKRFM"
+    private fun getCountSend(): Int = StoreSimple.getCountByTask(task = CryptoArchive600P, nameContains = "DIFM") + 1
+
+    private const val pathMain = "H:/ПОД ФТ/comita/600-П/DIFM"
 }
-

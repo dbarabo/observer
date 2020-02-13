@@ -50,6 +50,8 @@ fun Int.toSqlValueNull(): Any {
     }
 }
 
+data class Record(var columns: List<Var> = emptyList())
+
 data class CursorData(val query: String, val params: List<ReturnResult> = emptyList(),
                       var data: List<Array<Any?>> = emptyList(), var row: Int = 0,
                       var columns: List<String> = emptyList(), var sqlColumnType: List<Int> = emptyList(),
@@ -95,8 +97,6 @@ data class CursorData(val query: String, val params: List<ReturnResult> = emptyL
     private fun isCursor() = query[0] == '{'
 }
 
-typealias Record = Array<Var>
-
 private fun List<Var>.toSqlParams(): Array<Any?> = map { it.toSqlValue() }.toTypedArray()
 
 data class Var(var name: String, var value: VarResult) {
@@ -120,8 +120,8 @@ data class Var(var name: String, var value: VarResult) {
 
         val index = if(columnName == null) 0 else columnName.trim().toIntOrNull()
 
-        return index?.let { value[it].toSqlValue() } ?:
-        value.firstOrNull { it.name.equals(columnName, true) } ?:
+        return index?.let { value.columns[it].toSqlValue() } ?:
+        value.columns.firstOrNull { it.name.equals(columnName, true) } ?:
         throw Exception("not found record $name.$columnName")
     }
 }
