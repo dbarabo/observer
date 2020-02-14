@@ -33,7 +33,7 @@ object Ticket407ArjXml: FileFinder, FileProcessor {
         val arjArchive = Archive.extractFromCab(file, ticket407pRfm(), ".*\\.arj")
 
         arjArchive?.forEach { arj ->
-            val xmlFiles = Archive.extractFromArj(arj, ticket407pRfm(), ".*\\.xml")
+            Archive.extractFromArj(arj, ticket407pRfm(), ".*\\.xml")
         }
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, subject = "407-П Ответ ZRFM", body = "Квитки в папке ${ticket407pRfm()}")

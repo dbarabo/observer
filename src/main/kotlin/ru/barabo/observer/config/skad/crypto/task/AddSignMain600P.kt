@@ -10,6 +10,7 @@ import ru.barabo.observer.crypto.ScadComplex
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
+import java.text.DecimalFormat
 import java.time.Duration
 import java.time.LocalTime
 
@@ -35,9 +36,13 @@ object AddSignMain600P : FileFinder, FileProcessor {
 
     fun pathCryptoMainToday() = File("${pathMainToday()}/crypto")
 
-    private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_0${getCountSend()}_000.ARJ"
+    private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_${getCountSend()}_000.ARJ"
 
-    private fun getCountSend(): Int = StoreSimple.getCountByTask(task = CryptoArchive600P, nameContains = "DIFM") + 1
+    private fun getCountSend(): String {
+        val number = StoreSimple.getCountByTask(task = CryptoArchive600P, nameContains = "DIFM") + 1
+
+        return DecimalFormat("00").format(number)
+    }
 
     private const val pathMain = "H:/ПОД ФТ/comita/600-П/DIFM"
 }

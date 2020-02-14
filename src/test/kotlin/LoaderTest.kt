@@ -42,6 +42,8 @@ import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
+import ru.barabo.xls.Parser
+import ru.barabo.xls.Var
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset
@@ -70,6 +72,40 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    @Test
+    fun pareserTest() {
+
+       /* val text ="""
+FIND = '%БАРАБОШКИН%';            
+CLOSED = od.PTKB_PLASTIC_AUTO.getCardsClosed([FIND]);        
+CARD = [CLOSED.CARDNUM];  
+PRODUCT = [CLOSED.PRODUCT_NAME]"""
+*/
+
+        val text = """
+info = '';
+id = 1206343529;
+calc = select round(4.5, 0)*333 RES, 1 INTTEST, 2.2 DEC_TEST from dual;
+od.PTKB_PLASTIC_TURN.getInfoProcessedCtl([out info], [id]);
+[info];
+res = [calc.res];
+res2 = [calc.INTTEST];
+res3 = [calc.DEC_TEST];
+"""
+        val vars = ArrayList<Var>()
+
+        val parser = Parser()
+
+        val expression = parser.parseExpression(text, vars)
+
+        expression.forEach { logger.error("$it") }
+        vars.forEach { logger.error("$it") }
+
+        val result = parser.execExpression(expression)
+        logger.error("result=$result")
+        vars.forEach { logger.error("$it") }
+    }
 
     //@Test
     fun selectWithMetaData() {

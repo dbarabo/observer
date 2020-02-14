@@ -1,6 +1,9 @@
 package ru.barabo.xls
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
+import java.util.*
+import kotlin.collections.ArrayList
 
 enum class VarType(val sqlType: Int) {
     UNDEFINED(-1),
@@ -10,6 +13,18 @@ enum class VarType(val sqlType: Int) {
     DATE(java.sql.Types.TIMESTAMP),
     RECORD(-1),
     CURSOR(-1);
+
+    fun copyValue(value: Any?): Any? {
+        if(value == null) return null
+
+        return when(this) {
+        INT -> (value as Number).toLong()
+        NUMBER -> (value as Number).toDouble()
+        VARCHAR ->  (value as String) + ""
+        DATE -> java.sql.Timestamp((value as Date).time)
+        else -> throw Exception("it is not support set Action for $this value=$value")
+        }
+    }
 
     fun toSqlValueNull(): Any {
         return when(this) {
@@ -24,7 +39,30 @@ enum class VarType(val sqlType: Int) {
             else -> throw Exception("undefined type for null value")
         }
     }
+
+    companion object {
+        fun varTypeBySqlType(sqlType: Int): VarType {
+           return VarType.values().firstOrNull { it.sqlType == sqlType } ?: varTypeBySqlTypeMore(sqlType)
+        }
+
+        private fun varTypeBySqlTypeMore(sqlType: Int): VarType {
+            return when(sqlType) {
+            java.sql.Types.BIT,
+            java.sql.Types.TINYINT,
+            java.sql.Types.SMALLINT,
+            java.sql.Types.INTEGER -> INT
+
+            java.sql.Types.NUMERIC,
+            java.sql.Types.DECIMAL,
+            java.sql.Types.FLOAT,
+            java.sql.Types.REAL -> NUMBER
+            else -> throw java.lang.Exception("not supported sqlType=$sqlType")
+            }
+        }
+    }
 }
+
+private val logger = LoggerFactory.getLogger(Parser::class.java)
 
 fun Int.toSqlValueNull(): Any {
     return when(this) {
@@ -52,27 +90,74 @@ fun Int.toSqlValueNull(): Any {
 
 data class Record(var columns: List<Var> = emptyList())
 
-data class CursorData(val query: String, val params: List<ReturnResult> = emptyList(),
-                      var data: List<Array<Any?>> = emptyList(), var row: Int = 0,
-                      var columns: List<String> = emptyList(), var sqlColumnType: List<Int> = emptyList(),
-                      private var isOpen: Boolean = false) {
+private class ColumnResult(private val cursor: CursorData, val columnName: String, private var index: Int = -1): ReturnResult {
+    override fun getVar(): VarResult {
+        if(index == -1) {
+            index = cursor.getColumnIndex(columnName)
+        }
+        return cursor.getVarResult(index)
+    }
 
-    fun toSqlValue(columnName: String?): Any {
+    override fun setVar(newVar: VarResult) {}
 
+    override fun getSqlValue(): Any {
+        if(index == -1) {
+            index = cursor.getColumnIndex(columnName)
+        }
+        return cursor.toSqlValue(index)
+    }
+}
+
+class CursorData(val query: String, val params: List<ReturnResult> = emptyList() ) {
+
+    private var data: List<Array<Any?>> = emptyList()
+
+    private var row: Int = 0
+
+    private var columns: List<String> = emptyList()
+
+    private var sqlColumnType: List<Int> = emptyList()
+
+    private var isOpen: Boolean = false
+
+    private val columnResult = ArrayList<ColumnResult>()
+
+    fun getColumnResult(columnName: String): ReturnResult {
+        return columnResult.firstOrNull { it.columnName == columnName }
+                ?: ColumnResult(this, columnName).apply { columnResult += this }
+    }
+
+    fun toSqlValue(index: Int): Any {
         if(!isOpen) {
             isOpen = open()
         }
-
         if(row >= data.size) throw Exception("cursor position is end")
-
-        val index = if(columnName == null) 0 else {
-            columnName.trim().toIntOrNull() ?: getColumnIndex(columnName.trim())
-        }
 
         return data[row][index] ?: sqlColumnType[index].toSqlValueNull()
     }
 
-    private fun getColumnIndex(columnName: String): Int {
+    fun getVarResult(index: Int): VarResult {
+        if(!isOpen) {
+            isOpen = open()
+        }
+        if(row >= data.size) throw Exception("cursor position is end")
+
+        val value = data[row][index]
+
+        logger.error("index=$index")
+        logger.error("value=$value")
+        logger.error("sqlColumnType=${sqlColumnType[index]}")
+
+        val type = VarType.varTypeBySqlType(sqlColumnType[index])
+
+        return VarResult(type = type, value = value)
+    }
+
+    internal fun getColumnIndex(columnName: String): Int {
+        if(!isOpen) {
+            isOpen = open()
+        }
+
         return columns.withIndex().firstOrNull { it.value.equals(columnName, true) }?.index ?:
         throw Exception("not found column for cursor .$columnName")
     }
@@ -97,8 +182,6 @@ data class CursorData(val query: String, val params: List<ReturnResult> = emptyL
     private fun isCursor() = query[0] == '{'
 }
 
-private fun List<Var>.toSqlParams(): Array<Any?> = map { it.toSqlValue() }.toTypedArray()
-
 data class Var(var name: String, var value: VarResult) {
 
     fun toSqlValue(columnName: String? = null): Any = value.value?.let { toSqlValueIt(columnName, it) } ?: value.type.toSqlValueNull()
@@ -111,8 +194,8 @@ data class Var(var name: String, var value: VarResult) {
             VarType.VARCHAR -> itValue
             VarType.DATE -> itValue
             VarType.RECORD -> getRecordValue(columnName, itValue as Record)
-            VarType.CURSOR -> (itValue as CursorData).toSqlValue(columnName)
-            VarType.UNDEFINED -> throw Exception("undefined value for $name.$columnName")
+            //VarType.CURSOR -> (itValue as CursorData).toSqlValue(columnName)
+            else -> throw Exception("undefined value for $name.$columnName")
         }
     }
 
@@ -150,7 +233,7 @@ data class VarResult(var type: VarType = VarType.UNDEFINED, var value: Any? = nu
 
     override fun setVar(newVar: VarResult) {
         this.type = newVar.type
-        this.value = newVar.value
+        this.value = newVar.value // newVar.type.copyValue(newVar.value)
     }
 
     override fun getSqlValue(): Any {
@@ -172,8 +255,11 @@ data class OperVar(val oper: Oper,
 
     override fun getSqlValue(): Any = getVar().getSqlValue()
 
-    private fun oper(params: List<VarResult>): VarResult = operations[oper]?.invoke(params, info) ?: throw Exception("operations for $oper not found")
+    private fun oper(params: List<VarResult>): VarResult {
+        val result = operations[oper]?.invoke(params, info) ?: throw Exception("operations for $oper not found")
 
+        return result
+    }
 }
 
 private val operations = mapOf<Oper, (List<VarResult>, String)->VarResult >(
@@ -210,15 +296,18 @@ private fun funOper(params: List<VarResult>, info: String): VarResult =
 private val funMap = mapOf<String, (List<VarResult>)->VarResult> (
         "OUT" to ::outFun,
         "EQUAL" to ::equalFun,
+        "NOTEQUAL" to ::notEqualFun,
         "NOT" to ::notFun,
         "AND" to ::andFun,
-        "OR" to ::orFun//,
+        "OR" to ::orFun
         //"NOW" to ::nowFun
 )
 
 //private fun nowFun(params: List<VarResult>): VarResult =
 
 private fun outFun(params: List<VarResult>): VarResult = params[0].apply { this.value = VarType.UNDEFINED }
+
+private fun notEqualFun(params: List<VarResult>): VarResult = VarResult( VarType.INT, if(params[0].value != params[1].value)1 else 0)
 
 private fun equalFun(params: List<VarResult>): VarResult = VarResult( VarType.INT, if(params[0].value == params[1].value)1 else 0)
 

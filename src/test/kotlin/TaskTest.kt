@@ -4,9 +4,12 @@ import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.crypto.CertificateType
 import ru.barabo.observer.crypto.Scad
+import ru.barabo.xls.Parser
+import ru.barabo.xls.Var
 import java.io.File
 import java.net.InetAddress
 import java.sql.Timestamp
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.util.regex.Pattern
@@ -14,7 +17,7 @@ import kotlin.concurrent.timer
 
 class TaskTest {
 
-    val logger = LoggerFactory.getLogger(TaskTest::class.java)
+    private val logger = LoggerFactory.getLogger(TaskTest::class.java)
 
 
     private fun isWorkTime(workTimeFrom :LocalTime, workTimeTo :LocalTime) :Boolean = if(workTimeFrom < workTimeTo) {
@@ -151,21 +154,55 @@ class TaskTest {
 
     }
 
-    @Test
+    //@Test
     fun testSplitKortege() {
 
+        for (index in 0..99) {
+            logger.error(":${DecimalFormat("00").format(index)}:")
+        }
+        /*
+        val str = "123456789"
+
+        logger.error("substr=${str.substring(1..8)}")
+       */
+        /*for (index in (4-1) downTo 0) {
+            logger.error("index=$index")
+        }
+
+        /*
         val a= "".split('.')
 
         val b = if(a.size > 1) a[1] else ""
 
         logger.error("a=${a[0]}")
-        logger.error("b=$b")
+        logger.error("b=$b")*/
+
+         */
     }
 
     //@Test
     fun getLocalHost() {
         logger.error(InetAddress.getLocalHost().hostName.toUpperCase())
+    }
 
+    // @Test
+    fun testParser() {
 
+        //val text = "b = 4; c = 5; a = (([b] == 3) and (4 != [c]))"
+
+        val text = "b = 10.5; c = 11.7; a = [c]; c = 5.7; b = [c]; b = 9"
+
+        val vars = ArrayList<Var>()
+
+        val parser = Parser()
+
+        val expression = parser.parseExpression(text, vars)
+
+        expression.forEach { logger.error("$it") }
+        vars.forEach { logger.error("$it") }
+
+        val result = parser.execExpression(expression)
+        logger.error("result=$result")
+        vars.forEach { logger.error("$it") }
     }
 }
