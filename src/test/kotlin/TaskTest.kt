@@ -2,6 +2,7 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.crypto.CertificateType
 import ru.barabo.observer.crypto.Scad
 import ru.barabo.xls.Parser
@@ -194,7 +195,7 @@ class TaskTest {
 
         val vars = ArrayList<Var>()
 
-        val parser = Parser()
+        val parser = Parser(AfinaQuery)
 
         val expression = parser.parseExpression(text, vars)
 

@@ -1,7 +1,8 @@
 package ru.barabo.xls
 
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.db.Query
+import ru.barabo.db.SessionSetting
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -12,7 +13,8 @@ enum class VarType(val sqlType: Int) {
     VARCHAR(java.sql.Types.VARCHAR),
     DATE(java.sql.Types.TIMESTAMP),
     RECORD(-1),
-    CURSOR(-1);
+    CURSOR(-1),
+    SQL_PROC(-1);
 
     fun copyValue(value: Any?): Any? {
         if(value == null) return null
@@ -108,7 +110,9 @@ private class ColumnResult(private val cursor: CursorData, val columnName: Strin
     }
 }
 
-class CursorData(val query: String, val params: List<ReturnResult> = emptyList() ) {
+data class QuerySession(val query: Query, val sessionSetting: SessionSetting)
+
+class CursorData(private val querySession: QuerySession, val querySelect: String, val params: List<ReturnResult> = emptyList() ) {
 
     private var data: List<Array<Any?>> = emptyList()
 
@@ -127,6 +131,21 @@ class CursorData(val query: String, val params: List<ReturnResult> = emptyList()
                 ?: ColumnResult(this, columnName).apply { columnResult += this }
     }
 
+    fun isNext(): Boolean {
+        return if(row + 1 < data.size) {
+            row++
+
+            true
+        } else false
+    }
+
+    fun isEmpty(): Boolean {
+        if(!isOpen) {
+            isOpen = open()
+        }
+        return data.isEmpty()
+    }
+
     fun toSqlValue(index: Int): Any {
         if(!isOpen) {
             isOpen = open()
@@ -143,10 +162,6 @@ class CursorData(val query: String, val params: List<ReturnResult> = emptyList()
         if(row >= data.size) throw Exception("cursor position is end")
 
         val value = data[row][index]
-
-        logger.error("index=$index")
-        logger.error("value=$value")
-        logger.error("sqlColumnType=${sqlColumnType[index]}")
 
         val type = VarType.varTypeBySqlType(sqlColumnType[index])
 
@@ -167,19 +182,20 @@ class CursorData(val query: String, val params: List<ReturnResult> = emptyList()
         val param: Array<Any?>? = if(params.isEmpty()) null else params.map { it.getSqlValue() }.toTypedArray()
 
         val allData = if(isCursor()) {
-            AfinaQuery.selectCursorWithMetaData(query, param)
+            querySession.query.selectCursorWithMetaData(querySelect, param, querySession.sessionSetting)
         } else {
-            AfinaQuery.selectWithMetaData(query, param)
+            querySession.query.selectWithMetaData(querySelect, param, querySession.sessionSetting)
         }
 
         data = allData.data
         columns = allData.columns
         sqlColumnType = allData.types
+        row = 0
 
         return true
     }
 
-    private fun isCursor() = query[0] == '{'
+    private fun isCursor() = querySelect[0] == '{'
 }
 
 data class Var(var name: String, var value: VarResult) {
@@ -212,7 +228,8 @@ data class Var(var name: String, var value: VarResult) {
 enum class Oper {
     APPLY,
     SQL_EXEC,
-    FUN
+    FUN,
+    VAR
 }
 
 interface ReturnResult {
@@ -241,6 +258,19 @@ data class VarResult(var type: VarType = VarType.UNDEFINED, var value: Any? = nu
     }
 }
 
+fun VarResult?.toBoolean(): Boolean {
+    if(this?.value == null) return false
+
+    return when(this.type) {
+        VarType.UNDEFINED -> false
+        VarType.INT -> (this.value as Number).toLong() != 0L
+        VarType.NUMBER -> (this.value as Number).toDouble() != 0.0
+        VarType.VARCHAR -> this.value.toString().isBlank()
+        VarType.DATE -> true
+        else -> false
+    }
+}
+
 data class OperVar(val oper: Oper,
                    val info: String = "",
                    val vars: List<ReturnResult> = emptyList()  ) : ReturnResult {
@@ -265,8 +295,13 @@ data class OperVar(val oper: Oper,
 private val operations = mapOf<Oper, (List<VarResult>, String)->VarResult >(
     Oper.APPLY to ::apply,
     Oper.SQL_EXEC to ::sqlProcExec,
-    Oper.FUN to ::funOper
+    Oper.FUN to ::funOper,
+    Oper.VAR to ::varOper
 )
+
+private fun varOper(params: List<VarResult>, info: String): VarResult {
+    return params[0]
+}
 
 private fun apply(params: List<VarResult>, info: String): VarResult {
 
@@ -277,15 +312,18 @@ private fun apply(params: List<VarResult>, info: String): VarResult {
 
 private fun sqlProcExec(params: List<VarResult>, info: String): VarResult {
 
-  val outTypes =   params.filter { it.value == VarType.UNDEFINED}.map { it.type.sqlType }.toIntArray()
+    val querySession: QuerySession = params[0].value as? QuerySession ?: throw Exception("first param for sqlProcExec must be QuerySession")
 
-  val param: Array<Any?> = params.filter { it.value != VarType.UNDEFINED}.map {it.getVar().getSqlValue()}.toTypedArray()
+    val outTypes =   params.filter { it.value == VarType.UNDEFINED}.map { it.type.sqlType }.toIntArray()
 
-  val outParams = AfinaQuery.execute(query = info, params = param, outParamTypes = outTypes)
+    val param: Array<Any?> = params.filter { it.value != VarType.UNDEFINED && it.type != VarType.SQL_PROC}.map {it.getVar().getSqlValue()}.toTypedArray()
 
-  outParams?.withIndex()?.forEach {
-      params[it.index].setVar(VarResult(params[it.index].type, it.value))
-  }
+    val outParams = querySession.query.execute(query = info, params = param,
+          outParamTypes = outTypes, sessionSetting = querySession.sessionSetting)
+
+    outParams?.withIndex()?.forEach {
+        params[it.index + 1].setVar(VarResult(params[it.index + 1].type, it.value))
+    }
 
   return VarResult.UNDEFINED
 }
@@ -302,8 +340,6 @@ private val funMap = mapOf<String, (List<VarResult>)->VarResult> (
         "OR" to ::orFun
         //"NOW" to ::nowFun
 )
-
-//private fun nowFun(params: List<VarResult>): VarResult =
 
 private fun outFun(params: List<VarResult>): VarResult = params[0].apply { this.value = VarType.UNDEFINED }
 

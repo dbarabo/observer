@@ -18,7 +18,7 @@ open class Query (private val dbConnection :DbConnection) {
 
     private var uniqueSession : AtomicLong = AtomicLong(1L)
 
-    fun uniqueSession() :SessionSetting =
+    fun uniqueSession(): SessionSetting =
             SessionSetting(false,  TransactType.NO_ACTION, uniqueSession.incrementAndGet())
 
     @Throws(SessionException::class)

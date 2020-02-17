@@ -1,12 +1,14 @@
 package ru.barabo.xls
 
 import org.slf4j.LoggerFactory
+import ru.barabo.db.Query
+import ru.barabo.db.SessionSetting
 import java.util.*
 import kotlin.collections.ArrayList
 
 typealias Expression = List<OperVar>
 
-class Parser {
+class Parser(private val query: Query) {
     private val logger = LoggerFactory.getLogger(Parser::class.java)
 
     private lateinit var vars: MutableList<Var>
@@ -17,22 +19,43 @@ class Parser {
 
     private val resultExp = ArrayList<OperVar>()
 
+    private lateinit var sessionSetting: SessionSetting
+
     private var filling: String = ""
 
     private var expression: String = ""
 
-    fun execExpression(expr: Expression): VarResult? {
+    fun execExpression(expr: Expression, isRollBackAfterExec: Boolean = true): VarResult? {
+        if(expr.isEmpty()) return null
+
         var result: VarResult? = null
 
-        for (oper in expr) {
-            result = oper.getVar()
-        }
+        try {
 
+            for (oper in expr) {
+                result = oper.getVar()
+            }
+
+            if(isRollBackAfterExec) query.rollbackFree(sessionSetting)
+
+        } catch (e: java.lang.Exception) {
+            query.rollbackFree(sessionSetting)
+
+            logger.error("execExpression", e)
+
+            throw Exception(e.message)
+        }
         return result
+    }
+
+    fun rollbackAfterExec() {
+        query.rollbackFree(sessionSetting)
     }
 
     fun parseExpression(expression: String, globalVars: MutableList<Var>): Expression {
         vars = globalVars
+
+        if(expression.isBlank()) return emptyList()
 
         stackOper.clear()
         stackPredikat.clear()
@@ -40,15 +63,31 @@ class Parser {
 
         this.expression = expression
 
-        if(expression.isBlank()) return emptyList()
+        sessionSetting = query.uniqueSession()
 
         var index = 0
         while(index < expression.length) {
 
             index = parseItem(expression[index].toUpperCase(), index)
         }
+        checkIsEndVarValue(expression)
 
         return resultExp.toList()
+    }
+
+    private fun checkIsEndVarValue(expression: String) {
+        val trimExp = expression.trim()
+
+        if(trimExp.lastIndex <= 0 || expression[trimExp.lastIndex] == ';') return
+
+        var predikat: ReturnResult? = null
+        while(stackPredikat.isNotEmpty()) {
+            predikat = stackPredikat.pop()
+        }
+
+        if(predikat == null || predikat is OperVar) return
+
+        resultExp += OperVar(oper = Oper.VAR, vars = listOf(predikat) )
     }
 
     private fun parseItem(item: Char, index: Int): Int {
@@ -81,7 +120,9 @@ class Parser {
             predikat = stackPredikat.pop()
         }
 
-        if(predikat != null && predikat !is OperVar && predikat.getVar().value is String) {
+        if(predikat == null) return index + 1
+
+        if(predikat !is OperVar && predikat.getVar().value is String) {
             val procName = predikat.getVar().value as String
 
             addSqlProcedure(procName)
@@ -286,8 +327,6 @@ class Parser {
 
     private fun tryExecOperByPredikat(newPredikat: ReturnResult) {
         stackPredikat.push(newPredikat)
-
-        logger.error("PREDIKAT======$newPredikat")
         tryExecOper()
     }
 
@@ -322,7 +361,17 @@ class Parser {
     }
 
     private fun addSqlProcedure(sqlProcText: String, params: List<ReturnResult> = emptyList() ) {
-        resultExp += OperVar(oper = Oper.SQL_EXEC, info = createCallSqlProcedure(sqlProcText), vars = params)
+
+        val firstParam = VarResult(VarType.SQL_PROC, value = QuerySession(query, sessionSetting))
+
+        val paramProc = ArrayList<ReturnResult>()
+        paramProc.add(firstParam)
+
+        if(params.isNotEmpty()) {
+            paramProc.addAll(params)
+        }
+
+        resultExp += OperVar(oper = Oper.SQL_EXEC, info = createCallSqlProcedure(sqlProcText), vars = paramProc)
     }
 
     private fun createCallSqlProcedure(procName: String) = "{ call $procName }"
@@ -339,8 +388,6 @@ class Parser {
         variable.setVar(varResult)
 
         if(stackOper.pop() != ParseType.APPLY) throw Exception("must be ParseType.APPLY")
-
-        // resultExp += OperVar(oper = Oper.APPLY, vars = listOf(variable, varResult))
 
         return newIndex
     }
@@ -408,9 +455,9 @@ class Parser {
     private fun readCursorToEnd(index: Int, isSelect: Boolean): Pair<CursorData, Int> {
         val (newIndex, queryText, params) = parseSql(filling, index)
 
-        val query = if(isSelect) queryText else cursorFromQuery(queryText)
+        val querySelect = if(isSelect) queryText else cursorFromQuery(queryText)
 
-        val cursor = CursorData(query, params)
+        val cursor = CursorData(QuerySession(query, sessionSetting), querySelect, params)
 
         return Pair(cursor, newIndex)
     }
@@ -479,5 +526,5 @@ private const val VAR_SEPARATOR = '.'
 
 private const val END_COMMAND = ';'
 
-private const val OPEN_VAR = '['
-private const val CLOSE_VAR = ']'
+const val OPEN_VAR = '['
+const val CLOSE_VAR = ']'

@@ -73,7 +73,7 @@ class LoaderTest {
 
     private fun separ() = ";"
 
-    @Test
+   // @Test
     fun pareserTest() {
 
        /* val text ="""
@@ -88,14 +88,14 @@ info = '';
 id = 1206343529;
 calc = select round(4.5, 0)*333 RES, 1 INTTEST, 2.2 DEC_TEST from dual;
 od.PTKB_PLASTIC_TURN.getInfoProcessedCtl([out info], [id]);
-[info];
 res = [calc.res];
 res2 = [calc.INTTEST];
 res3 = [calc.DEC_TEST];
+[info];
 """
         val vars = ArrayList<Var>()
 
-        val parser = Parser()
+        val parser = Parser(AfinaQuery)
 
         val expression = parser.parseExpression(text, vars)
 
