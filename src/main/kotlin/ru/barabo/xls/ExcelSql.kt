@@ -27,6 +27,11 @@ class ExcelSql(newFile: File, template: File) {
         for(row in rowData) {
             diffRow = buildRow(row, diffRow)
         }
+
+        parser.rollbackAfterExec()
+
+        for (columnIndex in 0..2)  sheet.removeColumn(0)
+        newBook.save()
     }
 
     fun initRowData(vars: MutableList<Var>) {
@@ -75,7 +80,7 @@ class ExcelSql(newFile: File, template: File) {
 
         if(openVar < 0) return StringContent(content)
 
-        val varList = ArrayList<VarResult>()
+        val varList = ArrayList<ReturnResult>()
 
         var index = 0
 
@@ -89,10 +94,11 @@ class ExcelSql(newFile: File, template: File) {
             if(closeVar < 0) throw Exception("symbol ']' not found for content:$content index:$openVar")
 
             val varName = content.substring(openVar..closeVar)
+
             val expr = parser.parseExpression(varName, vars)
 
             if(expr.isNotEmpty() ) {
-                varList += expr[expr.lastIndex].getVar()
+                varList += expr[expr.lastIndex]
             }
             index = closeVar + 1
             openVar = content.indexOf(OPEN_VAR, index)
@@ -135,10 +141,6 @@ class ExcelSql(newFile: File, template: File) {
     }
 
     private fun buildRow(row: Row, diffRow: Int): Int {
-        if(row.expr.isNotEmpty() ) {
-            parser.execExpression(row.expr, false)
-        }
-
         return  when(row.tag) {
             EmptyTag -> buildEmpty(row, diffRow)
             is LoopTag -> buildLoop(row.tag, row, diffRow)
@@ -151,19 +153,21 @@ class ExcelSql(newFile: File, template: File) {
         if(loopTag.cursor.isEmpty()) return removeRowIf(row, diffRow)
 
         var rowIndex = row.index + diffRow
+
+        parser.execExpression(row.expr, false)
         do {
             buildDefaultRow(row, rowIndex)
 
             val isNext = loopTag.cursor.isNext()
             if(isNext) {
-                sheet.addRow(rowIndex)
+                sheet.newRowFromSource(rowIndex)
                 rowIndex++
 
                 parser.execExpression(row.expr, false)
             }
         } while( isNext )
 
-        return rowIndex
+        return rowIndex - row.index
     }
 
     private fun buildIf(ifTag: IfTag, row: Row, diffRow: Int): Int {
@@ -171,6 +175,8 @@ class ExcelSql(newFile: File, template: File) {
         val isExec = parser.execExpression(ifTag.exprIf, false).toBoolean()
 
         if(!isExec) return removeRowIf(row, diffRow)
+
+        parser.execExpression(row.expr, false)
 
         return buildEmpty(row, diffRow)
     }
@@ -182,6 +188,8 @@ class ExcelSql(newFile: File, template: File) {
     }
 
     private fun buildEmpty(row: Row, diffRow: Int): Int {
+
+        parser.execExpression(row.expr, false)
 
         buildDefaultRow(row, row.index + diffRow)
 
@@ -231,7 +239,6 @@ private const val TAG_COLUMN = 1
 
 private const val FORMULA_COLUMN = 0
 
-
 data class Row(val tag: Tag,
                val index: Int,
                val expr: Expression,
@@ -254,7 +261,7 @@ data class Col(val index: Int,
     private fun complexType(varList: List<ReturnResult>, rowIndex: Int): WritableCell {
         if(varList.isEmpty()) return Blank(index, rowIndex, format)
 
-        val text = varList.joinToString {it.getVar().value?.toString()?:"" }
+        val text = varList.joinToString(separator = "") {it.getVar().value?.toString()?:"" }
 
         return Label(index, rowIndex, text, format)
     }
@@ -301,23 +308,6 @@ private const val LOOP = "LOOP"
 
 private const val IF = "IF"
 
-
-/*enum class Tag {
-    EMPTY,
-    LOOP,
-    IF;
-
-     companion object {
-         fun getTagByName(name: String?): Tag {
-             val upName = name?.trim()?.toUpperCase() ?: return EMPTY
-
-             if(upName.isEmpty()) return EMPTY
-
-             return valueOf(upName)
-         }
-     }
-}*/
-
 interface ColumnValue {
     fun contentValue(rowIndex: Int): WritableCell
 }
@@ -333,3 +323,34 @@ data class NumberContent(val number: Double) : ColumnContent()
 data class VarContent(val varResult: ReturnResult) : ColumnContent()
 
 data class ComplexContent(val varList: List<ReturnResult>) : ColumnContent()
+
+/**
+ * вставляет новую строку - строка вставляется вверх, а не вниз,
+ * поэтому с нижней строки (там были осходные данные копируем их наверх
+ * если нужно потом в нижней строке зачищаем данные
+ */
+fun WritableSheet.newRowFromSource(srcRowIndex: Int, isClearCopyData: Boolean = false) {
+
+    this.insertRow(srcRowIndex)
+
+    val newSourceIndex = srcRowIndex + 1
+
+    for (col in 1 until columns) {
+        val readCell = getWritableCell(col, newSourceIndex)
+
+        val newCell = readCell.copyTo(col, srcRowIndex)
+
+        readCell.cellFormat?.let {
+
+            newCell.cellFormat = WritableCellFormat(it)
+        }
+
+        if(isClearCopyData) {
+            if(readCell is Label) {
+                readCell.string = ""
+            }
+        }
+
+        this.addCell(newCell)
+    }
+}

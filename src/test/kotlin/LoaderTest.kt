@@ -3,6 +3,7 @@ import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
@@ -42,10 +43,8 @@ import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
-import ru.barabo.xls.Parser
-import ru.barabo.xls.Var
+import ru.barabo.xls.*
 import java.io.File
-import java.io.FileInputStream
 import java.nio.charset.Charset
 import java.sql.Clob
 import java.sql.Timestamp
@@ -57,6 +56,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 import kotlin.math.roundToLong
 
 
@@ -72,6 +72,26 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    // @Test
+    fun excelSqlTestAcq() {
+
+        val TEMPLATE_REGISTER_RANGE = File("${Cmd.LIB_FOLDER}/acquir_test.xls")
+
+        val testFile = File("${Cmd.LIB_FOLDER}/test.xls")
+
+        val vars = ArrayList<Var>()
+
+        vars += Var("TERMINALID", VarResult(VarType.VARCHAR, "J244997") )//back-"J244997" //one-"J295331" //some-"J267667" //0-"J193574"
+
+        vars += Var("MTL", VarResult(VarType.INT, 1206344191) ) // 1206495410 //back-1206344191
+
+        val excelSql = ExcelSql(testFile, TEMPLATE_REGISTER_RANGE)
+
+        excelSql.initRowData(vars)
+
+        excelSql.processData()
+    }
 
    // @Test
     fun pareserTest() {

@@ -1,10 +1,7 @@
 package ru.barabo.xls
 
-import org.slf4j.LoggerFactory
 import ru.barabo.db.Query
 import ru.barabo.db.SessionSetting
-import java.util.*
-import kotlin.collections.ArrayList
 
 enum class VarType(val sqlType: Int) {
     UNDEFINED(-1),
@@ -15,18 +12,6 @@ enum class VarType(val sqlType: Int) {
     RECORD(-1),
     CURSOR(-1),
     SQL_PROC(-1);
-
-    fun copyValue(value: Any?): Any? {
-        if(value == null) return null
-
-        return when(this) {
-        INT -> (value as Number).toLong()
-        NUMBER -> (value as Number).toDouble()
-        VARCHAR ->  (value as String) + ""
-        DATE -> java.sql.Timestamp((value as Date).time)
-        else -> throw Exception("it is not support set Action for $this value=$value")
-        }
-    }
 
     fun toSqlValueNull(): Any {
         return when(this) {
@@ -44,7 +29,7 @@ enum class VarType(val sqlType: Int) {
 
     companion object {
         fun varTypeBySqlType(sqlType: Int): VarType {
-           return VarType.values().firstOrNull { it.sqlType == sqlType } ?: varTypeBySqlTypeMore(sqlType)
+           return values().firstOrNull { it.sqlType == sqlType } ?: varTypeBySqlTypeMore(sqlType)
         }
 
         private fun varTypeBySqlTypeMore(sqlType: Int): VarType {
@@ -63,8 +48,6 @@ enum class VarType(val sqlType: Int) {
         }
     }
 }
-
-private val logger = LoggerFactory.getLogger(Parser::class.java)
 
 fun Int.toSqlValueNull(): Any {
     return when(this) {
@@ -92,27 +75,38 @@ fun Int.toSqlValueNull(): Any {
 
 data class Record(var columns: List<Var> = emptyList())
 
-private class ColumnResult(private val cursor: CursorData, val columnName: String, private var index: Int = -1): ReturnResult {
+private class ColumnResult(private val cursor: CursorData, val columnName: String,
+                           private var index: Int = UNINITIALIZE_COLUMN_INDEX,
+                           private var funIndex: Int = UNINITIALIZE_COLUMN_INDEX): ReturnResult {
     override fun getVar(): VarResult {
-        if(index == -1) {
-            index = cursor.getColumnIndex(columnName)
-        }
-        return cursor.getVarResult(index)
+        checkInitIndexes()
+
+        return cursor.getVarResult(index, funIndex)
     }
 
     override fun setVar(newVar: VarResult) {}
 
     override fun getSqlValue(): Any {
-        if(index == -1) {
-            index = cursor.getColumnIndex(columnName)
+        checkInitIndexes()
+
+        return cursor.toSqlValue(index, funIndex)
+    }
+
+    private fun checkInitIndexes() {
+        if(index == UNINITIALIZE_COLUMN_INDEX) {
+            val (newIndex, newFun) =  cursor.getColumnIndex(columnName)
+            index = newIndex
+            funIndex = newFun
         }
-        return cursor.toSqlValue(index)
     }
 }
 
+private const val UNINITIALIZE_COLUMN_INDEX = Int.MAX_VALUE
+
 data class QuerySession(val query: Query, val sessionSetting: SessionSetting)
 
-class CursorData(private val querySession: QuerySession, val querySelect: String, val params: List<ReturnResult> = emptyList() ) {
+class CursorData(private val querySession: QuerySession, private val querySelect: String,
+                 val params: List<ReturnResult> = emptyList() ) {
 
     private var data: List<Array<Any?>> = emptyList()
 
@@ -146,19 +140,29 @@ class CursorData(private val querySession: QuerySession, val querySelect: String
         return data.isEmpty()
     }
 
-    fun toSqlValue(index: Int): Any {
+    fun toSqlValue(index: Int, funIndex: Int): Any {
         if(!isOpen) {
             isOpen = open()
         }
+
+        if(index < 0 || funIndex != UNINITIALIZE_COLUMN_INDEX) {
+            return funCursorValue(index, funIndex)
+        }
+
         if(row >= data.size) throw Exception("cursor position is end")
 
         return data[row][index] ?: sqlColumnType[index].toSqlValueNull()
     }
 
-    fun getVarResult(index: Int): VarResult {
+    fun getVarResult(index: Int, funIndex: Int): VarResult {
         if(!isOpen) {
             isOpen = open()
         }
+
+        if(index < 0 || funIndex != UNINITIALIZE_COLUMN_INDEX) {
+            return VarResult(type = VarType.NUMBER, value = funCursorValue(index, funIndex))
+        }
+
         if(row >= data.size) throw Exception("cursor position is end")
 
         val value = data[row][index]
@@ -168,12 +172,34 @@ class CursorData(private val querySession: QuerySession, val querySelect: String
         return VarResult(type = type, value = value)
     }
 
-    internal fun getColumnIndex(columnName: String): Int {
+    private fun funCursorValue(index: Int, funIndex: Int): Any {
+
+        val findIndex = if(index < 0) index else funIndex
+
+        val cursorFun = CursorFun.byIndex(findIndex) ?: throw Exception("cursor fun is not found index=$index")
+
+        return cursorFun.func.invoke(this, index)
+    }
+
+    internal fun getColumnIndex(columnName: String): Pair<Int, Int> {
         if(!isOpen) {
             isOpen = open()
         }
 
-        return columns.withIndex().firstOrNull { it.value.equals(columnName, true) }?.index ?:
+        val column = columnName.substringBefore('.')
+
+        val funColumn = columnName.substringAfter('.', "")
+
+        val columnIndex = columnIndexByName(column)
+
+        val funIndex = if(funColumn.isBlank()) UNINITIALIZE_COLUMN_INDEX else columnIndexByName(funColumn)
+
+        return Pair(columnIndex, funIndex)
+    }
+
+    private fun columnIndexByName(columnName: String): Int {
+        return CursorFun.byColumn(columnName)?.index ?:
+        columns.withIndex().firstOrNull { it.value.equals(columnName, true) }?.index ?:
         throw Exception("not found column for cursor .$columnName")
     }
 
@@ -196,11 +222,42 @@ class CursorData(private val querySession: QuerySession, val querySelect: String
     }
 
     private fun isCursor() = querySelect[0] == '{'
+
+    fun row(columnIndex: Int): Any = row + 1
+
+    fun sum(columnIndex: Int): Any = data.sumByDouble { (it[columnIndex] as? Number)?.toDouble()?:0.0 }
+
+    fun max(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.max()?:0.0
+
+    fun min(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.min()?:0.0
+
+    fun count(columnIndex: Int): Any = data.size
+
+    fun isEmptyFun(columnIndex: Int): Any = if(isEmpty()) 1 else 0
+
+    fun isNotEmptyFun(columnIndex: Int): Any = if(isEmpty()) 0 else 1
+}
+
+enum class CursorFun(val index: Int, val funName: String, val func: CursorData.(columnIndex: Int)->Any ) {
+    ROW(-1, "ROW", CursorData::row),
+    SUM(-2, "SUM", CursorData::sum),
+    COUNT(-3, "COUNT", CursorData::count),
+    ISEMPTY(-4, "ISEMPTY", CursorData::isEmptyFun),
+    ISNOTEMPTY(-5, "ISNOTEMPTY", CursorData::isNotEmptyFun),
+    MIN(-6, "MIN", CursorData::min),
+    MAX(-7, "MAX", CursorData::max);
+
+    companion object {
+        fun byIndex(index: Int): CursorFun? = values().firstOrNull { it.index == index }
+
+        fun byColumn(funName: String): CursorFun? = values().firstOrNull { it.funName == funName.toUpperCase() }
+    }
 }
 
 data class Var(var name: String, var value: VarResult) {
 
-    fun toSqlValue(columnName: String? = null): Any = value.value?.let { toSqlValueIt(columnName, it) } ?: value.type.toSqlValueNull()
+    private fun toSqlValue(columnName: String? = null): Any =
+            value.value?.let { toSqlValueIt(columnName, it) } ?: value.type.toSqlValueNull()
 
     @Suppress("UNCHECKED_CAST")
     private fun toSqlValueIt(columnName: String?, itValue: Any): Any {
@@ -210,7 +267,6 @@ data class Var(var name: String, var value: VarResult) {
             VarType.VARCHAR -> itValue
             VarType.DATE -> itValue
             VarType.RECORD -> getRecordValue(columnName, itValue as Record)
-            //VarType.CURSOR -> (itValue as CursorData).toSqlValue(columnName)
             else -> throw Exception("undefined value for $name.$columnName")
         }
     }
@@ -286,9 +342,8 @@ data class OperVar(val oper: Oper,
     override fun getSqlValue(): Any = getVar().getSqlValue()
 
     private fun oper(params: List<VarResult>): VarResult {
-        val result = operations[oper]?.invoke(params, info) ?: throw Exception("operations for $oper not found")
 
-        return result
+        return operations[oper]?.invoke(params, info) ?: throw Exception("operations for $oper not found")
     }
 }
 
@@ -338,7 +393,6 @@ private val funMap = mapOf<String, (List<VarResult>)->VarResult> (
         "NOT" to ::notFun,
         "AND" to ::andFun,
         "OR" to ::orFun
-        //"NOW" to ::nowFun
 )
 
 private fun outFun(params: List<VarResult>): VarResult = params[0].apply { this.value = VarType.UNDEFINED }
@@ -361,7 +415,7 @@ private fun toSign(vars: VarResult): Int {
     VarType.INT,
     VarType.NUMBER -> if((vars.value as? Number)?.toInt()?:0 == 0) 0 else 1
 
-    VarType.VARCHAR -> if("".equals(vars.value)) 0 else 1
+    VarType.VARCHAR -> if("" == vars.value) 0 else 1
 
     VarType.DATE -> 1
     else -> throw Exception("do not to Int type ${vars.type}")

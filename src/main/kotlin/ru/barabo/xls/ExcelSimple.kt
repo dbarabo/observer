@@ -92,14 +92,14 @@ class ExcelSimple(newFile: File, template: File) {
 
             if (rowPos > maxPosition) maxPosition = rowPos
 
-            it.columns.forEach {
+            it.columns.forEach { col ->
 
-                val parseValue = it.getVal(variable)
+                val parseValue = col.getVal(variable)
 
                 val writeCell = when {
-                    parseValue.toString().isEmpty() -> Blank(it.index, rowPos, it.format)
-                    it.isNumberFormat(variable) -> jxl.write.Number(it.index, rowPos, toDouble(parseValue), it.format)
-                    else -> Label(it.index, rowPos, parseValue.toString(), it.format)
+                    parseValue.toString().isEmpty() -> Blank(it.index, rowPos, col.format)
+                    col.isNumberFormat(variable) -> Number(it.index, rowPos, toDouble(parseValue), col.format)
+                    else -> Label(it.index, rowPos, parseValue.toString(), col.format)
                 }
 
                 sheet.addCell(writeCell)

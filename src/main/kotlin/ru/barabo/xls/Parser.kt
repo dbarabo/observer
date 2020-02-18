@@ -19,7 +19,7 @@ class Parser(private val query: Query) {
 
     private val resultExp = ArrayList<OperVar>()
 
-    private lateinit var sessionSetting: SessionSetting
+    private val sessionSetting: SessionSetting = query.uniqueSession()
 
     private var filling: String = ""
 
@@ -62,8 +62,6 @@ class Parser(private val query: Query) {
         resultExp.clear()
 
         this.expression = expression
-
-        sessionSetting = query.uniqueSession()
 
         var index = 0
         while(index < expression.length) {
@@ -163,12 +161,12 @@ class Parser(private val query: Query) {
 
         val varName = stackPredikat.pop().getVar().value as String
 
-        val variable = findVar(varName, true)
+        val variable = findVar(varName)
 
         stackPredikat.push(variable.value)
     }
 
-    private fun findVar(varName: String, isAddVar: Boolean = false): Var {
+    private fun findVar(varName: String): Var {
         val varList = varName.split(VAR_SEPARATOR)
 
         val varMain = varList[0].trim().toUpperCase()
@@ -178,7 +176,7 @@ class Parser(private val query: Query) {
         val varFind = vars.firstOrNull { it.name == varMain }
 
         if(varAppender.isBlank()) {
-            return varFind ?: if(isAddVar) createVar(varMain) else throw Exception("var not found: $varName")
+            return varFind ?: createVar(varMain)
         }
 
         if(varFind?.value?.type != VarType.RECORD) throw Exception("appender $varAppender may be only VarType.RECORD")
@@ -187,11 +185,9 @@ class Parser(private val query: Query) {
     }
 
     private fun findMainVar(varName: String): Pair<Var, String>? {
-        val varList = varName.split(VAR_SEPARATOR)
+        val varMain = varName.substringBefore(VAR_SEPARATOR).trim().toUpperCase()
 
-        val varMain = varList[0].trim().toUpperCase()
-
-        val varAppender = if(varList.size > 1)varList[1].trim().toUpperCase() else ""
+        val varAppender = varName.substringAfter(VAR_SEPARATOR, "").trim().toUpperCase()
 
         val main = vars.firstOrNull { it.name == varMain }
 
@@ -239,8 +235,6 @@ class Parser(private val query: Query) {
             logger.error("stackOper=$stackOper")
             throw Exception("stack operation wait '(' index:$index exp:$expression")
         }
-
-        logger.error("))))))closeBracket")
         tryExecOper()
 
         return index + 1
@@ -298,10 +292,6 @@ class Parser(private val query: Query) {
     }
 
     private fun tryExecOper() {
-
-        logger.error("stackOper=$stackOper")
-        logger.error("stackPredikat=$stackPredikat")
-
         if(stackOper.isEmpty()) return
 
         val countParam = stackOper.peek().countParam
