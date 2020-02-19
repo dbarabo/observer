@@ -180,7 +180,7 @@ open class CtlLoader : QuoteSeparatorLoader {
 
 private const val ERROR_STATUS = 2
 
-fun parseDateTime(date :String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
+fun parseDateTime(date: String?): Any = parseObiDate(date, DATE_TIME_FORMAT, DATE_FORMAT)
 
 private const val DATE_TIME_FORMAT = "yyyyMMddHHmmss"
 

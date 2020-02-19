@@ -18,6 +18,7 @@ import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.util.*
 import kotlin.concurrent.timer
@@ -134,4 +135,4 @@ private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Co
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 
-private fun testConfig(): List<ConfigTask> = listOf( Acquiring /*TestConfig*/)
+private fun testConfig(): List<ConfigTask> = listOf( TestConfig /*Acquiring*/)

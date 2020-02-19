@@ -236,7 +236,7 @@ open class Query (private val dbConnection :DbConnection) {
     }
 
     private fun writeErrorLog(e: SQLException, queryRequest: QueryRequest, outParamTypes: IntArray?) {
-        logger.error("query=$queryRequest.query")
+        logger.error("query=${queryRequest.query}")
 
         logger.error("inParams.size=${queryRequest.params?.size}")
         queryRequest.params?.forEach { logger.error(it.toString()) }

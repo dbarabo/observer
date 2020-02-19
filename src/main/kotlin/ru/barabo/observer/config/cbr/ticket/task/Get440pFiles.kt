@@ -35,7 +35,7 @@ object Get440pFiles : FileFinder, FileProcessor {
 
     private const val ARCHIVE_HEADER = "AFN_MIFNS"
 
-    override fun processFile(file : File) {
+    override fun processFile(file :File) {
         val files = Archive.extractFromCab(file, getFolder440p().absolutePath)
 
         files?.filter { it.name.indexOf(ARCHIVE_HEADER) == 0 }?.forEach {

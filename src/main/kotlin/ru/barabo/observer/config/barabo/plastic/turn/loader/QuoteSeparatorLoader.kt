@@ -10,25 +10,25 @@ import java.util.*
 
 interface QuoteSeparatorLoader {
 
-    val headerColumns :Map<Int, (String?)->Any>
+    val headerColumns: Map<Int, (String?)->Any>
 
-    val bodyColumns :Map<Int, (String?)->Any>
+    val bodyColumns: Map<Int, (String?)->Any>
 
-    val tailColumns :Map<Int, (String?)->Any>
+    val tailColumns: Map<Int, (String?)->Any>
 
-    val headerQuery :String?
+    val headerQuery: String?
 
-    val bodyQuery :String?
+    val bodyQuery: String?
 
-    val tailQuery :String?
+    val tailQuery: String?
 
-    fun separator() :String = ";"
+    fun separator(): String = ";"
 
     private fun csvQuote() = "${separator()}(?=([^\"]*\"[^\"]*\")*[^\"]*$)"
 
-    private fun parseCsvQuote(lineIn: String) :List<String> = lineIn.split(csvQuote().toRegex())
+    private fun parseCsvQuote(lineIn: String): List<String> = lineIn.split(csvQuote().toRegex())
 
-    fun parseInt(value :String?) :Any {
+    fun parseInt(value :String?): Any {
         val length = value?.trim()?.length?:0
 
         if(length == 0) return Double::class.javaObjectType
@@ -36,7 +36,7 @@ interface QuoteSeparatorLoader {
         return if(length < 18) value?.trim()?.toLong()?:0 else BigInteger(value?.trim())
     }
 
-    fun parseToString(value :String?) :Any = value?.trim()?.let{ it } ?: String::class.javaObjectType
+    fun parseToString(value :String?): Any = value?.trim()?.let{ it } ?: String::class.javaObjectType
 
     fun load(file: File, charset: Charset) {
 

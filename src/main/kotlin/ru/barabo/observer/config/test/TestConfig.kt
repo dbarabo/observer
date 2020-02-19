@@ -10,21 +10,7 @@ object TestConfig : AbstractConfig() {
 
     override fun configRun() {
 
-        //SftpLoad.findAll()
-
-        //LoadCtlMtl.findAll()
-        //ExecuteCtlMtl.findAll()
-
-        //OutRegisterAquiringWeek.findAll()
-
-
-        //OutRegisterAquiringMonth.findAll()
-
-        //SendBlockUnblockAccountPC.findAll()
-
-        //LoadAcq.findAll()
-
-        // ExecExchangeCb.findAll()
+       // LoadAcqAdvUPay.findAll()
 
         this.executeTasks()
     }
