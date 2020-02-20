@@ -337,6 +337,8 @@ class Parser(private val query: Query) {
     private fun predikatCheckAsCursor(index: Int): Int {
         if(stackOper.peek() != ParseType.APPLY) throw Exception("predikat must be cursor only!!! index=$index exp:$expression")
 
+        logger.error("stackOper=$stackOper")
+
         return parseCursor(index)
     }
 
@@ -367,6 +369,8 @@ class Parser(private val query: Query) {
     private fun createCallSqlProcedure(procName: String) = "{ call $procName }"
 
     private fun parseCursor(index: Int): Int {
+        logger.error("START parseCursor stackOper=$stackOper")
+
         val isSelect = filling.toUpperCase() == "SELECT"
 
         val (cursor, newIndex) = readCursorToEnd(index, isSelect)
@@ -377,7 +381,11 @@ class Parser(private val query: Query) {
 
         variable.setVar(varResult)
 
-        if(stackOper.pop() != ParseType.APPLY) throw Exception("must be ParseType.APPLY")
+        logger.error("parseCursor stackOper=$stackOper")
+
+        val oper = if(stackOper.isNotEmpty()) stackOper.pop() else throw Exception("stackOper is empty index:$index exp:$expression")
+
+        if(oper != ParseType.APPLY) throw Exception("Oper must be ParseType.APPLY oper: $oper index:$index exp:$expression")
 
         return newIndex
     }
@@ -407,13 +415,6 @@ class Parser(private val query: Query) {
 
         while(newIndex < expression.length && expression[newIndex] != END_COMMAND) {
             when( expression[newIndex] ) {
-                STRING_SEPARATOR -> {
-                    val end = parseString(newIndex)
-                    selectText += expression.substring(indexStart until end)
-                    indexStart = end
-                    newIndex = end
-                }
-
                 OPEN_VAR -> {
                     if(newIndex > indexStart) {
                         selectText += expression.substring(indexStart until newIndex)

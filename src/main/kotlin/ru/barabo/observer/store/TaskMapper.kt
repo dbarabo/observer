@@ -135,4 +135,4 @@ private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Co
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 
-private fun testConfig(): List<ConfigTask> = listOf( TestConfig /*Acquiring*/)
+private fun testConfig(): List<ConfigTask> = listOf( Acquiring /*TestConfig*/ )

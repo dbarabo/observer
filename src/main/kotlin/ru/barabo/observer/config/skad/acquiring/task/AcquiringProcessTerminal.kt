@@ -18,7 +18,7 @@ import java.sql.Timestamp
 object AcquiringProcessTerminal : SingleSelector {
     private val logger = LoggerFactory.getLogger(AcquiringProcessTerminal::class.java)
 
-    override fun name(): String = "Обработка по терминалу и времени"
+    override fun name(): String = "Обработка по расписанию"
 
     override fun config(): ConfigTask = Acquiring
 

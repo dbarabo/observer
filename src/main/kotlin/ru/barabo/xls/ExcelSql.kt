@@ -30,7 +30,7 @@ class ExcelSql(newFile: File, template: File) {
 
         parser.rollbackAfterExec()
 
-        for (columnIndex in 0..2)  sheet.removeColumn(0)
+        for (columnIndex in 0..2)  sheet.setColumnView(columnIndex, 0)
         newBook.save()
     }
 

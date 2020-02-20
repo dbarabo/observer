@@ -73,6 +73,17 @@ class LoaderTest {
 
     private fun separ() = ";"
 
+    //@Test
+    fun testCorrectPrim() {
+
+        val elem = Elem(idElem = 1206623916L, task = CorrectPrim)
+               // Elem(idElem = 1205659121L, task = CorrectPrim)
+                //Elem(idElem = 1205641626L, task = CorrectPrim)
+
+        CorrectPrim.execute(elem)
+    }
+
+
     // @Test
     fun excelSqlTestAcq() {
 
