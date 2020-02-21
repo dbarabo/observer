@@ -70,6 +70,8 @@ dependencies {
 
     compile group: 'org.dom4j', name: 'dom4j', version: '2.1.1'
 
+    compile group: 'org.swinglabs.swingx', name: 'swingx-all', version: '1.6.5-1'
+
     // compile group: 'com.mastercard.api', name: 'currency-conversion', version: '1.0.+'
 
     compile name: 'ojdbc6'
