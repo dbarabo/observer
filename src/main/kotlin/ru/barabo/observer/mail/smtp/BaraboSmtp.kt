@@ -58,8 +58,6 @@ object BaraboSmtp : SendMail {
 
     val IBANK_DELB = arrayOf("tts@ptkb.ru", "cards@ptkb.ru").onlyAfina()
 
-    private fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()
-
     private fun Array<String>.onlyAfinaOrYa() = if(TaskMapper.isAfinaBase()) this else YA
 
     fun errorSend(error :String, subject :String, to :Array<String> = AUTO) {
@@ -124,3 +122,5 @@ object BaraboSmtp : SendMail {
                 attachments = arrayOf(file))
     }
 }
+
+fun Array<String>.onlyAfina() = if(TaskMapper.isAfinaBase()) this else emptyArray()

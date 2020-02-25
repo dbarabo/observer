@@ -131,7 +131,7 @@ private fun cbrConfigs(): List<ConfigTask> = listOf(TurnCard, IBank, PtkPsd, Tic
 
 private fun jzdoConfigs(): List<ConfigTask> = listOf(UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 
-private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Config, PlasticOutSide)
+private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Config, PlasticOutSide, Acquiring)
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 

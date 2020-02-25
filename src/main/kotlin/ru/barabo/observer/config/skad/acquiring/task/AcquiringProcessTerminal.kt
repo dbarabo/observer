@@ -11,6 +11,7 @@ import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.sql.Timestamp
@@ -32,9 +33,11 @@ object AcquiringProcessTerminal : SingleSelector {
         val uniqueSession = AfinaQuery.uniqueSession()
 
         try {
-            processBySchedulerId(elem.idElem!!, uniqueSession)
+            val posRealId = processBySchedulerId(elem.idElem!!, uniqueSession)
 
             AfinaQuery.commitFree(uniqueSession)
+
+            mailInfoSuccess(posRealId)
 
         } catch (e: Exception) {
 
@@ -48,7 +51,17 @@ object AcquiringProcessTerminal : SingleSelector {
         return State.OK
     }
 
-    private fun processBySchedulerId(schedulerId: Long, uniqueSession: SessionSetting) {
+    private fun mailInfoSuccess(posRealId: Number) {
+        val info = AfinaQuery.execute(query = CALL_INFO_POS_REAL, params = arrayOf(posRealId),
+                outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String ?: return
+
+        if(info.indexOf("Обработаны все док-ты:", ignoreCase = true) == 0) return
+
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = BaraboSmtp.AUTO, bcc = BaraboSmtp.DOPIKI,
+                subject = SUBJECT_NONE_EXEC, body = info, charsetSubject = "UTF-8")
+    }
+
+    private fun processBySchedulerId(schedulerId: Long, uniqueSession: SessionSetting): Number {
         val row = AfinaQuery.select(SELECT_TERMINAL_INFO, arrayOf(schedulerId), uniqueSession)[0]
 
         val terminalId = row[0] as String
@@ -58,8 +71,9 @@ object AcquiringProcessTerminal : SingleSelector {
 
         updateCrossCourseVisa(isUpdateVisaCourse?.toInt()?:0, terminalId, uniqueSession)
 
-        /*val posExecReal = */AfinaQuery.execute(EXEC_PROCESS_AQUIRING_TERMINAL,
-                arrayOf(schedulerId), uniqueSession, intArrayOf(OracleTypes.NUMBER))
+        return AfinaQuery.execute(EXEC_PROCESS_AQUIRING_TERMINAL,
+                arrayOf(schedulerId), uniqueSession, intArrayOf(OracleTypes.NUMBER))?.get(0) as? Number ?:
+                throw Exception("posExecReal is not found schedulerId=$schedulerId")
     }
 
     private fun updateCrossCourseVisa(isUpdateVisaCourse: Int, terminalId: String, uniqueSession: SessionSetting) {
@@ -83,6 +97,11 @@ object AcquiringProcessTerminal : SingleSelector {
             AfinaQuery.execute(EXEC_UPDATE_CROSS_TRANSACT_ACQ, arrayOf(id, usdCent), uniqueSession)
         }
     }
+
+    private const val SUBJECT_NONE_EXEC =
+            "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны по терминалу (эквайринг)"
+
+    private const val CALL_INFO_POS_REAL = "{ call od.PTKB_PLASTIC_TURN.infoProcessByTerminalScheduler(?, ?) }"
 
     private const val EXEC_UPDATE_CROSS_TRANSACT_ACQ = "{ call od.PTKB_PLASTIC_TURN.updateCrossBorderVisaAcq( ?, ? ) }"
 
