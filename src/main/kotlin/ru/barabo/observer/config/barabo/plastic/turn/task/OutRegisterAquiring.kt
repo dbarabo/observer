@@ -41,7 +41,7 @@ and substr(m.file_name, 1, 3) = 'MTL'
 
     private const val SELECT_TERMINALS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTerminals( ? ) }"
 
-    private fun processTerminals(terminals: List<Array<Any?>>, idMtl: Number) {
+    fun processTerminals(terminals: List<Array<Any?>>, idMtl: Number) {
 
         val titleVar = createTerminalVar()
 
@@ -68,7 +68,6 @@ and substr(m.file_name, 1, 3) = 'MTL'
             }
         }
     }
-
 
     private const val SELECT_TRANSFERS = "{? = call od.PTKB_PLASTIC_TURN.selectAquiringTransfers( ?, ? ) }"
 

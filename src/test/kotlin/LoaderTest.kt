@@ -83,6 +83,15 @@ class LoaderTest {
         CorrectPrim.execute(elem)
     }
 
+    //@Test
+    fun testOutRegisterAquiring() {
+
+        val terminals: Array<Any?> = arrayOf("J244999", "22.02.20 16:00:28", "24.02.20 10:41:06", "IP CHALINA T N",
+                "DEREVENSKAYA 16  PAV 49", "chalinpoint@yandex.ru", null)
+
+        OutRegisterAquiring.processTerminals(listOf(terminals), 1206971198L)
+    }
+
 
     // @Test
     fun excelSqlTestAcq() {

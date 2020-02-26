@@ -97,9 +97,9 @@ class ExcelSimple(newFile: File, template: File) {
                 val parseValue = col.getVal(variable)
 
                 val writeCell = when {
-                    parseValue.toString().isEmpty() -> Blank(it.index, rowPos, col.format)
-                    col.isNumberFormat(variable) -> Number(it.index, rowPos, toDouble(parseValue), col.format)
-                    else -> Label(it.index, rowPos, parseValue.toString(), col.format)
+                    parseValue.toString().isEmpty() -> Blank(col.index, rowPos, col.format)
+                    col.isNumberFormat(variable) -> Number(col.index, rowPos, toDouble(parseValue), col.format)
+                    else -> Label(col.index, rowPos, parseValue.toString(), col.format)
                 }
 
                 sheet.addCell(writeCell)

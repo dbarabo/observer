@@ -128,6 +128,8 @@ open class Query (private val dbConnection :DbConnection) {
 
         val types = ArrayList<Int>()
 
+        if(resultSet.metaData == null) return WithMetaData(data, columns, types)
+
         for (index in 1 .. resultSet.metaData.columnCount) {
             columns += resultSet.metaData.getColumnName(index)?.toUpperCase()!!
 

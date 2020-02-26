@@ -15,6 +15,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.sql.Timestamp
+import java.sql.Types
 
 object AcquiringProcessTerminal : SingleSelector {
     private val logger = LoggerFactory.getLogger(AcquiringProcessTerminal::class.java)
@@ -30,6 +31,12 @@ object AcquiringProcessTerminal : SingleSelector {
     override val select: String = "{ ? = call od.PTKB_PLASTIC_TURN.getTerminalsForProcess }"
 
     override fun execute(elem: Elem): State {
+
+        val isAbsentTransact = (AfinaQuery.execute(EXEC_CHECK_TRANSACT, arrayOf(elem.idElem),
+                outParamTypes = intArrayOf(Types.INTEGER))?.get(0) as? Number)?.toInt() ?: return State.OK
+
+        if(isAbsentTransact == 0) return State.OK
+
         val uniqueSession = AfinaQuery.uniqueSession()
 
         try {
@@ -102,6 +109,8 @@ object AcquiringProcessTerminal : SingleSelector {
             "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны по терминалу (эквайринг)"
 
     private const val CALL_INFO_POS_REAL = "{ call od.PTKB_PLASTIC_TURN.infoProcessByTerminalScheduler(?, ?) }"
+
+    private const val EXEC_CHECK_TRANSACT = "{ call od.PTKB_PLASTIC_TURN.checkSchedulerTransactExists(?, ?) }"
 
     private const val EXEC_UPDATE_CROSS_TRANSACT_ACQ = "{ call od.PTKB_PLASTIC_TURN.updateCrossBorderVisaAcq( ?, ? ) }"
 

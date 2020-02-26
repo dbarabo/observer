@@ -19,7 +19,7 @@ object ExecOpenArchiveDay : Periodical {
 
     override var lastPeriod: LocalDateTime? = null
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(21, 0),
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(21, 47),
             workTimeTo = LocalTime.of(23, 59) )
 
     override fun name(): String = "Архивный день - открытие"
