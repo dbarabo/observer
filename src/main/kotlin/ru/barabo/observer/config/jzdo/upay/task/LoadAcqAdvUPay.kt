@@ -97,7 +97,7 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
             7 to ::terminalIdWithSave, // terminal_id
             8 to LoadAcq::parseToString, // merchant_id
             -2 to ::merchantNameByTerminalId, // merchant_name
-            -3 to ::merchantAddresByTerminalId, // merchant_city
+            -3 to ::merchantAddressByTerminalId, // merchant_city
             -4 to { _: String? -> "9960" }, // pay_system_id_number пока только Upay international.ZK
             6 to LoadAcq::parseToString, // authorize_approval_code
             9 to LoadAcq::parseToString, // merchant_category_code
@@ -112,7 +112,7 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
 
     private fun trnTypeToReverse(value: String?): Any = if(value == "D") 0 else 1
 
-    private fun merchantAddresByTerminalId(skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_ADDRESS, arrayOf(terminalId))!!
+    private fun merchantAddressByTerminalId(skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_ADDRESS, arrayOf(terminalId))!!
 
     private fun merchantNameByTerminalId(skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_NAME, arrayOf(terminalId))!!
 

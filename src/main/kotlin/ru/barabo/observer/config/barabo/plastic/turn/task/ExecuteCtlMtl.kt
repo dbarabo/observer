@@ -35,6 +35,9 @@ object ExecuteCtlMtl : SingleSelector {
 
         try {
             AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(elem.idElem))
+
+            AfinaQuery.execute(CHECK_ACQ_FROM_MTL, arrayOf(elem.idElem) )
+
         } catch (e: Exception) {
             logger.error(EXEC_CTL_MTL, e)
 
@@ -73,4 +76,6 @@ object ExecuteCtlMtl : SingleSelector {
     private const val EXEC_CTL_MTL = "{ call od.PTKB_PLASTIC_TURN.executeCtlMtlDocuments(?) }"
 
     private const val CALL_INFO_CTL = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedCtl(?, ?) }"
+
+    private const val CHECK_ACQ_FROM_MTL = "{ call od.PTKB_PLASTIC_TURN.checkAcqFromMtl(?) }"
 }
