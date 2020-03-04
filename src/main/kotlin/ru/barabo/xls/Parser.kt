@@ -19,7 +19,7 @@ class Parser(private val query: Query) {
 
     private val resultExp = ArrayList<OperVar>()
 
-    private val sessionSetting: SessionSetting = query.uniqueSession()
+    private val sessionSetting: SessionSetting = query.uniqueRollBackOnlySession()
 
     private var filling: String = ""
 
@@ -38,7 +38,7 @@ class Parser(private val query: Query) {
 
             if(isRollBackAfterExec) query.rollbackFree(sessionSetting)
 
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             query.rollbackFree(sessionSetting)
 
             logger.error("execExpression", e)

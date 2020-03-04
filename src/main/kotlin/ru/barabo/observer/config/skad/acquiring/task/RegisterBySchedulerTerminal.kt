@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.skad.acquiring.task
 
-import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo
@@ -17,7 +16,6 @@ import java.io.File
 import java.time.LocalTime
 
 object RegisterBySchedulerTerminal : SingleSelector {
-    private val logger = LoggerFactory.getLogger(RegisterBySchedulerTerminal::class.java)
 
     override fun name(): String = "Реестры по расписанию"
 
@@ -63,11 +61,9 @@ object RegisterBySchedulerTerminal : SingleSelector {
 
         val email =  cursor.getColumnResult("EMAIL_CLIENT").getVar().value as? String ?: return
 
-        logger.error("email=$email")
-
         if(email.indexOf('@') < 0) return
 
-        BaraboSmtp.sendStubThrows(to = arrayOf(email).onlyAfina(), bcc = BaraboSmtp.OPER_YA,
+        BaraboSmtp.sendStubThrows(to = arrayOf(email).onlyAfina(), bcc = BaraboSmtp.YA,
                 subject = subjectRegister(terminalTime), body = BODY_INFO, attachments = arrayOf(fileRegister))
     }
 
@@ -94,7 +90,7 @@ object RegisterBySchedulerTerminal : SingleSelector {
 и в нем будут указаны 2 платежных поручения - промежуточное и окончательное. 
 Расписание задается отдельно на каждый терминал и в любое время может быть изменено. 
 
-    Средства и реестры будут перечисляться клиенту ежедневно, включая выходные и празничные дни.
+    Средства и реестры будут перечисляться клиенту ежедневно, включая выходные и праздничные дни.
 
     Чтобы проще было это понять, приведем пример. 
 Например, у Вас компания работает с клиентами с 8-00 и до 18-00. 

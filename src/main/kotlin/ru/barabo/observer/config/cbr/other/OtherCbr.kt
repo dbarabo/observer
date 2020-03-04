@@ -18,7 +18,7 @@ object OtherCbr: AbstractConfig() {
         RemartMail.findAll()
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
-        ResponseToOrderCbr.findAll()
+        // ResponseToOrderCbr.findAll()
 
         NbkiAllReportsSend.findAll()
         UnlockUsersMonday.findAll()

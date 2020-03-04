@@ -67,7 +67,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         return true
     }
 
-    fun isRestartSessionException(session :Session, isRead :Boolean, exceptionMessage: String) :Boolean {
+    fun isRestartSessionException(session: Session, isRead: Boolean, exceptionMessage: String): Boolean {
         if( isDeathSession(session) ) {
             return isRestartByNewSession(session, isRead)
         }
@@ -80,7 +80,8 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         return false
     }
 
-    private fun isPacketConnectError(exceptionMessage: String)  = exceptionMessage.indexOf("ORA-04061") >= 0
+    private fun isPacketConnectError(exceptionMessage: String)  =
+            exceptionMessage.indexOf("ORA-04061") >= 0 || exceptionMessage.indexOf("ORA-00942") >= 0
 
     @Throws(SessionException::class)
     private fun getTrySession(tryCount :Int, isRead :Boolean, transactType :TransactType, idSession :Long?) :Session {

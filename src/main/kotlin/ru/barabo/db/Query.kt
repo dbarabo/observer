@@ -18,6 +18,9 @@ open class Query (private val dbConnection :DbConnection) {
 
     private var uniqueSession : AtomicLong = AtomicLong(1L)
 
+    fun uniqueRollBackOnlySession(): SessionSetting =
+            SessionSetting(false,  TransactType.ROLLBACK, uniqueSession.incrementAndGet())
+
     fun uniqueSession(): SessionSetting =
             SessionSetting(false,  TransactType.NO_ACTION, uniqueSession.incrementAndGet())
 
@@ -60,13 +63,13 @@ open class Query (private val dbConnection :DbConnection) {
         val (session, statement, resultSet) = prepareSelect(query, params, sessionSetting)
 
         val metaData = try {
-            withMetaData(fetchData(resultSet), resultSet)
-        }catch (e : Exception) {
+            fetchWithMetaData(resultSet)
+        } catch (e: Exception) {
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
             logger.error("fetch", e)
             closeQueryData(session, TransactType.ROLLBACK, statement, resultSet)
-            throw SessionException(e.message as String)
+            throw SessionException(e.message?:"")
         }
 
         closeQueryData(session, sessionSetting.transactType, statement, resultSet)
@@ -99,19 +102,24 @@ open class Query (private val dbConnection :DbConnection) {
         return tableData
     }
 
-    fun selectCursorWithMetaData(query :String, params :Array<Any?>? = null,
-                                 sessionSetting : SessionSetting = SessionSetting(true)): WithMetaData {
+    fun selectCursorWithMetaData(query: String, params: Array<Any?>? = null,
+                                 sessionSetting: SessionSetting = SessionSetting(true)): WithMetaData {
         val session = dbConnection.getSession(sessionSetting)
 
         val request = prepareSelectCursor(session, query, params, sessionSetting)
 
         val metaData = try {
-            withMetaData(fetchData(request.resultSetCursor!!), request.resultSetCursor!!)
-        }catch (e : Exception) {
+            fetchWithMetaData(request.resultSetCursor!!)
+        } catch (e : Exception) {
 
             logger.error("query=$query")
             params?.forEach { logger.error(it?.toString()) }
             logger.error("fetch", e)
+
+            if(dbConnection.isRestartSessionException(session, sessionSetting.isReadTransact, e.message?:"")) {
+                return selectCursorWithMetaData(query, params, sessionSetting)
+            }
+
             closeQueryData(session, TransactType.ROLLBACK, request.statement, request.resultSetCursor)
 
             throw SessionException(e.message?:"")
@@ -128,7 +136,9 @@ open class Query (private val dbConnection :DbConnection) {
 
         val types = ArrayList<Int>()
 
-        if(resultSet.metaData == null) return WithMetaData(data, columns, types)
+        if(resultSet.metaData == null) {
+            return WithMetaData(data, columns, types)
+        }
 
         for (index in 1 .. resultSet.metaData.columnCount) {
             columns += resultSet.metaData.getColumnName(index)?.toUpperCase()!!
@@ -393,6 +403,26 @@ open class Query (private val dbConnection :DbConnection) {
         return data
     }
 
+    @Throws(SessionException::class)
+    private fun fetchWithMetaData(resultSet : ResultSet): WithMetaData {
+
+        val data = ArrayList<Array<Any?>>()
+
+        while(resultSet.next()) {
+
+            val row = Array<Any?>(resultSet.metaData.columnCount) {null}
+
+            for (index in 1 .. resultSet.metaData.columnCount) {
+                row[index - 1] = resultSet.getObject(index)
+            }
+            data.add(row)
+        }
+
+        return withMetaData(data, resultSet)
+    }
+
+
+
     private fun closeQueryData(session :Session, transactType :TransactType = TransactType.ROLLBACK, statement :Statement? = null, resultSet :ResultSet? = null) {
 
         try {
@@ -435,7 +465,7 @@ fun PreparedStatement.setParams(inParams :Array<Any?>? = null, shiftOutParams :I
         return this
     }
 
-    for (index in 0 until inParams.size) {
+    for (index in inParams.indices) {
 
         if (inParams[index] is Class<*>) {
 
