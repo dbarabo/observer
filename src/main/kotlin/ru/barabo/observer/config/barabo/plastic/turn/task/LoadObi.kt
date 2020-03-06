@@ -66,29 +66,31 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
     fun parseToString(value :String?) :Any = value?.trim()?.let{ it } ?: String::class.javaObjectType
 
     override val bodyColumns: Array<Column> = arrayOf(
-            Column(8, 12, ::parseInt),
-            Column(20, 32, ::parseToString),
-            Column(61, 12, ::parseInt),
-            Column(73, 2, ::parseToString),
-            Column(75, 3, ::parseInt),
-            Column(79, 8, ::parseObiDate),
-            Column(88, 16, ::parseInt),
-            Column(105, 8, ::parseToString),
-            Column(118, 32, ::parseToString),
-            Column(150, 8, ::parseToString),
-            Column(159, 40, ::parseToString),
-            Column(199, 32, ::parseToString),
-            Column(231, 32, ::parseToString),
-            Column(295, 32, ::parseObiDate),
-            Column(327, 32, ::parseInt),
-            Column(359, 32, ::parseInt),
-            Column(391, 32, ::parseInt),
-            Column(423, 32, ::parseInt),
-            Column(455, 12, ::parseToString),
-            Column(467, 8, ::parseToString),
-            Column(475, 15, ::parseToString),
-            Column(498, 220, ::parseToString)
+            Column(8, 12, ::parseInt), // RECORD_NUMBER
+            Column(20, 32, ::parseToString), // account_number
+            Column(61, 12, ::parseInt), // account_amount
+            Column(73, 2, ::parseToString), // dr_cr
+            Column(75, 3, ::processAccountCurrency), // cur_account
+            Column(79, 8, ::parseObiDate), // pc_process
+            Column(88, 16, ::parseInt), // ref_oper_id
+            Column(105, 8, ::parseToString), // trans_bo
+            Column(118, 32, ::parseToString), // institute_corr
+            Column(150, 8, ::parseToString), // trans_fe
+            Column(159, 40, ::parseToString), // trans_place
+            Column(199, 32, ::parseToString), // card_number
+            Column(231, 32, ::parseToString), // mcc_code
+            Column(295, 32, ::parseObiDate), // trans_date
+            Column(327, 32, ::parseInt), // trans_amount
+            Column(359, 32, ::parseInt), // settlement_amount
+            Column(391, 32, ::processAccountCurrency), // cur_trans
+            Column(423, 32, ::processAccountCurrency), // cur_settlement
+            Column(455, 12, ::parseToString), // trans_group_id
+            Column(467, 8, ::parseToString), // terminal_id
+            Column(475, 15, ::parseToString), // merchant_id
+            Column(498, 220, ::parseToString) // DESCRIPTION
     )
+
+    private fun processAccountCurrency(value: String?): Any = if(value == "643") 810 else parseInt(value)
 
     override val tailColumns: Array<Column> = emptyArray()
 

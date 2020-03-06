@@ -79,8 +79,12 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
         fileId = super.generateHeaderSequence(fields, sessionSetting)
 
+        this.sessionSetting = sessionSetting
+
         return fileId
     }
+
+    private var sessionSetting: SessionSetting? = null
 
     override val headerQuery: String? = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
             "file_order, period_start, period_end, file_name, CREATED) values (?, ?, ?, ?, ?, ?, ?, ?)"
@@ -91,10 +95,14 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
             7 to ::parseInt,
             8 to ::parseDateTime,
             9 to ::parseDateTime,
-            -1 to {_: String? -> fileProcess.name },
-            -2 to {_ -> java.sql.Timestamp(fileProcess.lastModified())} )
+            -1 to ::fileProcessName,
+            -2 to ::fileLastModified)
 
-    override val bodyQuery: String? = """
+    private fun fileProcessName(value: String?): Any = fileProcess.name
+
+    private fun fileLastModified(value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
+
+            override val bodyQuery: String? = """
 insert into od.PTKB_ACQ_RECORD (id, ACQ, row_order, auth_id, transact_type_fe, card_number,
 local_oper, pc_oper, auth_direction, AUTH_CURRENCY, AUTH_AMOUNT,
 fee_direction, fee_amount, terminal_id, merchant_id, merchant_name,
@@ -105,29 +113,29 @@ values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 """
 
     override val bodyColumns: Map<Int, (String?) -> Any> = mapOf(
-            1 to ::parseInt,
-            2 to ::parseInt,
-            3 to ::parseToString,
+            1 to ::parseInt, // row_order
+            2 to ::parseInt, // auth_id
+            3 to ::parseToString, // transact_type_fe
             4 to ::parseToString, // card_number
-            5 to ::parseDateTime,
-            6 to ::parseDateTime,
-            7 to ::parseToString,
-            8 to ::parseInt,
+            5 to ::parseDateTime, // local_oper
+            6 to ::parseDateTime, // pc_oper
+            7 to ::parseToString, // auth_direction
+            8 to ::parseInt, // AUTH_CURRENCY
             9 to ::parseInt, // auth_amount
-            10 to ::parseToString,
-            11 to ::parseInt,
-            12 to ::parseToString,
-            13 to ::parseToString,
+            10 to ::parseToString, // fee_direction
+            11 to ::parseInt, // fee_amount
+            12 to ::terminalIdWithSave, // terminal_id
+            13 to ::parseToString, // merchant_id
             14 to ::parseToString, // merchant_name
-            15 to ::parseToString,
-            16 to ::parseToString,
-            17 to ::parseToString,
-            18 to ::parseToString,
+            15 to ::parseToString, // merchant_country
+            16 to ::merchantLocation, // merchant_state
+            17 to ::parseToString, // merchant_city
+            18 to ::parseToString, // merchant_postal
             19 to ::parseToString, // pay_system_id_number
-            20 to ::parseToString,
-            21 to ::parseToString,
-            22 to ::parseToString,
-            23 to ::parseInt,
+            20 to ::parseToString, // authorize_approval_code
+            21 to ::parseToString, // merchant_category_code
+            22 to ::parseToString, // retrieval_ref_number
+            23 to ::parseInt, // reversal_flag
             24 to ::parseToString, // description
             25 to ::parseInt // IS_PHYSICAL_TERMINAL
             )
@@ -147,4 +155,18 @@ values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             else-> throw Exception("not found type string ${fields[0]}")
         }
     }
+
+    private var terminalId: String = ""
+
+    private fun terminalIdWithSave(value: String?): Any = (value ?: "").apply { terminalId = this }
+
+    private fun merchantLocation(value: String?): Any = AfinaQuery.selectValue(SELECT_LOCATION, arrayOf(terminalId), sessionSetting!!) ?: ""
+
+    private const val SELECT_LOCATION = """
+select MERCHANT_LOCATION
+ from od.ptkb_transact_ctl_mtl m
+where m.id = (select max(id)
+from od.ptkb_transact_ctl_mtl
+where terminal_id = ?)"""
+
 }

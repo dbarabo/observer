@@ -60,12 +60,17 @@ object LoadAcqAdvUPay : FileFinder, FileProcessor, QuoteSeparatorLoader {
             1 to LoadAcq::parseToString,
             4 to ::parseDateWithSave,
             3 to LoadAcq::parseInt,
-            -1 to {_: String? -> created},
-            -2 to {_: String? -> created},
-            -3 to {_: String? -> fileProcess.name },
-            -4 to {_ -> java.sql.Timestamp(fileProcess.lastModified())} )
+            -1 to ::pcByLocal,
+            -2 to ::pcByLocal,
+            -3 to ::fileProcessName,
+            -4 to ::fileLastModified
+    )
 
     private lateinit var created: Any
+
+    private fun fileProcessName(value: String?): Any = fileProcess.name
+
+    private fun fileLastModified(value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
 
     private fun parseDateWithSave(value: String?): Any = parseDateTime(value).apply { created = this }
 
@@ -73,7 +78,9 @@ object LoadAcqAdvUPay : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     override val tailColumns: Map<Int, (String?) -> Any> = mapOf(
             1 to LoadAcq::parseInt,
-            -1 to {_: String? -> 0 } )
+            -1 to ::tailCount)
+
+    private fun tailCount(value: String?): Any = 0
 
     override val bodyQuery: String? = """
 insert into od.PTKB_ACQ_RECORD (id, ACQ, row_order, auth_id, transact_type_fe, card_number,
@@ -89,7 +96,7 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
             13 to ::operTypeToFe, // transact_type_fe
             2 to LoadAcq::parseToString, // card_number
             3 to ::parseDateWithSave, // local_oper
-            -1 to {_: String? -> created}, // pc_oper
+            -1 to ::pcByLocal, // pc_oper
             15 to LoadAcq::parseToString, // auth_direction
             18 to LoadAcq::parseInt, // AUTH_CURRENCY
             19 to LoadAcq::parseInt, // auth_amount
@@ -98,13 +105,19 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
             8 to LoadAcq::parseToString, // merchant_id
             -2 to ::merchantNameByTerminalId, // merchant_name
             -3 to ::merchantAddressByTerminalId, // merchant_city
-            -4 to { _: String? -> "9960" }, // pay_system_id_number пока только Upay international.ZK
+            -4 to ::paySystemId, // pay_system_id_number пока только Upay international.ZK
             6 to LoadAcq::parseToString, // authorize_approval_code
             9 to LoadAcq::parseToString, // merchant_category_code
             5 to LoadAcq::parseToString, // retrieval_ref_number
             14 to ::trnTypeToReverse, // reversal_flag
-            -5 to { _: String? -> 1 } // IS_PHYSICAL_TERMINAL
+            -5 to ::isPhysicalTerminal // IS_PHYSICAL_TERMINAL
     )
+
+    private fun pcByLocal(value: String?): Any = created
+
+    private fun paySystemId(value: String?): Any = "9960"
+
+    private fun isPhysicalTerminal(value: String?): Any = 1
 
     private lateinit var terminalId: String
 

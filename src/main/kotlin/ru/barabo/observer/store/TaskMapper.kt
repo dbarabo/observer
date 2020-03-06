@@ -18,7 +18,6 @@ import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
-import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.util.*
 import kotlin.concurrent.timer
@@ -33,10 +32,11 @@ object TaskMapper {
     var masterPswd: String = "K.,jqRf;lsq"
     private set
 
-    fun objectByClass(clazzName :String) :ActionTask {
-        val clazz = Class.forName(clazzName).kotlin
+    fun objectByClass(clazzName: String): ActionTask {
 
-        return (clazz.objectInstance ?: clazz.java.newInstance()) as ActionTask
+            val clazz = Class.forName(clazzName).kotlin
+
+            return (clazz.objectInstance ?: clazz.java.newInstance()) as ActionTask
     }
 
     @Throws(SessionException::class)
