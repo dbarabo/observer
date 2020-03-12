@@ -90,7 +90,7 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
             Column(498, 220, ::parseToString) // DESCRIPTION
     )
 
-    private fun processAccountCurrency(value: String?): Any = if(value == "643") 810 else parseInt(value)
+    private fun processAccountCurrency(value: String?): Any = if(value?.trim() == "643") 810 else parseInt(value)
 
     override val tailColumns: Array<Column> = emptyArray()
 
