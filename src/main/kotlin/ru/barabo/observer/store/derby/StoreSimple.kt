@@ -110,13 +110,14 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     @Synchronized
     fun checkDate(dateCheck: LocalDate) {
-        if(actualDate.dayOfYear !=  dateCheck.dayOfYear) {
+        if(actualDate.dayOfYear != dateCheck.dayOfYear) {
 
             InfoHtmlData.sendInfo(actualDate, root)
 
             Platform.runLater { run {
-                readData(dateCheck)
-            } }
+                    readData(dateCheck)
+                }
+            }
         }
     }
 

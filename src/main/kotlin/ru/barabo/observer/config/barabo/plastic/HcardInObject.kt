@@ -28,8 +28,7 @@ enum class HcardInObject(private val regExp: Regex, private val actionTask: Acti
 
         fun objectByFileName(fileName: String, otherTask: ActionTask): ActionTask {
 
-            return HcardInObject.values().firstOrNull { it.regExp.matches(fileName) }?.actionTask
-                    ?: otherTask
+            return values().firstOrNull { it.regExp.matches(fileName) }?.actionTask ?: otherTask
         }
     }
 }

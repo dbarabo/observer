@@ -8,6 +8,7 @@ import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -40,6 +41,16 @@ interface Executor {
 
 
     private fun isWeekAccess(): Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
+
+    private fun checkAllDays(): Boolean {
+        val result = (accessibleData.workWeek == WeekAccess.ALL_DAYS)
+
+        if(result && LocalTime.now().hour == 0) {
+            StoreSimple.checkDate( LocalDate.now() )
+        }
+
+        return result
+    }
 
     fun executeElem(elem: Elem) {
 
