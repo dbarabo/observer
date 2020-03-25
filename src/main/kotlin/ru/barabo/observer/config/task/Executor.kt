@@ -26,7 +26,7 @@ interface Executor {
 
     fun findAbstract(): Executor?
 
-    fun isAccess(): Boolean = isWorkTime() && isWeekAccess()
+    fun isAccess(): Boolean = isWeekAccess() && isWorkTime()
 
     fun findAll(): Executor? = sendFindAllError { if(isAccess()) findAbstract() else null }
 
@@ -40,7 +40,7 @@ interface Executor {
     fun isWorkTimeByTime(time: LocalTime): Boolean = isWorkTime(time)
 
 
-    private fun isWeekAccess(): Boolean = accessibleData.workWeek == WeekAccess.ALL_DAYS || AfinaQuery.isWorkDayNow()
+    private fun isWeekAccess(): Boolean = checkAllDays() || AfinaQuery.isWorkDayNow()
 
     private fun checkAllDays(): Boolean {
         val result = (accessibleData.workWeek == WeekAccess.ALL_DAYS)

@@ -20,7 +20,7 @@ object PlasticOutSide  : AbstractConfig() {
         OutRegisterAquiring.findAll()
 
         OutRegisterAquiringMonth.findAll()
-        OutRegisterAquiringWeek.findAll()
+        // OutRegisterAquiringWeek.findAll()
         OutRest.findAll()
 
         OutSalaryResponseFile.findAll()

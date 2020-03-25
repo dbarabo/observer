@@ -63,7 +63,7 @@ object RegisterBySchedulerTerminal : SingleSelector {
 
         if(email.indexOf('@') < 0) return
 
-        BaraboSmtp.sendStubThrows(to = arrayOf(email).onlyAfina(), bcc = BaraboSmtp.YA,
+        BaraboSmtp.sendStubThrows(to = arrayOf(email).onlyAfina(), // bcc = BaraboSmtp.YA,
                 subject = subjectRegister(terminalTime), body = BODY_INFO, attachments = arrayOf(fileRegister))
     }
 

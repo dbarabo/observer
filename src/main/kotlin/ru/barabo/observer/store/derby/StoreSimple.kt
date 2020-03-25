@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.task.ActionTask
-import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.StoreDb
@@ -112,7 +111,8 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     fun checkDate(dateCheck: LocalDate) {
         if(actualDate.dayOfYear != dateCheck.dayOfYear) {
 
-            InfoHtmlData.sendInfo(actualDate, root)
+            // InfoHtmlData.sendInfo(actualDate, root)
+            actualDate = dateCheck
 
             Platform.runLater { run {
                     readData(dateCheck)
