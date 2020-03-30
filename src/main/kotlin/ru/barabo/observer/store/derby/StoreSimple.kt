@@ -60,11 +60,18 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
             dataList.firstOrNull { isContainsTask(it.task) && it.isFindByIdName(idElem, name, isDuplicateName) } != null
         //}
 
-    fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE) :Elem? {
+    fun getLastItemsNoneState(task: ActionTask, noneState: State = State.ARCHIVE): Elem? {
 
         val comparatorElemMaxTime = comparatorElemByExecTime()
 
         return dataList.filter { it.task === task && it.state != noneState }.maxWith(comparatorElemMaxTime)
+    }
+
+    fun getLastItemsByState(task: ActionTask, state: State = State.NONE): Elem? {
+
+        val comparatorElemMaxTime = comparatorElemByExecTime()
+
+        return dataList.filter { it.task === task && it.state == state }.maxWith(comparatorElemMaxTime)
     }
 
     private fun comparatorElemByExecTime(): Comparator<Elem> = Comparator { x, y ->
@@ -96,7 +103,7 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
     }.count()
 
     //@Synchronized
-    fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
+    fun getItems(state: State = State.NONE, executed: LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
             = dataList.filter { it.state === state &&
             isContainsTask(it.task) &&
             (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <

@@ -28,7 +28,7 @@ object TurnOutDeleted : SinglePerpetual {
     override fun execute(elem: Elem): State {
         processDelTurnCard()
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private fun processDelTurnCard() {

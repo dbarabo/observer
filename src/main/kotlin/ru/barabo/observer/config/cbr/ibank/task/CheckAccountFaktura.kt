@@ -27,7 +27,7 @@ object CheckAccountFaktura : SinglePerpetual {
 
         AfinaQuery.execute(EXEC_CHECK_ACCOUNTS_IN_FAKTURA)
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private const val EXEC_CHECK_ACCOUNTS_IN_FAKTURA = "{ call od.PTKB_IBANK.checkConnectAccountToFaktura }"

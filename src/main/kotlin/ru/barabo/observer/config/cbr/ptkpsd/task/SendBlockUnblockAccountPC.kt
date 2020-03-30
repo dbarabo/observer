@@ -41,7 +41,7 @@ object SendBlockUnblockAccountPC : SinglePerpetual {
             unBlockCardAccounts()
         }
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private fun isBlockTargetInverse(elem: Elem): Boolean {

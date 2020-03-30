@@ -43,11 +43,11 @@ object SftpLoad : SinglePerpetual  {
         Sftp.openSftp(sftpSetting).use {
             val files = it.lsFileOnly(REMOTE_PATH)
 
-            if(files.isEmpty()) return State.NONE
+            if(files.isEmpty()) return super.execute(elem)
 
             it.downloadFiles(REMOTE_PATH, files, archivePathToday())
         }
 
-        return State.NONE
+        return super.execute(elem)
     }
 }

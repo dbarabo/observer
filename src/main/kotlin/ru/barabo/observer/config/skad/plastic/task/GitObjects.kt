@@ -31,7 +31,7 @@ object GitObjects : SinglePerpetual {
     override fun execute(elem: Elem): State {
 
         val objects = AfinaQuery.select(SELECT_OBJECTS)
-        if(objects.isEmpty()) return State.NONE
+        if(objects.isEmpty()) return super.execute(elem)
 
         var isModified = false
 
@@ -44,7 +44,7 @@ object GitObjects : SinglePerpetual {
             gitCommit()
         }
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private fun gitCommit() =  Cmd.execDos(cmdGitCommit)

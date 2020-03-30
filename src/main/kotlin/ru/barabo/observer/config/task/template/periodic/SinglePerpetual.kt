@@ -18,34 +18,46 @@ interface SinglePerpetual : Executor, ActionTask {
 
     val countTimes: Long
 
+    override fun execute(elem: Elem): State {
+
+        elem.executed = LocalDateTime.now().plus(countTimes, unit)
+
+        return State.NONE
+    }
+
     private fun findLastItem(): Executor? {
 
-        val lastItem = StoreSimple.getLastItemsNoneState(this)
+        val lastItem = StoreSimple.getLastItemsByState(this)
+                ?: StoreSimple.getLastItemsNoneState(this)
+
+        if(lastItem?.state == State.OK) return null // cancel create new elem if exists execute elem
 
         if(!isLastPeriodEnd(lastItem)) return null
 
-        val nextItem = if(lastItem?.state == State.NONE) lastItem else createNewElem(lastItem)
-
-        nextItem.executed = LocalDateTime.now().plus(countTimes, unit) // getNextTimeByExec(nextItem)
+        if(lastItem?.state != State.NONE) {
+            createNewElem( getExecutedTime(lastItem) )
+        }
 
         return this
     }
 
-    private fun createNewElem(lastItem: Elem?): Elem {
+    private fun createNewElem(executed: LocalDateTime): Elem {
         return Elem(task = this,
                 idElem = LocalDateTime.now().atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli(),
                 name = "$countTimes - ${unit.name}",
-                executed = lastItem?.executed ?: lastItem?.created ).apply {
+                executed = executed).apply {
 
             StoreSimple.save(this)
         }
     }
 
-    private fun getNextTimeByExec(elem: Elem): LocalDateTime {
+    private fun getExecutedTime(elem: Elem?): LocalDateTime {
 
-        val priorTime = elem.executed ?: elem.created
+        if(elem?.state == State.ERROR) {
+            return LocalDateTime.now().plus(countTimes * 60, unit)
+        }
 
-        return priorTime.plus(countTimes, unit)
+        return LocalDateTime.now()
     }
 
     private fun isLastPeriodEnd(lastItem: Elem?): Boolean {

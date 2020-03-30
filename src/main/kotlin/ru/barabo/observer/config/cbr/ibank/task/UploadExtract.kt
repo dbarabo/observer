@@ -40,7 +40,7 @@ object UploadExtract : SinglePerpetual {
 
         val accounts = AfinaQuery.selectCursor(SELECT_EXTRACT_ACCOUNTS)
 
-        if(accounts.isEmpty() ) return State.NONE
+        if(accounts.isEmpty() ) return super.execute(elem)
 
         val copyFolder = dTaBack().byFolderExists()
 
@@ -52,7 +52,7 @@ object UploadExtract : SinglePerpetual {
                 extractAccount(it as Number, copyFolder.absolutePath)
             }
         }
-        return State.NONE
+        return super.execute(elem)
     }
 
     private fun extractAccount(accountId: Number, tempFolderPath: String) {

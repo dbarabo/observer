@@ -45,7 +45,7 @@ object CheckSpaceServer : SinglePerpetual {
             return sendInfoFreeSpace(path, gb)
         }
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private fun sendInfoFreeSpace(path: String, gbFree: Double): State {

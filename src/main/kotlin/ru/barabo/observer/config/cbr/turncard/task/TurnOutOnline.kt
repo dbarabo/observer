@@ -35,7 +35,7 @@ object TurnOutOnline : SinglePerpetual {
     override fun execute(elem: Elem): State {
         processTurnCard()
 
-        return State.NONE
+        return super.execute(elem)
     }
 
     private val uniqueIdSession: Long = AfinaQuery.uniqueSession().idSession!!
