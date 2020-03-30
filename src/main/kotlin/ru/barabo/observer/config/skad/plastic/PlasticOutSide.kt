@@ -5,10 +5,7 @@ import ru.barabo.observer.config.barabo.crypto.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.*
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
-import ru.barabo.observer.config.skad.plastic.task.FsfmExchangeResponse
-import ru.barabo.observer.config.skad.plastic.task.GitObjects
-import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
-import ru.barabo.observer.config.skad.plastic.task.UpdaterCrossRateMtl
+import ru.barabo.observer.config.skad.plastic.task.*
 
 object PlasticOutSide  : AbstractConfig() {
 
@@ -19,7 +16,7 @@ object PlasticOutSide  : AbstractConfig() {
     override fun configRun() {
         OutRegisterAquiring.findAll()
 
-        OutRegisterAquiringMonth.findAll()
+        // OutRegisterAquiringMonth.findAll()
         // OutRegisterAquiringWeek.findAll()
         OutRest.findAll()
 
@@ -39,6 +36,8 @@ object PlasticOutSide  : AbstractConfig() {
         UpdaterCrossRateMtl.findAll()
 
         GitObjects.findAll()
+
+        CheckSpaceServer.findAll()
 
         FsfmExchangeResponse.findAll()
 

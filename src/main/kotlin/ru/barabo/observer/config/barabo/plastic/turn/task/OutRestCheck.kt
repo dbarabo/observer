@@ -81,7 +81,7 @@ object OutRestCheck: SingleSelector {
     }
 
     private fun sendMailFile(subject: String, data: String) {
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, bcc = BaraboSmtp.AUTO, subject = subject,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.DELB_PLASTIC, cc = BaraboSmtp.DOPIKI, bcc = BaraboSmtp.AUTO, subject = subject,
                 body = data, subtypeBody = "html") //, attachments = arrayOf(fileSend))
     }
 
