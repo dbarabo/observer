@@ -25,6 +25,7 @@ object PlasticOutSide  : AbstractConfig() {
         CreateAccount311p.findAll()
         RecreateAfterError311p.findAll()
 
+        moveRateCbrToday.findAll()
         LoadRateThb.findAll()
         FixedExchangeCb.findAll()
         ExecuteExchangeCb.findAll()
