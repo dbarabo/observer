@@ -2,7 +2,6 @@ package ru.barabo.observer.config.skad.plastic.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -12,7 +11,7 @@ import ru.barabo.observer.store.State
 import java.time.Duration
 import java.time.LocalTime
 
-object moveRateCbrToday : SingleSelector {
+object MoveRateCbrToday : SingleSelector {
 
     override fun name(): String = "Курс ЦБР - перемещиние в сегодня"
 
