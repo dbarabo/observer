@@ -33,6 +33,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
@@ -272,6 +273,14 @@ res3 = [calc.DEC_TEST];
 
         LoadAcq.execute(elem)
     }
+
+    // @Test
+    fun testLoadAcqAdvUPay() {
+        val elem = Elem(File("C:/КартСтандарт/ZKACQ_ADV_500764_200401.071"), LoadAcqAdvUPay, Duration.ZERO)
+
+        LoadAcqAdvUPay.execute(elem)
+    }
+
 
     //@Test
     fun test440pExec() {

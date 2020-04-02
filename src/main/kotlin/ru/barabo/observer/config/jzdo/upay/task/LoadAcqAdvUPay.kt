@@ -105,17 +105,17 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
             8 to LoadAcq::parseToString, // merchant_id
             -2 to ::merchantNameByTerminalId, // merchant_name
             -3 to ::merchantAddressByTerminalId, // merchant_city
-            -4 to ::paySystemId, // pay_system_id_number пока только Upay international.ZK
+            25 to ::paySystemId, // pay_system_id_number пока только Upay international.ZK
             6 to LoadAcq::parseToString, // authorize_approval_code
             9 to LoadAcq::parseToString, // merchant_category_code
             5 to LoadAcq::parseToString, // retrieval_ref_number
             14 to ::trnTypeToReverse, // reversal_flag
-            -5 to ::isPhysicalTerminal // IS_PHYSICAL_TERMINAL
+            -4 to ::isPhysicalTerminal // IS_PHYSICAL_TERMINAL
     )
 
     private fun pcByLocal(value: String?): Any = created
 
-    private fun paySystemId(value: String?): Any = "9960"
+    private fun paySystemId(value: String?): Any = if(value?.trim()?.toUpperCase() == "NSPK001") "9961" else "9960"
 
     private fun isPhysicalTerminal(value: String?): Any = 1
 
