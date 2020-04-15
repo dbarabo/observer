@@ -33,7 +33,7 @@ object PlasticOutSide  : AbstractConfig() {
         ExecuteExchangeCb.findAll()
 
         AutoUpdatePlasticJarCritical.findAll()
-        AutoUpdatePlasticJarSoft.findAll()
+        //AutoUpdateReportJarCritical.findAll()
 
         LoadVisaRate.findAll()
         UpdaterCrossRateMtl.findAll()

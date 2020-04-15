@@ -30,6 +30,7 @@ object ScadConfig : AbstractConfig() {
         SignScadCbFts181U.findAll()
         UnCryptoScad364p.findAll()
         UnSignScad364p.findAll()
+        UnCryptoAny.findAll()
 
         Uncrypto550pScad.findAll()
         SignScadSend550p.findAll()

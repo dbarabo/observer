@@ -1,11 +1,10 @@
 package ru.barabo.observer.config.cbr.other
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.cbr.ibank.task.LoanInfoCreator
-import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
+import ru.barabo.observer.config.skad.crypto.task.SignScad181UByCbr
 
 object OtherCbr: AbstractConfig() {
 
@@ -14,6 +13,8 @@ object OtherCbr: AbstractConfig() {
     override fun name() :String = "Прочее"
 
     override fun configRun() {
+
+        SignScad181UByCbr.findAll()
 
         RemartMail.findAll()
         TtsMailFromOtk.findAll()
@@ -36,11 +37,8 @@ object OtherCbr: AbstractConfig() {
         RestrictUsersArchiveDay.findAll()
         CheckActializationEntryDouble.findAll()
 
-        // disable from 23.05.2018
-        // ExecuteOverdraftJuric.findAll()
-        //ExecutePosPot.findAll()
-
-        CorrectPrim.findAll()
+        // off 06.04.2020 go to week reports
+        //CorrectPrim.findAll()
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()
