@@ -8,16 +8,21 @@ import ru.barabo.observer.store.State
 import java.io.File
 import java.io.IOException
 
-interface FileMover :ActionTask, Executor {
+interface FileMover : ActionTask, Executor {
 
-    val pathsTo :Array<()->String>
+    val pathsTo: Array<()->String>
 
-    val isMove :Boolean
+    val isMove: Boolean
 
+    fun isHideIfNotExists(): Boolean = false
 
     fun executeFile(file :File) {
 
-        if(!file.exists()) throw IOException("file not found ${file.absolutePath}")
+        if(!file.exists()) {
+            if(isHideIfNotExists() ) return
+
+            throw IOException("file not found ${file.absolutePath}")
+        }
 
         pathsTo.forEach {
             if(!File(it()).exists()) File(it()).mkdirs()

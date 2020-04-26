@@ -11,13 +11,15 @@ import java.time.LocalTime
 
 object MoveHcardIn: FileMover {
 
-    override val pathsTo: Array<() -> String> = arrayOf(LoadRestAccount::hCardInToday)
-
-    override val isMove: Boolean = true
-
     override fun name(): String = "Убрать Файлы"
 
     override fun config(): ConfigTask = PlasticReleaseConfig
+
+    override fun isHideIfNotExists(): Boolean = true
+
+    override val pathsTo: Array<() -> String> = arrayOf(LoadRestAccount::hCardInToday)
+
+    override val isMove: Boolean = true
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom =  LocalTime.of(0, 5),
             workTimeTo = LocalTime.of(23, 55), executeWait = Duration.ZERO)
