@@ -201,6 +201,10 @@ object ScadComplex {
 
         val encode = File("${tempFolder.absolutePath}/${encodeFile.name}")
 
+        if(encodeFile.exists()) {
+            if(!encodeFile.delete()) throw Exception("encode file $encodeFile is exists and not deleted")
+        }
+
         Scad.encode(signGzip, encode, if(isAddFss) CertificateType.FNS_FSS else CertificateType.FNS)
 
         encode.copyTo(encodeFile, true)

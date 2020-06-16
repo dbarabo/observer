@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.turncard
 
 import ru.barabo.observer.config.NoneCheckedConfig
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutOnline
+import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 
 object TurnCard : NoneCheckedConfig() {
 
@@ -14,6 +15,7 @@ object TurnCard : NoneCheckedConfig() {
 
         TurnOutOnline.findAll()
         TurnOutDeleted.findAll()
+        TurnOutTechOver.findAll()
 
         executeTasks()
     }
