@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -11,12 +12,15 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.crypto.Scad
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
 
 object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
+
+    private val logger = LoggerFactory.getLogger(LoadAcq::class.java)!!
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(LoadRestAccount.hCardIn,"AFP_ACQ20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d"))
@@ -40,7 +44,9 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
         val moveFile = File("${LoadRestAccount.hCardInToday()}/${file.name}")
 
         file.copyTo(moveFile, true)
-        file.delete()
+        if(!file.delete()) {
+            logger.error("FILE IS NOT DELETED $file")
+        }
     }
 
     private var fileId: Any? = null

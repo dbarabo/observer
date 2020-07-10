@@ -19,7 +19,7 @@ object Cmd {
             val process = Runtime.getRuntime().exec(cmd)
 
             StreamReader(process.errorStream, logger::error).start()
-            StreamReader(process.inputStream, logger::info).start()
+            StreamReader(process.inputStream, logger::error).start()
 
             process.waitFor(MAX_WAIT_MINUTES, TimeUnit.MINUTES)
 

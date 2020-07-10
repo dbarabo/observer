@@ -24,6 +24,11 @@ object AddSign600P : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
+        if(file.name.equals("thumbs.db", true)) {
+            file.delete()
+            return
+        }
+
         val arjArchive = File("${pathCryptoTicketToday().absolutePath}/${arjArchiveNameToday()}")
 
         ScadComplex.signAddArchive600p(file, arjArchive)
