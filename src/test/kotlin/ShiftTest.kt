@@ -2,6 +2,8 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.store.Shift
+import ru.barabo.xlsx.SheetReader
+import ru.barabo.xlsx.byString
 import java.io.File
 import java.net.InetAddress
 import java.nio.charset.Charset
@@ -10,15 +12,22 @@ class ShiftTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
-    //@Test
-    fun findRow() {
-        File("c:/temp/BVD1_ZSV10507717_254320190403_367859_20190410_0021_000001_000001.xml")
-                .readLines(Charset.forName("CP1251"))
-                .forEach {
-                    if(it.contains("<РеквПлат") && !it.contains("НаимПП=")) {
-                        logger.error(it)
-                    }
-                }
+    @Test
+    fun xlsxReadTest() {
+
+        val reader = SheetReader(File("C:/Temp/2/paymentsacq_daily_2020.07.31.xlsx") )
+
+        val data = reader.readSheet()
+
+        for (row in data) {
+            logger.error("row index = ${row.rowIndex} count = ${row.columns.size}")
+
+            for(cell in row.columns) {
+                logger.error("cell index = ${cell.columnIndex} type = ${cell.cellType} value = ${cell.byString(cell.columnIndex == 1)}")
+
+                // logger.error("cell String = ${cell.stringCellValue}")
+            }
+        }
     }
 
 

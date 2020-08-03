@@ -1,5 +1,4 @@
 
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.XmlValidator
 import java.io.File
