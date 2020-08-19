@@ -1,10 +1,7 @@
 package ru.barabo.observer.config.skad.acquiring
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.skad.acquiring.task.AcquiringProcessTerminal
-import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
-import ru.barabo.observer.config.skad.acquiring.task.RegisterBySchedulerTerminal
-import ru.barabo.observer.config.skad.acquiring.task.ResetSchedulerState
+import ru.barabo.observer.config.skad.acquiring.task.*
 
 object Acquiring  : AbstractConfig() {
     override fun name(): String = "Эквайринг"
@@ -19,6 +16,8 @@ object Acquiring  : AbstractConfig() {
         AcquiringProcessTerminal.findAll()
 
         RegisterBySchedulerTerminal.findAll()
+
+//        LoadPaymentWeechatXlsx.findAll()
 
         executeTasks()
     }

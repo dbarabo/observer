@@ -2,6 +2,7 @@ package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
+import ru.barabo.observer.config.skad.acquiring.task.LoadPaymentWeechatXlsx
 
 object TestConfig : AbstractConfig() {
 
@@ -11,7 +12,7 @@ object TestConfig : AbstractConfig() {
 
     override fun configRun() {
 
-        LoadAcqAdvUPay.findAll()
+        LoadPaymentWeechatXlsx.findAll()
 
         this.executeTasks()
     }

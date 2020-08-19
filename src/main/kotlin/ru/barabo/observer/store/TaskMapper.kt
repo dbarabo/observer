@@ -18,6 +18,7 @@ import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
+import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.util.*
 import kotlin.concurrent.timer
@@ -48,7 +49,7 @@ object TaskMapper {
 
         buildInfo = getBuildInfoByBuild(build)
 
-        val baseConnectReal = if(buildInfo.build == "TEST") "TEST" else baseConnect
+        val baseConnectReal = baseConnect // if(buildInfo.build == "TEST") "TEST" else baseConnect
 
         initBase(baseConnectReal)
     }
@@ -135,4 +136,4 @@ private fun scadSignatureConfigs(): List<ConfigTask> = listOf(ScadConfig, P440Co
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 
-private fun testConfig(): List<ConfigTask> = listOf( Acquiring /*TestConfig*/ )
+private fun testConfig(): List<ConfigTask> = listOf( TestConfig )

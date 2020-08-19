@@ -1,18 +1,41 @@
 
+import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.observer.config.barabo.plastic.turn.task.LoadCtlMtl
+import ru.barabo.observer.config.skad.acquiring.task.LoadPaymentWeechatXlsx
+import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.Shift
+import ru.barabo.observer.store.TaskMapper
 import ru.barabo.xlsx.SheetReader
 import ru.barabo.xlsx.byString
 import java.io.File
 import java.net.InetAddress
 import java.nio.charset.Charset
+import java.time.Duration
 
 class ShiftTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
+    @Before
+    fun initTestBase() {
+        TaskMapper.init("TEST", "AFINA")
+
+        com.sun.javafx.application.PlatformImpl.startup {}
+    }
+
+
     @Test
+    fun loadPaymentWeechatXlsx() {
+        //val elem = Elem(File("C:/Temp/2/paymentsacq_daily_2020.07.31.xlsx"), LoadPaymentWeechatXlsx, Duration.ZERO)
+
+        val elem = Elem(File("C:/Temp/2/paymentsacq_daily_2020.07.29.xlsx"), LoadPaymentWeechatXlsx, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
     fun xlsxReadTest() {
 
         val reader = SheetReader(File("C:/Temp/2/paymentsacq_daily_2020.07.31.xlsx") )
