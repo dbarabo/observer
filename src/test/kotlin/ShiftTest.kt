@@ -25,7 +25,7 @@ class ShiftTest {
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
-    @Test
+    //@Test
     fun loadPaymentWeechatXlsx() {
         //val elem = Elem(File("C:/Temp/2/paymentsacq_daily_2020.07.31.xlsx"), LoadPaymentWeechatXlsx, Duration.ZERO)
 
