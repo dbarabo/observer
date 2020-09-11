@@ -37,6 +37,7 @@ import ru.barabo.observer.config.cbr.turncard.TurnOutDeleted
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
+import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -388,6 +389,15 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(File("C:/КартСтандарт/ZKMTL_20190909_0999.0001"), LoadMtlUPay, Duration.ZERO)
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun execWeechat() {
+        val elem = Elem(idElem = 1218838711 /*1218838744*/, task = ExecuteWeechatFile)
+
+        elem.task?.execute(elem)
+
+        logger.error("Ok")
     }
 
 
