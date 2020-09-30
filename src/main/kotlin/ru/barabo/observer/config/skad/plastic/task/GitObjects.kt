@@ -25,8 +25,8 @@ object GitObjects : SinglePerpetual {
 
     override val countTimes: Long = 30
 
-    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-            workTimeFrom = LocalTime.of(7, 40), workTimeTo = LocalTime.of(21, 15) )
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.WORK_ONLY,
+            workTimeFrom = LocalTime.of(7, 40), workTimeTo = LocalTime.of(21, 30) )
 
     override fun execute(elem: Elem): State {
 
