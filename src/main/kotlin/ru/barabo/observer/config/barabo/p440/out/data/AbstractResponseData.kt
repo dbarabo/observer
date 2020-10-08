@@ -48,6 +48,7 @@ abstract class AbstractResponseData : ResponseData {
     }
 
     companion object {
+        
         fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())!!
     }
 
