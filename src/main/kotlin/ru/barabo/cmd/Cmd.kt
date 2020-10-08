@@ -11,15 +11,25 @@ object Cmd {
     private val logger = LoggerFactory.getLogger(Cmd::class.java)
 
     @Throws(IOException::class, InterruptedException::class)
-    fun execCmd(cmd :String) {
+    fun execCmd(cmd :String, checkErrorStream: (String)->Unit = {}) {
 
         try {
+            logger.error("cmd=$cmd")
+
             val start = System.nanoTime()
 
             val process = Runtime.getRuntime().exec(cmd)
 
-            StreamReader(process.errorStream, logger::error).start()
-            StreamReader(process.inputStream, logger::error).start()
+            StreamReader(process.errorStream) {
+                logger.error("ERR_LOG:$it")
+
+                checkErrorStream(it)
+            }.start()
+            StreamReader(process.inputStream) {
+                logger.error("INPUT_LOG:$it")
+
+                checkErrorStream(it)
+            }.start()
 
             process.waitFor(MAX_WAIT_MINUTES, TimeUnit.MINUTES)
 

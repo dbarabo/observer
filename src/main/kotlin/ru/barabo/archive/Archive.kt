@@ -8,6 +8,7 @@ import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.lang.Exception
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.regex.Pattern
@@ -72,10 +73,25 @@ object Archive {
 
     private fun addToArj(archivePath :String, filePath :String)  = "arj32.exe a -e $archivePath $filePath"
 
+    private val checkError = Pattern.compile("Error \\(\\d\\):.*", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
     fun addToArj(archiveFullPath :String, files :Array<File>) {
 
+        var errorStream = ""
+
         files.forEach {
-            Cmd.execCmd( addToArj(archiveFullPath, it.absolutePath) )
+            val comand = addToArj(archiveFullPath, it.absolutePath)
+
+            Cmd.execCmd( comand ) { stream ->
+
+                if(checkError.isFind(stream)) {
+                    errorStream += stream
+                    errorStream += "\n"
+                }
+            }
+            if(errorStream.isNotEmpty()) {
+                throw Exception("addToArj $comand\n$errorStream")
+            }
         }
     }
 

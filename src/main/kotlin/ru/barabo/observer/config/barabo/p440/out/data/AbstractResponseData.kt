@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
+import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
@@ -38,7 +39,8 @@ abstract class AbstractResponseData : ResponseData {
 
     override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {
         val rowData = AfinaQuery.select(
-                selectResponse(addSeparFields(), addSeparTables(), addWhere() ), arrayOf(idResponse) )[0]
+                selectResponse(addSeparFields(), addSeparTables(), addWhere() ),
+                arrayOf(idResponse) )[0]
 
         fillDataFields(idResponse, rowData, sessionSetting)
 
@@ -62,6 +64,4 @@ abstract class AbstractResponseData : ResponseData {
 
         fileNameFromFns = (rowData[3] as String).substringBeforeLast(".")
     }
-
-
 }

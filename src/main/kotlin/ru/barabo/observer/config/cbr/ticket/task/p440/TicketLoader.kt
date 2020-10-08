@@ -1,7 +1,9 @@
 package ru.barabo.observer.config.cbr.ticket.task.p440
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.barabo.p440.task.AddToArchive440p
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
@@ -10,6 +12,8 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
+
+private val logger = LoggerFactory.getLogger(TicketLoader::class.java)
 
 abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
@@ -24,7 +28,12 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
     override fun processFile(file: File) {
 
         val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
-        ScadComplex.unsignAndMoveSource(file, folderTo)
+
+        try {
+            ScadComplex.unsignAndMoveSource(file, folderTo)
+        } catch (e: Exception) {
+            logger.error("ScadComplex.unsignAndMoveSource file=$file", e)
+        }
 
         val info = XmlLoader<T>().load(file).ticketInfo
 
