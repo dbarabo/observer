@@ -51,7 +51,7 @@ abstract class AbstractResponseData : ResponseData {
 
         fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())!!
     }
-    
+
     /**
      * default first select // r.FNS_FROM, r.IS_PB, r.FILE_NAME, f.FILE_NAME,
      */
