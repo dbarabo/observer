@@ -25,13 +25,13 @@ object Ticket550p: FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = TicketPtkPsd
 
-    override fun name(): String = "550-П Ответ"
+    override fun name(): String = "639-П Ответ"
 
-    private fun in550p() :String = "X:/550-П/In/${todayFolder()}"
+    private fun in550p() :String = "X:/639-П/In/${todayFolder()}"
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
-    private const val SUBJECT_MAIL = "Квитки по 550-П"
+    private const val SUBJECT_MAIL = "Квитки по 639-П"
 
     override fun processFile(file : File) {
         val ticketFiles = Archive.extractFromCab(file, in550p())

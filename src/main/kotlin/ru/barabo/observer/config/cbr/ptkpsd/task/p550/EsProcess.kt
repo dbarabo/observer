@@ -24,7 +24,7 @@ object EsProcess {
         return generateResponse(esIn, inXml)
     }
 
-    fun folder550pOut() :String = "X:/550-П/Out/${todayFolder()}"
+    fun folder550pOut() :String = "X:/639-П/Out/${todayFolder()}"
 
     const val PREFIX_TICKET = "UV_0021_0000_"
 

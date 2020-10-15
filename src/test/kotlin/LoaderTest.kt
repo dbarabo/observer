@@ -169,7 +169,7 @@ res3 = [calc.DEC_TEST];
         val search = Pattern.compile("ARH550P_0021_0000_${GetProcess550pFiles.todayBlind()}_...\\.arj",
                 Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
-        val max = (File("X:/550-П/Out/2019/12/16").listFiles { f ->
+        val max = (File("X:/639-П/Out/2019/12/16").listFiles { f ->
             !f.isDirectory && search.matcher(f.name).find()}
                 ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.max()?:0)+ 1
 

@@ -32,9 +32,9 @@ object Uncrypto550pScad :  FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = ScadConfig
 
-    override fun name(): String = "550-П Расшифровать Scad"
+    override fun name(): String = "639-П Расшифровать Scad"
 
-    private val X550 = "X:/550-П".ifTest("C:/550-П")
+    private val X550 = "X:/639-П".ifTest("C:/639-П")
 
     fun folder550pOut() = "$X550/Out/${todayFolder()}".byFolderExists()
 

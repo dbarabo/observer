@@ -27,9 +27,9 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = TicketPtkPsd
 
-    override fun name(): String = "550-П Получить и отправить"
+    override fun name(): String = "639-П Получить и отправить"
 
-    private fun folder550pIn() :String = "X:/550-П/In/${todayFolder()}"
+    private fun folder550pIn() :String = "X:/639-П/In/${todayFolder()}"
 
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
@@ -74,7 +74,7 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         }
     }
 
-    private const val SUBJECT_INFO = "Получены и обработаны файлы по 550-П"
+    private const val SUBJECT_INFO = "Получены и обработаны файлы по 639-П"
 
     private fun sendMailFilesInfo(archiveFileName :String, xmlInFiles :Array<File>?) {
 
@@ -82,7 +82,7 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
 
         val outFiles = xmlInFiles?.joinToString("\n") { "${folder550pIn()}/${EsProcess.PREFIX_TICKET}${it.name}" }
 
-        val text = "\tПолучены файлы по 550-П\n" +
+        val text = "\tПолучены файлы по 639-П\n" +
                 "\tСписок файлов:\n$inFiles\n" +
                 "\tФайлы успешно обработаны и созданы ответные файлы квитанций\n$outFiles\n" +
                 "\tОтправлен архивный файл с ответами:$archiveFileName"
