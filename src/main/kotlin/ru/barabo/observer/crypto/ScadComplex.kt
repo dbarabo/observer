@@ -160,6 +160,8 @@ object ScadComplex {
 
     fun fullDecode440p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p440")
 
+    fun fullDecode390p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p390")
+
     fun fullDecode364p(sourceFile: File, decodeFile: File): File = decodeUngzipUnsign(sourceFile, decodeFile, "p364")
 
     fun decodeAny(sourceFile: File, decodeFile: File? = null): File = decodeUngzip(sourceFile, decodeFile, "any")

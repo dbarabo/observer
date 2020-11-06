@@ -28,7 +28,7 @@ object CryptoConfig : AbstractConfig() {
         //  UnSign364p.findAll()
 
         // это тоже надо отрубить, но потом
-        CreateSaveResponse390p.findAll()
+        // CreateSaveResponse390p.findAll()
 
         // InfoRequest349p.findAll()
 

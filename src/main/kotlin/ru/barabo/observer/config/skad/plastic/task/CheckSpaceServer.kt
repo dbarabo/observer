@@ -7,6 +7,7 @@ import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
+import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
@@ -22,7 +23,7 @@ object CheckSpaceServer : SinglePerpetual {
 
     override fun name(): String = "Проверка Места на Сервере"
 
-    override fun config(): ConfigTask = PlasticOutSide
+    override fun config(): ConfigTask = TestConfig // PlasticOutSide
 
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
@@ -34,6 +35,8 @@ object CheckSpaceServer : SinglePerpetual {
     override fun execute(elem: Elem): State {
 
         for(path in paths) {
+
+            logger.error("BEFORE CHECK PATH $path")
 
             val gb = (AfinaQuery.selectValue(SELECT_FREE_SPACE, arrayOf(path)) as? Number)?.toDouble()
                     ?: throw Exception("Невозможно вычислить остаток свободного места по адресу $path")

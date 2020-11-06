@@ -1,11 +1,14 @@
 package ru.barabo.observer.config
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.TaskMapper
 import java.time.Duration
 import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.concurrent.timer
+
+private val logger = LoggerFactory.getLogger(AbstractConfig::class.java)
 
 abstract class AbstractConfig : ConfigTask {
 
@@ -20,9 +23,13 @@ abstract class AbstractConfig : ConfigTask {
 
         timer = timer(name = this.javaClass.simpleName, initialDelay = 10_000, daemon = false, period = timeOut()) {
 
-            checkWorkConfig()
+            try {
+                checkWorkConfig()
 
-            configRun()
+                configRun()
+            } catch (e: Exception) {
+                logger.error("startConfig ${this.javaClass}", e)
+            }
         }
     }
 

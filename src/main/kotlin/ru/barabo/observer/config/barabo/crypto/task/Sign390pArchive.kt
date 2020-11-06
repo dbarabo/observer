@@ -1,13 +1,13 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
-import ru.barabo.observer.crypto.Verba
+import ru.barabo.observer.crypto.ScadComplex
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -24,10 +24,10 @@ object Sign390pArchive : FileFinder, FileProcessor {
 
     override fun name(): String = "390-П Подписать архив"
 
-    override fun config(): ConfigTask = CryptoConfig
+    override fun config(): ConfigTask = ScadConfig // CryptoConfig
 
     override fun processFile(file: File) {
-        //Verba.signByBarabo(file)
-        Verba.signBy390p(file)
+        // Verba.signBy390p(file)
+        ScadComplex.signAndMoveSource(file, CreateSaveResponse390p.sendFolderSrc390p())
     }
 }
