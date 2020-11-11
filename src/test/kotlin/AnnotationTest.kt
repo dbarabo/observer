@@ -35,14 +35,17 @@ class AnnotationTest {
 
     //@Test
     fun testUpdateAll() {
-        val dir = File("U:/Observer/0")
+        val dir = File("U:/Observer/1")
 
         dir.listFiles { f ->
             !f.isDirectory
         }.forEach {
             val text = it.readText(Charset.forName("windows-1251"))
 
-            val newText = text.replace("2020-10-06T", "2020-10-07T")
+            val newText = text
+                    .replace("2020-10-19T", "2020-11-09T")
+                    .replace("2020-10-21T", "2020-11-09T")
+                    .replace("2020-10-22T", "2020-11-09T")
 
             it.writeText(newText, Charset.forName("windows-1251") )
         }
