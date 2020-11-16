@@ -23,11 +23,11 @@ object CheckSpaceServer : SinglePerpetual {
 
     override fun name(): String = "Проверка Места на Сервере"
 
-    override fun config(): ConfigTask = TestConfig // PlasticOutSide
+    override fun config(): ConfigTask = PlasticOutSide
 
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val countTimes: Long = 7
+    override val countTimes: Long = 10
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
             workTimeFrom = LocalTime.of(0, 20), workTimeTo = LocalTime.of(23, 50) )
@@ -73,7 +73,7 @@ object CheckSpaceServer : SinglePerpetual {
 
     private val formatDecimal2 = DecimalFormat("#.##", DecimalFormatSymbols().apply { decimalSeparator = '.' } )
 
-    private val paths = arrayOf("/opt/oracle/oradata/", "/usr/local/base_backup/", "/opt/oracle/backup/")
+    private val paths = arrayOf("/opt/oracle/oradata/", "/opt/oracle/backup/", "/usr/local/base_backup/")
 
     private val phones =arrayOf("79243351635", "79147909412", "79502980881", "79147032716", "79025245968")
 

@@ -40,7 +40,7 @@ object PlasticOutSide  : AbstractConfig() {
 
         GitObjects.findAll()
 
-       // CheckSpaceServer.findAll()
+        CheckSpaceServer.findAll()
 
         FsfmExchangeResponse.findAll()
 
