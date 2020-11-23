@@ -69,7 +69,6 @@ dependencies {
     compile group: 'org.swinglabs.swingx', name: 'swingx-all', version: '1.6.5-1'
 
    // compile group: 'org.apache.poi', name: 'poi', version: '4.1.2'
-
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
 
     compile name: 'ojdbc6'
