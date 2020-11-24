@@ -17,7 +17,7 @@ object Acquiring  : AbstractConfig() {
 
         RegisterBySchedulerTerminal.findAll()
 
-        // LoadPaymentWeechatXlsx.findAll()
+        LoadPaymentWeechatXlsx.findAll()
         // ExecuteWeechatFile.findAll()
 
         executeTasks()
