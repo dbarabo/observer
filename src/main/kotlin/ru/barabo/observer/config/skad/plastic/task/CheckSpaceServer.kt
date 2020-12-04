@@ -35,9 +35,6 @@ object CheckSpaceServer : SinglePerpetual {
     override fun execute(elem: Elem): State {
 
         for(path in paths) {
-
-            logger.error("BEFORE CHECK PATH $path")
-
             val gb = (AfinaQuery.selectValue(SELECT_FREE_SPACE, arrayOf(path)) as? Number)?.toDouble()
                     ?: throw Exception("Невозможно вычислить остаток свободного места по адресу $path")
 

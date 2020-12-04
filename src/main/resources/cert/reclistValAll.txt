@@ -5,4 +5,4 @@ Type=Subject
 Value=CN=FTS,ST=00
 [Recipient2]
 Type=Subject
-Value=CN=Валютный контроль,ST=00
+Value=CN=DFMVK,ST=00

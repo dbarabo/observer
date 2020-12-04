@@ -2,8 +2,7 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
-import ru.barabo.cmd.XmlValidator
-import ru.barabo.observer.config.task.finder.isFind
+import ru.barabo.observer.config.skad.acquiring.loader.ClearIntLoaderImpl
 import java.io.File
 import java.nio.charset.Charset
 import java.util.regex.Pattern
@@ -16,6 +15,58 @@ import kotlin.concurrent.timer
 class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
+
+    @Test
+    fun testClearIntLoaderImpl() {
+        val loader = ClearIntLoaderImpl()
+
+        val data = loader.load(File("C:/Temp/1/CLEARINT_20201204_053822_0226_3020.html"), Charset.forName ("cp1251"))
+
+        logger.error("$data")
+
+    }
+
+    //@Test
+    fun test3regEx() {
+        val line = "Reason Code=7355 Description:11.23.2020"
+
+        val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
+
+        //logger.error("${regexDateDot.matcher(line).find()}")
+
+        logger.error("${regexDateDot.matcher( line ).takeIf { it.find() }?.group(1)}")
+    }
+
+
+
+    //@Test
+    fun test2regEx() {
+        val line = "<tr class=\"tr\"><td>02.12.2020</td><td>D</td><td align=\"right\">5815.62</td><td>810</td><td align=\"left\">Interchange ACQ 01.12.2020</td></tr>"
+
+        val regexTableRow = Pattern.compile("<tr class=\"tr\">(.*?)</tr>")
+
+        logger.error(regexTableRow.matcher( line ).takeIf { it.find() }?.group(1))
+    }
+
+    // @Test
+    fun testRegexp() {
+
+        val regexTableCell =  Pattern.compile("(<td[^>]*>(.*?)</td>)")
+
+        val line = "<td>01.12.2020</td><td>C</td><td>810</td><td align=\"right\">1095.20</td><td align=\"left\">ACQ ATM REIMBURSEMENT FEES (FINANCAL, ATM NATL, 44 cnt)</td>"
+
+        val matcher = regexTableCell.matcher(line)
+
+        while(matcher.find()) {
+            //logger.error("group1=${matcher.group(1)}")
+
+            logger.error("group${matcher.groupCount()}=${matcher.group(matcher.groupCount())}")
+
+           // for(index in 1 .. matcher.groupCount()) {
+            //    logger.error("group$index=${matcher.group(index)}")
+           // }
+        }
+    }
 
     // @Test
     fun testAddArchiveDenied() {

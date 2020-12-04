@@ -24,7 +24,6 @@ where (sysdate > a.sent + 1/24
           or coalesce(a.return_code, '!') != 'ПРИНЯТ'
       )
     """
-
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(11, 0),
             workTimeTo = LocalTime.of(17, 0))
 

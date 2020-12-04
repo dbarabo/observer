@@ -207,7 +207,7 @@ object ScadComplex {
             if(!encodeFile.delete()) throw Exception("encode file $encodeFile is exists and not deleted")
         }
 
-        Scad.encode(signGzip, encode, if(isAddFss) CertificateType.FNS_FSS else CertificateType.FNS)
+        Scad.encode(signGzip, encode, if(isAddFss) CertificateType.FNS_FSS else CertificateType.FNS_FSS)
 
         encode.copyTo(encodeFile, true)
 
