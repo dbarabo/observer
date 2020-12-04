@@ -1,10 +1,13 @@
 package ru.barabo.observer.config.skad.acquiring.loader
 
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
+
+private val logger = LoggerFactory.getLogger(ClearIntLoaderImpl::class.java)
 
 class ClearIntLoaderImpl : ClearIntLoader {
 
@@ -27,7 +30,9 @@ class ClearIntLoaderImpl : ClearIntLoader {
 
             if(headerInfo == emptyHeaderInfo) continue
 
-            paySystem = headerInfo.paySystem
+            if(headerInfo.paySystem.isNotEmpty()) {
+                paySystem = headerInfo.paySystem
+            }
 
             headerInfoList += headerInfo
         }
@@ -76,8 +81,13 @@ class ClearIntLoaderImpl : ClearIntLoader {
 
         val(table, newIndex, newH2) = findTable(allLines, index + 1)
 
-        if(h2.isEmpty() && newH2.isNotEmpty()) {
-            h2 = newH2
+        if(newH2.isNotEmpty() && table == emptyTable) {
+            if(h2.isEmpty()) {
+                h2 = newH2
+            } else if(h1.isEmpty()) {
+                h1 = h2
+                h2 = newH2
+            }
         }
 
         return Pair(HeaderInfo(newPaySystem, h1, h2, table), newIndex)
@@ -90,13 +100,13 @@ class ClearIntLoaderImpl : ClearIntLoader {
 
         val h1 = regexMatcherH1.group(1)
 
-        val regexMatcherPaySystem = regexPaySystem.matcher(h1)
+        var newPaySystem = oldPaySystem
 
-        if(!regexMatcherPaySystem.find()) return Pair(h1, oldPaySystem)
+        if(h1.indexOf(startPaySystem) == 0) {
+            newPaySystem = h1.substring(startPaySystem.length).trim()
+        }
 
-        val newPaySystem = regexMatcherPaySystem.group(1)
-
-        return Pair(h1, newPaySystem.trim())
+        return Pair(h1, newPaySystem)
     }
 
     private fun findH1(allLines: List<String>, startIndex: Int): Pair<String, Int>? {
@@ -155,12 +165,12 @@ class ClearIntLoaderImpl : ClearIntLoader {
 
         if(rows.isEmpty() ) return Triple(emptyTable, index+1, "")
 
-        val types = createTypesByData(headers, rows[0])
+        val types = createTypesByData(rows[0])
 
         return Triple(HtmlTable(headers, types, rows), index+1, "")
     }
 
-    private fun createTypesByData(headers: List<String>, row: List<String>): List<HTypes> {
+    private fun createTypesByData(row: List<String>): List<HTypes> {
 
         val types = ArrayList<HTypes>()
 
@@ -197,6 +207,7 @@ class ClearIntLoaderImpl : ClearIntLoader {
     }
 }
 
+
 private val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
 
 private val regexTableHeader = Pattern.compile("<tr class=\"th\"><td>(.*?)</td></tr>")
@@ -209,6 +220,8 @@ private const val tableStart: String = "<table class=\"tbl\">"
 
 private const val tableEnd: String = "</table>"
 
+private const val startPaySystem = "Платежная система"
+
 private val regexH2Extract = Pattern.compile("<h2 class=\"h2\">(.*?)</h2>")
 
 private val dateSlashFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -216,8 +229,6 @@ private val dateSlashFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 private val regexH1Extract = Pattern.compile("<h1 class=\"h1\">(.*?)</h1>")
 
 private val regexDateSlash = Pattern.compile("(\\d{2}/\\d{2}/\\d{4})")
-
-private val regexPaySystem = Pattern.compile("Платежная система (.*?)")
 
 interface ClearIntLoader {
     fun load(file: File, charset: Charset): ClearIntInfo

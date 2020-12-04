@@ -20,7 +20,11 @@ class AnnotationTest {
     fun testClearIntLoaderImpl() {
         val loader = ClearIntLoaderImpl()
 
-        val data = loader.load(File("C:/Temp/1/CLEARINT_20201204_053822_0226_3020.html"), Charset.forName ("cp1251"))
+        //val data = loader.load(File("C:/Temp/1/CLEARINT_20201204_053822_0226_3020.html"), Charset.forName ("cp1251"))
+
+        //val data = loader.load(File("C:/Temp/1/CLEARINT_20200506_080813_0226_2872.html"), Charset.forName ("cp1251"))
+
+        val data = loader.load(File("C:/Temp/1/CLEARINT_20200804_073441_0226_2933.html"), Charset.forName ("cp1251"))
 
         logger.error("$data")
 
