@@ -2,7 +2,7 @@
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
-import ru.barabo.observer.config.skad.acquiring.loader.ClearIntLoaderImpl
+import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
 import java.io.File
 import java.nio.charset.Charset
 import java.util.regex.Pattern
@@ -18,13 +18,12 @@ class AnnotationTest {
 
     @Test
     fun testClearIntLoaderImpl() {
-        val loader = ClearIntLoaderImpl()
 
         //val data = loader.load(File("C:/Temp/1/CLEARINT_20201204_053822_0226_3020.html"), Charset.forName ("cp1251"))
 
         //val data = loader.load(File("C:/Temp/1/CLEARINT_20200506_080813_0226_2872.html"), Charset.forName ("cp1251"))
 
-        val data = loader.load(File("C:/Temp/1/CLEARINT_20200804_073441_0226_2933.html"), Charset.forName ("cp1251"))
+        val data = loadClearIntCp1251(File("C:/Temp/1/CLEARINT_20200804_073441_0226_2933.html"))
 
         logger.error("$data")
 

@@ -1,3 +1,4 @@
+
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
@@ -33,7 +34,6 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
-import ru.barabo.observer.config.cbr.turncard.TurnOutDeleted
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
@@ -375,6 +375,19 @@ res3 = [calc.DEC_TEST];
         this["adressCompany"] = terminal[4]?.let { it as String}?:""
 
         OutRegisterAquiringMonth.createRegisters()*/
+    }
+
+    @Test
+    fun loadClearInt() {
+
+        File("C:/Temp/1").listFiles().filter { !it.isDirectory }.forEach {
+
+            logger.error("START LOAD ${it.name}")
+
+            val elem = Elem(it, ClearintLoader, Duration.ZERO)
+
+            elem.task?.execute(elem)
+        }
     }
 
     //@Test

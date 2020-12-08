@@ -24,7 +24,7 @@ enum class HcardInObject(private val regExp: Regex, private val actionTask: Acti
     companion object {
 
         fun isInclude(actionTask: ActionTask): Boolean =
-                HcardInObject.values().firstOrNull {actionTask === it.actionTask} != null
+                HcardInObject.values().firstOrNull { actionTask === it.actionTask } != null
 
         fun objectByFileName(fileName: String, otherTask: ActionTask): ActionTask {
 

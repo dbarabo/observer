@@ -1,7 +1,8 @@
-package ru.barabo.observer.config.skad.acquiring.task
+package ru.barabo.observer.config.barabo.plastic.turn.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadRestAccount
+import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
+import ru.barabo.observer.config.barabo.plastic.turn.loader.saveClearIntToDB
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -25,10 +26,12 @@ object ClearintLoader : FileFinder, FileProcessor {
     override fun config(): ConfigTask = TestConfig //Acquiring
 
     override fun processFile(file: File) {
-        // TODO LoadPaymentWeechatXlsx.loader.loadPayment(file)
+
+        val clearIntInfo = loadClearIntCp1251(file)
+
+        saveClearIntToDB(clearIntInfo, file)
 
         val moveFile = File("${LoadRestAccount.hCardInToday()}/${file.name}")
-
         file.copyTo(moveFile, true)
         file.delete()
     }

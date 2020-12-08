@@ -1,15 +1,24 @@
-package ru.barabo.observer.config.skad.acquiring.loader
+package ru.barabo.observer.config.barabo.plastic.turn.loader
 
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
-private val logger = LoggerFactory.getLogger(ClearIntLoaderImpl::class.java)
+fun loadClearIntCp1251(file: File): ClearIntInfo = ClearIntLoaderImpl().load(file, Charset.forName("cp1251"))
 
-class ClearIntLoaderImpl : ClearIntLoader {
+data class ClearIntInfo(val date: LocalDate?, val headers: List<HeaderInfo>) {
+    fun isEmpty(): Boolean = (date == null) || headers.isEmpty()
+}
+
+interface ClearIntLoader {
+    fun load(file: File, charset: Charset): ClearIntInfo
+}
+
+private class ClearIntLoaderImpl : ClearIntLoader {
 
     override fun load(file: File, charset: Charset): ClearIntInfo {
         val allLines = file.readLines(charset)
@@ -207,7 +216,6 @@ class ClearIntLoaderImpl : ClearIntLoader {
     }
 }
 
-
 private val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
 
 private val regexTableHeader = Pattern.compile("<tr class=\"th\"><td>(.*?)</td></tr>")
@@ -230,15 +238,26 @@ private val regexH1Extract = Pattern.compile("<h1 class=\"h1\">(.*?)</h1>")
 
 private val regexDateSlash = Pattern.compile("(\\d{2}/\\d{2}/\\d{4})")
 
-interface ClearIntLoader {
-    fun load(file: File, charset: Charset): ClearIntInfo
-}
-
-data class ClearIntInfo(val date: LocalDate?, val headers: List<HeaderInfo>)
+private const val formatDateDot = "dd.MM.yyyy"
 
 data class HeaderInfo(var paySystem: String, var h1: String, var h2: String, var table: HtmlTable)
 
-data class HtmlTable(val headers: List<String>, val types: List<HTypes>, val rows: List<List<String>>)
+data class HtmlTable(val headers: List<String>, val types: List<HTypes>, val rows: List<List<String>>) {
+    fun isEmptyTable() = (this == emptyTable)
+
+    fun cellValue(row: List<String>, indexRow: Int): Any {
+
+        val cell = row[indexRow]
+
+        return when (types[indexRow]) {
+
+            HTypes.STRING -> cell
+            HTypes.DATE -> Timestamp(SimpleDateFormat(formatDateDot).parse(cell).time)
+            HTypes.INT -> cell.toInt()
+            HTypes.MONEY -> cell.toDouble()
+        }
+    }
+}
 
 val emptyTable: HtmlTable = HtmlTable(emptyList(), emptyList(), emptyList())
 
