@@ -81,17 +81,66 @@ private class ClearIntSaverImpl : ClearIntSaver {
             TypePayInfo.SettlementCorrespondent -> saveSettlementCorrespondent(header.table, paySystem, payId, sessionSetting)
             TypePayInfo.PayCalcVisa -> savePayCalcVisa(header.table, payId, dateReport, sessionSetting)
             TypePayInfo.NoCalcOper -> saveNoCalcOper(header.table, payId, dateReport, sessionSetting)
+            TypePayInfo.CalcOper -> saveCalcOper(header.table, payId, sessionSetting)
+            TypePayInfo.ClaimMessage -> saveClaimMessage(header.table, payId, sessionSetting)
 
             TypePayInfo.DetailFeeVisa -> errorIfFindTableTypeInfo(TypePayInfo.DetailFeeVisa, paySystem)
             TypePayInfo.ConverseToRur -> errorIfFindTableTypeInfo(TypePayInfo.ConverseToRur, paySystem)
-            TypePayInfo.ClaimMessage -> errorIfFindTableTypeInfo(TypePayInfo.ClaimMessage, paySystem)
+
         }
     }
 
-    private fun saveNoCalcOper(table: HtmlTable, payId: Number, dateReport: LocalDate, sessionSetting: SessionSetting) {
-        val settlementDate = Timestamp.from(dateReport.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
+    private fun saveClaimMessage(table: HtmlTable, payId: Number, sessionSetting: SessionSetting) {
 
-        val typeCalc = table.findColumnIndex(DESCRIPTION_VISA, TypePayInfo.NoCalcOper)
+        val indexDateSettlement = table.findColumnIndex(DATE_SETTLEMENT, TypePayInfo.ClaimMessage)
+
+        val indexPan = table.findColumnIndex(PAN, TypePayInfo.ClaimMessage)
+
+        val indexAuthCode = table.findColumnIndex(AUTH_CODE, TypePayInfo.ClaimMessage)
+
+        val indexDateOper = table.findColumnIndex(DATE_OPER, TypePayInfo.ClaimMessage)
+
+        val indexMerchant = table.findColumnIndex(MERCHANT, TypePayInfo.ClaimMessage)
+
+        val indexArn = table.findColumnIndex(ARN, TypePayInfo.ClaimMessage)
+
+        val indexDirection = table.findColumnIndex(DIRECTION_MC, TypePayInfo.ClaimMessage)
+
+        val indexAmountOper = table.findColumnIndex(AMOUNT_OPER, TypePayInfo.ClaimMessage)
+
+        val indexCurrencyOper = table.findColumnIndex(OPER_CURRENCY, TypePayInfo.ClaimMessage)
+
+        val indexAmountSettlement = table.findColumnIndex(AMOUNT_SETTLEMENT, TypePayInfo.ClaimMessage)
+
+        val indexCurrencySettlement = table.findColumnIndex(SETTLEMENT_CURRENCY, TypePayInfo.ClaimMessage)
+
+        val indexDescription = table.findColumnIndex(DESCRIPTION_TYPE, TypePayInfo.ClaimMessage)
+
+        for (row in table.rows) {
+
+            val params = arrayOf<Any?>(payId,
+                table.cellValue(row, indexDateSettlement),
+                table.cellValue(row, indexPan),
+                table.cellValue(row, indexAuthCode),
+                table.cellValue(row, indexDateOper),
+                table.cellValue(row, indexMerchant),
+                table.cellValue(row, indexArn),
+                table.cellValue(row, indexDirection),
+                table.cellValue(row, indexAmountOper),
+                table.cellValue(row, indexCurrencyOper),
+                table.cellValue(row, indexAmountSettlement),
+                table.cellValue(row, indexCurrencySettlement),
+                table.cellValue(row, indexDescription)
+            )
+            AfinaQuery.execute(INSERT_PAY_CLAIM, params, sessionSetting)
+        }
+    }
+
+    private fun saveCalcOper(table: HtmlTable, payId: Number, sessionSetting: SessionSetting) {
+
+        val indexDateSettlement = table.findColumnIndex(DATE_REPORT, TypePayInfo.NoCalcOper)
+
+        val indexTypeCalc = table.findColumnIndex(DESCRIPTION_VISA, TypePayInfo.NoCalcOper)
 
         val indexCount = table.findColumnIndex(COUNT_OPER, TypePayInfo.NoCalcOper)
 
@@ -99,20 +148,60 @@ private class ClearIntSaverImpl : ClearIntSaver {
 
         val indexCurrency = table.findColumnIndex(CURRENCY, TypePayInfo.NoCalcOper)
 
-        val indexAmount = table.findColumnIndex(AMOUNT, TypePayInfo.PayCalcVisa)
+        val indexAmount = table.findColumnIndex(AMOUNT, TypePayInfo.NoCalcOper)
+
+        val isPay = 1
 
         for (row in table.rows) {
 
             val params = arrayOf<Any?>(payId,
-                settlementDate,
+                isPay,
+                table.cellValue(row, indexDateSettlement),
                 table.cellValue(row, indexAmount),
                 table.cellValue(row, indexCurrency),
                 table.cellValue(row, indexCount),
-                typeCalc,
+                typeCalcByName( table.cellValue(row, indexTypeCalc).toString() ),
+
                 table.cellValue(row, indexDirection)
             )
             AfinaQuery.execute(INSERT_PAY_CALC_MC, params, sessionSetting)
         }
+    }
+
+    private fun saveNoCalcOper(table: HtmlTable, payId: Number, dateReport: LocalDate, sessionSetting: SessionSetting) {
+        val settlementDate = Timestamp.from(dateReport.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
+
+        val indexTypeCalc = table.findColumnIndex(DESCRIPTION_VISA, TypePayInfo.NoCalcOper)
+
+        val indexCount = table.findColumnIndex(COUNT_OPER, TypePayInfo.NoCalcOper)
+
+        val indexDirection = table.findColumnIndex(DIRECTION_MC, TypePayInfo.NoCalcOper)
+
+        val indexCurrency = table.findColumnIndex(CURRENCY, TypePayInfo.NoCalcOper)
+
+        val indexAmount = table.findColumnIndex(AMOUNT, TypePayInfo.NoCalcOper)
+
+        val isPay = 0
+
+        for (row in table.rows) {
+
+            val params = arrayOf<Any?>(payId,
+                isPay,
+                settlementDate,
+                table.cellValue(row, indexAmount),
+                table.cellValue(row, indexCurrency),
+                table.cellValue(row, indexCount),
+                typeCalcByName( table.cellValue(row, indexTypeCalc).toString() ),
+                table.cellValue(row, indexDirection)
+            )
+            AfinaQuery.execute(INSERT_PAY_CALC_MC, params, sessionSetting)
+        }
+    }
+
+    private fun typeCalcByName(nameTypeCalc: String): Int = when(nameTypeCalc) {
+        "POS" -> 0
+        "ATM" -> 1
+        else -> throw Exception("typeCalcByName not found for typeName=$nameTypeCalc")
     }
 
     private fun savePayCalcVisa(table: HtmlTable, payId: Number, dateReport: LocalDate, sessionSetting: SessionSetting) {
@@ -326,6 +415,18 @@ private fun HtmlTable.findColumnsIndex(columnsName: List<String>, typePayInfoTab
         ?: throw Exception("для таблицы $typePayInfoTable не найден столбец из $columnsName")
 }
 
+private const val PAN = "Пан"
+
+private const val AUTH_CODE = "Код авторизации"
+
+private const val DATE_OPER = "Дата операции"
+
+private const val MERCHANT = "Имя устройства"
+
+private const val ARN = "ARN"
+
+private const val AMOUNT_OPER = "Сумма операции"
+
 private const val IS_ATM = "(АТМ-эквайринг)"
 
 private const val IS_POS = "(POS-эквайринг)"
@@ -338,7 +439,11 @@ private const val DESCRIPTION = "Комментарий"
 
 private const val DESCRIPTION_PAY = "Назначение платежа"
 
+private const val DESCRIPTION_TYPE = "Описание"
+
 private const val DATE_SETTLEMENT = "Дата расчетов"
+
+private const val DATE_REPORT = "Дата отчета"
 
 private const val TYPE_TRANSACT =  "Тип"
 
@@ -367,6 +472,8 @@ private const val ACCOUNT_AMOUNT = "Сумма в валюте счета"
 private const val FOR_SETTLEMENT_AMOUNT = "Сумма для расчетов"
 
 private const val SETTLEMENT_AMOUNT = "Сумма в валюте расчетов"
+
+private const val AMOUNT_SETTLEMENT = "Сумма расчетов"
 
 private const val OPER_AMOUNT = "Сумма в валюте операции"
 
@@ -402,7 +509,8 @@ private enum class TypePayInfo(val dbValue: Int) {
     ClaimMessage(8),
     DetailFeeVisa(7),
     PayCalcVisa(4),
-    NoCalcOper(4);
+    NoCalcOper(4),
+    CalcOper(4);
 
     companion object {
         fun typePayInfoByHeaders(header1: String, header2: String, paySystem: String): TypePayInfo {
@@ -410,7 +518,7 @@ private enum class TypePayInfo(val dbValue: Int) {
             if(paySystem.isEmpty()) return typePayInfoIfEmptyPaySystem(header1, header2)
 
             return when {
-                header1.indexOf(CLAIM_MESSAGE) == 0 -> ClaimMessage
+                isClaimMessage(header1, header2) -> ClaimMessage
                 isFeeType(header1, header2) -> FeePay
                 isConverseFromRur(header1, header2) -> ConverseFromRur
                 isConverseToRur(header1, header2) -> ConverseToRur
@@ -419,8 +527,19 @@ private enum class TypePayInfo(val dbValue: Int) {
                 isDetailFeeVisa(header1, header2) -> DetailFeeVisa
                 isPayCalcVisa(header1, header2) -> PayCalcVisa
                 isNoCalcOper(header1, header2) -> NoCalcOper
+                isCalcOper(header1, header2) -> CalcOper
                 else -> throw Exception("not found type for header1=$header1 header2=$header2")
             }
+        }
+
+        private fun isClaimMessage(header1: String, header2: String): Boolean {
+            return header1.indexOf(CLAIM_MESSAGE) == 0 ||
+                    (header2.indexOf(CLAIM_MESSAGE) == 0 && header1.isBlank())
+        }
+
+        private fun isCalcOper(header1: String, header2: String): Boolean {
+            return header1.indexOf(SETTLEMENT_OPER) == 0 ||
+                    (header2.indexOf(SETTLEMENT_OPER) == 0 && header1.isBlank())
         }
 
         private fun isNoCalcOper(header1: String, header2: String): Boolean {
@@ -476,6 +595,8 @@ private enum class TypePayInfo(val dbValue: Int) {
     }
 }
 
+private const val SETTLEMENT_OPER = "Возмещение за нерассчитанные ранее операции"
+
 private const val NO_SETTLEMENT_OPER = "Нерассчитанные операции"
 
 private const val CALC_PAY_VISA = "Эквайринг (VISA)"
@@ -528,7 +649,13 @@ private const val INSERT_PAY_CALC = """
 """
 
 private const val INSERT_PAY_CALC_MC = """
-    insert into od.PTKB_CLEARINT_PAY_CALC (ID, IS_PAY, CLEARINT_PAY, SETTLEMENT_DATE, AMOUNT, CURRENCY, COUNT_TRANSACT, TYPE_CALC, DIRECTION)
-    values (classified.nextval, 0, ?, ?, ?, ?, ?, ?, ?)
+    insert into od.PTKB_CLEARINT_PAY_CALC (ID, CLEARINT_PAY, IS_PAY, SETTLEMENT_DATE, AMOUNT, CURRENCY, COUNT_TRANSACT, TYPE_CALC, DIRECTION)
+    values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
+
+private const val INSERT_PAY_CLAIM = """
+    insert into od.PTKB_CLEARINT_PAY_CLAIM (ID, CLEARINT_PAY, SETTLEMENT_DATE, CARD_PAN, AUTHORIZE_APPROVAL_CODE, OPER_DATE,
+    MERCHANT_ID, ARN, DIRECTION, AMOUNT_OPER, CURRENCY_OPER, AMOUNT_SETTLEMENT, CURRENCY_SETTLEMENT, DESCRIPTION)
+    values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 

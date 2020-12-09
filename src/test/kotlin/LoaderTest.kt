@@ -2,7 +2,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -70,7 +69,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "TEST")
+        TaskMapper.init("TEST", "TEST"/*"AFINA"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -377,7 +376,7 @@ res3 = [calc.DEC_TEST];
         OutRegisterAquiringMonth.createRegisters()*/
     }
 
-    @Test
+    //@Test
     fun loadClearInt() {
 
         File("C:/Temp/1").listFiles().filter { !it.isDirectory }.forEach {

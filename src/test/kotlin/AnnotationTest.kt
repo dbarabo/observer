@@ -1,10 +1,11 @@
 
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
 import java.io.File
 import java.nio.charset.Charset
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 import javax.xml.XMLConstants
 import javax.xml.transform.stream.StreamSource
@@ -16,7 +17,7 @@ class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
 
-    @Test
+    //@Test
     fun testClearIntLoaderImpl() {
 
         //val data = loader.load(File("C:/Temp/1/CLEARINT_20201204_053822_0226_3020.html"), Charset.forName ("cp1251"))
@@ -27,6 +28,19 @@ class AnnotationTest {
 
         logger.error("$data")
 
+    }
+
+    //@Test
+    fun test4regEx() {
+        val formatDateTimeSlash = "dd/MM/yyyy HH:mm:ss"
+
+        val line = "22/08/2020 00:00:00"
+
+        val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
+
+       logger.error("${Timestamp(SimpleDateFormat(formatDateTimeSlash).parse(line).time)}")
+
+       // logger.error("${regexDateDot.matcher( line ).takeIf { it.find() }?.group(1)}")
     }
 
     //@Test

@@ -186,9 +186,10 @@ private class ClearIntLoaderImpl : ClearIntLoader {
         for(cell in row) {
 
             types += when {
-                cell.toIntOrNull() != null -> HTypes.INT
-                cell.toDoubleOrNull() != null -> HTypes.MONEY
+                cell.length < 19 && cell.toIntOrNull() != null -> HTypes.INT
+                cell.length < 19 && cell.toDoubleOrNull() != null -> HTypes.MONEY
                 cell.length == 10 && regexDateDot.matcher(cell).find() -> HTypes.DATE
+                cell.length == 19 &&  regexDateTimeSlash.matcher(cell).find() -> HTypes.DATE_TIME
                 else -> HTypes.STRING
             }
         }
@@ -216,6 +217,8 @@ private class ClearIntLoaderImpl : ClearIntLoader {
     }
 }
 
+private val regexDateTimeSlash = Pattern.compile("(\\d{2}/\\d{2}/\\d{4} \\d{2}\\:\\d{2}\\:\\d{2})")
+
 private val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
 
 private val regexTableHeader = Pattern.compile("<tr class=\"th\"><td>(.*?)</td></tr>")
@@ -240,6 +243,8 @@ private val regexDateSlash = Pattern.compile("(\\d{2}/\\d{2}/\\d{4})")
 
 private const val formatDateDot = "dd.MM.yyyy"
 
+private const val formatDateTimeSlash = "dd/MM/yyyy HH:mm:ss"
+
 data class HeaderInfo(var paySystem: String, var h1: String, var h2: String, var table: HtmlTable)
 
 data class HtmlTable(val headers: List<String>, val types: List<HTypes>, val rows: List<List<String>>) {
@@ -255,6 +260,7 @@ data class HtmlTable(val headers: List<String>, val types: List<HTypes>, val row
             HTypes.DATE -> Timestamp(SimpleDateFormat(formatDateDot).parse(cell).time)
             HTypes.INT -> cell.toInt()
             HTypes.MONEY -> cell.toDouble()
+            HTypes.DATE_TIME -> Timestamp(SimpleDateFormat(formatDateTimeSlash).parse(cell).time)
         }
     }
 }
@@ -267,5 +273,6 @@ enum class HTypes {
     STRING,
     DATE,
     INT,
-    MONEY
+    MONEY,
+    DATE_TIME
 }
