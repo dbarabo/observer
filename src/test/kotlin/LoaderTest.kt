@@ -390,6 +390,16 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
+    fun executeClearInt() {
+        val elem = Elem(idElem = 1233643591, name = "CLEARINT_20201215_070032_0226_3027.html", task = ExecuteClearInt)
+
+        elem.task?.execute(elem)
+    }
+
+
+
+
+    //@Test
     fun loadCtlMtl() {
         val elem = Elem(File("C:/КартСтандарт/MTL20200728_0226.0001"), LoadCtlMtl, Duration.ZERO)
 

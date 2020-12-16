@@ -19,6 +19,7 @@ enum class HcardInObject(private val regExp: Regex, private val actionTask: Acti
     OCI("OCI_........_......_0226".toRegex(RegexOption.IGNORE_CASE), GetOciData),
     ACQ("AFP_ACQ20\\d\\d\\d\\d\\d\\d_0226\\.\\d\\d\\d\\d".toRegex(RegexOption.IGNORE_CASE), LoadAcq),
     TT057("TT057..\\.\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\.\\d\\d\\d".toRegex(RegexOption.IGNORE_CASE), LoadRateTT057),
+    CLEARINT("CLEARINT_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_0226_\\d\\d\\d\\d\\.html".toRegex(RegexOption.IGNORE_CASE), ClearintLoader),
     MOVE_ALL("НИКОГДА_НЕ_ВЫПОЛНИТСЯ".toRegex(RegexOption.IGNORE_CASE), MoveHcardIn);
 
     companion object {
