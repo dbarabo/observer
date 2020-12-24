@@ -1,11 +1,8 @@
 [General]
-Number=2
+Number=1
 [Recipient1]
 ;Type=Subject
 ;Value=CN=FNS,O=FNS,ST=00
 Type=Hash
 Value=17:92:59:C3:B1:2D:58:FC:5B:59:F6:E8:9F:3F:E1:EC:15:93:8E:D6:AB:87:80:CF:98:29:8C:3A:3B:6B:16:86
-[Recipient2]
-;OLD FNS
-Type=Hash
-Value=EA:8E:16:6E:68:26:01:0E:D2:3E:1B:6F:97:6C:BE:76:57:53:78:D9:DA:00:E0:6F:AC:90:75:F8:62:93:29:F4
+

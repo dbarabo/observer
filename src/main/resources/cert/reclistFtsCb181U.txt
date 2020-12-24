@@ -1,14 +1,6 @@
 [General]
-Number=3
+Number=1
 [Recipient1]
 ;Value=CN=DFMVK,ST=00
 Type=Hash
 Value=59:A6:51:99:13:03:00:28:21:05:96:89:D3:B9:91:4C:9F:51:7F:89:52:B9:D2:46:7C:22:8C:70:3D:93:09:08
-[Recipient2]
-;Value=old valut control
-Type=Hash
-Value=58:B1:F6:64:CD:B2:B9:83:21:B2:23:B4:DD:09:72:FD:DA:DF:22:FD:99:4B:BE:C2:56:31:0E:38:80:48:DD:61
-[Recipient3]
-;Value=OLD CN=DFMVK,ST=00
-Type=Hash
-Value=E8:EC:A7:AD:69:97:10:E1:2B:8A:A0:E5:AD:1F:E1:80:AD:BB:E6:0C:3E:42:23:EF:F4:78:BB:07:7A:28:49:89

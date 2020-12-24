@@ -279,10 +279,16 @@ private class ClearIntSaverImpl : ClearIntSaver {
         val indexDescription = table.findColumnsIndex(listOf(DESCRIPTION, DESCRIPTION_VISA), TypePayInfo.FeePay)
 
         for (row in table.rows) {
+
+            val settlementAmount = table.cellValue(row, indexSettlementAmount) as Double
+
+            val direction = if(table.cellValue(row, indexDirection).toString().isBlank() && settlementAmount == 0.0) "C"
+              else table.cellValue(row, indexDirection)
+
             val params = arrayOf<Any?>(payId,
                 table.cellValue(row, indexDateSettlement),
-                table.cellValue(row, indexDirection),
-                table.cellValue(row, indexSettlementAmount),
+                direction,
+                settlementAmount,
                 table.cellValue(row, indexSettlementCurrency),
                 table.cellValue(row, indexDescription)
             )

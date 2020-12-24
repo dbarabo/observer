@@ -17,7 +17,7 @@ object ExecuteClearInt : SingleSelector {
         "select c.id, c.file_name from od.ptkb_clearint c where c.state = 0 and trunc(ondate) = trunc(sysdate)"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(12, 0),
-        workTimeTo =  LocalTime.of(23, 15), executeWait = Duration.ofSeconds(20))
+        workTimeTo =  LocalTime.of(23, 45), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "CLEARINT-создать проводки"
 

@@ -2,6 +2,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -69,7 +70,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "TEST"/*"AFINA"*/)
+        TaskMapper.init("TEST", /*"TEST"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -389,14 +390,20 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-    //@Test
-    fun executeClearInt() {
-        val elem = Elem(idElem = 1233643591, name = "CLEARINT_20201215_070032_0226_3027.html", task = ExecuteClearInt)
+    @Test
+    fun executeClearIntConverse() {
+        val elem = Elem(idElem = 1234256304, name = "CLEARINT_20201223_055217_0226_3033.html", task = ExecuteClearIntConverse)
 
         elem.task?.execute(elem)
     }
 
 
+    //@Test
+    fun executeClearInt() {
+        val elem = Elem(idElem = 1233726858, name = "CLEARINT_20201215_070032_0226_3027.html", task = ExecuteClearInt)
+
+        elem.task?.execute(elem)
+    }
 
 
     //@Test
