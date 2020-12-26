@@ -38,6 +38,7 @@ import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
+import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -348,8 +349,6 @@ res3 = [calc.DEC_TEST];
     }
 
 
-
-
     //@Test
     fun outRegisterAquiringMonth() {
         //val elem = Elem(task = OutRegisterAquiringMonth)
@@ -378,6 +377,16 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
+    fun save311p512() {
+        //MessageCreator311p.createMessage(1234430593) // juric close
+
+        //MessageCreator311p.createMessage(1234430597)  // physic open
+
+        MessageCreator311p.createMessage(1234242680) // ip close
+
+    }
+
+    //@Test
     fun loadClearInt() {
 
         File("C:/Temp/1").listFiles().filter { !it.isDirectory }.forEach {
@@ -390,7 +399,7 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-    @Test
+    //@Test
     fun executeClearIntConverse() {
         val elem = Elem(idElem = 1234256304, name = "CLEARINT_20201223_055217_0226_3033.html", task = ExecuteClearIntConverse)
 

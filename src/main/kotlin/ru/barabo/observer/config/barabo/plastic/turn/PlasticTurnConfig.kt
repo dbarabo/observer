@@ -22,6 +22,7 @@ object PlasticTurnConfig : AbstractConfig() {
         ExecuteCtlMtl.findAll()
         ExecuteObi.findAll()
         ExecuteClearInt.findAll()
+        ExecuteClearIntConverse.findAll()
 
         IbiSendToJzdo.findAll()
         //OutRestCheck.findAll()
