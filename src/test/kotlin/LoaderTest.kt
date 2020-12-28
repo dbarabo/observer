@@ -378,9 +378,9 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun save311p512() {
-        //MessageCreator311p.createMessage(1234430593) // juric close
+        MessageCreator311p.createMessage(1234430593) // juric close
 
-        //MessageCreator311p.createMessage(1234430597)  // physic open
+        MessageCreator311p.createMessage(1234430597)  // physic open
 
         MessageCreator311p.createMessage(1234242680) // ip close
 

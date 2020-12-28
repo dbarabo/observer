@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
+import ru.barabo.cmd.XmlValidator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
@@ -18,10 +19,9 @@ import java.math.BigInteger
 import java.nio.charset.Charset
 import java.sql.Date
 
+private val logger = LoggerFactory.getLogger(MessageCreator311p::class.java)
 
 object MessageCreator311p {
-
-    private val logger = LoggerFactory.getLogger(MessageCreator311p::class.java)
 
     fun createMessage(idMessage: Number): File {
 
@@ -34,7 +34,13 @@ object MessageCreator311p {
 
         val fileName = AfinaQuery.selectValue(SELECT_FILENAME, arrayOf(idMessage) ) as String
 
-        return saveXml(fileName, mainFileData, "windows-1251")
+        val xmlFile = saveXml(fileName, mainFileData, "windows-1251")
+
+        val xsd = if(fileName.indexOf("SF") == 0) "/xsd/SFC0_512.xsd" else "/xsd/SBC0_512.xsd"
+
+        validateXml(xmlFile, xsd, ::errorFolder )
+
+        return xmlFile
     }
 
     private fun saveXml(fileName: String, xmlData: Any, charsetName: String): File {
@@ -72,8 +78,6 @@ object MessageCreator311p {
                     OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.VARCHAR,
                     OracleTypes.DATE, OracleTypes.VARCHAR, OracleTypes.DATE
                 ))
-
-            info?.forEach { logger.error("$it") }
 
             val idFile = info?.get(0) as String
 
@@ -192,6 +196,8 @@ private fun String.isPhysic() = indexOf("SF") == 0
 
 private val X311P = "X:/311-П".ifTest("C:/311-П")
 
+private fun errorFolder(): File = Cmd.createFolder("$X311P/ФИЗИКИ/Отправка/${Get440pFiles.todayFolder()}/ERROR")
+
 private fun physicFolder(): File = Cmd.createFolder("$X311P/ФИЗИКИ/Отправка/${Get440pFiles.todayFolder()}")
 
 private fun juricFolder(): File = Cmd.createFolder("$X311P/Отправка/${Get440pFiles.todayFolder()}")
@@ -236,5 +242,25 @@ enum class TypeFace(private val code: Int) {
     companion object {
         fun typeFaceByCode(code: Int): TypeFace =
             values().firstOrNull { it.code == code } ?: throw Exception("TypeFace not found for code = $code")
+    }
+}
+
+fun validateXml(file: File, xsdSchema: String, folderIfError: ()->File) {
+
+    try {
+        XmlValidator.validate(file, xsdSchema)
+
+    } catch (e: Exception) {
+
+        if(file.exists()) {
+            val errorFile = File("${folderIfError().parent}/${file.name}")
+
+            file.copyTo(errorFile, true)
+
+            file.delete()
+        }
+        logger.error("validateXml $file", e)
+
+        throw Exception(e)
     }
 }

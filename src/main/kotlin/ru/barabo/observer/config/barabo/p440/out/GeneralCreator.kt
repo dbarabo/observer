@@ -144,7 +144,7 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
                     file.copyTo(failFile, true)
                     file.delete()
                 }
-                throw SAXException(e.message)
+                throw SAXException(e)
             }
         }
 
