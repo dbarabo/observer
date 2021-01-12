@@ -5,6 +5,7 @@ import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.turn.task.LoadRestAccount
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.Executor
+import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.file.FileMover
 import java.time.Duration
 import java.time.LocalTime
@@ -21,8 +22,10 @@ object MoveHcardIn: FileMover {
 
     override val isMove: Boolean = true
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom =  LocalTime.of(0, 5),
-            workTimeTo = LocalTime.of(23, 55), executeWait = Duration.ZERO)
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
+            workTimeFrom =  LocalTime.of(0, 5),
+            workTimeTo = LocalTime.of(23, 55),
+            executeWait = Duration.ZERO)
 
     override fun findAbstract(): Executor? = null
 }

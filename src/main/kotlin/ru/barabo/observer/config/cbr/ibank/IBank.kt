@@ -2,8 +2,6 @@ package ru.barabo.observer.config.cbr.ibank
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.ibank.task.CheckAccountFaktura
-import ru.barabo.observer.config.cbr.ibank.task.LoanInfoCreator
-import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
 import ru.barabo.observer.config.cbr.ibank.task.UploadExtract
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 
@@ -18,9 +16,9 @@ object IBank : AbstractConfig() {
         UploadExtract.findAll()
         CheckAccountFaktura.findAll()
 
-        LoanInfoCreator.findAll()
-        LoanInfoSaver.findAll()
-
+        // off from 01/01/2021
+        // LoanInfoCreator.findAll()
+        // LoanInfoSaver.findAll()
 
         CheckerAllBalance.findAll()
 

@@ -14,10 +14,12 @@ import java.time.LocalTime
 object ExecuteClearInt : SingleSelector {
 
     override val select: String =
-        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 0 and trunc(ondate) = trunc(sysdate)"
+        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 0 and trunc(ondate) = trunc(sysdate)-3"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(12, 0),
-        workTimeTo =  LocalTime.of(23, 45), executeWait = Duration.ofMinutes(1))
+    override val accessibleData: AccessibleData = AccessibleData(/*workWeek = WeekAccess.ALL_DAYS,*/
+        workTimeFrom = LocalTime.of(10, 0),
+        workTimeTo =  LocalTime.of(23, 45),
+        executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "CLEARINT-создать проводки"
 

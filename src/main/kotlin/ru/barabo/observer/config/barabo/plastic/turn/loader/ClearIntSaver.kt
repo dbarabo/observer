@@ -84,7 +84,7 @@ private class ClearIntSaverImpl : ClearIntSaver {
             TypePayInfo.CalcOper -> saveCalcOper(header.table, payId, sessionSetting)
             TypePayInfo.ClaimMessage -> saveClaimMessage(header.table, payId, sessionSetting)
 
-            TypePayInfo.DetailFeeVisa -> errorIfFindTableTypeInfo(TypePayInfo.DetailFeeVisa, paySystem)
+            TypePayInfo.DetailFeeVisa -> {} // errorIfFindTableTypeInfo(TypePayInfo.DetailFeeVisa, paySystem)
             TypePayInfo.ConverseToRur -> errorIfFindTableTypeInfo(TypePayInfo.ConverseToRur, paySystem)
 
         }
