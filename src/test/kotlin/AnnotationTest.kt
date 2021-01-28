@@ -1,4 +1,5 @@
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
@@ -6,6 +7,7 @@ import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
 import javax.xml.XMLConstants
 import javax.xml.transform.stream.StreamSource
@@ -13,9 +15,22 @@ import javax.xml.validation.SchemaFactory
 import kotlin.concurrent.timer
 
 
+
+
+
 class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
+
+
+
+    @Test
+    fun testUUID() {
+        var uuid: UUID = UUID.randomUUID()
+        var variant: Int = uuid.variant()
+        var version: Int = uuid.version()
+    }
+
 
     //@Test
     fun testClearIntLoaderImpl() {
