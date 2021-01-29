@@ -13,7 +13,7 @@ import java.time.LocalTime
 
 object MoveRateCbrToday : SingleSelector {
 
-    override fun name(): String = "Курс ЦБР - перемещиние в сегодня"
+    override fun name(): String = "Курс ЦБР - перемещение в сегодня"
 
     override fun config(): ConfigTask = PlasticOutSide
 

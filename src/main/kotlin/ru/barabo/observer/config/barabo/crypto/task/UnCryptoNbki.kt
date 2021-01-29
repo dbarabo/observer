@@ -3,16 +3,18 @@ package ru.barabo.observer.config.barabo.crypto.task
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
+import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.CryptoPro
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.regex.Pattern
 
 object UnCryptoNbki : FileFinder, FileProcessor {
 
@@ -39,6 +41,8 @@ object UnCryptoNbki : FileFinder, FileProcessor {
         CryptoPro.decode(decodeFile, zipFile)
 
         Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
+
+        checkTicket(unCryptoFolder)
     }
 
     private fun unCryptoFolder(file: File) : File {
@@ -53,3 +57,36 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
     private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
 }
+
+private fun checkTicket(unCryptoFolder: File) {
+
+    val patternTicket = Pattern.compile(regexTicket)
+
+    val ticketFile = unCryptoFolder.listFiles { f -> (!f.isDirectory) && (patternTicket.isFind(f.name)) }?.firstOrNull { true }
+        ?: throw Exception ("Не найден файл квитанции в папке $unCryptoFolder")
+
+    val lineRedjectCount = ticketFile.readLines().firstOrNull { it.indexOf(REJECTS_RECORDS) == 0 }
+        ?: throw Exception ("В файле квитанции $ticketFile не найдена запись $REJECTS_RECORDS")
+
+    val count = lineRedjectCount.substringAfter(REJECTS_RECORDS).trim().toIntOrNull()
+        ?: throw Exception ("В файле квитанции $ticketFile в строке $lineRedjectCount не распознано кол-во")
+
+    if(count != 0) createMantisError(count, unCryptoFolder)
+}
+
+private fun createMantisError(countError: Int, unCryptoFolder: File) {
+    val patternReject = Pattern.compile(regexReject)
+
+    val rejectFile = unCryptoFolder.listFiles { f -> (!f.isDirectory) && (patternReject.isFind(f.name)) }?.firstOrNull { true }
+        ?: throw Exception ("Не найден файл K301BB000001_*_reject в папке $unCryptoFolder")
+
+    BaraboSmtp.sendMantisTicket(subjectError(countError), rejectFile)
+}
+
+private fun subjectError(count: Int) = "Квиток от НБКИ с ошибками. Ошибок:$count"
+
+private const val regexTicket = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_ticket"
+
+private const val regexReject = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_reject"
+
+private const val REJECTS_RECORDS = "RejectedRecords\t"

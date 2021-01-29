@@ -50,6 +50,8 @@ object BaraboSmtp : SendMail {
 
     val DELB_PLASTIC = arrayOf("cards@ptkb.ru").onlyAfina()
 
+    val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
+
     private val SB_TTS = arrayOf("tts@ptkb.ru").onlyAfina()
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
@@ -125,6 +127,12 @@ object BaraboSmtp : SendMail {
 
         send(to = MANAGERS_AUTO, cc = SB_TTS, bcc = REMART_BCC, subject = CBR_UNKNOWN_SUBJECT, body = CBR_UNKNOWN_SUBJECT,
                 attachments = arrayOf(file))
+    }
+
+    fun sendMantisTicket(subjectBody: String, attach: File) {
+
+        send(to = MANTIS,  bcc = OPER_YA, subject = subjectBody, body = subjectBody,
+            attachments = arrayOf(attach))
     }
 }
 
