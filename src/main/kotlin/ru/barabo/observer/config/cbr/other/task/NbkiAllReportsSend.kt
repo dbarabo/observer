@@ -59,7 +59,7 @@ object NbkiAllReportsSend : Periodical {
         return State.OK
     }
 
-    /*private*/ fun fillData() {
+    private fun fillData() {
         AfinaQuery.execute(FILL_DATA_NBKI)
     }
 
@@ -78,7 +78,7 @@ object NbkiAllReportsSend : Periodical {
                 body = BODY_REPORT_XLS, attachments = arrayOf(xlsFile))
     }
 
-    /*private*/ fun createNbkiXlsFile(fileName :String) :File {
+    private fun createNbkiXlsFile(fileName :String) :File {
 
         val xlsFile = File("${xNbkiToday()}/$fileName.xls")
 
@@ -114,21 +114,7 @@ object NbkiAllReportsSend : Periodical {
         return sheetData
     }
 
-    fun createGuarantorTextFile(): String? {
-        val fileName = AfinaQuery.selectValue(SELECT_TEXT_FILE) as String
-
-        val textClob = AfinaQuery.selectValue(SELECT_TEXT_GURANTOR_ONLY) as Clob
-
-        val folder = xNbkiToday().byFolderExists()
-
-        val textFile = File("${folder.absolutePath}/$fileName.txt")
-
-        textFile.writeText(textClob.clob2string(), Charset.forName("CP1251") )
-
-        return fileName
-    }
-
-    /*private*/ fun createNbkiTextFile(): String? {
+    private fun createNbkiTextFile(): String? {
 
         val fileName = AfinaQuery.selectValue(SELECT_TEXT_FILE) as String
 
@@ -146,8 +132,6 @@ object NbkiAllReportsSend : Periodical {
         }
         return fileName
     }
-
-    private const val SELECT_TEXT_GURANTOR_ONLY = "select OD.PTKB_NBKI.getOnlyTrGuarantorTUTDF600 from dual"
 
     private const val SELECT_TEXT_DATA = "select OD.PTKB_NBKI.getAllDataNoSend from dual"
 
