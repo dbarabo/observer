@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.p440.load;
 
 
+import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApnFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApoFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApzFromFns;
@@ -13,6 +14,8 @@ import ru.barabo.observer.config.task.p440.load.xml.request.ZsvFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.IzvFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.KwtFromFns;
 
+import java.time.LocalDate;
+
 /**
  * типы загружаемых файлов из ФНС
  * 
@@ -20,7 +23,6 @@ import ru.barabo.observer.config.task.p440.load.xml.ticket.impl.KwtFromFns;
  *
  */
 public enum TypeFileLoad {
-
 
 	PNO(PnoFromFns.class, "PNO"),
 
@@ -50,6 +52,11 @@ public enum TypeFileLoad {
 
 	private TypeFileLoad(Class clazz, String prefixFile) {
 		this.clazz = clazz;
+
+		if(clazz == ZsoFromFns.class && (!LocalDate.now().isBefore( LocalDate.of(2021, 3, 16) ))) {
+			this.clazz = ZsoFromFnsVer4.class;
+		}
+
 		this.prefixFile = prefixFile;
 	}
 

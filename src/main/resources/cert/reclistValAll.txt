@@ -1,5 +1,5 @@
 [General]
-Number=4
+Number=3
 [Recipient1]
 ;Type=Subject
 ;Value=NEW   CN=Валютный контроль,ST=00
@@ -15,8 +15,4 @@ Value=AF:F1:33:B6:75:E2:50:F7:2B:E6:00:32:77:D4:B7:B5:6C:DA:33:E3:8D:D7:CB:3D:3D
 ;Value=CN=DFMVK,ST=00
 Type=Hash
 Value=59:A6:51:99:13:03:00:28:21:05:96:89:D3:B9:91:4C:9F:51:7F:89:52:B9:D2:46:7C:22:8C:70:3D:93:09:08
-[Recipient4]
-;Type=Subject
-;Value=OLD   CN=Валютный контроль,ST=00
-Type=Hash
-Value=58:B1:F6:64:CD:B2:B9:83:21:B2:23:B4:DD:09:72:FD:DA:DF:22:FD:99:4B:BE:C2:56:31:0E:38:80:48:DD:61
+

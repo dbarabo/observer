@@ -7,6 +7,8 @@ import ru.barabo.observer.config.barabo.p440.GeneralLoader
 import ru.barabo.observer.config.barabo.p440.XmlLoadException
 import ru.barabo.observer.config.barabo.p440.moveToLoaded
 import ru.barabo.observer.config.barabo.p440.saveData
+import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4
+import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApnFromFns
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApoFromFns
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApzFromFns
@@ -111,9 +113,9 @@ object ZsnLoader : GeneralLoader<ZsnFromFns>() {
     override fun name(): String = "Загрузка ZSN-файла (наличие сч.)"
 }
 
-object ZsoLoader : GeneralLoader<ZsoFromFns>() {
+private val logger = LoggerFactory.getLogger(ZsoLoader::class.java)
 
-    private val logger = LoggerFactory.getLogger(ZsoLoader::class.java)
+object ZsoLoaderVer4 : GeneralLoader<ZsoFromFnsVer4>() {
 
     override fun name(): String = "Загрузка ZSO-файла (остатки)"
 
@@ -133,34 +135,43 @@ object ZsoLoader : GeneralLoader<ZsoFromFns>() {
         type?.let { createErrorTypeFormat(file, it) } ?: createErrorUncrypto(file)
     }
 
-    private fun getErrorTypeFormat(file: File): String? {
+    private fun createErrorTypeFormat(file: File, typeFormat: String) {
 
-        val text = try {
-            file.readText(Charset.forName("windows-1251"))
+        val zsoTypeFormat = ZsoFromFnsVer4.emptyZsoFromFnsErrorTypeFormat(typeFormat)
+
+        createError(zsoTypeFormat, file)
+    }
+
+    private fun createErrorUncrypto(file: File) {
+        val elem = StoreSimple.findElemByFile(file.name, file.parent, ZsoLoaderVer4.actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
+
+        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        BaraboSmtp.errorSend(elem)
+
+        val zsoPb2 = ZsoFromFnsVer4.emptyZsoFromFns()
+
+        createError(zsoPb2, file)
+    }
+}
+
+object ZsoLoader : GeneralLoader<ZsoFromFns>() {
+
+    override fun name(): String = "Загрузка ZSO-файла (остатки)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
         } catch (e: Exception) {
-
-            return null
+            createPb2File(file)
         }
+    }
 
-        val startIndex = text.indexOf("ТипИнф=")
+    private fun createPb2File(file: File) {
 
-        val endIndex = text.indexOf("ВерсПрог=")
+        val type = getErrorTypeFormat(file)
 
-        if(startIndex < 0 || endIndex <= startIndex) {
-            return null
-        }
-
-        val subText =  text.substring(startIndex + 7, endIndex)
-
-        val quoteStart =  subText.indexOf('"')
-
-        val quoteEnd =  subText.lastIndexOf('"')
-
-        if(quoteStart < 0 || quoteEnd <= quoteStart) {
-            return null
-        }
-
-        return subText.substring(quoteStart + 1, quoteEnd)
+        type?.let { createErrorTypeFormat(file, it) } ?: createErrorUncrypto(file)
     }
 
     private fun createErrorTypeFormat(file: File, typeFormat: String) {
@@ -169,7 +180,6 @@ object ZsoLoader : GeneralLoader<ZsoFromFns>() {
 
         createError(zsoTypeFormat, file)
     }
-
 
     private fun createErrorUncrypto(file: File) {
         val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
@@ -180,26 +190,6 @@ object ZsoLoader : GeneralLoader<ZsoFromFns>() {
         val zsoPb2 = ZsoFromFns.emptyZsoFromFns()
 
         createError(zsoPb2, file)
-    }
-
-    private fun createError(zsoError: ZsoFromFns, file: File) {
-
-        val uniqueSession = AfinaQuery.uniqueSession()
-
-        try {
-            zsoError.saveData(file, uniqueSession)
-
-            AfinaQuery.commitFree(uniqueSession)
-        } catch (e: Exception) {
-
-            logger.error("createPb2File", e)
-
-            AfinaQuery.rollbackFree(uniqueSession)
-
-            throw SessionException(e.message ?: "")
-        }
-
-        file.moveToLoaded()
     }
 }
 
@@ -296,6 +286,56 @@ object ApzLoader : GeneralLoader<ApzFromFns>() {
 
         file.moveToLoaded()
     }
+}
+
+private fun getErrorTypeFormat(file: File): String? {
+
+    val text = try {
+        file.readText(Charset.forName("windows-1251"))
+    } catch (e: Exception) {
+
+        return null
+    }
+
+    val startIndex = text.indexOf("ТипИнф=")
+
+    val endIndex = text.indexOf("ВерсПрог=")
+
+    if(startIndex < 0 || endIndex <= startIndex) {
+        return null
+    }
+
+    val subText =  text.substring(startIndex + 7, endIndex)
+
+    val quoteStart =  subText.indexOf('"')
+
+    val quoteEnd =  subText.lastIndexOf('"')
+
+    if(quoteStart < 0 || quoteEnd <= quoteStart) {
+        return null
+    }
+
+    return subText.substring(quoteStart + 1, quoteEnd)
+}
+
+private fun createError(zsoError: AbstractFromFns, file: File) {
+
+    val uniqueSession = AfinaQuery.uniqueSession()
+
+    try {
+        zsoError.saveData(file, uniqueSession)
+
+        AfinaQuery.commitFree(uniqueSession)
+    } catch (e: Exception) {
+
+        logger.error("createPb2File", e)
+
+        AfinaQuery.rollbackFree(uniqueSession)
+
+        throw SessionException(e.message ?: "")
+    }
+
+    file.moveToLoaded()
 }
 
 

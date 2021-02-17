@@ -65,8 +65,6 @@ public final class PayerPhysic implements ParamsQuery {
 		this.dateDoc = XmlLoader.formatDate(dateDoc);
 	}
 
-
-
 	@Override
 	public List<Object> getParams() {
 

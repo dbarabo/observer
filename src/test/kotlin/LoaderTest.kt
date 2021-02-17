@@ -2,7 +2,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -77,6 +76,17 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+
+    //@Test
+    fun testZsoLoadVer4() {
+
+        //val file = File("C:/Картстандарт/test/ZSO_400_ALLxsd_ONDATE.xml")
+
+        val file = File("C:/Картстандарт/test/ZSO_400_ALLxsd_PERIOD.xml")
+
+        ZsoLoaderVer4.processFile(file)
+    }
 
     //@Test
     fun testCorrectPrim() {

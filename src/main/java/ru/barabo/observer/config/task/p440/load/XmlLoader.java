@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.load;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.Logger;
+import ru.barabo.observer.config.task.p440.load.ver4.request.*;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFnsInfo;
 import ru.barabo.observer.config.task.p440.load.xml.apx.*;
@@ -93,6 +94,17 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(AbstractApx.class);
 		xstream.processAnnotations(PnoCancel.class);
 		xstream.processAnnotations(ApoInfo.class);
+
+		// xstream.processAnnotations(ZsoFromFnsVer4.class);
+		xstream.processAnnotations(RestTypeDetailAccounts.class);
+		xstream.processAnnotations(RestTypeAllAccounts.class);
+		xstream.processAnnotations(RestRequestVer4.class);
+		xstream.processAnnotations(RestOwnerAccount.class);
+		xstream.processAnnotations(RestOnDatePeriod.class);
+		xstream.processAnnotations(RestOnDate.class);
+		xstream.processAnnotations(DateWorkState.class);
+		xstream.processAnnotations(DatePeriod.class);
+
 
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);

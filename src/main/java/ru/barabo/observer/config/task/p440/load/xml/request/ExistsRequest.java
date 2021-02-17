@@ -24,22 +24,40 @@ public final class ExistsRequest extends AbstractRequest {
 		return getDateByState();
 	}
 
+	@Override
+	public Date getSubDate() {
+		return getDateEndByState();
+	}
+
 	private Date getDateByState() {
 		if(addDate != null && (!addDate.isEmpty())) {
 			return XmlLoader.parseDate(addDate);
 		}
 
-		return dateWorkState == null ? null : dateWorkState.getOnDate();
+		Date onDate = dateWorkState == null ? null : dateWorkState.getOnDate();
+
+		if(onDate != null) {
+			return onDate;
+		}
+
+		return datePeriod.getStartDate();
+	}
+
+	private Date getDateEndByState() {
+		if(addDate != null && (!addDate.isEmpty())) {
+			return null;
+		}
+
+		Date onDate = dateWorkState == null ? null : dateWorkState.getOnDate();
+		if(onDate != null) {
+			return null;
+		}
+
+		return datePeriod.getEndDate();
 	}
 
 	@Override
 	public String getAccounts() {
 		return null;
 	}
-
-	@Override
-	public Date getSubDate() {
-		return null;
-	}
-
 }

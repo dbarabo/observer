@@ -43,6 +43,10 @@ abstract public class AbstractRequest extends AbstractFromFnsInfo {
 		return bank;
 	}
 
+	public void setBank(BankXml bank) {
+		this.bank = bank;
+	}
+
 	@Override
 	public String getMainNumber() {
 		return mainNumber;
