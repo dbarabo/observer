@@ -3,6 +3,16 @@ package ru.barabo.observer.config.barabo.p440.task
 import ru.barabo.observer.config.task.ActionTask
 import java.time.LocalDate
 
+fun isNewFormat2021(): Boolean = !LocalDate.now().isBefore( LocalDate.of(2021, 3, 16))
+
+private fun zsoActionTask(): ActionTask {
+    return if(isNewFormat2021()) ZsoLoaderVer4 else ZsoLoader
+}
+
+private fun zsvActionTask(): ActionTask {
+    return if(isNewFormat2021()) ZsvLoaderVer4 else ZsvLoader
+}
+
 enum class FileLoader(val actionTask: ActionTask, val prefixFile:String) {
 
     RPO(RpoLoader, "RPO"),
@@ -10,8 +20,6 @@ enum class FileLoader(val actionTask: ActionTask, val prefixFile:String) {
     ROO(RooLoader, "ROO"),
 
     ZSN(ZsnLoader, "ZSN"),
-
-    ZSV(ZsvLoader, "ZSV"),
 
     APN(ApnLoader, "APN"),
 
@@ -25,18 +33,16 @@ enum class FileLoader(val actionTask: ActionTask, val prefixFile:String) {
 
     KWT(Ticket440pFns, "KWT"),
 
-    ZSO(zsvActionTask(),"ZSO");
+    ZSO(zsoActionTask(),"ZSO"),
+
+    ZSV(zsvActionTask(), "ZSV");
 
     companion object {
 
         private val HASH_OBJECT_TYPES = values()
             .map { Pair(it.prefixFile, it.actionTask) }.toMap()
 
-        fun objectByPrefix(prefix: String) :ActionTask? = HASH_OBJECT_TYPES[prefix]
-
+        fun objectByPrefix(prefix: String): ActionTask? = HASH_OBJECT_TYPES[prefix]
     }
 }
 
-private fun zsvActionTask(): ActionTask {
-    return if(!LocalDate.now().isBefore( LocalDate.of(2021, 3, 16))) ZsoLoaderVer4 else ZsoLoader
-}

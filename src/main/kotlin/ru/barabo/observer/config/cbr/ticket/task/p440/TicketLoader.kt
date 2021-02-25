@@ -3,7 +3,6 @@ package ru.barabo.observer.config.cbr.ticket.task.p440
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.barabo.p440.task.AddToArchive440p
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
@@ -35,8 +34,12 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
             logger.error("ScadComplex.unsignAndMoveSource file=$file", e)
         }
 
-        val info = XmlLoader<T>().load(file).ticketInfo
-
+        val info = try {
+          XmlLoader<T>().load(file).ticketInfo
+        } catch (e: Exception) {
+            logger.error("XmlLoader<T>().load=$file this=$this", e)
+            throw Exception(e)
+        }
 
         val params :Array<Any?> = arrayOf(info.resposeFileName.substringBeforeLast("."),
                 file.nameWithoutExtension, info.dateTimeTicket,

@@ -1,7 +1,9 @@
 package ru.barabo.observer.config.task.p440.load;
 
 
+import ru.barabo.observer.config.barabo.p440.task.FileLoader;
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4;
+import ru.barabo.observer.config.task.p440.load.ver4.request.ZsvFromFnsVer4;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApnFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApoFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApzFromFns;
@@ -48,13 +50,23 @@ public enum TypeFileLoad {
 
 	private Class clazz;
 
-	private String prefixFile;
+	private final String prefixFile;
 
-	private TypeFileLoad(Class clazz, String prefixFile) {
+	public static boolean isNewFormat2021() {
+		return !LocalDate.now().isBefore( LocalDate.of(2021, 3, 16));
+	}
+
+	TypeFileLoad(Class clazz, String prefixFile) {
 		this.clazz = clazz;
 
-		if(clazz == ZsoFromFns.class && (!LocalDate.now().isBefore( LocalDate.of(2021, 3, 16) ))) {
-			this.clazz = ZsoFromFnsVer4.class;
+		if(isNewFormat2021() ) {
+			if(clazz == ZsoFromFns.class) {
+				this.clazz = ZsoFromFnsVer4.class;
+			}
+
+			if(clazz == ZsvFromFns.class) {
+				this.clazz = ZsvFromFnsVer4.class;
+			}
 		}
 
 		this.prefixFile = prefixFile;

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@XStreamAlias("ЗАПНООСТАТ")
-public class RestRequestVer4 extends AbstractRequest {
+@XStreamAlias("ЗАПНОВЫПИС")
+public class ExtractRequestVer4 extends AbstractRequest {
 
     @XStreamAlias("ПоВсем")
     private TypeAllAccounts typeAllAccounts;
@@ -21,18 +21,29 @@ public class RestRequestVer4 extends AbstractRequest {
     @Override
     public java.sql.Date getAddDate() {
 
-        if(typeAllAccounts != null && typeAllAccounts.getOnStateDate() != null) {
-            return typeAllAccounts.getOnStateDate();
+        if(typeAllAccounts != null && typeAllAccounts.getStartDate() != null) {
+            return typeAllAccounts.getStartDate();
         }
 
-        Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getOnDate() != null).findFirst();
+        Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getStartDate() != null).findFirst();
 
-        return account.get().getOnDate();
+        return account.map(TypeDetailAccounts::getStartDate).orElse(null);
+    }
+
+    @Override
+    public Date getSubDate() {
+        if (typeAllAccounts != null && typeAllAccounts.getEndDate() != null) {
+            return typeAllAccounts.getEndDate();
+        }
+
+        Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getEndDate() != null).findFirst();
+
+        return account.map(TypeDetailAccounts::getEndDate).orElse(null);
     }
 
     @Override
     public String getAccounts() {
-        if ((typeAllAccounts != null && typeAllAccounts.getOnStateDate() != null) ||
+        if ((typeAllAccounts != null && typeAllAccounts.getStartDate() != null) ||
                 typeDetailAccounts == null ||
                 typeDetailAccounts.size() == 0) {
             return null;
@@ -41,12 +52,4 @@ public class RestRequestVer4 extends AbstractRequest {
         return typeDetailAccounts.stream().map(TypeDetailAccounts::getCode).collect(Collectors.joining(";"));
     }
 
-    @Override
-    public Date getSubDate() {
-        if (typeAllAccounts != null && typeAllAccounts.getOnStateDate() != null) {
-            return typeAllAccounts.getOpenAccountDate();
-        }
-
-        return null;
-    }
 }

@@ -95,17 +95,18 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(PnoCancel.class);
 		xstream.processAnnotations(ApoInfo.class);
 
-		// xstream.processAnnotations(ZsoFromFnsVer4.class);
-		xstream.processAnnotations(RestTypeDetailAccounts.class);
-		xstream.processAnnotations(RestTypeAllAccounts.class);
+		xstream.processAnnotations(DateWorkState.class);
+		xstream.processAnnotations(DatePeriod.class);
+
+		/*
+		xstream.processAnnotations(TypeDetailAccounts.class);
+		xstream.processAnnotations(TypeAllAccounts.class);
 		xstream.processAnnotations(RestRequestVer4.class);
 		xstream.processAnnotations(RestOwnerAccount.class);
 		xstream.processAnnotations(RestOnDatePeriod.class);
 		xstream.processAnnotations(RestOnDate.class);
-		xstream.processAnnotations(DateWorkState.class);
-		xstream.processAnnotations(DatePeriod.class);
-
-
+		xstream.processAnnotations(ExtractRequestVer4.class);
+*/
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);
 

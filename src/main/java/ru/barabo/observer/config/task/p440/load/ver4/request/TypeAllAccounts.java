@@ -6,10 +6,16 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import java.sql.Date;
 
 @XStreamAlias("ПоВсем")
-public class RestTypeAllAccounts {
+public class TypeAllAccounts {
 
     @XStreamAlias("ОстПоСост")
     private String onStateDate;
+
+    @XStreamAlias("ДатаНач")
+    private String startDate;
+
+    @XStreamAlias("ДатаКон")
+    private String endDate;
 
     @XStreamAlias("НаДату")
     private RestOnDate existAccountOnDate;
@@ -19,6 +25,14 @@ public class RestTypeAllAccounts {
 
     public Date getOnStateDate() {
         return XmlLoader.parseDate(onStateDate);
+    }
+
+    public Date getStartDate() {
+        return XmlLoader.parseDate(startDate);
+    }
+
+    public Date getEndDate() {
+        return XmlLoader.parseDate(endDate);
     }
 
     public Date getOpenAccountDate() {

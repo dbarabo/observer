@@ -5,11 +5,13 @@ import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
+import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.regex.Pattern
 
 object AddSign600P : FileFinder, FileProcessor {
 
@@ -38,7 +40,19 @@ object AddSign600P : FileFinder, FileProcessor {
 
     fun pathCryptoTicketToday() = File("${pathTicketToday()}/crypto")
 
-    private fun arjArchiveNameToday() = "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+    fun arjArchiveNameToday(): String {
+
+        val fileNameRegExp = Pattern.compile("ARHKRFM_040507717_${nameDateToday()}_00\\d.ARJ",
+            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
+        val lastFile: Int = pathCryptoTicketToday().listFiles { f ->
+            !f.isDirectory &&
+              fileNameRegExp.isFind(f.name)
+        }?.map { it.name.substringAfterLast("_").substringBefore(".").toIntOrNull()?: -1 }?.max() ?: return "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+
+        return if(lastFile < 0) "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+               else "ARHKRFM_040507717_${nameDateToday()}_00${(lastFile + 1)}.ARJ"
+    }
 
     private const val pathTicket = "H:/ПОД ФТ/comita/600-П/ARHKRFM"
 }

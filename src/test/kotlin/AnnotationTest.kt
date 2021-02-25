@@ -3,6 +3,7 @@ import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
+import ru.barabo.observer.config.skad.crypto.task.AddSign600P
 import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
@@ -22,9 +23,12 @@ class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
 
+    //@Test
+    fun testAddSign600P() {
+        logger.error("NEXT=${AddSign600P.arjArchiveNameToday()}")
+    }
 
-
-    @Test
+    //@Test
     fun testUUID() {
         var uuid: UUID = UUID.randomUUID()
         var variant: Int = uuid.variant()

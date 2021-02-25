@@ -40,9 +40,15 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
 
-    protected fun actionTask(name :String) : ActionTask {
+    public fun actionTask(name :String) : ActionTask {
 
-        val actionTask = FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
+        val actionTask = try {
+            FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
+        } catch (e: Exception) {
+            logger.error("actionTask=$name", e)
+
+            throw Exception(e)
+        }
 
         return actionTask ?: throw SessionException("unknown file type for 440p $name")
     }
