@@ -8,17 +8,37 @@ import java.util.Date;
 public class GeneralInfoPartVer4 {
 
     @XStreamAlias("НомСправ")
-    final private String numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
+    private String numberHelp;
+
+    @XStreamAlias("НомВыпис")
+    private String numberExtract;
 
     @XStreamAlias("ДатаСправ")
-    final private String dateCreate = XmlLoader.formatDate(new Date());
+    private String dateHelp;
+
+    @XStreamAlias("ДатаВыпис")
+    private String dateExtract;
 
     @XStreamAlias("ТипСправ")
     final private String typeInquiry = "1";
 
     @XStreamAlias("СведБанкПБР")
-    private InfoBankPBRVer4 bank;
+    final private InfoBankPBRVer4 bank = InfoBankPBRVer4.ourBank();
 
     @XStreamAlias("КлиентБанк")
     private ClientVer4 client;
+
+    protected GeneralInfoPartVer4(boolean isExtract, ClientVer4 client) {
+        if(isExtract) {
+            numberExtract = (System.currentTimeMillis() / 100) % 10000000 + "";
+
+            dateExtract = XmlLoader.formatDate(new Date());
+        } else {
+            numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
+
+            dateHelp = XmlLoader.formatDate(new Date());
+        }
+
+        this.client = client;
+    }
 }

@@ -5,7 +5,7 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.PayerXml
 import java.util.*
 
 
-interface RequestResponseData :ResponseData {
+interface RequestResponseData : ResponseData {
     /**
      * @return Номер запроса налогового органа
      */
@@ -15,6 +15,12 @@ interface RequestResponseData :ResponseData {
      * @return дата запроса налогового органа
      */
     fun getDateRequest(): Date
+
+    fun getOnStateDateRequest(): Date?
+
+    fun getStartPeriodRequest(): Date?
+
+    fun getEndPeriodRequest(): Date?
 
     /**
      * @return Наименование файла PB

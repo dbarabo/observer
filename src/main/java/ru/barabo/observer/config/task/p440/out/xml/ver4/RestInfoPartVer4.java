@@ -1,58 +1,36 @@
 package ru.barabo.observer.config.task.p440.out.xml.ver4;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
-import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.load.xml.SenderBank;
-import ru.barabo.observer.config.task.p440.out.xml.AbstractInfoPart;
-import ru.barabo.observer.config.task.p440.out.xml.rest.RestAccount;
-
-import java.util.Date;
-import java.util.List;
 
 @XStreamAlias("СПРОБОСТАТ")
-public class RestInfoPartVer4 extends AbstractInfoPart {
+public class RestInfoPartVer4 extends GeneralInfoPartVer4 {
 
-    @XStreamAlias("НомСправ")
-    private String numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
-
-    @XStreamAlias("ТипСправ")
-    private String typeHelp = "1";
-
-    @XStreamAlias("НомЗР")
-    private String requestNumber;
-
-    @XStreamAlias("ДатаЗР")
-    private String requestDate;
+    @XStreamAlias("НаимПодтв")
+    private String pbFile;
 
     @XStreamAlias("ВидСпр")
     private String viewHelp; // берем из базы
 
-    @XStreamAlias("ДейстПоСост")
-    private String actualDate = XmlLoader.formatDate(new Date());
+    @XStreamAlias("СведЗапрРеш")
+    private RestInfoRequestDecision restInfoRequestDecision;
 
-    @XStreamImplicit(itemFieldName = "Остатки")
-    private List<RestAccount> restList;
+    @XStreamAlias("СведенияОст")
+    private RestInfoDetailVer4 restInfoDetail;
 
     @XStreamAlias("ПредБанка")
     private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
     public RestInfoPartVer4(RestResponseData restResponseData) {
-        super(restResponseData);
+        super(false, ClientVer4.fromPayerXml(restResponseData.getPayer()));
 
         this.viewHelp = restResponseData.getViewHelp();
 
-        this.restList = restResponseData.getRestAccountList();
-    }
+        this.pbFile = restResponseData.getPbFileName();
 
-    @Override
-    protected void setDateRequest(String dateRequest) {
-        this.requestDate = dateRequest;
-    }
+        this.restInfoRequestDecision = new RestInfoRequestDecision(restResponseData);
 
-    @Override
-    protected void setNumberRequest(String numberRequest) {
-        this.requestNumber = numberRequest;
+        this.restInfoDetail = new RestInfoDetailVer4(restResponseData);
     }
 }

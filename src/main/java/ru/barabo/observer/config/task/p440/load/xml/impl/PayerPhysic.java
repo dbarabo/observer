@@ -22,6 +22,7 @@ public final class PayerPhysic implements ParamsQuery {
 	private String birthPlace;
 
 	@XStreamAlias("КодДУЛ")
+	//TODO!!!2021 @XStreamAlias("КодДок")
 	private String codeDoc;
 
 	@XStreamAlias("СерНомДок")
@@ -31,9 +32,11 @@ public final class PayerPhysic implements ParamsQuery {
 	private String dateDoc;
 
 	@XStreamAlias("ФИО")
+	//TODO!!!2021 @XStreamAlias("ФИОФЛ")
 	private Fio fio;
 
 	@XStreamAlias("АдрПлат")
+	//TODO!!!2021 @XStreamAlias("Адрес")
 	private Address address;
 	
 	transient private Number idClient;

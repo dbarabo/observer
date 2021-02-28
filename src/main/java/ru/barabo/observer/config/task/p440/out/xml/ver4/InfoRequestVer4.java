@@ -16,4 +16,10 @@ public class InfoRequestVer4 {
 
     @XStreamAlias("ИндЗапр")
     private String idRequestFns;
+
+    @XStreamAlias("НаимПодтв")
+    private String pbFileName;
+
+    @XStreamAlias("ВидСпр")
+    private String typeInfo = "1";
 }

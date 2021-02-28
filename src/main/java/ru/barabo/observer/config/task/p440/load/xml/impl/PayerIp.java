@@ -14,6 +14,7 @@ public final class PayerIp implements ParamsQuery {
 	private String inn;
 
 	@XStreamAlias("ФИО")
+	//TODO!!!2021 @XStreamAlias("ФИОИП")
 	private Fio fio;
 
 	transient private Number idClient;

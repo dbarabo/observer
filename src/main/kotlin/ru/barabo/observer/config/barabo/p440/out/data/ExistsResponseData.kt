@@ -6,7 +6,7 @@ import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
 import ru.barabo.observer.config.task.p440.out.xml.exists.ExistsAccount
 import java.util.*
 
-class ExistsResponseData :AbstractRequestResponse() {
+class ExistsResponseData : AbstractRequestResponse() {
 
     override fun typeInfo(): String = "СПРБННАЛИЧ"
 

@@ -50,18 +50,18 @@ object BaraboSmtp : SendMail {
 
     val DELB_PLASTIC = arrayOf("cards@ptkb.ru").onlyAfina()
 
-    val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
+    private val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
 
     private val SB_TTS = arrayOf("tts@ptkb.ru").onlyAfina()
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "lebedyanskaya@ptkb.ru",
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "buh1@ptkb.ru",
             "gupalo@ptkb.ru").onlyAfina()
 
     val IBANK_RECEIPTOR = arrayOf("sapunov@ptkb.ru").onlyAfina()
 
-    val CORRESPOND = arrayOf("elcheva@ptkb.ru", "mozgovaya@ptkb.ru", "babich@ptkb.ru", "vayner@ptkb.ru").onlyAfina()
+    val CORRESPOND = arrayOf("elcheva@ptkb.ru", "mozgovaya@ptkb.ru", "vayner@ptkb.ru").onlyAfina()
 
     val IBANK_DELB = arrayOf("tts@ptkb.ru", "cards@ptkb.ru").onlyAfina()
 

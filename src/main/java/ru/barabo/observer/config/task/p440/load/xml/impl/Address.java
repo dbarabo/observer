@@ -36,6 +36,7 @@ public final class Address {
 	private String corpus;
 
 	@XStreamAlias("Кварт")
+	//TODO!!!2021 @XStreamAlias("Квартира")
 	private String flat;
 
 	public Address() {}
