@@ -1,8 +1,11 @@
-package ru.barabo.observer.config.task.p440.out.xml.ver4;
+package ru.barabo.observer.config.task.p440.out.xml.ver4.rest;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
-import ru.barabo.observer.config.task.p440.load.xml.SenderBank;
+import ru.barabo.observer.config.task.p440.out.xml.ver4.ClientVer4;
+import ru.barabo.observer.config.task.p440.out.xml.ver4.GeneralInfoPartVer4;
+import ru.barabo.observer.config.task.p440.out.xml.ver4.RestInfoDetailVer4;
+import ru.barabo.observer.config.task.p440.out.xml.ver4.RestInfoRequestDecision;
 
 @XStreamAlias("СПРОБОСТАТ")
 public class RestInfoPartVer4 extends GeneralInfoPartVer4 {
@@ -18,9 +21,6 @@ public class RestInfoPartVer4 extends GeneralInfoPartVer4 {
 
     @XStreamAlias("СведенияОст")
     private RestInfoDetailVer4 restInfoDetail;
-
-    @XStreamAlias("ПредБанка")
-    private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
     public RestInfoPartVer4(RestResponseData restResponseData) {
         super(false, ClientVer4.fromPayerXml(restResponseData.getPayer()));

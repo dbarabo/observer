@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.AbstractRequestResponse;
 import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseData;
+import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 @XStreamAlias("СведЗапр")
@@ -15,7 +16,10 @@ public class InfoRequestDetail {
     private String dateRequest;
 
     @XStreamAlias("КодНОЗапр")
-    private String codeFns;
+    private String codeFnsRest;
+
+    @XStreamAlias("КодНО")
+    private String codeFnsExists;
 
     @XStreamAlias("ИндЗапр")
     private String idRequestFns;
@@ -31,14 +35,18 @@ public class InfoRequestDetail {
 
         dateRequest = XmlLoader.formatDate(request.getDateRequest());
 
-        codeFns = request.getFns().getFnsCode();
-
         idRequestFns = request.getIdRequest();
 
         if(request instanceof ExistsResponseData) {
             pbFileBnsOnly = request.getPbFileName();
 
             viewHelpBnsOnly = ((ExistsResponseData)request).getViewHelp();
+        }
+
+        if(request instanceof RestResponseData) {
+            codeFnsRest = request.getFns().getFnsCode();
+        } else {
+            codeFnsExists = request.getFns().getFnsCode();
         }
     }
 }

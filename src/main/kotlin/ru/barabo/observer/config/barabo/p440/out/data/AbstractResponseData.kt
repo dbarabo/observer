@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
-import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.ResponseData

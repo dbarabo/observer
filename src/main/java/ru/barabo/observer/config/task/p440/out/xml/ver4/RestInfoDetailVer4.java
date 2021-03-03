@@ -2,6 +2,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseData;
 import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
 
 import java.util.List;
@@ -31,5 +32,15 @@ public class RestInfoDetailVer4 {
         this.restAccountsVer4 = restResponseData.getRestAccountsVer4();
 
         this.accountAbsents = restResponseData.getAccountAbsents();
+    }
+
+    public RestInfoDetailVer4(ExistsResponseData existsResponseData) {
+
+        if(existsResponseData.getOnStateDateRequest() != null ||
+                existsResponseData.getStartPeriodRequest() != null) {
+            restAccountDatePeriod = new AccountDatePeriod(existsResponseData);
+        }
+
+        this.restAccountsVer4 = existsResponseData.getExistsAccountsVer4();
     }
 }

@@ -39,6 +39,4 @@ public class AbstractToFns {
 	public String getTypeInfo() {
 		return typeInfo;
 	}
-
-
 }

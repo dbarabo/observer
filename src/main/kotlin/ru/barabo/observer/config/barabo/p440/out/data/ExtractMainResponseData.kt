@@ -11,7 +11,7 @@ import ru.barabo.observer.config.task.p440.out.xml.extract.ExtractMainAccount
 import java.util.*
 
 
-class ExtractMainResponseData :AbstractRequestResponse() {
+class ExtractMainResponseData : AbstractRequestResponse() {
 
     private val logger = LoggerFactory.getLogger(ExtractMainResponseData::class.java)!!
 
@@ -25,28 +25,17 @@ class ExtractMainResponseData :AbstractRequestResponse() {
 
     override fun getViewHelp(): String = viewHelpVar
 
-    var countAddFiles :Int = 0
-
-    companion object {
-        private const val INSERT_BVD_RESPONSE = "insert into od.ptkb_440p_response (id, FNS_FROM, IS_PB, STATE, FILE_NAME, SENT) " +
-                "values (classified.nextval, ?, ?, 2, ?, sysdate) "
-
-        private const val SELECT_MAIN_EXTRACT_ACCOUNT =  "{ ? = call od.PTKB_440P.getExtractAccounts( ? ) }"
-
-        private const val SELECT_EXTRACT_EXISTS_OPERATION = "{ ? = call od.PTKB_440P.isExistsOperation( ? ) }"
-
-        private const val EXEC_OPERATION_ACCOUNT =  "call od.PTKB_EXPORT_EXTRACT(?, ?, ?, ?, 0)"
-
-        private const val SELECT_EXTRACT = "select p.oper, substr(p.Description, 1, 160), p.SHIFR, p.NUMBER_DOC, " +
-                "p.DATE_DOC, p.BANK_ACCOUNT, p.BANK_NAME, p.BANK_BIK, p.PAY_NAME, p.PAY_INN, p.PAY_KPP, " +
-                "p.PAY_ACCOUNT, p.SUM_DEB, p.SUM_CRED from od.PTKB_TMP_EXTRACT p where sid = ? order by ORD"
-    }
+    var countAddFiles: Int = 0
 
     override fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        val isExistsOperation = initExtractAccounts(idFromFns() /*idResponse*/)
+        createInfoOldFormat3(sessionSetting)
+    }
+
+    private fun createInfoOldFormat3(sessionSetting: SessionSetting) {
+        val isExistsOperation = initExtractAccounts( idFromFns() )
 
         if(isExistsOperation) {
 
@@ -62,7 +51,7 @@ class ExtractMainResponseData :AbstractRequestResponse() {
         }
     }
 
-    private fun createAccountFiles(extractMainAccount :ExtractMainAccount, sessionSetting : SessionSetting) {
+    private fun createAccountFiles(extractMainAccount: ExtractMainAccount, sessionSetting: SessionSetting) {
 
         var countOperation = 0
 
@@ -98,7 +87,7 @@ class ExtractMainResponseData :AbstractRequestResponse() {
                         OutType.EXTRACT_ADDITIONAL.dbValue, addResponseData.fileNameResponseTemplate()), sessionSetting)
     }
 
-    private fun initExtractAccounts(idFromFns: Number) :Boolean {
+    private fun initExtractAccounts(idFromFns: Number): Boolean {
 
         val accounts = AfinaQuery.selectCursor(SELECT_MAIN_EXTRACT_ACCOUNT, arrayOf(idFromFns))
 
@@ -182,5 +171,17 @@ class ExtractMainResponseData :AbstractRequestResponse() {
 
         return values
     }
-
 }
+
+private const val INSERT_BVD_RESPONSE = "insert into od.ptkb_440p_response (id, FNS_FROM, IS_PB, STATE, FILE_NAME, SENT) " +
+        "values (classified.nextval, ?, ?, 2, ?, sysdate) "
+
+private const val SELECT_MAIN_EXTRACT_ACCOUNT =  "{ ? = call od.PTKB_440P.getExtractAccounts( ? ) }"
+
+private const val SELECT_EXTRACT_EXISTS_OPERATION = "{ ? = call od.PTKB_440P.isExistsOperation( ? ) }"
+
+private const val EXEC_OPERATION_ACCOUNT =  "call od.PTKB_EXPORT_EXTRACT(?, ?, ?, ?, 0)"
+
+private const val SELECT_EXTRACT = "select p.oper, substr(p.Description, 1, 160), p.SHIFR, p.NUMBER_DOC, " +
+        "p.DATE_DOC, p.BANK_ACCOUNT, p.BANK_NAME, p.BANK_BIK, p.PAY_NAME, p.PAY_INN, p.PAY_KPP, " +
+        "p.PAY_ACCOUNT, p.SUM_DEB, p.SUM_CRED from od.PTKB_TMP_EXTRACT p where sid = ? order by ORD"

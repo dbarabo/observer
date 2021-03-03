@@ -11,7 +11,7 @@ import java.util.*
 
 class RestResponseData : AbstractRequestResponse() {
 
-    override fun typeInfo(): String = "СПРБНОСТАТ"
+    override fun typeInfo(): String = if(isNewFormat2021() ) "СПРОБОСТАТ" else "СПРБНОСТАТ"
 
     override fun xsdSchema(): String = "/xsd/BOS_300.xsd"
 
@@ -20,12 +20,6 @@ class RestResponseData : AbstractRequestResponse() {
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
         initRestAccounts(idFromFns() )
-    }
-
-    companion object {
-        private const val SELECT_REST_ACCOUNT =  "{ ? = call od.PTKB_440P.getRestAccounts( ? ) }"
-
-        private const val SELECT_ABSENT_ACCOUNT = "{ ? = call od.PTKB_440P.getAbsentAccounts( ? ) }"
     }
 
     private lateinit var viewHelpVar: String
@@ -79,3 +73,7 @@ class RestResponseData : AbstractRequestResponse() {
         }
     }
 }
+
+private const val SELECT_REST_ACCOUNT =  "{ ? = call od.PTKB_440P.getRestAccounts( ? ) }"
+
+const val SELECT_ABSENT_ACCOUNT = "{ ? = call od.PTKB_440P.getAbsentAccounts( ? ) }"

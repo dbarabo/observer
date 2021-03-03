@@ -26,8 +26,8 @@ public class RestAccountVer4 {
     @XStreamAlias("ВидСч")
     private TypeAccountVer4 typeAccount;
 
-    @XStreamAlias("Остат")
-    private RestVer4 rest;
+    @XStreamAlias("СвОстат")
+    private SvRestVer4 rest;
 
     public RestAccountVer4(String code, Date opened, Date closed, Date depositEnd, String currency,
                            String typeAccountCode, String typeAccountName, Number rest, Date restDate) {
@@ -44,6 +44,8 @@ public class RestAccountVer4 {
 
         this.typeAccount = new TypeAccountVer4(typeAccountCode, typeAccountName);
 
-        this.rest = new RestVer4(restDate, rest);
+        if(rest != null) {
+            this.rest = new SvRestVer4(restDate, rest);
+        }
     }
 }
