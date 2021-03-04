@@ -18,4 +18,8 @@ public class TypeAccountVer4 {
             this.name = name;
         }
     }
+
+    public String getCode() {
+        return code;
+    }
 }

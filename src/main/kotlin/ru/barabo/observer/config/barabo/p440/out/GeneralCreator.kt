@@ -29,6 +29,13 @@ import ru.barabo.observer.config.task.p440.out.xml.pb.PbXml
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestAccount
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestInfoPart
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestXml
+import ru.barabo.observer.config.task.p440.out.xml.ver4.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsInfoPartVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.FileExistsXmlVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.rest.FileRestXmlVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.rest.RestInfoPartVer4
 import ru.barabo.observer.config.task.template.db.DbSelector
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
@@ -53,7 +60,7 @@ fun String.byFolderExists(): File {
     return folder
 }
 
-abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
+abstract class GeneralCreator<X: Any>(protected val responseData: AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
     override fun config(): ConfigTask = ScadConfig // P440Config
 
@@ -193,6 +200,48 @@ abstract class GeneralCreator<X :AbstractToFns>(protected val responseData :Abst
 
             xstream.processAnnotations(BnpInfoPart::class.java)
             xstream.processAnnotations(BnpXml::class.java)
+
+            /// Version 4.0
+            xstream.processAnnotations(AddExtractInfoPartVer4::class.java)
+            xstream.processAnnotations(BankBik::class.java)
+            xstream.processAnnotations(BankInfoVer4::class.java)
+            xstream.processAnnotations(FileAddExtractXmlVer4::class.java)
+            xstream.processAnnotations(OperationAccountVer4::class.java)
+            xstream.processAnnotations(PayerInfoVer4::class.java)
+            xstream.processAnnotations(ExtractMainAccountVer4::class.java)
+            xstream.processAnnotations(ExtractMainInfoPartVer4::class.java)
+            xstream.processAnnotations(FileExtractMainXmlVer4::class.java)
+            xstream.processAnnotations(GroupInfoAddFile::class.java)
+            xstream.processAnnotations(GroupTurnExtractAccount::class.java)
+            xstream.processAnnotations(InfoExtractDetail::class.java)
+            xstream.processAnnotations(InfoNameAddFile::class.java)
+            xstream.processAnnotations(TurnExtractAccount::class.java)
+
+            xstream.processAnnotations(FileRestXmlVer4::class.java)
+            xstream.processAnnotations(RestInfoPartVer4::class.java)
+
+            xstream.processAnnotations(ExistsInfoPartVer4::class.java)
+            xstream.processAnnotations(FileExistsXmlVer4::class.java)
+
+            xstream.processAnnotations(AbstractFileXmlVer4::class.java)
+            xstream.processAnnotations(AccountAbsent::class.java)
+            xstream.processAnnotations(AccountDatePeriod::class.java)
+            xstream.processAnnotations(ClientVer4::class.java)
+            xstream.processAnnotations(CurrencyAccount::class.java)
+            xstream.processAnnotations(DatePeriodOut::class.java)
+            xstream.processAnnotations(DateWorkStateOut::class.java)
+            xstream.processAnnotations(GeneralInfoPartVer4::class.java)
+            xstream.processAnnotations(InfoBankPBRVer4::class.java)
+            xstream.processAnnotations(InfoDecisionDetail::class.java)
+            xstream.processAnnotations(InfoRequestDetail::class.java)
+            xstream.processAnnotations(InfoRequestVer4::class.java)
+            xstream.processAnnotations(RestAccountVer4::class.java)
+            xstream.processAnnotations(RestInfoDetailVer4::class.java)
+
+            xstream.processAnnotations(RestInfoRequestDecision::class.java)
+            xstream.processAnnotations(RestVer4::class.java)
+            xstream.processAnnotations(SvRestVer4::class.java)
+            xstream.processAnnotations(TypeAccountVer4::class.java)
 
             return xstream
         }

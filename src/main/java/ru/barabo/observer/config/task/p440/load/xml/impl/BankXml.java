@@ -32,11 +32,17 @@ public final class BankXml implements Bank {
 				"Общество с ограниченной ответственностью \"Приморский территориальный коммерческий банк\"", "21"};
 
 
-		private static final BankXml ourBank = new BankXml(bankParam/*Query.selectRow(Cfg.query440p().getOurBank()*/ );
+		private static final BankXml ourBank = new BankXml(bankParam);
+
+		private static final BankXml ourBankToo = new BankXml(bankParam);
 	}
 		
 	static public BankXml ourBank() {
 		return SingltonOurBank.ourBank;
+	}
+
+	static public BankXml ourBankToo() {
+		return SingltonOurBank.ourBankToo;
 	}
 	
 	private BankXml(Object[] row) {

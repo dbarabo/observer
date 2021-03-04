@@ -38,7 +38,7 @@ public class ExtractMainAccountVer4 {
     @XStreamAlias("ВидСч")
     private TypeAccountVer4 typeAccount;
 
-    @XStreamAlias("ОстОборотСЧ")
+    @XStreamAlias("СвОстОборотСЧ")
     private GroupTurnExtractAccount turnExtractAccount;
 
     @XStreamAlias("СведДопФайл")
@@ -95,6 +95,10 @@ public class ExtractMainAccountVer4 {
     public java.sql.Date getEndExtract() {
 
         return XmlLoader.parseDate(endExtract);
+    }
+
+    public String getCodeTypeAccount() {
+        return typeAccount.getCode();
     }
 
     public String getOrderFile() {

@@ -1,14 +1,12 @@
 package ru.barabo.observer.config.barabo.p440.task
 
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
-import ru.barabo.observer.config.barabo.p440.out.data.BnpResponseData
-import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseData
-import ru.barabo.observer.config.barabo.p440.out.data.ExtractMainResponseData
-import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData
+import ru.barabo.observer.config.barabo.p440.out.data.*
 import ru.barabo.observer.config.task.p440.out.xml.bnp.BnpXml
 import ru.barabo.observer.config.task.p440.out.xml.exists.ExistXml
 import ru.barabo.observer.config.task.p440.out.xml.extract.ExtractMainXml
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestXml
+import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.FileExtractMainXmlVer4
 
 
 object BnpSaver : GeneralCreator<BnpXml>(BnpResponseData(), BnpXml::class) {
@@ -28,3 +26,7 @@ object ExtractMainSaver : GeneralCreator<ExtractMainXml>(ExtractMainResponseData
     override fun name(): String = "Выгрузка выписки"
 }
 
+object ExtractMainSaverVer4 : GeneralCreator<FileExtractMainXmlVer4>(ExtractMainResponseDataVer4(), FileExtractMainXmlVer4::class) {
+
+    override fun name(): String = "Выгрузка выписки ver.4"
+}

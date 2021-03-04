@@ -17,12 +17,10 @@ public class GroupInfoAddFile {
 
     private static class SingltonGroupInfoAddFile {
         private transient static final String ABSENT_NAME = "Отсутствует";
-
-        private transient static final GroupInfoAddFile ABSENT_ADD_FILE = new GroupInfoAddFile(0, ABSENT_NAME);
     }
 
     static public GroupInfoAddFile absentAddFile() {
-        return SingltonGroupInfoAddFile.ABSENT_ADD_FILE;
+        return new GroupInfoAddFile(0, SingltonGroupInfoAddFile.ABSENT_NAME);
     }
 
     private GroupInfoAddFile(Integer countAddFiles, String addFileName) {
@@ -38,11 +36,11 @@ public class GroupInfoAddFile {
 
         this.countAddFiles = filenames.size() + "";
 
-        this.infoNameAddFiles = new ArrayList<InfoNameAddFile>(filenames.size());
+        this.infoNameAddFiles = new ArrayList<InfoNameAddFile>();
 
         for(int index = 0; index < filenames.size(); index++) {
 
-            this.infoNameAddFiles.set(index, new InfoNameAddFile( filenames.get(index) ) );
+            this.infoNameAddFiles.add(new InfoNameAddFile( filenames.get(index) ) );
         }
     }
 }

@@ -1,12 +1,14 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
+import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
 import ru.barabo.observer.config.barabo.p440.out.OutType
+import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
 import ru.barabo.observer.config.task.p440.out.xml.ver4.AccountAbsent
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.ExtractMainAccountVer4
-import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.FileAddExtractXmlVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add.FileAddExtractXmlVer4
 import java.util.*
 import kotlin.math.min
 
@@ -29,7 +31,7 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        val absentAccount = AfinaQuery.selectCursor(SELECT_ABSENT_ACCOUNT, arrayOf( idFromFns(), sessionSetting ))
+        val absentAccount = AfinaQuery.selectCursor(SELECT_ABSENT_ACCOUNT, arrayOf( idFromFns()), sessionSetting )
 
         accountAbsents = absentAccount.map {AccountAbsent(it[0] as String) }
 
@@ -67,6 +69,11 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         AfinaQuery.commitFree(sessionSetting)
 
+        val isNotDeposit = mainAccountsVer4.firstOrNull { it.codeTypeAccount != "1200" && it.codeTypeAccount != "1300"}
+
+        viewHelpVar = if(isNotDeposit != null) TypeResponseValue.EXTRACT_NO_DEPOSIT.fnsValue
+        else TypeResponseValue.EXTRACT_DEPOSIT.fnsValue
+
         val accountsWithTurn = mainAccountsVer4.filter { it.groupInfoAddFile == null }
 
         for(account in accountsWithTurn) {
@@ -80,16 +87,19 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
     private fun createAddXmlFiles(account: ExtractMainAccountVer4) {
 
-        var countOperation: Int = 0
+        var countOperation = 0
 
-        val countFiles: Int = operationDataAccount.size / MAX_OPERATION_COUNT_EXT_VER4 + 1;
+        val countFiles: Int = countFiles()
 
         for(partNumber in 1..countFiles) {
             val addResponseData = AddExtractResponseDataVer4(this, account, partNumber, countOperation)
 
-            countOperation += min(MAX_OPERATION_COUNT_EXT_VER4, operationDataAccount.size - countOperation)
+            countOperation += min(MAX_OPERATION_COUNT_EXT_VER4, operationDataAccount.size - countOperation - 1)
 
-            val addExtractXml = FileAddExtractXmlVer4(addResponseData)
+            val addExtractXml =
+                FileAddExtractXmlVer4(
+                    addResponseData
+                )
 
             GeneralCreator.saveXml(addResponseData.fileNameResponse(), addExtractXml)
 
@@ -99,6 +109,10 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
         }
     }
 
+    private fun countFiles(): Int =
+        (operationDataAccount.size - 1) / MAX_OPERATION_COUNT_EXT_VER4 +
+                if( ((operationDataAccount.size - 1) % MAX_OPERATION_COUNT_EXT_VER4) == 0) 0 else 1
+
     private fun insertBvdResponseDb(addResponseData: AddExtractResponseDataVer4) {
         AfinaQuery.execute(INSERT_BVD_RESPONSE,
             arrayOf(addResponseData.idFromFns(),
@@ -107,15 +121,15 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
     private fun getAddFileNames(account: ExtractMainAccountVer4): List<String> {
 
-        val countFiles: Int = operationDataAccount.size / MAX_OPERATION_COUNT_EXT_VER4 + 1;
+        val countFiles: Int = countFiles()
 
-        val fileNames = ArrayList<String>(countFiles)
+        val fileNames = ArrayList<String>()
 
         val template = this.fileNameResponseTemplate().replace("BVS", "BVD")
 
         for(index in 1..countFiles) {
 
-            fileNames[index-1] = "${template}_${account.orderFile}_${String.format("%06d", index)}"
+            fileNames += "${template}_${account.orderFile}_${String.format("%06d", index)}"
         }
 
         return fileNames
@@ -133,11 +147,15 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         operationDataAccount = AfinaQuery.select(SELECT_EXTRACT, arrayOf(seq), sessionBack)
 
+        logger.error("operationDataAccount.size=${operationDataAccount.size}")
+
         AfinaQuery.rollbackFree(sessionBack)
     }
 }
 
-const val MAX_OPERATION_COUNT_EXT_VER4 = 10000
+private val logger = LoggerFactory.getLogger(ExtractMainResponseDataVer4::class.java)
+
+const val MAX_OPERATION_COUNT_EXT_VER4 = 1000
 
 private const val SELECT_MAIN_EXTRACT_ACCOUNT = "{ ? = call od.PTKB_440P.getExtractMainAccountsVer4( ? ) }"
 

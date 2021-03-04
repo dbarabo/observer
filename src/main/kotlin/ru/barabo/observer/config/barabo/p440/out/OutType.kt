@@ -8,7 +8,7 @@ enum class OutType(val dbValue :Int, val outObject :GeneralCreator<*>?) {
     NONE(0, null),
     PB(1, PbSaverScad),
     REST(2, RestSaver),
-    EXTRACT(3, ExtractMainSaver),
+    EXTRACT(3, extractMainCreator() ),
     EXISTS(4, ExistsSaver),
     EXTRACT_ADDITIONAL(5, null),
     BNP(6, BnpSaver);
@@ -19,3 +19,5 @@ enum class OutType(val dbValue :Int, val outObject :GeneralCreator<*>?) {
         fun creatorByDbValue(value :Int) :GeneralCreator<*>? = HASH_DBVALUE_CREATOR[value]
     }
 }
+
+private fun extractMainCreator(): GeneralCreator<*> = if( isNewFormat2021() ) ExtractMainSaverVer4 else ExtractMainSaver

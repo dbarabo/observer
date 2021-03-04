@@ -2,6 +2,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -696,11 +697,11 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    //@Test
+    @Test
     fun outBvsExtract() {
         //val elem = Elem(idElem = 1172496449, task = ExtractMainSaver)
 
-        val elem = Elem(idElem = 1172496453, task = ExtractMainSaver)
+        val elem = Elem(idElem = 1238020937, task = ExtractMainSaverVer4)
 
         elem.task?.execute(elem)
     }

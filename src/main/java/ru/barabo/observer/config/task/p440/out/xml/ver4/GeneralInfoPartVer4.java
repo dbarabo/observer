@@ -20,25 +20,24 @@ public class GeneralInfoPartVer4 {
     private String dateExtract;
 
     @XStreamAlias("ТипСправ")
-    final private String typeInquiry = "1";
+    private String typeHelp;
 
-    @XStreamAlias("СведБанкПБР")
-    final private InfoBankPBRVer4 bank = InfoBankPBRVer4.ourBank();
+    @XStreamAlias("ТипВыпис")
+    private String typeExtract;
 
-    @XStreamAlias("КлиентБанк")
-    private ClientVer4 client;
-
-    protected GeneralInfoPartVer4(boolean isExtract, ClientVer4 client) {
+    protected GeneralInfoPartVer4(boolean isExtract) {
         if(isExtract) {
             numberExtract = (System.currentTimeMillis() / 100) % 10000000 + "";
 
             dateExtract = XmlLoader.formatDate(new Date());
+
+            typeExtract = "1";
         } else {
             numberHelp = (System.currentTimeMillis() / 100) % 10000000 + "";
 
             dateHelp = XmlLoader.formatDate(new Date());
-        }
 
-        this.client = client;
+            typeHelp = "1";
+        }
     }
 }

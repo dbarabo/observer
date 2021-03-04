@@ -16,4 +16,12 @@ public class InfoBankPBRVer4 {
 
     @XStreamAlias("СведБанк")
     private BankXml ourBank = BankXml.ourBank();
+
+    private InfoBankPBRVer4() {
+
+    }
+
+    public InfoBankPBRVer4(BankXml ourBank) {
+        this.ourBank = ourBank;
+    }
 }

@@ -115,6 +115,8 @@ public class XmlLoader<E> {
 
 	private static String XML_DATE_FORMAT = "yyyy-MM-dd";
 
+	private static String XML_TIME_FORMAT = "HH:mm:ss";
+
 	public static String formatDate(Date date) {
 		if (date == null) {
 			return null;
@@ -124,6 +126,17 @@ public class XmlLoader<E> {
 
 		return formatter.format(date);
 	}
+
+	public static String formatTime(Date dateTime) {
+		if (dateTime == null) {
+			return null;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat(XML_TIME_FORMAT);
+
+		return formatter.format(dateTime);
+	}
+
 
 	public static java.sql.Date parseDate(String date) {
 		if (date == null || "".equals(date.trim())) {
