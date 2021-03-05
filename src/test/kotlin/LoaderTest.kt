@@ -701,7 +701,7 @@ res3 = [calc.DEC_TEST];
     fun outBvsExtract() {
         //val elem = Elem(idElem = 1172496449, task = ExtractMainSaver)
 
-        val elem = Elem(idElem = 1238020937, task = ExtractMainSaverVer4)
+        val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
 
         elem.task?.execute(elem)
     }

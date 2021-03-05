@@ -125,7 +125,7 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         val fileNames = ArrayList<String>()
 
-        val template = this.fileNameResponseTemplate().replace("BVS", "BVD")
+        val template = this.fileNameResponse().replace("BVS", "BVD")
 
         for(index in 1..countFiles) {
 

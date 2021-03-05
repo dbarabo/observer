@@ -39,7 +39,7 @@ class AddExtractResponseDataVer4 (
 
     fun getOperations(): List<OperationAccountVer4> {
 
-        val countOperation = min(MAX_OPERATION_COUNT_EXT_VER4, mainResponseData.operationDataAccount.size - positionOperation)
+        val countOperation = min(MAX_OPERATION_COUNT_EXT_VER4 + 1, mainResponseData.operationDataAccount.size - positionOperation)
 
         val operations = ArrayList<OperationAccountVer4>()
 
