@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("РеквБанк")
 public class BankInfoVer4 {
+    
     @XStreamAlias("НомКорСЧ")
     private String corrAccount;
 
