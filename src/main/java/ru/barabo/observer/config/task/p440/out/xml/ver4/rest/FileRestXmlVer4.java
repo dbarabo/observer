@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4.rest;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
+import ru.barabo.observer.config.barabo.p440.out.data.RestResponseDataVer4;
 import ru.barabo.observer.config.task.p440.load.xml.SenderBank;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.AbstractFileXmlVer4;
 
@@ -19,7 +20,7 @@ public class FileRestXmlVer4 extends AbstractFileXmlVer4 {
     @XStreamAlias("ПредБанка")
     private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
-    public FileRestXmlVer4(RestResponseData restResponseData) {
+    public FileRestXmlVer4(RestResponseDataVer4 restResponseData) {
 
         super(restResponseData);
 

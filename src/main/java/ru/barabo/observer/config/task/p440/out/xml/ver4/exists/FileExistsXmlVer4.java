@@ -2,7 +2,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4.exists;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseData;
+import ru.barabo.observer.config.barabo.p440.out.data.ExistsResponseDataVer4;
 import ru.barabo.observer.config.task.p440.load.xml.SenderBank;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.AbstractFileXmlVer4;
 
@@ -19,7 +19,7 @@ public class FileExistsXmlVer4 extends AbstractFileXmlVer4 {
     @XStreamAlias("ПредБанка")
     private SenderBank senderBank = SenderBank.OUR_MAIN_UOD;
 
-    public FileExistsXmlVer4(ExistsResponseData existsResponseData) {
+    public FileExistsXmlVer4(ExistsResponseDataVer4 existsResponseData) {
 
         super(existsResponseData);
 

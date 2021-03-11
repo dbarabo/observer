@@ -3,14 +3,21 @@ package ru.barabo.observer.config.barabo.p440.out.data
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
-import ru.barabo.observer.config.task.p440.out.xml.exists.ExistsAccount
+import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsAccountVer4
 import java.util.*
 
-class ExistsResponseData : AbstractRequestResponse() {
+class ExistsResponseDataVer4 : AbstractRequestResponse() {
 
     override fun typeInfo(): String = "СПРБННАЛИЧ"
 
-    override fun xsdSchema(): String = "/xsd/BNS_300.xsd"
+    override fun xsdSchema(): String = "/xsd/440-П_BNS.xsd"
+
+    private lateinit var viewHelpVar: String
+
+    lateinit var existsAccountsVer4: List<ExistsAccountVer4>
+
+    override fun getOnStateDateRequest(): Date?  =
+        super.getOnStateDateRequest() ?: if(getStartPeriodRequest() != null) null else Date()
 
     override fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
@@ -18,10 +25,6 @@ class ExistsResponseData : AbstractRequestResponse() {
 
         initExistsAccounts(idFromFns())
     }
-
-    lateinit var existsAccountList :List<ExistsAccount>
-
-    private lateinit var viewHelpVar: String
 
     override fun getViewHelp(): String = viewHelpVar
 
@@ -35,14 +38,20 @@ class ExistsResponseData : AbstractRequestResponse() {
                 !"Депозитный".equals((it[1] as String).trim(), true) }
 
         viewHelpVar = isNotDeposit?.let { TypeResponseValue.EXISTS_NO_DEPOSIT.fnsValue }
-                ?: TypeResponseValue.EXISTS_DEPOSIT.fnsValue
+            ?: TypeResponseValue.EXISTS_DEPOSIT.fnsValue
     }
-    private fun createExistsList(accounts: List<Array<Any?>>) {
 
-        existsAccountList = accounts.map { ExistsAccount(it[0] as? String, it[1]?.let { x -> (x as String).trim().toUpperCase() },
-                it[2] as? String, it[3] as? Date, it[4] as? Date
-            ) }
+    private fun createExistsList(accounts: List<Array<Any?>>) {
+        existsAccountsVer4 = accounts.map {
+            ExistsAccountVer4(it[0] as String,
+                    it[3] as? Date,
+                    it[4] as? Date,
+                    it[5] as? Date,
+
+                    it[2] as String,
+
+                    it[6] as String,
+                    it[1] as? String)
+            }
     }
 }
-
-const val SELECT_EXISTS_ACCOUNT = "{ ? = call od.PTKB_440P.getExistsAccounts( ? ) }"

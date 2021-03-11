@@ -8,7 +8,7 @@ public class BankBik {
     @XStreamAlias("БИКБП")
     private String bikRussia;
 
-    @XStreamAlias("KoflSWBIiH")
+    @XStreamAlias("КодSWБПн")
     private String swift;
 
     public BankBik(String bik) {

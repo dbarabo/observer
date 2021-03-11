@@ -6,7 +6,6 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
 import ru.barabo.observer.config.skad.crypto.ScadConfig
-import ru.barabo.observer.config.skad.crypto.task.PbSaverScad.sourceFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.crypto.ScadComplex

@@ -43,13 +43,34 @@ public class ExtractRequestVer4 extends AbstractRequest {
 
     @Override
     public String getAccounts() {
-        if ((typeAllAccounts != null && typeAllAccounts.getStartDate() != null) ||
-                typeDetailAccounts == null ||
-                typeDetailAccounts.size() == 0) {
+        if (isAllAccountsPeriod()) {
             return null;
         }
 
         return typeDetailAccounts.stream().map(TypeDetailAccounts::getCode).collect(Collectors.joining(";"));
     }
 
+    @Override
+    public String getAccountsStartDates() {
+        if (isAllAccountsPeriod()) {
+            return "";
+        }
+
+        return typeDetailAccounts.stream().map(TypeDetailAccounts::getShorStartDate).collect(Collectors.joining(";"));
+    }
+
+    @Override
+    public String getAccountsEndDates() {
+        if (isAllAccountsPeriod()) {
+            return "";
+        }
+
+        return typeDetailAccounts.stream().map(TypeDetailAccounts::getShorEndDate).collect(Collectors.joining(";"));
+    }
+
+    private boolean isAllAccountsPeriod() {
+        return ((typeAllAccounts != null && typeAllAccounts.getStartDate() != null) ||
+                typeDetailAccounts == null ||
+                typeDetailAccounts.size() == 0);
+    }
 }

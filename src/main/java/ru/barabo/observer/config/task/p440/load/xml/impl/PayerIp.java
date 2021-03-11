@@ -14,7 +14,6 @@ public final class PayerIp implements ParamsQuery {
 	private String inn;
 
 	@XStreamAlias("ФИО")
-	//TODO!!!2021 @XStreamAlias("ФИОИП")
 	private Fio fio;
 
 	transient private Number idClient;
@@ -28,6 +27,10 @@ public final class PayerIp implements ParamsQuery {
 		this.inn = inn;
 		
 		fio = new Fio(firstName, lastName, secondName);
+	}
+
+	public Number getIdClient() {
+		return idClient;
 	}
 
 	public String getInn() {

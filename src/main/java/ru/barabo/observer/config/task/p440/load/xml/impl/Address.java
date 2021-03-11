@@ -20,11 +20,20 @@ public final class Address {
 	@XStreamAlias("Район")
 	private String rayon;
 
+	@XStreamAlias("МуниципРайон")
+	private String rayonNew;
+
 	@XStreamAlias("Город")
 	private String city;
 
+	@XStreamAlias("ГородСелПоселен")
+	private String cityNew;
+
 	@XStreamAlias("НаселПункт")
 	private String town;
+
+	@XStreamAlias("НаселенПункт")
+	private String townNew;
 
 	@XStreamAlias("Улица")
 	private String street;
@@ -36,8 +45,31 @@ public final class Address {
 	private String corpus;
 
 	@XStreamAlias("Кварт")
-	//TODO!!!2021 @XStreamAlias("Квартира")
 	private String flat;
+
+	@XStreamAlias("Квартира")
+	private String flatNew;
+
+	@XStreamAlias("Регион")
+	private String regionNew;
+
+	@XStreamAlias("ЭлПланСтруктур")
+	private String elPlan;
+
+	@XStreamAlias("ЭлУлДорСети")
+	private String elDromNew;
+
+	@XStreamAlias("ЗемелУчасток")
+	private String elZemlyNew;
+
+	@XStreamAlias("Здание")
+	private String elHouseNew;
+
+	@XStreamAlias("ПомещЗдания")
+	private String elHouseNew2;
+
+	@XStreamAlias("ПомещКвартиры")
+	private String elFlatNew2;
 
 	public Address() {}
 	
@@ -120,13 +152,13 @@ public final class Address {
 	public String getAddress() {
 		String addres = String.format("index{%s}", index == null ? "" : index);
 
-		addres += String.format("region{%s}", region == null ? "" : region);
+		addres += String.format("region{%s}", region == null ? (regionNew == null ? "" : regionNew) : region);
 
-		addres += String.format("rayon{%s}", rayon == null ? "" : rayon);
+		addres += String.format("rayon{%s}", rayon == null ? (rayonNew == null ? "" : rayonNew) : rayon);
 
-		addres += String.format("city{%s}", city == null ? "" : city);
+		addres += String.format("city{%s}", city == null ? (cityNew == null ? "" : cityNew) : city);
 
-		addres += String.format("town{%s}", town == null ? "" : town);
+		addres += String.format("town{%s}", town == null ? (townNew == null ? "" : townNew) : town);
 
 		addres += String.format("street{%s}", street == null ? "" : street);
 

@@ -72,6 +72,8 @@ object Scad {
         } catch (e :Exception) {
             logger.error("processCmd", e)
 
+            if (!TaskMapper.isAfinaBase()) return file
+
             throw IOException(e.message)
         }
 
@@ -100,7 +102,13 @@ object Scad {
 
         val cmd = signCommand(source.absolutePath, signed.absolutePath)
 
-        return processCmd(cmd, signed)
+        val result = processCmd(cmd, signed)
+
+        if (!TaskMapper.isAfinaBase() && !signed.exists()) {
+            return source.copyTo(signed)
+        }
+
+        return result
     }
 
     @Throws(IOException::class)

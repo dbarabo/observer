@@ -32,6 +32,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
@@ -39,6 +40,8 @@ import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
+import ru.barabo.observer.config.skad.crypto.p311.validateXml
+import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -651,6 +654,20 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun validateOldRpo() {
+
+        val xsd = "/xsd/RPO_301.xsd"
+
+        //val xmlFile = File("C:/440-П/2021/03/10/test/RPO10507717_250220210308_706511.xml") // ИП
+
+        val xmlFile = File("C:/440-П/2021/03/10/test/RPO10507717_250220210308_707004.xml")
+
+        validateXml(xmlFile, xsd, ::errorFolder )
+    }
+
+    private fun errorFolder(): File = Cmd.createFolder("${Get440pFiles.X440P}/${Get440pFiles.todayFolder()}/ERROR")
+
 
     //@Test
     fun execObi() {
@@ -668,10 +685,12 @@ res3 = [calc.DEC_TEST];
 
 
     //@Test
-    fun loadZsv() {
-        //val elem = Elem(File("C:/440-П/test/ZSV10507717_132720180130_000152.xml"), ZsvLoader, Duration.ZERO)
+    fun loadZsvVer4() {
+        //val elem = Elem(File("C:/440-П/test/ZSV10507717_254220210310_195657.xml"), ZsvLoader, Duration.ZERO) // по всем - старый формат
 
-        val elem = Elem(File("C:/440-П/test/ZSV10507717_132720180130_000164.xml"), ZsvLoader, Duration.ZERO)
+        //val elem = Elem(File("C:/440-П/test/ZSV10507717_254220210317_195657.xml"), ZsvLoaderVer4, Duration.ZERO) // по всем новый формат
+
+        val elem = Elem(File("C:/440-П/test/ZSV10507717_254320210316_100604.xml"), ZsvLoaderVer4, Duration.ZERO) // по указанным новый формат
 
         elem.task?.execute(elem)
     }
@@ -681,27 +700,57 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun exec440p() {
 
-        //val elem = Elem(idElem = 1172496436, task = Process440p)
+        val elem = Elem(idElem = 1238437141, task = Process440p)
 
-        //val elem = Elem(idElem = 1172496444, task = Process440p)
+        elem.task?.execute(elem)
+    }
 
-        val elem = Elem(idElem = 1172496446, task = Process440p)
+
+
+    // @Test
+    fun outBns() {
+
+        //val elem = Elem(idElem = 1222895332, task = ExistsSaverVer4) // empty accounts
+
+        val elem = Elem(idElem = 1201698918, task = ExistsSaverVer4) // with accounts
+
+        elem.task?.execute(elem)
+    }
+
+
+    //@Test
+    fun outPb() {
+
+        // val elem = Elem(idElem = 1238034454, task = PbSaverScadVer4) // pb1
+
+        val elem = Elem(idElem = 1238021154, task = PbSaverScadVer4) // pb2
 
         elem.task?.execute(elem)
     }
 
     //@Test
     fun outBos() {
-        val elem = Elem(idElem = 1172496442, task = RestSaver)
+        //val elem = Elem(idElem = 1172496442, task = RestSaver)
+
+        // val elem = Elem(idElem = 1223812573, task = RestSaverVer4) // response for zso with accounts rest
+
+        val elem = Elem(idElem = 1238034455, task = RestSaverVer4) // response for rpo with accounts rest
 
         elem.task?.execute(elem)
     }
 
     @Test
     fun outBvsExtract() {
-        //val elem = Elem(idElem = 1172496449, task = ExtractMainSaver)
+        // many count operations
+        //val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
 
-        val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
+
+        // many count accounts
+        //val elem = Elem(idElem = 1235843359, task = ExtractMainSaverVer4)
+
+        // new many accounts format
+        val elem = Elem(idElem = 1238437144, task = ExtractMainSaverVer4)
+
 
         elem.task?.execute(elem)
     }
@@ -711,7 +760,9 @@ res3 = [calc.DEC_TEST];
     fun oiaProcess() {
         //val elem = Elem(idElem = 1172496453, task = GetOiaConfirm)
 
+
         val elem = Elem(File("H:/КартСтандарт/in/OIA_20180202_054637_0226"), GetOiaConfirm, Duration.ZERO)
+
 
         elem.task?.execute(elem)
     }

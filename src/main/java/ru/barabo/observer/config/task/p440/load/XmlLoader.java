@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.load;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.Logger;
+import ru.barabo.observer.config.task.p440.load.ver4.TypeFileLoadVer4;
 import ru.barabo.observer.config.task.p440.load.ver4.request.*;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFnsInfo;
@@ -27,6 +28,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
@@ -36,7 +38,10 @@ public class XmlLoader<E> {
 
 	final static transient private Logger logger = Logger.getLogger(XmlLoader.class.getName());
 
-	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE;
+	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE_OLD_VERSION;
+
+	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE_NEW_VER4;
+
 	static {
 		Hashtable<String, Class> tmp = new Hashtable<>();
 
@@ -44,18 +49,44 @@ public class XmlLoader<E> {
 			tmp.put(type.getPrefixFile(), type.getClazz());
 		}
 
-		MY_HASH_ANNOTATION_FILE = Collections.unmodifiableMap(tmp);
+		MY_HASH_ANNOTATION_FILE_OLD_VERSION = Collections.unmodifiableMap(tmp);
+
+
+		Hashtable<String, Class> tmpNew = new Hashtable<>();
+		for (TypeFileLoadVer4 type : TypeFileLoadVer4.values()) {
+			tmpNew.put(type.getPrefixFile(), type.getClazz());
+		}
+
+		MY_HASH_ANNOTATION_FILE_NEW_VER4 = tmpNew;
 	}
 
-	static private Class getClassByPrefixFile(String prefixFile) {
+	static private Class getClassByPrefixFile(String prefixFile, boolean isNewFormats) {
 
-		return MY_HASH_ANNOTATION_FILE.get(prefixFile);
+		return isNewFormats ? MY_HASH_ANNOTATION_FILE_NEW_VER4.get(prefixFile) : MY_HASH_ANNOTATION_FILE_OLD_VERSION.get(prefixFile);
 	}
 
-	static private XStream getXStream(String head) {
+	static private LocalDate getDateFile(File file) {
+		if(file.getName().substring(0, 3).equalsIgnoreCase("KWT")) {
+			int endIndex = file.getName().toUpperCase().indexOf("_0021.XML");
+
+			return XmlLoader.parseShorDate(file.getName().substring(endIndex - 8, endIndex)).toLocalDate();
+		} else {
+			return XmlLoader.parseShorDate(file.getName().substring(16, 16+8)).toLocalDate();
+		}
+	}
+
+	static public boolean isNewFormats(File file) {
+		return !getDateFile(file).isBefore(LocalDate.of(2021, 3,16 ));
+	}
+
+	static private XStream getXStream(File file) {
+
+		String head3 = file.getName().substring(0, 3).toUpperCase();
+
+
 		XStream xstream = new XStream(new DomDriver("CP1251"));
 
-		xstream.processAnnotations(getClassByPrefixFile(head));
+		xstream.processAnnotations(getClassByPrefixFile(head3, isNewFormats(file) ));
 
 		xstream.processAnnotations(AbstractFromFns.class);
 		xstream.processAnnotations(AbstractFromFnsInfo.class);
@@ -98,7 +129,9 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(DateWorkState.class);
 		xstream.processAnnotations(DatePeriod.class);
 
-		/*
+
+
+		///-----------!!!
 		xstream.processAnnotations(TypeDetailAccounts.class);
 		xstream.processAnnotations(TypeAllAccounts.class);
 		xstream.processAnnotations(RestRequestVer4.class);
@@ -106,7 +139,8 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(RestOnDatePeriod.class);
 		xstream.processAnnotations(RestOnDate.class);
 		xstream.processAnnotations(ExtractRequestVer4.class);
-*/
+
+
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);
 
@@ -115,7 +149,19 @@ public class XmlLoader<E> {
 
 	private static String XML_DATE_FORMAT = "yyyy-MM-dd";
 
+	private static String SHORT_DATE_FORMAT = "yyyyMMdd";
+
 	private static String XML_TIME_FORMAT = "HH:mm:ss";
+
+	public static String formatShortDate(Date date) {
+		if (date == null) {
+			return "";
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat(SHORT_DATE_FORMAT);
+
+		return formatter.format(date);
+	}
 
 	public static String formatDate(Date date) {
 		if (date == null) {
@@ -135,6 +181,25 @@ public class XmlLoader<E> {
 		SimpleDateFormat formatter = new SimpleDateFormat(XML_TIME_FORMAT);
 
 		return formatter.format(dateTime);
+	}
+
+	public static java.sql.Date parseShorDate(String date) {
+		if (date == null || "".equals(date.trim())) {
+			return null;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat(SHORT_DATE_FORMAT);
+
+		java.sql.Date result;
+
+		try {
+			result = new java.sql.Date(formatter.parse(date).getTime());
+		} catch (ParseException e) {
+			logger.error("ParseException parseDate", e);
+			return null;
+		}
+
+		return result;
 	}
 
 
@@ -212,7 +277,7 @@ public class XmlLoader<E> {
 
 			//logger.error("file.getName=" + file.getName());
 
-			XStream xstream = getXStream(file.getName().substring(0, 3).toUpperCase());
+			XStream xstream = getXStream(file);
 
 			objectXml = (E) xstream.fromXML(fl);
 

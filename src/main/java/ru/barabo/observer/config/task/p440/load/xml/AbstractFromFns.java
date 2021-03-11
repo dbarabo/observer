@@ -27,10 +27,9 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 
 	abstract protected FromFnsInfo getFromFnsInfo();
 
-
 	private static final String COLUMNS = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
 			+ "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, "
-			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, "
+			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, ACCOUNTS_START_DATE, ACCOUNTS_END_DATE, "
 			+ "FILE_NAME, ID";
 
 	@Override
@@ -78,14 +77,16 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 				fromFnsInfo.getMainStatus() == null ? String.class : fromFnsInfo.getMainStatus(),
 				fromFnsInfo.getAccounts() == null ? String.class : fromFnsInfo.getAccounts(),
 				fromFnsInfo.getCards() == null ? String.class : fromFnsInfo.getCards(),
-				fromFnsInfo.getCardsCurrency() == null ? String.class : fromFnsInfo
-						.getCardsCurrency(),
+				fromFnsInfo.getCardsCurrency() == null ? String.class : fromFnsInfo.getCardsCurrency(),
 				fromFnsInfo.getAddNumber() == null ? String.class : fromFnsInfo.getAddNumber(),
 				fromFnsInfo.getAddDate() == null ? Date.class : fromFnsInfo.getAddDate(),
 				fromFnsInfo.getSubNumber() == null ? String.class : fromFnsInfo.getSubNumber(),
-				fromFnsInfo.getSubDate() == null ? Date.class : fromFnsInfo.getSubDate()));
-	}
+				fromFnsInfo.getSubDate() == null ? Date.class : fromFnsInfo.getSubDate(),
 
+				fromFnsInfo.getAccountsStartDates(),
+				fromFnsInfo.getAccountsEndDates()
+		));
+	}
 
 	public String getFnsPost() {
 		return fnsPost;

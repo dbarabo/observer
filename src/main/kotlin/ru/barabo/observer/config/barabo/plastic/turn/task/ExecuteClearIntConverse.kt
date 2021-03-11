@@ -18,7 +18,7 @@ object ExecuteClearIntConverse : SingleSelector {
         "select c.id, c.file_name from od.ptkb_clearint c where c.state = 1 and trunc(ondate) = trunc(sysdate)"
 
     override val accessibleData: AccessibleData = AccessibleData(
-        workTimeFrom = LocalTime.of(12, 0),
+        workTimeFrom = LocalTime.of(9, 0),
         workTimeTo =  LocalTime.of(23, 45),
         executeWait = Duration.ofSeconds(1) )
 

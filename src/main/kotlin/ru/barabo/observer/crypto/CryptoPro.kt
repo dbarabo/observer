@@ -112,5 +112,5 @@ private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
 private fun baraboCertificateData(): CertificateData = CertificateData("o.okina@atlas-2.ru", "support@nbki.ru", listOf("support@nbki.ru") )
 
 private fun jzdoCertificateData(): CertificateData = CertificateData("yeti@ptkb.ru", "e.krivonosov@cft.ru",
-        listOf("ca_tensor@tensor.ru", "e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")
+        listOf("e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")
 

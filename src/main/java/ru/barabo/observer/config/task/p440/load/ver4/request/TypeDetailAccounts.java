@@ -27,6 +27,7 @@ public class TypeDetailAccounts {
     private RestOwnerAccount ownerAccount;
 
     public Date getOnDate() {
+
         return XmlLoader.parseDate(onDate);
     }
 
@@ -35,11 +36,23 @@ public class TypeDetailAccounts {
     }
 
     public Date getStartDate() {
+
         return XmlLoader.parseDate(startDate);
     }
 
     public Date getEndDate() {
+
         return XmlLoader.parseDate(endDate);
+    }
+
+    public String getShorStartDate() {
+
+        return XmlLoader.formatShortDate(getStartDate() );
+    }
+
+    public String getShorEndDate() {
+
+        return XmlLoader.formatShortDate(getEndDate() );
     }
 
 }

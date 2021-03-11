@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.task.p440.out.xml.ver4.rest;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import ru.barabo.observer.config.barabo.p440.out.data.RestResponseData;
+import ru.barabo.observer.config.barabo.p440.out.data.RestResponseDataVer4;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.*;
 
 @XStreamAlias("СПРОБОСТАТ")
@@ -25,7 +25,7 @@ public class RestInfoPartVer4 extends GeneralInfoPartVer4 {
     @XStreamAlias("СведенияОст")
     private RestInfoDetailVer4 restInfoDetail;
 
-    public RestInfoPartVer4(RestResponseData restResponseData) {
+    public RestInfoPartVer4(RestResponseDataVer4 restResponseData) {
         super(false);
 
         this.viewHelp = restResponseData.getViewHelp();

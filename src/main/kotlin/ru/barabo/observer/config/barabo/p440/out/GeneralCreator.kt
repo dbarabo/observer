@@ -30,10 +30,15 @@ import ru.barabo.observer.config.task.p440.out.xml.rest.RestAccount
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestInfoPart
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestXml
 import ru.barabo.observer.config.task.p440.out.xml.ver4.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsAccountVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsInfoDetailVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsInfoPartVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.FileExistsXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.*
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.pb.FilePbXmlVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.pb.PbDocument
+import ru.barabo.observer.config.task.p440.out.xml.ver4.pb.PbInfoPartVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.rest.FileRestXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.rest.RestInfoPartVer4
 import ru.barabo.observer.config.task.template.db.DbSelector
@@ -238,10 +243,17 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
             xstream.processAnnotations(RestAccountVer4::class.java)
             xstream.processAnnotations(RestInfoDetailVer4::class.java)
 
+            xstream.processAnnotations(ExistsAccountVer4::class.java)
+            xstream.processAnnotations(ExistsInfoDetailVer4::class.java)
+
             xstream.processAnnotations(RestInfoRequestDecision::class.java)
             xstream.processAnnotations(RestVer4::class.java)
             xstream.processAnnotations(SvRestVer4::class.java)
             xstream.processAnnotations(TypeAccountVer4::class.java)
+
+            xstream.processAnnotations(FilePbXmlVer4::class.java)
+            xstream.processAnnotations(PbDocument::class.java)
+            xstream.processAnnotations(PbInfoPartVer4::class.java)
 
             return xstream
         }

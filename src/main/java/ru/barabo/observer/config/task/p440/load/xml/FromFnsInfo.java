@@ -37,4 +37,8 @@ public interface FromFnsInfo {
 	String getSubNumber();
 
 	Date getSubDate();
+
+	String getAccountsStartDates();
+
+	String getAccountsEndDates();
 }
