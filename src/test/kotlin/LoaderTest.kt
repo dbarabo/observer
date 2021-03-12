@@ -705,7 +705,13 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
+    @Test
+    fun outBnp() {
 
+        val elem = Elem(idElem = 1238451941, task = BnpSaverVer4)
+
+        elem.task?.execute(elem)
+    }
 
     // @Test
     fun outBns() {
@@ -739,7 +745,7 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun outBvsExtract() {
         // many count operations
         //val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)

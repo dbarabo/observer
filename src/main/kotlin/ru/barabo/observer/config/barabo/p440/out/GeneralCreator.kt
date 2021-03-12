@@ -30,6 +30,8 @@ import ru.barabo.observer.config.task.p440.out.xml.rest.RestAccount
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestInfoPart
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestXml
 import ru.barabo.observer.config.task.p440.out.xml.ver4.*
+import ru.barabo.observer.config.task.p440.out.xml.ver4.bnp.BnpInfoPartVer4
+import ru.barabo.observer.config.task.p440.out.xml.ver4.bnp.FileBnpXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsAccountVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsInfoDetailVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.ExistsInfoPartVer4
@@ -254,6 +256,9 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
             xstream.processAnnotations(FilePbXmlVer4::class.java)
             xstream.processAnnotations(PbDocument::class.java)
             xstream.processAnnotations(PbInfoPartVer4::class.java)
+
+            xstream.processAnnotations(FileBnpXmlVer4::class.java)
+            xstream.processAnnotations(BnpInfoPartVer4::class.java)
 
             return xstream
         }

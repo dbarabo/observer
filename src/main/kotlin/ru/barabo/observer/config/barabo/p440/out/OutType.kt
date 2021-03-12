@@ -12,7 +12,7 @@ enum class OutType(val dbValue :Int, val outObject :GeneralCreator<*>?) {
     EXTRACT(3, extractMainCreator() ),
     EXISTS(4, existsMainCreator() ),
     EXTRACT_ADDITIONAL(5, null),
-    BNP(6, BnpSaver);
+    BNP(6, bnpCreator() );
 
     companion object {
         private val HASH_DBVALUE_CREATOR = values().map { it -> Pair(it.dbValue, it.outObject) }.toMap()
@@ -28,3 +28,5 @@ private fun restMainCreator(): GeneralCreator<*> = if( isNewFormat2021() ) RestS
 private fun existsMainCreator(): GeneralCreator<*> = if( isNewFormat2021() ) ExistsSaverVer4 else ExistsSaver
 
 private fun pbCreator(): GeneralCreator<*> = if( isNewFormat2021() ) PbSaverScadVer4 else PbSaverScad
+
+private fun bnpCreator(): GeneralCreator<*> = if( isNewFormat2021() ) BnpSaverVer4 else BnpSaver

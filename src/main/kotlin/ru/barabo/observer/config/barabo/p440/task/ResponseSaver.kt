@@ -6,6 +6,7 @@ import ru.barabo.observer.config.task.p440.out.xml.bnp.BnpXml
 import ru.barabo.observer.config.task.p440.out.xml.exists.ExistXml
 import ru.barabo.observer.config.task.p440.out.xml.extract.ExtractMainXml
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestXml
+import ru.barabo.observer.config.task.p440.out.xml.ver4.bnp.FileBnpXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.exists.FileExistsXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.FileExtractMainXmlVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.rest.FileRestXmlVer4
@@ -38,5 +39,9 @@ object RestSaverVer4 : GeneralCreator<FileRestXmlVer4>(RestResponseDataVer4(), F
 }
 
 object ExistsSaverVer4 : GeneralCreator<FileExistsXmlVer4>(ExistsResponseDataVer4(), FileExistsXmlVer4::class) {
-    override fun name(): String = "Выгрузка наличие счетов  ver.4"
+    override fun name(): String = "Выгрузка наличие счетов ver.4"
+}
+
+object BnpSaverVer4 : GeneralCreator<FileBnpXmlVer4>(BnpResponseDataVer4(), FileBnpXmlVer4::class) {
+    override fun name(): String = "Выгрузка BNP-файла ver.4"
 }

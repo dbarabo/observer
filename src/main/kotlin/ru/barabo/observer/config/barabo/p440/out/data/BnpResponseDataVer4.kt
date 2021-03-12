@@ -4,12 +4,11 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerJur
 import java.util.*
 
-
-class BnpResponseData : AbstractResponseData() {
+class BnpResponseDataVer4 : AbstractResponseData() {
 
     override fun typeInfo(): String = "СБЩБННЕИСП"
 
-    override fun xsdSchema(): String = "/xsd/BNP_300.xsd"
+    override fun xsdSchema(): String = "/xsd/440-П_BNP.xsd"
 
     override fun addSeparFields(): String = ", f.MAIN_NUMBER, f.MAIN_DATE, f.FNS_CODEID, f.MAIN_SUM, " +
             "p.INN, p.KPP, p.NAME, od.ptkb_440p.getPnoPartSumExecute(f.id), f.ACCOUNTS "
