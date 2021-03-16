@@ -2,7 +2,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -695,8 +694,6 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-
-
     //@Test
     fun exec440p() {
 
@@ -705,7 +702,7 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun outBnp() {
 
         val elem = Elem(idElem = 1238451941, task = BnpSaverVer4)

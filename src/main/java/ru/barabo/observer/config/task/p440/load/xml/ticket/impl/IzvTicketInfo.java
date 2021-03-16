@@ -17,7 +17,7 @@ public class IzvTicketInfo implements IzvTicket {
 	@XStreamAlias("КодРезПроверки")
 	private String codeResultCheck;
 	
-	@XStreamAlias("ДатаВремяПроверки")
+	@XStreamAlias("ДатаВремПроверки")
 	private String dateTimeTicket;
 
 	@XStreamAlias("Пояснение")
