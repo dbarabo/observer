@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.plastic.turn.task
 
+import oracle.jdbc.OracleTypes
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
@@ -29,10 +30,26 @@ object ExecuteClearInt : SingleSelector {
 
         AfinaQuery.execute(EXEC_CLEARINT, arrayOf(elem.idElem))
 
-        sendMailCorrespondInfo(elem.name.substringBefore('.'))
+        sendMailInfoExec(elem.idElem as Number, elem.name.substringBefore('.') )
+
+        //sendMailCorrespondInfo(elem.name.substringBefore('.'))
 
         return State.OK
     }
+
+    private fun sendMailInfoExec(idClearInt: Number, fileName: String) {
+        val info = AfinaQuery.execute(query = EXEC_GET_INFO_CLEARINT, params = arrayOf(idClearInt),
+            outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String ?:""
+
+        val subject = if(info.contains("Внимание не все проводки исполнены!"))
+            "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Внимание не все проводки исполнены! $fileName"
+        else
+            "Созданы проводки по платежным системам $fileName"
+
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.CORRESPOND, bcc = BaraboSmtp.AUTO,
+            subject = subject, body = info, charsetSubject = "UTF-8")
+    }
+
 
     private fun sendMailCorrespondInfo(fileName: String) {
 
@@ -52,3 +69,5 @@ object ExecuteClearInt : SingleSelector {
 }
 
 private const val EXEC_CLEARINT = "{ call od.PTKB_PLASTIC_TURN.processClearInt(?) }"
+
+private const val EXEC_GET_INFO_CLEARINT = "{ call od.PTKB_PLASTIC_TURN.getInfoProcessedClearInt(?, ?) }"

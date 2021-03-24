@@ -2,6 +2,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -94,11 +95,16 @@ class LoaderTest {
     //@Test
     fun testCorrectPrim() {
 
-        val elem = Elem(idElem = 1206623916L, task = CorrectPrim)
+        val ids = arrayOf(1236714696L, 1237175375L, 1237847807L, 1238080222L, 1238448441L, 1238814490L)
+
+        //val elem = Elem(idElem = 1206623916L, task = CorrectPrim)
                // Elem(idElem = 1205659121L, task = CorrectPrim)
                 //Elem(idElem = 1205641626L, task = CorrectPrim)
 
-        CorrectPrim.execute(elem)
+        for (id in ids) {
+            val elem = Elem(idElem = id, task = CorrectPrim)
+            CorrectPrim.execute(elem)
+        }
     }
 
     //@Test

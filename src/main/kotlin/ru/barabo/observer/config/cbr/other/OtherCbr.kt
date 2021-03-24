@@ -38,7 +38,9 @@ object OtherCbr: AbstractConfig() {
         CheckActializationEntryDouble.findAll()
 
         // off 06.04.2020 go to week reports
-        //CorrectPrim.findAll()
+        CorrectPrim.findAll()
+        CorrectPrimMonth.findAll()
+
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()

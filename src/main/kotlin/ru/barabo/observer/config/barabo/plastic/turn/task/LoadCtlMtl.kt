@@ -150,7 +150,7 @@ open class CtlLoader : QuoteSeparatorLoader {
         }
 
         if( (values[2] as? Number)?.toLong() != (values[3] as? Number)?.toLong() ) {
-            textCheck += "Не сходится кол-во сумма транзакций в Чек-сумме и файле в Чек-сумме:${values[2]} в файле:${values[3]}\n"
+            textCheck += "Не сходится сумма транзакций в Чек-сумме и файле в Чек-сумме:${values[2]} в файле:${values[3]}\n"
         }
 
         textCheck?.let {
@@ -161,7 +161,7 @@ open class CtlLoader : QuoteSeparatorLoader {
     }
 
     private fun bodyError(text :String) =
-            "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> не сходится чек-сумма $text"
+            "В загруженном файле <${fileProcess.name}> CTL.id:<$fileId> \n $text"
 
     protected fun loadCtlMtl(file: File) {
 

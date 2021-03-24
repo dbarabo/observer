@@ -67,13 +67,9 @@ public class XmlLoader<E> {
 
 	static private LocalDate getDateFile(File file) {
 
-		if(file.getName().substring(0, 3).equalsIgnoreCase("KWT")) {
-			int endIndex = file.getName().toUpperCase().indexOf("_0021.XML");
-
-			return XmlLoader.parseShorDate(file.getName().substring(endIndex - 8, endIndex)).toLocalDate();
-		}
-
-		if(file.getName().substring(0, 3).equalsIgnoreCase("IZV")) {
+		if(file.getName().substring(0, 3).equalsIgnoreCase("IZV") ||
+				file.getName().substring(0, 3).equalsIgnoreCase("KWT")
+		) {
 			return LocalDate.of(2021, 3,16);
 
 		} else {

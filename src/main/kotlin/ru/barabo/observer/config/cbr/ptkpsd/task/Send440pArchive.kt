@@ -12,6 +12,7 @@ import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.io.File
+import java.time.Duration
 import java.time.LocalTime
 
 object Send440pArchive : SingleSelector {
@@ -21,7 +22,7 @@ object Send440pArchive : SingleSelector {
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 3"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(18, 0), executeWait = null /*Duration.ofSeconds(5)*/)
+            workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
 
     override fun name(): String = "440-П Отправка архива"
 

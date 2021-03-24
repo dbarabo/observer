@@ -12,14 +12,13 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.sql.Timestamp
-import java.time.Duration
 import java.time.LocalDate
 
 object CorrectPrim : SingleSelector {
 
-    override val select: String =
-            "select id, to_char(date_report, 'dd.mm.yyyy') from od.ptkb_ptkpsd_101form where state = 0 " +
-                    "and upper(TYPE_REPORT) = 'НЕРЕГУЛЯРНАЯ'"
+    override val select: String = """
+        select id, to_char(date_report, 'dd.mm.yyyy') from od.ptkb_ptkpsd_101form where state = 0
+              and upper(TYPE_REPORT) = 'НЕРЕГУЛЯРНАЯ' and date_report > date '2021-02-02' order by date_report"""
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS)
 
@@ -40,11 +39,11 @@ object CorrectPrim : SingleSelector {
         return State.OK
     }
 
-    private const val SELECT_DATE = "select date_report from od.ptkb_ptkpsd_101form where id = ?"
+    const val SELECT_DATE = "select date_report from od.ptkb_ptkpsd_101form where id = ?"
 
     private const val EXEC_CORRECT_PRIM = "call od.PTKB_PRECEPT.correctPrimBalance(?)"
 
-    private fun sendReportCorrect(idElem: Long?, dateReport: Timestamp) {
+    fun sendReportCorrect(idElem: Long?, dateReport: Timestamp) {
 
         val html = createHtmlData(idElem, dateReport.toLocalDateTime().toLocalDate())
 
