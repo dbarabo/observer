@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
+import ru.barabo.observer.config.barabo.plastic.turn.checker.CashOutCountryChecker
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -29,14 +30,17 @@ object ExecuteCtlMtl : SingleSelector {
 
     override fun execute(elem: Elem): State {
 
-        logger.error("before create ExecuteCtlMtl = ${LocalTime.now()}")
         AfinaQuery.execute(CREATE_CTL_MTL, arrayOf(elem.idElem))
-        logger.error("after create ExecuteCtlMtl = ${LocalTime.now()}")
 
         try {
             AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(elem.idElem))
 
             AfinaQuery.execute(CHECK_ACQ_FROM_MTL, arrayOf(elem.idElem) )
+
+            if(elem.name.indexOf("MTL") == 0) {
+
+                CashOutCountryChecker.check(elem.idElem!!, elem.name)
+            }
 
         } catch (e: Exception) {
             logger.error(EXEC_CTL_MTL, e)
@@ -48,7 +52,6 @@ object ExecuteCtlMtl : SingleSelector {
 
             return State.OK
         }
-        logger.error("after execute ExecuteCtlMtl = ${LocalTime.now()}")
 
         val info = AfinaQuery.execute(query = CALL_INFO_CTL, params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as? String

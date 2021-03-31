@@ -15,6 +15,8 @@ object PlasticTurnConfig : AbstractConfig() {
         // include HcardInObject.actionTask
         FinderHcardIn.findAll()
 
+        BinLoader.findAll()
+
         //OutIbi.findAll()
         OutIbiAll.findAll()
 
@@ -26,7 +28,6 @@ object PlasticTurnConfig : AbstractConfig() {
 
         IbiSendToJzdo.findAll()
         //OutRestCheck.findAll()
-
         //OutIbiFakeData.findAll()
 
         this.executeTasks()

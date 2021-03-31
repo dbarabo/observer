@@ -2,7 +2,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -17,6 +16,7 @@ import ru.barabo.observer.config.barabo.plastic.release.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
+import ru.barabo.observer.config.barabo.plastic.turn.checker.CashOutCountryChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.MtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
@@ -80,6 +80,13 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+
+    //@Test
+    fun testCashOutCountryChecker() {
+
+        CashOutCountryChecker.check(1239666409L,"MTL!")
+    }
 
 
     //@Test
@@ -295,6 +302,15 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(File("C:/КартСтандарт/test/AFP_ACQ20190315_0226.0023"), LoadAcq, Duration.ZERO)
 
         LoadAcq.execute(elem)
+    }
+
+    //@Test
+    fun testBinLoader() {
+        val elem = Elem(File("C:/Temp/bin_table_universal_20210111.csv"), BinLoader, Duration.ZERO)
+
+        BinLoader.execute(elem)
+
+        logger.error("END=${LocalDateTime.now()}")
     }
 
     // @Test

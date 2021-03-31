@@ -48,6 +48,8 @@ object BaraboSmtp : SendMail {
 
     val UOD = arrayOf("koksharova@ptkb.ru", "farahova@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru").onlyAfina()
 
+    val CHECKER_COUNTRY = arrayOf("podft@ptkb.ru", "tts@ptkb.ru").onlyAfina()
+
     val DELB_PLASTIC = arrayOf("cards@ptkb.ru").onlyAfina()
 
     private val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
