@@ -14,11 +14,8 @@ object PlasticOutSide  : AbstractConfig() {
     override fun timeOut(): Long  = 20_000
 
     override fun configRun() {
-        // OutRegisterAquiringMonth.findAll()
-        // OutRegisterAquiringWeek.findAll()
         OutRegisterAquiring.findAll()
         OutRest.findAll()
-        // OutSalaryResponseFile.findAll()
 
         CreateAccount311p.findAll()
         RecreateAfterError311p.findAll()
@@ -29,7 +26,6 @@ object PlasticOutSide  : AbstractConfig() {
         ExecuteExchangeCb.findAll()
 
         AutoUpdatePlasticJarCritical.findAll()
-        //AutoUpdateReportJarCritical.findAll()
 
         LoadVisaRate.findAll()
         UpdaterCrossRateMtl.findAll()
@@ -37,6 +33,7 @@ object PlasticOutSide  : AbstractConfig() {
         GitObjects.findAll()
 
         CheckSpaceServer.findAll()
+        CheckTableSpace.findAll()
 
         FsfmExchangeResponse.findAll()
 

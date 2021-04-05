@@ -7,11 +7,9 @@ import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
-import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import java.lang.Exception
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.LocalTime
@@ -27,7 +25,7 @@ object CheckSpaceServer : SinglePerpetual {
 
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val countTimes: Long = 10
+    override val countTimes: Long = 30
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
             workTimeFrom = LocalTime.of(0, 20), workTimeTo = LocalTime.of(23, 50) )
