@@ -42,6 +42,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
+import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
@@ -64,7 +65,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 import kotlin.math.roundToLong
 
 
@@ -939,6 +939,15 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun cbrCurrencyLoader() {
+
+        val elem = Elem(idElem = 0, task = CbrCurrencyLoader)
+
+        //CbrCurrencyLoader.execByCheckToday(elem, false)
+    }
+
+
 
     //@Test
     fun testVisaLoaderRate() {
@@ -978,31 +987,48 @@ res3 = [calc.DEC_TEST];
        //val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
         //        .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
 
-        val value =   "000000608900000".toLong() / 10000000.0
+        val value = "000000608900000".toLong() / 10000000.0
 
         logger.error("value=$value")
     }
 
 
     //@Test
-//    fun testSubstring() {
-//
-//        val responseDateTime = LocalDateTime.now()
-//
-//        val fileRequest = File("X:\\ЦИК\\2018.10.05\\Запрос/F1027700466640_021018_Z_0039.xml")
-//
-//        val requestDate = fileRequest.nameWithoutExtension.substringAfter('_').substringBefore('_')
-//        logger.error("requestDate=$requestDate")
-//
-//        val requestNumber = fileRequest.nameWithoutExtension.substringAfter("_Z_")
-//        logger.error("requestNumber=$requestNumber")
-//
-//        val responseFile = File("${CecReportProcess.OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_${CecReportProcess.CEC_CODE}.xml")
-//        logger.error("responseFile=$responseFile")
-//
-//        val textResponse = CecReportProcess.emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY())
-//        logger.error("textResponse=$textResponse")
-//    }
+    fun testLoadCurrencyCbr() {
+        val site = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=11/04/2021"
+
+        //val site =  "https://www.cbr-xml-daily.ru/daily.xml"
+
+        val body = Jsoup.connect(site).get()
+
+        val findMain = body.allElements?.first { it.nodeName() == "ValCurs" }
+
+        val date = findMain?.attr("Date")
+        val name = findMain?.attr("name")
+
+        logger.error("date = $date")
+        logger.error("name = $name")
+
+        findMain?.children()?.forEach {
+            if(it.nodeName() == "Valute") {
+                val name = it.children().firstOrNull { it.nodeName() == "Name" }
+                logger.error("Name=${name?.text()}")
+
+                val numCode = it.children().firstOrNull { it.nodeName() == "NumCode" }
+                logger.error("numCode=${numCode?.text()}")
+
+                val charCode = it.children().firstOrNull { it.nodeName() == "CharCode" }
+                logger.error("charCode=${charCode?.text()}")
+
+                val nominal = it.children().firstOrNull { it.nodeName() == "Nominal" }
+                logger.error("nominal=${nominal?.text()}")
+
+                val value = it.children().firstOrNull { it.nodeName() == "Value" }
+                logger.error("value=${value?.text()}")
+            }
+        }
+    }
+
 
     //@Test
     fun loadSite() {

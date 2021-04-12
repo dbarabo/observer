@@ -20,6 +20,7 @@ object PlasticOutSide  : AbstractConfig() {
         CreateAccount311p.findAll()
         RecreateAfterError311p.findAll()
 
+        CbrCurrencyLoader.findAll()
         MoveRateCbrToday.findAll()
         LoadRateThb.findAll()
         FixedExchangeCb.findAll()

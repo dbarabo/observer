@@ -3,7 +3,6 @@ package ru.barabo.observer.config.cbr.other
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
-import ru.barabo.observer.config.cbr.ptkpsd.task.SendBlockUnblockAccountPC
 import ru.barabo.observer.config.skad.crypto.task.SignScad181UByCbr
 
 object OtherCbr: AbstractConfig() {
@@ -19,7 +18,6 @@ object OtherCbr: AbstractConfig() {
         RemartMail.findAll()
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
-        // ResponseToOrderCbr.findAll()
 
         NbkiAllReportsSend.findAll()
         UnlockUsersMonday.findAll()
@@ -44,12 +42,10 @@ object OtherCbr: AbstractConfig() {
         ExecuteReglamentRun.findAll()
 
         ExecuteGroupRateLoan.findAll()
-        // rita check
-        //GeneralExecReserve283p.findAll()
 
         CorrDepartmentGoHome.findAll()
 
-        SendBlockUnblockAccountPC.findAll()
+        // SendBlockUnblockAccountPC.findAll()
 
         ClearPrimFromArchiveDay.findAll()
 

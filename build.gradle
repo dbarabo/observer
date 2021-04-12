@@ -1,14 +1,18 @@
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.4.32'
     ext.tornadofx_version = "1.7.13"
 
     repositories {
         mavenCentral()
     }
-    
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+
+//    dependencies {
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.4.32"
 }
 
 tasks.withType(JavaExec) {
@@ -16,7 +20,7 @@ tasks.withType(JavaExec) {
 }
 
 apply plugin: 'java'
-apply plugin: 'kotlin'
+// apply plugin: 'kotlin'
 
 sourceCompatibility = 1.8
 
@@ -79,7 +83,7 @@ dependencies {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.3"
+        languageVersion = "1.4"
     }
 }
 
@@ -93,7 +97,7 @@ jar {
     }
 
     from configurations.compile.collect {
-        it.isDirectory() ? it : zipTree(it).matching{ 
+        it.isDirectory() ? it : zipTree(it).matching {
             exclude {
                 it.name.contains('.DSA') || 
                 it.name.contains('.SF') || 

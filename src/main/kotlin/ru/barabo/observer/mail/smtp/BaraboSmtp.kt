@@ -54,7 +54,7 @@ object BaraboSmtp : SendMail {
 
     private val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
 
-    private val SB_TTS = arrayOf("tts@ptkb.ru").onlyAfina()
+    private val SB_TTS = arrayOf("tts@ptkb.ru", "golubev@ptkb.ru").onlyAfina()
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
