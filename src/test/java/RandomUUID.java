@@ -47,7 +47,7 @@ public class RandomUUID {
         return generateType1UUID().toString();
     }
 
-    @Test
+    //@Test
     public void testCreateVersion1() {
         System.out.println(createVersion1());
     }

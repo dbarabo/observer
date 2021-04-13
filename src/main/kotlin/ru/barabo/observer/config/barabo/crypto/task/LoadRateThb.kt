@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
 import org.jsoup.Jsoup
-import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
@@ -15,8 +14,6 @@ import java.time.LocalTime
 
 object LoadRateThb : SingleSelector {
 
-    private val logger = LoggerFactory.getLogger(LoadRateThb::class.java)
-
     override val select: String = "select dt.classified from doctree dt where dt.doctype = 1000131174 " +
             "and dt.docstate = 1000000034 and trunc(dt.validfromdate) = trunc(sysdate) and rownum = 1"
 
@@ -25,7 +22,7 @@ object LoadRateThb : SingleSelector {
 
     override fun name(): String = "Курс THB -загрузка"
 
-    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
+    override fun config(): ConfigTask = PlasticOutSide
 
     override fun execute(elem: Elem): State {
 

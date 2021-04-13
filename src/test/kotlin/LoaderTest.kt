@@ -55,6 +55,8 @@ import ru.barabo.observer.store.derby.StoreSimple
 import ru.barabo.xls.*
 import java.io.File
 import java.nio.charset.Charset
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.sql.Clob
 import java.sql.Timestamp
 import java.text.DecimalFormat
@@ -942,9 +944,23 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun cbrCurrencyLoader() {
 
+        val currentRelativePath: Path = Paths.get("")
+        val s: String = currentRelativePath.toAbsolutePath().toString()
+
+        logger.error("CURRENT=$s")
+
         val elem = Elem(idElem = 0, task = CbrCurrencyLoader)
 
+        CbrCurrencyLoader.execute(elem)
+
         //CbrCurrencyLoader.execByCheckToday(elem, false)
+    }
+
+
+    //@Test
+    fun thbCurrencyLoader() {
+
+        logger.error("THB=${LoadRateThb.thbRate()}")
     }
 
 

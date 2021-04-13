@@ -1,7 +1,6 @@
 package ru.barabo.observer.crypto
 
 import org.jasypt.util.text.BasicTextEncryptor
-import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import java.io.File
 
@@ -19,7 +18,7 @@ object MasterKey {
 
     private val data = HashMap<String, String>()
 
-   // private val logger = LoggerFactory.getLogger(MasterKey::class.java)
+   //private val logger = LoggerFactory.getLogger(MasterKey::class.java)
 
     init {
 
@@ -28,9 +27,11 @@ object MasterKey {
 
     fun loadKeys() {
 
-        if(!MASTER_FILE.exists()) return
+        val masterFile = if(MASTER_FILE.exists()) MASTER_FILE else findMasterLib()!!
 
-        val lines = MASTER_FILE.readLines(Charsets.UTF_8)
+        if(!masterFile.exists()) return
+
+        val lines = masterFile.readLines(Charsets.UTF_8)
 
         if(lines.isEmpty()) return
 
@@ -49,6 +50,23 @@ object MasterKey {
                 data[key] = decrypt(value)
             }
         }
+    }
+
+    private fun findMasterLib(): File? {
+
+        var dirLib = MASTER_FILE
+
+        do {
+            dirLib = dirLib.parentFile
+
+            val libDir = File("${dirLib.path}/lib")
+
+            if(libDir.exists() ) {
+                return File("${libDir.path}/$MASTER_FILENAME")
+            }
+        } while (!libDir.exists())
+
+        return null
     }
 
     fun value(key: String): String = data[key]!!

@@ -1,7 +1,9 @@
 package ru.barabo.observer.config.skad.plastic
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.barabo.crypto.task.*
+import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
+import ru.barabo.observer.config.barabo.crypto.task.ExecuteExchangeCb
+import ru.barabo.observer.config.barabo.crypto.task.RecreateAfterError311p
 import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
@@ -21,9 +23,9 @@ object PlasticOutSide  : AbstractConfig() {
         RecreateAfterError311p.findAll()
 
         CbrCurrencyLoader.findAll()
-        MoveRateCbrToday.findAll()
-        LoadRateThb.findAll()
-        FixedExchangeCb.findAll()
+        //MoveRateCbrToday.findAll()
+        //LoadRateThb.findAll()
+        //FixedExchangeCb.findAll()
         ExecuteExchangeCb.findAll()
 
         AutoUpdatePlasticJarCritical.findAll()

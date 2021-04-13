@@ -1,11 +1,13 @@
 package ru.barabo.observer.config.skad.plastic.task
 
+import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -16,6 +18,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import kotlin.math.round
 
 object CbrCurrencyLoader : SinglePerpetual {
 
@@ -46,23 +49,36 @@ object CbrCurrencyLoader : SinglePerpetual {
     private fun insertCurrency(mainElement: Element, elem: Elem, dateCurrency: LocalDate): State {
 
         if(!isExistsCurrencyCheck(dateCurrency)) {
-            insertAll(mainElement, java.sql.Date.valueOf(dateCurrency) )
+            val currencyId = insertAll(mainElement, java.sql.Date.valueOf(dateCurrency) )
+
+            val afinaRateId = createAfinaCbrRate(currencyId)
+
+            AfinaQuery.execute(EXEC_FIXED_CBR_RATE, params = arrayOf(afinaRateId))
         }
 
         return nextDayState(elem)
-   }
+    }
 
-    private fun insertAll(mainElement: Element, dateCurrency: java.sql.Date) {
+    private fun createAfinaCbrRate(currencyId: Number): Number {
+
+        return AfinaQuery.execute(EXEC_LOAD_CBR_RATE, arrayOf(currencyId),
+            outParamTypes = intArrayOf(OracleTypes.NUMBER))?.get(0) as Number
+    }
+
+    private fun insertAll(mainElement: Element, dateCurrency: java.sql.Date): Number {
         val sessionSetting = AfinaQuery.uniqueSession()
 
+        val currencyId = AfinaQuery.nextSequence(sessionSetting)
+
         try {
-            val currencyId = AfinaQuery.nextSequence(sessionSetting)
 
             val name = mainElement.attr("name") ?: ""
 
             AfinaQuery.execute(INS_CURRENCY, arrayOf(currencyId, dateCurrency, name), sessionSetting)
 
-            insertDetails(sessionSetting, currencyId, mainElement)
+            val usdRate = insertDetails(sessionSetting, currencyId, mainElement)
+
+            insertThbRate(currencyId, usdRate, sessionSetting)
 
         } catch (e :Exception) {
 
@@ -74,9 +90,22 @@ object CbrCurrencyLoader : SinglePerpetual {
         }
 
         AfinaQuery.commitFree(sessionSetting)
+
+        return currencyId
     }
 
-    private fun insertDetails(sessionSetting: SessionSetting, currencyId: Number, mainElement: Element) {
+    private fun insertThbRate(currencyId: Number, usdRurRate: Double, sessionSetting: SessionSetting) {
+
+        val valueThb = round( usdRurRate * 100000 / LoadRateThb.thbRate() ).toLong()
+
+        val params = arrayOf<Any?>(currencyId, "764", "THB", 10, valueThb, 4, "Бат")
+
+        AfinaQuery.execute(INS_CURRENCY_DETAIL, params, sessionSetting)
+    }
+
+    private fun insertDetails(sessionSetting: SessionSetting, currencyId: Number, mainElement: Element): Double {
+
+        var usdRate: Double? = null
 
         for(valute in mainElement.children().filter { it.nodeName() == "Valute" } ) {
 
@@ -101,7 +130,13 @@ object CbrCurrencyLoader : SinglePerpetual {
             val params = arrayOf<Any?>(currencyId, numCode, charCode, nominal, value, fraction, name)
 
             AfinaQuery.execute(INS_CURRENCY_DETAIL, params, sessionSetting)
+
+            if(numCode == "840") {
+                usdRate = valueText.replace(",", ".").toDouble()
+            }
         }
+
+        return usdRate!!
     }
 
     private fun nextDayState(elem: Elem): State {
@@ -146,6 +181,10 @@ object CbrCurrencyLoader : SinglePerpetual {
 }
 
 private const val INS_CURRENCY = "insert into OD.PTKB_CURRENCY(ID, CURRENCY_DATE, NAME) values (?, ?, ?)"
+
+private const val EXEC_LOAD_CBR_RATE = "{ call OD.PTKB_PRECEPT.loadExecCbrRate(?, ?) }"
+
+private const val EXEC_FIXED_CBR_RATE = "{ call od.PTKB_PRECEPT.execCbrExchange( ? ) }"
 
 private const val INS_CURRENCY_DETAIL = """
     insert into OD.PTKB_CURRENCY_DETAIL(ID, ID_CURRENCY, NUMBER_CODE, CHAR_CODE, NOMINAL, VALUE_MIN, FRACTION_COUNT, NAME) 
