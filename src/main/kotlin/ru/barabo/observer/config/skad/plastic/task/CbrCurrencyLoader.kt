@@ -96,9 +96,16 @@ object CbrCurrencyLoader : SinglePerpetual {
 
     private fun insertThbRate(currencyId: Number, usdRurRate: Double, sessionSetting: SessionSetting) {
 
-        val valueThb = round( usdRurRate * 100000 / LoadRateThb.thbRate() ).toLong()
+        val valueThb: Long = try {
+            round( usdRurRate * 100000 / LoadRateThb.thbRate() ).toLong()
 
-        val params = arrayOf<Any?>(currencyId, "764", "THB", 10, valueThb, 4, "Бат")
+        } catch (e: Exception) {
+            logger.error("insertThbRate", e)
+
+            (AfinaQuery.selectValue(SELECT_LAST_THB_RATE, sessionSetting = sessionSetting) as Number).toLong()
+        }
+
+        val params = arrayOf<Any?>(currencyId, "764", "THB", 10, valueThb, 4, "Тайландский Бат")
 
         AfinaQuery.execute(INS_CURRENCY_DETAIL, params, sessionSetting)
     }
@@ -185,6 +192,12 @@ private const val INS_CURRENCY = "insert into OD.PTKB_CURRENCY(ID, CURRENCY_DATE
 private const val EXEC_LOAD_CBR_RATE = "{ call OD.PTKB_PRECEPT.loadExecCbrRate(?, ?) }"
 
 private const val EXEC_FIXED_CBR_RATE = "{ call od.PTKB_PRECEPT.execCbrExchange( ? ) }"
+
+private const val SELECT_LAST_THB_RATE = """
+    select d.value_min
+      from od.ptkb_currency_detail d
+     where d.number_code = '764'
+  order by d.id_currency desc"""
 
 private const val INS_CURRENCY_DETAIL = """
     insert into OD.PTKB_CURRENCY_DETAIL(ID, ID_CURRENCY, NUMBER_CODE, CHAR_CODE, NOMINAL, VALUE_MIN, FRACTION_COUNT, NAME) 

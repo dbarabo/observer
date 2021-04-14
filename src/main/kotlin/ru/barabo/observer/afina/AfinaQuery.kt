@@ -31,8 +31,10 @@ object AfinaQuery : Query(AfinaConnect) {
         val dateSql = Date(dateNow.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
 
         val isHoliday = try {
+
             selectValue(SELECT_IS_HOLIDAY, arrayOf(dateSql))
-        } catch (e :Exception) {
+
+        } catch (e: Exception) {
             logger.error("isWorkDayNow", e)
 
             null
