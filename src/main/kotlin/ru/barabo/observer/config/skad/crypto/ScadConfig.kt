@@ -15,9 +15,7 @@ object ScadConfig : AbstractConfig() {
 
     override fun configRun() {
 
-        // CreateCrypto311p512 - replace SaveAndCryptoScad311p from 01/01/2021
         CreateCrypto311p512.findAll()
-        //SaveAndCryptoScad311p.findAll()
 
         SignScadArchive311p.findAll()
         Ticket311pFnsLoadScad.findAll()

@@ -22,7 +22,7 @@ object RooWaitCancel : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData=  AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(7, 0), LocalTime.of(8, 0), Duration.ZERO)
+            LocalTime.of(7, 0), LocalTime.of(18, 0), Duration.ZERO)
 
     override fun name(): String = "Зависшие блокировки - Проверка"
 

@@ -65,7 +65,8 @@ public class BnpInfoPartVer4 {
 
             this.innPayer = responseData.getPayer().getInn();
 
-            this.kppPayer = responseData.getPayer().getKpp();
+            this.kppPayer = responseData.getPayer().getKpp() == null ||
+                    responseData.getPayer().getKpp().length() < 9 ? null :  responseData.getPayer().getKpp();
 
             this.namePayer = responseData.getPayer().getName();
 

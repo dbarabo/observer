@@ -39,10 +39,16 @@ object CheckTableSpace : SinglePerpetual {
 
             val minimumMb = (space[3] as Number).toInt()
 
+            val mustAddFile = (space[4] as Number).toInt()
+
             logger.error("TABLE_SPACE $name FREE=$freeMb TOTAL=$totalMb MIN=$minimumMb")
 
             if(freeMb <= minimumMb) {
                 sendAlarm(name, freeMb, totalMb)
+            }
+
+            if(freeMb <= mustAddFile) {
+                addFileTableSpace(name)
             }
         }
 
@@ -58,7 +64,33 @@ object CheckTableSpace : SinglePerpetual {
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, cc = BaraboSmtp.AUTO,
             subject = subject, body = body, charsetSubject = "UTF-8")
     }
+
+    private fun addFileTableSpace(tableSpace: String) {
+
+        val nextFileName = AfinaQuery.selectValue(SELECT_NEXT_FILENAME) as String
+
+        val command = commandFileTableSpace(tableSpace, nextFileName)
+
+        AfinaQuery.execute(command)
+
+        sendInfoFileAdded(tableSpace, nextFileName, command)
+    }
+
+    private fun sendInfoFileAdded(tableSpace: String, fileName: String, command: String) {
+
+        val subject = "Добавлен новый файл в tableSpace $tableSpace"
+
+        val body = "$subject\nимя файла: $fileName\nкоманда добавления:$command"
+
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, cc = BaraboSmtp.AUTO,
+            subject = subject, body = body, charsetSubject = "UTF-8")
+    }
+
+    private fun commandFileTableSpace(tableSpace: String, fileName: String): String =
+        "alter tablespace $tableSpace add datafile '$fileName' size 104M autoextend on next 1m;"
 }
+
+private const val SELECT_NEXT_FILENAME = "select od.PTKB_PRECEPT.getNextFullFileName( ? ) from dual"
 
 private const val CURSOR_TABLE_SPACE = "{ ? = call od.PTKB_PRECEPT.getTableSpaceSize }"
 

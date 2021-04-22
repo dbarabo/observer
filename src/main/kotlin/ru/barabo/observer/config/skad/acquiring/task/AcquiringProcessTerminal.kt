@@ -16,6 +16,7 @@ import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.sql.Timestamp
 import java.sql.Types
+import java.time.LocalTime
 
 object AcquiringProcessTerminal : SingleSelector {
     private val logger = LoggerFactory.getLogger(AcquiringProcessTerminal::class.java)
@@ -24,7 +25,8 @@ object AcquiringProcessTerminal : SingleSelector {
 
     override fun config(): ConfigTask = Acquiring
 
-    override val accessibleData = AccessibleData(WeekAccess.ALL_DAYS)
+    override val accessibleData = AccessibleData(WeekAccess.ALL_DAYS,
+        workTimeFrom = LocalTime.of(1, 0), workTimeTo = LocalTime.of(23, 55))
 
     override fun isCursorSelect(): Boolean = true
 

@@ -30,6 +30,12 @@ object Process440p : SingleSelector {
 
         try {
             AfinaQuery.execute(EXEC_440P, arrayOf(elem.idElem) )
+
+            if(elem.name.indexOf("RPO") == 0) {
+
+                RooWaitCancel.execute(elem)
+            }
+
         } catch (e: Exception) {
             if(isVipException(e.message)) {
                 return sendVipInfo(elem, e.message!!)
