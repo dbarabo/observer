@@ -21,8 +21,7 @@ public final class PayerPhysic implements ParamsQuery {
 	@XStreamAlias("МестоРожд")
 	private String birthPlace;
 
-	@XStreamAlias("КодДУЛ")
-	//TODO!!!2021 @XStreamAlias("КодДок")
+	@XStreamAlias("КодДок")
 	private String codeDoc;
 
 	@XStreamAlias("СерНомДок")
@@ -31,12 +30,11 @@ public final class PayerPhysic implements ParamsQuery {
 	@XStreamAlias("ДатаДок")
 	private String dateDoc;
 
-	@XStreamAlias("ФИО")
-	//TODO!!!2021 @XStreamAlias("ФИОФЛ")
+	@XStreamAlias("ФИОФЛ")
 	private Fio fio;
 
-	@XStreamAlias("АдрПлат")
-	//TODO!!!2021 @XStreamAlias("Адрес")
+	// @XStreamAlias("АдрПлат") old 2020
+	@XStreamAlias("Адрес")
 	private Address address;
 	
 	transient private Number idClient;
@@ -80,8 +78,7 @@ public final class PayerPhysic implements ParamsQuery {
 				codeDoc == null ? String.class : codeDoc,
 				lineNumberDoc == null ? String.class : lineNumberDoc,
 				getDateDoc() == null ? Date.class : getDateDoc(),
-				address == null || address.getAddress() == null ? String.class : address
-						.getAddress(),
+				address == null ? String.class : address.getAddress(),
 				PayerType.Physic.getValueDb()));
 	}
 
@@ -124,5 +121,9 @@ public final class PayerPhysic implements ParamsQuery {
 
 	public Address getAddress() {
 		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

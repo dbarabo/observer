@@ -1,7 +1,9 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
 import ru.barabo.db.SessionSetting
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.RequestResponseData
+import ru.barabo.observer.config.task.p440.load.xml.impl.Address
 import ru.barabo.observer.config.task.p440.load.xml.impl.FnsXml
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerType
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerXml
@@ -70,10 +72,10 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
 
         endPeriod = rowData[10] as? Date
 
-        payerVar = createPayer(rowData, 11)
+        payerVar = createPayer(rowData, 11, sessionSetting)
     }
 
-    private fun createPayer(row: Array<Any?>, indexPayer: Int): PayerXml {
+    private fun createPayer(row: Array<Any?>, indexPayer: Int, sessionSetting: SessionSetting): PayerXml {
 
         // [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
 
@@ -129,10 +131,29 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
 
             PayerType.Pboul -> PayerXml.createPboul(idClient, inn, firstName, lastName, secondName)
 
-            PayerType.Physic -> PayerXml.createPhysicShort(idClient, inn, firstName, lastName, secondName,
-                address, birhday, birhPlace, codeDoc, lineNumberDoc, dateDoc)
+            PayerType.Physic -> PayerXml.createPhysic(
+                idClient, inn, firstName, lastName, secondName,
+                address, birhday, birhPlace, codeDoc, lineNumberDoc, dateDoc
+            ).apply {
+
+                val addressRow = AfinaQuery.selectCursor(CURSOR_ADDRESS_PHYSIC, arrayOf(idClient), sessionSetting)[0]
+
+                payerPhysic.address = Address.createAddress(
+                    addressRow[0] as? String,
+                    addressRow[1] as? String,
+                    addressRow[2] as? String,
+                    addressRow[3] as? String,
+                    addressRow[4] as? String,
+                    addressRow[5] as? String,
+                    addressRow[6] as? String,
+                    addressRow[7] as? String,
+                    addressRow[8] as? String
+                )
+            }
 
             else -> throw Exception("unknown payerType type $payerType")
         }
     }
 }
+
+private const val CURSOR_ADDRESS_PHYSIC = "{ ? = call od.PTKB_440P.getAddressPhysic( ? ) }"

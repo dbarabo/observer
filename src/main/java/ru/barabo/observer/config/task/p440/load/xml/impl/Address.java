@@ -44,11 +44,8 @@ public final class Address {
 	@XStreamAlias("Корпус")
 	private String corpus;
 
-	@XStreamAlias("Кварт")
-	private String flat;
-
 	@XStreamAlias("Квартира")
-	private String flatNew;
+	private String flat;
 
 	@XStreamAlias("Регион")
 	private String regionNew;
@@ -72,7 +69,25 @@ public final class Address {
 	private String elFlatNew2;
 
 	public Address() {}
-	
+
+
+	public static Address createAddress(String region, String index, String rayon,
+								String city, String townNew, String street, String house, String corpus, String flat) {
+
+		Address address = new Address();
+
+		address.region = region;
+		address.index = index;
+		address.rayon = rayon;
+		address.city = city;
+		address.townNew = townNew;
+		address.street = street;
+		address.house = house;
+		address.corpus = corpus;
+		address.flat = flat;
+
+		return address;
+	}
 	
 	public static Address parseAddress(String address) {
 		if (address == null || "".equals(address.trim())) {

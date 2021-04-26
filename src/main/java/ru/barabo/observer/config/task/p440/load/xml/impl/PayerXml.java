@@ -109,6 +109,7 @@ public final class PayerXml implements ParamsQuery {
 		result.payerPhysic = new PayerPhysic(idClient, inn, firstName, lastName, secondName,
 				address, birhday, birhPlace, codeDoc, lineNumberDoc, dateDoc);
 
+
 		return result;
 	}
 }
