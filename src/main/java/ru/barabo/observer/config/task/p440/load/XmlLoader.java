@@ -149,6 +149,8 @@ public class XmlLoader<E> {
 		return xstream;
 	}
 
+	private static String XML_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
 	private static String XML_DATE_FORMAT = "yyyy-MM-dd";
 
 	private static String SHORT_DATE_FORMAT = "yyyyMMdd";
@@ -161,6 +163,16 @@ public class XmlLoader<E> {
 		}
 
 		SimpleDateFormat formatter = new SimpleDateFormat(SHORT_DATE_FORMAT);
+
+		return formatter.format(date);
+	}
+
+	public static String formatDateTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat(XML_DATE_TIME_FORMAT);
 
 		return formatter.format(date);
 	}

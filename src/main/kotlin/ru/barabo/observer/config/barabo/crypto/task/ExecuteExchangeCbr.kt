@@ -54,6 +54,8 @@ object ExecuteExchangeCbr : SingleSelector {
 
     private fun executeCbrRate(afinaDocument: Number): State {
 
+        AfinaQuery.execute(EXEC_ACTUALIZATION_ACCOUNT)
+
         AfinaQuery.execute(EXEC_EXCHANGE_CBR, params = arrayOf(afinaDocument))
 
         return State.OK
@@ -69,6 +71,8 @@ object ExecuteExchangeCbr : SingleSelector {
 
         return State.NONE
     }
+
+    private const val EXEC_ACTUALIZATION_ACCOUNT = "{ call od.PTKB_PRECEPT.actualAccountEquivalent }"
 
     private const val EXEC_EXCHANGE_CBR = "{ call od.PTKB_PRECEPT.executeAfterFixedCbrExchange( ? ) }"
 
