@@ -7,7 +7,6 @@ import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.ScadComplex
-import ru.barabo.observer.store.State
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.text.DecimalFormat
@@ -27,6 +26,11 @@ object AddSignMain600P : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
+        if(file.name.equals("thumbs.db", true)) {
+            file.delete()
+            return
+        }
+
         val arjArchive = File("${pathCryptoMainToday().absolutePath}/${arjArchiveNameToday()}")
 
         ScadComplex.signAddArchive600p(file, arjArchive)
@@ -37,6 +41,7 @@ object AddSignMain600P : FileFinder, FileProcessor {
     fun pathCryptoMainToday() = File("${pathMainToday()}/crypto")
 
     private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_${getCountSend()}_000.ARJ"
+
 
     private fun getCountSend(): String {
         val number = StoreSimple.getCountByTask(task = CryptoArchive600P, nameContains = "DIFM") + 1

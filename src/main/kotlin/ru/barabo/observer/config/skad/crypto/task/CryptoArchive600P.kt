@@ -22,7 +22,7 @@ object CryptoArchive600P : FileFinder, FileProcessor {
     override fun config(): ConfigTask = ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData( workTimeFrom = LocalTime.of(9, 0),
-            workTimeTo = LocalTime.of(15, 58), executeWait = Duration.ofMinutes(1) )
+            workTimeTo = LocalTime.of(21, 58), executeWait = Duration.ofMinutes(1) )
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData( ::pathCryptoTicketToday, "ARHKRFM_040507717_.*\\.ARJ" ),

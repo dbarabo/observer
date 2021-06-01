@@ -12,7 +12,7 @@ interface Form310Data {
 
     val executor: ExecutorForm
 
-    val data: Data310Form
+    val data: Data310Form?
 }
 
 data class ExecutorForm(val post: String, val name: String, val phone: String? = null)
