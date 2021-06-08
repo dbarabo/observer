@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2011 sp1 (http://www.altova.com) by ФГУП ГНИВЦ ФНС России (FGUP GNIVC FNS Russia) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:altova="http://www.altova.com/xml-schema-extensions" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.00">
+	<xs:include schemaLocation="Типовые_400.xsd"/>
+	<xs:element name="Файл">
+		<xs:annotation>
+			<xs:documentation>Файл электронного документа</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ЗАПНОВЫПИС">
+					<xs:annotation>
+						<xs:documentation>Запрос налогового органа о представлении выписок по операциям на счетах</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="МотивЗапр">
+								<xs:annotation>
+									<xs:documentation>Мотивировочная часть запроса</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Обоснов" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Обоснование запроса </xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="СвПлОбоснов" type="СвПлОбоснов">
+														<xs:annotation>
+															<xs:documentation>Сведения о плательщике</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="КодОбоснов" use="required">
+													<xs:simpleType>
+														<xs:restriction base="xs:nonNegativeInteger">
+															<xs:minInclusive value="1"/>
+															<xs:maxInclusive value="12"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ВидПров" use="optional">
+													<xs:annotation>
+														<xs:documentation>Вид налоговой проверки</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+															<xs:enumeration value="3"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="НаимНО" use="optional">
+													<xs:annotation>
+														<xs:documentation>Краткое наименование налогового органа по справочнику СОУН</xs:documentation>
+														<xs:appinfo>
+															<altova:exampleValues>
+																<altova:example value="ИФНС России по Нижегородскому району г.Н.Новгорода"/>
+															</altova:exampleValues>
+														</xs:appinfo>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="160"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="КодНО" type="ИФНСТип" use="optional">
+													<xs:annotation>
+														<xs:documentation>Код налогового органа</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="ДолжнЛицСогл" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+															<xs:enumeration value="3"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ФИОЛицСогл" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="100"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ВидДокСогл" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="50"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ДатаДокСогл" type="xs:date" use="optional"/>
+												<xs:attribute name="НомерДокСогл" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="50"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ВидСделки" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ТипЛица" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+															<xs:enumeration value="3"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ВидРешПр" use="optional">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="1"/>
+															<xs:enumeration value="1"/>
+															<xs:enumeration value="2"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="КодОснов" use="required">
+										<xs:annotation>
+											<xs:appinfo>
+												<altova:exampleValues>
+													<altova:example value="0101"/>
+													<altova:example value="1111"/>
+												</altova:exampleValues>
+											</xs:appinfo>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:length value="4"/>
+												<xs:pattern value="[01]{4}"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="СвНО" type="СвНОТип">
+								<xs:annotation>
+									<xs:documentation>Сведения о налоговом органе</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:choice>
+								<xs:element name="СвБанк" type="БанкТип">
+									<xs:annotation>
+										<xs:documentation>Сведения о банке (филиале банка)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="СвУБР" type="УБРТип">
+									<xs:annotation>
+										<xs:documentation>Сведения об учреждении Банка России</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:element name="СвПл" type="СвПлТип"/>
+							<xs:choice>
+								<xs:element name="ПоВсем">
+									<xs:annotation>
+										<xs:documentation>на всех счетах</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:choice>
+												<xs:element name="НаДату">
+													<xs:complexType>
+														<xs:attribute name="ДейстПоСост" use="required">
+															<xs:annotation>
+																<xs:documentation>Действовавших  по состоянию на дату</xs:documentation>
+																<xs:appinfo>
+																	<altova:exampleValues>
+																		<altova:example value="2014-04-25"/>
+																	</altova:exampleValues>
+																</xs:appinfo>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:date"/>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="ВПериод">
+													<xs:complexType>
+														<xs:attribute name="ДатаНач" use="required">
+															<xs:annotation>
+																<xs:documentation>Дата начала периода</xs:documentation>
+																<xs:appinfo>
+																	<altova:exampleValues>
+																		<altova:example value="2014-04-25"/>
+																	</altova:exampleValues>
+																</xs:appinfo>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:date"/>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="ДатаКон" use="required">
+															<xs:annotation>
+																<xs:documentation>Дата конца периода</xs:documentation>
+																<xs:appinfo>
+																	<altova:exampleValues>
+																		<altova:example value="2015-06-12"/>
+																	</altova:exampleValues>
+																</xs:appinfo>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:date"/>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+											</xs:choice>
+										</xs:sequence>
+										<xs:attribute name="ДатаНач" use="required">
+											<xs:annotation>
+												<xs:documentation>Дата начала периода</xs:documentation>
+												<xs:appinfo>
+													<altova:exampleValues>
+														<altova:example value="2014-04-25"/>
+													</altova:exampleValues>
+												</xs:appinfo>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:date"/>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="ДатаКон" use="required">
+											<xs:annotation>
+												<xs:documentation>Дата конца периода</xs:documentation>
+												<xs:appinfo>
+													<altova:exampleValues>
+														<altova:example value="2015-06-12"/>
+													</altova:exampleValues>
+												</xs:appinfo>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:date"/>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="ПоУказанным" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>О счетах (вкладах, депозитах), имеющихся (имевщихся) за период</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="ВладСч" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Владелец счета</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:choice>
+														<xs:element name="УказЛицо">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:length value="20"/>
+																	<xs:enumeration value="счет названного лица"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="ИноеЛицо" type="СвПлТип"/>
+													</xs:choice>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+										<xs:attribute name="ПорядкНомСч" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер по порядку</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:nonNegativeInteger">
+													<xs:totalDigits value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="НомСч" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер счета</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="20"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="ДатаНач" use="required">
+											<xs:annotation>
+												<xs:documentation>Дата начала периода</xs:documentation>
+												<xs:appinfo>
+													<altova:exampleValues>
+														<altova:example value="2014-04-25"/>
+													</altova:exampleValues>
+												</xs:appinfo>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:date"/>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="ДатаКон" use="required">
+											<xs:annotation>
+												<xs:documentation>Дата конца периода</xs:documentation>
+												<xs:appinfo>
+													<altova:exampleValues>
+														<altova:example value="2015-06-12"/>
+													</altova:exampleValues>
+												</xs:appinfo>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:date"/>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:element name="Руководитель" type="РукНОТип">
+								<xs:annotation>
+									<xs:documentation>Руководитель (заместитель руководителя) налогового органа</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="НомЗапр" use="required">
+							<xs:annotation>
+								<xs:documentation>Номер запроса </xs:documentation>
+								<xs:appinfo>
+									<altova:exampleValues>
+										<altova:example value="23\77-Т"/>
+									</altova:exampleValues>
+								</xs:appinfo>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ДатаЗапр" use="required">
+							<xs:annotation>
+								<xs:documentation>Дата запроса налогового органа</xs:documentation>
+								<xs:appinfo>
+									<altova:exampleValues>
+										<altova:example value="2015-04-25"/>
+									</altova:exampleValues>
+								</xs:appinfo>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:date"/>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ВидЗапр" use="required">
+							<xs:annotation>
+								<xs:documentation>Вид запроса</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:enumeration value="3"/>
+									<xs:enumeration value="5"/>
+									<xs:enumeration value="8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ТипЗапр" use="required">
+							<xs:annotation>
+								<xs:documentation>Тип запроса</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+									<xs:enumeration value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ИдЗапр" use="required">
+							<xs:annotation>
+								<xs:documentation>Идентификатор запроса</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="ИдЗапрТип">
+									<xs:length value="22"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="ИдЭС" type="GUIDТип" use="required">
+				<xs:annotation>
+					<xs:documentation>Идентификатор файла</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ТипИнф" use="required">
+				<xs:annotation>
+					<xs:documentation>Тип информации</xs:documentation>
+					<xs:appinfo>
+						<altova:exampleValues>
+							<altova:example value="ЗАПНООСТАТ"/>
+						</altova:exampleValues>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+						<xs:enumeration value="ЗАПНОВЫПИС"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ВерсПрог" use="required">
+				<xs:annotation>
+					<xs:documentation>Версия передающей программы: &lt;наименование&gt;&lt;пробел&gt;&lt;версия&gt;</xs:documentation>
+					<xs:appinfo>
+						<altova:exampleValues>
+							<altova:example value="АИС ФНС 5.20.02"/>
+						</altova:exampleValues>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="40"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ТелОтпр" use="required">
+				<xs:annotation>
+					<xs:documentation>Телефон отправителя</xs:documentation>
+					<xs:appinfo>
+						<altova:exampleValues>
+							<altova:example value="(495) 223-33-44"/>
+						</altova:exampleValues>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ДолжнОтпр" use="required">
+				<xs:annotation>
+					<xs:documentation>Должность отправителя</xs:documentation>
+					<xs:appinfo>
+						<altova:exampleValues>
+							<altova:example value="оператор"/>
+						</altova:exampleValues>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="100" fixed="false"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ФамОтпр" use="required">
+				<xs:annotation>
+					<xs:documentation>Фамилия отправителя</xs:documentation>
+					<xs:appinfo>
+						<altova:exampleValues>
+							<altova:example value="Сичкин"/>
+						</altova:exampleValues>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="60"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ВерсФорм" use="required">
+				<xs:annotation>
+					<xs:documentation>Версия формата</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:totalDigits value="4"/>
+						<xs:fractionDigits value="2"/>
+						<xs:enumeration value="4.00"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

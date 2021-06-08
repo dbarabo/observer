@@ -267,6 +267,19 @@ public class XmlLoader<E> {
 		return decimalFormat.format(sum);
 	}
 
+	public static String formatDecimal1(Number sum) {
+		if (sum == null) {
+			return null;
+		}
+
+		DecimalFormat decimalFormat = new DecimalFormat("0.0");
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setDecimalSeparator('.');
+		decimalFormat.setDecimalFormatSymbols(symbols);
+
+		return decimalFormat.format(sum);
+	}
+
 	public static String formatDecimal3(Number sum) {
 		if (sum == null) {
 			return null;

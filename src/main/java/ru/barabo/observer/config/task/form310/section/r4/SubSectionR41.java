@@ -20,13 +20,14 @@ public class SubSectionR41 {
     @XStreamAlias("Р4.1_6")
     final private String collateralSign;
 
-    public SubSectionR41(String accountCode, String codePledgedProperty, String qualityCategory, Number idCodeGroup, Number collateralSign) {
+    public SubSectionR41(Number accountCode, Number codePledgedProperty, Number qualityCategory, Number idCodeGroup,
+                         Integer collateralSign) {
 
-        this.accountCode = accountCode;
+        this.accountCode = accountCode.toString();
 
-        this.codePledgedProperty = codePledgedProperty;
+        this.codePledgedProperty = codePledgedProperty.toString();
 
-        this.qualityCategory = qualityCategory;
+        this.qualityCategory = qualityCategory == null ? null : qualityCategory.toString();
 
         this.idCodeGroup = idCodeGroup == null ? null : idCodeGroup.toString();
 

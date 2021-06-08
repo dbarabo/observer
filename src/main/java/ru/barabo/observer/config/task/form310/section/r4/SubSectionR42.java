@@ -48,7 +48,7 @@ public class SubSectionR42 {
     final private String typeConstruction;
 
     public SubSectionR42(String propertyType, String cadastralNumber, String conditionalNumber, String purpose,
-                         String name, String functionalGroup, Number shareSizePercent, String areaSqM,
+                         String name, String functionalGroup, Number shareSizePercent, Number areaSqM,
                          String codeLandCategory, String permittedUseLandPlot, String codePledgerRight,
                          Date expiryDateLease, String typeConstruction) {
 
@@ -66,7 +66,7 @@ public class SubSectionR42 {
 
         this.shareSizePercent = XmlLoader.formatDecimal3(shareSizePercent);
 
-        this.areaSqM = areaSqM;
+        this.areaSqM = areaSqM == null ? null : areaSqM.intValue() + "";
 
         this.codeLandCategory = codeLandCategory;
 
@@ -74,7 +74,7 @@ public class SubSectionR42 {
 
         this.codePledgerRight = codePledgerRight;
 
-        this.expiryDateLease = expiryDateLease == null ? null : XmlLoader.formatDate(expiryDateLease);
+        this.expiryDateLease = XmlLoader.formatDate(expiryDateLease);
 
         this.typeConstruction = typeConstruction;
     }

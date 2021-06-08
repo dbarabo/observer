@@ -48,10 +48,42 @@ class Data310Form {
 
     internal fun addSection3(item: DataForm310R3) {
         if(!(::sectionsR3.isInitialized)) {
-            sectionsR3 = ArrayList<DataForm310R3>()
+            sectionsR3 = ArrayList()
         }
 
         (sectionsR3 as MutableList<DataForm310R3>).add(item)
+    }
+
+    internal fun addSection4(item: DataForm310R4) {
+        if(!(::sectionsR4.isInitialized)) {
+            sectionsR4 = ArrayList()
+        }
+
+        (sectionsR4 as MutableList<DataForm310R4>).add(item)
+    }
+
+    internal fun addSection5(item: DataForm310R5) {
+        if(!(::sectionsR5.isInitialized)) {
+            sectionsR5 = ArrayList()
+        }
+
+        (sectionsR5 as MutableList<DataForm310R5>).add(item)
+    }
+
+    internal fun addSection62(item: DataForm310R62) {
+        if(!(::sectionsR62.isInitialized)) {
+            sectionsR62 = ArrayList()
+        }
+
+        (sectionsR62 as MutableList<DataForm310R62>).add(item)
+    }
+
+    internal fun addSection64(item: DataForm310R64) {
+        if(!(::sectionsR64.isInitialized)) {
+            sectionsR64 = ArrayList()
+        }
+
+        (sectionsR64 as MutableList<DataForm310R64>).add(item)
     }
 }
 

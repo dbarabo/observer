@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.form310.section.r4;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 @XStreamAlias("Р4.3")
 public class SubSectionR43 {
@@ -37,7 +38,7 @@ public class SubSectionR43 {
 
 
     public SubSectionR43(String category, String vinCar, String idSelfPropelledCar, Number yearIssue, String brand,
-                         String model, String frameNumber, String enginePowerHP, String enginePowerkW, String engineDisplacementSm3) {
+                         String model, String frameNumber, String enginePowerHP, String enginePowerkW, Number engineDisplacementSm3) {
 
         this.category = category;
 
@@ -57,6 +58,6 @@ public class SubSectionR43 {
 
         this.enginePowerkW = enginePowerkW;
 
-        this.engineDisplacementSm3 = engineDisplacementSm3;
+        this.engineDisplacementSm3 = XmlLoader.formatDecimal1(engineDisplacementSm3);
     }
 }

@@ -17,14 +17,35 @@ public class DataForm310R5 {
     @XStreamAlias("Р5.3")
     final private SubSectionR53 subSectionR53;
 
-    public DataForm310R5(Number idCodeSubject, SubSectionR51 subSectionR51, SubSectionR52 subSectionR52,
-                         SubSectionR53 subSectionR53) {
+    public DataForm310R5(Number idCodeSubject, SubSectionR51 subSectionR51) {
 
         this.idCodeSubject = idCodeSubject.toString();
 
         this.subSectionR51 = subSectionR51;
 
+        this.subSectionR52 = null;
+
+        this.subSectionR53 = null;
+    }
+
+    public DataForm310R5(Number idCodeSubject, SubSectionR52 subSectionR52) {
+
+        this.idCodeSubject = idCodeSubject.toString();
+
+        this.subSectionR51 = null;
+
         this.subSectionR52 = subSectionR52;
+
+        this.subSectionR53 = null;
+    }
+
+    public DataForm310R5(Number idCodeSubject, SubSectionR53 subSectionR53) {
+
+        this.idCodeSubject = idCodeSubject.toString();
+
+        this.subSectionR51 = null;
+
+        this.subSectionR52 = null;
 
         this.subSectionR53 = subSectionR53;
     }
