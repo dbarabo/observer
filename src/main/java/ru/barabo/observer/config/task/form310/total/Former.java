@@ -12,10 +12,10 @@ public class Former {
     @XStreamAlias("ВидОрг")
     final private String kindOrganization = "КО";
 
-    @XStreamAlias("ВидОрг")
+    @XStreamAlias("КодОрг")
     final private String codeOrganization = "21";
 
-    @XStreamAlias("ВидОрг")
+    @XStreamAlias("КодТУ")
     final private String codeTU = "05";
 
     @XStreamAlias("БИК")

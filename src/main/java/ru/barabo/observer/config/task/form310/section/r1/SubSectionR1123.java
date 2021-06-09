@@ -16,10 +16,10 @@ public class SubSectionR1123 {
     @XStreamAlias("Р1.1")
     final private SubSectionR11 subSectionR11;
 
-    @XStreamAlias("Р1.2")
+    @XStreamImplicit(itemFieldName = "Р1.2")
     final private List<SubSectionR12> subSectionR12;
 
-    @XStreamAlias("Р1.3")
+    @XStreamImplicit(itemFieldName = "Р1.3")
     final private List<SubSectionR13> subSectionR13;
 
     public SubSectionR1123(List<String> r1cIdPactLoanList,

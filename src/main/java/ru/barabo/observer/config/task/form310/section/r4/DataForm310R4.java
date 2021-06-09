@@ -72,7 +72,7 @@ public class DataForm310R4 {
     final private SubSectionR421 subSectionR421;
 
     public DataForm310R4(Number idCodeSubjectPledge,
-                         Number accountCode, Number codePledgedProperty, Number qualityCategory, Number idCodeGroup,
+                         String accountCode, Number codePledgedProperty, Number qualityCategory, Number idCodeGroup,
                          Integer collateralSign,
                          SubSectionR42 subSectionR42, SubSectionR43 subSectionR43, SubSectionR44 subSectionR44,
                          SubSectionR45 subSectionR45, SubSectionR46 subSectionR46, SubSectionR47 subSectionR47,

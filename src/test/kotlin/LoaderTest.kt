@@ -2,6 +2,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -42,6 +43,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
+import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.Executor
@@ -64,6 +66,7 @@ import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -1098,4 +1101,14 @@ res3 = [calc.DEC_TEST];
 
         logger.error(value)
     }
+
+    @Test
+    fun testForm310() {
+        val form310 = DefaultForm310Data(
+            Date.from(LocalDate.of(2021, 6, 1).atStartOfDay(ZoneId.systemDefault()).toInstant())
+        )
+
+        form310.createFile()
+    }
+
 }

@@ -49,8 +49,8 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
                         permittedUseLandPlot, codePledgerRight, expiryDateLease, typeConstruction)
                 }
                 TypePledge.Transport -> {
-                    subSectionR43 = SubSectionR43(category.toString(), vinCar, idSelfPropelledCar, yearIssue, brand, model, frameNumber,
-                        enginePowerHP.toString(), enginePowerkW.toString(), engineDisplacementSm3)
+                    subSectionR43 = SubSectionR43(category?.toString(), vinCar, idSelfPropelledCar, yearIssue, brand, model, frameNumber,
+                        enginePowerHP?.toInt()?.toString(), enginePowerkW?.toInt()?.toString(), engineDisplacementSm3)
                 }
                 TypePledge.Engine -> {
                     subSectionR44 = SubSectionR44(name, factoryNumber, inventoryNumber, yearIssue, brand, model, group)
@@ -150,7 +150,7 @@ private fun typePledgeByOrder(order: Int): TypePledge =
     TypePledge.values().firstOrNull { it.order == order } ?: throw Exception("TypePledge with order=$order not found")
 
 
-private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode: Number, val codePledgedProperty: Number,
+private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode: String, val codePledgedProperty: Number,
                                val qualityCategory: Number?, val idCodeGroup: Number?, val collateralSign: Int,
 
                                val typePledge: TypePledge,
@@ -235,7 +235,7 @@ private fun toRowSection4(row: Array<Any?>): RowSection4 {
 
     return RowSection4(
         idCodeSubjectPledge = row[0] as Number,
-        accountCode = row[1] as Number,
+        accountCode = row[1] as String,
         codePledgedProperty = row[2] as Number,
         qualityCategory = row[3] as? Number,
         idCodeGroup = row[4] as? Number,

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!--
+******************************************************************
+XML-СХЕМА для формы отчетности Ф0409310
+СГЕНЕРИРОВАНА XSLT-ПРЕОБРАЗОВАНИЕМ GenSchema.xsl
+******************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-ru:rep0409310:v0.2.4.5" xmlns="urn:cbr-ru:rep0409310:v0.2.4.5"><xs:element name="Ф0409310" type="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+	<xs:complexType name="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Составитель" type="Ф0409310Составитель" minOccurs="1" maxOccurs="1"/>
+			<xs:choice>
+				<xs:element name="Данные310" type="Ф0409310Данные310" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="НетДанных" type="Ф0409310НетДанных" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+			<xs:element name="Пояснение" type="Ф0409310Пояснение" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ПротоколКонтроля" type="Ф0409310ПротоколКонтроля" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ПояснениеОшибок" type="Ф0409310ПояснениеОшибок" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ИнфПК" type="Ф0409310ИнфПК" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="УникИдОЭС" type="GUIDтип" use="required"/>
+		<xs:attribute name="ВидОЭС" type="ВидОЭСтип" use="required"/>
+		<xs:attribute name="КодФормы" type="СтрокаНепустая" use="required"/>
+		<xs:attribute name="ОКУД" type="ОКУДтип" use="optional"/>
+		<xs:attribute name="ВидОтчета" type="Строка" use="required"/>
+		<xs:attribute name="ОтчДата" type="Дата" use="required"/>
+		<xs:attribute name="Периодичность" type="ТипПериодаТип" use="required"/>
+		<xs:attribute name="ДатаВремяФормирования" type="ДатаВремя" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Составитель" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Руководитель" type="Ф0409310СоставительРуководитель" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ГлавБух" type="Ф0409310СоставительГлавБух" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Исполнитель" type="Ф0409310СоставительИсполнитель" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ВидОрг" type="ВидОргТип" use="required"/>
+		<xs:attribute name="КодОрг" type="КодОргТип" use="required"/>
+		<xs:attribute name="КодТУ" type="КПтип" use="optional"/>
+		<xs:attribute name="БИК" type="БИКтип" use="optional"/>
+		<xs:attribute name="ОКАТО" type="ОКАТОтип" use="optional"/>
+		<xs:attribute name="ОКПО" type="ОКПОтип" use="optional"/>
+		<xs:attribute name="ОГРН" type="ОГРНтип" use="optional"/>
+		<xs:attribute name="СокрНаимен" type="Строка" use="optional"/>
+		<xs:attribute name="Адрес" type="Строка" use="optional"/>
+		<xs:attribute name="ДатаПодписания" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310СоставительРуководитель" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Должность" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="ФИО" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310СоставительГлавБух" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Должность" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="ФИО" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310СоставительИсполнитель" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Должность" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="ФИО" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Телефон" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Факс" type="Строка255" use="optional"/>
+		<xs:attribute name="ЭлПочта" type="Строка255" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Р1" type="Ф0409310Данные310Р1" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Р2" type="Ф0409310Данные310Р2" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р3" type="Ф0409310Данные310Р3" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р4" type="Ф0409310Данные310Р4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р5" type="Ф0409310Данные310Р5" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р6.1" type="Ф0409310Данные310Р6.1" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р6.2" type="Ф0409310Данные310Р6.2" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р6.3" type="Ф0409310Данные310Р6.3" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р6.4" type="Ф0409310Данные310Р6.4" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="Ид" type="ЦелоеПолож" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="РР1" type="Ф0409310Данные310Р1РР1" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Р1.4" type="Ф0409310Данные310Р1Р1.4" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="Р1_1" type="ИдДоговора-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1РР1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Р1с" type="Ф0409310Данные310Р1РР1Р1с" minOccurs="1" maxOccurs="999"/>
+			<xs:element name="Р1.1" type="Ф0409310Данные310Р1РР1Р1.1" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Р1.2" type="Ф0409310Данные310Р1РР1Р1.2" minOccurs="1" maxOccurs="99"/>
+			<xs:element name="Р1.3" type="Ф0409310Данные310Р1РР1Р1.3" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1РР1Р1с" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р1.1_2" type="ИдСсуды-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1РР1Р1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р1.1_3" type="Дата" use="required"/>
+		<xs:attribute name="Р1.1_4" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1РР1Р1.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р1.2_2" type="ИдСубъекта-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1РР1Р1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р1.3_2" type="ИдЗалога-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р1Р1.4" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р1.4_2" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р2_1" type="ИдЗалога-лок" use="optional"/>
+		<xs:attribute name="Р2_2" type="ИдГрпЗалога-лок" use="optional"/>
+		<xs:attribute name="Р2_3" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_4" type="Дата" use="optional"/>
+		<xs:attribute name="Р2_5" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_6" type="Дата" use="optional"/>
+		<xs:attribute name="Р2_7" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_8" type="Дата" use="optional"/>
+		<xs:attribute name="Р2_9" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_10" type="Дата" use="optional"/>
+		<xs:attribute name="Р2_11" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_12" type="Дата" use="optional"/>
+		<xs:attribute name="Р2_13" type="Десят20.2неотриц-лок" use="optional"/>
+		<xs:attribute name="Р2_14" type="Дата" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р3_1" type="ИдЗалога-лок" use="required"/>
+		<xs:attribute name="Р3_2" type="ОКСМтип" use="required"/>
+		<xs:attribute name="Р3_3" type="ФИАСтип-лок" use="optional"/>
+		<xs:attribute name="Р3_4" type="ОКАТОтип11-лок" use="optional"/>
+		<xs:attribute name="Р3_5" type="Строка6ц-лок" use="optional"/>
+		<xs:attribute name="Р3_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р3_7" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р3_8" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р3_9" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р3_10" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р3_11" type="СтрокаДо1000Непустая-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Р4.1" type="Ф0409310Данные310Р4Р4.1" minOccurs="1" maxOccurs="1"/>
+			<xs:choice>
+				<xs:element name="Р4.2" type="Ф0409310Данные310Р4Р4.2" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.3" type="Ф0409310Данные310Р4Р4.3" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.4" type="Ф0409310Данные310Р4Р4.4" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.5" type="Ф0409310Данные310Р4Р4.5" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.6" type="Ф0409310Данные310Р4Р4.6" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.7" type="Ф0409310Данные310Р4Р4.7" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.8" type="Ф0409310Данные310Р4Р4.8" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.9" type="Ф0409310Данные310Р4Р4.9" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.10" type="Ф0409310Данные310Р4Р4.10" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.11" type="Ф0409310Данные310Р4Р4.11" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.12" type="Ф0409310Данные310Р4Р4.12" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.13" type="Ф0409310Данные310Р4Р4.13" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.14" type="Ф0409310Данные310Р4Р4.14" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.15" type="Ф0409310Данные310Р4Р4.15" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.16" type="Ф0409310Данные310Р4Р4.16" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.17" type="Ф0409310Данные310Р4Р4.17" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.18" type="Ф0409310Данные310Р4Р4.18" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.19" type="Ф0409310Данные310Р4Р4.19" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.20" type="Ф0409310Данные310Р4Р4.20" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="Р4.21" type="Ф0409310Данные310Р4Р4.21" minOccurs="0" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="Р4_1" type="ИдЗалога-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.1_2" type="СчетЛицТип" use="required"/>
+		<xs:attribute name="Р4.1_3" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.1_4" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.1_5" type="ИдГрпЗалога-лок" use="optional"/>
+		<xs:attribute name="Р4.1_6" type="Симв10-Спр-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.2_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.2_3" type="КадастрНомОбщ-лок" use="optional"/>
+		<xs:attribute name="Р4.2_4" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.2_5" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.2_7" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_8" type="Десят3.3положит-лок" use="optional"/>
+		<xs:attribute name="Р4.2_9" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.2_10" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_11" type="СтрокаДо1000Непустая-лок" use="optional"/>
+		<xs:attribute name="Р4.2_12" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.2_13" type="Дата" use="optional"/>
+		<xs:attribute name="Р4.2_14" type="Симв10-Спр-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.3_2" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.3_3" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.3_4" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.3_5" type="Год-лок" use="optional"/>
+		<xs:attribute name="Р4.3_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.3_7" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.3_8" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.3_9" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.3_10" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.3_11" type="Десят10.1положит-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.4" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.4_2" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.4_3" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.4_4" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.4_5" type="Год-лок" use="optional"/>
+		<xs:attribute name="Р4.4_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.4_7" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.4_8" type="Симв10-Спр-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.5" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.5_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.5_3" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.5_4" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.5_5" type="Год-лок" use="required"/>
+		<xs:attribute name="Р4.5_6" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.5_7" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.6" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.6_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.6_3" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_4" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_5" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_7" type="Год-лок" use="required"/>
+		<xs:attribute name="Р4.6_8" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.7" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.7_2" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.7_3" type="Год-лок" use="required"/>
+		<xs:attribute name="Р4.7_4" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.7_5" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.7_6" type="Строка8Непустая-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.8" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.8_2" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.8_3" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.8_4" type="Год-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.9" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.9_2" type="Симв10-Спр-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.10" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.10_2" type="Симв10-Спр-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.11" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.11_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.11_3" type="МассаДрагмет-лок" use="required"/>
+		<xs:attribute name="Р4.11_4" type="ЦелоеПолож" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.12" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.12_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.12_3" type="Строка255Непустая" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.13" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.13_2" type="СчетЛицТип" use="required"/>
+		<xs:attribute name="Р4.13_3" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.13_4" type="Десят20.2неотриц-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.14" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.14_2" type="ИдСубъекта-лок" use="required"/>
+		<xs:attribute name="Р4.14_3" type="Десят3.3положит-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.15" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.15_2" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.15_3" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.15_4" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.15_5" type="ИдСубъекта-лок" use="required"/>
+		<xs:attribute name="Р4.15_6" type="Симв10-Спр-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.16" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.16_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.16_3" type="ДесятПоложит-лок" use="required"/>
+		<xs:attribute name="Р4.16_4" type="кодISIN-лок" use="optional"/>
+		<xs:attribute name="Р4.16_5" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.16_6" type="Строка255Непустая" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.17" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.17_2" type="ДесятПоложит-лок" use="required"/>
+		<xs:attribute name="Р4.17_3" type="кодISIN-лок" use="optional"/>
+		<xs:attribute name="Р4.17_4" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.18" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.18_2" type="ДесятПоложит-лок" use="required"/>
+		<xs:attribute name="Р4.18_3" type="кодISIN-лок" use="optional"/>
+		<xs:attribute name="Р4.18_4" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.18_5" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.18_6" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.19" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.19_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.19_3" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.19_4" type="Строка255Непустая" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.20" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.20_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.20_3" type="Строка255Непустая" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р4Р4.21" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р4.21_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р4.21_3" type="Строка255Непустая" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р5" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Р5.1" type="Ф0409310Данные310Р5Р5.1" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Р5.2" type="Ф0409310Данные310Р5Р5.2" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Р5.3" type="Ф0409310Данные310Р5Р5.3" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="Р5_1" type="ИдСубъекта-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р5Р5.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Р5.1_10" type="Ф0409310Данные310Р5Р5.1Р5.1_10" minOccurs="0" maxOccurs="99"/>
+		</xs:sequence>
+		<xs:attribute name="Р5.1_2" type="ОКСМтип" use="required"/>
+		<xs:attribute name="Р5.1_3" type="СтрокаДо1000Непустая-лок" use="required"/>
+		<xs:attribute name="Р5.1_4" type="СтрокаДо500Непустая-лок" use="optional"/>
+		<xs:attribute name="Р5.1_5" type="ОГРН_ЮЛ--лок" use="optional"/>
+		<xs:attribute name="Р5.1_6" type="ИНН_ЮЛ--лок" use="optional"/>
+		<xs:attribute name="Р5.1_7" type="кодКИО-лок" use="optional"/>
+		<xs:attribute name="Р5.1_8" type="кодTIN-лок" use="optional"/>
+		<xs:attribute name="Р5.1_9" type="кодLEI-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р5Р5.1Р5.1_10" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:simpleContent>
+			<xs:extension base="кодNUM-лок"></xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р5Р5.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р5.2_2" type="Симв10-Спр-лок" use="required"/>
+		<xs:attribute name="Р5.2_3" type="ОКСМтип" use="required"/>
+		<xs:attribute name="Р5.2_4" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р5.2_5" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р5.2_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р5.2_7" type="ИНН_ФЛ--лок" use="required"/>
+		<xs:attribute name="Р5.2_8" type="ОГРН_ИП--лок" use="optional"/>
+		<xs:attribute name="Р5.2_9" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р5.2_10" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р5.2_11" type="СтрокаДо50Непустая-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р5Р5.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р5.3_2" type="ОКСМтип" use="required"/>
+		<xs:attribute name="Р5.3_3" type="СтрокаДо1000Непустая-лок" use="required"/>
+		<xs:attribute name="Р5.3_4" type="РегНомерКОТип" use="optional"/>
+		<xs:attribute name="Р5.3_5" type="кодБИК--лок" use="optional"/>
+		<xs:attribute name="Р5.3_6" type="кодСВИФТ--лок" use="required"/>
+		<xs:attribute name="Р5.3_7" type="кодTIN-лок" use="optional"/>
+		<xs:attribute name="Р5.3_8" type="кодLEI-лок" use="optional"/>
+		<xs:attribute name="Р5.3_9" type="кодNUM-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р6.1_1" type="ИдСсуды-лок" use="required"/>
+		<xs:attribute name="Р6.1_2" type="ИдСсуды-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р6.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р6.2_1" type="ИдДоговора-лок" use="required"/>
+		<xs:attribute name="Р6.2_2" type="ИдДоговора-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р6.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р6.3_1" type="ИдСубъекта-лок" use="required"/>
+		<xs:attribute name="Р6.3_2" type="ИдСубъекта-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р6.4" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р6.4_1" type="ИдЗалога-лок" use="required"/>
+		<xs:attribute name="Р6.4_2" type="ИдЗалога-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310НетДанных" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="КодНепредставления" type="КодНепредставленияТип" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Пояснение" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:simpleContent>
+			<xs:extension base="СтрокаНепустая"></xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310ПротоколКонтроля" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="Сообщение" type="Ф0409310ПротоколКонтроляСообщение" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310ПротоколКонтроляСообщение" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:simpleContent>
+			<xs:extension base="СтрокаНепустая">
+				<xs:attribute name="Код" type="ЦелоеПолож" use="optional"/>
+				<xs:attribute name="Статус" type="СтатусТип" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310ПояснениеОшибок" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ПояснениеКодОш" type="Ф0409310ПояснениеОшибокПояснениеКодОш" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310ПояснениеОшибокПояснениеКодОш" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:simpleContent>
+			<xs:extension base="СтрокаНепустая">
+				<xs:attribute name="Код" type="ЦелоеПолож" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310ИнфПК" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИмяПК" type="СтрокаНепустая" use="required"/>
+		<xs:attribute name="НомерВерсииМета" type="СтрокаНепустая" use="optional"/>
+		<xs:attribute name="ДатаВерсииМета" type="Дата" use="optional"/>
+		<xs:attribute name="НомерВерсииПК" type="СтрокаНепустая" use="optional"/>
+		<xs:attribute name="ДатаВерсииПК" type="Дата" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="ИдДоговора-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="D-20161102/zzz"/><xs:ЗначениеТипа ЗначТипа="DGVR-20161101-Z"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИдСсуды-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="D-20161102/sss"/><xs:ЗначениеТипа ЗначТипа="DGVR-20161101-S"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИдСубъекта-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="D-20161102/cc"/><xs:ЗначениеТипа ЗначТипа="DGVR-20161101-CCC"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИдЗалога-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="D-20161102/ppp"/><xs:ЗначениеТипа ЗначТипа="DGVR-20161101-PZ"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИдГрпЗалога-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="D-20161102/gr"/><xs:ЗначениеТипа ЗначТипа="DGVR-20161101-gr"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ДесятПоложит-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="10.123456"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:minExclusive value="0"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Десят10.1положит-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="10.1"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="11"/><xs:fractionDigits value="1"/><xs:minExclusive value="0"/><xs:pattern value="([0]|[1-9]\d*)[.]\d{1}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Десят20.2неотриц-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0.00"/><xs:ЗначениеТипа ЗначТипа="12345678901234567890.12"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="22"/><xs:fractionDigits value="2"/><xs:minInclusive value="0"/><xs:pattern value="([0]|[1-9]\d*)[.]\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Десят3.3положит-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="100.001"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="6"/><xs:fractionDigits value="3"/><xs:minExclusive value="0"/><xs:pattern value="([0]|[1-9]\d*)[.]\d{3}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="МассаДрагмет-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="31.1034768"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="17"/><xs:fractionDigits value="7"/><xs:minExclusive value="0"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Симв10-Спр-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0"/><xs:ЗначениеТипа ЗначТипа="99"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="10"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка6ц-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="310310"/><xs:ЗначениеТипа ЗначТипа="110100"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{6}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка8Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:length value="8"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СтрокаДо50Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="50"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СтрокаДо500Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="500"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СтрокаДо1000Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="1000"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КадастрНомОбщ-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="30:123:1234567:12"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="10"/><xs:maxLength value="50"/><xs:pattern value="[0-9: ]{10,}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ФИАСтип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="167ad7b0-0441-487b-a283-8dc248e01b70"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОКАТОтип11-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="03205557002"/><xs:ЗначениеТипа ЗначТипа="67000000000"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{11}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодБИК--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="044525225"/><xs:ЗначениеТипа ЗначТипа="-"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{9}|[-]"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодСВИФТ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1234ABC1234"/><xs:ЗначениеТипа ЗначТипа="-"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="[\dA-Z]{8}|[\dA-Z]{11}|[-]"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОГРН_ИП--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="123456789012345"/><xs:ЗначениеТипа ЗначТипа="-"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{15}|[-]"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОГРН_ЮЛ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1234567890123"/><xs:ЗначениеТипа ЗначТипа="-"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{13}|[-]"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИНН_ЮЛ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИНН_ФЛ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодISIN-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:pattern value="[a-zA-Z]{2}[\da-zA-Z]{9}\d"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодLEI-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="253400a1234567890a35"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="20"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодКИО-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="253400a1234567890a35"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодTIN-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="253400a1234567890a35"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="кодNUM-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="253400a1234567890a35"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Год-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1913"/><xs:ЗначениеТипа ЗначТипа="2000"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:unsignedShort"><xs:pattern value="\d{4}"/><xs:minExclusive value="1000"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Дата" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="2014-11-02"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:date"><xs:pattern value="\d{4}-\d{2}-\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ДатаВремя" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="2014-11-30T13:20:45"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:dateTime"><xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="строка 0..n симв"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"/></xs:simpleType>
+	<xs:simpleType name="СтрокаНепустая" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="строка 1..n симв"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка255" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0..255 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="255"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка255Непустая" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1..255 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ЦелоеПолож" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="9999"/><xs:ЗначениеТипа ЗначТипа="99"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:positiveInteger"/></xs:simpleType>
+	<xs:simpleType name="ВидОргТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:enumeration value="КО"/><xs:enumeration value="ТУ"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ВидОЭСтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:enumeration value="Отчетность КО"/><xs:enumeration value="Отчетность ТУ"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="БИКтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="040125003"/><xs:ЗначениеТипа ЗначТипа="123456789"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{9}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КПтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="32"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодНепредставленияТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0"/><xs:ЗначениеТипа ЗначТипа="1"/><xs:ЗначениеТипа ЗначТипа="2"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:integer"/></xs:simpleType>
+	<xs:simpleType name="КодОргТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="2873/4"/><xs:ЗначениеТипа ЗначТипа="124"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"/></xs:simpleType>
+	<xs:simpleType name="ОГРНтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1234567890123"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{13}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОКАТОтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="12"/><xs:ЗначениеТипа ЗначТипа="12345"/><xs:ЗначениеТипа ЗначТипа="12345678"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{2}|\d{5}|\d{8}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОКПОтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="12345678"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{8}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОКСМтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="643"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{3}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОКУДтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0409711"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{7}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="РегНомерКОТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="2873"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{1,4}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СтатусТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0"/><xs:ЗначениеТипа ЗначТипа="2"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:integer"><xs:enumeration value="0"/><xs:enumeration value="1"/><xs:enumeration value="2"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СчетЛицТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="12345678901234567890"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{5}[0-9ABCEHKMPTX]\d{14}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ТипПериодаТип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="месячная"/><xs:ЗначениеТипа ЗначТипа="по требованию"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:enumeration value="суточная"/><xs:enumeration value="пятидневная"/><xs:enumeration value="еженедельная"/><xs:enumeration value="декадная"/><xs:enumeration value="месячная"/><xs:enumeration value="квартальная"/><xs:enumeration value="полугодовая"/><xs:enumeration value="годовая"/><xs:enumeration value="нерегулярная"/><xs:enumeration value="по требованию"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="GUIDтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="6F9619FF-8B86-D011-B42D-00CF4FC994FF"/><xs:ЗначениеТипа ЗначТипа="A57E17DF-8B86-B711-A42D-00CF4FC994AC"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType></xs:schema>

@@ -251,15 +251,15 @@ fun validateXml(file: File, xsdSchema: String, folderIfError: ()->File) {
         XmlValidator.validate(file, xsdSchema)
 
     } catch (e: Exception) {
+        logger.error("validateXml $file", e)
 
         if(file.exists()) {
-            val errorFile = File("${folderIfError().parent}/${file.name}")
+            val errorFile = File("${folderIfError().absolutePath}/${file.name}")
 
             file.copyTo(errorFile, true)
 
             file.delete()
         }
-        logger.error("validateXml $file", e)
 
         throw Exception(e)
     }

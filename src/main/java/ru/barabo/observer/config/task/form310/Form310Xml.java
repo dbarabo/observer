@@ -37,7 +37,7 @@ public class Form310Xml {
     final private String periodicity = "месячная";
 
     @XStreamAlias("ДатаВремяФормирования")
-    final private String dateTimeCreated = XmlLoader.formatDate( new Date() );
+    final private String dateTimeCreated = XmlLoader.formatDateTime( new Date() );
 
     @XStreamAlias("Составитель")
     final private Former former;

@@ -20,6 +20,8 @@ import ru.barabo.p600.exchange.ExtractRegisterOper
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.nio.charset.Charset
 import java.time.Duration
 import java.time.LocalTime
@@ -86,6 +88,7 @@ object XmlSaver {
 
         val file = File("${pathFolder().absolutePath}/${generateFileName(fileRequest.substringBeforeLast('.'))}")
 
+
         saveXml(file, xmlData)
 
         XmlValidator.validate(file, "/xsd/inc_07.xsd")
@@ -93,29 +96,40 @@ object XmlSaver {
         return file
     }
 
-    private fun saveXml(file: File, xmlData: Any) {
-
-        val outputStream = FileOutputStream(file)
-
-        val writer = OutputStreamWriter(outputStream, Charset.forName("UTF-8"))
-
-        val outPutFormat = OutputFormat()
-        outPutFormat.lineSeparator = ""
-        outPutFormat.isExpandEmptyElements = true
-        outPutFormat.encoding = "UTF-8"
-
-        val d4j = Dom4JDriver(XmlFriendlyNameCoder("_", "_"))
-        d4j.outputFormat = outPutFormat
-
-        val xstream = XStream(d4j)
-        xstream.autodetectAnnotations(true)
-
-        xstream.toXML(xmlData, writer)
-
-        outputStream.close()
-    }
-
     private fun generateFileName(fileRequest: String): String = "INC_07_${fileRequest}_040507717${nameDateToday()}_001.XML"
 
     private fun pathFolder() = "H:/ПОД ФТ/comita/in/OUT/${nameDateToday()}".byFolderExists()
+}
+
+fun saveXml(file: File, xmlData: Any, charset: String = "UTF-8", isUseAttr: Boolean = false) {
+
+    val outputStream = FileOutputStream(file)
+
+    val writer = OutputStreamWriter(outputStream, Charset.forName(charset))
+
+    val outPutFormat = OutputFormat()
+    outPutFormat.lineSeparator = ""
+    outPutFormat.isExpandEmptyElements = false
+    outPutFormat.encoding = charset
+
+    val d4j = Dom4JDriver(XmlFriendlyNameCoder("_", "_"))
+    d4j.outputFormat = outPutFormat
+
+    val xstream = XStream(d4j)
+    xstream.autodetectAnnotations(true)
+
+    if(isUseAttr) {
+        xstream.useAttributeFor(String::class.java)
+        xstream.useAttributeFor(Int::class.java)
+        xstream.useAttributeFor(Long::class.java)
+        xstream.useAttributeFor(Double::class.java)
+        xstream.useAttributeFor(BigDecimal::class.java)
+        xstream.useAttributeFor(BigInteger::class.java)
+        xstream.useAttributeFor(Boolean::class.java)
+        xstream.useAttributeFor(Integer::class.java)
+    }
+
+    xstream.toXML(xmlData, writer)
+
+    outputStream.close()
 }

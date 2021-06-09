@@ -20,10 +20,10 @@ public class SubSectionR41 {
     @XStreamAlias("Р4.1_6")
     final private String collateralSign;
 
-    public SubSectionR41(Number accountCode, Number codePledgedProperty, Number qualityCategory, Number idCodeGroup,
+    public SubSectionR41(String accountCode, Number codePledgedProperty, Number qualityCategory, Number idCodeGroup,
                          Integer collateralSign) {
 
-        this.accountCode = accountCode.toString();
+        this.accountCode = accountCode;
 
         this.codePledgedProperty = codePledgedProperty.toString();
 
