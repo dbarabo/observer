@@ -81,7 +81,7 @@ private class ClearIntSaverImpl : ClearIntSaver {
             TypePayInfo.SettlementCorrespondent -> saveSettlementCorrespondent(header.table, paySystem, payId, sessionSetting)
             TypePayInfo.PayCalcVisa -> savePayCalcVisa(header.table, payId, dateReport, sessionSetting)
             TypePayInfo.NoCalcOper -> saveNoCalcOper(header.table, payId, dateReport, sessionSetting)
-            TypePayInfo.CalcOper -> saveCalcOper(header.table, payId, sessionSetting)
+            TypePayInfo.CalcOper -> saveCalcOper(header.table, payId, sessionSetting, dateReport)
             TypePayInfo.ClaimMessage -> saveClaimMessage(header.table, payId, sessionSetting)
 
             TypePayInfo.DetailFeeVisa -> {} // errorIfFindTableTypeInfo(TypePayInfo.DetailFeeVisa, paySystem)
@@ -136,9 +136,15 @@ private class ClearIntSaverImpl : ClearIntSaver {
         }
     }
 
-    private fun saveCalcOper(table: HtmlTable, payId: Number, sessionSetting: SessionSetting) {
+    private fun saveCalcOper(table: HtmlTable, payId: Number, sessionSetting: SessionSetting, dateReport: LocalDate,) {
 
-        val indexDateSettlement = table.findColumnIndex(DATE_REPORT, TypePayInfo.NoCalcOper)
+        val indexDateSettlement = try {
+            table.findColumnIndex(DATE_REPORT, TypePayInfo.NoCalcOper)
+        } catch (e: Exception) {
+            logger.error("saveCalcOper indexDateSettlement", e)
+
+            -1
+        }
 
         val indexTypeCalc = table.findColumnIndex(DESCRIPTION_VISA, TypePayInfo.NoCalcOper)
 
@@ -150,19 +156,21 @@ private class ClearIntSaverImpl : ClearIntSaver {
 
         val indexAmount = table.findColumnIndex(AMOUNT, TypePayInfo.NoCalcOper)
 
-        val isPay = 1
+        val today = Timestamp.from(dateReport.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
         for (row in table.rows) {
 
             val params = arrayOf<Any?>(payId,
-                isPay,
-                table.cellValue(row, indexDateSettlement),
+                if((table.cellValue(row, indexCount) as Number).toInt() >= 0) 1 else 0,
+                if(indexDateSettlement < 0) today else table.cellValue(row, indexDateSettlement),
                 table.cellValue(row, indexAmount),
                 table.cellValue(row, indexCurrency),
                 table.cellValue(row, indexCount),
                 typeCalcByName( table.cellValue(row, indexTypeCalc).toString() ),
 
-                table.cellValue(row, indexDirection)
+                if((table.cellValue(row, indexCount) as Number).toInt() >= 0)
+                    table.cellValue(row, indexDirection)
+                else ""
             )
             AfinaQuery.execute(INSERT_PAY_CALC_MC, params, sessionSetting)
         }

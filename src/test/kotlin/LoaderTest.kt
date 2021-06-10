@@ -2,7 +2,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -1102,7 +1101,7 @@ res3 = [calc.DEC_TEST];
         logger.error(value)
     }
 
-    @Test
+    //@Test
     fun testForm310() {
         val form310 = DefaultForm310Data(
             Date.from(LocalDate.of(2021, 6, 1).atStartOfDay(ZoneId.systemDefault()).toInstant())
