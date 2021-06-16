@@ -15,10 +15,10 @@ import java.time.LocalTime
 object ExecuteClearIntConverse : SingleSelector {
 
     override val select: String =
-        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 1 and trunc(ondate) = trunc(sysdate)"
+        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 1 and trunc(ondate) >= trunc(sysdate)-1"
 
     override val accessibleData: AccessibleData = AccessibleData(
-        workTimeFrom = LocalTime.of(9, 0),
+        workTimeFrom = LocalTime.of(7, 0),
         workTimeTo =  LocalTime.of(23, 45),
         executeWait = Duration.ofSeconds(1) )
 

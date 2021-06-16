@@ -70,7 +70,7 @@ object CheckSpaceServer : SinglePerpetual {
 
     private val paths = arrayOf("/opt/oracle/oradata/", "/opt/oracle/backup/", "/usr/local/base_backup/")
 
-    private val phones =arrayOf("79243351635", "79147909412", "79502980881", "79147032716", "79025245968")
+    private val phones =arrayOf("79243351635", "79147909412", "79147032716", "79025245968")
 
     private const val SELECT_FREE_SPACE = "select od.USE_SPACE( ? )/1024 from dual"
 

@@ -37,5 +37,5 @@ object RecalcTerminalsRate : Periodical {
         return State.OK
     }
 
-    private const val EXEC_RECALC_RATE = "{ call od.PTKB_PLASTIC_TURN.recalcTerminalsRate }"
+    private const val EXEC_RECALC_RATE = "{ call od.PTKB_PLASTIC_TURN.recalcTerminalsByPos }"
 }

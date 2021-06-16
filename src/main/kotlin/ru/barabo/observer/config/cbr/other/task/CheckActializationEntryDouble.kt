@@ -47,7 +47,9 @@ object CheckActializationEntryDouble: SingleSelector {
 
         val data = AfinaQuery.select(SELECT_DOUBLE_ACTIALIZATION, arrayOf(truncOperDate, truncOperDate))
 
-        return if(data.isNotEmpty()) sendReport(data, truncOperDate) else State.OK
+        val count = if(data.isNotEmpty()) (data[0][1] as Number).toInt() else 0
+
+        return if(count > 2) sendReport(data, truncOperDate) else State.OK
     }
 
     private const val SELECT_OPERDATE = "select trunc(cho.ARCDATE) from CHANGEOPERDATE cho where cho.doc = ? and rownum = 1"
