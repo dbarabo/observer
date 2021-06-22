@@ -12,6 +12,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.time.Duration
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 object ExecuteCtlMtl : SingleSelector {
@@ -22,13 +23,23 @@ object ExecuteCtlMtl : SingleSelector {
             "from od.ptkb_ctl_mtl where state = 0 and nvl(CHECK_COUNT_TRANSACT, 0) != 0 order by PC_CREATED, FILE_ORDER"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(11, 50),
-            workTimeTo =  LocalTime.of(19, 0), executeWait = Duration.ofMinutes(1))
+            workTimeTo =  LocalTime.of(23, 40), executeWait = Duration.ofMinutes(1))
 
     override fun name(): String = "CTL/MTL Обработать"
 
     override fun config(): ConfigTask = PlasticTurnConfig
 
     override fun execute(elem: Elem): State {
+
+        if(LocalTime.now().hour >= 19 &&
+            elem.name.indexOf("MTL") == 0) {
+
+            elem.state = State.NONE
+
+            elem.executed = LocalDateTime.now().plusDays(1).withHour(7).withMinute(0).withSecond(0)
+
+            return State.NONE
+        }
 
         AfinaQuery.execute(CREATE_CTL_MTL, arrayOf(elem.idElem))
 

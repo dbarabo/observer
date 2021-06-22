@@ -1,14 +1,13 @@
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
-import ru.barabo.observer.utils.DateUtils;
+import org.slf4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class RandomUUID {
 
-    final static transient private Logger logger = Logger.getLogger(RandomUUID.class.getName());
+    final static transient private Logger logger = LoggerFactory.getLogger(RandomUUID.class.getName());
 
     public static String create()  {
         return java.util.UUID.randomUUID().toString();

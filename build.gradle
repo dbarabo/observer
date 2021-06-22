@@ -5,24 +5,22 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
-//    dependencies {
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//    }
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.32"
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
 }
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaExec) {
     jvmArgs = ['-Xmx1g']
 }
-
-apply plugin: 'java'
-// apply plugin: 'kotlin'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -31,8 +29,6 @@ repositories {
         dirs '../../repo'
     }
 }
-
-compileJava.options.encoding = 'UTF-8'
 
 dependencies {
 
@@ -44,7 +40,7 @@ dependencies {
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.+'
 
-    //compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.4'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.4'
 
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.+'
 
@@ -95,6 +91,9 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        languageVersion = "1.4"
+    }
 }
 
 jar {
@@ -112,4 +111,9 @@ jar {
             }
         }
     }
+}
+
+task(runMain, dependsOn: 'classes', type: JavaExec) {
+    main = 'ru.barabo.observer.main.ObserverKt'
+    classpath = sourceSets.main.runtimeClasspath
 }

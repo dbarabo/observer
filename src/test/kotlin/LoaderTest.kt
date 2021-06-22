@@ -2,7 +2,9 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
+import ru.barabo.observer.config.task.Executor
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
@@ -46,9 +48,7 @@ import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
-import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
-import ru.barabo.observer.config.task.p311.ticket.TicketCbr
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
@@ -290,9 +290,6 @@ res3 = [calc.DEC_TEST];
             XmlLoaderCbrTicket311p.processFile(it)
         }
     }
-
-    private fun TicketCbr.asString(): String = "$archiveName : $resultArchive ${this.nameRecords?.fileRecords?.joinToString(";") { it.fileName  }}"
-
 
 
     //@Test
@@ -1111,9 +1108,8 @@ res3 = [calc.DEC_TEST];
         form310.createFile()
     }
 
-    //@Test
+    @Test
     fun testRecalcTerminalsRate() {
-
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RecalcTerminalsRate)
 
         elem.task?.execute(elem)
