@@ -41,6 +41,7 @@ import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
+import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
@@ -1108,12 +1109,17 @@ res3 = [calc.DEC_TEST];
         form310.createFile()
     }
 
-    @Test
+    //@Test
     fun testRecalcTerminalsRate() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RecalcTerminalsRate)
 
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun testMinComissionMonthPos() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = MinComissionMonthPos)
 
+        elem.task?.execute(elem)
+    }
 }

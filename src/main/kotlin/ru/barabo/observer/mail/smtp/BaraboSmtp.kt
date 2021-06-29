@@ -18,7 +18,7 @@ object BaraboSmtp : SendMail {
 
     val OPER_YA = arrayOf("oper@ptkb.ru", smtpProperties.from)
 
-    val PRIM_AUTO = arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru", "nazarov@ptkb.ru").onlyAfinaOrYa()
+    val PRIM_AUTO = arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru").onlyAfinaOrYa()
 
     val BOOKER = arrayOf("buh1@ptkb.ru", "kudryavceva@ptkb.ru", "uglanova@ptkb.ru").onlyAfinaOrYa()
 
@@ -31,7 +31,7 @@ object BaraboSmtp : SendMail {
 
     val PTK_PSD_CHECKER = arrayOf("ptkpsd@ptkb.ru").onlyAfina()
 
-    val CHECKER_550P =  arrayOf("oper@ptkb.ru", "nazarov@ptkb.ru").onlyAfina()
+    val CHECKER_550P =  arrayOf("oper@ptkb.ru").onlyAfina()
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
