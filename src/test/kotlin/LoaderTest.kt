@@ -51,6 +51,7 @@ import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
+import ru.barabo.observer.mail.smtp.NbkiSmtp
 import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -1090,6 +1091,8 @@ res3 = [calc.DEC_TEST];
 
         val value: Long= 100048
 
+
+
         logger.error(format.format(value/100.0 ))
     }
 
@@ -1121,5 +1124,10 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 30, name = "01/01/2020", task = MinComissionMonthPos)
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testSendToTest() {
+        NbkiSmtp.sendToTest()
     }
 }

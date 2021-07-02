@@ -2,6 +2,8 @@ package ru.barabo.observer.main
 
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.gui.startLaunch
+import ru.barabo.observer.mail.smtp.InfoSmtp
+import ru.barabo.observer.mail.smtp.NbkiSmtp
 import ru.barabo.observer.store.TaskMapper
 import java.net.InetAddress
 
@@ -33,5 +35,6 @@ object Observer {
 }
 
 fun main(args:Array<String>) {
-    Observer.startConfigs(args)
+
+   Observer.startConfigs(args)
 }

@@ -7,10 +7,10 @@ import java.io.File
 
 object NbkiSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(
-            host = "ns.ptkb.ru",
-            user = "nbki",
-            password = MasterKey.value("NBKI_PSWD"),
-            from = "nbki@ptkb.ru")
+            host = "mail",
+            user = "info",//"reglament",//"nbki",
+            password = "Qwe12345",//MasterKey.value("NBKI_PSWD"),
+            from = "\"Reglament\"<info@ptkb.ru>")//"nbki@ptkb.ru")
 
     private val NBKI = arrayOf("credithistory@nbki.ru")
 
@@ -21,5 +21,10 @@ object NbkiSmtp : SendMail {
     fun sendToNbki(file : File) {
 
         NbkiSmtp.send(to = NBKI, cc = BaraboSmtp.AUTO, subject = SUBJECT_NBKI, body = BODY_NBKI, attachments = arrayOf(file))
+    }
+
+    fun sendToTest() {
+
+        send(to = BaraboSmtp.AUTO, subject = "test", body = "test")
     }
 }

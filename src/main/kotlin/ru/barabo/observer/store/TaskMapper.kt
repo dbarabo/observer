@@ -11,6 +11,7 @@ import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.sender.SenderMail
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.cbr.turncard.TurnCard
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
@@ -129,7 +130,7 @@ enum class BuildInfo(val build: String, val configs: List<ConfigTask>) {
 private fun getBuildInfoByBuild(build: String): BuildInfo =
         BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
 
-private fun cbrConfigs(): List<ConfigTask> = listOf(TurnCard, IBank, PtkPsd, TicketPtkPsd, OtherCbr)
+private fun cbrConfigs(): List<ConfigTask> = listOf(IBank, PtkPsd, TicketPtkPsd, OtherCbr, SenderMail)
 
 private fun jzdoConfigs(): List<ConfigTask> = listOf(UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 
