@@ -7,7 +7,7 @@ import ru.barabo.smtp.SmtpProperties
 
 object InfoSmtp : SendMail {
     override val smtpProperties: SmtpProperties = SmtpProperties(
-        host = "mail",
+        host = "mail", //"192.168.0.4"
         user = "info",
         password = MasterKey.value("SMTP_INFO_PSWD"),
         from = MasterKey.value("SMTP_INFO") )

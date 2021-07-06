@@ -34,6 +34,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerAllBalance
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
+import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
@@ -1126,8 +1127,10 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun testSendToTest() {
-        NbkiSmtp.sendToTest()
+    // @Test
+    fun testEmailTempSender() {
+        val elem = Elem(idElem = 1245512350L, name = "EmailTempSender", task = EmailTempSender)
+
+        elem.task?.execute(elem)
     }
 }
