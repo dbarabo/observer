@@ -17,12 +17,12 @@ data class HtmlContent(private val title: String,
         return "<html> <head>  <title> $title </title> ${tableStyle()} </head> <body> $body <table border=\"1\"> $headerBody </table>  </body> </html>"
     }
 
-    private fun htmlHeader() :String = headerTable.keys.joinToString("\n</th><th>", "\n<tr><th>", "\n</th></tr>")
+    private fun htmlHeader(): String = headerTable.keys.joinToString("\n</th><th>", "\n<tr><th>", "\n</th></tr>")
 
     private fun tableData(): String =
         data.joinToString("\t</tr>\n\t<tr>", "\n\t<tr>", "\n\t</tr>") { tableRow(it) }
 
-    private fun tableRow(row: Array<Any?>) :String {
+    private fun tableRow(row: Array<Any?>): String {
 
         var index = -1
 

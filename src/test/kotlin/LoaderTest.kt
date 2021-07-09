@@ -1133,4 +1133,16 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
+
+    // @Test
+    fun testAssociateWith() {
+        val headerMap = "columns;rows".split(";").associateWith { "left" }
+
+        for (pair in headerMap) {
+            logger.error("key=${pair.key}")
+            logger.error("value=${pair.value}")
+        }
+    }
+
+
 }

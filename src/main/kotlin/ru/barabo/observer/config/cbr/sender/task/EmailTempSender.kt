@@ -62,9 +62,7 @@ private fun trySendHtmlTable(idElem: Long?, emails: Array<String>, subject: Stri
              cc: Array<String>, bcc: Array<String>, cursor: String, selectParams: String?,
                              columns: String): State {
 
-    val headerMap = columns.split(";")
-        ?.toTypedArray()
-        .associate { it to "left" }
+    val headerMap = columns.split(";").associateWith { "left" }
 
     val params = selectParams?.takeIf { it.isNotBlank() }?.let { AfinaQuery.select(it)[0] }
 
