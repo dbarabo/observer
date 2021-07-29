@@ -14,8 +14,9 @@ object Acquiring  : AbstractConfig() {
         RecalcTerminalsRate.findAll()
 
         AcquiringProcessTerminal.findAll()
-
         RegisterBySchedulerTerminal.findAll()
+
+        MinComissionMonthPos.findAll()
 
         LoadPaymentWeechatXlsx.findAll()
         // ExecuteWeechatFile.findAll()

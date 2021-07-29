@@ -16,9 +16,6 @@ import javax.xml.validation.SchemaFactory
 import kotlin.concurrent.timer
 
 
-
-
-
 class AnnotationTest {
 
     private val logger = LoggerFactory.getLogger(AnnotationTest::class.java)
