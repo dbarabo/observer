@@ -26,7 +26,7 @@ object AcquiringProcessTerminal : SingleSelector {
     override fun config(): ConfigTask = Acquiring
 
     override val accessibleData = AccessibleData(WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(1, 0), workTimeTo = LocalTime.of(23, 55))
+        workTimeFrom = LocalTime.of(7, 40), workTimeTo = LocalTime.of(23, 55))
 
     override fun isCursorSelect(): Boolean = true
 

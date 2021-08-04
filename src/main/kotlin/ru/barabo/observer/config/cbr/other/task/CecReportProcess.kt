@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.cbr.other.task
 
+import ru.barabo.cmd.XmlValidator
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
@@ -45,7 +46,14 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val idRequest = loadXmlData(file)
 
-        idRequest?.let { sendMailData(sendResponseData(it, file), file) } ?: sendMailData(null, file)
+        idRequest?.let { request ->
+            val fileResponse = sendResponseData(request, file)
+
+            fileResponse?.let {XmlValidator.validate(it, XSD_SCHEMA_PATH) }
+
+            sendMailData(fileResponse, file)
+        }
+            ?: sendMailData(null, file)
     }
 
     private fun loadXmlData(file: File) :Number? {
@@ -64,6 +72,8 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         return idRequest
     }
+
+    private const val XSD_SCHEMA_PATH = "/xsd/VO_CIK_CB_7.xsd"
 
     private const val SUBJECT_CEC = "ЦИК ОТЧЕТ (CEC REPORT)"
 

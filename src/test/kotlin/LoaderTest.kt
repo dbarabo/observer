@@ -1143,6 +1143,4 @@ res3 = [calc.DEC_TEST];
             logger.error("value=${pair.value}")
         }
     }
-
-
 }
