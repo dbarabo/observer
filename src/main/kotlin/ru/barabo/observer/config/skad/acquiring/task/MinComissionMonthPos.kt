@@ -24,7 +24,7 @@ object MinComissionMonthPos : Periodical {
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
         workTimeFrom = LocalTime.of(3, 30), workTimeTo = LocalTime.of(10, 30) )
 
-    override fun isAccess()  = super.isAccess() && (LocalDate.now().dayOfMonth == 2)
+    override fun isAccess()  = super.isAccess() && (LocalDate.now().dayOfMonth == 1)
 
     override val unit: ChronoUnit = ChronoUnit.DAYS
 

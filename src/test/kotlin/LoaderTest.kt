@@ -4,7 +4,6 @@ import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.task.Executor
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
@@ -50,9 +49,9 @@ import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
+import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
-import ru.barabo.observer.mail.smtp.NbkiSmtp
 import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.TaskMapper
@@ -82,7 +81,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"TEST"*/"TEST")
+        TaskMapper.init("TEST", "AFINA")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1105,15 +1104,6 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun testForm310() {
-        val form310 = DefaultForm310Data(
-            Date.from(LocalDate.of(2021, 6, 1).atStartOfDay(ZoneId.systemDefault()).toInstant())
-        )
-
-        form310.createFile()
-    }
-
-    //@Test
     fun testRecalcTerminalsRate() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RecalcTerminalsRate)
 
@@ -1142,5 +1132,14 @@ res3 = [calc.DEC_TEST];
             logger.error("key=${pair.key}")
             logger.error("value=${pair.value}")
         }
+    }
+
+    @Test
+    fun testForm310() {
+        val form310 = DefaultForm310Data(
+            Date.from(LocalDate.of(2021, 8, 9).atStartOfDay(ZoneId.systemDefault()).toInstant())
+        )
+        form310.createFile()
+
     }
 }

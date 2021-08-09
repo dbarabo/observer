@@ -168,7 +168,7 @@ private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode:
                                val expiryDateLease: Date?,
                                val typeConstruction: String?,
 
-                               val category: Number?,
+                               val category: String?,
                                val vinCar: String?,
                                val idSelfPropelledCar: String?,
                                val yearIssue: Int?,
@@ -257,7 +257,7 @@ private fun toRowSection4(row: Array<Any?>): RowSection4 {
         expiryDateLease = row[18] as? Date,
         typeConstruction = row[19] as? String,
 
-        category = row[20] as? Number,
+        category = row[20] as? String,
         vinCar = row[21] as? String,
         idSelfPropelledCar = row[22] as? String,
         yearIssue = (row[23] as? Number)?.toInt(),

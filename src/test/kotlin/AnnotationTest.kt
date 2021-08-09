@@ -4,10 +4,13 @@ import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.barabo.plastic.turn.loader.loadClearIntCp1251
 import ru.barabo.observer.config.skad.crypto.task.AddSign600P
+import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 import java.util.regex.Pattern
 import javax.xml.XMLConstants
