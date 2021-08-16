@@ -1136,9 +1136,7 @@ res3 = [calc.DEC_TEST];
 
     @Test
     fun testForm310() {
-        val form310 = DefaultForm310Data(
-            Date.from(LocalDate.of(2021, 8, 9).atStartOfDay(ZoneId.systemDefault()).toInstant())
-        )
+        val form310 = DefaultForm310Data(LocalDate.of(2021, 8, 16))
         form310.createFile()
 
     }

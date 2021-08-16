@@ -10,9 +10,14 @@ import ru.barabo.observer.config.skad.forms.form310.Form310Data
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.form310.Form310Xml
 import java.io.File
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
-class DefaultForm310Data(override val dateReport: Date) : Form310Data {
+class DefaultForm310Data(dateStartReport: LocalDate) : Form310Data {
+
+    override val dateReport: Date = Date.from(dateStartReport.withDayOfMonth(1)
+        .atStartOfDay(ZoneId.systemDefault()).toInstant())
 
     private val _data = checkCreateData310Form(dateReport)
 
@@ -53,4 +58,4 @@ private val folderReport = "H:/Dep_Buh/310".ifTest("C:/Dep_Buh/310")
 
 private val xsd =  "/xsd/Ф310_Schema.xsd"
 
-private const val fileName310 = "Ф310_40507717.xml"
+private const val fileName310 = "OES.xml"//"Ф310_40507717.xml"

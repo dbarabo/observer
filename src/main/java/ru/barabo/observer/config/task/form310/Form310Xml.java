@@ -28,7 +28,7 @@ public class Form310Xml {
     final private String okud =  "0409310";
 
     @XStreamAlias("ВидОтчета")
-    final private String kindReport =  "КО";
+    final private String kindReport =  "отчет КО";
 
     @XStreamAlias("ОтчДата")
     final private String dateReport;
