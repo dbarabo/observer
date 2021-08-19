@@ -14,6 +14,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.sender.SenderMail
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.cbr.turncard.TurnCard
+import ru.barabo.observer.config.correspond.Correspond
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
 import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.crypto.ScadConfig
@@ -124,11 +125,14 @@ enum class BuildInfo(val build: String, val configs: List<ConfigTask>) {
     Barabo("BARABO", baraboConfigs()),
     Jzdo("JZDO", jzdoConfigs()),
     Scad("SCAD", scadSignatureConfigs()),
+    Correspond("CORRESPOND", cbrCorrespond()),
     Test("TEST", testConfig())
 }
 
 private fun getBuildInfoByBuild(build: String): BuildInfo =
         BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
+
+private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)
 
 private fun cbrConfigs(): List<ConfigTask> = listOf(IBank, PtkPsd, TicketPtkPsd, OtherCbr, SenderMail)
 

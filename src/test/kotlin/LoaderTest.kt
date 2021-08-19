@@ -38,6 +38,7 @@ import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
+import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
@@ -1134,10 +1135,15 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-    @Test
+    //@Test
     fun testForm310() {
-        val form310 = DefaultForm310Data(LocalDate.of(2021, 8, 16))
+        val form310 = DefaultForm310Data(LocalDate.of(2021, 8, 18))
         form310.createFile()
+    }
 
+    //@Test
+    fun testDecode() {
+
+       // DecryptEdFile.loadFile(File("c:/temp/050771700000000000PacketEPD119009lf.ED"))
     }
 }

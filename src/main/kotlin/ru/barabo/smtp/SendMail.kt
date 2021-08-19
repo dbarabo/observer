@@ -35,6 +35,8 @@ interface SendMail {
             send(to, cc, bcc, subject, body, attachments, charsetSubject, subtypeBody)
         } catch (e :SmtpException) {
             LoggerFactory.getLogger(SendMail::class.java).error("sendStubThrows", e)
+
+            LoggerFactory.getLogger(SendMail::class.java).error("body = $body")
         }
     }
 

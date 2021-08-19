@@ -2,17 +2,15 @@
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.barabo.plastic.turn.task.LoadCtlMtl
 import ru.barabo.observer.config.skad.acquiring.task.LoadPaymentWeechatXlsx
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.Shift
-import ru.barabo.observer.store.TaskMapper
 import ru.barabo.xlsx.SheetReader
 import ru.barabo.xlsx.byString
 import java.io.File
 import java.net.InetAddress
-import java.nio.charset.Charset
 import java.time.Duration
+import java.time.LocalDateTime
 
 class ShiftTest {
 
@@ -20,9 +18,18 @@ class ShiftTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA")
+        //TaskMapper.init("TEST", "AFINA")
 
         com.sun.javafx.application.PlatformImpl.startup {}
+    }
+
+
+    //@Test
+    fun testFormat() {
+
+        val dayByMoscow = "%02d".format( LocalDateTime.now().minusHours(7).dayOfMonth )
+
+        logger.error("dayByMoscow=$dayByMoscow")
     }
 
     //@Test

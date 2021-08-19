@@ -18,6 +18,7 @@ object Scad {
 
     private const val DEF_PROFILE = "FEDERAL"
 
+
     private const val CRYPTO_FULL_PATH = "$CRYPTO_PATH/$CRYPTO_PROGRAM"
 
     init {
