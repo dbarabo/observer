@@ -136,7 +136,7 @@ private const val ARCHIVE_PATH = "D:/ARCHIVE"
 
 private const val Z_IN = "z:/in"
 
-private const val UNSIGN_PATH = "C:/oev/Exg/afina"
+const val UNSIGN_PATH = "C:/oev/Exg/afina"
 
 private fun File.isCorrespondToday(): Boolean {
     val dayByMoscow = "%02d".format( LocalDateTime.now().minusHours(7).dayOfMonth )

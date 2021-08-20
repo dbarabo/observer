@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.correspond
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.correspond.task.ArchiveMorning
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 
 object Correspond  : AbstractConfig() {
@@ -12,6 +13,8 @@ object Correspond  : AbstractConfig() {
     override fun configRun() {
 
         DecryptEdFile.findAll()
+
+        ArchiveMorning.findAll()
 
         executeTasks()
     }
