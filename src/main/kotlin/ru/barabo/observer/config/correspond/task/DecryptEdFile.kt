@@ -17,7 +17,10 @@ import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.p311.ticket.FileRecord
 import ru.barabo.observer.config.task.p311.ticket.NameRecords
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.config.task.template.file.FileProcessorWithState
 import ru.barabo.observer.mail.smtp.BaraboSmtp
+import ru.barabo.observer.store.Elem
+import ru.barabo.observer.store.State
 import java.io.File
 import java.time.LocalDateTime
 import java.util.*
@@ -28,7 +31,7 @@ private fun correspondReceiveFolder() = File("C:/oev/Exg/rcv")
 @Transient
 private val logger = Logger.getLogger(DecryptEdFile::class.java.name)
 
-object DecryptEdFile : FileFinder, FileProcessor {
+object DecryptEdFile : FileFinder, FileProcessorWithState {
 
     override fun name(): String = "Расшифровать и положить"
 
@@ -38,27 +41,33 @@ object DecryptEdFile : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData = AccessibleData (workWeek = WeekAccess.ALL_DAYS)
 
-    override fun processFile(file: File) {
+    override fun processFile(file: File, elem: Elem): State {
 
-        tryProcessSentError(file) {
+        return tryProcessSentError(file) {
 
             copyToArchiveOthersFile(file)
 
             if(file.isCorrespondToday() ) {
-                uncryptMoveFile(file)
-            } else {
-                file.delete()
+                //elem.executed = null
+                //State.NONE
 
+                uncryptMoveFile(file)
+                State.OK
+            } else {
                 if(file.isNoTodayCorrespond() ) {
+                    //uncryptMoveFile(file)
                     throw Exception ("isNoTodayCorrespond файл не прошел по маске file=$file")
                 }
+                file.delete()
+
+                State.OK
             }
         }
     }
 }
 
-private fun tryProcessSentError(file: File, process: ()->Unit) {
-    try {
+private fun tryProcessSentError(file: File, process: ()->State): State {
+    return try {
         process()
     } catch (e: Exception) {
 
@@ -67,6 +76,8 @@ private fun tryProcessSentError(file: File, process: ()->Unit) {
         logger.error("tryProcessSentError", e)
 
         sentErrorMessage(file,e.message?:"")
+
+        State.ERROR
     }
 }
 

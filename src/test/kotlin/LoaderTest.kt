@@ -38,7 +38,6 @@ import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
-import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
@@ -69,7 +68,6 @@ import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -82,7 +80,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA")
+        TaskMapper.init("TEST", "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1146,4 +1144,13 @@ res3 = [calc.DEC_TEST];
 
        // DecryptEdFile.loadFile(File("c:/temp/050771700000000000PacketEPD119009lf.ED"))
     }
+
+    //@Test
+    fun testReportTransListLoader() {
+
+        val file = File("C:/Temp/ReportTransList/ReportTransList25082021_2.csv")
+
+        ReportTransListLoader.processFile(file)
+    }
+
 }
