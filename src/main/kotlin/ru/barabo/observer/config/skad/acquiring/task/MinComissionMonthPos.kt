@@ -10,6 +10,7 @@ import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -22,7 +23,8 @@ object MinComissionMonthPos : Periodical {
     override fun config(): ConfigTask = Acquiring
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(3, 30), workTimeTo = LocalTime.of(10, 30) )
+        workTimeFrom = LocalTime.of(3, 30), workTimeTo = LocalTime.of(10, 30),
+        executeWait = Duration.ofMinutes(1) )
 
     override fun isAccess()  = super.isAccess() && (LocalDate.now().dayOfMonth == 1)
 

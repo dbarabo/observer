@@ -1102,20 +1102,6 @@ res3 = [calc.DEC_TEST];
         logger.error(value)
     }
 
-    //@Test
-    fun testRecalcTerminalsRate() {
-        val elem = Elem(idElem = 30, name = "01/01/2020", task = RecalcTerminalsRate)
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
-    fun testMinComissionMonthPos() {
-        val elem = Elem(idElem = 30, name = "01/01/2020", task = MinComissionMonthPos)
-
-        elem.task?.execute(elem)
-    }
-
     // @Test
     fun testEmailTempSender() {
         val elem = Elem(idElem = 1245512350L, name = "EmailTempSender", task = EmailTempSender)
@@ -1153,4 +1139,17 @@ res3 = [calc.DEC_TEST];
         ReportTransListLoader.processFile(file)
     }
 
+    //@Test
+    fun testRecalcTerminalsRate() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = RecalcTerminalsRate)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testMinComissionMonthPos() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = MinComissionMonthPos)
+
+        elem.task?.execute(elem)
+    }
 }

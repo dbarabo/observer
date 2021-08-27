@@ -16,6 +16,7 @@ object PlasticTurnConfig : AbstractConfig() {
         FinderHcardIn.findAll()
 
         BinLoader.findAll()
+        ReportTransListLoader.findAll()
 
         //OutIbi.findAll()
         OutIbiAll.findAll()
