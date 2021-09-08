@@ -115,13 +115,13 @@ object CecReportProcess : FileFinder, FileProcessor {
 
         val responseDateTime = LocalDateTime.now()
 
-        val requestDate = fileRequest.nameWithoutExtension.substringAfter('_').substringBefore('_')
-
         val requestNumber = fileRequest.nameWithoutExtension.substringAfter("_Z_")
+            .takeIf { it.length <  fileRequest.nameWithoutExtension.length}
+            ?: fileRequest.nameWithoutExtension.substringAfter("_P_")
 
         val responseFile = File("${xCecResponseToday().absolutePath}/${OUR_CODE}_${responseDateTime.formatDateTime()}_K_${requestNumber}_1000_$CEC_CODE.xml")
 
-        val textResponse = emptyTicketTemplate(responseDateTime.formatDateTime(), requestNumber, requestDate, responseDateTime.formatDateDDMMYYYY() )
+        val textResponse = emptyTicketTemplate(responseFile.nameWithoutExtension, fileRequest.nameWithoutExtension, responseDateTime.formatDateDDMMYYYY() )
 
         responseFile.writeText(textResponse)
 
@@ -179,9 +179,8 @@ object CecReportProcess : FileFinder, FileProcessor {
         AfinaQuery.execute(INSERT_PERSON, params, sessionSetting)
     }
 
-    private fun emptyTicketTemplate(dateTimeTicket: String, //031018_112512
-                                    requestNumber: String, //0039
-                                    requestDate: String, //021018
+    private fun emptyTicketTemplate(responseFileNoExt: String,
+                                    fileRequestNoExt: String,
                                     createDate: String) /*dd.MM.yyyy*/ =
             """<?xml version="1.0" encoding="UTF-8"?>
 <File xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="VO_CIK_CB_K_6.xsd">
@@ -190,8 +189,8 @@ object CecReportProcess : FileFinder, FileProcessor {
   <ResultText>Информация по проверяемым лицам отсутствует</ResultText>
   <To>$CEC_CODE</To>
   <From>$OUR_CODE</From>
-  <MessageID>${OUR_CODE}_${dateTimeTicket}_K_${requestNumber}_1000_$CEC_CODE</MessageID>
-  <CorrelationMessageID>${CEC_CODE}_${requestDate}_Z_$requestNumber</CorrelationMessageID>
+  <MessageID>${responseFileNoExt}</MessageID>
+  <CorrelationMessageID>${fileRequestNoExt}</CorrelationMessageID>
   <MessageType>2</MessageType>
   <Priority>5</Priority>
   <CreateTime>$createDate</CreateTime>
