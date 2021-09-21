@@ -12,7 +12,7 @@ object CashOutCountryChecker {
 
         val html = createHtmlData(idMtl, title) ?: return
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_COUNTRY, bcc = BaraboSmtp.AUTO,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_COUNTRY, bcc = BaraboSmtp.OPER_YA,
             subject = title, body = html, subtypeBody = "html")
     }
 

@@ -80,7 +80,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1090,8 +1090,6 @@ res3 = [calc.DEC_TEST];
 
         val value: Long= 100048
 
-
-
         logger.error(format.format(value/100.0 ))
     }
 
@@ -1119,9 +1117,11 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-    //@Test
+   // @Test
     fun testForm310() {
-        val form310 = DefaultForm310Data(LocalDate.of(2021, 8, 18))
+
+        val form310 = DefaultForm310Data(LocalDate.of(2021, 9, 20))
+
         form310.createFile()
     }
 

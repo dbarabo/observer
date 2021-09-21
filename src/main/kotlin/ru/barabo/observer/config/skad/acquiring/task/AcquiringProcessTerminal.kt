@@ -46,7 +46,7 @@ object AcquiringProcessTerminal : SingleSelector {
 
             AfinaQuery.commitFree(uniqueSession)
 
-            mailInfoSuccess(posRealId)
+            posRealId?.let { mailInfoSuccess(it) }
 
         } catch (e: Exception) {
 
@@ -70,7 +70,7 @@ object AcquiringProcessTerminal : SingleSelector {
                 subject = SUBJECT_NONE_EXEC, body = info, charsetSubject = "UTF-8")
     }
 
-    private fun processBySchedulerId(schedulerId: Long, uniqueSession: SessionSetting): Number {
+    private fun processBySchedulerId(schedulerId: Long, uniqueSession: SessionSetting): Number? {
         val row = AfinaQuery.select(SELECT_TERMINAL_INFO, arrayOf(schedulerId), uniqueSession)[0]
 
         val terminalId = row[0] as String
@@ -81,8 +81,8 @@ object AcquiringProcessTerminal : SingleSelector {
         updateCrossCourseVisa(isUpdateVisaCourse?.toInt()?:0, terminalId, uniqueSession)
 
         return AfinaQuery.execute(EXEC_PROCESS_AQUIRING_TERMINAL,
-                arrayOf(schedulerId), uniqueSession, intArrayOf(OracleTypes.NUMBER))?.get(0) as? Number ?:
-                throw Exception("posExecReal is not found schedulerId=$schedulerId")
+                arrayOf(schedulerId), uniqueSession, intArrayOf(OracleTypes.NUMBER))?.get(0) as Number? /*?:
+                throw Exception("posExecReal is not found schedulerId=$schedulerId")*/
     }
 
     private fun updateCrossCourseVisa(isUpdateVisaCourse: Int, terminalId: String, uniqueSession: SessionSetting) {
