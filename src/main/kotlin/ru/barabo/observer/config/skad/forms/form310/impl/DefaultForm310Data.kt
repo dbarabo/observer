@@ -54,7 +54,8 @@ private val chiefAccountantPtkb = ExecutorForm("Врио главного бух
 
 private val executorPtkb = ExecutorForm("Ведущий экономист", "Кудрявцева Людмила Федоровна", "226-98-31")
 
-private val folderReport = "H:/Dep_Buh/310".ifTest("C:/Dep_Buh/310")
+private val folderReport = "H:/Dep_Kred/ОТЧЕТЫ КД/310_ФОРМА".ifTest("C:/Dep_Kred/ОТЧЕТЫ КД/310_ФОРМА")
+    //"H:/Dep_Buh/310".ifTest("C:/Dep_Buh/310")
 
 private val xsd =  "/xsd/Ф310_Schema.xsd"
 

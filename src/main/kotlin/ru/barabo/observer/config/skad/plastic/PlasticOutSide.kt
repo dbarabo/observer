@@ -39,6 +39,8 @@ object PlasticOutSide  : AbstractConfig() {
 
         MoveTicketNbki.findAll()
 
+        SendXmlForm310.findAll()
+
         this.executeTasks()
     }
 }
