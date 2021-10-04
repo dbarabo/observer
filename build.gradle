@@ -68,6 +68,8 @@ dependencies {
 
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
 
+    compile group: 'org.firebirdsql.jdbc', name: 'jaybird', version: '2.2.15' /*, ext: 'pom'*/
+
     compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 
     compile group: 'org.dom4j', name: 'dom4j', version: '2.1.1'

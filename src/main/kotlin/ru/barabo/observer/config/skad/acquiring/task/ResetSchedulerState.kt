@@ -21,7 +21,8 @@ object ResetSchedulerState : Periodical {
     override val accessibleData: AccessibleData = AccessibleData(
             workWeek = WeekAccess.ALL_DAYS,
             workTimeFrom = LocalTime.of(0, 0, 30),
-            workTimeTo = LocalTime.of(12, 0) )
+            workTimeTo = LocalTime.of(12, 0)
+    )
 
     override val unit: ChronoUnit = ChronoUnit.DAYS
 

@@ -44,7 +44,7 @@ object NbkiAllReportsSend : Periodical {
 
     private fun xNbkiToday() = "${xNbki()}${todayFolder()}"
 
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    private fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun execute(elem: Elem): State {
 
