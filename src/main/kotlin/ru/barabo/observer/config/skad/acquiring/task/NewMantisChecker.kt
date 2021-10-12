@@ -74,10 +74,10 @@ object NewMantisChecker : SinglePerpetual {
 
             if(time.isBefore(eveningTime)) {
                 updateRandomEvening(id, eveningTime)
-            } else {
-                if(!eveningOk.contains(staff)) {
+            }
+
+            if(!eveningOk.contains(staff)) {
                     eveningOk.add(staff)
-                }
             }
         }
     }
@@ -121,22 +121,22 @@ object NewMantisChecker : SinglePerpetual {
 
             if(time.isAfter(MORNING)) {
                 updateRandomMorning(id, time, staff)
-            } else {
-                if(!morningOk.contains(staff)) {
+            }
+
+            if(!morningOk.contains(staff)) {
                     morningOk.add(staff)
-                }
             }
         }
     }
 
     private fun isCheckDuty(idReg: Number, time: LocalTime, staff: Int): Boolean {
 
-        val isDuty = ((morningOk.size == staffCount() - 1) && (time.isAfter(DUTY_MINIMUM)))
+        val isDuty = ((morningOk.size >= staffCount() - 1) && (time.isAfter(DUTY_MINIMUM)))
+
+        logger.error("isDuty=$isDuty morningOk.size=${morningOk.size} idReg=$idReg")
 
         if(isDuty) {
             if(time.isAfter(DUTY_START) )  updateRandomDutyMorning(idReg)
-
-            morningOk.add(staff)
         }
 
         return isDuty
@@ -339,7 +339,18 @@ where e.staff_id in $MY_LIST
   order by e.TIME_EV
 """
 
-private const val SELECT_MORNING_TIME_STAFF = "$SELECT_MORNING_TIME and e.staff_id = ?"
+private const val SELECT_MORNING_TIME_STAFF = """
+  select e.id_reg, e.staff_id, e.TIME_EV, e.last_timestamp, sf.last_name
+  from reg_events e
+ join staff sf on sf.id_staff = e.staff_id
+where e.staff_id in $MY_LIST
+  and e.date_ev = current_date
+  and e.TIME_EV < CAST('12:00' AS TIME)
+  and e.TIME_EV > CAST('5:00' AS TIME)
+  and e.inner_number_ev = 17
+  and e.staff_id = ?
+  order by e.TIME_EV    
+"""
 
 private const val SELECT_EVENING_TIME = """
   select e.id_reg, e.staff_id, e.TIME_EV, e.last_timestamp, sf.last_name

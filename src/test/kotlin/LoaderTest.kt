@@ -8,6 +8,7 @@ import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
+import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.p440.task.*
@@ -80,7 +81,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1152,4 +1153,25 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun testCreateAccount311p() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = CreateAccount311p)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testSaveAccount311p() {
+
+        //val EXEC_CREATE_JUR_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execJurDataPriorDay }"
+
+        //AfinaQuery.execute(EXEC_CREATE_JUR_ACCOUNT)
+
+        MessageCreator311p.createMessage(1250875298) // juric
+
+        MessageCreator311p.createMessage(1250875287) // juric
+    }
+
+
 }

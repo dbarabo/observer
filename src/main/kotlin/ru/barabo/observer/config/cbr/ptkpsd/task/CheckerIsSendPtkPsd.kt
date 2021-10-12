@@ -28,7 +28,7 @@ object CheckerIsSendPtkPsd : FileFinder, FileProcessor {
     override fun isThrowWhenNotExists() = false
 
     override fun processFile(file : File) {
-        if(file.exists()) {
+        if(file.exists() && (!file.name.equals("Thumbs.db", ignoreCase = true) ) ) {
             errorSendFileByPtkPsd(file.name)
         }
     }
