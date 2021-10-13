@@ -39,6 +39,8 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
         load(file, Charset.forName("CP1251"))
 
+        checkInitMerchantId(fileId)
+
         checkSum(fileId)
 
         val moveFile = File("${LoadRestAccount.hCardInToday()}/${file.name}")
@@ -59,6 +61,13 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private fun bodyError(text :String) =
             "В загруженном файле <${fileProcess.name}> AFP_ACQ.id:<$fileId> не сходится чек-сумма $text"
+
+    private fun checkInitMerchantId(fileId :Any?) {
+
+        AfinaQuery.execute(EXEC_INIT_MERCHANT, arrayOf(fileId))
+    }
+
+    private const val EXEC_INIT_MERCHANT =  "{ call od.PTKB_PLASTIC_TURN.checkInitMerchantId( ? ) }"
 
     private fun checkSum(fileId :Any?) {
 

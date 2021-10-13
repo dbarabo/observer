@@ -1173,5 +1173,12 @@ res3 = [calc.DEC_TEST];
         MessageCreator311p.createMessage(1250875287) // juric
     }
 
+    //@Test
+    fun testOutInnByMerchant() {
+        val elem = Elem(task = OutInnByMerchant)
+
+        elem.task?.execute(elem)
+    }
+
 
 }

@@ -18,9 +18,6 @@ object PlasticTurnConfig : AbstractConfig() {
         BinLoader.findAll()
         ReportTransListLoader.findAll()
 
-        //OutIbi.findAll()
-        OutIbiAll.findAll()
-
         ExecuteAfp.findAll()
         ExecuteCtlMtl.findAll()
         ExecuteObi.findAll()
@@ -28,8 +25,8 @@ object PlasticTurnConfig : AbstractConfig() {
         ExecuteClearIntConverse.findAll()
 
         IbiSendToJzdo.findAll()
-        //OutRestCheck.findAll()
-        //OutIbiFakeData.findAll()
+
+        OutInnByMerchant.findAll()
 
         this.executeTasks()
     }
