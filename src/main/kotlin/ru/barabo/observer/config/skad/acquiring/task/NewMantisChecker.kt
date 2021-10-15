@@ -120,7 +120,7 @@ object NewMantisChecker : SinglePerpetual {
             }
 
             if(time.isAfter(MORNING)) {
-                updateRandomMorning(id, time, staff)
+                updateRandomMorning(id, time)
             }
 
             if(!morningOk.contains(staff)) {
@@ -129,7 +129,7 @@ object NewMantisChecker : SinglePerpetual {
         }
     }
 
-    private fun isCheckDuty(idReg: Number, time: LocalTime, staff: Int): Boolean {
+    private fun isCheckDuty(idReg: Number, time: LocalTime): Boolean {
 
         val isDuty = ((morningOk.size >= staffCount() - 1) && (time.isAfter(DUTY_MINIMUM)))
 
@@ -149,9 +149,9 @@ object NewMantisChecker : SinglePerpetual {
         FbQuery.execute(UPDATE_TIME_BY_ID, arrayOf(newTime, newTimeStamp, idReg))
     }
 
-    private fun updateRandomMorning(idReg: Number, time: LocalTime, staff: Int) {
+    private fun updateRandomMorning(idReg: Number, time: LocalTime) {
 
-        if(isCheckDuty(idReg, time, staff)) return
+        if(isCheckDuty(idReg, time)) return
 
         val (newTime, newTimeStamp) = generateMorningTime()
 
@@ -160,7 +160,8 @@ object NewMantisChecker : SinglePerpetual {
 
     private fun addMorning() {
         if(morningOk.size == staffCount() ||
-            LocalTime.now().isBefore(CHECK_MORNING_TIME)) {
+            LocalTime.now().isBefore(CHECK_MORNING_TIME) ||
+            LocalTime.now().isAfter(END_MORNING_ADD)    ) {
             return
         }
 
@@ -286,6 +287,8 @@ object NewMantisChecker : SinglePerpetual {
     private val DUTY_START = LocalTime.of(11, 0)
 
     private val END_MORNING = LocalTime.of(17, 29, 59)
+
+    private val END_MORNING_ADD = LocalTime.of(19, 29, 59)
 
     private val EVENING = LocalTime.of(17, 30, 59)
 

@@ -54,7 +54,7 @@ object Uncrypto550pScad :  FileFinder, FileProcessor {
         uncryptoXml.copyTo(File("$GIS_GMP_639PATH/${uncryptoXml.name}"))
     }
 
-    private const val GIS_GMP_639PATH = "\\\\gis_gmp/c$/550-P/IN"
+    private const val GIS_GMP_639PATH = "\\\\gis_gmp/IN" // "\\\\gis_gmp/c$/550-P/IN"
 
     private fun archiveName(): String
             = AfinaQuery.execute(query = EXEC_ADD_TO_ARCHIVE, outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as String
