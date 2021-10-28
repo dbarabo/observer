@@ -30,7 +30,7 @@ public final class PayerPhysic implements ParamsQuery {
 	@XStreamAlias("ДатаДок")
 	private String dateDoc;
 
-	@XStreamAlias("ФИОФЛ")
+	@XStreamAlias("ФИО")
 	private Fio fio;
 
 	// @XStreamAlias("АдрПлат") old 2020

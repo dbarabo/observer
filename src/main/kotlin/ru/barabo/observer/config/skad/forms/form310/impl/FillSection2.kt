@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.skad.forms.form310.impl
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.skad.forms.form310.Data310Form
 import ru.barabo.observer.config.task.form310.section.r2.DataForm310R2
@@ -35,6 +36,8 @@ private data class RowSection2(val idCodeSubjectPledge: Number, val idCodeGroup:
                                val amountLiquidation: Number?, val dateDefineAmountLiquidation: Date?,
                                val amountInvestment: Number?, val  dateDefineAmountInvestment: Date?,
                                val costAgreed: Number?, val dateDefineCostAgreed: Date?)
+
+private val logger = LoggerFactory.getLogger(Data310Form::class.java)
 
 private fun toRowSection2(row: Array<Any?>): RowSection2 {
 

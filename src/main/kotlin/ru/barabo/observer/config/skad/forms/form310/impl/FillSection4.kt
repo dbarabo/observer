@@ -44,6 +44,7 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
 
             when(typePledge) {
                 TypePledge.RealEstate -> {
+
                     subSectionR42 = SubSectionR42(propertyType?.toString(), cadastralNumber,
                         conditionalNumber, purpose, name, functionalGroup, shareSizePercent, areaSqM, codeLandCategory,
                         permittedUseLandPlot, codePledgerRight, expiryDateLease, typeConstruction)
@@ -165,7 +166,7 @@ private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode:
                                val codeLandCategory: String?,
                                val permittedUseLandPlot: String?,
                                val codePledgerRight: String?,
-                               val expiryDateLease: Date?,
+                               val expiryDateLease: java.util.Date?,
                                val typeConstruction: String?,
 
                                val category: String?,
@@ -254,7 +255,7 @@ private fun toRowSection4(row: Array<Any?>): RowSection4 {
         codeLandCategory = row[15] as? String,
         permittedUseLandPlot = row[16] as? String,
         codePledgerRight = row[17] as? String,
-        expiryDateLease = row[18] as? Date,
+        expiryDateLease = row[18] as? java.util.Date,
         typeConstruction = row[19] as? String,
 
         category = row[20] as? String,
