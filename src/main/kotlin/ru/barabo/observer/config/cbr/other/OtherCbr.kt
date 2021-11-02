@@ -19,7 +19,10 @@ object OtherCbr: AbstractConfig() {
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
 
+        // off while sert not assigned
         NbkiAllReportsSend.findAll()
+
+
         UnlockUsersMonday.findAll()
 
         CecReportProcess.findAll()
@@ -44,8 +47,6 @@ object OtherCbr: AbstractConfig() {
         ExecuteGroupRateLoan.findAll()
 
         CorrDepartmentGoHome.findAll()
-
-        // SendBlockUnblockAccountPC.findAll()
 
         ClearPrimFromArchiveDay.findAll()
 

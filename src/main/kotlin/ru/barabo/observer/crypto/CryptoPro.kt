@@ -109,7 +109,7 @@ private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
     else ->  throw Exception("for build ${buildInfo.build} certificate setting not found")
     }
 
-private fun baraboCertificateData(): CertificateData = CertificateData("o.okina@atlas-2.ru", "support@nbki.ru", listOf("support@nbki.ru") )
+private fun baraboCertificateData(): CertificateData = CertificateData("shirokov@ptkb.ru", "support@nbki.ru", listOf("support@nbki.ru") )
 
 private fun jzdoCertificateData(): CertificateData = CertificateData("Kolpakov@ptkb.ru"/*"yeti@ptkb.ru"*/, "e.krivonosov@cft.ru",
         listOf("e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")

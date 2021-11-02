@@ -24,6 +24,9 @@ public final class PayerPhysic implements ParamsQuery {
 	@XStreamAlias("КодДок")
 	private String codeDoc;
 
+	@XStreamAlias("КодДУЛ")
+	private String codeDocSaved;
+
 	@XStreamAlias("СерНомДок")
 	private String lineNumberDoc;
 
@@ -31,6 +34,9 @@ public final class PayerPhysic implements ParamsQuery {
 	private String dateDoc;
 
 	@XStreamAlias("ФИО")
+	private Fio fioSaved;
+
+	@XStreamAlias("ФИОФЛ")
 	private Fio fio;
 
 	// @XStreamAlias("АдрПлат") old 2020
@@ -70,12 +76,12 @@ public final class PayerPhysic implements ParamsQuery {
 	public List<Object> getParams() {
 
 		return new ArrayList<Object>(Arrays.asList(inn == null ? String.class : inn,
-				fio == null || fio.getFirstName() == null ? String.class : fio.getFirstName(),
-				fio == null || fio.getLastName() == null ? String.class : fio.getLastName(),
-				fio == null || fio.getPapaName() == null ? String.class : fio.getPapaName(),
+				fioSaved == null || fioSaved.getFirstName() == null ? String.class : fioSaved.getFirstName(),
+				fioSaved == null || fioSaved.getLastName() == null ? String.class : fioSaved.getLastName(),
+				fioSaved == null || fioSaved.getPapaName() == null ? String.class : fioSaved.getPapaName(),
 				getBirthDay() == null ? Date.class : getBirthDay(),
 				birthPlace == null ? String.class : birthPlace,
-				codeDoc == null ? String.class : codeDoc,
+				codeDocSaved == null ? String.class : codeDocSaved,
 				lineNumberDoc == null ? String.class : lineNumberDoc,
 				getDateDoc() == null ? Date.class : getDateDoc(),
 				address == null ? String.class : address.getAddress(),
