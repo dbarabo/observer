@@ -27,6 +27,10 @@ object CheckAccountFaktura : SinglePerpetual {
 
         AfinaQuery.execute(EXEC_CHECK_ACCOUNTS_IN_FAKTURA)
 
+        CheckerFiles.findProcess()
+
+        CheckerXFile.findProcess()
+
         return super.execute(elem)
     }
 

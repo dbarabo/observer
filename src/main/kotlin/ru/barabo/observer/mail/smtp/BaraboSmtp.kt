@@ -63,7 +63,7 @@ object BaraboSmtp : SendMail {
 
     val IBANK_RECEIPTOR = arrayOf("sapunov@ptkb.ru").onlyAfina()
 
-    val CORRESPOND = arrayOf("mozgovaya@ptkb.ru", "vayner@ptkb.ru").onlyAfina()
+    val CORRESPOND = arrayOf("mozgovaya@ptkb.ru", "vayner@ptkb.ru", "abramova@ptkb.ru").onlyAfina()
 
     val IBANK_DELB = arrayOf("tts@ptkb.ru", "cards@ptkb.ru").onlyAfina()
 

@@ -18,7 +18,7 @@ object NbkiSmtp : SendMail {
 
     private val BODY_NBKI = "file contains information about loans from PTKB bank"
 
-    fun sendToNbki(file : File) {
+    fun sendToNbki(file: File) {
 
         NbkiSmtp.send(to = NBKI, cc = BaraboSmtp.AUTO, subject = SUBJECT_NBKI, body = BODY_NBKI, attachments = arrayOf(file))
     }
