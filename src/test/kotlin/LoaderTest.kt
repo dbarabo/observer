@@ -47,6 +47,7 @@ import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
+import ru.barabo.observer.config.skad.forms.ed711497.impl.DefaultPercentOutData
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
@@ -1180,5 +1181,10 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun testFnsPercentOut() {
+        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2021, 11, 10))
+        fnsPercentOut.createFile()
+    }
 
 }
