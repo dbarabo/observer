@@ -11,6 +11,7 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import java.io.File
 import java.time.LocalTime
+import java.util.*
 import java.util.regex.Pattern
 
 object IvrGetResponse: FileFinder, FileProcessor {
@@ -54,12 +55,12 @@ object IvrGetResponse: FileFinder, FileProcessor {
 
     private fun updateStatusRequest(status: Int, time: String, phone: String, file: File) {
         if(status == 0) {
-            AfinaQuery.execute(UPDATE_SUCCESS_IVR, arrayOf(time, phone, file.name.toUpperCase()))
+            AfinaQuery.execute(UPDATE_SUCCESS_IVR, arrayOf(time, phone, file.name.uppercase(Locale.getDefault())))
         } else {
 
             val error = ERROR_CODE[status] ?: "Прочие ошибки"
 
-            AfinaQuery.execute(UPDATE_ERROR_IVR, arrayOf(status, error, file.name.toUpperCase()))
+            AfinaQuery.execute(UPDATE_ERROR_IVR, arrayOf(status, error, file.name.uppercase(Locale.getDefault())))
         }
     }
 

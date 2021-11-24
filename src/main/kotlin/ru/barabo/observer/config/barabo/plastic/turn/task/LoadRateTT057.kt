@@ -13,6 +13,7 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadRateTT057 : PosLengthLoader, FileFinder, FileProcessor {
 
@@ -37,22 +38,22 @@ object LoadRateTT057 : PosLengthLoader, FileFinder, FileProcessor {
     private var dateRate: Any? = null
 
     override fun getTypeLine(line: String, order: Int): TypeLine {
-        if(line.length < 2) return TypeLine.NOTHING
+        if (line.length < 2) return TypeLine.NOTHING
 
-        return when (line.substring(0, 1).toUpperCase()) {
-            "H"-> {
-                dateRate = parseDateTime( line.substring(1, 15).trim() )
+        return when (line.substring(0, 1).uppercase(Locale.getDefault())) {
+            "H" -> {
+                dateRate = parseDateTime(line.substring(1, 15).trim())
                 TypeLine.NOTHING
             }
-            "D"-> if(line.substring(1, 4) == "643") TypeLine.BODY else TypeLine.NOTHING
+            "D" -> if (line.substring(1, 4) == "643") TypeLine.BODY else TypeLine.NOTHING
 
-            "T"-> TypeLine.NOTHING
+            "T" -> TypeLine.NOTHING
 
-            else-> throw Exception("not found type string $line")
+            else -> throw Exception("not found type string $line")
         }
     }
 
-    override val bodyQuery: String? = "{ call od.PTKB_PLASTIC_TURN.addExchangeRate(?, ?, ?, ?, ?) }"
+    override val bodyQuery: String = "{ call od.PTKB_PLASTIC_TURN.addExchangeRate(?, ?, ?, ?, ?) }"
 
     override val bodyColumns: Array<Column> = arrayOf(
             Column(0, 0) { dateRate!! },

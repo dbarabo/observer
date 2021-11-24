@@ -10,7 +10,9 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.finder.isFind
 import java.io.File
 import java.sql.Timestamp
+import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 private val logger = LoggerFactory.getLogger(CheckerXFile::class.java)
 
@@ -43,26 +45,27 @@ object CheckerXFile {
         val newFiles = pathOt.listFiles { f ->
             (!f.isDirectory) &&
                     (patternOt.isFind(f.name)) &&
-                    (!findFiles.contains(f.name.toUpperCase()))
+                    (!findFiles.contains(f.name.uppercase(Locale.getDefault())))
         }
 
         if(newFiles.isNullOrEmpty()) return
 
         for(newFile in newFiles) {
-            val isExists = (AfinaQuery.selectValue(SELECT_CHECK_FILE, arrayOf(newFile.name.toUpperCase())) as Number).toInt()
+            val isExists = (AfinaQuery.selectValue(SELECT_CHECK_FILE,
+                arrayOf(newFile.name.uppercase(Locale.getDefault()))) as Number).toInt()
 
             if(isExists == 0) {
                 addData(newFile)
             }
 
-            findFiles.add( newFile.name.toUpperCase() )
+            findFiles.add(newFile.name.uppercase(Locale.getDefault()))
         }
     }
 
     private fun addData(file: File) {
 
         try {
-            fileName = file.name.toUpperCase()
+            fileName = file.name.uppercase(Locale.getDefault())
 
             dateFile = fileName.substring(6..13).toDate().toTimestamp()
 
@@ -81,15 +84,16 @@ object CheckerXFile {
     private fun readRows(rows: MutableIterator<Row>) {
         while (rows.hasNext()) {
             val rowXls: Row = rows.next()
-            if(rowXls.rowNum == 0) continue
+            if (rowXls.rowNum == 0) continue
 
-            val lastName = rowXls.getCell(1)?.takeIf { it.cellType == CellType.STRING }?.stringCellValue?.trim()?.toUpperCase() ?: return
+            val lastName = rowXls.getCell(1)?.takeIf { it.cellType == CellType.STRING }?.stringCellValue?.trim()
+                ?.uppercase(Locale.getDefault()) ?: return
 
-            if(lastName.isEmpty()) return
+            if (lastName.isEmpty()) return
 
-            val firstName = rowXls.getCell(2).stringCellValue.trim().toUpperCase()
+            val firstName = rowXls.getCell(2).stringCellValue.trim().uppercase(Locale.getDefault())
 
-            val secondName = rowXls.getCell(3).stringCellValue.trim().toUpperCase()
+            val secondName = rowXls.getCell(3).stringCellValue.trim().uppercase(Locale.getDefault())
 
             val codeId = rowXls.getCell(4).stringCellValue.trim()
 

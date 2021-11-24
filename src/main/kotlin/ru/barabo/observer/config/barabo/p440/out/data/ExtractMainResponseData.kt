@@ -75,7 +75,7 @@ class ExtractMainResponseData : AbstractRequestResponse() {
             insertBvdResponseDb(additionalResponseData, sessionSetting)
 
             partNumber++
-        } while (addExtractXml.addExtractInfoPart?.operationAccountListSize?:0 > 0)
+        } while ((addExtractXml.addExtractInfoPart?.operationAccountListSize ?: 0) > 0)
 
         countAddFiles += (partNumber - 1)
     }
@@ -101,7 +101,7 @@ class ExtractMainResponseData : AbstractRequestResponse() {
 
         for (row in accounts) {
 
-            val typeAccount = row[1]?.let { (row[1] as String).trim().toUpperCase() }
+            val typeAccount = row[1]?.let { (row[1] as String).trim().uppercase(Locale.getDefault()) }
 
             if(!"Депозитный".equals(typeAccount, true)) {
                 isDepositAccountOnly = false

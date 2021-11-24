@@ -15,6 +15,7 @@ import ru.barabo.observer.crypto.ScadComplex
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.*
 
 object SignScadSend550p : FileFinder, FileProcessor {
 
@@ -33,14 +34,14 @@ object SignScadSend550p : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
-        val sessionSetting  = AfinaQuery.uniqueSession()
+        val sessionSetting = AfinaQuery.uniqueSession()
 
-        val archiveNameNoExt = file.nameWithoutExtension.toUpperCase()
+        val archiveNameNoExt = file.nameWithoutExtension.uppercase(Locale.getDefault())
 
         try {
             AfinaQuery.execute(EXEC_SIGNSEND_ARCHIVE, arrayOf(archiveNameNoExt), sessionSetting)
 
-            if(!file.exists()) throw SessionException("file not found ${file.absolutePath}")
+            if (!file.exists()) throw SessionException("file not found ${file.absolutePath}")
 
             val signedFile = ScadComplex.signAndMoveSource(file, folder550pOutSrc())
 
@@ -51,7 +52,7 @@ object SignScadSend550p : FileFinder, FileProcessor {
 
             AfinaQuery.rollbackFree(sessionSetting)
 
-            throw SessionException(e.message?:"")
+            throw SessionException(e.message ?: "")
         }
         AfinaQuery.commitFree(sessionSetting)
     }

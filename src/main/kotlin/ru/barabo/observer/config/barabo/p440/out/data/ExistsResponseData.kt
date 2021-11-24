@@ -39,7 +39,9 @@ class ExistsResponseData : AbstractRequestResponse() {
     }
     private fun createExistsList(accounts: List<Array<Any?>>) {
 
-        existsAccountList = accounts.map { ExistsAccount(it[0] as? String, it[1]?.let { x -> (x as String).trim().toUpperCase() },
+        existsAccountList = accounts.map { ExistsAccount(it[0] as? String, it[1]?.let { x ->
+            (x as String).trim().uppercase(Locale.getDefault())
+        },
                 it[2] as? String, it[3] as? Date, it[4] as? Date
             ) }
     }

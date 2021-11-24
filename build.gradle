@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.4.32'
-    ext.tornadofx_version = "1.7.13"
+    ext.kotlin_version = '1.5.31'
+    ext.tornadofx_version = "1.7.20" // "1.7.13"
 
     repositories {
         mavenCentral()
@@ -19,7 +19,7 @@ apply plugin: 'kotlin'
 compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaExec) {
-    jvmArgs = ['-Xmx1g']
+    jvmArgs = ['-Xmx2g']
 }
 
 repositories {
@@ -31,12 +31,9 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "$kotlin_version"
 
-    //compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: "$kotlin_version"
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 
@@ -87,14 +84,14 @@ dependencies {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.4"
+        languageVersion = "1.5"
     }
 }
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.4"
+        languageVersion = "1.5"
     }
 }
 

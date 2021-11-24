@@ -75,7 +75,7 @@ interface GetMail : SendMail {
         put("mail.imaps.port", mailProperties.port.toString())
     }
 
-    private fun authenticator() : Authenticator? {
+    private fun authenticator() : Authenticator {
 
         return object : Authenticator() {
             override fun getPasswordAuthentication() : PasswordAuthentication =
@@ -112,8 +112,11 @@ interface GetMail : SendMail {
 
     private fun Message.process() {
 
-        from.firstOrNull {  (it as? InternetAddress)?.address?.toUpperCase()?.indexOf(
-                Shift.decrypt(findFromEncrypt).toUpperCase())?:-1 >= 0} ?: return
+        from.firstOrNull {
+            ((it as? InternetAddress)?.address?.uppercase(Locale.getDefault())?.indexOf(
+                Shift.decrypt(findFromEncrypt).uppercase(Locale.getDefault())
+            ) ?: -1) >= 0
+        } ?: return
 
         val processor = processorBySubject(subject)?: return
 
@@ -128,7 +131,7 @@ interface GetMail : SendMail {
 
     private fun processorBySubject(subject: String?): ((String, String)->Unit)? {
 
-        val subj =  subject?.toUpperCase()?: return null
+        val subj = subject?.uppercase(Locale.getDefault()) ?: return null
 
         return when {
             subj.indexOf(subjectStartSelect) == 0 -> ::processSelect

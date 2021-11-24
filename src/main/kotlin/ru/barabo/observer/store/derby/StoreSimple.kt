@@ -8,6 +8,7 @@ import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.StoreDb
+import tornadofx.asObservable
 import tornadofx.observable
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -64,14 +65,14 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
         val comparatorElemMaxTime = comparatorElemByExecTime()
 
-        return dataList.filter { it.task === task && it.state != noneState }.maxWith(comparatorElemMaxTime)
+        return dataList.filter { it.task === task && it.state != noneState }.maxWithOrNull(comparatorElemMaxTime)
     }
 
     fun getLastItemsByState(task: ActionTask, state: State = State.NONE): Elem? {
 
         val comparatorElemMaxTime = comparatorElemByExecTime()
 
-        return dataList.filter { it.task === task && it.state == state }.maxWith(comparatorElemMaxTime)
+        return dataList.filter { it.task === task && it.state == state }.maxWithOrNull(comparatorElemMaxTime)
     }
 
     private fun comparatorElemByExecTime(): Comparator<Elem> = Comparator { x, y ->
@@ -86,12 +87,13 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     //@Synchronized
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
-        return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
+        return dataList.firstOrNull {
+            (it.state == state) && (it.task == task) &&
 
-                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:Long.MAX_VALUE >
-                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() ) &&
+                    ((it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: Long.MAX_VALUE) >
+                            executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) &&
 
-                (target?.let { tar -> tar == it.target  } ?: true )
+                    (target?.let { tar -> tar == it.target } ?: true)
         }
     }
 
@@ -104,10 +106,12 @@ object StoreSimple : StoreDb<Elem, TreeElem>(DerbyTemplateQuery) {
 
     //@Synchronized
     fun getItems(state: State = State.NONE, executed: LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
-            = dataList.filter { it.state === state &&
-            isContainsTask(it.task) &&
-            (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
-                    executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
+            = dataList.filter {
+        it.state === state &&
+                isContainsTask(it.task) &&
+                ((it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: Long.MAX_VALUE) <
+                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+    }
 
     //@Synchronized
     fun findFirstByConditionName(state: State = State.OK, task: ActionTask, isConditionName: (String)-> Boolean) :Elem? =
@@ -332,7 +336,7 @@ class TreeElem(var elem: Elem? = null,
 
 class TreeGroup(val config: ConfigTask? = null,
                 val taskGroup: TaskGroup? = null,
-                val childs: MutableList<TreeElem> = ArrayList<TreeElem>().observable()) {
+                val childs: MutableList<TreeElem> = ArrayList<TreeElem>().asObservable()) {
 
     fun findFirstElemByTaskState(task: ActionTask?, state: State, except: Elem? = null): TreeElem? =
         childs.firstOrNull {it.elem?.task === task && it.elem?.state === state && except !== it.elem}
@@ -349,13 +353,14 @@ class TreeGroup(val config: ConfigTask? = null,
     fun prepareTaskGroup() {
 
         val comparatorDateTimeNull = Comparator<LocalDateTime?> { x, y ->
-            if(x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                    y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
+            if((x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L) >
+                (y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L)
+            ) 1 else -1
         }
 
-        taskGroup?.created = childs.map { it.elem?.created }.minWith(comparatorDateTimeNull)?: LocalDateTime.MIN
+        taskGroup?.created = childs.map { it.elem?.created }.minWithOrNull(comparatorDateTimeNull) ?: LocalDateTime.MIN
 
-        taskGroup?.executed = childs.map { it.elem?.executed }.maxWith(comparatorDateTimeNull)?: LocalDateTime.MIN
+        taskGroup?.executed = childs.map { it.elem?.executed }.maxWithOrNull(comparatorDateTimeNull) ?: LocalDateTime.MIN
     }
 }
 

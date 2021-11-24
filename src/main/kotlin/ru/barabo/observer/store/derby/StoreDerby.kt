@@ -46,15 +46,15 @@ class StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
     }
 
     private fun Elem.paramsElem() :Array<Any?>  = arrayOf(
-        idElem?.let { it }?:java.sql.Types.BIGINT,
+        idElem ?:java.sql.Types.BIGINT,
         name,
         state.ordinal,
         task!!.javaClass.canonicalName,
         path,
         java.sql.Date.from(created.atZone(ZoneId.systemDefault()).toInstant()),
         executed?.let {  java.sql.Date.from(it.atZone(ZoneId.systemDefault()).toInstant()) }?:Type.DATE.clazz,
-        error?.let { it }?: Type.STRING.clazz,
-        target.let { it }?:Type.STRING.clazz,
+        error ?: Type.STRING.clazz,
+        target ?:Type.STRING.clazz,
         base,
         id
     )
@@ -135,26 +135,30 @@ class StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
             if(maxX > maxY) 1 else -1
         }
 
-        return dataList.filter { it.task == task && it.state != noneState }.maxWith(comparatorElemMaxTime)
+        return dataList.filter { it.task == task && it.state != noneState }.maxWithOrNull(comparatorElemMaxTime)
     }
 
     @Synchronized
     fun firstItem(task : ActionTask, state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), target :String? = null) :Elem? {
-        return dataList.firstOrNull { (it.state == state) && (it.task == task) &&
+        return dataList.firstOrNull {
+            (it.state == state) && (it.task == task) &&
 
-                (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:1_000_000_000_000_000 >
-                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() ) &&
+                    ((it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                        ?: 1_000_000_000_000_000) >
+                            executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) &&
 
-                (target?.let { tar -> tar == it.target  } ?: true )
+                    (target?.let { tar -> tar == it.target } ?: true)
         }
     }
 
     @Synchronized
     fun getItems(state :State = State.NONE, executed :LocalDateTime = LocalDateTime.now(), isContainsTask :(ActionTask?)->Boolean) :List<Elem>
-          = dataList.filter { it.state == state &&
-            isContainsTask(it.task) &&
-            (it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?: Long.MAX_VALUE <
-                    executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
+          = dataList.filter {
+        it.state == state &&
+                isContainsTask(it.task) &&
+                ((it.executed?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: Long.MAX_VALUE) <
+                        executed.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+    }
 
 
 
@@ -247,34 +251,38 @@ class StoreDerby : StoreDb<Elem, GroupElem>(DerbyTemplateQuery) {
 
         val comparatorDateTime = object : Comparator<LocalDateTime> {
             override fun compare(x : LocalDateTime, y: LocalDateTime) =
-                    if(x.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                    y.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
+                    if((x.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L) >
+                        (y.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L)
+                    ) 1 else -1
         }
 
         val comparatorDateTimeNull = object : Comparator<LocalDateTime?> {
             override fun compare(x : LocalDateTime?, y: LocalDateTime?) =
-                    if(x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                            y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L) 1 else -1
+                    if((x?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L) >
+                        (y?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L)
+                    ) 1 else -1
         }
 
         root.child.forEach { config ->
             config.child.forEach { group ->
                 if(!group.child.isEmpty()) {
-                    group.elem.created = group.child.map { it.elem.created }.minWith(comparatorDateTime)?:group.elem.created
+                    group.elem.created = group.child.map { it.elem.created }.minWithOrNull(comparatorDateTime) ?:group.elem.created
 
-                    group.elem.executed = group.child.map { it.elem.executed }.maxWith(comparatorDateTimeNull)
+                    group.elem.executed = group.child.map { it.elem.executed }.maxWithOrNull(comparatorDateTimeNull)
                 }
             }
         }
     }
 
     private fun LocalDateTime.minLocalDate(val1 :LocalDateTime) :LocalDateTime {
-        return if(val1.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                this.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L)this else val1
+        return if((val1.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L) >
+            (this.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L)
+        )this else val1
     }
 
     fun maxLocalDate(val1 :LocalDateTime?, val2 :LocalDateTime?) :LocalDateTime? =
-        if(val1?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L >
-                val2?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()?:0L)val1 else val2
+        if((val1?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L) >
+            (val2?.atZone(ZoneId.systemDefault())?.toInstant()?.toEpochMilli() ?: 0L)
+        )val1 else val2
 
 }

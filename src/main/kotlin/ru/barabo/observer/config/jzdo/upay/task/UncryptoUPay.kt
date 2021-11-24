@@ -13,6 +13,7 @@ import ru.barabo.observer.crypto.CryptoPro
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.*
 
 object UncryptoUPay : FileFinder, FileProcessor {
 
@@ -28,7 +29,8 @@ object UncryptoUPay : FileFinder, FileProcessor {
     fun uncryptoFolder() = "${archivePathToday().absolutePath}/uncrypto".byFolderExists()
 
     override fun processFile(file: File) {
-        val decodeName = if(file.extension.toLowerCase() == "enc") file.nameWithoutExtension else "${file.name}_dec"
+        val decodeName =
+            if (file.extension.lowercase(Locale.getDefault()) == "enc") file.nameWithoutExtension else "${file.name}_dec"
 
         val decodeFile = File("${uncryptoFolder().absolutePath}/$decodeName")
 
@@ -36,7 +38,10 @@ object UncryptoUPay : FileFinder, FileProcessor {
 
         if(!decodeFile.exists()) throw Exception("decode file not found ${decodeFile.absolutePath}")
 
-        val unsignName = if(decodeFile.extension.toLowerCase() == "sgn") decodeFile.nameWithoutExtension else file.name.substringBefore('.')
+        val unsignName =
+            if (decodeFile.extension.lowercase(Locale.getDefault()) == "sgn") decodeFile.nameWithoutExtension else file.name.substringBefore(
+                '.'
+            )
 
         val unsignFile = File("${uncryptoFolder().absolutePath}/$unsignName")
 

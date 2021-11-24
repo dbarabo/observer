@@ -30,9 +30,9 @@ class AnnotationTest {
 
     //@Test
     fun testUUID() {
-        var uuid: UUID = UUID.randomUUID()
-        var variant: Int = uuid.variant()
-        var version: Int = uuid.version()
+        // var uuid: UUID = UUID.randomUUID()
+        //var variant: Int = uuid.variant()
+        //var version: Int = uuid.version()
     }
 
 
@@ -55,7 +55,7 @@ class AnnotationTest {
 
         val line = "22/08/2020 00:00:00"
 
-        val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
+        //val regexDateDot = Pattern.compile("(\\d{2}\\.\\d{2}\\.\\d{4})")
 
        logger.error("${Timestamp(SimpleDateFormat(formatDateTimeSlash).parse(line).time)}")
 
@@ -126,7 +126,7 @@ class AnnotationTest {
 
         dir.listFiles { f ->
             !f.isDirectory
-        }.forEach {
+        }?.forEach {
             val text = it.readText(Charset.forName("windows-1251"))
 
             val newText = text
@@ -137,7 +137,6 @@ class AnnotationTest {
             it.writeText(newText, Charset.forName("windows-1251") )
         }
     }
-
 
     //@Test
     fun testXmlValidate() {
@@ -161,7 +160,7 @@ class AnnotationTest {
 
     //@Test
     fun testThreadLong() {
-       var threadLong: Long = 0L
+       val threadLong = 0L
 
        timer(name = "thread 1", initialDelay = 1000, daemon = false, period = 500) {
             while(true) {
@@ -220,13 +219,13 @@ class AnnotationTest {
     fun testRegExp2() {
         val pattern = Pattern.compile(".*\\.(csv|xls|xlsx|doc|docx)", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
-        val isFindDocx :Boolean = pattern.matcher("ZLB_0226_20190218.docx")?.matches()?:false
+        val isFindDocx :Boolean = pattern.matcher("ZLB_0226_20190218.docx").matches()
 
-        val isFindDoc :Boolean = pattern.matcher("ZLB_0226_20190218.doc")?.matches()?:false
+        val isFindDoc :Boolean = pattern.matcher("ZLB_0226_20190218.doc").matches()
 
-        val isFindXlsx :Boolean = pattern.matcher("ZLB_0226_20190218.xlsx")?.matches()?:false
+        val isFindXlsx :Boolean = pattern.matcher("ZLB_0226_20190218.xlsx").matches()
 
-        val isFindXls :Boolean = pattern.matcher("ZLB_0226_20190218.xls")?.matches()?:false
+        val isFindXls :Boolean = pattern.matcher("ZLB_0226_20190218.xls").matches()
 
         logger.error("isFindDocx=$isFindDocx")
         logger.error("isFindDoc=$isFindDoc")

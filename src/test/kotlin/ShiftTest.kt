@@ -11,6 +11,7 @@ import java.io.File
 import java.net.InetAddress
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.*
 
 class ShiftTest {
 
@@ -82,6 +83,6 @@ class ShiftTest {
         val pswd = Shift.decrypt("PvxK/Qnz/Mno/sGWDhXT8bsMSLKdDapp")
         logger.error("pswd=$pswd")
 
-        logger.error(InetAddress.getLocalHost().hostName.toUpperCase())
+        logger.error(InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault()))
     }
 }

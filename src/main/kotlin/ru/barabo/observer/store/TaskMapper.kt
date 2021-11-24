@@ -13,7 +13,6 @@ import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.sender.SenderMail
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
-import ru.barabo.observer.config.cbr.turncard.TurnCard
 import ru.barabo.observer.config.correspond.Correspond
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
 import ru.barabo.observer.config.skad.acquiring.Acquiring
@@ -23,8 +22,7 @@ import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.util.*
-
-import kotlin.concurrent.*
+import kotlin.concurrent.timer
 
 object TaskMapper {
 
@@ -52,9 +50,9 @@ object TaskMapper {
 
         buildInfo = getBuildInfoByBuild(build)
 
-        val baseConnectReal = baseConnect // if(buildInfo.build == "TEST") "TEST" else baseConnect
+        //val baseConnectReal = baseConnect // if(buildInfo.build == "TEST") "TEST" else baseConnect
 
-        initBase(baseConnectReal)
+        initBase(baseConnect)
     }
 
     private fun initBase(baseConnect: String) {
@@ -84,7 +82,7 @@ object TaskMapper {
     private var timerChecker: Timer? = null
 
     private fun startChecker() {
-        timerChecker = timer(name = buildInfo.build, initialDelay = 10_000, daemon = false, period = 60*10_000) {
+        timerChecker = timer(name = buildInfo.build, initialDelay = 10_000, daemon = false, period = 60*10_000L) {
             AfinaQuery.execute(updateBuild(buildInfo.build) )
 
             checkOtherBuilds()

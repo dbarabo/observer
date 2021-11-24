@@ -206,12 +206,12 @@ class ExcelSql(newFile: File, template: File) {
     }
 
     private fun getTagByName(name: String): Tag {
-        val tagName = name.substringBefore(' ').trim().toUpperCase()
+        val tagName = name.substringBefore(' ').trim().uppercase(Locale.getDefault())
 
-        if(tagName.isBlank() || tagName == EmptyTag.nameTag) return EmptyTag
+        if (tagName.isBlank() || tagName == EmptyTag.nameTag) return EmptyTag
 
-        return when(tagName) {
-            LOOP -> LoopTag(findCursor(name) )
+        return when (tagName) {
+            LOOP -> LoopTag(findCursor(name))
             IF -> IfTag(parseExpr(name))
             else -> throw Exception("TAG not found $name")
         }
@@ -223,11 +223,12 @@ class ExcelSql(newFile: File, template: File) {
     }
 
     private fun findCursor(name: String): CursorData {
-        val cursorName = name.substringAfter(' ').trim().toUpperCase()
+        val cursorName = name.substringAfter(' ').trim().uppercase(Locale.getDefault())
 
-        val cursor = vars.firstOrNull { it.name == cursorName } ?: throw Exception("for tag LOOP cursor not found: $cursorName")
+        val cursor =
+            vars.firstOrNull { it.name == cursorName } ?: throw Exception("for tag LOOP cursor not found: $cursorName")
 
-        if(cursor.value.type != VarType.CURSOR) throw Exception("LOOP var is not cursor: $cursorName")
+        if (cursor.value.type != VarType.CURSOR) throw Exception("LOOP var is not cursor: $cursorName")
 
         return cursor.value.value as CursorData
     }

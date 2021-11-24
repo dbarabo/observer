@@ -17,6 +17,7 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.*
 
 object LoadObi : FileFinder, ObiLoad() {
 
@@ -60,10 +61,10 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
 
         if(length == 0) return Double::class.javaObjectType
 
-        return if(length < 18) value?.trim()?.toLong()?:0 else BigInteger(value?.trim())
+        return if(length < 18) value?.trim()?.toLong()?:0 else BigInteger(value!!.trim())
     }
 
-    fun parseToString(value :String?) :Any = value?.trim()?.let{ it } ?: String::class.javaObjectType
+    fun parseToString(value :String?) :Any = value?.trim() ?: String::class.javaObjectType
 
     override val bodyColumns: Array<Column> = arrayOf(
             Column(8, 12, ::parseInt), // RECORD_NUMBER
@@ -105,14 +106,14 @@ abstract class ObiLoad : FileProcessor, PosLengthLoader {
     override val tailQuery: String? = null
 
     override fun getTypeLine(line: String, order: Int): TypeLine {
-        if(line.length < 6) return TypeLine.NOTHING
+        if (line.length < 6) return TypeLine.NOTHING
 
-        return when (line.substring(0, 6).toUpperCase()) {
-            "RCTP01"-> TypeLine.HEADER
-            "RCTP10"-> TypeLine.BODY
-            "RCTP02"-> TypeLine.TAIL
+        return when (line.substring(0, 6).uppercase(Locale.getDefault())) {
+            "RCTP01" -> TypeLine.HEADER
+            "RCTP10" -> TypeLine.BODY
+            "RCTP02" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string $line")
+            else -> throw Exception("not found type string $line")
         }
     }
 }

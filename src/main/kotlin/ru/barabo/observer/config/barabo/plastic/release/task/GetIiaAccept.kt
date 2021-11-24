@@ -18,6 +18,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 /**
  * SENT -> (SENT_OK | SENT_ERROR)
@@ -47,21 +48,23 @@ object GetIiaAccept: FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
-        val rows = AfinaQuery.select(SELECT_PACKET, arrayOf(file.nameWithoutExtension.toUpperCase()))
+        val rows = AfinaQuery.select(SELECT_PACKET, arrayOf(file.nameWithoutExtension.uppercase(Locale.getDefault())))
 
         val hCardInToday = file.moveFileHCardInToday()
 
-        if(rows.size != 1) throw IOException("Файл акцепта не соответствует данным в ptkb_plastic_pack файл:${file.name}")
+        if (rows.size != 1) throw IOException("Файл акцепта не соответствует данным в ptkb_plastic_pack файл:${file.name}")
 
         val idPacket = rows[0][0] as Number
 
-        val state = StateRelease.stateByDbValue( (rows[0][1] as Number).toInt() )
+        val state = StateRelease.stateByDbValue((rows[0][1] as Number).toInt())
 
-        val isAccept = file.name.substringAfterLast(".").toUpperCase() == "ACCEPT"
+        val isAccept = file.name.substringAfterLast(".").uppercase(Locale.getDefault()) == "ACCEPT"
 
-        val error = if(!isAccept) { hCardInToday.readText(Charset.forName("CP1251"))} else ""
+        val error = if (!isAccept) {
+            hCardInToday.readText(Charset.forName("CP1251"))
+        } else ""
 
-        if(state == StateRelease.SENT || state == StateRelease.SMS_SENT) {
+        if (state == StateRelease.SENT || state == StateRelease.SMS_SENT) {
 
             updateAccept(isAccept, idPacket, state, error, hCardInToday)
 

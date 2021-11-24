@@ -2,6 +2,8 @@ package ru.barabo.xls
 
 import ru.barabo.db.Query
 import ru.barabo.db.SessionSetting
+import java.util.*
+import kotlin.collections.ArrayList
 
 enum class VarType(val sqlType: Int) {
     UNDEFINED(-1),
@@ -223,19 +225,19 @@ class CursorData(private val querySession: QuerySession, private val querySelect
 
     private fun isCursor() = querySelect[0] == '{'
 
-    fun row(columnIndex: Int): Any = row + 1
+    fun row(@Suppress("UNUSED_PARAMETER") columnIndex: Int): Any = row + 1
 
-    fun sum(columnIndex: Int): Any = data.sumByDouble { (it[columnIndex] as? Number)?.toDouble()?:0.0 }
+    fun sum(columnIndex: Int): Any = data.sumOf { (it[columnIndex] as? Number)?.toDouble() ?: 0.0 }
 
-    fun max(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.max()?:0.0
+    fun max(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.maxOrNull() ?:0.0
 
-    fun min(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.min()?:0.0
+    fun min(columnIndex: Int): Any = data.map { (it[columnIndex] as? Number)?.toDouble()?:0.0 }.minOrNull() ?:0.0
 
-    fun count(columnIndex: Int): Any = data.size
+    fun count(@Suppress("UNUSED_PARAMETER") columnIndex: Int): Any = data.size
 
-    fun isEmptyFun(columnIndex: Int): Any = if(isEmpty()) 1 else 0
+    fun isEmptyFun(@Suppress("UNUSED_PARAMETER") columnIndex: Int): Any = if(isEmpty()) 1 else 0
 
-    fun isNotEmptyFun(columnIndex: Int): Any = if(isEmpty()) 0 else 1
+    fun isNotEmptyFun(@Suppress("UNUSED_PARAMETER") columnIndex: Int): Any = if(isEmpty()) 0 else 1
 }
 
 enum class CursorFun(val index: Int, val funName: String, val func: CursorData.(columnIndex: Int)->Any ) {
@@ -250,7 +252,7 @@ enum class CursorFun(val index: Int, val funName: String, val func: CursorData.(
     companion object {
         fun byIndex(index: Int): CursorFun? = values().firstOrNull { it.index == index }
 
-        fun byColumn(funName: String): CursorFun? = values().firstOrNull { it.funName == funName.toUpperCase() }
+        fun byColumn(funName: String): CursorFun? = values().firstOrNull { it.funName == funName.uppercase(Locale.getDefault()) }
     }
 }
 
@@ -310,7 +312,7 @@ data class VarResult(var type: VarType = VarType.UNDEFINED, var value: Any? = nu
     }
 
     override fun getSqlValue(): Any {
-        return value?.let { it } ?: type.toSqlValueNull()
+        return value ?: type.toSqlValueNull()
     }
 }
 
@@ -354,11 +356,11 @@ private val operations = mapOf<Oper, (List<VarResult>, String)->VarResult >(
     Oper.VAR to ::varOper
 )
 
-private fun varOper(params: List<VarResult>, info: String): VarResult {
+private fun varOper(params: List<VarResult>, @Suppress("UNUSED_PARAMETER") info: String): VarResult {
     return params[0]
 }
 
-private fun apply(params: List<VarResult>, info: String): VarResult {
+private fun apply(params: List<VarResult>, @Suppress("UNUSED_PARAMETER") info: String): VarResult {
 
     params[0].setVar(params[1].getVar())
 
@@ -384,7 +386,7 @@ private fun sqlProcExec(params: List<VarResult>, info: String): VarResult {
 }
 
 private fun funOper(params: List<VarResult>, info: String): VarResult =
-        funMap[info.toUpperCase()]?.invoke(params) ?: throw Exception("fun for $info not found")
+    funMap[info.uppercase(Locale.getDefault())]?.invoke(params) ?: throw Exception("fun for $info not found")
 
 private val funMap = mapOf<String, (List<VarResult>)->VarResult> (
         "OUT" to ::outFun,
@@ -413,7 +415,7 @@ private fun toSign(vars: VarResult): Int {
 
     return when(vars.type) {
     VarType.INT,
-    VarType.NUMBER -> if((vars.value as? Number)?.toInt()?:0 == 0) 0 else 1
+    VarType.NUMBER -> if(((vars.value as? Number)?.toInt() ?: 0) == 0) 0 else 1
 
     VarType.VARCHAR -> if("" == vars.value) 0 else 1
 

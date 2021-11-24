@@ -13,6 +13,7 @@ import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.net.URI
 import java.time.LocalDateTime
+import java.util.*
 
 abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
@@ -95,7 +96,9 @@ abstract class AutoUpdatePlasticJar : Executor, ActionTask {
 
 fun Elem.remoteFilePath(): File  = if(name.isRemoteNetDisk()) File(name) else File(URI(createNetPath(name, path)))
 
-fun String.isRemoteNetDisk() = "\\/HIJKPSTVWXZ".contains(substring(1..1).toUpperCase()) || "\\/HIJKPSTVWXZ".contains(substring(0..0).toUpperCase())
+fun String.isRemoteNetDisk() = "\\/HIJKPSTVWXZ".contains(substring(1..1).uppercase(Locale.getDefault())) || "\\/HIJKPSTVWXZ".contains(
+    substring(0..0).uppercase(Locale.getDefault())
+)
 
 private fun createNetPath(localFullPath: String, ipAddress: String) =  "file://///$ipAddress/${localFullPath.addAdmin()}"  //"\\\\$ipAddress\\${localFullPath.substring(1).addAdmin()}"
 

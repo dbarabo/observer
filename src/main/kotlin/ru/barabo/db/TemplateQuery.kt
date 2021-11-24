@@ -91,7 +91,7 @@ open class TemplateQuery (private val query :Query) {
         val propertyByColumn = HashMap<String, KMutableProperty<*>>()
 
         for (member in row.kotlin.declaredMemberProperties.filterIsInstance<KMutableProperty<*>>()) {
-            val columnName =member.findAnnotation<ColumnName>()?.name?.toUpperCase()?:continue
+            val columnName = member.findAnnotation<ColumnName>()?.name?.uppercase(Locale.getDefault()) ?: continue
 
             propertyByColumn.put(columnName, member)
         }
@@ -206,7 +206,7 @@ open class TemplateQuery (private val query :Query) {
 
         val queryInsert= getInsertQuery(table, fields)
 
-        val params :Array<Any?>? = fields.map { it.second }.toTypedArray()
+        val params :Array<Any?> = fields.map { it.second }.toTypedArray()
 
         query.execute(queryInsert, params)
     }

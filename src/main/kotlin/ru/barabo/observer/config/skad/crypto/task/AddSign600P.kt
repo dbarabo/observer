@@ -47,8 +47,8 @@ object AddSign600P : FileFinder, FileProcessor {
 
         val lastFile: Int = pathCryptoTicketToday().listFiles { f ->
             !f.isDirectory &&
-              fileNameRegExp.isFind(f.name)
-        }?.map { it.name.substringAfterLast("_").substringBefore(".").toIntOrNull()?: -1 }?.max() ?: return "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
+                    fileNameRegExp.isFind(f.name)
+        }?.map { it.name.substringAfterLast("_").substringBefore(".").toIntOrNull()?: -1 }?.maxOrNull() ?: return "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
 
         return if(lastFile < 0) "ARHKRFM_040507717_${nameDateToday()}_001.ARJ"
                else "ARHKRFM_040507717_${nameDateToday()}_00${(lastFile + 1)}.ARJ"

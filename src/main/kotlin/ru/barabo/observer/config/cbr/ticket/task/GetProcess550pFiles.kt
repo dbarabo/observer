@@ -97,8 +97,10 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
                 Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
         val max = File(EsProcess.folder550pOut()).listFiles { f ->
-            !f.isDirectory && search.matcher(f.name).find()}
-                ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.max()?:0 + 1
+            !f.isDirectory && search.matcher(f.name).find()
+        }
+            ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf("."))) }?.maxOrNull()
+            ?: (0 + 1)
 
         return "${EsProcess.folder550pOut()}/ARH550P_0021_0000_${todayBlind()}_00$max.arj"
     }

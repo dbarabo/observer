@@ -11,7 +11,9 @@ import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 object CheckerFiles : QuoteSeparatorLoader {
 
@@ -27,7 +29,7 @@ object CheckerFiles : QuoteSeparatorLoader {
 
         try {
             processNoError()
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             logger.error("findProcess", e)
         }
     }
@@ -36,18 +38,21 @@ object CheckerFiles : QuoteSeparatorLoader {
         val newFiles = pathVt.listFiles { f ->
             (!f.isDirectory) &&
                     (patternVt.isFind(f.name)) &&
-                    (!findFiles.contains(f.name.toUpperCase()))
+                    (!findFiles.contains(f.name.uppercase(Locale.getDefault())))
         }
 
-        if(newFiles.isNullOrEmpty()) return
+        if (newFiles.isNullOrEmpty()) return
 
-        for(newFile in newFiles) {
-            val isExists = (AfinaQuery.selectValue(SELECT_CHECK_FILE, arrayOf(newFile.name.toUpperCase())) as Number).toInt()
+        for (newFile in newFiles) {
+            val isExists = (AfinaQuery.selectValue(
+                SELECT_CHECK_FILE,
+                arrayOf(newFile.name.uppercase(Locale.getDefault()))
+            ) as Number).toInt()
 
-            if(isExists == 0) {
+            if (isExists == 0) {
                 processFileVt(newFile)
             }
-            findFiles.add( newFile.name.toUpperCase() )
+            findFiles.add(newFile.name.uppercase(Locale.getDefault()))
         }
     }
 
@@ -66,34 +71,35 @@ object CheckerFiles : QuoteSeparatorLoader {
     override val tailQuery: String? = null
 
     override val bodyColumns: Map<Int, (String?) -> Any> = mapOf(
-            0 to ::parseToString,
-            1 to ::parseNumberSeparator,
-            2 to ::parseToUpperString,
-            3 to ::parseToString,
-            5 to ::parseNumberSeparator,
-            -1 to ::fileProcessName,
-            -2 to ::dateCreated
-        )
+        0 to ::parseToString,
+        1 to ::parseNumberSeparator,
+        2 to ::parseToUpperString,
+        3 to ::parseToString,
+        5 to ::parseNumberSeparator,
+        -1 to ::fileProcessName,
+        -2 to ::dateCreated
+    )
 
-    private fun dateCreated(value: String?): Any = dateFile
+    private fun dateCreated(@Suppress("UNUSED_PARAMETER") value: String?): Any = dateFile
 
-    private fun fileProcessName(value: String?): Any = fileProcess.name.toUpperCase()
+    private fun fileProcessName(@Suppress("UNUSED_PARAMETER") value: String?): Any = fileProcess.name.uppercase(Locale.getDefault())
 
-    private fun parseToUpperString(value :String?): Any = value?.trim()?.let{ it.toUpperCase() } ?: String::class.javaObjectType
+    private fun parseToUpperString(value: String?): Any =
+        value?.trim()?.uppercase(Locale.getDefault()) ?: String::class.javaObjectType
 
     override val bodyQuery: String = INSERT_CLIENT
 
     private lateinit var dateFile: Timestamp
 
     override fun getTypeLine(fields: List<String>, order: Int): TypeLine {
-        if(fields.isEmpty() ) return TypeLine.NOTHING
+        if (fields.isEmpty()) return TypeLine.NOTHING
 
-        return when (fields[0].toUpperCase()) {
-            "START"->  {
+        return when (fields[0].uppercase(Locale.getDefault())) {
+            "START" -> {
                 dateFile = fields[1].toDate().toTimestamp()
                 TypeLine.NOTHING
             }
-            "END"-> TypeLine.NOTHING
+            "END" -> TypeLine.NOTHING
             else -> TypeLine.BODY
         }
     }

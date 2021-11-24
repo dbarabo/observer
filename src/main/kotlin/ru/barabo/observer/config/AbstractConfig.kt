@@ -63,4 +63,4 @@ abstract class AbstractConfig : ConfigTask {
             "Похоже тред с именем $nameThread завис, не отвечает уже более $minutes минут"
 }
 
-private const val MAX_WAIT_TIME: Long = 1000*60*21
+private const val MAX_WAIT_TIME: Long = 1000*60*21L

@@ -16,6 +16,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalTime
+import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.roundToLong
 
@@ -87,11 +88,11 @@ object ReportTransListLoader  : FileFinder, FileProcessor, QuoteSeparatorLoader 
     )
 
     private fun parseColor(value: String?): Any {
-        val length = value?.trim()?.length?:0
+        val length = value?.trim()?.length ?: 0
 
-        if(length == 0) return Double::class.javaObjectType
+        if (length == 0) return Double::class.javaObjectType
 
-        return when(value?.trim()?.toUpperCase()) {
+        return when (value?.trim()?.uppercase(Locale.getDefault())) {
             "WHITE" -> 0
             "RED" -> 1
             "GREEN" -> 2
@@ -123,7 +124,7 @@ private const val DATE_TIME_FORMAT_AUTH = "dd.MM.yyyy HH:mm:ss"
 
 private const val DATE_FORMAT_AUTH = "dd.MM.yyyy"
 
-private val patternOperType = Pattern.compile("\\[([0-9]+)\\]")
+private val patternOperType = Pattern.compile("\\[([0-9]+)]")
 
 private val formatCurrency = DecimalFormat("#,###.##",
     DecimalFormatSymbols().apply {

@@ -12,11 +12,11 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
-import ru.barabo.observer.crypto.Scad
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
@@ -101,7 +101,7 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private var sessionSetting: SessionSetting? = null
 
-    override val headerQuery: String? = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
+    override val headerQuery: String = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
             "file_order, period_start, period_end, file_name, CREATED) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
@@ -113,11 +113,11 @@ object LoadAcq : FileFinder, FileProcessor, QuoteSeparatorLoader {
             -1 to ::fileProcessName,
             -2 to ::fileLastModified)
 
-    private fun fileProcessName(value: String?): Any = fileProcess.name
+    private fun fileProcessName(@Suppress("UNUSED_PARAMETER") value: String?): Any = fileProcess.name
 
-    private fun fileLastModified(value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
+    private fun fileLastModified(@Suppress("UNUSED_PARAMETER") value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
 
-            override val bodyQuery: String? = """
+    override val bodyQuery: String = """
 insert into od.PTKB_ACQ_RECORD (id, ACQ, row_order, auth_id, transact_type_fe, card_number,
 local_oper, pc_oper, auth_direction, AUTH_CURRENCY, AUTH_AMOUNT,
 fee_direction, fee_amount, terminal_id, merchant_id, merchant_name,
@@ -155,19 +155,19 @@ values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             25 to ::parseInt // IS_PHYSICAL_TERMINAL
             )
 
-    override val tailQuery: String? = "{ call od.PTKB_PLASTIC_TURN.setTailAcq(?, ?, ?)}"
+    override val tailQuery: String = "{ call od.PTKB_PLASTIC_TURN.setTailAcq(?, ?, ?)}"
 
     override val tailColumns: Map<Int, (String?) -> Any> = mapOf(2 to ::parseInt, 3 to ::parseInt)
 
     override fun getTypeLine(fields: List<String>, order: Int): TypeLine {
-        if(fields.isEmpty() ) return TypeLine.NOTHING
+        if (fields.isEmpty()) return TypeLine.NOTHING
 
-        return when (fields[0].toUpperCase()) {
-            "FH"->  TypeLine.HEADER
-            "TR"-> TypeLine.BODY
-            "FT"-> TypeLine.TAIL
+        return when (fields[0].uppercase(Locale.getDefault())) {
+            "FH" -> TypeLine.HEADER
+            "TR" -> TypeLine.BODY
+            "FT" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string ${fields[0]}")
+            else -> throw Exception("not found type string ${fields[0]}")
         }
     }
 
@@ -175,7 +175,8 @@ values (classified.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 
     private fun terminalIdWithSave(value: String?): Any = (value ?: "").apply { terminalId = this }
 
-    private fun merchantLocation(value: String?): Any = AfinaQuery.selectValue(SELECT_LOCATION, arrayOf(terminalId), sessionSetting!!) ?: ""
+    private fun merchantLocation(@Suppress("UNUSED_PARAMETER") value: String?): Any =
+        AfinaQuery.selectValue(SELECT_LOCATION, arrayOf(terminalId), sessionSetting!!) ?: ""
 
     private const val SELECT_LOCATION = """
 select MERCHANT_LOCATION

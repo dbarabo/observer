@@ -16,6 +16,7 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadAcqAdvUPay : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
@@ -42,18 +43,18 @@ object LoadAcqAdvUPay : FileFinder, FileProcessor, QuoteSeparatorLoader {
     }
 
     override fun getTypeLine(fields: List<String>, order: Int): TypeLine {
-        if(fields.isEmpty() ) return TypeLine.NOTHING
+        if (fields.isEmpty()) return TypeLine.NOTHING
 
-        return when (fields[0].toUpperCase()) {
-            "H"->  TypeLine.HEADER
-            "ACQ_ADV"-> TypeLine.BODY
-            "T"-> TypeLine.TAIL
+        return when (fields[0].uppercase(Locale.getDefault())) {
+            "H" -> TypeLine.HEADER
+            "ACQ_ADV" -> TypeLine.BODY
+            "T" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string ${fields[0]}")
+            else -> throw Exception("not found type string ${fields[0]}")
         }
     }
 
-    override val headerQuery: String? = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
+    override val headerQuery: String = "insert into od.PTKB_ACQ (id, file_receiver, pc_created, " +
             "file_order, period_start, period_end, file_name, CREATED) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
@@ -68,21 +69,21 @@ object LoadAcqAdvUPay : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
     private lateinit var created: Any
 
-    private fun fileProcessName(value: String?): Any = fileProcess.name
+    private fun fileProcessName(@Suppress("UNUSED_PARAMETER") value: String?): Any = fileProcess.name
 
-    private fun fileLastModified(value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
+    private fun fileLastModified(@Suppress("UNUSED_PARAMETER") value: String?): Any = java.sql.Timestamp(fileProcess.lastModified())
 
     private fun parseDateWithSave(value: String?): Any = parseDateTime(value).apply { created = this }
 
-    override val tailQuery: String? = "{ call od.PTKB_PLASTIC_TURN.setTailAcq(?, ?, ?)}"
+    override val tailQuery: String = "{ call od.PTKB_PLASTIC_TURN.setTailAcq(?, ?, ?)}"
 
     override val tailColumns: Map<Int, (String?) -> Any> = mapOf(
             1 to LoadAcq::parseInt,
             -1 to ::tailCount)
 
-    private fun tailCount(value: String?): Any = 0
+    private fun tailCount(@Suppress("UNUSED_PARAMETER") value: String?): Any = 0
 
-    override val bodyQuery: String? = """
+    override val bodyQuery: String = """
 insert into od.PTKB_ACQ_RECORD (id, ACQ, row_order, auth_id, transact_type_fe, card_number,
 local_oper, pc_oper, auth_direction, AUTH_CURRENCY, AUTH_AMOUNT,
 fee_amount, terminal_id, merchant_id, merchant_name, merchant_city, 
@@ -113,11 +114,12 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
             -4 to ::isPhysicalTerminal // IS_PHYSICAL_TERMINAL
     )
 
-    private fun pcByLocal(value: String?): Any = created
+    private fun pcByLocal(@Suppress("UNUSED_PARAMETER") value: String?): Any = created
 
-    private fun paySystemId(value: String?): Any = if(value?.trim()?.toUpperCase() == "NSPK001") "9961" else "9960"
+    private fun paySystemId(value: String?): Any =
+        if (value?.trim()?.uppercase(Locale.getDefault()) == "NSPK001") "9961" else "9960"
 
-    private fun isPhysicalTerminal(value: String?): Any = 1
+    private fun isPhysicalTerminal(@Suppress("UNUSED_PARAMETER") value: String?): Any = 1
 
     private lateinit var terminalId: String
 
@@ -125,9 +127,9 @@ values (classified.nextval, ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,   ?
 
     private fun trnTypeToReverse(value: String?): Any = if(value == "D") 0 else 1
 
-    private fun merchantAddressByTerminalId(skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_ADDRESS, arrayOf(terminalId))!!
+    private fun merchantAddressByTerminalId(@Suppress("UNUSED_PARAMETER") skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_ADDRESS, arrayOf(terminalId))!!
 
-    private fun merchantNameByTerminalId(skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_NAME, arrayOf(terminalId))!!
+    private fun merchantNameByTerminalId(@Suppress("UNUSED_PARAMETER") skip: String?): Any = AfinaQuery.selectValue(SELECT_MERCHANT_NAME, arrayOf(terminalId))!!
 
     private const val SELECT_MERCHANT_NAME = "select od.PTKB_PLASTIC_TURN.getMerchantNameByTerminal( ? ) from dual"
 

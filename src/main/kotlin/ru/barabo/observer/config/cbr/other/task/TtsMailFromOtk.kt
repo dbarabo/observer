@@ -14,6 +14,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 import java.util.regex.Pattern
 
 object TtsMailFromOtk : FileFinder, FileProcessor {
@@ -45,8 +46,8 @@ object TtsMailFromOtk : FileFinder, FileProcessor {
 
     private fun sendFileIfNeed(file : File) {
         when {
-            isTtsFile(file.name.trim().toUpperCase()) -> BaraboSmtp.sendToTtsFromOtk(file)
-            isNoNeedSendFile(file.name.trim().toUpperCase()) -> {}
+            isTtsFile(file.name.trim().uppercase(Locale.getDefault())) -> BaraboSmtp.sendToTtsFromOtk(file)
+            isNoNeedSendFile(file.name.trim().uppercase(Locale.getDefault())) -> {}
             else -> BaraboSmtp.sendToTtsUnknownFile(file)
         }
     }

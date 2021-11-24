@@ -22,7 +22,7 @@ object TestConcurrencyConfig : AbstractConfig() {
 
         //LoadAcq.findAll()
 
-        Thread.sleep(1000*60*2)
+        Thread.sleep(1000*60*2L)
 
         this.executeTasks()
     }

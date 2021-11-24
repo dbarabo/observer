@@ -33,7 +33,7 @@ object SendXmlForm310 : SingleSelector  {
 
     override fun execute(elem: Elem): State {
 
-        val infoMail = AfinaQuery.select(SELECT_MAIL, arrayOf(elem.idElem))?.get(0) ?: return State.ARCHIVE
+        val infoMail = AfinaQuery.select(SELECT_MAIL, arrayOf(elem.idElem)).takeIf { it.isNotEmpty() }?.get(0) ?: return State.ARCHIVE
 
         val mail = infoMail[0] as? String
 

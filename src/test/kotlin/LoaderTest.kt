@@ -206,7 +206,7 @@ res3 = [calc.DEC_TEST];
 
         val max = (File("X:/639-П/Out/2019/12/16").listFiles { f ->
             !f.isDirectory && search.matcher(f.name).find()}
-                ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.max()?:0)+ 1
+            ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.maxOrNull() ?:0)+ 1
 
         logger.error("max=$max")
     }
@@ -289,7 +289,7 @@ res3 = [calc.DEC_TEST];
 
         val file = File("C:/Картстандарт/test/UV")
 
-        file.listFiles().filter { !it.isDirectory }.forEach {
+        file.listFiles()?.filter { !it.isDirectory }?.forEach {
             XmlLoaderCbrTicket311p.processFile(it)
         }
     }
@@ -429,7 +429,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun loadClearInt() {
 
-        File("C:/Temp/1").listFiles().filter { !it.isDirectory }.forEach {
+        File("C:/Temp/1").listFiles()?.filter { !it.isDirectory }?.forEach {
 
             logger.error("START LOAD ${it.name}")
 
@@ -1030,8 +1030,8 @@ res3 = [calc.DEC_TEST];
 
         findMain?.children()?.forEach {
             if(it.nodeName() == "Valute") {
-                val name = it.children().firstOrNull { it.nodeName() == "Name" }
-                logger.error("Name=${name?.text()}")
+                val nameX = it.children().firstOrNull { it.nodeName() == "Name" }
+                logger.error("Name=${nameX?.text()}")
 
                 val numCode = it.children().firstOrNull { it.nodeName() == "NumCode" }
                 logger.error("numCode=${numCode?.text()}")
@@ -1056,7 +1056,7 @@ res3 = [calc.DEC_TEST];
 
         val body = Jsoup.connect(site).get().body()
 
-        val find = body.allElements?.firstOrNull { it.className()?.indexOf("currency-convertion-result")?:-1 >= 0 }
+        val find = body.allElements?.firstOrNull { (it.className()?.indexOf("currency-convertion-result") ?: -1) >= 0 }
 
         find?.let {
 
@@ -1074,8 +1074,6 @@ res3 = [calc.DEC_TEST];
                 logger.error("$amount")
             }
         }
-
-
       //  logger.error(body.text())
     }
 
@@ -1122,7 +1120,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testForm310() {
 
-        val form310 = DefaultForm310Data(LocalDate.of(2021, 9, 20))
+        val form310 = DefaultForm310Data(LocalDate.of(2021, 11, 16))
 
         form310.createFile()
     }
@@ -1183,7 +1181,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testFnsPercentOut() {
-        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2021, 11, 10))
+        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2021, 11, 18))
         fnsPercentOut.createFile()
     }
 

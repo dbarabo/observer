@@ -16,6 +16,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(LoadRestAccount.hCardIn,
@@ -68,11 +69,11 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
 
     override val tailColumns: Array<Column> = emptyArray()
 
-    override val headerQuery: String? = "{ call od.PTKB_PLASTIC_TURNOUT.addObrFile(?, ?) }"
+    override val headerQuery: String = "{ call od.PTKB_PLASTIC_TURNOUT.addObrFile(?, ?) }"
 
-    override val bodyQuery: String? = "{ call od.PTKB_PLASTIC_TURNOUT.setErrorObr(?, ?, ?) }"
+    override val bodyQuery: String = "{ call od.PTKB_PLASTIC_TURNOUT.setErrorObr(?, ?, ?) }"
 
-    override fun generateHeaderSequense(line: String, sessionSetting: SessionSetting): Any? {
+    override fun generateHeaderSequense(line: String, sessionSetting: SessionSetting): Any {
 
         val column = Column(20, 18, LoadObi::parseInt)
 
@@ -80,7 +81,7 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
 
         val isExists = AfinaQuery.selectValue(SELECT_EXISTS_ID, arrayOf(idFile), sessionSetting)
 
-        isExists?.let { it }?: throw Exception("Исходный файл для ответного ${fileProcess.name} id=$idFile не найден")
+        isExists ?: throw Exception("Исходный файл для ответного ${fileProcess.name} id=$idFile не найден")
 
         return idFile
     }
@@ -92,18 +93,18 @@ object LoadObr  : FileFinder, FileProcessor, PosLengthLoader {
     private lateinit var idFile :Any
 
     override fun getTypeLine(line: String, order: Int): TypeLine {
-        if(line.length < 6) return TypeLine.NOTHING
+        if (line.length < 6) return TypeLine.NOTHING
 
-        return when (line.substring(0, 6).toUpperCase()) {
-            "RCTP01"-> TypeLine.HEADER
-            "RCTP12"-> {
+        return when (line.substring(0, 6).uppercase(Locale.getDefault())) {
+            "RCTP01" -> TypeLine.HEADER
+            "RCTP12" -> {
                 isExistsError = true
 
                 TypeLine.BODY
             }
-            "RCTP02"-> TypeLine.TAIL
+            "RCTP02" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string $line")
+            else -> throw Exception("not found type string $line")
         }
     }
 }

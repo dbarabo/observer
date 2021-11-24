@@ -4,7 +4,9 @@ import oracle.jdbc.OracleCallableStatement
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import java.sql.*
+import java.util.*
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.collections.ArrayList
 
 open class Query (private val dbConnection :DbConnection) {
 
@@ -141,7 +143,7 @@ open class Query (private val dbConnection :DbConnection) {
         }
 
         for (index in 1 .. resultSet.metaData.columnCount) {
-            columns += resultSet.metaData.getColumnName(index)?.toUpperCase()!!
+            columns += resultSet.metaData.getColumnName(index).uppercase(Locale.getDefault())
 
             types += resultSet.metaData.getColumnType(index)
         }
@@ -187,7 +189,7 @@ open class Query (private val dbConnection :DbConnection) {
                                outParamTypes :IntArray?) :QueryRequest {
 
         return try {
-            if(outParamTypes?.size?:0 == 0)
+            if((outParamTypes?.size ?: 0) == 0)
                 QueryRequest(query, params, session.session.prepareStatement(query)?.setParams(params))
             else
                 QueryRequest(query, params, session.session.prepareCall(query)?.setParams(outParamTypes as IntArray, params))
@@ -211,7 +213,7 @@ open class Query (private val dbConnection :DbConnection) {
 
     private fun executePrepared(session :Session, queryRequest :QueryRequest, outParamTypes :IntArray?, isWriteLogError: Boolean = true) :List<Any?>? {
 
-        val result = if(outParamTypes?.size?:0 == 0) null else ArrayList<Any?>()
+        val result = if((outParamTypes?.size ?: 0) == 0) null else ArrayList<Any?>()
 
         val statement = queryRequest.statement
 
@@ -373,7 +375,7 @@ open class Query (private val dbConnection :DbConnection) {
         val columns = Array(resultSet.metaData.columnCount) {""}
 
         for (index in 1 .. resultSet.metaData.columnCount) {
-            columns[index - 1] = resultSet.metaData.getColumnName(index)?.toUpperCase()!!
+            columns[index - 1] = resultSet.metaData.getColumnName(index).uppercase(Locale.getDefault())
         }
 
         while(resultSet.next()) {

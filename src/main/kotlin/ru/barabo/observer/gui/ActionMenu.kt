@@ -41,7 +41,7 @@ private fun  TreeElem.getActionMenuItems() :List<Pair<String, ()->Unit>> {
     return list
 }
 
-private fun itemsByTask(task: ActionTask) :List<Pair<String, ()->Unit>> = emptyList()
+private fun itemsByTask(@Suppress("UNUSED_PARAMETER") task: ActionTask) :List<Pair<String, ()->Unit>> = emptyList()
 
 private fun TreeElem.defaultItemsByState(state :State) :List<Pair<String, ()->Unit>> {
 

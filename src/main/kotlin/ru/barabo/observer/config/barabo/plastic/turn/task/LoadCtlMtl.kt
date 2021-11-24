@@ -15,6 +15,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadCtlMtl : CtlLoader(), FileFinder, FileProcessor {
 
@@ -122,18 +123,18 @@ open class CtlLoader : QuoteSeparatorLoader {
     }
 
     override fun getTypeLine(fields: List<String>, order: Int): TypeLine {
-        if(fields.isEmpty() ) return TypeLine.NOTHING
+        if (fields.isEmpty()) return TypeLine.NOTHING
 
-        return when (fields[0].toUpperCase()) {
-            "FH"-> {
-                isCtl = fields[2].toUpperCase() == "CTL"
+        return when (fields[0].uppercase(Locale.getDefault())) {
+            "FH" -> {
+                isCtl = fields[2].uppercase(Locale.getDefault()) == "CTL"
 
                 TypeLine.HEADER
             }
-            "TR"-> TypeLine.BODY
-            "FT"-> TypeLine.TAIL
+            "TR" -> TypeLine.BODY
+            "FT" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string ${fields[0]}")
+            else -> throw Exception("not found type string ${fields[0]}")
         }
     }
 

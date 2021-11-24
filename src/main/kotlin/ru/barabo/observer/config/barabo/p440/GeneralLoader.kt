@@ -21,6 +21,7 @@ import ru.barabo.observer.store.Elem
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
+import java.util.*
 
 abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : AbstractFromFns {
 
@@ -40,10 +41,10 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     override fun createNewElem(file :File) : Elem = Elem(file, actionTask(file.name), accessibleData.executeWait)
 
-    public fun actionTask(name :String) : ActionTask {
+    fun actionTask(name :String) : ActionTask {
 
         val actionTask = try {
-            FileLoader.objectByPrefix(name.substring(0, 3).toUpperCase())
+            FileLoader.objectByPrefix(name.substring(0, 3).uppercase(Locale.getDefault()))
         } catch (e: Exception) {
             logger.error("actionTask=$name", e)
 
@@ -125,7 +126,7 @@ internal fun AbstractFromFns.saveData(file :File, sessionSetting: SessionSetting
 
     val param = params
 
-    param.add(file.name.toUpperCase())
+    param.add(file.name.uppercase(Locale.getDefault()))
 
     param.add(idFromFns)
 

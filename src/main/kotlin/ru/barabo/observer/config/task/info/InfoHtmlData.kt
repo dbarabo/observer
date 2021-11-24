@@ -7,6 +7,8 @@ import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.TreeElem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 object InfoHtmlData {
 
@@ -51,7 +53,7 @@ object InfoHtmlData {
     private fun TreeElem.addRowInfo(): Array<Any?> = arrayOf("........$task", state, count, created, executed, name, id)
 
     private fun addConfig(config: ConfigTask?): Array<Any?> =
-            arrayOf("<b>${config?.name()?.toUpperCase()}</b>", null, null, null, null, null, null)
+            arrayOf("<b>${config?.name()?.uppercase(Locale.getDefault())}</b>", null, null, null, null, null, null)
 
     private val headerTable = mapOf(
             "Задача" to "left",

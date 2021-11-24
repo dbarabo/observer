@@ -21,13 +21,13 @@ public class InfoPayee {
     @XStreamAlias("СумПроц")
     final private String amountPercent;
 
-    @XStreamAlias("СумПроц")
+    @XStreamAlias("СумПроцИнд")
     final private String amountPercentIP;
 
-    @XStreamAlias("ФИО")
+    @XStreamAlias("tns:ФИО")
     final private Fio fio;
 
-    @XStreamAlias("УдЛичнФЛ")
+    @XStreamAlias("tns:УдЛичнФЛ")
     final private InfoDocument document;
 
     public InfoPayee(Integer citizen, Date birthday, String inn, Number amountPercent, Number amountPercentIP,

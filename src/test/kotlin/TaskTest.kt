@@ -13,7 +13,9 @@ import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalTime
+import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
 class TaskTest {
@@ -128,7 +130,7 @@ class TaskTest {
 
         timer("TIMER2", false, 0, 2_000) {logger.error(LocalTime.now().toString())}
 
-        Thread.sleep(12_000);
+        Thread.sleep(12_000)
     }
 
     //@Test
@@ -183,7 +185,7 @@ class TaskTest {
 
     //@Test
     fun getLocalHost() {
-        logger.error(InetAddress.getLocalHost().hostName.toUpperCase())
+        logger.error(InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault()))
     }
 
     // @Test

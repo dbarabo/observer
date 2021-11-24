@@ -4,6 +4,7 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
 import ru.barabo.observer.config.task.p440.out.xml.rest.RestAccount
+import java.util.*
 
 class RestResponseData : AbstractRequestResponse() {
 
@@ -39,7 +40,7 @@ class RestResponseData : AbstractRequestResponse() {
 
     private fun createRestList(accounts: List<Array<Any?>>) {
         restAccountList = accounts.map { RestAccount(it[0] as? String,
-                it[1]?.let { x -> (x as String).trim().toUpperCase() }, it[2] as? String, it[3] as? Number) }
+                it[1]?.let { x -> (x as String).trim().uppercase(Locale.getDefault()) }, it[2] as? String, it[3] as? Number) }
     }
 }
 

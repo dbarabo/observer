@@ -15,6 +15,7 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
 import java.time.Duration
+import java.util.*
 
 object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
 
@@ -82,7 +83,7 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
         return fileId
     }
 
-    override val headerQuery: String? = "insert into od.PTKB_AFP (id, file_receiver, pc_created, " +
+    override val headerQuery: String = "insert into od.PTKB_AFP (id, file_receiver, pc_created, " +
             "file_order, period_start, period_end, file_name) values (?, ?, ?, ?, ?, ?, ?)"
 
     override val headerColumns: Map<Int, (String?) -> Any> = mapOf(
@@ -93,7 +94,7 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
         8 to ::parseDateTime,
         -1 to {_ :String? -> fileProcess.name })
 
-    override val bodyQuery: String? = ("insert into od.PTKB_AFP_RECORD (id, afp, row_order, auth_id, transact_type_fe, " +
+    override val bodyQuery: String = ("insert into od.PTKB_AFP_RECORD (id, afp, row_order, auth_id, transact_type_fe, " +
             "account_number, card_number, local_oper, pc_oper, auth_direction, account_currency, account_amount, " +
             "fee_direction, fee_amount, auth_currency, auth_amount, terminal_id, merchant_id, merchant_name, " +
             "merchant_country, merchant_state, merchant_city, merchant_postal, pay_system_id_number, " +
@@ -130,19 +131,19 @@ object LoadAfp : FileFinder, FileProcessor, QuoteSeparatorLoader {
             26 to ::parseInt,
             27 to ::parseToString)
 
-    override val tailQuery: String? = "{ call od.PTKB_PLASTIC_TURN.setTailAfp(?, ?, ?)}"
+    override val tailQuery: String = "{ call od.PTKB_PLASTIC_TURN.setTailAfp(?, ?, ?)}"
 
     override val tailColumns: Map<Int, (String?) -> Any> = mapOf(2 to ::parseInt, 3 to ::parseInt)
 
     override fun getTypeLine(fields: List<String>, order: Int): TypeLine {
-        if(fields.isEmpty() ) return TypeLine.NOTHING
+        if (fields.isEmpty()) return TypeLine.NOTHING
 
-        return when (fields[0].toUpperCase()) {
-            "FH"->  TypeLine.HEADER
-            "TR"-> TypeLine.BODY
-            "FT"-> TypeLine.TAIL
+        return when (fields[0].uppercase(Locale.getDefault())) {
+            "FH" -> TypeLine.HEADER
+            "TR" -> TypeLine.BODY
+            "FT" -> TypeLine.TAIL
 
-            else-> throw Exception("not found type string ${fields[0]}")
+            else -> throw Exception("not found type string ${fields[0]}")
         }
     }
 }

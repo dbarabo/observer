@@ -1,8 +1,9 @@
-import org.junit.Test;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class RandomUUID {
@@ -21,6 +22,7 @@ public class RandomUUID {
     }
 
     private static long get64MostSignificantBitsForVersion1() {
+
         Date startDate = new Date(1582, 10, 15);
 
         long milli = new Date().getTime() - startDate.getTime();

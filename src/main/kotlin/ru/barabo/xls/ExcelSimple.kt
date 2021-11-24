@@ -63,7 +63,8 @@ class ExcelSimple(newFile: File, template: File) {
         return rowData
     }
 
-    private fun findMinIndexRowType(rowType: RowTypes): Int = templateData.filter { it.type === rowType }.map { it.index }.min()?:0
+    private fun findMinIndexRowType(rowType: RowTypes): Int = templateData.filter { it.type === rowType }.map { it.index }
+        .minOrNull() ?:0
 
     private fun createRowType(variable: Map<String, Any>, rowType: RowTypes): ExcelSimple {
         val sheet = newBook.getSheet(0)
@@ -168,7 +169,7 @@ data class ColumnXls(val index: Int,
     private fun complexValue(titleVar: Map<String, Any>): Any {
         var newValue = value
 
-        val matcher = Pattern.compile("\\[(.*?)\\]").matcher(newValue)
+        val matcher = Pattern.compile("\\[(.*?)]").matcher(newValue)
 
 
         while (matcher.find()) {
@@ -177,7 +178,7 @@ data class ColumnXls(val index: Int,
 
             val varValue = titleVar[varName]?.toString() ?: varName
 
-            newValue = newValue.replace("\\[$varName\\]".toRegex(), varValue)
+            newValue = newValue.replace("\\[$varName]".toRegex(), varValue)
         }
 
         return newValue
