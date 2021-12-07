@@ -32,6 +32,8 @@ object MantisUserDisabled : Periodical {
 
         if(mails.isEmpty()) return State.OK
 
+        MantisQuery.execute(deleteMantisEmails(mails) )
+
         MantisQuery.execute(updateMantisEnanabled(mails) )
 
         AfinaQuery.execute(updateCheckUserDisabled(mails))
@@ -42,7 +44,10 @@ object MantisUserDisabled : Periodical {
     private const val SELECT_EMAIL_LAID_OFF = "{ ? = call od.PTKB_PLASTIC_REPORT.getMailLaidOffEmployees }"
 
     private fun updateMantisEnanabled(mails: String) =
-            "update mantis_user_table set enabled = 0 where email in ($mails)"
+            "update mantis_user_table set enabled = 0, email = '' where email in ($mails)"
+
+    private fun deleteMantisEmails(mails: String) =
+        "delete from mantis_email_table where email in ($mails)"
 
     private fun updateCheckUserDisabled(mails: String) = """
 update od.users u

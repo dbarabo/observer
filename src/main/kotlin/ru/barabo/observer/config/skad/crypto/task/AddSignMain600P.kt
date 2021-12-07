@@ -26,6 +26,11 @@ object AddSignMain600P : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
+        if(file.name.equals("Thumbs.db", true)) {
+            file.delete()
+            return
+        }
+
         if(file.name.equals("thumbs.db", true)) {
             file.delete()
             return
