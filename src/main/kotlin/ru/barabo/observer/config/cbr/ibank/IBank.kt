@@ -16,10 +16,6 @@ object IBank : AbstractConfig() {
         UploadExtract.findAll()
         CheckAccountFaktura.findAll()
 
-        // off from 01/01/2021
-        // LoanInfoCreator.findAll()
-        // LoanInfoSaver.findAll()
-
         CheckerAllBalance.findAll()
 
         executeTasks()

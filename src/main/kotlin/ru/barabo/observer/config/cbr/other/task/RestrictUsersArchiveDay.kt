@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -26,7 +26,7 @@ object RestrictUsersArchiveDay : Periodical {
 
     override fun name(): String = "Ограничить Арх. день"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork // OtherCbr
 
     private const val CALL_RESTRICT_ARCHIVE_DAY = "{ call od.PTKB_PRECEPT.restrictArchiveDay }"
 

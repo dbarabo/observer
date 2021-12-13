@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerDoubleTurn
-import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.store.Elem
@@ -24,7 +24,7 @@ object CheckerDoubleTurnPeriod : Periodical {
 
     override fun name(): String = "Проверка задвоения проводок"
 
-    override fun config(): ConfigTask = PtkPsd
+    override fun config(): ConfigTask = AnyWork // PtkPsd
 
     override fun execute(elem: Elem): State {
         CheckerDoubleTurn.checkDouble()

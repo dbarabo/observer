@@ -6,12 +6,12 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.other.task.cec.FileXml
 import ru.barabo.observer.config.cbr.other.task.cec.Person
 import ru.barabo.observer.config.cbr.other.task.cec.XmlCecLoader
 import ru.barabo.observer.config.cbr.other.task.cec.Zapros
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -28,7 +28,7 @@ object CecReportProcess : FileFinder, FileProcessor {
 
     override fun name(): String = "Запрос из ЦИК"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork // OtherCbr
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS)
 

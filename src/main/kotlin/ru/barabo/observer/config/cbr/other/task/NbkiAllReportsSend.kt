@@ -4,11 +4,11 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.other.task.nbki.ArraySheetData
 import ru.barabo.observer.config.cbr.other.task.nbki.ExcelNbkiCreator
 import ru.barabo.observer.config.cbr.other.task.nbki.SheetData
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -34,11 +34,11 @@ object NbkiAllReportsSend : Periodical {
     override var count: Long = 1
 
     override val accessibleData: AccessibleData =  AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(7, 0), LocalTime.of(16, 0), Duration.ofMinutes(1))
+            LocalTime.of(7, 0), LocalTime.of(11, 30), Duration.ofMinutes(1))
 
     override fun name(): String = "НБКИ отправить отчет"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork //OtherCbr
 
     private fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
 

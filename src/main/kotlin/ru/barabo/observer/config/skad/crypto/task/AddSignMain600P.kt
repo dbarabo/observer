@@ -47,7 +47,6 @@ object AddSignMain600P : FileFinder, FileProcessor {
 
     private fun arjArchiveNameToday() = "DIFM_040507717_${nameDateToday()}_${getCountSend()}_000.ARJ"
 
-
     private fun getCountSend(): String {
         val number = StoreSimple.getCountByTask(task = CryptoArchive600P, nameContains = "DIFM") + 1
 

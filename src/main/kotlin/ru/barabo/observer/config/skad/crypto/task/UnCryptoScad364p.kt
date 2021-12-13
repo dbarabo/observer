@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.skad.crypto.ScadConfig

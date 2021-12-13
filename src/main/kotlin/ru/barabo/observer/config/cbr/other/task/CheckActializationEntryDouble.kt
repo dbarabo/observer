@@ -3,7 +3,7 @@ package ru.barabo.observer.config.cbr.other.task
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -39,7 +39,7 @@ object CheckActializationEntryDouble: SingleSelector {
 
     override fun name(): String = "Проверка дубля Актуализации"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork // OtherCbr
 
     override fun execute(elem: Elem): State {
 

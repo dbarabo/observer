@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.PrefixTicket
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.task.AccessibleData
@@ -41,7 +42,7 @@ object TicketSimple : FileMover, FileFinder {
 
     override fun name(): String = "Разные (не XML)"
 
-    fun xReceiptToday(): String = "X:/RECEIPT/${todayFolder()}"
+    fun xReceiptToday(): String = "X:/RECEIPT/${todayFolder()}".byFolderExists().absolutePath
 
-    private fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    private fun todayFolder() : String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 }

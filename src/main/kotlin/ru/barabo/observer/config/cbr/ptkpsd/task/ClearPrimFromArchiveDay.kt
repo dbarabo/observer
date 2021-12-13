@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.store.Elem
@@ -13,7 +13,7 @@ object ClearPrimFromArchiveDay : SingleSelector {
 
     override fun name(): String = "Пересчитать показатели с арх. даты в РУБ"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork // OtherCbr
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(6, 0),
             workTimeTo = LocalTime.of(23, 0), executeWait = null)

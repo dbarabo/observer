@@ -16,6 +16,7 @@ import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.correspond.Correspond
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
 import ru.barabo.observer.config.skad.acquiring.Acquiring
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
@@ -132,11 +133,12 @@ private fun getBuildInfoByBuild(build: String): BuildInfo =
 
 private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)
 
-private fun cbrConfigs(): List<ConfigTask> = listOf(IBank, PtkPsd, TicketPtkPsd, OtherCbr, SenderMail)
+private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherCbr)
 
-private fun jzdoConfigs(): List<ConfigTask> = listOf(UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
+private fun jzdoConfigs(): List<ConfigTask> = listOf(IBank, UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 
-private fun scadSignatureConfigs(): List<ConfigTask> = listOf(PlasticOutSide, ScadConfig, P440Config, Acquiring)
+private fun scadSignatureConfigs(): List<ConfigTask> =
+    listOf(PlasticOutSide, ScadConfig, P440Config, Acquiring, SenderMail, AnyWork)
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 

@@ -3,7 +3,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerRedSaldo
-import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
@@ -28,7 +28,7 @@ object CheckerRedSaldoNow : Executor, ActionTask {
             workTimeTo = LocalTime.of(23, 55),
             executeWait = Duration.ofMinutes(1))
 
-    override fun config(): ConfigTask = PtkPsd
+    override fun config(): ConfigTask = AnyWork // PtkPsd
 
     override fun findAbstract(): Executor? = findBySelect()
 
