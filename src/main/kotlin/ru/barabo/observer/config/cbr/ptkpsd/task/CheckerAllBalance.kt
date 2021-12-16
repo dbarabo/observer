@@ -7,7 +7,6 @@ import ru.barabo.observer.config.cbr.other.task.form101.BalanceChecker101f
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerAbsentBalance
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerDoubleTurn
 import ru.barabo.observer.config.cbr.other.task.form101.CheckerRedSaldo
-import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.store.Elem
