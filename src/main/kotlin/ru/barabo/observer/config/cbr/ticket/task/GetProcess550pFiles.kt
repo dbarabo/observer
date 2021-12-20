@@ -41,7 +41,6 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         arjArchives?.forEach { arj ->
             Archive.extractFromArj(arj, tempFolder.absolutePath)
 
-            // Verba.unCryptoAndUnSigned(tempFolder, "*.XML")
             tempFolder.listFiles()?.filter { !it.isDirectory }?.forEach {
                 it.renameTo(File("${folder550pIn()}/${it.name}"))
             }

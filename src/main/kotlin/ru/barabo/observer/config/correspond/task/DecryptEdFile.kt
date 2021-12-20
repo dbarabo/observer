@@ -16,13 +16,13 @@ import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.p311.ticket.FileRecord
 import ru.barabo.observer.config.task.p311.ticket.NameRecords
-import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.config.task.template.file.FileProcessorWithState
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.io.File
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 import java.util.regex.Pattern
 
@@ -47,24 +47,23 @@ object DecryptEdFile : FileFinder, FileProcessorWithState {
 
             copyToArchiveOthersFile(file)
 
-            if(file.isCorrespondToday() ) {
-                //elem.executed = null
-                //State.NONE
+            when {
+                isStopTime() -> processFileStopTime(file)
 
-                uncryptMoveFile(file)
-                State.OK
-            } else {
-                if(file.isNoTodayCorrespond() ) {
-                    //uncryptMoveFile(file)
-                    throw Exception ("isNoTodayCorrespond файл не прошел по маске file=$file")
+                file.isCorrespondToday() -> uncryptMoveFile(file)
+
+                file.isNoTodayCorrespond() -> uncryptMoveNotLoadFile(file)
+
+                else -> {
+                    file.delete()
+                    State.OK
                 }
-                file.delete()
-
-                State.OK
             }
         }
     }
 }
+
+private fun isStopTime(): Boolean = LocalTime.now().isBefore(LocalTime.of(9, 0))
 
 private fun tryProcessSentError(file: File, process: ()->State): State {
     return try {
@@ -94,7 +93,46 @@ private fun sentErrorMessage(file: File, message: String) {
 
 private const val SEND_ERROR = "{ call od.PTKB_SENDMAIL.sendSimple( ?, ?, ? ) }"
 
-private fun uncryptMoveFile(file: File) {
+private fun processFileStopTime(file: File): State {
+    if(file.isCorrespondToday()) {
+
+        val decodeFile =  loadDecodeFile(file)
+
+        val dayByMoscow = "%02d".format( LocalDateTime.now().minusHours(7).dayOfMonth )
+
+        val folder = "$Z_IN/$dayByMoscow".byFolderExists().absolutePath
+
+        val zFile = File("$folder/${file.name}")
+
+        decodeFile.copyTo(zFile, true)
+
+        file.delete()
+    } else {
+        if(file.isNoTodayCorrespond()) {
+            uncryptMoveNotLoadFile(file)
+        } else {
+            file.delete()
+        }
+    }
+    return State.OK
+}
+
+
+private fun uncryptMoveNotLoadFile(file: File): State {
+    val decodeFile =  loadDecodeFile(file)
+
+    val findDay = findDayFile(file.name)
+
+    val fileNotLoad = File("${archivePathNotLoadToday(findDay).absolutePath}/${file.name}")
+
+    decodeFile.copyTo(fileNotLoad, true)
+
+    file.delete()
+
+    return State.OK
+}
+
+private fun uncryptMoveFile(file: File): State {
 
     val decodeFile =  loadDecodeFile(file)
 
@@ -103,6 +141,8 @@ private fun uncryptMoveFile(file: File) {
     decodeFile.copyTo(zFile, true)
 
     file.delete()
+
+    return State.OK
 }
 
 private fun loadDecodeFile(file: File): File {
@@ -143,6 +183,8 @@ private fun copyToArchiveOthersFile(file: File): File {
 
 private fun archivePathToday() = "${ARCHIVE_PATH}/${Get440pFiles.todayFolder()}".byFolderExists()
 
+private fun archivePathNotLoadToday(day: String) = "$Z_IN/$day".byFolderExists()
+
 private const val ARCHIVE_PATH = "D:/ARCHIVE"
 
 private const val Z_IN = "z:/in"
@@ -170,5 +212,43 @@ private fun File.isNoTodayCorrespond(): Boolean {
     ).map {
         Pattern.compile(it, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
     }.firstOrNull { it.isFind(this.name) } != null
+}
+
+private fun findDayFile(fileName: String): String {
+    val packetIndex = fileName.indexOf("Packet", ignoreCase = true)
+    if(packetIndex > 0) {
+       return fileName.find2Digits(packetIndex+6)
+    }
+
+    val ed = fileName.indexOf("ED", ignoreCase = true)
+    return if(ed == 0 && fileName.length > 6) {
+        fileName.substring(5..6)
+    } else if(ed > 0 && (fileName.length > ed + 7)) {
+        fileName.substring(ed + 6..7 + ed)
+    } else {
+        "null"
+    }
+}
+
+private fun String.find2Digits(indexFrom: Int): String {
+
+    val newString = this.substring(indexFrom)
+
+    var beforeFirst: Char? = null
+    var first: Char? = null
+
+    for (x in newString) {
+        if(x.isDigit()) {
+            when {
+                (beforeFirst == null) -> beforeFirst = x
+
+                first == null -> first = x
+
+                else -> return "$first$x"
+            }
+         }
+    }
+
+    return "null"
 }
 
