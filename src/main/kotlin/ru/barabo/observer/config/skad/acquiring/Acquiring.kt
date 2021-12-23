@@ -20,7 +20,7 @@ object Acquiring  : AbstractConfig() {
 
         LoadPaymentWeechatXlsx.findAll()
 
-        // NewMantisChecker.findAll()
+        NewMantisChecker.findAll()
 
         executeTasks()
     }

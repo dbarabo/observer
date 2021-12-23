@@ -39,7 +39,8 @@ private data class RowSection3(val idCodeSubjectPledge: Number, val codeCountryO
 private fun toRowSection3(row: Array<Any?>): RowSection3 {
 
     return RowSection3(idCodeSubjectPledge = row[0] as Number, codeCountryOksm = row[1] as Number,
-        codeFias = row[2] as? String, codeOkato = row[3] as? String,
+        codeFias = (row[2] as? String)?.takeIf { it.length == "f77948dc-7bc8-42cb-979e-2c958d162d6".length },
+        codeOkato = row[3] as? String,
         postIndex = row[4] as? String, street = row[5] as? String,
         houseNumber = row[6] as? String, housing = row[7] as? String,
         letter = row[8] as? String, apartmentNumber = row[9] as? String,
