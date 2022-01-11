@@ -29,6 +29,8 @@ class DefaultPercentOutData(dateStartReport: LocalDate) : PercentOutData {
 
     fun createFile(): File {
 
+        System.setProperty("jdk.xml.maxOccurLimit", "1000000")
+
         val file = File("${folderReportToday().absolutePath}/$fileNameFns")
 
         val xmlData = FLPROCRequest(this)
@@ -45,9 +47,9 @@ private fun folderReportToday() = "$folderReport/${Get440pFiles.todayFolder()}".
 
 private fun errorFolder(): File = "${folderReportToday()}/ERROR".byFolderExists()
 
-private val folderReport = "X:/365-П".ifTest("C:/365-П")
+private val folderReport = "H:/Gu_cb/365-П".ifTest("C:/365-П")
 
-private val xsd =  "/xsd/fns-flproc-ru-root.xsd"
+private const val xsd =  "/xsd/fns-flproc-ru-root.xsd"
 
 private const val fileNameFns = "fns-flproc-types.xml"
 
