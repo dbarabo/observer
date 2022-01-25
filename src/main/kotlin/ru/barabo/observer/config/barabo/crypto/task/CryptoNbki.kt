@@ -24,7 +24,7 @@ object CryptoNbki : FileFinder, FileProcessor {
     override fun config(): ConfigTask = CryptoConfig
 
     override val accessibleData: AccessibleData
-            = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofHours(8))
+            = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofHours(4))
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.txt"))

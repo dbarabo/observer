@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.cbr.ptkpsd.task.TicketXmlWithoutCab
 import ru.barabo.observer.config.cbr.ticket.task.*
 
 object TicketPtkPsd : AbstractConfig() {
@@ -12,6 +13,7 @@ object TicketPtkPsd : AbstractConfig() {
     override fun configRun() {
 
         TicketXml.findAll()
+        TicketXmlWithoutCab.findAll()
         TicketSimple.findAll() // must be last
 
         XmlLoaderCbrTicket311p.findAll()

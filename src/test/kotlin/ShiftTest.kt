@@ -17,12 +17,21 @@ class ShiftTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
-    @Before
+    //@Before
     fun initTestBase() {
         //TaskMapper.init("TEST", "AFINA")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
+
+    //@Test
+    fun testBeforeLast() {
+
+        val value1 = "TK_1643007015140_KO-21_2022-01-24T09-50-15_1_F0409202_ies1.2ko717.xml.165408"
+
+        logger.error("value1=${value1.substringBeforeLast(".")}")
+    }
+
 
 
     //@Test

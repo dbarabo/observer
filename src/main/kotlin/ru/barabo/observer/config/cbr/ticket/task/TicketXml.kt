@@ -14,7 +14,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-object TicketXml :FileFinder, FileProcessor {
+object TicketXml : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(TicketXml::ptkPostStore, ".*\\.xml\\.cab\\.\\d\\d\\d\\d\\d\\d") )
