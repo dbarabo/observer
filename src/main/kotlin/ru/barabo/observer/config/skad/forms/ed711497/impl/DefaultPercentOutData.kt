@@ -57,16 +57,26 @@ private fun createInfoPercents(dateYear: java.sql.Date): List<InfoPercent> {
 
     AfinaQuery.execute(EXEC_CHECK_CLIENTS_ORDER, arrayOf(dateYear) )
 
+    val infoPercents = ArrayList<InfoPercent>()
+
     val info = AfinaQuery.selectCursor(SELECT_PERCENTS, arrayOf(dateYear))
 
+    infoPercents.fillInfoPercent(info)
+
+    val infoIp = AfinaQuery.selectCursor(SELECT_PERCENTS_IP, arrayOf(dateYear))
+
+    infoPercents.fillInfoPercent(infoIp)
+
+    return infoPercents
+}
+
+private fun MutableList<InfoPercent>.fillInfoPercent(data: List<Array<Any?>>) {
     val correctionNumber = "00"
 
     val propertyCorrection = "1"
 
-    val infoPercents = ArrayList<InfoPercent>()
-
-    for(row in info) {
-        infoPercents += InfoPercent(
+    for(row in data) {
+        this += InfoPercent(
             (row[15] as Number).toInt(),
             correctionNumber,
             propertyCorrection,
@@ -83,10 +93,11 @@ private fun createInfoPercents(dateYear: java.sql.Date): List<InfoPercent> {
             row[10] as Date
         )
     }
-
-    return infoPercents
 }
 
 private const val EXEC_CHECK_CLIENTS_ORDER = "{ call od.XLS_REPORT_ALL.initClientOrderIfExists( ? ) }"
 
 private const val SELECT_PERCENTS = "{ ? = call od.XLS_REPORT_ALL.getClientPayPercentYear( ? ) }"
+
+private const val SELECT_PERCENTS_IP = "{ ? = call od.XLS_REPORT_ALL.getClientPayYearIpOnly( ? ) }"
+

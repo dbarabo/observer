@@ -82,7 +82,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
