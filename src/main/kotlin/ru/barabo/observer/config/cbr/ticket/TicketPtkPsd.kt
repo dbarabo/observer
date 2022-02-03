@@ -13,7 +13,7 @@ object TicketPtkPsd : AbstractConfig() {
     override fun configRun() {
 
         TicketXml.findAll()
-        TicketXmlWithoutCab.findAll()
+
         TicketSimple.findAll() // must be last
 
         XmlLoaderCbrTicket311p.findAll()

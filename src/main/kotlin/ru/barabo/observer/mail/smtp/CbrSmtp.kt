@@ -16,9 +16,9 @@ object CbrSmtp : SendMail {
 
     private val PRIKAZ_TO = arrayOf("prikazbr@vladivostok.cbr.ru")
 
-    val SUBJECT_CBR_SEND_ERROR = "CBR SMTP SEND ERROR"
+    private const val SUBJECT_CBR_SEND_ERROR = "Нет связи с ЦБ"
 
-    private fun bodyError(error :String, file :File) = "Ошибка отправки файла в ЦБ файл=${file.absolutePath}\nошибка=$error"
+    private fun bodyError(error: String, file: File) = "Ошибка отправки файла в ЦБ файл=${file.absolutePath}\nошибка=$error"
 
     fun sendCbInfo(file : File) {
 
@@ -27,6 +27,15 @@ object CbrSmtp : SendMail {
         } catch (e : SmtpException) {
 
             BaraboSmtp.errorSend(bodyError(e.message, file), SUBJECT_CBR_SEND_ERROR)
+        }
+    }
+
+    fun checkCbr() {
+        try {
+            send(to = arrayOf(smtpProperties.from), subject = "INFO", body = "info" )
+        } catch (e : SmtpException) {
+
+            BaraboSmtp.errorSend("Нет связи с ЦБ. Восстановите связь с ЦБ на 29-й компе", SUBJECT_CBR_SEND_ERROR)
         }
     }
 }

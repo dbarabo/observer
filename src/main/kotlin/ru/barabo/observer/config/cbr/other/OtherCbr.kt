@@ -33,6 +33,9 @@ object OtherCbr: AbstractConfig() {
 
         ReportSender.findAll()
 
+        CbrChecker.findAll()
+
+
         executeTasks()
     }
 

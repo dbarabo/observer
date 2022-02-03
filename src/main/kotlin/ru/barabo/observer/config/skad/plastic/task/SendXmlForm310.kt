@@ -70,8 +70,8 @@ object SendXmlForm310 : SingleSelector  {
     private fun sendFileMail(mail: String?, reportDate: LocalDate, file: File) {
         BaraboSmtp.sendStubThrows(mail?.let { arrayOf(it) } ?: emptyArray(),
             cc = BaraboSmtp.OPER,
-            subject = "310-я Форма за $reportDate",
-            body = "310-я Форма за $reportDate",
+            subject = "310-я Форма на $reportDate",
+            body = "310-я Форма на $reportDate",
             attachments = arrayOf(file)
         )
      }

@@ -60,7 +60,7 @@ interface SendMail {
         } catch (e :Exception) {
             LoggerFactory.getLogger(SendMail::class.java).error("send", e)
 
-            throw SmtpException(e.message?.let { it } ?: "")
+            throw SmtpException(e.message ?: "")
         }
     }
 
@@ -92,7 +92,7 @@ interface SendMail {
         return session
     }
 
-    private fun authenticator() :Authenticator? {
+    private fun authenticator(): Authenticator? {
         if(!smtpProperties.isAuth) {
             return null
         }
