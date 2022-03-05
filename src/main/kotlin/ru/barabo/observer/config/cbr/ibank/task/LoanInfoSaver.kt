@@ -51,7 +51,7 @@ object LoanInfoSaver : SingleSelector {
 
     private const val SELECT_CLOB = "select LOANINFOTEXT from od.PTKB_LOAN_INFO where ID = ?"
 
-    val PATH_FAKTURA_OUTBOX = "\\\\192.168.0.31\\D$\\work\\fxgate\\outbox\\".ifTest("\\\\192.168.0.31\\D$\\temp\\")
+    val PATH_FAKTURA_OUTBOX = "\\\\192.168.0.31\\outbox\\".ifTest("C:\\temp\\")
 
     private const val EXECUTED_STATE_CLOB = "update od.PTKB_LOAN_INFO set STATUS = 1 where id = ?"
 }

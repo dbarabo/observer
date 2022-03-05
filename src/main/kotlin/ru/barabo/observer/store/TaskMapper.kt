@@ -11,6 +11,7 @@ import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.ibank.IBank
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
+import ru.barabo.observer.config.cbr.sender.SenderInternalMail
 import ru.barabo.observer.config.cbr.sender.SenderMail
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.correspond.Correspond
@@ -133,7 +134,7 @@ private fun getBuildInfoByBuild(build: String): BuildInfo =
 
 private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)
 
-private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherCbr)
+private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherCbr, SenderInternalMail)
 
 private fun jzdoConfigs(): List<ConfigTask> = listOf(IBank, UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 

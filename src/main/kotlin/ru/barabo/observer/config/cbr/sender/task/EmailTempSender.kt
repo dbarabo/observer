@@ -3,7 +3,7 @@ package ru.barabo.observer.config.cbr.sender.task
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.sender.SenderMail
+import ru.barabo.observer.config.cbr.sender.SenderInternalMail
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -16,7 +16,7 @@ object EmailTempSender : SingleSelector {
 
     override fun name(): String = "Отправка из PTCB_EMAILTEMP"
 
-    override fun config(): ConfigTask = SenderMail
+    override fun config(): ConfigTask = SenderInternalMail //SenderMail
 
     override val select: String = "select CLASSIFIED, SUBJECT || '>> ' || EMAIL from od.PTCB_EMAILTEMP"
 

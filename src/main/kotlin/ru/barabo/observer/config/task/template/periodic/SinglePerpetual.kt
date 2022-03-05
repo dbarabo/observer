@@ -54,7 +54,7 @@ interface SinglePerpetual : Executor, ActionTask {
     private fun getExecutedTime(elem: Elem?): LocalDateTime {
 
         if(elem?.state == State.ERROR) {
-            return LocalDateTime.now().plus(countTimes * 60, unit)
+            return LocalDateTime.now().plus(countTimes * 30, unit)
         }
 
         return LocalDateTime.now()

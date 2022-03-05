@@ -3,7 +3,7 @@ package ru.barabo.observer.config.skad.acquiring.task
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo
-import ru.barabo.observer.config.skad.acquiring.Acquiring
+import ru.barabo.observer.config.cbr.sender.SenderMail
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
@@ -19,7 +19,7 @@ object RegisterBySchedulerTerminal : SingleSelector {
 
     override fun name(): String = "Реестры по расписанию"
 
-    override fun config(): ConfigTask = Acquiring
+    override fun config(): ConfigTask = SenderMail
 
     override val accessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
             workTimeFrom = LocalTime.of(0, 2),

@@ -9,8 +9,11 @@ import ru.barabo.smtp.SmtpProperties
 import java.io.File
 
 object BaraboSmtp : SendMail {
-    override val smtpProperties: SmtpProperties = SmtpProperties(host ="ns.ptkb.ru".ifTest("87.226.243.181"), user = MasterKey.value("SMTP_USER"),
-            password = MasterKey.value("SMTP_PSWD"), from = MasterKey.value("SMTP_FROM") )
+    override val smtpProperties: SmtpProperties = SmtpProperties(
+        host ="ns.ptkb.ru".ifTest("87.226.243.181"),
+        user = MasterKey.value("SMTP_USER"),
+        password = MasterKey.value("SMTP_PSWD"),
+        from = MasterKey.value("SMTP_FROM") )
 
     val YA = arrayOf(smtpProperties.from)
 
@@ -20,12 +23,12 @@ object BaraboSmtp : SendMail {
 
     val PRIM_AUTO = arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru", "brykina@ptkb.ru").onlyAfinaOrYa()
 
-    val BOOKER = arrayOf("buh1@ptkb.ru", "kudryavceva@ptkb.ru", "uglanova@ptkb.ru").onlyAfinaOrYa()
+    val BOOKER = arrayOf("pallas@ptkb.ru", "kudryavceva@ptkb.ru", "uglanova@ptkb.ru").onlyAfinaOrYa()
 
     val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
-    val DOPIKI = arrayOf("farahova@ptkb.ru", "koksharova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru",
-            "naumova@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
+    val DOPIKI = arrayOf("farahova@ptkb.ru", "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "naumova@ptkb.ru",
+        "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
 
@@ -35,10 +38,10 @@ object BaraboSmtp : SendMail {
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val CHECKER_390P = arrayOf("koksharova@ptkb.ru", "farahova@ptkb.ru",
+    val CHECKER_390P = arrayOf("farahova@ptkb.ru",
             "dedyaeva@ptkb.ru", "shabot@ptkb.ru", "naumova@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("koksharova@ptkb.ru", "farahova@ptkb.ru", "okina@ptkb.ru", "shvydko@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("farahova@ptkb.ru", "okina@ptkb.ru", "shvydko@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
@@ -46,7 +49,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_PLASTIC = arrayOf("oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
-    val UOD = arrayOf("koksharova@ptkb.ru", "farahova@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru").onlyAfina()
+    val UOD = arrayOf("farahova@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru").onlyAfina()
 
     val CHECKER_COUNTRY = arrayOf("podft@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
@@ -58,7 +61,7 @@ object BaraboSmtp : SendMail {
 
     private val REMART_BCC = arrayOf("oper@ptkb.ru")
 
-    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "buh1@ptkb.ru",
+    private val REMART_GROUP = arrayOf("sima@ptkb.ru", "secretar@ptkb.ru", "zdorovec@ptkb.ru", "pallas@ptkb.ru",
             "gupalo@ptkb.ru").onlyAfina()
 
     val IBANK_RECEIPTOR = arrayOf("sapunov@ptkb.ru").onlyAfina()
@@ -74,9 +77,9 @@ object BaraboSmtp : SendMail {
         sendStubThrows(to = to, subject = subject, body = error)
     }
 
-    private fun errorSubjectElem(elem :Elem) = "Ошибка ${elem.task?.config()?.name()}"
+    private fun errorSubjectElem(elem: Elem) = "Ошибка ${elem.task?.config()?.name()}"
 
-    private fun errorBodyElem(elem :Elem) = "Возникли ошибки в:\n" +
+    private fun errorBodyElem(elem: Elem) = "Возникли ошибки в:\n" +
             "Конфиг:\t${elem.task?.config()?.name()}\n" +
             "Задача:\t${elem.task?.name()}\n" +
             "Имя:\t${elem.name}\n" +

@@ -4,7 +4,7 @@ Number=3
 ;Type=Subject
 ;Value=NEW   CN=Валютный контроль,ST=00
 Type=Hash
-Value=1F:CC:3A:9D:54:37:06:3C:C5:B8:32:8E:E4:07:8E:59:A5:5B:90:99:6F:25:29:E3:9D:A8:87:E9:EA:90:23:D0
+Value=1B:A5:BA:C1:92:1C:A6:D9:BC:43:4F:CD:DD:48:B9:22:7D:85:AA:D3:E9:5B:2F:A0:51:2F:F6:07:A3:E9:0B:92
 [Recipient2]
 ;Type=Subject
 ;Value=CN=FTS,ST=00
