@@ -6,7 +6,6 @@ import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.cbr.ptkpsd.task.Send364pSign
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -24,8 +23,9 @@ object SaveAccount311p : SingleSelector {
             "where trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(11, 0),
-            LocalTime.of(16, 0), Duration.ofSeconds(1))
+            LocalTime.of(9, 0),
+            LocalTime.of(16, 0),
+        Duration.ofSeconds(1))
 
     override fun name(): String = "311-П 2.Сохранить и зашифровать"
 

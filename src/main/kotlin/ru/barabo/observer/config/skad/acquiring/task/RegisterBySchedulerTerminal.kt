@@ -1,6 +1,8 @@
 package ru.barabo.observer.config.skad.acquiring.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
+import ru.barabo.cmd.deleteFolder
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.plastic.turn.task.IbiSendToJzdo
 import ru.barabo.observer.config.cbr.sender.SenderMail
@@ -16,6 +18,8 @@ import java.io.File
 import java.time.LocalTime
 
 object RegisterBySchedulerTerminal : SingleSelector {
+
+    private val logger = LoggerFactory.getLogger(RegisterBySchedulerTerminal::class.java)
 
     override fun name(): String = "Реестры по расписанию"
 
@@ -38,7 +42,7 @@ object RegisterBySchedulerTerminal : SingleSelector {
 
     private fun createRegister(idExecReal: Long, terminalTime: String) {
 
-        val fileRegister = xlsFileName(terminalTime)
+        val fileRegister = localXlsFileName(terminalTime) //xlsFileName(terminalTime)
 
         val vars = ArrayList<Var>()
 
@@ -51,7 +55,18 @@ object RegisterBySchedulerTerminal : SingleSelector {
         excelSql.processData()
 
         sendMailInfo(fileRegister, vars, terminalTime)
+
+        val remoteFile = xlsFileName(terminalTime)
+
+        try {
+            fileRegister.copyTo(remoteFile, true)
+
+            fileRegister.parentFile.deleteFolder()
+        } catch (e: Exception) {
+            logger.error("createRegister.copyTo $remoteFile", e)
+        }
     }
+
 
     private fun sendMailInfo(fileRegister: File, vars: List<Var>, terminalTime: String) {
 
@@ -66,6 +81,9 @@ object RegisterBySchedulerTerminal : SingleSelector {
         BaraboSmtp.sendStubThrows(to = arrayOf(email).onlyAfina(), // bcc = BaraboSmtp.YA,
                 subject = subjectRegister(terminalTime), body = BODY_INFO, attachments = arrayOf(fileRegister))
     }
+
+    private fun localXlsFileName(terminalTime: String): File =
+        File("${Cmd.tempFolder("xls")}/register$terminalTime.xls")
 
     private fun xlsFileName(terminalTime: String): File =
             File("${IbiSendToJzdo.hCardOutSentTodayFolder()}/register$terminalTime.xls")

@@ -23,7 +23,7 @@ object CreateCrypto311p512 : SingleSelector {
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,
-        LocalTime.of(10, 0),
+        LocalTime.of(9, 0),
         LocalTime.of(15, 55), Duration.ofSeconds(1))
 
     override fun name(): String = "311-П 5.12 Создать+шифровать"

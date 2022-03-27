@@ -1,6 +1,4 @@
 
-import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.config.skad.acquiring.task.LoadPaymentWeechatXlsx
 import ru.barabo.observer.store.Elem
@@ -12,6 +10,7 @@ import java.net.InetAddress
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.*
+import java.util.regex.Pattern
 
 class ShiftTest {
 
@@ -94,4 +93,57 @@ class ShiftTest {
 
         logger.error(InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault()))
     }
+
+    //@Test
+    fun firstSplitBracket() {
+
+        val values = "[Корсчета в других банках]+[Средства в КО]".splitByRegexp("\\[(.*?)\\]")
+      //  "\\[(.*?)\\]".toRegex())
+    //    "\\[(.*?)\\]"
+
+        logger.error("values=$values")
+    }
+
+    private fun String.splitByRegexp(regExp: String): List<String> {
+
+        val matcher = Pattern.compile(regExp).matcher(this)
+
+        val list = ArrayList<String>()
+
+        while(matcher.find()) {
+            list += matcher.group(1)
+        }
+
+        return list
+    }
+
+    //@Test
+    fun keyValueTest() {
+        val sections = LinkedHashMap<Section, Int?>()
+
+        sections[Section("01")] = null
+        sections[Section("02")] = null
+
+        fillValue(sections)
+
+        fillMapValue(sections)
+
+        logger.error("sections=$sections")
+    }
+
+    private fun fillValue(sections: Map<Section, Int?>) {
+
+        for(keySection in sections.keys) {
+
+            keySection.column = (100*Math.random()).toInt()
+        }
+    }
+
+    private fun fillMapValue(sections: MutableMap<Section, Int?>) {
+
+
+        sections.keys.forEach { sections.put(it, (10*Math.random()).toInt() ) }
+    }
 }
+
+internal data class Section(val name: String, var column: Int? = null)

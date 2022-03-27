@@ -29,17 +29,12 @@ object SignScadArchive440p : SingleSelector {
             executeWait = Duration.ofSeconds(5))
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +
-            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 4/(24*60))"
-
-    private const val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
+            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 20/(24*60))"
 
     override fun execute(elem: Elem): State {
 
-        val sessionSetting  = AfinaQuery.uniqueSession()
-
         AfinaQuery.execute(
                 query = EXEC_SIGN_ARCHIVE,
-                sessionSetting = sessionSetting,
                 params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(java.sql.Types.VARCHAR) )
 
@@ -52,13 +47,16 @@ object SignScadArchive440p : SingleSelector {
         } catch (e :Exception) {
             logger.error("execute", e)
 
-            AfinaQuery.rollbackFree(sessionSetting)
+            AfinaQuery.execute(EXEC_UNSIGN_ARCHIVE, arrayOf(elem.idElem))
 
             throw SessionException(e.message?:"")
         }
 
-        AfinaQuery.commitFree(sessionSetting)
-
         return State.OK
     }
 }
+
+private const val EXEC_SIGN_ARCHIVE = "{ call od.PTKB_440P.signArchiveFile(?, ?) }"
+
+private const val EXEC_UNSIGN_ARCHIVE = "{ call od.PTKB_440P.unSignArchiveFile(?) }"
+
