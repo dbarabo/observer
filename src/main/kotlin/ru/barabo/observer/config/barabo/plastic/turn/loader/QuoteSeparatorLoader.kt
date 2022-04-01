@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.plastic.turn.loader
 
 import org.slf4j.LoggerFactory
+import ru.barabo.db.SessionException
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import java.io.File
@@ -117,7 +118,18 @@ interface QuoteSeparatorLoader {
 
         params.addAll(values)
 
-        AfinaQuery.execute(query, params.toTypedArray(), sessionSetting)
+        try {
+            AfinaQuery.execute(query, params.toTypedArray(), sessionSetting)
+        } catch (e: Exception) {
+            LoggerFactory.getLogger(QuoteSeparatorLoader::class.java).error("processLine", e)
+
+            LoggerFactory.getLogger(QuoteSeparatorLoader::class.java).error("query=$query")
+
+            LoggerFactory.getLogger(QuoteSeparatorLoader::class.java).error("params=$params")
+
+            throw Exception(e)
+        }
+
     }
 
     private fun valuesByColumns(fields :List<String>, columns :Map<Int, (String?)->Any>) :List<Any> {
