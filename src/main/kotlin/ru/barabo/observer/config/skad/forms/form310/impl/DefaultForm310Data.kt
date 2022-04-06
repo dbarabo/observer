@@ -44,7 +44,7 @@ class DefaultForm310Data(dateStartReport: LocalDate) : Form310Data {
     }
 }
 
-private fun folderReportToday() = "$folderReport/${Get440pFiles.todayFolder()}".byFolderExists()
+fun folderReportToday() = "$folderReport/${Get440pFiles.todayFolder()}".byFolderExists()
 
 private fun errorFolder(): File = "${folderReportToday()}/ERROR".byFolderExists()
 

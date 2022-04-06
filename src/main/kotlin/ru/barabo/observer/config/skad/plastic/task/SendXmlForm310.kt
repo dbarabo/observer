@@ -76,13 +76,10 @@ object SendXmlForm310 : SingleSelector  {
         )
      }
 
-    private fun updateStateOk(elem: Elem) {
-        AfinaQuery.execute(UPDATE_OK, arrayOf(elem.idElem))
-    }
 
     private fun sendError(elem: Elem, mail: String?, error: String): State {
 
-        AfinaQuery.execute(UPDATE_ERROR, arrayOf(error, elem.idElem))
+        AfinaQuery.execute(UPDATE_ERROR_310, arrayOf(error, elem.idElem))
 
         BaraboSmtp.sendStubThrows(mail?.let { arrayOf(it) } ?: emptyArray(),
             cc = BaraboSmtp.AUTO,
@@ -97,8 +94,12 @@ object SendXmlForm310 : SingleSelector  {
 
 }
 
+internal fun updateStateOk(elem: Elem) {
+    AfinaQuery.execute(UPDATE_OK, arrayOf(elem.idElem))
+}
+
 private const val SELECT_MAIL = "select r.MAIL, r.ERRORTEXT, r.reportdate from od.PTKB_FORM_310_REQUEST r where r.id = ?"
 
-private const val UPDATE_ERROR = "update od.PTKB_FORM_310_REQUEST set state = 2, UPDATED = sysdate, ERRORTEXT = ? where id = ?"
+const val UPDATE_ERROR_310 = "update od.PTKB_FORM_310_REQUEST set state = 2, UPDATED = sysdate, ERRORTEXT = ? where id = ?"
 
 private const val UPDATE_OK = "update od.PTKB_FORM_310_REQUEST set state = 1, UPDATED = sysdate where id = ?"
