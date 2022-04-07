@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Центральный Банк Российской Федерации. XML схема электронного документа "Реестр рисков". (перечень клиентов КО с высоким и средним уровнем риска). Версия: 16. Дата последней модификации: 26.01.2022 12:00. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:cbr-ru:e-forms-mf-KYCEPVV:v0.0.6" attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.0.7">
+    <xs:element name="RISKS">
+        <xs:annotation>
+            <xs:documentation>Форма реестра рисков</xs:documentation>
+        </xs:annotation>	
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="UniqueIdentifier">
+                    <xs:annotation>
+                        <xs:documentation>ID файла Реестра рисков</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Risks_Report_Date" type="xs:date">
+                    <xs:annotation>
+                        <xs:documentation>Дата формирования реестра. [ГОСТ ИСО 8601-2001].</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RISK" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="inn">
+                                <xs:annotation>
+                                    <xs:documentation>ИНН ЮЛ или ИНН ИП</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="\d{10}|\d{12}"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="client_type">
+                                <xs:annotation>
+                                    <xs:documentation>Тип клиента (ЮЛ или ИП)</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="ЮЛ"/>
+                                        <xs:enumeration value="ИП"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="risk_level">
+                                <xs:annotation>
+                                    <xs:documentation>Уровень риска (средний или высокий)</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:annotation>
+                                        <xs:documentation>Уровень риска. Проверка на набор допустимых значений (Средний, Высокий)</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:restriction base="xs:integer">
+                                        <xs:enumeration value="1"/>
+                                        <xs:enumeration value="2"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="MainRisk" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Основной шифр критерия в формате NN.NNN (например 1.01, 10.101)</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="\s*|[1-9][0-9]*[.][0-9]+"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="AddRisk1" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Дополнительный шифр критерия  1</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="\s*|[1-9][0-9]*[.][0-9]+"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="AddRisk2" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Дополнительный шифр критерия  2</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="\s*|[1-9][0-9]*[.][0-9]+"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="AddRisk3" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Дополнительный шифр критерия  3</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="\s*|[1-9][0-9]*[.][0-9]+"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element type="xs:date" name="risk_date" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Дата и время присвоения текущего уровня риска. [ГОСТ ИСО8601-2001]</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

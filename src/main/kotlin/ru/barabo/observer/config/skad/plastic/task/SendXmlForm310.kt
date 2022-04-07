@@ -6,6 +6,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
+import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -29,7 +30,16 @@ object SendXmlForm310 : SingleSelector  {
         LocalTime.of(8, 0), LocalTime.of(21, 0), Duration.ofSeconds(1))
 
     override val select: String = """select r.id, r.creator || ' ' || to_char(r.reportdate, 'dd.mm.yy') 
-|| ' ' || to_char(r.created, 'dd.mm.yy hh24:mi:ss') from od.PTKB_FORM_310_REQUEST r where r.state = 0"""
+|| ' ' || to_char(r.created, 'dd.mm.yy hh24:mi:ss'), TYPE_FORM from od.PTKB_FORM_310_REQUEST r where r.state = 0"""
+
+    override fun actionTask(selectorValue: Any?): ActionTask {
+        return when {
+            selectorValue == null -> this
+            (selectorValue as Number).toInt() == 0 -> this
+            selectorValue.toInt() == 1 -> SendXmlRiskClientCbr
+            else -> this
+        }
+    }
 
     override fun execute(elem: Elem): State {
 

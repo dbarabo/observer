@@ -14,7 +14,7 @@ interface DbSelector : Executor {
 
     fun isCursorSelect(): Boolean = false
 
-    fun actionTask(selectorValue :Any?) :ActionTask
+    fun actionTask(selectorValue: Any?): ActionTask
 
     override fun findAbstract() :Executor? = findDbItems()
 

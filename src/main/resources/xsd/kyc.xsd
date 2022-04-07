@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Центральный Банк Российской Федерации.            -->
+<!-- XML СХЕМА ЭЛЕКТРОННОГО ДОКУМЕНТА "Форма сбора KYC"-->
+<!-- дата последней модификации: 01.12.2021 12:00      -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:efo="urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10" targetNamespace="urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.0.10">
+  <xs:element name="Form">
+    <xs:annotation>
+      <xs:documentation>Форма KYC</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+	  <xs:sequence>
+        <xs:element name="Form_Data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Client" minOccurs="0" maxOccurs="unbounded">
+				  <xs:annotation>
+					 <xs:documentation>Клиент</xs:documentation>
+				  </xs:annotation>
+				  <xs:complexType>
+				    <xs:attribute name="ClientType" type="efo:ClientType_Type" use="required">
+					  <xs:annotation>
+						<xs:documentation>Тип клиента</xs:documentation>
+					  </xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="INN" type="efo:INNType" use="required">
+					  <xs:annotation>
+						<xs:documentation>Идентификатор</xs:documentation>
+					  </xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="ClientName" type="efo:String255Type" use="required">
+					  <xs:annotation>
+						<xs:documentation>Наименование клиента</xs:documentation>
+					  </xs:annotation>
+					</xs:attribute>
+				  </xs:complexType>
+			  </xs:element>
+			</xs:sequence>
+			<xs:attribute name="Report_Date" type="efo:DateType" use="required">
+			  <xs:annotation>
+				<xs:documentation>Дата отчёта</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="INN" type="efo:INNType10" use="required">
+			  <xs:annotation>
+				<xs:documentation>ИНН</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="OGRN" type="efo:OGRNType" use="required">
+			  <xs:annotation>
+				<xs:documentation>ОГРН</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FullName" type="efo:String1024Type" use="required">
+			  <xs:annotation>
+				<xs:documentation>Наименование сдающей компании</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RegNo" type="efo:RegNoType" use="required">
+			  <xs:annotation>
+				<xs:documentation>Регистрационный номер</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>
+          </xs:complexType>
+        </xs:element>
+	  </xs:sequence>
+	  <xs:attribute name="UniqueIdentifierReport" type="efo:GUIDType" use="required">
+	    <xs:annotation>
+		  <xs:documentation>Уникальный идентификатор отчета</xs:documentation>
+	    </xs:annotation>
+	  </xs:attribute>
+	  <xs:attribute name="CodeReport" type="xs:string" use="required">
+	    <xs:annotation>
+		  <xs:documentation>Код отчета</xs:documentation>
+	    </xs:annotation>
+	  </xs:attribute>
+	  <xs:attribute name="DateTimeFormationReport" type="efo:DateTimeType" use="required">
+	    <xs:annotation>
+		  <xs:documentation>Дата и время создания отчета</xs:documentation>
+	    </xs:annotation>
+	  </xs:attribute>
+	</xs:complexType>
+  </xs:element>
+  
+  <xs:simpleType name="Text_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+	</xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="ClientType_Type">
+    <xs:annotation>
+      <xs:documentation>Тип клиента</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="efo:Text_Type">
+      <xs:enumeration value="0">
+	    <xs:annotation><xs:documentation>ЮЛ</xs:documentation></xs:annotation>
+	  </xs:enumeration>
+      <xs:enumeration value="1">
+	    <xs:annotation><xs:documentation>ИП</xs:documentation></xs:annotation>
+	  </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="GUIDType">
+	<xs:annotation>
+	  <xs:documentation>GUID</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+	  <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+	</xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DateTimeType">
+	<xs:annotation>
+	  <xs:documentation>ДатаВремя. [ГОСТ ИСО 8601-2001]. Формат YYYY-MM-DDThh:mm:ssZ. Всемирное время.</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="efo:DateTimeCategory">
+       <xs:minInclusive value="1900-01-01T00:00:00Z"/>
+       <xs:maxInclusive value="3099-12-31T00:00:00Z"/>
+     </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DateTimeCategory">
+	<xs:annotation>
+	  <xs:documentation>ДатаВремя. [ГОСТ ИСО 8601-2001]. Формат YYYY-MM-DDThh:mm:ssZ. Всемирное время.</xs:documentation>
+	</xs:annotation>
+	<xs:restriction base="xs:dateTime">
+	  <xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z">
+         <xs:annotation>
+           <xs:documentation>Формат YYYY-MM-DDThh:mm:ssZ.</xs:documentation>
+         </xs:annotation>
+       </xs:pattern>
+	</xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="OGRNType">
+    <xs:annotation>
+      <xs:documentation>ОГРН</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{13}">
+        <xs:annotation>
+          <xs:documentation>ОГРН должен соcтоять из 13 цифр</xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+  
+   <xs:simpleType name="String1024Type">
+    <xs:annotation>
+      <xs:documentation>Строка длиной от 1 до 1024 символов</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1">
+        <xs:annotation>
+          <xs:documentation>Строка не может иметь длину менее 1 символа</xs:documentation>
+        </xs:annotation>
+      </xs:minLength>
+      <xs:maxLength value="1024">
+        <xs:annotation>
+          <xs:documentation>Строка не может иметь длину более 1024 символов</xs:documentation>
+        </xs:annotation>
+      </xs:maxLength>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="String255Type">
+    <xs:annotation>
+      <xs:documentation>Строка длиной от 1 до 255 символов</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1">
+        <xs:annotation>
+          <xs:documentation>Строка не может иметь длину менее 1 символа</xs:documentation>
+        </xs:annotation>
+      </xs:minLength>
+      <xs:maxLength value="255">
+        <xs:annotation>
+          <xs:documentation>Строка не может иметь длину более 255 символов</xs:documentation>
+        </xs:annotation>
+      </xs:maxLength>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="RegNoType">
+    <xs:annotation>
+      <xs:documentation>Регистрационный номер</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9][0-9][0-9][0-9]">
+        <xs:annotation>
+          <xs:documentation>Регистрационный номер должен соcтоять из 4 цифр (пример:"0001")</xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="INNType10">
+    <xs:annotation>
+      <xs:documentation>ИНН</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="efo:INNType">
+      <xs:pattern value="\d{10}">
+        <xs:annotation>
+          <xs:documentation>ИНН должен соcтоять из 10 цифр</xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="INNType">
+    <xs:annotation>
+      <xs:documentation>ИНН</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{10}|\d{12}">
+        <xs:annotation>
+          <xs:documentation>ИНН должен соcтоять из 10 или 12 цифр</xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="DateType">
+     <xs:annotation>
+       <xs:documentation>Дата. [ГОСТ ИСО 8601-2001]. Формат CCYY-MM-DD.</xs:documentation>
+     </xs:annotation>
+     <xs:restriction base="efo:DateCategory">
+       <xs:minInclusive value="1900-01-01"/>
+       <xs:maxInclusive value="3099-12-31"/>
+     </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name="DateCategory">
+     <xs:annotation>
+       <xs:documentation>Дата. Применяется для обозначения конкретного момента в последовательности времени.  [ГОСТ ИСО 8601-2001]. Формат CCYY-MM-DD.</xs:documentation>
+     </xs:annotation>
+     <xs:restriction base="xs:date">
+       <xs:pattern value="\d{4}-\d{2}-\d{2}">
+         <xs:annotation>
+           <xs:documentation>Формат CCYY-MM-DD.</xs:documentation>
+         </xs:annotation>
+       </xs:pattern>
+     </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

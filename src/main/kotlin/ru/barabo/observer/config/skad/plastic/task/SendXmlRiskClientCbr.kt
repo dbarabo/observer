@@ -64,7 +64,6 @@ object SendXmlRiskClientCbr : SingleSelector {
             return State.ERROR
         }
 
-
         return State.OK
     }
 

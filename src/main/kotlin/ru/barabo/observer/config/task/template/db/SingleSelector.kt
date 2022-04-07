@@ -4,7 +4,7 @@ import ru.barabo.observer.config.task.ActionTask
 
 interface SingleSelector : DbSelector, ActionTask {
 
-    override fun actionTask(selectorValue :Any?) = this
+    override fun actionTask(selectorValue: Any?): ActionTask = this
 
     override fun actionTask() = this
 }

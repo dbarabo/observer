@@ -33,7 +33,7 @@ public class MainElement {
 
     @XStreamAsAttribute
     @XStreamAlias("DateTimeFormationReport")
-    final String reportDateTime = XmlLoader.formatDateTime(new Date());
+    final String reportDateTime = XmlLoader.formatDateTime(new Date()) + "Z";
 
     @XStreamAlias("Form_Data")
     final FormData formData;
