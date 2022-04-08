@@ -50,9 +50,9 @@ private fun errorFolder(): File = "${folderReportToday()}/ERROR".byFolderExists(
 
 private val leaderPtkb = ExecutorForm("Председатель Правления", "Сима Оксана Анатольевна")
 
-private val chiefAccountantPtkb = ExecutorForm("Врио главного бухгалтера", "Паллас Светлана Александровна")
+private val chiefAccountantPtkb = ExecutorForm("Главный бухгалтер", "Паллас Светлана Александровна")
 
-private val executorPtkb = ExecutorForm("Ведущий экономист", "Кудрявцева Людмила Федоровна", "226-98-31")
+private val executorPtkb = ExecutorForm("заместитель начальника Кредитного департамента", "Василенко Наталья Валентиновна", "423-222-30-84")
 
 private val folderReport = "H:/Dep_Kred/ОТЧЕТЫ КД/310_ФОРМА".ifTest("C:/Dep_Kred/ОТЧЕТЫ КД/310_ФОРМА")
 
