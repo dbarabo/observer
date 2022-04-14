@@ -43,36 +43,36 @@ object CheckerRedSaldoNow : Executor, ActionTask {
 
         return if(CheckerRedSaldo.isCheckSaldo(Timestamp(elem.idElem!!)))State.ERROR else State.OK
     }
-
-    private fun isCloseArchiveDay(timeArchive: Long?): Boolean {
-
-        val archDay = getArchiveDay() ?: return true
-
-        return (timeArchive != archDay.time)
-    }
-
-    private fun findBySelect(): Executor? {
-        val archDay = getArchiveDay() ?: return null
-
-        val elem = Elem(idElem = archDay.time, name = archDay.formatDate(), task = this,
-                executed = LocalDateTime.now().plus(accessibleData.executeWait))
-
-        return if(StoreSimple.addNotExistsByIdElem(elem, State.NONE)) this else null
-    }
-
-    private fun getArchiveDay(): Timestamp? {
-        val row = AfinaQuery.select(SELECT_OPER_DAY)[0]
-
-        val archDay = row[0] as Timestamp
-
-        val operDay = row[1] as Timestamp
-
-        if(archDay.time == operDay.time) return null
-
-        return archDay
-    }
-
-    private const val SELECT_OPER_DAY: String = "select o.arcdate, o.operdatebeg from od.operdateset o where rownum = 1"
 }
+
+fun ActionTask.findBySelect(): Executor? {
+    val archDay = getArchiveDay() ?: return null
+
+    val elem = Elem(idElem = archDay.time, name = archDay.formatDate(), task = this,
+        executed = LocalDateTime.now().plus(CheckerRedSaldoNow.accessibleData.executeWait))
+
+    return if(StoreSimple.addNotExistsByIdElem(elem, State.NONE)) this as Executor else null
+}
+
+fun isCloseArchiveDay(timeArchive: Long?): Boolean {
+
+    val archDay = getArchiveDay() ?: return true
+
+    return (timeArchive != archDay.time)
+}
+
+private fun getArchiveDay(): Timestamp? {
+    val row = AfinaQuery.select(SELECT_OPER_DAY)[0]
+
+    val archDay = row[0] as Timestamp
+
+    val operDay = row[1] as Timestamp
+
+    if(archDay.time == operDay.time) return null
+
+    return archDay
+}
+
+private const val SELECT_OPER_DAY: String = "select o.arcdate, o.operdatebeg from od.operdateset o where rownum = 1"
 
 private fun Timestamp.formatDate() = this.toLocalDateTime().toLocalDate().format(DateTimeFormatter.ISO_DATE)

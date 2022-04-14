@@ -161,7 +161,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         return session
     }
 
-    private fun getFreeSession(isReadTransact :Boolean) :Session? =
+    private fun getFreeSession(isReadTransact: Boolean) :Session? =
         pool.firstOrNull {it.isFree && it.idSession == null && it.session.isReadOnly == isReadTransact}
 
 
@@ -169,7 +169,6 @@ open class DbConnection(protected val dbSetting: DbSetting) {
     private fun getSessionById(idSessionFind: Long, isReadTransact :Boolean) :Session? {
         val session = pool.firstOrNull {it.idSession == idSessionFind}
 
-        return session?.let { it } ?:
-            getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
+        return session ?: getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
     }
 }

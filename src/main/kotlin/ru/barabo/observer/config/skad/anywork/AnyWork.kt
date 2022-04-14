@@ -5,6 +5,7 @@ import ru.barabo.observer.config.cbr.other.task.*
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerDoubleTurnPeriod
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerRedSaldoNow
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
+import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
 
 object AnyWork : AbstractConfig() {
 
@@ -20,6 +21,7 @@ object AnyWork : AbstractConfig() {
         NbkiAllReportsSend.findAll()
         //UnlockUsersMonday.findAll()
         CecReportProcess.findAll()
+        ClientRiskLoader.findAll()
 
         CheckOpenArchiveDay.findAll()
         ExecOpenArchiveDay.findAll()

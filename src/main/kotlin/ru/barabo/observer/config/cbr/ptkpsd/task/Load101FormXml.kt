@@ -20,7 +20,7 @@ import java.time.LocalTime
 object Load101FormXml : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(::xReceiptTodayFolder, "Ф101_40507717\\.xml"))
+            listOf(FileFinderData(::xReceiptTodayFolder, "F0409101_40507717_\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\.xml"/*"Ф101_40507717\\.xml"*/))
 
     private fun xReceiptTodayFolder() = TicketSimple.xReceiptToday().byFolderExists()
 

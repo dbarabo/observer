@@ -36,7 +36,7 @@ class DefaultClientRisk(private val codeRisk: Int, private val typeClient: Int?)
     private fun errorFolder(): File = "${ru.barabo.observer.config.skad.forms.form310.impl.folderReportToday()}/ERROR".byFolderExists()
 }
 
-private const val  fileName = "KYC.xml"
+private const val fileName = "KYC.xml"
 
 private const val xsd =  "/xsd/kyc.xsd"
 
