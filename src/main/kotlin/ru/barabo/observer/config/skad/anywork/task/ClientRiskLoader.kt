@@ -65,7 +65,7 @@ private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
 
     val content = HtmlContent(info, info, HEADER_TABLE, data)
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, cc = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.CHECKER_550P, subject = SUBJECT,
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, cc = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
         body = content.html(), subtypeBody = "html")
 }
 
@@ -105,7 +105,9 @@ private fun MainRisks.saveRequest(file: File, sessionSetting: SessionSetting): N
 private val HEADER_TABLE = mapOf(
     "Клиент" to "left",
     "ИНН" to "left",
+    "Счет клиента" to "left",
     "Уровень Риска ЦБ"  to "right",
+    "Дата Риска ЦБ"  to "right",
     "Уровень Риска Афина"  to "right")
 
 private const val SUBJECT = "Проверка файла Уровень риска клиентов от ЦБР"
@@ -120,8 +122,8 @@ private const val EXEC_SAVE_IF_EXISTS = "{ call od.PTKB_CEC.riskClientSaveIfExis
 private const val INSERT_REQUEST =
     "insert into OD.PTKB_CBR_CLIENT_RISK (id, file_name, cbr_id, cbr_date, count_records) values (?, ?, ?, ?, ?)"
 
-private val X_CBR = "X:/ЦБР".ifTest("C:/311-П")
+private val X_CBR = "H:/Dep_Auto/Тестирование/Знайсвоего клиента/из ЦБ".ifTest("C:/311-П")
 
-private fun xCbrToday() = File("$X_CBR/${todayFolder()}/Запрос")
+private fun xCbrToday() = File("$X_CBR/${todayFolder()}")
 
-private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy.MM.dd").format(LocalDate.now())
+private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
