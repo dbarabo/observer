@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.AbstractConfig
+import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
 
 object TestConfig : AbstractConfig() {
 
@@ -10,6 +11,7 @@ object TestConfig : AbstractConfig() {
 
     override fun configRun() {
 
+        ClientRiskLoader.findAll()
         // LoadPaymentWeechatXlsx.findAll()
 
         this.executeTasks()

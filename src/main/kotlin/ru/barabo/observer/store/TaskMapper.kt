@@ -52,9 +52,9 @@ object TaskMapper {
 
         buildInfo = getBuildInfoByBuild(build)
 
-        //val baseConnectReal = baseConnect // if(buildInfo.build == "TEST") "TEST" else baseConnect
+        val baseConnectReal =if(buildInfo.build == "TEST") "TEST" else baseConnect
 
-        initBase(baseConnect)
+        initBase(baseConnectReal)
     }
 
     private fun initBase(baseConnect: String) {

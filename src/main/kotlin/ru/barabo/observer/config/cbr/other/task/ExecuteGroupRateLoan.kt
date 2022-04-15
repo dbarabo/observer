@@ -26,7 +26,7 @@ object ExecuteGroupRateLoan: Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(10, 0), LocalTime.of(23, 50), Duration.ofHours(13))
+            LocalTime.of(10, 0), LocalTime.of(23, 50), Duration.ofHours(5))
 
     override fun name(): String = "Учет Всех %% Сегодня"
 

@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.clientrisk.fromcbr;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias("RISK")
 public class Risk {
@@ -16,6 +17,18 @@ public class Risk {
 
     @XStreamAlias("risk_date")
     private String riskDate; // 2022-04-06
+
+    @XStreamOmitField
+    private Object MainRisk; // MainRisk
+
+    @XStreamOmitField
+    private Object AddRisk1; // AddRisk1
+
+    @XStreamOmitField
+    private Object AddRisk2; // AddRisk2
+
+    @XStreamOmitField
+    private Object AddRisk3; // AddRisk3
 
     public String getInn() {
         return inn;

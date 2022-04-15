@@ -34,7 +34,7 @@ object BaraboSmtp : SendMail {
 
     val PTK_PSD_CHECKER = arrayOf("ptkpsd@ptkb.ru").onlyAfina()
 
-    val CHECKER_550P =  arrayOf("oper@ptkb.ru").onlyAfina()
+    val CHECKER_550P =  arrayOf("oper@ptkb.ru").onlyAfinaOrYa()
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
