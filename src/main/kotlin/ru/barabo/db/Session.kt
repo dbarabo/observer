@@ -4,9 +4,11 @@ import org.slf4j.LoggerFactory
 import java.sql.Connection
 import java.sql.SQLException
 
-data class Session (var session : Connection,
-                    var isFree :Boolean = true,
-                    var idSession :Long? = null) {
+data class Session (var session: Connection,
+                    var isFree: Boolean = true,
+                    var idSession: Long? = null,
+                    var isAnother: Boolean
+) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(Session::class.java)
@@ -14,7 +16,7 @@ data class Session (var session : Connection,
         private val ERROR_CHECK_SESSION = "session is death"
     }
 
-    fun checkConnect(selectCheck :String) :Boolean {
+    fun checkConnect(selectCheck: String) :Boolean {
         return try {
             val statement = session.prepareStatement(selectCheck)
 

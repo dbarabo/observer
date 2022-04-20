@@ -122,7 +122,7 @@ private const val EXEC_SAVE_IF_EXISTS = "{ call od.PTKB_CEC.riskClientSaveIfExis
 private const val INSERT_REQUEST =
     "insert into OD.PTKB_CBR_CLIENT_RISK (id, file_name, cbr_id, cbr_date, count_records) values (?, ?, ?, ?, ?)"
 
-private val X_CBR = "H:/Dep_Auto/Тестирование/Знайсвоего клиента/из ЦБ".ifTest("C:/311-П")
+private val X_CBR = "H:/Gu_cb/Уровень риска из ЦБ".ifTest("C:/311-П")
 
 private fun xCbrToday() = File("$X_CBR/${todayFolder()}")
 

@@ -23,8 +23,8 @@ open class Query (private val dbConnection :DbConnection) {
     fun uniqueRollBackOnlySession(): SessionSetting =
             SessionSetting(false,  TransactType.ROLLBACK, uniqueSession.incrementAndGet())
 
-    fun uniqueSession(): SessionSetting =
-            SessionSetting(false,  TransactType.NO_ACTION, uniqueSession.incrementAndGet())
+    fun uniqueSession(isAnotherUser: Boolean = false): SessionSetting =
+            SessionSetting(false,  TransactType.NO_ACTION, uniqueSession.incrementAndGet(), isAnotherUser)
 
     @Throws(SessionException::class)
     fun selectValue(query :String, params :Array<Any?>? = null,
@@ -233,7 +233,10 @@ open class Query (private val dbConnection :DbConnection) {
 
             if(dbConnection.isRestartSessionException(session, false, e.message?:"")) {
 
-                try { statement?.close() } catch (e :SQLException) {}
+                try { statement?.close()
+                } catch (e: SQLException) {
+                    logger.error("statement?.close", e)
+                }
 
                 val newQueryRequest =
                         prepareExecute(session, queryRequest.query, queryRequest.params, outParamTypes)

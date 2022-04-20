@@ -17,8 +17,6 @@ object Acquiring  : AbstractConfig() {
 
         MinComissionMonthPos.findAll()
 
-        // LoadPaymentWeechatXlsx.findAll()
-
         executeTasks()
     }
 }

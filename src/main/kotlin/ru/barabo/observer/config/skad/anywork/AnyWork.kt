@@ -6,6 +6,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerDoubleTurnPeriod
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerRedSaldoNow
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
+import ru.barabo.observer.config.skad.anywork.task.CloseArchiveDay
 
 object AnyWork : AbstractConfig() {
 
@@ -15,6 +16,7 @@ object AnyWork : AbstractConfig() {
 
     override fun configRun() {
 
+        CloseArchiveDay.findAll()
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
 

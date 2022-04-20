@@ -30,7 +30,7 @@ object CheckerRedSaldoNow : Executor, ActionTask {
 
     override fun config(): ConfigTask = AnyWork // PtkPsd
 
-    override fun findAbstract(): Executor? = findBySelect()
+    override fun findAbstract(): Executor? = findBySelect(LocalDateTime.now().plus(accessibleData.executeWait))
 
     override fun execute(elem: Elem): State {
 
@@ -45,11 +45,11 @@ object CheckerRedSaldoNow : Executor, ActionTask {
     }
 }
 
-fun ActionTask.findBySelect(): Executor? {
+fun ActionTask.findBySelect(executedTime: LocalDateTime?): Executor? {
     val archDay = getArchiveDay() ?: return null
 
     val elem = Elem(idElem = archDay.time, name = archDay.formatDate(), task = this,
-        executed = LocalDateTime.now().plus(CheckerRedSaldoNow.accessibleData.executeWait))
+        executed = executedTime)
 
     return if(StoreSimple.addNotExistsByIdElem(elem, State.NONE)) this as Executor else null
 }

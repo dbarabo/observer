@@ -23,7 +23,8 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
     @Throws(SessionException::class)
     fun getSession(sessionSetting :SessionSetting): Session =
-        getTrySession(0, sessionSetting.isReadTransact, sessionSetting.transactType, sessionSetting.idSession)
+        getTrySession(0, sessionSetting.isReadTransact, sessionSetting.transactType, sessionSetting.idSession,
+            sessionSetting.isAnotherUser)
 
 
     private fun closeSession(connect :Session) {
@@ -58,7 +59,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
     private fun isRestartByNewSession(session :Session, isRead :Boolean) :Boolean {
 
-        val newSession = getTrySession(0, isRead, TransactType.COMMIT, session.idSession)
+        val newSession = getTrySession(0, isRead, TransactType.COMMIT, session.idSession, session.isAnother)
 
         session.session = newSession.session
 
@@ -84,20 +85,22 @@ open class DbConnection(protected val dbSetting: DbSetting) {
             exceptionMessage.indexOf("ORA-04061") >= 0 || exceptionMessage.indexOf("ORA-00942") >= 0
 
     @Throws(SessionException::class)
-    private fun getTrySession(tryCount :Int, isRead :Boolean, transactType :TransactType, idSession :Long?) :Session {
+    private fun getTrySession(tryCount :Int, isRead :Boolean, transactType :TransactType, idSession :Long?,
+                              isAnother: Boolean) :Session {
 
         val newTryCount = if(tryCount > TRY_CONNECT_MAX) throw SessionException(ERROR_TRY_MAX_CONNECT) else tryCount + 1
 
         val isReadTransact = if (transactType === TransactType.SET_SAVEPOINT_BEFORE ||
                              transactType === TransactType.ROLLBACK_SAVEPOINT) false else isRead
 
-        var session = if(idSession != null) getSessionById(idSession, isReadTransact) else getFreeSession(isReadTransact)
+        var session = if(idSession != null) getSessionById(idSession, isReadTransact, isAnother)
+                        else getFreeSession(isReadTransact, isAnother)
 
-        if(session == null) session = addSession(isRead, idSession)
+        if(session == null) session = addSession(isRead, idSession, isAnother)
 
         if(isDeathSession(session)) {
 
-            return getTrySession(newTryCount, isReadTransact, transactType, idSession)
+            return getTrySession(newTryCount, isReadTransact, transactType, idSession, isAnother)
         }
 
         session.isFree = false
@@ -111,7 +114,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
             var sessionCheck = session
 
             if(sessionCheck == null) {
-                sessionCheck = addSession(true)
+                sessionCheck = addSession(false)
             }
 
             val result = sessionCheck.checkConnect(dbSetting.selectCheck)
@@ -127,12 +130,14 @@ open class DbConnection(protected val dbSetting: DbSetting) {
     }
 
     @Throws(SessionException::class)
-    protected fun addSession(isRead :Boolean, idSession :Long? = null) :Session {
+    protected fun addSession(isRead :Boolean, idSession: Long? = null, isAnother: Boolean = false): Session {
 
         val connect = try {
-            logger.info("dbSetting.url=${dbSetting.url} dbSetting.user=${dbSetting.user} dbSetting.password=${dbSetting.password}")
+            //logger.info("dbSetting.url=${dbSetting.url} dbSetting.user=${dbSetting.user} dbSetting.password=${dbSetting.password}")
 
-            java.sql.DriverManager.getConnection(dbSetting.url, dbSetting.user, dbSetting.password)
+            java.sql.DriverManager.getConnection(dbSetting.url,
+                if(isAnother) dbSetting.userAnother else dbSetting.user,
+                if(isAnother) dbSetting.passwordAnother else dbSetting.password)
 
         } catch (e :SQLException) {
             logger.error("addSession", e)
@@ -149,11 +154,15 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         } catch (e :SQLException) {
 
             logger.error("addSession", e)
-            try { connect.close() } catch (e2 :SQLException){}
+            try { connect.close()
+            } catch (e2 :SQLException){
+                logger.error("connect.close", e2)
+            }
+
             throw SessionException(e.message as String)
         }
 
-        val session = Session(connect, false, idSession)
+        val session = Session(connect, false, idSession, isAnother)
 
         pool.add(session)
 
@@ -161,14 +170,19 @@ open class DbConnection(protected val dbSetting: DbSetting) {
         return session
     }
 
-    private fun getFreeSession(isReadTransact: Boolean) :Session? =
-        pool.firstOrNull {it.isFree && it.idSession == null && it.session.isReadOnly == isReadTransact}
+    private fun getFreeSession(isReadTransact: Boolean, isAnother: Boolean): Session? =
+        pool.firstOrNull {
+            it.isFree &&
+            it.idSession == null &&
+            it.session.isReadOnly == isReadTransact &&
+            it.isAnother ==  isAnother
+        }
 
 
     @Throws(SessionException::class)
-    private fun getSessionById(idSessionFind: Long, isReadTransact :Boolean) :Session? {
+    private fun getSessionById(idSessionFind: Long, isReadTransact: Boolean, isAnother: Boolean) :Session? {
         val session = pool.firstOrNull {it.idSession == idSessionFind}
 
-        return session ?: getFreeSession(isReadTransact)?.apply { synchronized(this) {this.idSession = idSessionFind}}
+        return session ?: getFreeSession(isReadTransact, isAnother)?.apply { synchronized(this) {this.idSession = idSessionFind}}
     }
 }

@@ -10,7 +10,10 @@ object AfinaConnect : DbConnection(
                 "",
                 MasterKey.value("AFINA_USER"),
                 MasterKey.value("AFINA_PSWD"),
-                "select 1 from dual") ) {
+                "select 1 from dual",
+                MasterKey.value("ANOTHER_USER"),
+                MasterKey.value("ANOTHER_PSWD")
+        ) ) {
 
 
     private val AFINA_URL = MasterKey.value("AFINA_URL")
@@ -19,7 +22,7 @@ object AfinaConnect : DbConnection(
 
     @Throws(SessionException::class)
     fun init(isAfinaUrl :Boolean) {
-        if(!dbSetting.url.isEmpty()) {
+        if(dbSetting.url.isNotEmpty()) {
             throw SessionException("URL already initialization")
         }
 
