@@ -51,5 +51,4 @@ object UncryptoUPay : FileFinder, FileProcessor {
             decodeFile.delete()
         }
     }
-
 }

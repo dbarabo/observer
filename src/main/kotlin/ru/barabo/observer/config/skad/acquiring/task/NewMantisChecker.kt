@@ -3,7 +3,7 @@ package ru.barabo.observer.config.skad.acquiring.task
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.sender.SenderInternalMail
+import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
@@ -23,11 +23,11 @@ object NewMantisChecker : SinglePerpetual {
 
     override fun name(): String = "Mantis проверка задач"
 
-    override fun config(): ConfigTask = SenderInternalMail // SenderMail
+    override fun config(): ConfigTask = PlasticReleaseConfig // SenderInternalMail
 
     override val accessibleData: AccessibleData = AccessibleData(
         workWeek = WeekAccess.WORK_ONLY,
-        workTimeFrom = LocalTime.of(10, 45),
+        workTimeFrom = LocalTime.of(8, 30), //10:45
         workTimeTo = LocalTime.of(22, 0)
     )
 

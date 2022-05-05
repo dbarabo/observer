@@ -2,7 +2,6 @@ package ru.barabo.observer.config.cbr.sender
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
-import ru.barabo.observer.config.skad.acquiring.task.NewMantisChecker
 
 object SenderInternalMail : AbstractConfig() {
 
@@ -14,7 +13,7 @@ object SenderInternalMail : AbstractConfig() {
 
         EmailTempSender.findAll()
 
-        NewMantisChecker.findAll()
+        //NewMantisChecker.findAll()
 
         executeTasks()
     }

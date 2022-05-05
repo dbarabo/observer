@@ -2,7 +2,7 @@ package ru.barabo.observer.config.barabo.plastic.release
 
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.plastic.release.task.*
-import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
+import ru.barabo.observer.config.skad.acquiring.task.NewMantisChecker
 
 object PlasticReleaseConfig: AbstractConfig() {
 
@@ -14,11 +14,12 @@ object PlasticReleaseConfig: AbstractConfig() {
 
         SendToJzdo.findAll()
         GetFromJzdo.findAll()
-        IvrSendRequest.findAll()
-        IvrGetResponse.findAll()
-        CheckWaitOci.findAll()
-        OutSmsData.findAll()
-        ReleaseCheckAll.findAll()
+        NewMantisChecker.findAll()
+        //IvrSendRequest.findAll()
+        //IvrGetResponse.findAll()
+        //CheckWaitOci.findAll()
+        //OutSmsData.findAll()
+        //ReleaseCheckAll.findAll()
 
         // also included HcardInObject.actionTask for GetIiaAccept GetOiaConfirm GetOciData see from PlasticTurnConfig
         this.executeTasks()

@@ -54,7 +54,7 @@ private fun sendResponseNotFound(idRequest: Number) {
 
     val info = "В файле $fileName c $countRecord записями клиентов не найдено ни одного клиента в Афине"
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, cc = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.CHECKER_550P, subject = SUBJECT, body = info)
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT, body = info)
 }
 
 private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
@@ -65,7 +65,7 @@ private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
 
     val content = HtmlContent(info, info, HEADER_TABLE, data)
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, cc = BaraboSmtp.MANAGERS_UOD, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
         body = content.html(), subtypeBody = "html")
 }
 
@@ -74,6 +74,8 @@ private fun loadXmlData(file: File): Number {
     val fileXml = XmlClientRiskLoader<MainRisks>().load(file)
 
     if(fileXml.uniqueIdentifier == null || fileXml.risksReportDate == null) throw Exception("В файле ${file.name} не указан уникальный идентификатор или дата")
+
+    AfinaQuery.execute(EXEC_TRUNC_TABLE)
 
     val sessionSetting = AfinaQuery.uniqueSession()
 
@@ -116,6 +118,8 @@ private const val SELECT_HEADER_EMPTY_FOUND =
     "select file_name, count_records, od.XLS_REPORT_ALL.isEqualsRiskCbr(id) from OD.PTKB_CBR_CLIENT_RISK where id = ?"
 
 private const val CURSOR_REPORT_CBR_RISK = "{ ? = call od.XLS_REPORT_ALL.getRiskClientCbrByFileId( ? ) }"
+
+private const val EXEC_TRUNC_TABLE = "{ call od.PTKB_CEC.truncateCbrClientRiskAll }"
 
 private const val EXEC_SAVE_IF_EXISTS = "{ call od.PTKB_CEC.riskClientSaveIfExists(?, ?, ?, ?) }"
 
