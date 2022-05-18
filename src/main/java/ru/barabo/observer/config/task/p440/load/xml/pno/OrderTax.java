@@ -56,7 +56,7 @@ public final class OrderTax implements FromFnsInfo {
 	private String payerName;
 
 	@XStreamAlias("СумПлат")
-	private Integer mainSumKopeika;
+	private String mainSumKopeika;
 
 	@XStreamAlias("Статус")
 	private String mainStatus;
@@ -165,7 +165,8 @@ public final class OrderTax implements FromFnsInfo {
 
 	@Override
 	public Number getMainSum() {
-		return mainSumKopeika;
+
+		return Long.parseLong(mainSumKopeika);
 	}
 
 	@Override
@@ -199,6 +200,7 @@ public final class OrderTax implements FromFnsInfo {
 	}
 
 	@Override
+
 	public String getMainDescription() {
 		return mainDescription;
 	}
