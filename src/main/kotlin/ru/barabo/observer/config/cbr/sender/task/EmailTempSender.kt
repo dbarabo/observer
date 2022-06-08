@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.cbr.sender.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -10,6 +11,8 @@ import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.InfoSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import ru.barabo.smtp.SendMail
+import ru.barabo.smtp.SmtpException
 import java.time.LocalTime
 
 object EmailTempSender : SingleSelector {
@@ -44,11 +47,26 @@ object EmailTempSender : SingleSelector {
         val body = description as? String ?: ""
 
         if((cursor as? String).isNullOrEmpty() ) {
-            InfoSmtp.send(to = emails,
-                cc = cc,
-                bcc = bcc,
-                subject = subjectString,
-                body = body)
+            var count = 0
+            while(count < 4) {
+                try {
+                    InfoSmtp.send(to = emails,
+                        cc = cc,
+                        bcc = bcc,
+                        subject = subjectString,
+                        body = body)
+
+                    break
+
+                } catch (e: Exception) {
+                    count++
+
+                    if (count < 4) continue
+
+                    LoggerFactory.getLogger(SendMail::class.java).error("send", e)
+                    throw SmtpException(e.message ?: "")
+                }
+            }
 
             return State.OK.deleteEmailReturn(elem.idElem)
         }

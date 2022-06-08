@@ -47,7 +47,7 @@ object Process440p : SingleSelector {
         return State.OK
     }
 
-    private fun isVipException(exception :String?): Boolean = (exception?.indexOf("!VIP!")?:-1 >= 0)
+    private fun isVipException(exception :String?): Boolean = (((exception?.indexOf("!VIP!") ?: -1) >= 0))
 
     private const val EXEC_STATE_TO_VIP = "{ call od.PTKB_440P.changeStateToVip(?) }"
 

@@ -8,7 +8,9 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.correspond.ContainerBase64
+import ru.barabo.observer.config.correspond.ContainerEnvEnvelope
 import ru.barabo.observer.config.correspond.Correspond
+import ru.barabo.observer.config.correspond.EnvBody
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -145,8 +147,24 @@ private fun uncryptMoveFile(file: File): State {
     return State.OK
 }
 
-private fun loadDecodeFile(file: File): File {
-    val container = initXStream().fromXML(file) as ContainerBase64
+private fun containerFromFile(file: File): ContainerBase64 {
+
+    return try {
+        initXStream().fromXML(file) as ContainerBase64
+    } catch (e: Exception) {
+
+        logger.error("ContainerBase64 file=${file.absolutePath}")
+        logger.error("ContainerBase64", e)
+
+        val env = initXStream().fromXML(file) as ContainerEnvEnvelope
+
+        env.envBody.containerBase64
+    }
+}
+
+fun loadDecodeFile(file: File): File {
+
+    val container = containerFromFile(file)
 
     val infoBase64 = container.objectBase64
 
@@ -165,6 +183,11 @@ private fun loadDecodeFile(file: File): File {
 
 private fun initXStream() = XStream(DomDriver("CP1251")).apply {
     processAnnotations(ContainerBase64::class.java)
+
+    processAnnotations(ContainerEnvEnvelope::class.java)
+    processAnnotations(EnvBody::class.java)
+
+
     processAnnotations(NameRecords::class.java)
     processAnnotations(FileRecord::class.java)
 

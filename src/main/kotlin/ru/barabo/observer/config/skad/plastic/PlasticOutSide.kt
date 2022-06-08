@@ -27,9 +27,6 @@ object PlasticOutSide  : AbstractConfig() {
 
         AutoUpdatePlasticJarCritical.findAll()
 
-        LoadVisaRate.findAll()
-        UpdaterCrossRateMtl.findAll()
-
         GitObjects.findAll()
 
         CheckSpaceServer.findAll()
@@ -40,6 +37,10 @@ object PlasticOutSide  : AbstractConfig() {
         MoveTicketNbki.findAll()
 
         SendXmlForm310.findAll()
+
+        UpdaterCrossRateMtl.findAll()
+        // отключили нафик
+        // LoadVisaRate.findAll()
 
         this.executeTasks()
     }

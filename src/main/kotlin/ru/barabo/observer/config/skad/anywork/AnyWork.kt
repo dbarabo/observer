@@ -32,10 +32,13 @@ object AnyWork : AbstractConfig() {
 
         ExecuteReglamentRun.findAll()
         ExecuteGroupRateLoan.findAll()
-        CorrDepartmentGoHome.findAll()
         ClearPrimFromArchiveDay.findAll()
 
         MantisUserDisabled.findAll()
+
+        // отключили нафик
+        // CorrDepartmentGoHome.findAll()
+
 
         executeTasks()
     }

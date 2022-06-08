@@ -2,6 +2,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -38,6 +39,7 @@ import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
+import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
@@ -73,6 +75,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.roundToLong
+
+
+import ru.barabo.observer.config.correspond.task.loadDecodeFile
 
 
 class LoaderTest {
@@ -1183,5 +1188,11 @@ res3 = [calc.DEC_TEST];
 
         val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2021, 12, 31))
         fnsPercentOut.createFile()
+    }
+
+    @Test
+    fun testDecryptEdFile() {
+
+        loadDecodeFile(File("C:/311-П/0507717000000000000000ED10110100384.ED.xml"))
     }
 }
