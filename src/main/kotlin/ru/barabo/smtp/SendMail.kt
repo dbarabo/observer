@@ -44,13 +44,14 @@ interface SendMail {
     fun send(to :Array<String> = emptyArray(), cc :Array<String> = emptyArray(), bcc :Array<String> = emptyArray(),
              subject :String, body :String, attachments :Array<File> = emptyArray(),
              charsetSubject :String = smtpProperties.charsetSubject,
-             subtypeBody: String = "plain" ) {
+             subtypeBody: String = "plain",
+             from: String? = null) {
 
         try {
             val smtpSession = smtpSession()
 
             synchronized(smtpSession) {
-                val message = createMessage(smtpSession, subject, to, cc, bcc, charsetSubject)
+                val message = createMessage(smtpSession, subject, to, cc, bcc, charsetSubject, from)
 
                 message.addPartsMessage(body, attachments, subtypeBody)
 
@@ -66,13 +67,15 @@ interface SendMail {
 
     @Throws(NoSuchProviderException::class, MessagingException::class)
     private fun createMessage(session :Session, subject :String, to :Array<String>, cc :Array<String>,
-                              bcc :Array<String>, charsetSubject :String = smtpProperties.charsetSubject) : MimeMessage {
+                              bcc :Array<String>, charsetSubject :String = smtpProperties.charsetSubject,
+                              from: String? = null
+    ) : MimeMessage {
 
         val message = MimeMessage(session)
 
         message.setSubject(subject, charsetSubject)
 
-        message.setFrom(InternetAddress(smtpProperties.from))
+        message.setFrom( InternetAddress(from ?: smtpProperties.from)     )
 
         to.forEach { message.addRecipient(Message.RecipientType.TO, InternetAddress(it)) }
 

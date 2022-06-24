@@ -33,7 +33,7 @@ object EmailTempSender : SingleSelector {
 
         if(info.isEmpty()) return State.ARCHIVE
 
-        val (emailAll, subject, description, ccSeparator, bccSeparator, cursor, selectParams, columns) = info[0]
+        val (emailAll, subject, description, ccSeparator, bccSeparator, cursor, selectParams, columns, from) = info[0]
 
         val emails = (emailAll as? String)?.split(";")?.toTypedArray()
             ?: return State.ARCHIVE.deleteEmailReturn(elem.idElem)
@@ -46,6 +46,10 @@ object EmailTempSender : SingleSelector {
 
         val body = description as? String ?: ""
 
+        val fromCheck = from as? String
+
+        LoggerFactory.getLogger(EmailTempSender::class.java).error("fromCheck=$fromCheck")
+
         if((cursor as? String).isNullOrEmpty() ) {
             var count = 0
             while(count < 4) {
@@ -54,7 +58,9 @@ object EmailTempSender : SingleSelector {
                         cc = cc,
                         bcc = bcc,
                         subject = subjectString,
-                        body = body)
+                        body = body,
+                        from = fromCheck
+                    )
 
                     break
 
@@ -101,6 +107,8 @@ private fun trySendHtmlTable(idElem: Long?, emails: Array<String>, subject: Stri
 
 private fun cursorSelect(cursor: String) = "{ ? = call $cursor }"
 
+private operator fun <T> Array<T>.component9(): T = this[8]
+
 private operator fun <T> Array<T>.component8(): T = this[7]
 
 private operator fun <T> Array<T>.component7(): T = this[6]
@@ -115,6 +123,6 @@ private fun State.deleteEmailReturn(idElem: Long?): State {
 }
 
 private const val SELECT_INFO =
-    "select EMAIL, SUBJECT, DESCRIPTION, CC, BCC, SELECT_TABLE, SELECT_PARAMS, COLUMNS from od.PTCB_EMAILTEMP where CLASSIFIED = ?"
+    "select EMAIL, SUBJECT, DESCRIPTION, CC, BCC, SELECT_TABLE, SELECT_PARAMS, COLUMNS, SENDER from od.PTCB_EMAILTEMP where CLASSIFIED = ?"
 
 private const val DELETE_EMAIL = "delete from od.PTCB_EMAILTEMP where CLASSIFIED = ?"

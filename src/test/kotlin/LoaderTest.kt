@@ -1190,9 +1190,9 @@ res3 = [calc.DEC_TEST];
         fnsPercentOut.createFile()
     }
 
-    @Test
+    //@Test
     fun testDecryptEdFile() {
 
-        loadDecodeFile(File("C:/311-П/0507717000000000000000ED10110100384.ED.xml"))
+        loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
     }
 }
