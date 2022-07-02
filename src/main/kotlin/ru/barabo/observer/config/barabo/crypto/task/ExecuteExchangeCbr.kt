@@ -19,7 +19,7 @@ object ExecuteExchangeCbr : SingleSelector {
             and dt.docstate = 1000000039 and trunc(dt.validfromdate) = trunc(sysdate) and rownum = 1"""
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false,
-            LocalTime.of(8, 0), LocalTime.of(18, 0), Duration.ZERO)
+            LocalTime.of(8, 0), LocalTime.of(22, 0), Duration.ZERO)
 
     override fun name(): String = "Утверждение курса ЦБ"
 
@@ -28,7 +28,7 @@ object ExecuteExchangeCbr : SingleSelector {
     override fun execute(elem: Elem): State {
 
         if((!AfinaQuery.isWorkDayNow()) ||
-            LocalTime.now().hour >= 17 ) {
+            LocalTime.now().hour >= 21 ) {
 
             return executeCbrRate(elem.idElem!!)
         }

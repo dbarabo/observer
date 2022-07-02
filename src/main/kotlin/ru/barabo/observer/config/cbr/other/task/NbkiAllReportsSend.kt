@@ -40,12 +40,6 @@ object NbkiAllReportsSend : Periodical {
 
     override fun config(): ConfigTask = AnyWork //OtherCbr
 
-    private fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
-
-    private fun xNbkiToday() = "${xNbki()}${todayFolder()}"
-
-    private fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
-
     override fun execute(elem: Elem): State {
 
         fillData()
@@ -137,3 +131,10 @@ object NbkiAllReportsSend : Periodical {
 
     private const val SELECT_TEXT_FILE = "select OD.PTKB_NBKI.getFileName from dual"
 }
+
+
+fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
+
+fun xNbkiToday() = "${xNbki()}${todayFolder()}"
+
+fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())

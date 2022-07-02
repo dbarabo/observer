@@ -78,6 +78,7 @@ import kotlin.math.roundToLong
 
 
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
+import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
 
 
 class LoaderTest {
@@ -1163,6 +1164,14 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
+
+    @Test
+    fun testRutdfCreateReport() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
+
+        elem.task?.execute(elem)
+    }
+
 
     //@Test
     fun testSaveAccount311p() {

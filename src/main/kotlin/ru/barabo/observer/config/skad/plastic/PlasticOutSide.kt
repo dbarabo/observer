@@ -39,8 +39,6 @@ object PlasticOutSide  : AbstractConfig() {
         SendXmlForm310.findAll()
 
         UpdaterCrossRateMtl.findAll()
-        // отключили нафик
-        // LoadVisaRate.findAll()
 
         this.executeTasks()
     }

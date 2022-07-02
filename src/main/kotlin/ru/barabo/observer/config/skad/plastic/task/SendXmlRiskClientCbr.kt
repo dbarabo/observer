@@ -41,16 +41,16 @@ object SendXmlRiskClientCbr : SingleSelector {
             return sendError(elem, mail, if (error.isNullOrEmpty()) "mail is NULL" else error)
         }
 
-        val codeRisk = (infoMail[2] as Number).toInt()
+        //val codeRisk = (infoMail[2] as Number).toInt()
 
         val typeClient = (infoMail[3] as? String)?.toInt()
 
         try {
-            val formRisk = DefaultClientRisk(codeRisk, typeClient)
+            val formRisk = DefaultClientRisk(typeClient)
 
             val fileForm = formRisk.createFile()
 
-            sendFileMail(mail, codeRisk, fileForm)
+            sendFileMail(mail, fileForm)
 
             updateStateOk(elem)
 
@@ -82,10 +82,10 @@ object SendXmlRiskClientCbr : SingleSelector {
         return State.ERROR
     }
 
-    private fun sendFileMail(mail: String?, riskCode: Int, file: File) {
+    private fun sendFileMail(mail: String?, file: File) {
         BaraboSmtp.sendStubThrows(mail?.let { arrayOf(it) } ?: emptyArray(),
             cc = BaraboSmtp.OPER,
-            subject = "Риски по клиентам для ЦБ для уровня риска $riskCode",
+            subject = "Риски по клиентам для ЦБ",
             body = "Риски по клиентам для ЦБ",
             attachments = arrayOf(file)
         )

@@ -29,7 +29,7 @@ public class MainElement {
 
     @XStreamAsAttribute
     @XStreamAlias("CodeReport")
-    final Integer codeReport;
+    final String codeReport = "KYCCL";
 
     @XStreamAsAttribute
     @XStreamAlias("DateTimeFormationReport")
@@ -38,9 +38,7 @@ public class MainElement {
     @XStreamAlias("Form_Data")
     final FormData formData;
 
-    public MainElement(List<ClientForm> clientForms, Integer codeReport) {
-
-        this.codeReport = codeReport;
+    public MainElement(List<ClientForm> clientForms) {
 
         formData = new FormData(clientForms);
     }
