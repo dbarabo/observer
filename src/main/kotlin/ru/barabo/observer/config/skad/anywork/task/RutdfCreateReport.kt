@@ -1,12 +1,14 @@
 package ru.barabo.observer.config.skad.anywork.task
 
 import oracle.jdbc.OracleTypes
+import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.barabo.plastic.turn.loader.PosLengthLoader
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
@@ -50,28 +52,44 @@ object RutdfCreateReport : Periodical {
 
         val sessionUni = AfinaQuery.uniqueSession()
 
-        val (idFile, fileName) = getNewFile(sessionUni)
+        try {
+            val (idFile, fileName) = getNewFile(sessionUni)
 
-        val isExistsData = fillAndCheckExistsData(idFile, sessionUni)
+            val isExistsData = fillAndCheckExistsData(idFile, sessionUni)
 
-        if(isExistsData) {
+            if (isExistsData) {
 
-       //val fileName = "K301BB000001_20220705_100000" //"K301BB000001_20220702_165040"
-       //val idFile = 1L //1263855456L
+                //val fileName = "K301BB000001_20220705_100000" //"K301BB000001_20220702_165040"
+                //val idFile = 1L //1263855456L
 
-        val textClob = AfinaQuery.execute(query = GET_DATA_FILE,
-                params = arrayOf(idFile),
-            sessionSetting = sessionUni,
-            outParamTypes = intArrayOf(OracleTypes.CLOB),
-        )!![0] as Clob
+                val textClob = AfinaQuery.execute(
+                    query = GET_DATA_FILE,
+                    params = arrayOf(idFile),
+                    sessionSetting = sessionUni,
+                    outParamTypes = intArrayOf(OracleTypes.CLOB)
+                )!![0] as Clob
 
-            val folder = xNbkiToday().byFolderExists()
+                val folder = xNbkiToday().byFolderExists()
 
-            val textFile = File("${folder.absolutePath}/$fileName.txt")
+                val textFile = File("${folder.absolutePath}/$fileName.txt")
 
-            textFile.writeText(textClob.clob2string(), charset = Charset.forName("CP1251"))
+                textFile.writeText(textClob.clob2string(), charset = Charset.forName("CP1251"))
+
+                AfinaQuery.commitFree(sessionUni)
+
+            } else {
+
+                AfinaQuery.rollbackFree(sessionUni)
+            }
+
+        } catch (e: Exception) {
+
+            LoggerFactory.getLogger(RutdfCreateReport::class.java).error("exec", e)
+
+            AfinaQuery.rollbackFree(sessionUni)
+
+            throw Exception(e.message)
         }
-
         return State.OK
     }
 

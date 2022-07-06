@@ -21,7 +21,7 @@ object AnyWork : AbstractConfig() {
         CheckerDoubleTurnPeriod.findAll()
 
         // отключил пока
-        //NbkiAllReportsSend.findAll()
+        NbkiAllReportsSend.findAll()
 
 
         //UnlockUsersMonday.findAll()
