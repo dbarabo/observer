@@ -56,7 +56,8 @@ object AfinaQuery : Query(AfinaConnect) {
             selectValue(query = NEXT_SEQUENCE, sessionSetting = sessionSetting) as Number
 }
 
-inline fun <reified T> selectValueType(query: String, params: Array<Any?>?): T? = AfinaQuery.selectValue(query, params) as? T
+inline fun <reified T> selectValueType(query: String, params: Array<Any?>?, sessionUni: SessionSetting = SessionSetting(true)): T?
+    = AfinaQuery.selectValue(query, params, sessionUni) as? T
 
 fun Clob.clobToString() = this.getSubString(1, this.length().toInt())
 

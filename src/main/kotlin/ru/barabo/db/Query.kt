@@ -218,6 +218,8 @@ open class Query (private val dbConnection :DbConnection) {
         val statement = queryRequest.statement
 
         try {
+            //showLogOn(queryRequest, outParamTypes)
+
             statement?.execute()
 
             if(statement is CallableStatement) {
@@ -250,6 +252,16 @@ open class Query (private val dbConnection :DbConnection) {
         }
 
         return result
+    }
+
+    private fun showLogOn(queryRequest: QueryRequest, outParamTypes: IntArray?) {
+        logger.error("query=${queryRequest.query}")
+
+        logger.error("inParams.size=${queryRequest.params?.size}")
+        queryRequest.params?.forEach { logger.error(it.toString()) }
+
+        logger.error("outParamTypes.size=${outParamTypes?.size}")
+        outParamTypes?.forEach { logger.error(it.toString()) }
     }
 
     private fun writeErrorLog(e: SQLException, queryRequest: QueryRequest, outParamTypes: IntArray?) {

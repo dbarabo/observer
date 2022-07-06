@@ -1,4 +1,3 @@
-
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
@@ -39,12 +38,13 @@ import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
-import ru.barabo.observer.config.correspond.task.DecryptEdFile
+import ru.barabo.observer.config.correspond.task.loadDecodeFile
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
+import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
@@ -77,17 +77,13 @@ import java.util.regex.Pattern
 import kotlin.math.roundToLong
 
 
-import ru.barabo.observer.config.correspond.task.loadDecodeFile
-import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
-
-
 class LoaderTest {
 
     private val logger = LoggerFactory.getLogger(LoaderTest::class.java)
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1165,14 +1161,6 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    @Test
-    fun testRutdfCreateReport() {
-        val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
-
-        elem.task?.execute(elem)
-    }
-
-
     //@Test
     fun testSaveAccount311p() {
 
@@ -1203,5 +1191,12 @@ res3 = [calc.DEC_TEST];
     fun testDecryptEdFile() {
 
         loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
+    }
+
+    @Test
+    fun testRutdfCreateReport() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
+
+        elem.task?.execute(elem)
     }
 }

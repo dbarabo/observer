@@ -20,7 +20,10 @@ object AnyWork : AbstractConfig() {
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
 
-        NbkiAllReportsSend.findAll()
+        // отключил пока
+        //NbkiAllReportsSend.findAll()
+
+
         //UnlockUsersMonday.findAll()
         CecReportProcess.findAll()
         ClientRiskLoader.findAll()

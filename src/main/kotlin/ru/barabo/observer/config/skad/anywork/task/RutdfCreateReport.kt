@@ -1,14 +1,12 @@
 package ru.barabo.observer.config.skad.anywork.task
 
 import oracle.jdbc.OracleTypes
+import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
-import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.ibank.task.LoanInfoSaver
-import ru.barabo.observer.config.cbr.other.task.NbkiAllReportsSend
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
@@ -49,42 +47,48 @@ object RutdfCreateReport : Periodical {
     private fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun execute(elem: Elem): State {
-/*
-        val (idFile, fileName) = getNewFile()
 
-        val isExistsData = fillAndCheckExistsData(idFile)
+        val sessionUni = AfinaQuery.uniqueSession()
 
-        if(isExistsData) {*/
+        val (idFile, fileName) = getNewFile(sessionUni)
 
-        val fileName = "K301BB000001_20220702_165040"
-        val idFile = 1263855456L
+        val isExistsData = fillAndCheckExistsData(idFile, sessionUni)
 
+        if(isExistsData) {
+
+       //val fileName = "K301BB000001_20220705_100000" //"K301BB000001_20220702_165040"
+       //val idFile = 1L //1263855456L
 
         val textClob = AfinaQuery.execute(query = GET_DATA_FILE,
-                params = arrayOf(idFile), outParamTypes = intArrayOf(OracleTypes.CLOB)) as Clob
+                params = arrayOf(idFile),
+            sessionSetting = sessionUni,
+            outParamTypes = intArrayOf(OracleTypes.CLOB),
+        )!![0] as Clob
 
             val folder = xNbkiToday().byFolderExists()
 
             val textFile = File("${folder.absolutePath}/$fileName.txt")
 
             textFile.writeText(textClob.clob2string(), charset = Charset.forName("CP1251"))
-       // }
+        }
 
         return State.OK
     }
 
-    private fun fillAndCheckExistsData(idFile: Number): Boolean {
+    private fun fillAndCheckExistsData(idFile: Number, sessionUni: SessionSetting = SessionSetting(false) ): Boolean {
 
-        AfinaQuery.execute( FILL_DATA_RUTDF, arrayOf(idFile) )
+        AfinaQuery.execute( FILL_DATA_RUTDF, arrayOf(idFile), sessionUni )
 
-        val isExists = selectValueType<Number>(IS_EXISTS_DATA, arrayOf(idFile))?.toInt() ?: 0
+        val isExists = selectValueType<Number>(IS_EXISTS_DATA, arrayOf(idFile), sessionUni)?.toInt() ?: 0
 
         return (isExists > 0)
     }
 
-    private fun getNewFile(): Pair<Number, String> {
+    private fun getNewFile(sessionUni: SessionSetting = SessionSetting(false)): Pair<Number, String> {
         val (id, fileName) = AfinaQuery.execute(query = CREATE_FILE,
-            outParamTypes = intArrayOf(OracleTypes.NUMBER, OracleTypes.VARCHAR))!!
+            outParamTypes = intArrayOf(OracleTypes.NUMBER, OracleTypes.VARCHAR),
+            sessionSetting = sessionUni
+        )!!
 
        return  Pair(id as Number, fileName as String)
     }
