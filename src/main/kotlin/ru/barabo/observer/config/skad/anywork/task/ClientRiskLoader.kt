@@ -16,6 +16,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
+import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -25,7 +26,7 @@ object ClientRiskLoader  : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = AnyWork
 
-    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS)
+    override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, executeWait = Duration.ofMinutes(6))
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData( ::xCbrToday, ".*\\.xml"))
 

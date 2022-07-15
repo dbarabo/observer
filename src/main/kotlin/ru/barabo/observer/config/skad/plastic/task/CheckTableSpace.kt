@@ -21,7 +21,7 @@ object CheckTableSpace : SinglePerpetual {
 
     override val unit: ChronoUnit = ChronoUnit.HOURS
 
-    override val countTimes: Long = 12
+    override val countTimes: Long = 6
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
         workTimeFrom = LocalTime.of(6, 30), workTimeTo = LocalTime.of(23, 50) )
@@ -44,7 +44,7 @@ object CheckTableSpace : SinglePerpetual {
             logger.error("TABLE_SPACE $name FREE=$freeMb TOTAL=$totalMb MIN=$minimumMb")
 
             if(freeMb <= minimumMb) {
-                sendAlarm(name, freeMb, totalMb)
+                sendAlarm(name, freeMb, totalMb, mustAddFile)
             }
 
             if(freeMb <= mustAddFile) {
@@ -55,11 +55,16 @@ object CheckTableSpace : SinglePerpetual {
         return super.execute(elem)
     }
 
-    private fun sendAlarm(tableSpace: String, freeMb: Int, totalMb: Int) {
+    private fun sendAlarm(tableSpace: String, freeMb: Int, totalMb: Int, mustAddFile: Int) {
 
         val subject = "✖☢☠ Место в TableSpace заканчивается!!!"
 
-        val body = "Внимание! \n В TableSpace $tableSpace осталось меньше $freeMb MB, всего tableSpace занимает $totalMb MB"
+        val body = """
+    Внимание! \n В TableSpace $tableSpace осталось меньше $freeMb MB, всего tableSpace занимает $totalMb MB
+Когда места останется меньше $mustAddFile MB, то автоматически должен добавиться новый файл данных. Но если что-то пойдет не так, 
+тогда зовите DBA.
+
+P.S. DBA все-равно придется звать, даже если автоматом файл добавится. Т.к. тестовая база с новым файлом не стартанет."""
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, cc = BaraboSmtp.AUTO,
             subject = subject, body = body, charsetSubject = "UTF-8")

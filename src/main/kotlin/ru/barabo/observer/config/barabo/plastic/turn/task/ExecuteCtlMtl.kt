@@ -31,7 +31,7 @@ object ExecuteCtlMtl : SingleSelector {
 
     override fun execute(elem: Elem): State {
 
-        if(LocalTime.now().hour >= 19 &&
+        if(LocalTime.now().hour >= 22 &&
             elem.name.indexOf("MTL") == 0) {
 
             elem.state = State.NONE
@@ -81,7 +81,7 @@ object ExecuteCtlMtl : SingleSelector {
     private const val SUBJECT_NONE_EXEC =
             "✖✖✖☹☹☹✚✚✚☝☝☝✠✠✠♕♕♕ Пластик: Не все док-ты обработаны в файле CTL/MTL"
 
-    fun isNoneExecAllDocuments(info :String?) :Boolean = info?.indexOf(CHECK_ALL_EXEC_DOCUMENTS)?:-1 < 0
+    fun isNoneExecAllDocuments(info :String?) :Boolean = (info?.indexOf(CHECK_ALL_EXEC_DOCUMENTS) ?: -1) < 0
 
     private const val CHECK_ALL_EXEC_DOCUMENTS =  ". НЕ Исполнено платежных документов <0>"
 

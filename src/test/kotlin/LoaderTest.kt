@@ -1193,7 +1193,7 @@ res3 = [calc.DEC_TEST];
         loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
     }
 
-    @Test
+    //@Test
     fun testRutdfCreateReport() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 

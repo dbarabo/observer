@@ -8,7 +8,6 @@ import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.barabo.plastic.turn.loader.PosLengthLoader
 import ru.barabo.observer.config.cbr.other.task.nbki.clob2string
 import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData

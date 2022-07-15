@@ -35,7 +35,8 @@ object CbrSmtp : SendMail {
             send(to = arrayOf(smtpProperties.from), subject = "INFO", body = "info" )
         } catch (e : SmtpException) {
 
-            BaraboSmtp.errorSend("Нет связи с ЦБ. Восстановите связь с ЦБ на 29-й компе", SUBJECT_CBR_SEND_ERROR)
+            sendStubThrows(to = BaraboSmtp.TTS, bcc = BaraboSmtp.AUTO, subject = SUBJECT_CBR_SEND_ERROR,
+                body = "Нет связи с ЦБ. Восстановите связь с ЦБ на 29-й компе")
         }
     }
 }
