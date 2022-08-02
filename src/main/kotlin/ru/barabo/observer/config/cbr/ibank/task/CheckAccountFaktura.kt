@@ -12,9 +12,9 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 object CheckAccountFaktura : SinglePerpetual {
-    override val unit: ChronoUnit = ChronoUnit.HOURS
+    override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val countTimes: Long = 1
+    override val countTimes: Long = 5
 
     override fun config(): ConfigTask = IBank
 

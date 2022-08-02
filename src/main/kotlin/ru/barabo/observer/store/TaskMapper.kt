@@ -97,7 +97,10 @@ object TaskMapper {
 
             val lastWork = it[1] as Date
 
-            val message = "Похоже приложение observer.jar с билдом $buildName не запущено и не отвечает с $lastWork"
+            val message =
+                """Похоже приложение observer.jar с билдом $buildName не запущено и не отвечает с $lastWork
+ Нужно проверить компьютер $buildName на то что он запущен и на нем работает Наблюдатель (observer.jar)
+ С этим делом должны помочь ДТТС (найти комп и проверить), тем более что высока вероятность того, что они его и положили""".trimIndent()
 
             BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = message, body = message)
 

@@ -1,7 +1,6 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -52,6 +51,7 @@ import ru.barabo.observer.config.skad.forms.ed711497.impl.DefaultPercentOutData
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
+import ru.barabo.observer.config.skad.plastic.task.SendXmlRiskClientCbrAuto
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
@@ -1196,6 +1196,13 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testRutdfCreateReport() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testSendXmlRiskClientCbrAuto() {
+        val elem = Elem(idElem = 30, name = "test", task = SendXmlRiskClientCbrAuto)
 
         elem.task?.execute(elem)
     }

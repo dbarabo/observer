@@ -13,7 +13,7 @@ object PlasticOutSide  : AbstractConfig() {
 
     override fun name(): String = "Разное/Извещения"
 
-    override fun timeOut(): Long  = 20_000
+    override fun timeOut(): Long  = 15_000
 
     override fun configRun() {
         OutRegisterAquiring.findAll()

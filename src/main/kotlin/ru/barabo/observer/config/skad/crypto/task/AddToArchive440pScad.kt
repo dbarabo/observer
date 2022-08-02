@@ -24,7 +24,7 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
 
     override fun name(): String = "Добавить файл в архив 440-П"
 
-    override fun config(): ConfigTask = P440Config // ScadConfig
+    override fun config(): ConfigTask = P440Config
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),

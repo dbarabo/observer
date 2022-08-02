@@ -36,7 +36,7 @@ object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
      * добавляет в задачи - файл с ошибкой - чтобы его потом отправить по одному
      * клику
      */
-    override fun processFailInfo(info : TicketInfo, file :File) {
+    override fun processFailInfo(info: TicketInfo, file: File) {
 
         super.processFailInfo(info, file)
 

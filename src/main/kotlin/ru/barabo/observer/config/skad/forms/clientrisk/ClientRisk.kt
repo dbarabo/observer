@@ -5,7 +5,7 @@ import java.io.File
 
 interface ClientRisk {
 
-    fun createFile(): File
+    fun createFile(folderReport: String? = null): File
 
     fun clientForms(): List<ClientForm>
 }

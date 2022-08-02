@@ -1,5 +1,4 @@
 
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
@@ -15,7 +14,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
 class TaskTest {
@@ -161,7 +159,7 @@ class TaskTest {
     fun testSplitKortege() {
 
         for (index in 0..99) {
-            logger.error(":${DecimalFormat("00").format(index)}:")
+            logger.error(":${DecimalFormat("000000").format(index)}:")
         }
         /*
         val str = "123456789"

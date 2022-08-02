@@ -72,7 +72,7 @@ P.S. DBA все-равно придется звать, даже если авт
 
     private fun addFileTableSpace(tableSpace: String) {
 
-        val nextFileName = AfinaQuery.selectValue(SELECT_NEXT_FILENAME) as String
+        val nextFileName = AfinaQuery.selectValue(SELECT_NEXT_FILENAME, arrayOf(tableSpace) ) as String
 
         val command = commandFileTableSpace(tableSpace, nextFileName)
 
@@ -92,7 +92,7 @@ P.S. DBA все-равно придется звать, даже если авт
     }
 
     private fun commandFileTableSpace(tableSpace: String, fileName: String): String =
-        "alter tablespace $tableSpace add datafile '$fileName' size 104M autoextend on next 1m;"
+        "alter tablespace $tableSpace add datafile '$fileName' size 104M autoextend on next 1m"
 }
 
 private const val SELECT_NEXT_FILENAME = "select od.PTKB_PRECEPT.getNextFullFileName( ? ) from dual"

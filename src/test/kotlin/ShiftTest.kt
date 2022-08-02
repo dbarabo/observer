@@ -1,7 +1,6 @@
 
 import org.junit.Test
 import org.slf4j.LoggerFactory
-import ru.barabo.observer.config.correspond.task.UNSIGN_PATH
 import ru.barabo.observer.config.skad.acquiring.task.LoadPaymentWeechatXlsx
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.Shift
@@ -83,7 +82,7 @@ class ShiftTest {
     }
 
 
-    //@Test
+    @Test
     fun firstShifTest() {
 
 //        val primterkombank = Shift.encrypt("primterkombank@gmail.com")
