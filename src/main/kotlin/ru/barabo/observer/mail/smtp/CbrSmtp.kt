@@ -1,5 +1,7 @@
 package ru.barabo.observer.mail.smtp
 
+import org.slf4j.LoggerFactory
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.crypto.MasterKey
 import ru.barabo.smtp.SendMail
 import ru.barabo.smtp.SmtpException
@@ -16,8 +18,6 @@ object CbrSmtp : SendMail {
 
     private val PRIKAZ_TO = arrayOf("prikazbr@vladivostok.cbr.ru")
 
-    private const val SUBJECT_CBR_SEND_ERROR = "Нет связи с ЦБ"
-
     private fun bodyError(error: String, file: File) = "Ошибка отправки файла в ЦБ файл=${file.absolutePath}\nошибка=$error"
 
     fun sendCbInfo(file : File) {
@@ -33,10 +33,35 @@ object CbrSmtp : SendMail {
     fun checkCbr() {
         try {
             send(to = arrayOf(smtpProperties.from), subject = "INFO", body = "info" )
-        } catch (e : SmtpException) {
+        } catch (e: SmtpException) {
 
-            sendStubThrows(to = BaraboSmtp.TTS, bcc = BaraboSmtp.AUTO, subject = SUBJECT_CBR_SEND_ERROR,
-                body = "Нет связи с ЦБ. Восстановите связь с ЦБ на 29-й компе")
+            BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, bcc = BaraboSmtp.AUTO, subject = SUBJECT_CBR_SEND_ERROR,
+                body = BODY_CBR_SEND_ERROR)
+
+            try {
+                sentErrorMessage()
+            } catch (e: SmtpException) {
+                LoggerFactory.getLogger(SendMail::class.java).error("checkCbr", e)
+            }
         }
     }
 }
+
+private const val SUBJECT_CBR_SEND_ERROR = "Нет связи с ЦБ"
+
+private const val BODY_CBR_SEND_ERROR = "Нет связи с ЦБ. Восстановите связь с ЦБ на 29-й компе"
+
+private fun sentErrorMessage() {
+
+    val to = BaraboSmtp.TTS[0]
+
+    val bcc = BaraboSmtp.AUTO[0]
+
+    val subject = SUBJECT_CBR_SEND_ERROR
+
+    val body = BODY_CBR_SEND_ERROR
+
+    AfinaQuery.execute(SEND_ERROR, arrayOf(to, subject, body, bcc))
+}
+
+private const val SEND_ERROR = "{ call od.PTKB_SENDMAIL.sendSimple( ?, ?, ?, ? ) }"

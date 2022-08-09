@@ -37,6 +37,7 @@ object PlasticOutSide  : AbstractConfig() {
         MoveTicketNbki.findAll()
 
         SendXmlForm310.findAll()
+        SendXmlRiskClientCbrAuto.findAll()
 
         UpdaterCrossRateMtl.findAll()
 

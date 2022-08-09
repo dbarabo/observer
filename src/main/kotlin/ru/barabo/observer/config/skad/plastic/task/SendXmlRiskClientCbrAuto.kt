@@ -35,11 +35,15 @@ object SendXmlRiskClientCbrAuto : SinglePerpetual {
     override fun execute(elem: Elem): State {
 
         try {
-            val fileForm = DefaultClientRisk(null).createFile( pathFolderRiskCbr() )
+            val folder = pathFolderRiskCbr()
 
-            val zipFileName = "${pathFolderRiskCbr()}/${fileForm.nameWithoutExtension}.zip"
+            val fileForm = DefaultClientRisk(null).createFile( folder )
+
+            val zipFileName = "$folder/${fileForm.nameWithoutExtension}.zip"
 
             Archive.packToZip(zipFileName, fileForm)
+
+            sendMailInfo(zipFileName)
 
         } catch (e: Exception) {
             logger.error("execute", e)
@@ -50,6 +54,15 @@ object SendXmlRiskClientCbrAuto : SinglePerpetual {
         return super.execute(elem)
     }
 }
+
+private fun sendMailInfo(zipFileName: String) {
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_CBR_RISK, cc = BaraboSmtp.MANAGERS_UOD,
+        subject = SUBJECT_RISK_INFO, body = bodyInfo(zipFileName))
+}
+
+private fun bodyInfo(zipFileName: String) = "Файл сформирован и проверен по xsd-схеме\nПуть к файлу: $zipFileName"
+
+private const val SUBJECT_RISK_INFO = "Файл на отправку Клиентов с Рисками ЦБ готов"
 
 private fun sendError(error: String): State {
     BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO,

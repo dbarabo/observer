@@ -22,7 +22,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
     }
 
     @Throws(SessionException::class)
-    fun getSession(sessionSetting :SessionSetting): Session =
+    fun getSession(sessionSetting: SessionSetting): Session =
         getTrySession(0, sessionSetting.isReadTransact, sessionSetting.transactType, sessionSetting.idSession,
             sessionSetting.isAnotherUser)
 
@@ -85,8 +85,8 @@ open class DbConnection(protected val dbSetting: DbSetting) {
             exceptionMessage.indexOf("ORA-04061") >= 0 || exceptionMessage.indexOf("ORA-00942") >= 0
 
     @Throws(SessionException::class)
-    private fun getTrySession(tryCount :Int, isRead :Boolean, transactType :TransactType, idSession :Long?,
-                              isAnother: Boolean) :Session {
+    private fun getTrySession(tryCount: Int, isRead: Boolean, transactType: TransactType, idSession: Long?,
+                              isAnother: Boolean): Session {
 
         val newTryCount = if(tryCount > TRY_CONNECT_MAX) throw SessionException(ERROR_TRY_MAX_CONNECT) else tryCount + 1
 
@@ -130,7 +130,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
     }
 
     @Throws(SessionException::class)
-    protected fun addSession(isRead :Boolean, idSession: Long? = null, isAnother: Boolean = false): Session {
+    protected fun addSession(isRead: Boolean, idSession: Long? = null, isAnother: Boolean = false): Session {
 
         val connect = try {
             //logger.info("dbSetting.url=${dbSetting.url} dbSetting.user=${dbSetting.user} dbSetting.password=${dbSetting.password}")
@@ -151,7 +151,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
 
             connect.isReadOnly = isRead
 
-        } catch (e :SQLException) {
+        } catch (e: SQLException) {
 
             logger.error("addSession", e)
             try { connect.close()
@@ -175,13 +175,13 @@ open class DbConnection(protected val dbSetting: DbSetting) {
             it.isFree &&
             it.idSession == null &&
             it.session.isReadOnly == isReadTransact &&
-            it.isAnother ==  isAnother
+            it.isAnother == isAnother
         }
 
 
     @Throws(SessionException::class)
-    private fun getSessionById(idSessionFind: Long, isReadTransact: Boolean, isAnother: Boolean) :Session? {
-        val session = pool.firstOrNull {it.idSession == idSessionFind}
+    private fun getSessionById(idSessionFind: Long, isReadTransact: Boolean, isAnother: Boolean): Session? {
+        val session = pool.firstOrNull { it.idSession == idSessionFind }
 
         return session ?: getFreeSession(isReadTransact, isAnother)?.apply { synchronized(this) {this.idSession = idSessionFind}}
     }

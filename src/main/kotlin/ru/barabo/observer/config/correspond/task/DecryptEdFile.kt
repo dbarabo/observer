@@ -50,7 +50,8 @@ object DecryptEdFile : FileFinder, FileProcessorWithState {
             copyToArchiveOthersFile(file)
 
             when {
-                isStopTime() -> processFileStopTime(file)
+                // remove save to archive folder
+                // isStopTime() -> processFileStopTime(file)
 
                 file.isCorrespondToday() -> uncryptMoveFile(file)
 

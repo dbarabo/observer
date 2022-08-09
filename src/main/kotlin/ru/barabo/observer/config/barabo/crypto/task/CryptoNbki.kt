@@ -5,7 +5,6 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.todayFolder
-import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -62,5 +61,5 @@ object CryptoNbki : FileFinder, FileProcessor {
         return folder
     }
 
-    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
+    private const val EXEC_CHECK_SEND = "{ call od.PTKB_NBKI.checkSendAll }"
 }

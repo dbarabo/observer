@@ -1,6 +1,7 @@
 import oracle.jdbc.OracleTypes
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
