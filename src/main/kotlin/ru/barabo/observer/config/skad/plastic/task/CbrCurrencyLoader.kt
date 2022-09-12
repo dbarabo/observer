@@ -41,7 +41,7 @@ object CbrCurrencyLoader : SinglePerpetual {
 
         val dateElement = dateMainElement(mainElement)
 
-        if(isCheckToday && (!dateElement.isEqual(LocalDate.now() )) ) return super.execute(elem)
+      //  if(isCheckToday && (!dateElement.isEqual(LocalDate.now() )) ) return super.execute(elem)
 
         return insertCurrency(mainElement, elem, dateElement)
     }

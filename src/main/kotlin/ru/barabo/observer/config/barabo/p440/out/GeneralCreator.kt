@@ -76,7 +76,7 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY,
             false,
             LocalTime.of(9, 15),
-            LocalTime.of(15, 45), Duration.ofSeconds(1))
+            LocalTime.of(17, 45), Duration.ofSeconds(1))
 
     override fun actionTask(selectorValue: Any?): ActionTask {
 

@@ -24,7 +24,7 @@ object CryptoScad440p: FileProcessor, FileFinder {
             WeekAccess.ALL_DAYS,
             false,
             LocalTime.MIN,
-            LocalTime.of(16, 0), // LocalTime.MAX,
+            LocalTime.of(17, 45), // LocalTime.MAX,
             Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::sendFolder440p, "B(VD|VS|NS|NP|OS).*\\.xml"))

@@ -30,7 +30,7 @@ object SendXmlRiskClientCbrAuto : SinglePerpetual {
     override val countTimes: Long = 1
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
-        LocalTime.of(16, 29), LocalTime.of(23, 50), Duration.ofMinutes(1))
+        LocalTime.of(15, 29), LocalTime.of(23, 50), Duration.ofMinutes(1))
 
     override fun execute(elem: Elem): State {
 

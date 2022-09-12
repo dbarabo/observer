@@ -84,7 +84,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -781,7 +781,10 @@ res3 = [calc.DEC_TEST];
         //val elem = Elem(idElem = 1235843359, task = ExtractMainSaverVer4)
 
         // new many accounts format
-        val elem = Elem(idElem = 1238437144, task = ExtractMainSaverVer4)
+        //val elem = Elem(idElem = 1238437144, task = ExtractMainSaverVer4)
+
+        // bug infoNameAddFiles
+        val elem = Elem(idElem = 1264214539, task = ExtractMainSaverVer4)
 
 
         elem.task?.execute(elem)
@@ -1194,7 +1197,7 @@ res3 = [calc.DEC_TEST];
         loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
     }
 
-    //@Test
+    @Test
     fun testRutdfCreateReport() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 

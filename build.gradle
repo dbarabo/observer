@@ -74,14 +74,14 @@ dependencies {
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.6"
+        languageVersion = "1.7"
     }
 }
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
-        languageVersion = "1.6"
+        languageVersion = "1.7"
     }
 }
 

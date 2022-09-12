@@ -8,11 +8,11 @@ import ru.barabo.observer.config.cbr.sender.SenderInternalMail
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.mail.smtp.InfoSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.smtp.SendMail
-import ru.barabo.smtp.SmtpException
 import java.time.LocalTime
 
 object EmailTempSender : SingleSelector {
@@ -70,7 +70,13 @@ object EmailTempSender : SingleSelector {
                     if (count < 4) continue
 
                     LoggerFactory.getLogger(SendMail::class.java).error("send", e)
-                    throw SmtpException(e.message ?: "")
+                    //throw SmtpException(e.message ?: "")
+
+                    val toMails = emails.joinToString(";") + ";" + cc.joinToString(";")
+
+                    BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, bcc = BaraboSmtp.OPER, subject = ERROR_SUBJ,
+                    body = "Кому:$toMails\nТема:$subjectString\nОшибка:${e.message}")
+                    return State.ARCHIVE
                 }
             }
 
@@ -81,6 +87,8 @@ object EmailTempSender : SingleSelector {
             selectParams as? String, columns as String)
     }
 }
+
+private const val ERROR_SUBJ = "Ошибка отправки внутренней почты"
 
 private fun trySendHtmlTable(idElem: Long?, emails: Array<String>, subject: String, body: String,
              cc: Array<String>, bcc: Array<String>, cursor: String, selectParams: String?,

@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.skad.anywork.AnyWork
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.store.Elem
@@ -13,6 +13,10 @@ import java.time.temporal.ChronoUnit
 
 object ExecuteReglamentRun : Periodical {
 
+    override fun name(): String = "Запуск регламента"
+
+    override fun config(): ConfigTask = PlasticOutSide
+
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
     override var count: Long = 1
@@ -21,10 +25,6 @@ object ExecuteReglamentRun : Periodical {
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(7, 5),
             workTimeTo = LocalTime.of(11, 46) )
-
-    override fun name(): String = "Запуск регламента"
-
-    override fun config(): ConfigTask = AnyWork // OtherCbr
 
     override fun execute(elem: Elem): State {
 

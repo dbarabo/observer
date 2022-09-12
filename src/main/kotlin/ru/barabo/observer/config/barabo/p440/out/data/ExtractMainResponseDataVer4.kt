@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
-import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
@@ -129,7 +128,9 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         for(index in 1..countFiles) {
 
-            fileNames += "${template}_${account.orderFile}_${String.format("%06d", index)}"
+            val fileName = "${template}_${account.orderFile}_${String.format("%06d", index)}"
+
+            fileNames.add(fileName)
         }
 
         return fileNames
@@ -147,13 +148,11 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         operationDataAccount = AfinaQuery.select(SELECT_EXTRACT, arrayOf(seq), sessionBack)
 
-        logger.error("operationDataAccount.size=${operationDataAccount.size}")
-
         AfinaQuery.rollbackFree(sessionBack)
     }
 }
 
-private val logger = LoggerFactory.getLogger(ExtractMainResponseDataVer4::class.java)
+//private val logger = LoggerFactory.getLogger(ExtractMainResponseDataVer4::class.java)
 
 const val MAX_OPERATION_COUNT_EXT_VER4 = 1000
 

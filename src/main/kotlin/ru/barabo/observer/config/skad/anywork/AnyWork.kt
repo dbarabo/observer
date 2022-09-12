@@ -33,7 +33,6 @@ object AnyWork : AbstractConfig() {
         RestrictUsersArchiveDay.findAll()
         CheckActializationEntryDouble.findAll()
 
-        ExecuteReglamentRun.findAll()
         ExecuteGroupRateLoan.findAll()
         ClearPrimFromArchiveDay.findAll()
 

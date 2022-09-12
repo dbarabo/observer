@@ -7,9 +7,10 @@ import ru.barabo.observer.config.barabo.crypto.task.RecreateAfterError311p
 import ru.barabo.observer.config.barabo.plastic.release.task.AutoUpdatePlasticJarCritical
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRegisterAquiring
 import ru.barabo.observer.config.barabo.plastic.turn.task.OutRest
+import ru.barabo.observer.config.cbr.other.task.ExecuteReglamentRun
 import ru.barabo.observer.config.skad.plastic.task.*
 
-object PlasticOutSide  : AbstractConfig() {
+object PlasticOutSide : AbstractConfig() {
 
     override fun name(): String = "Разное/Извещения"
 
@@ -36,6 +37,8 @@ object PlasticOutSide  : AbstractConfig() {
 
         MoveTicketNbki.findAll()
 
+
+        ExecuteReglamentRun.findAll()
         SendXmlForm310.findAll()
         SendXmlRiskClientCbrAuto.findAll()
 

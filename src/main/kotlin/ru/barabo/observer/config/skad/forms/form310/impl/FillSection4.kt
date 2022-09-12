@@ -234,6 +234,10 @@ private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode:
 
 private fun toRowSection4(row: Array<Any?>): RowSection4 {
 
+    if(row[1] == null) {
+        throw Exception("Значение внебалансового счета не может быть пустым для предмета залога id=${row[0]}")
+    }
+
     return RowSection4(
         idCodeSubjectPledge = row[0] as Number,
         accountCode = row[1] as String,
