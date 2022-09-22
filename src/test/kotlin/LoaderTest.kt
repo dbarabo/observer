@@ -38,6 +38,7 @@ import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
+import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
@@ -84,7 +85,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1192,16 +1193,26 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun testDecryptEdFile() {
+    fun testDecryptEdFile1() {
 
         loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
     }
 
-    @Test
+    //@Test
     fun testRutdfCreateReport() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testDecryptEdFile() {
+        val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
+
+        val state = DecryptEdFile.processFile(File("C:/311-П/2/05077170000000000PacketESID02200rfw.ED"), elem)
+        //elem.task?.execute(elem)
+
+        logger.error("state=$state")
     }
 
     //@Test

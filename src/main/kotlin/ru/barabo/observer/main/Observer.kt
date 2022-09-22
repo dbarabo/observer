@@ -21,6 +21,7 @@ object Observer {
             "BARABO_" -> "TEST"
             "DSPO" -> "TEST"
             "POSEIDON" -> "CORRESPOND"
+            "KBR-N" -> "CORRESPOND"
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
 

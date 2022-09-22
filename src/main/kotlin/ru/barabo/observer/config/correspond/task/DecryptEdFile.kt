@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
 import org.apache.log4j.Logger
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
@@ -211,7 +212,7 @@ private fun archivePathNotLoadToday(day: String) = "$Z_IN/$day".byFolderExists()
 
 private const val ARCHIVE_PATH = "D:/ARCHIVE"
 
-private const val Z_IN = "z:/in"
+private val Z_IN = "z:/in".ifTest("c:/in")
 
 const val UNSIGN_PATH = "C:/oev/Exg/afina"
 
