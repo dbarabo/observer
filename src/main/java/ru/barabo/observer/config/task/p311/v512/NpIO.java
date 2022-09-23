@@ -9,7 +9,7 @@ public final class NpIO {
     private String name;
 
     @XStreamAlias("ИННИО")
-    private String innIo;
+    private InnIo innIo;//private String innIo;
 
     @XStreamAlias("КИО")
     private String kio;
@@ -17,7 +17,7 @@ public final class NpIO {
     public NpIO(String name, String innIo, String kio) {
 
         this.kio = kio;
-        this.innIo = innIo;
+        this.innIo = new InnIo(innIo);
         this.name = name;
     }
 }
