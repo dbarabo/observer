@@ -42,7 +42,7 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
         Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
 
-        checkTicket(unCryptoFolder)
+        checkTicket(unCryptoFolder, zipFile.nameWithoutExtension)
     }
 
     private fun unCryptoFolder(file: File) : File {
@@ -55,15 +55,12 @@ object UnCryptoNbki : FileFinder, FileProcessor {
         return folder
     }
 
-    private const val EXEC_CHECK_SEND = "{call od.PTKB_NBKI.checkSendAll}"
+    private const val EXEC_CHECK_SEND = "{ call od.PTKB_NBKI.checkSendAll }"
 }
 
-private fun checkTicket(unCryptoFolder: File) {
-
-    val patternTicket = Pattern.compile(regexTicket)
-
-    val ticketFile = unCryptoFolder.listFiles { f -> (!f.isDirectory) && (patternTicket.isFind(f.name)) }?.firstOrNull { true }
-        ?: throw Exception ("Не найден файл квитанции в папке $unCryptoFolder")
+private fun checkTicket(unCryptoFolder: File, ticketFileName: String) {
+    val ticketFile = File("${unCryptoFolder.absoluteFile}/$ticketFileName")
+    if(!ticketFile.exists()) throw Exception ("Не найден файл квитанции $ticketFile")
 
     val lineRedjectCount = ticketFile.readLines().firstOrNull { it.indexOf(REJECTS_RECORDS) == 0 }
         ?: throw Exception ("В файле квитанции $ticketFile не найдена запись $REJECTS_RECORDS")
@@ -71,22 +68,24 @@ private fun checkTicket(unCryptoFolder: File) {
     val count = lineRedjectCount.substringAfter(REJECTS_RECORDS).trim().toIntOrNull()
         ?: throw Exception ("В файле квитанции $ticketFile в строке $lineRedjectCount не распознано кол-во")
 
-    if(count != 0) createMantisError(count, unCryptoFolder)
+    if(count != 0) {
+
+        val rejectFileName = "${ticketFileName.substringBeforeLast("_ticket")}_reject"
+
+        val rejectFile = File("${unCryptoFolder.absoluteFile}/$rejectFileName")
+
+        createMantisError(count, rejectFile)
+    }
 }
 
-private fun createMantisError(countError: Int, unCryptoFolder: File) {
-    val patternReject = Pattern.compile(regexReject)
-
-    val rejectFile = unCryptoFolder.listFiles { f -> (!f.isDirectory) && (patternReject.isFind(f.name)) }?.firstOrNull { true }
-        ?: throw Exception ("Не найден файл K301BB000001_*_reject в папке $unCryptoFolder")
-
+private fun createMantisError(countError: Int, rejectFile: File) {
     BaraboSmtp.sendMantisTicket(subjectError(countError), rejectFile)
 }
 
 private fun subjectError(count: Int) = "Квиток от НБКИ с ошибками. Ошибок:$count"
 
-private const val regexTicket = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_ticket"
+//private const val regexTicket = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_ticket"
 
-private const val regexReject = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_reject"
+//private const val regexReject = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_reject"
 
 private const val REJECTS_RECORDS = "RejectedRecords\t"

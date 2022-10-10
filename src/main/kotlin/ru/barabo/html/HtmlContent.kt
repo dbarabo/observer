@@ -36,7 +36,7 @@ data class HtmlContent(private val title: String,
     private fun toStringNull(value: Any?) :String {
         val text = value?.toString() ?:" "
 
-        return if(text.isEmpty()) " " else text
+        return text.ifEmpty { " " }
     }
 
 }

@@ -48,8 +48,6 @@ object EmailTempSender : SingleSelector {
 
         val fromCheck = from as? String
 
-        LoggerFactory.getLogger(EmailTempSender::class.java).error("fromCheck=$fromCheck")
-
         if((cursor as? String).isNullOrEmpty() ) {
             var count = 0
             while(count < 4) {

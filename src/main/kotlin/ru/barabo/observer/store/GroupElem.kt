@@ -1,8 +1,7 @@
 package ru.barabo.observer.store
 
+import javafx.collections.FXCollections
 import org.slf4j.LoggerFactory
-import tornadofx.asObservable
-import tornadofx.observable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -10,7 +9,7 @@ import java.util.*
 data class GroupElem (var elem :Elem = Elem(),
                       private var parentino : GroupElem? = null,
                       val isConfig :Boolean = false,
-                      val child: MutableList<GroupElem> = ArrayList<GroupElem>().asObservable() ) {
+                      val child: MutableList<GroupElem> = FXCollections.observableList(ArrayList() ) ) {
 
     private val logger = LoggerFactory.getLogger(GroupElem::class.java)
 

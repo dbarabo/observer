@@ -1,6 +1,7 @@
 package ru.barabo.observer.store.derby
 
 import javafx.application.Platform
+import javafx.collections.FXCollections
 import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.config.ConfigTask
@@ -8,8 +9,6 @@ import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import ru.barabo.observer.store.StoreDb
-import tornadofx.asObservable
-import tornadofx.observable
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -336,7 +335,7 @@ class TreeElem(var elem: Elem? = null,
 
 class TreeGroup(val config: ConfigTask? = null,
                 val taskGroup: TaskGroup? = null,
-                val childs: MutableList<TreeElem> = ArrayList<TreeElem>().asObservable()) {
+                val childs: MutableList<TreeElem> = FXCollections.observableList(ArrayList()) ) {
 
     fun findFirstElemByTaskState(task: ActionTask?, state: State, except: Elem? = null): TreeElem? =
         childs.firstOrNull {it.elem?.task === task && it.elem?.state === state && except !== it.elem}
