@@ -76,6 +76,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.math.round
 import kotlin.math.roundToLong
 
 
@@ -969,7 +970,9 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun thbCurrencyLoader() {
 
-        logger.error("THB=${LoadRateThb.thbRate()}")
+        //logger.error("THB=${LoadRateThb.thbRate()}")
+
+        logger.error("THB=${round( 100000 * LoadRateThb.thbRate() ).toLong()}")
     }
 
 

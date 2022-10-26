@@ -78,7 +78,7 @@ object CbrCurrencyLoader : SinglePerpetual {
 
             val usdRate = insertDetails(sessionSetting, currencyId, mainElement)
 
-            insertThbRate(currencyId, usdRate, sessionSetting)
+            insertThbRate(currencyId, sessionSetting)
 
         } catch (e :Exception) {
 
@@ -94,10 +94,11 @@ object CbrCurrencyLoader : SinglePerpetual {
         return currencyId
     }
 
-    private fun insertThbRate(currencyId: Number, usdRurRate: Double, sessionSetting: SessionSetting) {
+    private fun insertThbRate(currencyId: Number, sessionSetting: SessionSetting) {
 
         val valueThb: Long = try {
-            round( usdRurRate * 100000 / LoadRateThb.thbRate() ).toLong()
+            //round( usdRurRate * 100000 / LoadRateThb.thbRate() ).toLong()
+            round( 100000 * LoadRateThb.thbRate() ).toLong()
 
         } catch (e: Exception) {
             logger.error("insertThbRate", e)

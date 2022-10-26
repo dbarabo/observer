@@ -35,15 +35,24 @@ object LoadRateThb : SingleSelector {
 
     private const val EXEC_RATE_THB = "call od.ptkb_auto_kursCb_load(1000131339, ?)"
 
-    private const val USD_THB_SITE = "https://www.finanz.ru/valyuty/usd-thb" //"https://www.bloomberg.com/quote/USDTHB:CUR"
+    private const val USD_THB_SITE = "https://www.calc.ru/forex-THB-RUB.html" //"https://www.vl.ru/dengi" //"https://www.finanz.ru/valyuty/usd-thb" //"https://www.bloomberg.com/quote/USDTHB:CUR"
 
     fun thbRate() : Double {
 
        val body = Jsoup.connect(USD_THB_SITE).get().body()
 
-       val find = body.allElements.firstOrNull { it.text().matches("\\d\\d,\\d\\d\\d\\d THB.*".toRegex()) }
-               ?:throw Exception("Not found rate by XX,YYYY THB template")
+        val find = body.allElements.firstOrNull {it.text().matches("\\d\\.\\d\\d RUB".toRegex()) }
+            ?:throw Exception("Not found rate by X.YY RUB template")
 
-       return find.text().substringBefore("THB").replace(",", ".").trim().toDouble()
+        return find.text().substringBefore(" RUB").trim().toDouble()
+
+        //val find = body.allElements.firstOrNull { it.text().matches(".*1 THB = \\d\\.\\d\\d RUB.*".toRegex()) }
+        //    ?:throw Exception("Not found rate by XX,YYYY THB template")
+        //logger.error(find.text())
+
+       //val find = body.allElements.firstOrNull { it.text().matches("\\d\\d,\\d\\d\\d\\d THB.*".toRegex()) }
+       //        ?:throw Exception("Not found rate by XX,YYYY THB template")
+
+       //return find.text().substringBefore("THB").replace(",", ".").trim().toDouble()
     }
 }
