@@ -34,7 +34,7 @@ object NbkiAllReportsSend : Periodical {
     override var count: Long = 1
 
     override val accessibleData: AccessibleData =  AccessibleData(WeekAccess.WORK_ONLY, false,
-            LocalTime.of(12, 0), LocalTime.of(16, 30), Duration.ofMinutes(1))
+            LocalTime.of(8, 0), LocalTime.of(16, 30), Duration.ofMinutes(1))
 
     override fun name(): String = "НБКИ отправить отчет"
 
@@ -46,9 +46,9 @@ object NbkiAllReportsSend : Periodical {
 
         val fileName = createNbkiTextFile() ?: return State.ARCHIVE
 
-        val xlsFile = createNbkiXlsFile(fileName)
+        //val xlsFile = createNbkiXlsFile(fileName)
 
-        sendMailReport(xlsFile)
+        //sendMailReport(xlsFile)
 
         return State.OK
     }
@@ -57,7 +57,7 @@ object NbkiAllReportsSend : Periodical {
         AfinaQuery.execute(FILL_DATA_NBKI)
     }
 
-    private const val FILL_DATA_NBKI = "{call od.PTKB_NBKI.fillAllData}"
+    private const val FILL_DATA_NBKI = "{ call od.PTKB_NBKI.fillAllData }"
 
     private const val SUBJECT_REPORT_XLS = "NBKI REPORT"
 

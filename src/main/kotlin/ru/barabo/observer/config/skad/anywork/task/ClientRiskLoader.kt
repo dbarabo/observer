@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.skad.anywork.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
@@ -20,7 +21,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-object ClientRiskLoader  : FileFinder, FileProcessor {
+object ClientRiskLoader : FileFinder, FileProcessor {
 
     override fun name(): String = "Загрузка рисков клиентов из ЦБ"
 
@@ -70,6 +71,8 @@ private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
         body = content.html(), subtypeBody = "html")
 }
 
+private val logger = LoggerFactory.getLogger(ClientRiskLoader::class.java)
+
 private fun loadXmlData(file: File): Number {
 
     val fileXml = XmlClientRiskLoader<MainRisks>().load(file)
@@ -84,8 +87,11 @@ private fun loadXmlData(file: File): Number {
 
     for (risk in fileXml.risks) {
 
+        if(risk.inn == null || risk.riskLevel == null) continue
+
         AfinaQuery.execute(EXEC_SAVE_IF_EXISTS,
-            arrayOf(idRequest, risk.inn, risk.riskLevel, XmlLoader.parseDate(risk.riskDate)),
+            arrayOf(idRequest, risk.inn, risk.riskLevel, XmlLoader.parseDate(risk.riskDate),
+                risk.mainRisk, risk.addRisk1, risk.addRisk2, risk.addRisk3),
             sessionSetting)
     }
 
@@ -122,7 +128,7 @@ private const val CURSOR_REPORT_CBR_RISK = "{ ? = call od.XLS_REPORT_ALL.getRisk
 
 private const val EXEC_TRUNC_TABLE = "{ call od.PTKB_CEC.truncateCbrClientRiskAll }"
 
-private const val EXEC_SAVE_IF_EXISTS = "{ call od.PTKB_CEC.riskClientSaveIfExists(?, ?, ?, ?) }"
+private const val EXEC_SAVE_IF_EXISTS = "{ call od.PTKB_CEC.riskClientSaveIfExists(?, ?, ?, ?, ?, ?, ?, ?) }"
 
 private const val INSERT_REQUEST =
     "insert into OD.PTKB_CBR_CLIENT_RISK (id, file_name, cbr_id, cbr_date, count_records) values (?, ?, ?, ?, ?)"

@@ -11,11 +11,14 @@ import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.crypto.ScadComplex
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
 import java.io.File
 import java.time.Duration
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.*
 
 object CreateCrypto311p512 : SingleSelector {
     override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
@@ -32,6 +35,14 @@ object CreateCrypto311p512 : SingleSelector {
 
     override fun execute(elem: Elem): State {
 
+        val dateMore3workDay = AfinaQuery.selectValue(SELECT_DATE_OPEN_MORE_3WORK, arrayOf(elem.idElem!!)) as? Date
+
+        val isContinue = isCheckedElemFirstCall(elem, dateMore3workDay)
+
+        if(!isContinue) {
+            return State.NONE
+        }
+
         val file = MessageCreator311p.createMessage(elem.idElem!!)
 
         val cryptoFolder = Cmd.createFolder("${file.parent}/CRYPTO")
@@ -47,7 +58,7 @@ object CreateCrypto311p512 : SingleSelector {
         return State.OK
     }
 
-    private fun archiveName(idFile: Long?, fileToArchive: File): File {
+    fun archiveName(idFile: Long?, fileToArchive: File): File {
 
         val archive = AfinaQuery.execute(query = EXEC_ADD_TO_ARCHIVE,
             params = arrayOf(fileToArchive.nameWithoutExtension, idFile),
@@ -57,4 +68,31 @@ object CreateCrypto311p512 : SingleSelector {
     }
 }
 
+private fun isCheckedElemFirstCall(elem: Elem, dateMore3workDay: Date?): Boolean {
+
+    if(dateMore3workDay != null && elem.path.isEmpty()) {
+        elem.path = "$dateMore3workDay"
+
+        sendMailInfo(elem.name, dateMore3workDay)
+
+        elem.executed = LocalDateTime.now().plusHours(4)
+
+        return false
+    }
+
+    return true
+}
+
+private fun sendMailInfo(accountCode: String, dateMore3workDay: Date) {
+    BaraboSmtp.send(
+        to = BaraboSmtp.MANAGERS_UOD,
+        bcc = BaraboSmtp.AUTO,
+        subject = "311-П Дата открытия/закрытия отправляемого счета старше, чем 3 раб. дня",
+        body = "Внимание!\nВ ФНС отправляется счет, дата открытия/закрытия этого счета старше, чем 3 рабочих дня.\n" +
+                "№ Счета $accountCode дата открытия/закрытия $dateMore3workDay",
+    )
+}
+
 private const val EXEC_ADD_TO_ARCHIVE = "{ call od.PTKB_440P.addToArchive311p(?, ?, ?) }"
+
+private const val SELECT_DATE_OPEN_MORE_3WORK = "select od.PTKB_FNS_EXPORT_XML.getDateOpenCloseIfMoreWorkDay3( ? ) from dual"

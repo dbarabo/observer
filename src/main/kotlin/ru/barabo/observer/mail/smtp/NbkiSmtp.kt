@@ -12,7 +12,7 @@ object NbkiSmtp : SendMail {
             password = MasterKey.value("NBKI_PSWD"),
             from = "nbki@ptkb.ru")
 
-    private val NBKI = arrayOf("credithistory@nbki.ru")
+    private val NBKI = arrayOf("RUTDF@nbki.ru") //arrayOf("credithistory@nbki.ru")
 
     private val SUBJECT_NBKI = "NBKI information"
 

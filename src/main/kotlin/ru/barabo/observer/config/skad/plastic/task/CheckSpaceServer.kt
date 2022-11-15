@@ -31,6 +31,21 @@ object CheckSpaceServer : SinglePerpetual {
             workTimeFrom = LocalTime.of(0, 20), workTimeTo = LocalTime.of(23, 50) )
 
     override fun execute(elem: Elem): State {
+/*
+        val file = File("X:\\311-П\\Отправка\\2022\\11\\02\\SBC110507717_254020221102_002100002200005270_100.xml")
+
+        val cryptoFolder = Cmd.createFolder("${file.parent}/CRYPTO")
+
+        val cryptoFile = File("${cryptoFolder.absolutePath}/${file.name}")
+
+        ScadComplex.fullEncode311p(file, cryptoFile)
+
+        val archive = CreateCrypto311p512.archiveName(1270615762L, cryptoFile)
+
+        Archive.addToArj(archive.absolutePath, arrayOf(cryptoFile) )
+
+        return super.execute(elem)
+*/
 
         for(path in paths) {
             val gb = (AfinaQuery.selectValue(SELECT_FREE_SPACE, arrayOf(path)) as? Number)?.toDouble()

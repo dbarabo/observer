@@ -18,17 +18,18 @@ public class Risk {
     @XStreamAlias("risk_date")
     private String riskDate; // 2022-04-06
 
-    @XStreamOmitField
-    private Object MainRisk; // MainRisk
+    @XStreamAlias("MainRisk")
+    private String mainRisk;
 
-    @XStreamOmitField
-    private Object AddRisk1; // AddRisk1
+    //@XStreamOmitField
+    @XStreamAlias("AddRisk1")
+    private String addRisk1;
 
-    @XStreamOmitField
-    private Object AddRisk2; // AddRisk2
+    @XStreamAlias("AddRisk2")
+    private String addRisk2;
 
-    @XStreamOmitField
-    private Object AddRisk3; // AddRisk3
+    @XStreamAlias("AddRisk3")
+    private String addRisk3;
 
     public String getInn() {
         return inn;
@@ -40,5 +41,26 @@ public class Risk {
 
     public String getRiskDate() {
         return riskDate;
+    }
+
+    public String getMainRisk() {
+        return mainRisk;
+    }
+
+    public String getAddRisk1() {
+        return addRisk1;
+    }
+
+    public String getAddRisk2() {
+        return addRisk2;
+    }
+
+    public String getAddRisk3() {
+        return addRisk3;
+    }
+
+    @Override public String toString() {
+        return "inn="+ inn + " clientType=" + clientType + " riskLevel=" + riskLevel + " risk_date=" + riskDate +
+                " mainRisk=" + mainRisk + " addRisk1=" + addRisk1 + " addRisk2=" + addRisk2 + " addRisk2=" + addRisk2;
     }
 }

@@ -23,7 +23,8 @@ object OutRest: Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData =
-            AccessibleData(workWeek = WeekAccess.ALL_DAYS, workTimeFrom = LocalTime.of(6, 0))
+            AccessibleData(workWeek = WeekAccess.ALL_DAYS,
+                workTimeFrom = LocalTime.of(8, 30), workTimeTo = LocalTime.of(20, 0) )
 
     override fun name(): String = "Выгрузка Остатков"
 
@@ -53,10 +54,10 @@ object OutRest: Periodical {
 }
 
 object CheckerMail : GetMail {
-    override val mailProperties: MailProperties = MailProperties("imaps", "imap.gmail.com", 993,
-            "smtp.gmail.com",
-            "flH6Ibec/wOXYvbJc1u+IwZfOfp1PQMydzVMRRcm3UBF7UkBqViGMg==",
-            "PvxK/Qnz/Mno/sGWDhXT8bsMSLKdDapp")
+    override val mailProperties: MailProperties = MailProperties("imaps", "imap.rambler.ru", 993,
+            "smtp.rambler.ru",
+            "wi+RwL+bisRzPh7W0i1IjY5eNOTUbgpNWnpnk+7iUFc=",
+            "SLWJWqNXbzpxsZscjoUOVjTpTa8Caaoe")
 
     override val findFromEncrypt: String = "9aKALO/eUfC+x7DT1/bs6e9I6+iHYg8JY7KHAyZ3K/E="
 

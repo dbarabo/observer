@@ -28,7 +28,9 @@ interface GetMail : SendMail {
 
     override fun propSmtp() :Properties = super.propSmtp().apply {
         put("mail.smtp.starttls.enable", "true")
-        put("mail.smtp.port", "587")
+        put("mail.smtp.port", "465")
+        put("mail.smtp.auth", "true")
+        put("mail.smtp.ssl.enable", "true")
     }
 
     private fun checkStartSelect() = "SELECT "
