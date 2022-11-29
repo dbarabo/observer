@@ -10,6 +10,7 @@ import ru.barabo.observer.afina.clobToString
 import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
+import ru.barabo.observer.config.barabo.crypto.task.LoaderRutdfTicketReject
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
@@ -45,6 +46,7 @@ import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
+import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
 import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
@@ -86,13 +88,21 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", /*"AFINA"*//*"TEST"*/ "AFINA")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
 
+
+    //@Test
+    fun validateXmlTest() {
+        val xmlFile = File("C:/report/SBC110507717_254020221102_002100002200005270_100.xml")
+        val xsd = "/xsd/SBC1_512.xsd"
+
+        validateXml(xmlFile, xsd) { File("C:/report/1")  }
+    }
 
     //@Test
     fun testCashOutCountryChecker() {
@@ -1126,13 +1136,6 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-    //@Test
-    fun testForm310() {
-
-        val form310 = DefaultForm310Data(LocalDate.of(2021, 11, 16))
-
-        form310.createFile()
-    }
 
     //@Test
     fun testDecode() {
@@ -1209,6 +1212,16 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
+    fun testLoaderRutdfTicketReject() {
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2022/11/23/UNCRYPTO/K301BB000001_20221123_173649_reject") )
+    }
+
+    //@Test
+    fun testClientRiskLoader() {
+        ClientRiskLoader.processFile(File("C:/311-П/KYC_20221114.xml"))
+    }
+
+    //@Test
     fun testDecryptEdFile() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 
@@ -1223,5 +1236,13 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 30, name = "test", task = SendXmlRiskClientCbrAuto)
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testForm310() {
+
+        val form310 = DefaultForm310Data(LocalDate.of(2022, 11, 1))
+
+        form310.createFile()
     }
 }

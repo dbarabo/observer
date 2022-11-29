@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Form310Xml {
     @XStreamAsAttribute
     @XStreamAlias("xmlns")
-    final String xmlns = "urn:cbr-ru:rep0409310:v0.2.4.5";
+    final String xmlns =  "urn:cbr-ru:rep0409310:v1.0.4.5"; //"urn:cbr-ru:rep0409310:v0.2.4.5";
 
     @XStreamAlias("УникИдОЭС")
     final private String guid = UUID.randomUUID().toString().toUpperCase();

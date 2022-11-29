@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_ver = "1.7.20"
+        kotlin_ver = "1.7.21"
 
         tornadofx_ver =  "1.7.20" //"1.7.13"
     }

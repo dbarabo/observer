@@ -21,6 +21,7 @@ object ScadConfig : AbstractConfig() {
         Ticket311pFnsLoadScad.findAll()
 
         UncryptoScad440p.findAll()
+
         CryptoScad440p.findAll()
         PbSaverScad.findAll()
         SignScadArchive440p.findAll()
@@ -36,6 +37,7 @@ object ScadConfig : AbstractConfig() {
         UnCryptoAny.findAll()
 
         Uncrypto550pScad.findAll()
+
         SignScadSend550p.findAll()
 
         InfoRequest349p.findAll()
