@@ -75,7 +75,7 @@ private fun sendError(error: String): State {
 
 private val logger = LoggerFactory.getLogger(SendXmlRiskClientCbrAuto::class.java)
 
-private fun pathFolderRiskCbr() = "$pathFolderRisk/${todayPath()}".byFolderExists().absolutePath
+fun pathFolderRiskCbr(): String = "$pathFolderRisk/${todayPath()}".byFolderExists().absolutePath
 
 private fun todayPath(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 

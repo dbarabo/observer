@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.ptkpsd
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.p440.task.Ticket440pCbr
 import ru.barabo.observer.config.cbr.ptkpsd.task.*
+import ru.barabo.observer.config.skad.plastic.task.CheckerIsSendKyccl
 
 object PtkPsd : AbstractConfig() {
 
@@ -20,6 +21,8 @@ object PtkPsd : AbstractConfig() {
         Send311pArchive.findAll()
         SendByPtkPsdCopy.findAll()
         CheckerIsSendPtkPsd.findAll()
+
+        CheckerIsSendKyccl.findAll()
 
         Load101FormXml.findAll()
 

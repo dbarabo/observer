@@ -1204,7 +1204,7 @@ res3 = [calc.DEC_TEST];
         loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
     }
 
-    //@Test
+    // @Test
     fun testRutdfCreateReport() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 
@@ -1213,7 +1213,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2022/11/23/UNCRYPTO/K301BB000001_20221123_173649_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2022/11/30/UNCRYPTO/K301BB000001_20221130_145245_reject") )
     }
 
     //@Test

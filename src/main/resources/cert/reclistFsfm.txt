@@ -1,5 +1,7 @@
 [General]
 Number=1
 [Recipient1]
-Type=Subject
-Value=CN=FSFM,ST=00
+;Type=Subject
+;Value=CN=FSFM,ST=00
+Type=Hash
+Value=CA:55:8C:D8:3C:62:3A:6B:FC:25:3E:3C:75:A0:C7:D0:6D:EA:23:65:B2:60:DD:63:D7:5A:76:CF:FC:98:CC:A1
