@@ -7,6 +7,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerRedSaldoNow
 import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
 import ru.barabo.observer.config.skad.anywork.task.CloseArchiveDay
+import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
 
 object AnyWork : AbstractConfig() {
 
@@ -20,11 +21,9 @@ object AnyWork : AbstractConfig() {
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
 
-        // отключил пока
-        //NbkiAllReportsSend.findAll()
+        // NbkiAllReportsSend.findAll() замен формат на RutdfCreateReport
+        RutdfCreateReport.findAll()
 
-
-        //UnlockUsersMonday.findAll()
         CecReportProcess.findAll()
         ClientRiskLoader.findAll()
 

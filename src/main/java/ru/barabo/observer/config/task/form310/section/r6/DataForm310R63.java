@@ -11,10 +11,10 @@ public class DataForm310R63 {
     @XStreamAlias("Р6.3_2")
     final private String validIdCodeSubject;
 
-    public DataForm310R63(String priorIdCodeSubject, String validIdCodeSubject) {
+    public DataForm310R63(Number priorIdCodeSubject, Number validIdCodeSubject) {
 
-        this.priorIdCodeSubject = priorIdCodeSubject;
+        this.priorIdCodeSubject = priorIdCodeSubject.toString();
 
-        this.validIdCodeSubject = validIdCodeSubject;
+        this.validIdCodeSubject = validIdCodeSubject.toString();
     }
 }
