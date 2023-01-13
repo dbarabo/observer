@@ -12,7 +12,6 @@ internal fun Data310Form.addSection6(dateReport: java.util.Date) {
     val params = arrayOf<Any?>( Date(dateReport.time))
 
     this.sectionsR61 = emptyList()
-    this.sectionsR63 = emptyList()
 
     addSection6R2(params)
     addSection6R3(params)

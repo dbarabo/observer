@@ -8,7 +8,7 @@ object LoaderRutdfTicketReject {
 
     fun loadTicket(ticketFile: File) {
 
-        val lastSentRutDfFile = findLastSentRutDfFile()
+        val lastSentRutDfFile = findLastSentRutDfFile(ticketFile.nameWithoutExtension)
 
         var state = StateFind.FIND_ERROR
 
@@ -83,8 +83,11 @@ object LoaderRutdfTicketReject {
         return params[2]
     }
 
-    private fun findLastSentRutDfFile(): Number {
-        return AfinaQuery.selectValue(SELECT_LAST_SENT_RUTDF_FILE) as Number
+    private fun findLastSentRutDfFile(fileNameTicketNoExt: String): Number {
+
+        val withoutReject = fileNameTicketNoExt.substringBefore("_reject")
+
+        return AfinaQuery.selectValue(SELECT_LAST_SENT_RUTDF_FILE, arrayOf(withoutReject)) as Number
     }
 
     private fun saveError(rutDfFile: Number, uid: String, event: String, error: String, guarantorUid: String = "") {
@@ -92,7 +95,7 @@ object LoaderRutdfTicketReject {
     }
 }
 
-private const val SELECT_LAST_SENT_RUTDF_FILE = "select od.PTKB_RUTDF.getLastRutDf from dual"
+private const val SELECT_LAST_SENT_RUTDF_FILE = "select od.PTKB_RUTDF.getLastRutDf(?) from dual"
 
 private const val EXEC_SAVE_ERROR = "{ call od.PTKB_RUTDF.saveError(?, ?, ?, ?, ?) }"
 

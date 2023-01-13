@@ -9,7 +9,7 @@ object UPayConfig : AbstractConfig() {
     override fun timeOut(): Long = 20_000
 
     override fun configRun() {
-        //SftpLoad.findAll()
+        SftpLoad.findAll()
 
         UncryptoUPay.findAll()
 

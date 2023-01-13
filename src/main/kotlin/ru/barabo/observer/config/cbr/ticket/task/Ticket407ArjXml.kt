@@ -8,8 +8,6 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
-import ru.barabo.observer.crypto.ScadComplex
-import ru.barabo.observer.crypto.Verba
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.time.Duration
