@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 abstract public class AbstractDecision extends AbstractFromFnsInfo {
 
-	final static transient protected Logger logger = Logger.getLogger(AbstractDecision.class
-			.getName());
+	final static protected Logger logger = Logger.getLogger(AbstractDecision.class.getName());
 
 	@XStreamAlias("БИК")
 	private String bankBik;

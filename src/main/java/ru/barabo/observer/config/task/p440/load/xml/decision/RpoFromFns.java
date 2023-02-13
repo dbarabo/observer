@@ -17,7 +17,6 @@ final public class RpoFromFns extends AbstractFromFns {
 		return decisionSuspend;
 	}
 
-
 	static public RpoFromFns emptyRpoFromFns() {
 		RpoFromFns rpoFromFns = new RpoFromFns();
 

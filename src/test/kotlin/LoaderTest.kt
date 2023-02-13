@@ -88,7 +88,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*//*"TEST"*/ "AFINA")
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST" /*"AFINA"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -773,17 +773,6 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun outBos() {
-        //val elem = Elem(idElem = 1172496442, task = RestSaver)
-
-        // val elem = Elem(idElem = 1223812573, task = RestSaverVer4) // response for zso with accounts rest
-
-        val elem = Elem(idElem = 1238034455, task = RestSaverVer4) // response for rpo with accounts rest
-
-        elem.task?.execute(elem)
-    }
-
-    //@Test
     fun outBvsExtract() {
         // many count operations
         //val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
@@ -1191,12 +1180,6 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun testFnsPercentOut() {
-
-        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2021, 12, 31))
-        fnsPercentOut.createFile()
-    }
 
     //@Test
     fun testDecryptEdFile1() {
@@ -1213,7 +1196,14 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2022/12/30/UNCRYPTO/K301BB000001_20221230_145220_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/02/01/UNCRYPTO/K301BB000001_20230201_130617_reject") )
+    }
+
+    //@Test
+    fun testFnsPercentOut() {
+
+        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2022, 12, 31))
+        fnsPercentOut.createFile()
     }
 
     //@Test
@@ -1244,5 +1234,17 @@ res3 = [calc.DEC_TEST];
         val form310 = DefaultForm310Data(LocalDate.of(2022, 11, 1))
 
         form310.createFile()
+    }
+
+
+    //@Test
+    fun outBos() {
+        //val elem = Elem(idElem = 1172496442, task = RestSaver)
+
+        // val elem = Elem(idElem = 1223812573, task = RestSaverVer4) // response for zso with accounts rest
+
+        val elem = Elem(idElem = 1276209727, task = RestSaverVer4) // response for rpo with accounts rest
+
+        elem.task?.execute(elem)
     }
 }

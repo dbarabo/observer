@@ -33,6 +33,8 @@ class RestResponseDataVer4 : AbstractRequestResponse() {
 
         createRestList(accounts, idFromFns)
 
+        saveRestAccounts(idFromFns, accounts)
+
         val isNotDeposit = accounts.firstOrNull {
             it[1] != null &&
                     !"Депозитный".equals((it[1] as String).trim(), true)
@@ -40,6 +42,14 @@ class RestResponseDataVer4 : AbstractRequestResponse() {
 
         viewHelpVar = isNotDeposit?.let { TypeResponseValue.REST_NO_DEPOSIT.fnsValue }
             ?: TypeResponseValue.REST_DEPOSIT.fnsValue
+    }
+
+    private fun saveRestAccounts(idFromFns: Number, accounts: List<Array<Any?>>) {
+
+        for (account in accounts) {
+
+            AfinaQuery.execute(EXEC_SAVE_ACCOUNT_REST, arrayOf(idFromFns, account[0], account[3]))
+        }
     }
 
     private fun createRestList(accounts: List<Array<Any?>>, idFromFns: Number) {

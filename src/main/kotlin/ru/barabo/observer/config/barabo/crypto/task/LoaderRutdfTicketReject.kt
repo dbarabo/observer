@@ -65,6 +65,9 @@ object LoaderRutdfTicketReject {
                         state = StateFind.FIND_ERROR
 
                         saveError(lastSentRutDfFile, uid, event, errorBuffer, guarantorUid)
+                    } else {
+                        saveError(lastSentRutDfFile, uid, event, errorBuffer)
+                        StateFind.FIND_ERROR
                     }
                 }
             }

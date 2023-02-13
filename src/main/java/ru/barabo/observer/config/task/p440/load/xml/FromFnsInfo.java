@@ -41,4 +41,6 @@ public interface FromFnsInfo {
 	String getAccountsStartDates();
 
 	String getAccountsEndDates();
+
+	String getUID();
 }

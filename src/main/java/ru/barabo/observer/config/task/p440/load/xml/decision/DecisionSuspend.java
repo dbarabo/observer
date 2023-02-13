@@ -6,7 +6,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import java.sql.Date;
 
 @XStreamAlias("РЕШНОПРИОС")
-final public class DecisionSuspend extends AbstractDecision {
+public class DecisionSuspend extends AbstractDecision {
 
 	@XStreamAlias("СумВзыск")
 	private String mainSum;

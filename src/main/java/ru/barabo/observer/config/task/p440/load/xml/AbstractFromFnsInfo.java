@@ -34,6 +34,11 @@ abstract public class AbstractFromFnsInfo implements FromFnsInfo {
 		return "";
 	}
 
+	@Override
+	public String getUID() {
+		return "";
+	}
+
 	public FnsXml getFns() {
 		return fns;
 	}

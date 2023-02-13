@@ -13,8 +13,6 @@ object SenderInternalMail : AbstractConfig() {
 
         EmailTempSender.findAll()
 
-        //NewMantisChecker.findAll()
-
         executeTasks()
     }
 }

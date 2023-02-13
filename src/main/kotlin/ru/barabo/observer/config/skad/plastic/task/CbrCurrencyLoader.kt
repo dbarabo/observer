@@ -76,9 +76,9 @@ object CbrCurrencyLoader : SinglePerpetual {
 
             AfinaQuery.execute(INS_CURRENCY, arrayOf(currencyId, dateCurrency, name), sessionSetting)
 
-            val usdRate = insertDetails(sessionSetting, currencyId, mainElement)
+            /*val usdRate = */insertDetails(sessionSetting, currencyId, mainElement)
 
-            insertThbRate(currencyId, sessionSetting)
+            // insertThbRate(currencyId, sessionSetting)
 
         } catch (e :Exception) {
 

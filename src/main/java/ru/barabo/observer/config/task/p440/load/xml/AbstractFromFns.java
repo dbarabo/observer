@@ -10,8 +10,7 @@ import java.util.List;
 
 abstract public class AbstractFromFns implements MainParamsQuery {
 
-	final static transient protected Logger logger = Logger.getLogger(AbstractFromFns.class
-			.getName());
+	final static protected Logger logger = Logger.getLogger(AbstractFromFns.class.getName());
 
 	@XStreamAlias("ДолжнОтпр")
 	protected String fnsPost;
@@ -30,6 +29,7 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 	private static final String COLUMNS = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
 			+ "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, "
 			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, ACCOUNTS_START_DATE, ACCOUNTS_END_DATE, "
+			+ "UUID, "
 			+ "FILE_NAME, ID";
 
 	@Override
@@ -49,8 +49,9 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 
 		FromFnsInfo fromFnsInfo = getFromFnsInfo();
 
-		if (fromFnsInfo == null || fromFnsInfo.getBank() == null || fromFnsInfo.getFns() == null
-				/*|| fromFnsInfo.getPayer() == null*/) {
+		if (fromFnsInfo == null ||
+				fromFnsInfo.getBank() == null ||
+				fromFnsInfo.getFns() == null) {
 			return null;
 		}
 
@@ -84,31 +85,38 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 				fromFnsInfo.getSubDate() == null ? Date.class : fromFnsInfo.getSubDate(),
 
 				fromFnsInfo.getAccountsStartDates(),
-				fromFnsInfo.getAccountsEndDates()
+				fromFnsInfo.getAccountsEndDates(),
+				fromFnsInfo.getUID()
 		));
 	}
 
 	public String getFnsPost() {
+
 		return fnsPost;
 	}
 
 	public void setFnsPost(String fnsPost) {
+
 		this.fnsPost = fnsPost;
 	}
 
 	public String getTypeInfo() {
+
 		return typeInfo;
 	}
 
 	public void setTypeInfo(String typeInfo) {
+
 		this.typeInfo = typeInfo;
 	}
 
 	public String getFnsPhone() {
+
 		return fnsPhone;
 	}
 
 	public String getFnsFio() {
+
 		return fnsFio;
 	}
 }

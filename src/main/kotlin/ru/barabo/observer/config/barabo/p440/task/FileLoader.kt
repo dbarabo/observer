@@ -35,12 +35,13 @@ enum class FileLoader(val actionTask: ActionTask, val prefixFile:String) {
 
     ZSO(zsoActionTask(),"ZSO"),
 
-    ZSV(zsvActionTask(), "ZSV");
+    ZSV(zsvActionTask(), "ZSV"),
+
+    UPO(UpoLoader, "UPO");
 
     companion object {
 
-        private val HASH_OBJECT_TYPES = values()
-            .map { Pair(it.prefixFile, it.actionTask) }.toMap()
+        private val HASH_OBJECT_TYPES = values().associate { Pair(it.prefixFile, it.actionTask) }
 
         fun objectByPrefix(prefix: String): ActionTask? = HASH_OBJECT_TYPES[prefix]
     }

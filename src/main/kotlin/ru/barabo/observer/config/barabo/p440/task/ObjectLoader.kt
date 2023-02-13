@@ -7,6 +7,7 @@ import ru.barabo.observer.config.barabo.p440.GeneralLoader
 import ru.barabo.observer.config.barabo.p440.XmlLoadException
 import ru.barabo.observer.config.barabo.p440.moveToLoaded
 import ru.barabo.observer.config.barabo.p440.saveData
+import ru.barabo.observer.config.task.fz263.load.xml.upo.UpoFromFns
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsvFromFnsVer4
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns
@@ -23,9 +24,21 @@ import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.nio.charset.Charset
 
-object RpoLoader : GeneralLoader<RpoFromFns>() {
+object UpoLoader : GeneralLoader<UpoFromFns>() {
 
-    private val logger = LoggerFactory.getLogger(RpoLoader::class.java)
+    override fun name(): String = "Загрузка UPO-файла (арест-263-ФЗ)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2FileZsv(file, UpoFromFns::emptyUpoFromFns)
+        }
+    }
+}
+
+object RpoLoader : GeneralLoader<RpoFromFns>() {
 
     override fun name(): String = "Загрузка RPO-файла (арест)"
 

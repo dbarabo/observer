@@ -1,4 +1,5 @@
 
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
@@ -25,6 +26,30 @@ class TaskTest {
         (workTimeFrom <= LocalTime.now() && LocalTime.now() <= workTimeTo)
     } else {
         (workTimeFrom <= LocalTime.now() || LocalTime.now() <= workTimeTo)
+    }
+
+    //@Test
+    fun getSplitTest() {
+
+        val str = "       407*212        408%;        409?232,       \n410*\n       %411"
+
+        val pattern = Pattern.compile("[,;\\s\\n]")
+
+        val rep = str.replace('*', '%');
+
+        val rep2 = str.replace('?', '_');
+
+        logger.error(rep)
+        logger.error(rep2)
+
+
+        val split = str.split(pattern)
+
+        for (s in split) {
+            logger.error(s)
+        }
+
+        logger.error(split.toString())
     }
 
     //@Test
@@ -180,6 +205,8 @@ class TaskTest {
 
          */
     }
+
+
 
     //@Test
     fun getLocalHost() {
