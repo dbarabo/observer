@@ -100,7 +100,8 @@ internal fun File.moveToLoaded() {
     delete()
 }
 
-fun ParamsQuery.saveData(idFromFns :Number, sessionSetting: SessionSetting, queryTemplate :(String, String) -> String) :Number {
+fun ParamsQuery.saveData(idFromFns: Number, sessionSetting: SessionSetting,
+                         queryTemplate: (String, String) -> String): Number {
 
     val id = AfinaQuery.nextSequence(sessionSetting)
 

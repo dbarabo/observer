@@ -64,5 +64,4 @@ object PnoLoader : GeneralLoader<PnoFromFns>() {
     }
 }
 
-private fun insertPno(columns :String, questions :String) =
-        "insert into od.PTKB_440P_PNO ($columns) values ($questions)"
+fun insertPno(columns :String, questions :String) = "insert into od.PTKB_440P_PNO ($columns) values ($questions)"

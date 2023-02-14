@@ -229,4 +229,9 @@ public final class OrderTax implements FromFnsInfo {
 	public String getAccountsEndDates() {
 		return "";
 	}
+
+	@Override
+	public String getUID() {
+		return "";
+	}
 }

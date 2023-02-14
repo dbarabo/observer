@@ -1,5 +1,7 @@
 package ru.barabo.observer.config.task.p440.load.ver4;
 
+import ru.barabo.observer.config.task.fz263.load.xml.uno.UnoFromFns;
+import ru.barabo.observer.config.task.fz263.load.xml.upo.UpoFromFns;
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4;
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsvFromFnsVer4;
 import ru.barabo.observer.config.task.p440.load.xml.apx.ApnFromFns;
@@ -34,7 +36,11 @@ public enum TypeFileLoadVer4 {
 
     KWT(KwtFromFns.class, "KWT"),
 
-    APO(ApoFromFns.class, "APO");
+    APO(ApoFromFns.class, "APO"),
+
+    UPO(UpoFromFns.class, "UPO"),
+
+    UNO(UnoFromFns.class, "UNO");
 
     private Class clazz;
 

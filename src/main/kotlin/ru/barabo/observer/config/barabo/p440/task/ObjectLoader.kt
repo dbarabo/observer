@@ -2,11 +2,14 @@ package ru.barabo.observer.config.barabo.p440.task
 
 import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
+import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.GeneralLoader
 import ru.barabo.observer.config.barabo.p440.XmlLoadException
 import ru.barabo.observer.config.barabo.p440.moveToLoaded
 import ru.barabo.observer.config.barabo.p440.saveData
+import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz
+import ru.barabo.observer.config.task.fz263.load.xml.uno.UnoFromFns
 import ru.barabo.observer.config.task.fz263.load.xml.upo.UpoFromFns
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsvFromFnsVer4
@@ -23,6 +26,28 @@ import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.nio.charset.Charset
+
+
+object UnoLoader : GeneralLoader<UnoFromFns>() {
+
+    override fun name(): String = "Загрузка UNO-файла (инкассо-263-ФЗ)"
+
+    override fun saveOtherData(data: UnoFromFns, idFromFns: Number, idPayer: Number, sessionSetting: SessionSetting) {
+
+        val unoData = (data.fromFnsInfo as OrderTaxInfo263fz).unoData
+
+        unoData.saveData(idFromFns, sessionSetting, ::insertPno)
+    }
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2FileZsv(file, UnoFromFns::emptyFromFns)
+        }
+    }
+}
 
 object UpoLoader : GeneralLoader<UpoFromFns>() {
 

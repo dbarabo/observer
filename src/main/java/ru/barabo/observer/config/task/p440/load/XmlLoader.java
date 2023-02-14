@@ -3,6 +3,8 @@ package ru.barabo.observer.config.task.p440.load;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.Logger;
+import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz;
+import ru.barabo.observer.config.task.fz263.load.xml.upo.Suspension;
 import ru.barabo.observer.config.task.p440.load.ver4.TypeFileLoadVer4;
 import ru.barabo.observer.config.task.p440.load.ver4.request.*;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
@@ -36,7 +38,7 @@ import java.util.Map;
 
 public class XmlLoader<E> {
 
-	final static transient private Logger logger = Logger.getLogger(XmlLoader.class.getName());
+	final static private Logger logger = Logger.getLogger(XmlLoader.class.getName());
 
 	private static final Map<String, Class> MY_HASH_ANNOTATION_FILE_OLD_VERSION;
 
@@ -131,9 +133,7 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(DateWorkState.class);
 		xstream.processAnnotations(DatePeriod.class);
 
-
-
-		///-----------!!!
+		// Version 4
 		xstream.processAnnotations(TypeDetailAccounts.class);
 		xstream.processAnnotations(TypeAllAccounts.class);
 		xstream.processAnnotations(RestRequestVer4.class);
@@ -141,6 +141,10 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(RestOnDatePeriod.class);
 		xstream.processAnnotations(RestOnDate.class);
 		xstream.processAnnotations(ExtractRequestVer4.class);
+
+		//263-FZ
+		xstream.processAnnotations(Suspension.class);
+		xstream.processAnnotations(OrderTaxInfo263fz.class);
 
 
 		xstream.useAttributeFor(String.class);
