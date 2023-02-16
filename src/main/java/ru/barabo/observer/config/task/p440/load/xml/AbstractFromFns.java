@@ -30,7 +30,7 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 			+ "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, "
 			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, ACCOUNTS_START_DATE, ACCOUNTS_END_DATE, "
 			+ "UUID, "
-			+ "FILE_NAME, ID";
+			+ "TYPE_ASSOC, FILE_NAME, ID";
 
 	@Override
 	public String getListColumns() {

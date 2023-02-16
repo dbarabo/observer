@@ -127,6 +127,10 @@ internal fun AbstractFromFns.saveData(file :File, sessionSetting: SessionSetting
 
     val param = params
 
+    val source = if(file.parent.indexOf(SMEV_CHECK, ignoreCase = true) >= 0) 1 else 0
+
+    param.add(source)
+
     param.add(file.name.uppercase(Locale.getDefault()))
 
     param.add(idFromFns)
@@ -142,3 +146,5 @@ private fun insertFnsFrom(columns :String, questions :String) =
         "insert into od.ptkb_440p_fns_from ($columns) values ($questions)"
 
 private fun questionsFromColumns(columns :String) = columns.split(",").joinToString(",") { _ -> "?" }
+
+private const val SMEV_CHECK = "smev"
