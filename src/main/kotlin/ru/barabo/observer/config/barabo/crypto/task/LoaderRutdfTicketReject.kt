@@ -67,7 +67,7 @@ object LoaderRutdfTicketReject {
                         saveError(lastSentRutDfFile, uid, event, errorBuffer, guarantorUid)
                     } else {
                         saveError(lastSentRutDfFile, uid, event, errorBuffer)
-                        StateFind.FIND_ERROR
+                        state = StateFind.FIND_ERROR
                     }
                 }
             }
@@ -94,6 +94,7 @@ object LoaderRutdfTicketReject {
     }
 
     private fun saveError(rutDfFile: Number, uid: String, event: String, error: String, guarantorUid: String = "") {
+
         AfinaQuery.execute(EXEC_SAVE_ERROR, arrayOf(rutDfFile, uid, event, error, guarantorUid))
     }
 }

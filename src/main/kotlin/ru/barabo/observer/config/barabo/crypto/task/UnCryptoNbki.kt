@@ -7,14 +7,12 @@ import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
-import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.crypto.CryptoPro
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
-import java.util.regex.Pattern
 
 object UnCryptoNbki : FileFinder, FileProcessor {
 
@@ -42,7 +40,8 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
         Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
 
-        checkTicket(unCryptoFolder, zipFile.nameWithoutExtension)
+        //checkTicket(unCryptoFolder, zipFile.nameWithoutExtension)
+        checkTicketRutDf(unCryptoFolder, zipFile.nameWithoutExtension)
     }
 
     private fun unCryptoFolder(file: File) : File {
@@ -56,6 +55,45 @@ object UnCryptoNbki : FileFinder, FileProcessor {
     }
 
     private const val EXEC_CHECK_SEND = "{ call od.PTKB_NBKI.checkSendAll }"
+}
+
+private fun checkTicketRutDf(unCryptoFolder: File, ticketFileName: String) {
+    val ticketFile = File("${unCryptoFolder.absoluteFile}/$ticketFileName")
+    if(!ticketFile.exists()) throw Exception ("Не найден файл квитанции $ticketFile")
+
+    if(ticketFileName.indexOf("_ticket1") > 0) {
+        checkTicketSignCheck(ticketFile)
+    } else {
+        checkTicketRejectFile(ticketFile)
+    }
+}
+
+private fun checkTicketRejectFile(ticket: File) {
+
+    val rejectFileName = ticket.readLines()
+        .firstOrNull { it.indexOf(REJECT_FILE) == 0 }
+        ?.substringAfter(REJECT_FILE)?.trim()
+        ?: throw Exception ("В файле квитанции $ticket не найдена запись $REJECT_FILE")
+
+    if(rejectFileName.isEmpty()) return
+
+    val rejectFile = File("${ticket.parent}/$rejectFileName")
+
+    createMantisError(rejectFile)
+}
+
+private fun checkTicketSignCheck(ticketSign: File) {
+
+    val types = listOf(DECRIPTION_RESULT, EXTRACT_RESULT, SIGNATURE_RESULT)
+
+    for (type in types) {
+        val result = ticketSign.readLines()
+            .firstOrNull { it.indexOf(type) == 0 }
+            ?.substringAfter(type)?.trim()?.uppercase()
+            ?: throw Exception ("В файле квитанции $ticketSign не найдена запись $type")
+
+        if(result != "OK") throw Exception ("В файле квитанции $ticketSign ошибка типа $type error = $result")
+    }
 }
 
 private fun checkTicket(unCryptoFolder: File, ticketFileName: String) {
@@ -74,18 +112,26 @@ private fun checkTicket(unCryptoFolder: File, ticketFileName: String) {
 
         val rejectFile = File("${unCryptoFolder.absoluteFile}/$rejectFileName")
 
-        createMantisError(count, rejectFile)
+        createMantisError(rejectFile)
     }
 }
 
-private fun createMantisError(countError: Int, rejectFile: File) {
-    BaraboSmtp.sendMantisTicket(subjectError(countError), rejectFile)
+private fun createMantisError(rejectFile: File) {
+    BaraboSmtp.sendMantisTicket(subjectError(), rejectFile)
 }
 
-private fun subjectError(count: Int) = "Квиток от НБКИ с ошибками. Ошибок:$count"
+private fun subjectError() = "Квиток от НБКИ с ошибками"
 
 //private const val regexTicket = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_ticket"
 
 //private const val regexReject = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_reject"
 
 private const val REJECTS_RECORDS = "RejectedRecords\t"
+
+private const val DECRIPTION_RESULT = "Decryption result\t"
+
+private const val EXTRACT_RESULT = "Extract result\t"
+
+private const val SIGNATURE_RESULT = "Signature check result\t"
+
+private const val REJECT_FILE = "RejectFile\t"
