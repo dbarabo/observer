@@ -35,13 +35,11 @@ object CbrCurrencyLoader : SinglePerpetual {
 
     override fun execute(elem: Elem): State = execByCheckToday(elem)
 
-    private fun execByCheckToday(elem: Elem, isCheckToday: Boolean = true): State {
+    private fun execByCheckToday(elem: Elem): State {
 
         val mainElement = mainElement() ?: return super.execute(elem)
 
         val dateElement = dateMainElement(mainElement)
-
-      //  if(isCheckToday && (!dateElement.isEqual(LocalDate.now() )) ) return super.execute(elem)
 
         return insertCurrency(mainElement, elem, dateElement)
     }

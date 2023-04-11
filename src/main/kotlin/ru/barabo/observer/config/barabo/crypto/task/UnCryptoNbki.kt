@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
 import ru.barabo.archive.Archive
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.task.AccessibleData
@@ -53,8 +54,6 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
         return folder
     }
-
-    private const val EXEC_CHECK_SEND = "{ call od.PTKB_NBKI.checkSendAll }"
 }
 
 private fun checkTicketRutDf(unCryptoFolder: File, ticketFileName: String) {
@@ -74,6 +73,10 @@ private fun checkTicketRejectFile(ticket: File) {
         .firstOrNull { it.indexOf(REJECT_FILE) == 0 }
         ?.substringAfter(REJECT_FILE)?.trim()
         ?: throw Exception ("В файле квитанции $ticket не найдена запись $REJECT_FILE")
+
+    val sendFileName = ticket.name.substringBeforeLast("_ticket")
+
+    AfinaQuery.execute(EXEC_SAVE_TICKET2, arrayOf(sendFileName, ticket.absolutePath, rejectFileName))
 
     if(rejectFileName.isEmpty()) return
 
@@ -122,10 +125,6 @@ private fun createMantisError(rejectFile: File) {
 
 private fun subjectError() = "Квиток от НБКИ с ошибками"
 
-//private const val regexTicket = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_ticket"
-
-//private const val regexReject = "K301BB000001_\\d\\d\\d\\d\\d\\d\\d\\d_\\d\\d\\d\\d\\d\\d_reject"
-
 private const val REJECTS_RECORDS = "RejectedRecords\t"
 
 private const val DECRIPTION_RESULT = "Decryption result\t"
@@ -135,3 +134,5 @@ private const val EXTRACT_RESULT = "Extract result\t"
 private const val SIGNATURE_RESULT = "Signature check result\t"
 
 private const val REJECT_FILE = "RejectFile\t"
+
+private const val EXEC_SAVE_TICKET2 = "{ call od.PTKB_RUTDF.saveTicket2(?, ?, ?) }"

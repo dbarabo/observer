@@ -88,7 +88,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST" /*"AFINA"*/)
+        TaskMapper.init("TEST", "AFINA"/* "TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -264,13 +264,6 @@ res3 = [calc.DEC_TEST];
         file.writeText(clob.clobToString(), charset = Charset.forName("cp1251"))
     }
 
-    //@Test
-    fun testClearPrimFromArchiveDay() {
-
-        val elem = Elem(idElem = 75363011L, task = ClearPrimFromArchiveDay)
-
-        ClearPrimFromArchiveDay.execute(elem)
-    }
 
     //@Test
     fun testCheckAccountFaktura() {
@@ -1196,7 +1189,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/02/01/UNCRYPTO/K301BB000001_20230201_130617_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/04/06/UNCRYPTO/K301BB000001_20230406_115947_reject") )
     }
 
     //@Test
@@ -1246,5 +1239,13 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 1276209727, task = RestSaverVer4) // response for rpo with accounts rest
 
         elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testClearPrimFromArchiveDay() {
+
+        val elem = Elem(idElem = 89951664L, task = ClearPrimFromArchiveDay)
+
+        ClearPrimFromArchiveDay.execute(elem)
     }
 }

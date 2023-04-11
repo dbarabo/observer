@@ -1,14 +1,10 @@
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class RandomUUID {
-
-    final static transient private Logger logger = LoggerFactory.getLogger(RandomUUID.class.getName());
 
     public static String create()  {
         return java.util.UUID.randomUUID().toString();
@@ -23,7 +19,11 @@ public class RandomUUID {
 
     private static long get64MostSignificantBitsForVersion1() {
 
-        Date startDate = new Date(1582, 10, 15);
+        Calendar cal = Calendar.getInstance();
+        cal.set(1582, Calendar.OCTOBER, 15);
+
+        Date startDate = cal.getTime();
+
 
         long milli = new Date().getTime() - startDate.getTime();
 

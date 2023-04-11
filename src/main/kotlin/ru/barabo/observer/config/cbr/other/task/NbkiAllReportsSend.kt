@@ -44,11 +44,7 @@ object NbkiAllReportsSend : Periodical {
 
         fillData()
 
-        val fileName = createNbkiTextFile() ?: return State.ARCHIVE
-
-        //val xlsFile = createNbkiXlsFile(fileName)
-
-        //sendMailReport(xlsFile)
+        createNbkiTextFile() ?: return State.ARCHIVE
 
         return State.OK
     }
