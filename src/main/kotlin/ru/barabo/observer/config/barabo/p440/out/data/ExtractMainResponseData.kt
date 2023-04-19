@@ -68,9 +68,9 @@ class ExtractMainResponseData : AbstractRequestResponse() {
             // если операций в доп. файле нет и это уже не первая часть
             if(partNumber > 1 && addExtractXml.addExtractInfoPart.operationAccountListSize == 0) break
 
-            GeneralCreator.saveXml(additionalResponseData.fileNameResponse(), addExtractXml)
+            val fileXml = GeneralCreator.saveXml(additionalResponseData.fileNameResponse(), addExtractXml)
 
-            GeneralCreator.validateXml(additionalResponseData.fileNameResponse(), additionalResponseData.xsdSchema())
+            GeneralCreator.validateXml(fileXml, additionalResponseData.xsdSchema())
 
             insertBvdResponseDb(additionalResponseData, sessionSetting)
 

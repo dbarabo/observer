@@ -5,7 +5,7 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.OutType
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
+import ru.barabo.observer.config.cbr.ticket.task.getFolder440p
 import ru.barabo.observer.config.cbr.ticket.task.p440.TicketLoader
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
@@ -23,7 +23,7 @@ import java.time.LocalTime
 object Ticket440pFns : TicketLoader<KwtFromFns>(), FileFinder {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData( Get440pFiles::getFolder440p, "KWTFCB.*\\.xml"))
+            listOf(FileFinderData( ::getFolder440p, "KWTFCB.*\\.xml"))
 
     override val accessibleData: AccessibleData =
             AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)

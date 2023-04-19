@@ -4,7 +4,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.task.UnCryptoPacket
 import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
+import ru.barabo.observer.config.cbr.ticket.task.getFolder440p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -23,9 +23,9 @@ object ToUncrypto440p : FileProcessor, FileFinder {
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
             false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
-    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(Get440pFiles::getFolder440p, ".*\\.vrb"))
+    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::getFolder440p, ".*\\.vrb"))
 
-    fun getUncFolder440p() : File = "${Get440pFiles.getFolder440p().absolutePath}/uncrypto".byFolderExists()
+    fun getUncFolder440p() : File = "${getFolder440p().absolutePath}/uncrypto".byFolderExists()
 
     override fun processFile(file: File) {
 

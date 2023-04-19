@@ -3,7 +3,7 @@ package ru.barabo.observer.config.cbr.ticket.task.p440
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
+import ru.barabo.observer.config.cbr.ticket.task.getFolder440p
 import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.ticket.AbstractTicket
 import ru.barabo.observer.config.task.p440.load.xml.ticket.TicketInfo
@@ -68,7 +68,7 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
 }
 
-fun folderLoaded440p() :File = "${Get440pFiles.getFolder440p().absolutePath}/loaded".byFolderExists()
+fun folderLoaded440p() :File = "${getFolder440p().absolutePath}/loaded".byFolderExists()
 
 private fun TicketInfo.isFailTicketInfo() :Boolean = this.codes?.firstOrNull { "01" != it } != null
 

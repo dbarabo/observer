@@ -100,9 +100,9 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
                     addResponseData
                 )
 
-            GeneralCreator.saveXml(addResponseData.fileNameResponse(), addExtractXml)
+            val fileXml = GeneralCreator.saveXml(addResponseData.fileNameResponse(), addExtractXml)
 
-            GeneralCreator.validateXml(addResponseData.fileNameResponse(), addResponseData.xsdSchema())
+            GeneralCreator.validateXml(fileXml, addResponseData.xsdSchema())
 
             insertBvdResponseDb(addResponseData)
         }

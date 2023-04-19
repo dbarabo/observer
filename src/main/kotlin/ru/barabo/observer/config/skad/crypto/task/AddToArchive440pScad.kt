@@ -6,9 +6,12 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.barabo.p440.SMEV_CHECK
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
+import ru.barabo.observer.config.barabo.p440.out.sendFolder440pSmev
 import ru.barabo.observer.config.barabo.p440.task.AddToArchive440p
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
@@ -24,10 +27,12 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
 
     override fun name(): String = "Добавить файл в архив 440-П"
 
-    override fun config(): ConfigTask = P440Config
+    override fun config(): ConfigTask = EnsConfig // P440Config
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),
+            FileFinderData(::sourceFolderSmev, "PB\\d.*\\.xml"),
+
             FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
     )
 
@@ -39,7 +44,9 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
-        val processFile =  if(PATTERN_PB.isFind(file.name) ) File("${sendFolder440p()}/${file.name}") else file
+        val isSmevFile = file.parent.indexOf(SMEV_CHECK, ignoreCase = true) >= 0
+
+        val processFile =  getFullPathProcessFile(file, isSmevFile)
 
         val settingSession = AfinaQuery.uniqueSession()
 
@@ -47,7 +54,9 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
             val archive = AfinaQuery.execute(EXEC_ADD_TO_ARCHIVE, arrayOf(processFile.nameWithoutExtension),
                     settingSession, intArrayOf(OracleTypes.VARCHAR))?.get(0) as String
 
-            val archiveFullPath = "${Send440pArchive.sendFolderCrypto440p().absolutePath}/$archive"
+            val archivePath = getArchivePath(isSmevFile)
+
+            val archiveFullPath = "$archivePath/$archive"
 
             Archive.addToArj(archiveFullPath, arrayOf(processFile))
 
@@ -61,4 +70,16 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
             throw Exception(e.message)
         }
     }
+
+    private fun getFullPathProcessFile(file: File, isSmevFile: Boolean): File {
+        return when {
+            PATTERN_PB.isFind(file.name) ->
+                File(if(isSmevFile) "${sendFolder440pSmev().absolutePath}/${file.name}"
+                else "${sendFolder440p()}/${file.name}")
+            else -> file
+        }
+    }
 }
+
+fun getArchivePath(isSmevFile: Boolean): String =
+    if(isSmevFile) sendFolder440pSmev().absolutePath else Send440pArchive.sendFolderCrypto440p().absolutePath

@@ -27,11 +27,7 @@ object Get440pFiles : FileFinder, FileProcessor {
 
     override fun name(): String = "440-П Получить файлы"
 
-    val X440P = if (TaskMapper.isAfinaBase()) "X:/440-П" else "C:/440-П"
-
-    fun getFolder440p() :File = "$X440P/${todayFolder()}/Получено".byFolderExists()
-
-    fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     private const val ARCHIVE_HEADER = "AFN_MIFNS"
 
@@ -43,3 +39,7 @@ object Get440pFiles : FileFinder, FileProcessor {
         }
     }
 }
+
+fun getFolder440p(): File = "$X440P/${Get440pFiles.todayFolder()}/Получено".byFolderExists()
+
+val X440P = if (TaskMapper.isAfinaBase()) "X:/440-П" else "C:/440-П"

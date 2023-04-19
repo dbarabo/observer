@@ -22,13 +22,13 @@ class PbResponseDataVer4 : AbstractResponseData() {
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        val checkCodes = rowData[4] as String
+        val checkCodes = rowData[5] as String
 
-        val checkTextErrors = rowData[5] as? String
+        val checkTextErrors = rowData[6] as? String
 
-        val checkAttributeCodes = rowData[6] as? String
+        val checkAttributeCodes = rowData[7] as? String
 
-        val checkAttributeValues = rowData[7] as? String
+        val checkAttributeValues = rowData[8] as? String
 
         pbResult = generatePbResult(checkCodes, checkTextErrors, checkAttributeCodes, checkAttributeValues)
     }

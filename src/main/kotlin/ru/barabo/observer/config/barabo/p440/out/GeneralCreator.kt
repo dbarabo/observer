@@ -9,7 +9,8 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.data.AbstractResponseData
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles.X440P
+import ru.barabo.observer.config.cbr.ticket.task.X440P
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
@@ -69,7 +70,7 @@ fun String.byFolderExists(): File {
 
 abstract class GeneralCreator<X: Any>(protected val responseData: AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
-    override fun config(): ConfigTask = ScadConfig // P440Config
+    override fun config(): ConfigTask = CryptoScad //ScadConfig
 
     override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 
@@ -103,9 +104,10 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
 
         val xmlData = createXml(clazzXml, responseData)
 
-        saveXml(responseData.fileNameResponse(), xmlData)
+        val fileXml = saveXml(responseData.fileNameResponse(), xmlData,
+            responseData.isPbFile() && responseData.isSourceSmev())
 
-        validateXml(responseData.fileNameResponse(), responseData.xsdSchema())
+        validateXml(fileXml, responseData.xsdSchema())
 
         AfinaQuery.execute(UPDATE_STATE_RESPONSE, arrayOf(elem.idElem), sessionSetting)
 
@@ -128,9 +130,13 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
 
         private const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
 
-        fun saveXml(fileName :String, xmlData :Any) {
+        fun saveXml(fileName: String, xmlData: Any, isPbSmevFile: Boolean = false): File {
 
-            val outputStream = FileOutputStream(File("${sendFolder440p().absolutePath}/$fileName"))
+            val folderSet = if(isPbSmevFile) sendFolder440pSmev().absolutePath else sendFolder440p().absolutePath
+
+            val fileXml = File("$folderSet/$fileName")
+
+            val outputStream = FileOutputStream(fileXml)
 
             val writer = OutputStreamWriter(outputStream, Charset.forName("windows-1251"))
 
@@ -139,24 +145,24 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
             getXStream().toXML(xmlData, writer)
 
             outputStream.close()
+
+            return fileXml
         }
 
         @Throws(SAXException::class)
-        fun validateXml(fileName :String, xsdSchema :String) {
-
-            val file =  File("${sendFolder440p().absolutePath}/$fileName")
+        fun validateXml(fileXml: File, xsdSchema: String) {
 
             try {
-                XmlValidator.validate(file, xsdSchema)
+                XmlValidator.validate(fileXml, xsdSchema)
 
-            } catch (e :Exception) {
+            } catch (e: Exception) {
 
-                logger.error("validateXml $fileName", e)
+                logger.error("validateXml $fileXml", e)
 
-                if(file.exists()) {
-                    val failFile = File("${failSendFolder440p().absolutePath}/$fileName")
-                    file.copyTo(failFile, true)
-                    file.delete()
+                if(fileXml.exists()) {
+                    val failFile = File("${failSendFolder440p().absolutePath}/${fileXml.name}")
+                    fileXml.copyTo(failFile, true)
+                    fileXml.delete()
                 }
                 throw SAXException(e)
             }
@@ -264,3 +270,5 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
         }
     }
 }
+
+fun sendFolder440pSmev(): File = "${GeneralCreator.sendFolder440p()}/smev".byFolderExists()

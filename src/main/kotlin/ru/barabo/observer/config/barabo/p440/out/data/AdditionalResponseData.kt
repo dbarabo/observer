@@ -14,6 +14,7 @@ class AdditionalResponseData(
     override fun typeInfo(): String = "ВЫПБНДОПОЛ"
 
     override fun xsdSchema(): String = "/xsd/BVD_300.xsd"
+    override fun isSourceSmev(): Boolean = false
 
     override fun fileNameResponse(): String =
             String.format("${fileNameResponseTemplate()}.xml", AbstractResponseData.dateFormatInFile())

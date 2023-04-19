@@ -27,4 +27,9 @@ public class Suspension extends DecisionSuspend {
     public String getNumberDecision() {
         return numberUpo;
     }
+
+    @Override
+    public String getUID() {
+        return uid;
+    }
 }

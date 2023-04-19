@@ -18,7 +18,7 @@ object AfinaConnect : DbConnection(
 
     private val AFINA_URL = MasterKey.value("AFINA_URL")
 
-    private const val TEST_URL = "jdbc:oracle:thin:@192.168.0.42:1521:AFINA" //"jdbc:oracle:thin:@192.168.0.180:1521:AFINA"
+    private const val TEST_URL = "jdbc:oracle:thin:@192.168.0.180:1521:AFINA" //"jdbc:oracle:thin:@192.168.0.42:1521:AFINA"
 
     @Throws(SessionException::class)
     fun init(isAfinaUrl :Boolean) {

@@ -1,6 +1,7 @@
 package ru.barabo.observer.main
 
 import org.slf4j.LoggerFactory
+import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.gui.startLaunch
 import ru.barabo.observer.store.TaskMapper
 import java.net.InetAddress
@@ -22,10 +23,13 @@ object Observer {
             "DSPO" -> "TEST"
             "POSEIDON" -> "CORRESPOND"
             "KBRN" -> "CORRESPOND"
+
+            "FNS" -> "ENSSIGN"
+
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
 
-        TaskMapper.init(config, "AFINA")
+        TaskMapper.init(config, if(config == "ENSSIGN")"TEST" else "AFINA")
 
         TaskMapper.runConfigList()
 

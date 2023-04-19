@@ -37,6 +37,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
+import ru.barabo.observer.config.cbr.ticket.task.X440P
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
@@ -57,6 +58,7 @@ import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
 import ru.barabo.observer.config.skad.plastic.task.SendXmlRiskClientCbrAuto
 import ru.barabo.observer.config.task.Executor
+import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
@@ -88,7 +90,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA"/* "TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -699,7 +701,7 @@ res3 = [calc.DEC_TEST];
         validateXml(xmlFile, xsd, ::errorFolder )
     }
 
-    private fun errorFolder(): File = Cmd.createFolder("${Get440pFiles.X440P}/${Get440pFiles.todayFolder()}/ERROR")
+    private fun errorFolder(): File = Cmd.createFolder("${X440P}/${Get440pFiles.todayFolder()}/ERROR")
 
 
     //@Test
@@ -1173,7 +1175,6 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-
     //@Test
     fun testDecryptEdFile1() {
 
@@ -1247,5 +1248,22 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 89951664L, task = ClearPrimFromArchiveDay)
 
         ClearPrimFromArchiveDay.execute(elem)
+    }
+
+    //@Test
+    fun testGetSmevArchives() {
+        val it = GetSmevArchives.fileFinderData[0]
+        val isFind = it.search!!.isFind("AFN_MIFNS00_0507717_20230412_00001.zip")
+        logger.error("IS=$isFind")
+
+        val elem = Elem(File("C:/440-П/smev/in/AFN_MIFNS00_0507717_20230412_00001.zip"), GetSmevArchives, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    fun testParent() {
+        val file = File("C:/440-П/smev/in/AFN_MIFNS00_0507717_20230412_00001.zip")
+
+        logger.error("parent=${file.parent}")
     }
 }

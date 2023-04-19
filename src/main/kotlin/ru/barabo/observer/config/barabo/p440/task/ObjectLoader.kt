@@ -4,10 +4,12 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.GeneralLoader
 import ru.barabo.observer.config.barabo.p440.XmlLoadException
 import ru.barabo.observer.config.barabo.p440.moveToLoaded
 import ru.barabo.observer.config.barabo.p440.saveData
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz
 import ru.barabo.observer.config.task.fz263.load.xml.uno.UnoFromFns
 import ru.barabo.observer.config.task.fz263.load.xml.upo.UpoFromFns
@@ -32,6 +34,8 @@ object UnoLoader : GeneralLoader<UnoFromFns>() {
 
     override fun name(): String = "Загрузка UNO-файла (инкассо-263-ФЗ)"
 
+    override fun config(): ConfigTask = EnsConfig
+
     override fun saveOtherData(data: UnoFromFns, idFromFns: Number, idPayer: Number, sessionSetting: SessionSetting) {
 
         val unoData = (data.fromFnsInfo as OrderTaxInfo263fz).unoData
@@ -52,6 +56,8 @@ object UnoLoader : GeneralLoader<UnoFromFns>() {
 object UpoLoader : GeneralLoader<UpoFromFns>() {
 
     override fun name(): String = "Загрузка UPO-файла (арест-263-ФЗ)"
+
+    override fun config(): ConfigTask = EnsConfig
 
     override fun processFile(file: File) {
 

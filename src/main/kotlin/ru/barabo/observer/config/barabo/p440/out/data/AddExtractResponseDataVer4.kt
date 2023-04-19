@@ -18,6 +18,7 @@ class AddExtractResponseDataVer4 (
     override fun typeInfo(): String = "ВЫПБНДОПОЛ"
 
     override fun xsdSchema(): String = "/xsd/440-П_BVD.xsd"
+    override fun isSourceSmev(): Boolean = false
 
     override fun fileNameResponse(): String =
         String.format("${fileNameResponseTemplate()}.xml", AbstractResponseData.dateFormatInFile())

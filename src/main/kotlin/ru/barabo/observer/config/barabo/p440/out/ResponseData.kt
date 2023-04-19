@@ -17,4 +17,6 @@ interface ResponseData {
     fun typeInfo(): String
 
     fun xsdSchema(): String
+
+    fun isSourceSmev(): Boolean
 }

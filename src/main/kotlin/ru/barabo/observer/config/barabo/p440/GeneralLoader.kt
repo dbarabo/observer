@@ -17,6 +17,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns
 import ru.barabo.observer.config.task.p440.load.xml.ParamsQuery
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.config.fns.scad.task.getUncryptoFolderSmev
 import ru.barabo.observer.store.Elem
 import java.io.File
 import java.time.Duration
@@ -28,7 +29,8 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
     private val logger = LoggerFactory.getLogger(GeneralLoader::class.java)
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(ToUncrypto440p::getUncFolder440p, ".*\\.xml"))
+            listOf(FileFinderData(ToUncrypto440p::getUncFolder440p, ".*\\.xml"),
+                FileFinderData(::getUncryptoFolderSmev, ".*\\.xml") )
 
     override fun config(): ConfigTask = P440Config
 
@@ -147,4 +149,4 @@ private fun insertFnsFrom(columns :String, questions :String) =
 
 private fun questionsFromColumns(columns :String) = columns.split(",").joinToString(",") { _ -> "?" }
 
-private const val SMEV_CHECK = "smev"
+const val SMEV_CHECK = "smev"

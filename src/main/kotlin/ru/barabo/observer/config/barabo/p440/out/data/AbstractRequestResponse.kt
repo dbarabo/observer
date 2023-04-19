@@ -59,20 +59,20 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
 
         super.fillDataFields(idResponse, rowData, sessionSetting)
 
-        numberRequestVar = rowData[4] as String
+        numberRequestVar = rowData[5] as String
 
-        dateRequestVar = rowData[5] as Date
+        dateRequestVar = rowData[6] as Date
 
-        pbFileNameVar = rowData[6] as String
+        pbFileNameVar = rowData[7] as String
 
         // [7, 8] -фнс код и назв.
-        fnsVar = FnsXml(rowData[7] as? String, rowData[8] as? String)
+        fnsVar = FnsXml(rowData[8] as? String, rowData[9] as? String)
 
-        onStateDate = rowData[9] as? Date
+        onStateDate = rowData[10] as? Date
 
-        endPeriod = rowData[10] as? Date
+        endPeriod = rowData[11] as? Date
 
-        payerVar = createPayer(rowData, 11, sessionSetting)
+        payerVar = createPayer(rowData, 12, sessionSetting)
     }
 
     private fun createPayer(row: Array<Any?>, indexPayer: Int, sessionSetting: SessionSetting): PayerXml {

@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.test
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
+import ru.barabo.observer.config.barabo.p440.task.GetSmevArchives
 
 object TestConfig : AbstractConfig() {
 
@@ -11,8 +11,8 @@ object TestConfig : AbstractConfig() {
 
     override fun configRun() {
 
-        ClientRiskLoader.findAll()
-        // LoadPaymentWeechatXlsx.findAll()
+        //ClientRiskLoader.findAll()
+        GetSmevArchives.findAll()
 
         this.executeTasks()
     }
