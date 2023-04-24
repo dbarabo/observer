@@ -3,6 +3,7 @@ package ru.barabo.observer.config.barabo.p440.task
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -15,7 +16,7 @@ import java.time.temporal.ChronoUnit
 
 object BosSendIfNeed : Periodical {
     override fun name(): String = "Отправка Остатков по старым RPO"
-    override fun config(): ConfigTask = P440Config
+    override fun config(): ConfigTask = EnsConfig // P440Config
 
     override val accessibleData: AccessibleData =  AccessibleData(
         WeekAccess.WORK_ONLY, false,

@@ -4,7 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get390pArchive
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -24,6 +24,10 @@ import java.util.*
 
 object CreateSaveResponse390p : FileFinder, FileProcessor {
 
+    override fun name(): String = "390-П Ответ на запрос/архив"
+
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
+
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false,
             LocalTime.MIN,
@@ -31,10 +35,6 @@ object CreateSaveResponse390p : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(Get390pArchive::getFolder390p,"(AFT|TPO|TOO).*\\.(ARJ|VRB)") )
-
-    override fun name(): String = "390-П Ответ на запрос/архив"
-
-    override fun config(): ConfigTask = ScadConfig // CryptoConfig
 
     internal fun sendFolder390p() : File = "${Get390pArchive.X390P}/${Get390pArchive.todayFolder()}/Отправлено".byFolderExists()
 
@@ -66,8 +66,6 @@ object CreateSaveResponse390p : FileFinder, FileProcessor {
         val responseFile = getResponseFile(inputFile.nameWithoutExtension)
 
         responseFile.writeText(responseText, Charset.forName("CP1251"))
-
-        //Verba.signBy390p(responseFile)
 
         ScadComplex.signAndMoveSource(responseFile, sendFolderSrc390p())
 

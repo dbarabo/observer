@@ -23,11 +23,11 @@ import java.util.regex.Pattern
 
 object AddToArchive440pScad : FileFinder, FileProcessor {
 
-    private val logger = LoggerFactory.getLogger(AddToArchive440p::class.java)
-
     override fun name(): String = "Добавить файл в архив 440-П"
 
     override fun config(): ConfigTask = EnsConfig // P440Config
+
+    private val logger = LoggerFactory.getLogger(AddToArchive440p::class.java)
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),

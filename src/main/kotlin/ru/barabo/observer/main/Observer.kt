@@ -29,7 +29,7 @@ object Observer {
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }
 
-        TaskMapper.init(config, if(config == "ENSSIGN")"TEST" else "AFINA")
+        TaskMapper.init(config, /*if(config == "ENSSIGN")"TEST" else*/"AFINA")
 
         TaskMapper.runConfigList()
 

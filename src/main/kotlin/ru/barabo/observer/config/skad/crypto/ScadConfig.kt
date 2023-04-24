@@ -23,10 +23,10 @@ object ScadConfig : AbstractConfig() {
         UncryptoScad440p.findAll()
 
         CryptoScad440p.findAll()
-        PbSaverScad.findAll()
+        // PbSaverScad.findAll()
         SignScadArchive440p.findAll()
 
-        Ticket440pFns.findAll()
+        //Ticket440pFns.findAll()
 
         CryptoFtsValScad.findAll()
         CryptoValCb181UScad.findAll()

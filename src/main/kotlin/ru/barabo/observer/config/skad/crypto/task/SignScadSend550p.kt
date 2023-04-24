@@ -4,6 +4,7 @@ import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.task.Uncrypto550pScad.folder550pOut
 import ru.barabo.observer.config.task.AccessibleData
@@ -19,14 +20,14 @@ import java.util.*
 
 object SignScadSend550p : FileFinder, FileProcessor {
 
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
+
+    override fun name(): String = "Подписать scad и отправить"
+
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( ::folder550pOut,"ARH550P_0021_0000_........_...\\.arj", isModifiedTodayOnly = true))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofMinutes(3))
-
-    override fun config(): ConfigTask = ScadConfig
-
-    override fun name(): String = "Подписать scad и отправить"
 
     const val ptkPsdOutPath = "p:"
 

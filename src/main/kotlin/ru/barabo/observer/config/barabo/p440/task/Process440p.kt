@@ -16,14 +16,14 @@ import java.time.LocalTime
 
 object Process440p : SingleSelector {
 
+    override fun name(): String = "Обработка данных"
+
+    override fun config(): ConfigTask = EnsConfig //P440Config
+
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_fns_from where state = 0"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
             workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
-
-    override fun name(): String = "Обработка данных"
-
-    override fun config(): ConfigTask = EnsConfig //P440Config
 
     const val EXEC_440P = "{ call od.PTKB_440P.processRaise(?) }"
 

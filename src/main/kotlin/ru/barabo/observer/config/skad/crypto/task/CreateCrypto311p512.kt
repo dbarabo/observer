@@ -5,6 +5,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.task.AccessibleData
@@ -21,17 +22,17 @@ import java.time.LocalTime
 import java.util.*
 
 object CreateCrypto311p512 : SingleSelector {
-    override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
-            "where r.state = 0 and trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
+    override fun name(): String = "311-П 5.12 Создать+шифровать"
+
+    override fun config(): ConfigTask = CryptoScad //ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,
         LocalTime.of(9, 0),
         LocalTime.of(15, 55), Duration.ofSeconds(1))
 
-    override fun name(): String = "311-П 5.12 Создать+шифровать"
-
-    override fun config(): ConfigTask = ScadConfig
+    override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
+            "where r.state = 0 and trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
 
     override fun execute(elem: Elem): State {
 

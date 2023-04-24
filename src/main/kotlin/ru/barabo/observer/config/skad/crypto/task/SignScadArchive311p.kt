@@ -6,7 +6,7 @@ import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send311pArchive
 import ru.barabo.observer.config.cbr.ptkpsd.task.Send311pArchive.cryptoFolder
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.crypto.ScadComplex
@@ -17,14 +17,14 @@ import java.time.Duration
 import java.time.LocalTime
 
 object SignScadArchive311p : SingleSelector {
+    override fun name(): String = "311-П Подписать архив scad"
+
+    override fun config(): ConfigTask = CryptoScad //ScadConfig
+
     override val select: String = "select id, FILE_NAME from od.ptkb_361p_archive where state = 0 and created >= sysdate - 40/(60*24)"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(9, 0),
             workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(10))
-
-    override fun name(): String = "311-П Подписать архив scad"
-
-    override fun config(): ConfigTask = ScadConfig
 
     override fun execute(elem: Elem): State {
 

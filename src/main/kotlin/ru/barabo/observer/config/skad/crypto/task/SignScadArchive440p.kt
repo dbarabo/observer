@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ptkpsd.task.Send440pArchive
-import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.fns.scad.CryptoScad
-import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.crypto.ScadComplex
@@ -32,7 +29,7 @@ object SignScadArchive440p : SingleSelector {
             executeWait = Duration.ofSeconds(5))
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +
-            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 1/(24*60))"
+            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 20/(24*60))"
 
     override fun execute(elem: Elem): State {
 

@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -14,6 +14,10 @@ import java.time.LocalTime
 
 object Sign390pArchive : FileFinder, FileProcessor {
 
+    override fun name(): String = "390-П Подписать архив"
+
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
+
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.WORK_ONLY, false,
             LocalTime.of(8, 0),
@@ -21,10 +25,6 @@ object Sign390pArchive : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(CreateSaveResponse390p::sendFolder390p,"AFT_0507717.*\\.ARJ") )
-
-    override fun name(): String = "390-П Подписать архив"
-
-    override fun config(): ConfigTask = ScadConfig // CryptoConfig
 
     override fun processFile(file: File) {
         // Verba.signBy390p(file)

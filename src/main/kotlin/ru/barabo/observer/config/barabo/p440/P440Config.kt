@@ -21,8 +21,6 @@ object P440Config: AbstractConfig() {
 
         AddToArchive440pScad.findAll()
 
-        //GetSmevArchives.findAll()
-
         this.executeTasks()
     }
 }

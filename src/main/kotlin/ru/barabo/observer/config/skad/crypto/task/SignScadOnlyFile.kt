@@ -4,6 +4,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.other.OtherCbr
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -33,14 +34,14 @@ object SignScadCbFts181U : SignInOut("X:\\VAL\\CB\\Sign_CB") {
 
 open class SignInOut(private val path: String) :  FileFinder, FileProcessor {
 
+    override fun name(): String = "Проставить ЭЦП Scad In/Out"
+
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
+
     override val fileFinderData: List<FileFinderData> = listOf( FileFinderData( { File("$path\\in") } ) )
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, isDuplicateName = true,
             workTimeFrom = LocalTime.of(6, 0))
-
-    override fun name(): String = "Проставить ЭЦП Scad In/Out"
-
-    override fun config(): ConfigTask = ScadConfig
 
     override fun processFile(file: File) {
         val destination = File("$path\\out\\${file.name}")
@@ -51,4 +52,4 @@ open class SignInOut(private val path: String) :  FileFinder, FileProcessor {
     }
 }
 
-fun srcFolder() = "D:\\archive_all\\${Get440pFiles.todayFolder()}".byFolderExists()
+fun srcFolder() = "C:\\archive_all\\${Get440pFiles.todayFolder()}".byFolderExists()

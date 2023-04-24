@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
@@ -17,7 +17,7 @@ object AddSignMain600P : FileFinder, FileProcessor {
 
     override fun name(): String = "600-П sign Ответ-в Архив"
 
-    override fun config(): ConfigTask = ScadConfig
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData( workTimeFrom = LocalTime.of(9, 0),
             workTimeTo = LocalTime.of(23, 0), executeWait = Duration.ofSeconds(1) )

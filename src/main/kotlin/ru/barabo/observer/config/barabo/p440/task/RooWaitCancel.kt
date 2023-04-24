@@ -3,7 +3,7 @@ package ru.barabo.observer.config.barabo.p440.task
 import oracle.jdbc.OracleTypes
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -15,6 +15,10 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
 object RooWaitCancel : Periodical {
+    override fun name(): String = "Зависшие блокировки - Проверка"
+
+    override fun config(): ConfigTask =  EnsConfig // P440Config
+
     override val unit: ChronoUnit = ChronoUnit.DAYS
 
     override var count: Long = 1
@@ -23,10 +27,6 @@ object RooWaitCancel : Periodical {
 
     override val accessibleData: AccessibleData=  AccessibleData(WeekAccess.WORK_ONLY, false,
             LocalTime.of(7, 0), LocalTime.of(18, 0), Duration.ZERO)
-
-    override fun name(): String = "Зависшие блокировки - Проверка"
-
-    override fun config(): ConfigTask = P440Config
 
     private const val EXEC_DESICION_CANCEL = "call od.PTKB_440P.processDesicionCancelWait(?)"
 

@@ -8,7 +8,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Ticket311pCbr.ticket311p
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -23,7 +23,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 object Ticket311pFnsLoadScad :  FileFinder, FileProcessor {
 
-    private val logger = LoggerFactory.getLogger(Ticket311pFnsLoadScad::class.simpleName)
+    override fun name(): String = "311-П Загрузить квитки ФНС scad"
+
+    override fun config(): ConfigTask = CryptoScad //ScadConfig
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData(::ticket311pDirectory, "S.*\\.xml", isModifiedTodayOnly = false)
@@ -32,9 +34,7 @@ object Ticket311pFnsLoadScad :  FileFinder, FileProcessor {
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS, isDuplicateName = false,
             workTimeFrom = LocalTime.of(6, 0))
 
-    override fun name(): String = "311-П Загрузить квитки ФНС scad"
-
-    override fun config(): ConfigTask = ScadConfig
+    private val logger = LoggerFactory.getLogger(Ticket311pFnsLoadScad::class.simpleName)
 
     private fun ticket311pDirectory() = ticket311p().byFolderExists()
 

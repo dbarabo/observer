@@ -2,7 +2,7 @@ package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -18,7 +18,7 @@ object UnCryptoAny  : FileFinder, FileProcessor {
 
     override fun name(): String = "Расшифровать-ЭЦП XML-C:/VAL/CB/decrypt"
 
-    override fun config(): ConfigTask = ScadConfig
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
 
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.of(7, 0), LocalTime.of(23, 0), Duration.ZERO)

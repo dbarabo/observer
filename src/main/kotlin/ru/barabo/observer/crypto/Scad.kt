@@ -79,7 +79,17 @@ object Scad {
         }
 
         if(!file.exists()) {
-            throw IOException("file not found ${file.absolutePath}")
+
+            Thread.sleep(7000)
+
+            if(!file.exists()) {
+
+                Thread.sleep(15000)
+
+                if(!file.exists()) {
+                    throw IOException("file not found ${file.absolutePath}")
+                }
+            }
         }
         return file
     }

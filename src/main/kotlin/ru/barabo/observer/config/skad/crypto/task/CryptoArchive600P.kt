@@ -2,7 +2,7 @@ package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.task.AddSign600P.pathCryptoTicketToday
 import ru.barabo.observer.config.skad.crypto.task.AddSignMain600P.pathCryptoMainToday
 import ru.barabo.observer.config.task.AccessibleData
@@ -19,7 +19,7 @@ object CryptoArchive600P : FileFinder, FileProcessor {
 
     override fun name(): String = "600-П Зашифровать-отправить"
 
-    override fun config(): ConfigTask = ScadConfig
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData( workTimeFrom = LocalTime.of(9, 0),
             workTimeTo = LocalTime.of(21, 58), executeWait = Duration.ofMinutes(1) )
