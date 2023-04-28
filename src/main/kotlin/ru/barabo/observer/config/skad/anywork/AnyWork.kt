@@ -38,10 +38,6 @@ object AnyWork : AbstractConfig() {
 
         MantisUserDisabled.findAll()
 
-        // отключили нафик
-        // CorrDepartmentGoHome.findAll()
-
-
         executeTasks()
     }
 }

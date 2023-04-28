@@ -3,6 +3,7 @@ package ru.barabo.observer.config.skad.plastic.task
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
+import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -84,7 +85,9 @@ object GitObjects : SinglePerpetual {
 
         val suffix =  if(nameObject.indexOf("PTKB") >= 0 || nameObject.indexOf("PTCB") >= 0)"-ptkb" else ""
 
-        return File("$path/$typeFolder$suffix/$nameObject.sql")
+        val folder = "$path/$typeFolder$suffix".byFolderExists()
+
+        return File("${folder.absolutePath}/$nameObject.sql")
     }
 
     private fun loadDataDDL(nameObject: String): String {
@@ -106,9 +109,9 @@ object GitObjects : SinglePerpetual {
         }
     }
 
-    private const val cmdGitCommit = "D: && cd D:\\store\\od && git add . && git commit -m \"autocommit\" "
+    private const val cmdGitCommit = "C: && cd C:\\store\\od && git add . && git commit -m \"autocommit\" "
 
-    private const val path = "D:/store/od"
+    private const val path = "C:/store/od"
 
     private const val SELECT_OBJECTS = """
 SELECT o.OBJECT_NAME, o.OBJECT_TYPE, o.LAST_DDL_TIME, p.id 

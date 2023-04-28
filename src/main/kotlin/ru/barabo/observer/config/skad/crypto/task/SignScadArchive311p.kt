@@ -19,12 +19,12 @@ import java.time.LocalTime
 object SignScadArchive311p : SingleSelector {
     override fun name(): String = "311-П Подписать архив scad"
 
-    override fun config(): ConfigTask = CryptoScad //ScadConfig
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
 
-    override val select: String = "select id, FILE_NAME from od.ptkb_361p_archive where state = 0 and created >= sysdate - 40/(60*24)"
+    override val select: String = "select id, FILE_NAME from od.ptkb_361p_archive where state = 0 and created >= sysdate - 50/(60*24)"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(9, 0),
-            workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(10))
+            workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(20))
 
     override fun execute(elem: Elem): State {
 

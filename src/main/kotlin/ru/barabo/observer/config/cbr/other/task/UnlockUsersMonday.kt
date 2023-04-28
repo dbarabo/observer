@@ -24,13 +24,13 @@ object UnlockUsersMonday : Periodical {
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.WORK_ONLY,
             workTimeFrom = LocalTime.of(7, 0), workTimeTo = LocalTime.of(11, 59))
 
-    override fun isAccess()  = super.isAccess() && (LocalDate.now().dayOfWeek == DayOfWeek.MONDAY)
+    override fun isAccess() = (super.isAccess()) && AfinaQuery.isHoliday( LocalDate.now().minusDays(1L) )
 
     override fun name(): String = "Разлочить юзеров в понедельник"
 
     override fun config(): ConfigTask = OtherCbr
 
-    private const val CALL_UNLOCK_USERS = "{call od.unlock_from_morningworks(?)}"
+    private const val CALL_UNLOCK_USERS = "{ call od.unlock_from_morningworks(?) }"
 
     override fun execute(elem: Elem): State {
 

@@ -14,43 +14,42 @@ object ScadConfig : AbstractConfig() {
     override fun timeOut(): Long = 20_000
 
     override fun configRun() {
+        /*
+                CreateCrypto311p512.findAll()
+                SignScadArchive311p.findAll()
+                Ticket311pFnsLoadScad.findAll()
 
-        CreateCrypto311p512.findAll()
+                UncryptoScad440p.findAll()
 
-        SignScadArchive311p.findAll()
-        Ticket311pFnsLoadScad.findAll()
+                CryptoScad440p.findAll()
+                // PbSaverScad.findAll()
+                SignScadArchive440p.findAll()
 
-        UncryptoScad440p.findAll()
+                //Ticket440pFns.findAll()
 
-        CryptoScad440p.findAll()
-        // PbSaverScad.findAll()
-        SignScadArchive440p.findAll()
+                CryptoFtsValScad.findAll()
+                CryptoValCb181UScad.findAll()
+                SignScadOnlyFile.findAll()
+                SignScadCbFts181U.findAll()
+                UnCryptoScad364p.findAll()
+                UnSignScad364p.findAll()
+                UnCryptoAny.findAll()
 
-        //Ticket440pFns.findAll()
+                Uncrypto550pScad.findAll()
 
-        CryptoFtsValScad.findAll()
-        CryptoValCb181UScad.findAll()
-        SignScadOnlyFile.findAll()
-        SignScadCbFts181U.findAll()
-        UnCryptoScad364p.findAll()
-        UnSignScad364p.findAll()
-        UnCryptoAny.findAll()
+                SignScadSend550p.findAll()
 
-        Uncrypto550pScad.findAll()
+                InfoRequest349p.findAll()
 
-        SignScadSend550p.findAll()
+                Crypto4077UScad.findAll()
+                AddSign600P.findAll()
+                CryptoArchive600P.findAll()
 
-        InfoRequest349p.findAll()
+                AddSignMain600P.findAll()
 
-        Crypto4077UScad.findAll()
-        AddSign600P.findAll()
-        CryptoArchive600P.findAll()
-
-        AddSignMain600P.findAll()
-
-        CreateSaveResponse390p.findAll()
-        Sign390pArchive.findAll()
-
+                CreateSaveResponse390p.findAll()
+                Sign390pArchive.findAll()
+        */
         executeTasks()
     }
 }

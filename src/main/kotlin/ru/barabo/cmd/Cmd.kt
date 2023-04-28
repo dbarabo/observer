@@ -3,12 +3,46 @@ package ru.barabo.cmd
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 object Cmd {
 
     private val logger = LoggerFactory.getLogger(Cmd::class.java)
+
+    @Throws(IOException::class, InterruptedException::class)
+    fun processBuild(program: String, param: String): List<String> {
+
+        val args = param.split(" ")
+
+        val argsWithCommand = ArrayList<String>()
+        argsWithCommand += program
+        argsWithCommand.addAll(args)
+
+        var count = 0
+        var result: Int
+
+        var lines: List<String>
+
+        do {
+            val process = ProcessBuilder(argsWithCommand).redirectErrorStream(true).start()
+
+            lines = process.inputStream.reader(Charset.forName("CP866")).readLines()
+
+            result = process.waitFor()
+
+            count++
+
+            if(result != 0) {
+                Thread.sleep(1000)
+            }
+        } while ((result != 0) && count < 6)
+
+        if(result != 0) throw IOException("return code=$result count = $count for process=$program $param")
+
+        return lines
+    }
 
     @Throws(IOException::class, InterruptedException::class)
     fun execCmd(cmd :String, checkErrorStream: (String)->Unit = {}) {
@@ -97,7 +131,7 @@ object Cmd {
 
     val CERT_FOLDER = "$JAR_FOLDER\\cert"
 
-    private val TEMP_FOLDER = "$JAR_FOLDER/temp"
+    private val TEMP_FOLDER = "$JAR_FOLDER/temp" // "F:/Observer/temp"
 
     fun createFolder(folderPath: String): File {
 

@@ -16,8 +16,6 @@ object AfinaQuery : Query(AfinaConnect) {
 
     private val isWorkDay :HashMap<LocalDate, Boolean>  = HashMap()
 
-    private const val SELECT_IS_HOLIDAY = "select od.isHoliday(?, 1000131227) from dual"
-
     @Synchronized
     fun isWorkDayNow(): Boolean {
         val dateNow = LocalDate.now()
@@ -54,7 +52,17 @@ object AfinaQuery : Query(AfinaConnect) {
     @Synchronized
     fun nextSequence(sessionSetting : SessionSetting = SessionSetting(true)) :Number =
             selectValue(query = NEXT_SEQUENCE, sessionSetting = sessionSetting) as Number
+
+    fun isHoliday(date: LocalDate): Boolean {
+
+        val sqlDate = Date(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
+
+        return (AfinaQuery.selectValue(SELECT_IS_HOLIDAY, arrayOf(sqlDate)) as Number).toInt() != 0
+    }
 }
+
+private const val SELECT_IS_HOLIDAY = "select od.isHoliday(?, 1000131227) from dual"
+
 
 inline fun <reified T> selectValueType(query: String, params: Array<Any?>?, sessionUni: SessionSetting = SessionSetting(true)): T?
     = AfinaQuery.selectValue(query, params, sessionUni) as? T

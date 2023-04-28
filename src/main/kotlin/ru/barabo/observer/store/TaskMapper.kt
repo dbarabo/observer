@@ -138,7 +138,8 @@ enum class BuildInfo(val build: String, val configs: List<ConfigTask>) {
 private fun getBuildInfoByBuild(build: String): BuildInfo =
         BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
 
-private fun ensScadConfig(): List<ConfigTask> = listOf(EnsConfig, CryptoScad)
+private fun ensScadConfig(): List<ConfigTask> = listOf(EnsConfig, CryptoScad,
+    PlasticOutSide, Acquiring, SenderMail, AnyWork)
 
 private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)
 
@@ -147,7 +148,7 @@ private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherC
 private fun jzdoConfigs(): List<ConfigTask> = listOf(IBank, UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 
 private fun scadSignatureConfigs(): List<ConfigTask> =
-    listOf(PlasticOutSide, /*ScadConfig, P440Config,*/ Acquiring, SenderMail, AnyWork)
+    listOf(/*ScadConfig,, P440Config,Acquiring, SenderMail, AnyWork*/)
 
 private fun baraboConfigs(): List<ConfigTask> = listOf(CryptoConfig)
 

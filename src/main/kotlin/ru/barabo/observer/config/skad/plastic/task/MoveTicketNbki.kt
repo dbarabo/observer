@@ -19,7 +19,7 @@ object MoveTicketNbki : FileMover, FileFinder {
     override fun config(): ConfigTask = PlasticOutSide
 
     override val fileFinderData: List<FileFinderData> =
-        listOf(FileFinderData("D:/archive_all", "K301BB.*\\.p7m"))
+        listOf(FileFinderData("C:/archive_all", "K301BB.*\\.p7m"))
 
     override val pathsTo: Array<() -> String> = arrayOf(::xNbkiToday)
 

@@ -24,7 +24,7 @@ import java.util.*
 object CreateCrypto311p512 : SingleSelector {
     override fun name(): String = "311-П 5.12 Создать+шифровать"
 
-    override fun config(): ConfigTask = CryptoScad //ScadConfig
+    override fun config(): ConfigTask = CryptoScad // ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,
@@ -50,7 +50,7 @@ object CreateCrypto311p512 : SingleSelector {
 
         val cryptoFile = File("${cryptoFolder.absolutePath}/${file.name}")
 
-        ScadComplex.fullEncode311p(file, cryptoFile)
+        ScadComplex.fullEncode311p(file, cryptoFile, isAddFss = file.name.indexOf("SBC") == 0)
 
         val archive = archiveName(elem.idElem, cryptoFile)
 

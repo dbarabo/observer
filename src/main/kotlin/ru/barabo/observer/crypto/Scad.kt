@@ -68,6 +68,42 @@ object Scad {
             "$CRYPTO_FULL_PATH -verify -in $sourceFile -out $unsignFile -delete -1 -profile $DEF_PROFILE"
 
     private fun processCmd(cmd: String, file: File): File {
+
+        val command = cmd.substringBefore(' ')
+
+        val params = cmd.substringAfter(' ')
+
+        try {
+            logger.error("command=$cmd")
+            val info = Cmd.processBuild(command, params)
+
+            info.forEach { logger.error(it) }
+
+        } catch (e :Exception) {
+            logger.error("processCmd", e)
+
+            if (!TaskMapper.isAfinaBase()) return file
+
+            throw IOException(e.message)
+        }
+
+        if(!file.exists()) {
+
+            Thread.sleep(7000)
+
+            if(!file.exists()) {
+
+                Thread.sleep(15000)
+
+                if(!file.exists()) {
+                    throw IOException("file not found ${file.absolutePath}")
+                }
+            }
+        }
+        return file
+    }
+
+    /*private fun processCmd(cmd: String, file: File): File {
         try {
             Cmd.execCmd(cmd)
         } catch (e :Exception) {
@@ -92,7 +128,7 @@ object Scad {
             }
         }
         return file
-    }
+    }*/
 
     @Throws(IOException::class)
     fun encode(source: File, toEncode: File, certificateType: CertificateType): File {
