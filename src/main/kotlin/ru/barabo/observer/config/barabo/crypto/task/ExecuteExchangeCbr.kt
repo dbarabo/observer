@@ -64,7 +64,7 @@ object ExecuteExchangeCbr : SingleSelector {
     private fun nextTimeCheckState(elem: Elem, setNexHour: Int = 0): State {
 
         if(setNexHour == 0) {
-            elem.executed = LocalDateTime.now().plusMinutes(3)
+            elem.executed = LocalDateTime.now().plusMinutes(1)
         } else {
             elem.executed = LocalDateTime.now().withHour(setNexHour).withMinute(0).withSecond(0)
         }

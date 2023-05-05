@@ -54,7 +54,7 @@ object Process440p : SingleSelector {
 
     private const val SUBJECT_VIP = "440-П VIP"
 
-    private val WAIT_VIP = Duration.ofHours(7)
+    private val WAIT_VIP = Duration.ofHours(4)
 
     private fun sendVipInfo(elem: Elem, vipInfo :String): State {
 

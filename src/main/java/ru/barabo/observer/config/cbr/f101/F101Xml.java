@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.f101;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 @XStreamAlias("Ф0409101")
 public class F101Xml {
@@ -33,6 +34,10 @@ public class F101Xml {
 
     @XStreamAlias("ИнфПК")
     private InfoPc infoPc;
+
+    @XStreamAlias("ПротоколКонтроля")
+    @XStreamOmitField
+    private Object protocolControl;
 
     public String getUid() {
         return uid;

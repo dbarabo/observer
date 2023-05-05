@@ -21,7 +21,8 @@ object Get440pFiles : FileFinder, FileProcessor {
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","mz..._05\\.717", isModifiedTodayOnly = true))
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true,
+        LocalTime.of(7, 0), LocalTime.of(23, 0), Duration.ofSeconds(1))
 
     override fun config(): ConfigTask = TicketPtkPsd
 

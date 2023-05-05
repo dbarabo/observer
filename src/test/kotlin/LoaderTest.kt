@@ -90,7 +90,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1190,7 +1190,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/04/06/UNCRYPTO/K301BB000001_20230406_115947_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/05/04/UNCRYPTO/K301BB000001_20230504_120058_reject") )
     }
 
     //@Test
