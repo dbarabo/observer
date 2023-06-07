@@ -31,8 +31,12 @@ object CreateCrypto311p512 : SingleSelector {
         LocalTime.of(9, 0),
         LocalTime.of(15, 55), Duration.ofSeconds(1))
 
-    override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
-            "where r.state = 0 and trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
+    override val select: String =
+"""
+select r.id, a.code ||  decode(a.closed, od.max_date, ' O'  || a.opened, ' C' || a.closed)
+from od.PTKB_361P_REGISTER r, od.account a 
+where r.state = 0 and trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount
+"""
 
     override fun execute(elem: Elem): State {
 

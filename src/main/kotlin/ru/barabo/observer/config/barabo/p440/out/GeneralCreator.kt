@@ -81,7 +81,7 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
 
     override fun actionTask(selectorValue: Any?): ActionTask {
 
-        if(selectorValue !is Number) throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue")
+        if(selectorValue !is Number) throw Exception("ptkb_440p_response.IS_PB is not valid value = $selectorValue  ${selectorValue?.javaClass}}"  )
 
         val creator = OutType.creatorByDbValue( selectorValue.toInt() )
 

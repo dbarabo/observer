@@ -8,6 +8,7 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.crypto.ScadComplex
 import java.io.File
 import java.time.Duration
 import java.time.LocalDate
@@ -30,6 +31,12 @@ object Ticket311pCbr : FileFinder, FileProcessor {
     private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file : File) {
-        Archive.extractFromCab(file, ticket311p(), ".*\\.xml")
+        //Archive.extractFromCab(file, ticket311p(), ".*\\.xml")
+
+        val files = Archive.extractFromCab(file, ticket311p(), ".*\\.xml")?: return
+
+        for(signFile in files) {
+            ScadComplex.unsignAndMoveSource(signFile)
+        }
     }
 }

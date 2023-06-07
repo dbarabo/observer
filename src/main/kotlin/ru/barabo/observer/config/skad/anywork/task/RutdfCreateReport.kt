@@ -58,9 +58,6 @@ object RutdfCreateReport : Periodical {
 
             if (isExistsData) {
 
-                //val fileName = "K301BB000001_20220705_100000" //"K301BB000001_20220702_165040"
-                //val idFile = 1L //1263855456L
-
                 val textClob = AfinaQuery.execute(
                     query = GET_DATA_FILE,
                     params = arrayOf(idFile),
@@ -77,7 +74,6 @@ object RutdfCreateReport : Periodical {
                 AfinaQuery.commitFree(sessionUni)
 
             } else {
-
                 AfinaQuery.rollbackFree(sessionUni)
             }
 

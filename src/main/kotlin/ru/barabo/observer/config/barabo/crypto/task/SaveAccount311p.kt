@@ -19,17 +19,22 @@ import java.time.Duration
 import java.time.LocalTime
 
 object SaveAccount311p : SingleSelector {
-    override val select: String = "select r.id, a.code from od.PTKB_361P_REGISTER r, od.account a " +
-            "where trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount"
+
+    override fun name(): String = "311-П 2.Сохранить и зашифровать"
+
+    override fun config(): ConfigTask = CryptoConfig
+
+    override val select: String = """
+select r.id, a.code ||  decode(a.closed, od.max_date, ' O'  || a.opened, ' C' || a.closed) 
+from od.PTKB_361P_REGISTER r, od.account a   
+where trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount
+"""
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
             LocalTime.of(9, 0),
             LocalTime.of(16, 0),
         Duration.ofSeconds(1))
 
-    override fun name(): String = "311-П 2.Сохранить и зашифровать"
-
-    override fun config(): ConfigTask = CryptoConfig
 
     private const val SELECT_FILENAME = "select od.PTKB_FNS_EXPORT_XML.getFileName(?) from dual"
 
