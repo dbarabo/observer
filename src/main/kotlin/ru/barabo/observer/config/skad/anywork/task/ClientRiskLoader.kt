@@ -137,4 +137,4 @@ private val X_CBR = "H:/Gu_cb/Уровень риска из ЦБ".ifTest("C:/31
 
 private fun xCbrToday() = File("$X_CBR/${todayFolder()}")
 
-private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())

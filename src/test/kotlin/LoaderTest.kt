@@ -48,6 +48,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
+import ru.barabo.observer.config.skad.anywork.task.Extract407pByRfm
 import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
@@ -90,7 +91,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "TEST" /*"AFINA"*/)
+        TaskMapper.init("TEST", "AFINA" /*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -317,6 +318,15 @@ res3 = [calc.DEC_TEST];
 
         LoadAcq.execute(elem)
     }
+
+    //@Test
+    fun testExtract407pByRfm() {
+        val elem = Elem(File("C:/app/RFM_040507717_20230706_001.xml"), Extract407pByRfm, Duration.ZERO)
+
+        Extract407pByRfm.execute(elem)
+    }
+
+
 
     //@Test
     fun testBinLoader() {
@@ -1190,7 +1200,33 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/05/29/UNCRYPTO/K301BB000001_20230529_120102_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/07/20/UNCRYPTO/K301BB000001_20230720_120007_reject") )
+    }
+
+    //@Test
+    fun testRegExpFio() {
+        val cliens = "{ ? = call OD.PTKB_CASH.getClientPhysicByUserDepart }"
+
+        val clients = AfinaQuery.selectCursor(cliens).map { it[0]?.toString() ?: "" }
+
+        val regExp = "[А-ЯЁ-]+\\s[А-ЯЁ-]+\\s[А-ЯЁ-]+(\\s[А-ЯЁ]+)?$" //"[А-ЯЁ-]+\\s[А-ЯЁ-]+(\\s[А-ЯЁ-]){1,2}"
+
+        val pattern = Pattern.compile(regExp)
+
+        logger.error("client count = ${clients.size}")
+
+
+        var notFound = 0
+        for (client in clients) {
+            val isClient = pattern.matcher(client).matches()
+
+            if(!isClient) {
+                logger.error(client)
+                notFound++
+            }
+        }
+
+        logger.error("notFound = $notFound")
     }
 
     //@Test
@@ -1267,3 +1303,4 @@ res3 = [calc.DEC_TEST];
         logger.error("parent=${file.parent}")
     }
 }
+

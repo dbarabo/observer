@@ -36,4 +36,8 @@ public final class MainFile {
         this.idFile = idFile;
         this.mainDocument = mainDocument;
     }
+
+    public boolean isFakeFile() {
+        return mainDocument == null;
+    }
 }

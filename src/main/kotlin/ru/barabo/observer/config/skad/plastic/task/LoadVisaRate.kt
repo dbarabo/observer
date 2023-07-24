@@ -46,7 +46,8 @@ order by ad.onedate"""
         return State.OK
     }
 
-    private fun String.toDate(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
     private const val EXEC_ADD_RATE_VISA: String = "{ call od.PTKB_PLASTIC_TURN.addExchangeRate(?, ?, ?, ?, ?, ?) }"
 }
+
+fun String.toDate(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy"))

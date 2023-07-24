@@ -54,6 +54,14 @@ object LoaderRutdfTicketReject {
                             saveError(lastSentRutDfFile, uid, event, errorBuffer)
                             StateFind.FIND_ERROR
                         }
+                    } else if(line.indexOf("B45_APPLICATION\t") == 0) {
+
+                        val tags = line.split('\t')
+                        if(tags.size > 4) {
+                            uid = tags[4].trim()
+                            saveError(lastSentRutDfFile, uid, event, errorBuffer)
+                            StateFind.FIND_ERROR
+                        }
                     }
                 }
 

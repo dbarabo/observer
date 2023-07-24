@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.cbr.ticket.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
@@ -16,6 +17,8 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 object Ticket311pCbr : FileFinder, FileProcessor {
+
+    private val logger = LoggerFactory.getLogger(Ticket311pCbr::class.java)
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","2z...005\\.717", isModifiedTodayOnly = true))
@@ -36,7 +39,11 @@ object Ticket311pCbr : FileFinder, FileProcessor {
         val files = Archive.extractFromCab(file, ticket311p(), ".*\\.xml")?: return
 
         for(signFile in files) {
-            ScadComplex.unsignAndMoveSource(signFile)
+            try {
+                ScadComplex.unsignAndMoveSource(signFile)
+            } catch (e: Exception) {
+                logger.error("unsignAndMoveSource", e)
+            }
         }
     }
 }

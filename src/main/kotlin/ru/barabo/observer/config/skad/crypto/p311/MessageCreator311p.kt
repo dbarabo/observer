@@ -34,7 +34,8 @@ object MessageCreator311p {
 
         val fileName = AfinaQuery.selectValue(SELECT_FILENAME, arrayOf(idMessage) ) as String
 
-        val xmlFile = saveXml(fileName, mainFileData, "windows-1251")
+        val xmlFile = if(mainFileData.isFakeFile) fullFile(fileName)
+                      else saveXml(fileName, mainFileData, "windows-1251")
 
         val xsd = if(fileName.indexOf("SF") == 0) "/xsd/SFC0_512.xsd" else "/xsd/SBC0_512.xsd"
 
@@ -81,7 +82,10 @@ object MessageCreator311p {
 
             val idFile = info?.get(0) as String
 
-            val mainDocument = createMainDocument(info.drop(1))
+            val numberMessage = info[3] as String
+
+            val mainDocument = if(numberMessage != "0") createMainDocument(info.drop(1)) else null
+
 
             MainFile(idFile, mainDocument)
         } catch (e: Exception) {
