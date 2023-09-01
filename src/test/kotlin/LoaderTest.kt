@@ -91,7 +91,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA" /*"TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1200,7 +1200,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/07/20/UNCRYPTO/K301BB000001_20230720_120007_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/08/31/UNCRYPTO/K301BB000001_20230831_120013_reject") )
     }
 
     //@Test
@@ -1281,7 +1281,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 89951664L, task = ClearPrimFromArchiveDay)
+        val elem = Elem(idElem = 92404832L, task = ClearPrimFromArchiveDay)
 
         ClearPrimFromArchiveDay.execute(elem)
     }
@@ -1302,5 +1302,12 @@ res3 = [calc.DEC_TEST];
 
         logger.error("parent=${file.parent}")
     }
+
+    //@Test
+    fun testValidate311P() {
+
+        val file = MessageCreator311p.createMessage(1289785658L) //1289785611L)
+    }
 }
 
+fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")

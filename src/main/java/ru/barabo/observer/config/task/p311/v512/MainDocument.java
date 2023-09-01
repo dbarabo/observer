@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.p311.v512;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,12 +17,15 @@ public final class MainDocument {
     }
 
     @XStreamAlias("ИдДок")
+    @XStreamAsAttribute
     private final String idDoc = UUID.randomUUID().toString().toUpperCase();
 
     @XStreamAlias("КНД")
+    @XStreamAsAttribute
     private String knd; // for Juric = "1114301", for Physic = "1114315"
 
     @XStreamAlias("КодНОБ")
+    @XStreamAsAttribute
     private String codeFns;
 
     @XStreamAlias("НомСооб")
@@ -34,7 +38,7 @@ public final class MainDocument {
     private final String positionMainBank = "Начальник ОРОиОС ДОК";
 
     @XStreamAlias("ФамПрБ")
-    private final String secondNameMainBank = "Богач А.П.";
+    private final String secondNameMainBank = "Юркова Л.В.";
 
     @XStreamAlias("ТелБанка")
     private final String phoneMainBank = "(423)220-96-93";

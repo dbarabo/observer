@@ -18,6 +18,7 @@ object EnsConfig : AbstractConfig() {
         UnoLoader.findAll() // add all 440p files without ticket KWT & IZV
 
         Process440p.findAll()
+        TryPnoExecute.findAll()
 
         AddToArchive440pScad.findAll()
 

@@ -185,6 +185,8 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
             xstream.processAnnotations(PbResult::class.java)
             xstream.processAnnotations(PbXml::class.java)
 
+            xstream.processAnnotations(FioAttr::class.java)
+
             xstream.processAnnotations(AbstractInfoPart::class.java)
             xstream.processAnnotations(RestInfoPart::class.java)
             xstream.processAnnotations(RestXml::class.java)

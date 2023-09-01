@@ -6,24 +6,24 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public final class Fio {
 
 	@XStreamAlias("Фамилия")
-	private String lastName;
+	private StringElement lastName;
 
 	@XStreamAlias("Имя")
-	private String firstName;
+	private StringElement firstName;
 
 	@XStreamAlias("Отчество")
-	private String papaName;
+	private StringElement papaName;
 
 	public String getLastName() {
-		return lastName;
+		return lastName.value;
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return firstName.value;
 	}
 
 	public String getPapaName() {
-		return papaName;
+		return papaName.value;
 	}
 
 	public Fio() {
@@ -31,8 +31,8 @@ public final class Fio {
 
 	public Fio(String firstName, String lastName, String secondName) {
 
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.papaName = secondName;
+		this.firstName = new StringElement(firstName);
+		this.lastName = new StringElement(lastName);
+		this.papaName = new StringElement(secondName);
 	}
 }

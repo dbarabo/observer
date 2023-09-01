@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.load.xml;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
+import ru.barabo.observer.config.task.p440.load.xml.impl.FioAttr;
 
 /**
  * представитель банка
@@ -17,16 +18,16 @@ public class SenderBank {
 	private String office;
 
 	@XStreamAlias("ФИО")
-	private Fio sender;
+	private FioAttr sender;
 
 	public SenderBank(String office, String firstName, String lastName, String secondName) {
 		this.office = office;
 
-		sender = new Fio(firstName, lastName, secondName);
+		sender = new FioAttr(firstName, lastName, secondName);
 	}
 
 	public static SenderBank OUR_MAIN_UOD = new SenderBank("Начальник Департамента обслуживания клиентов",
-			"Евгения", "Кокшарова", "Владимировна");
+			"Лидия", "Юркова", "Васильевна");
 
 
 	public static SenderBank create(String[] items) {
@@ -46,11 +47,11 @@ public class SenderBank {
 		this.office = office;
 	}
 
-	public Fio getSender() {
+	public FioAttr getSender() {
 		return sender;
 	}
 
-	public void setSender(Fio sender) {
+	public void setSender(FioAttr sender) {
 		this.sender = sender;
 	}
 }

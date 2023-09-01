@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.task.p440.load.ver4.total;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
+import ru.barabo.observer.config.task.p440.load.xml.impl.FioAttr;
 
 @XStreamAlias("СвПлОбоснов")
 public class PayerJust {
@@ -10,8 +10,8 @@ public class PayerJust {
     private String nameOrganization;
 
     @XStreamAlias("НПлИП")
-    private Fio fioIp;
+    private FioAttr fioIp;
 
     @XStreamAlias("НПлФЛ")
-    private Fio fioPhysic;
+    private FioAttr fioPhysic;
 }

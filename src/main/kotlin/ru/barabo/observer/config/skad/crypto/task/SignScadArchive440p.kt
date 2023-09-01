@@ -25,11 +25,11 @@ object SignScadArchive440p : SingleSelector {
 
     override val accessibleData: AccessibleData = AccessibleData(
             workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(17, 0),
+            workTimeTo = LocalTime.of(17, 50),
             executeWait = Duration.ofSeconds(5))
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +
-            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 20/(24*60))"
+            "trunc(created) = trunc(sysdate) and (count_files = 50 or sysdate - created > 15/(24*60))"
 
     override fun execute(elem: Elem): State {
 

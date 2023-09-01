@@ -37,7 +37,7 @@ object MessageCreator311p {
         val xmlFile = if(mainFileData.isFakeFile) fullFile(fileName)
                       else saveXml(fileName, mainFileData, "windows-1251")
 
-        val xsd = if(fileName.indexOf("SF") == 0) "/xsd/SFC0_512.xsd" else "/xsd/SBC0_512.xsd"
+        val xsd = if(fileName.indexOf("SF") == 0) "/xsd/SFC0_513.xsd" else "/xsd/SBC0_513.xsd"
 
         validateXml(xmlFile, xsd, ::errorFolder )
 

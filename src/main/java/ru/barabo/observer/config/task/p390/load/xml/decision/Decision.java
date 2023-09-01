@@ -7,7 +7,7 @@ import ru.barabo.observer.config.task.p390.load.xml.general.Bank;
 import ru.barabo.observer.config.task.p390.load.xml.general.Custom;
 import ru.barabo.observer.config.task.p390.load.xml.general.Payer;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Account;
-import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
+import ru.barabo.observer.config.task.p440.load.xml.impl.FioAttr;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class Decision {
     private Custom custom;
 
     @XStreamAlias("ФИОРук")
-    private Fio fioHead;
+    private FioAttr fioHead;
 
     @XStreamAlias("Банк")
     private Bank bank;

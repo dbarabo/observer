@@ -97,7 +97,7 @@ public class XmlLoader<E> {
 
 		xstream.processAnnotations(Account.class);
 		xstream.processAnnotations(Address.class);
-		xstream.processAnnotations(Fio.class);
+		xstream.processAnnotations(FioAttr.class);
 		xstream.processAnnotations(FnsXml.class);
 		xstream.processAnnotations(Kesp.class);
 		xstream.processAnnotations(PayerXml.class);

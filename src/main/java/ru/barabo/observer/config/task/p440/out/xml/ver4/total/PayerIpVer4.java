@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4.total;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.ParamsQuery;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
+import ru.barabo.observer.config.task.p440.load.xml.impl.FioAttr;
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerIp;
 import ru.barabo.observer.config.task.p440.load.xml.impl.PayerType;
 
@@ -17,7 +18,7 @@ public class PayerIpVer4 implements ParamsQuery {
     private String inn;
 
     @XStreamAlias("ФИОИП")
-    private Fio fio;
+    private FioAttr fio;
 
     transient private Number idClient;
 
@@ -29,11 +30,11 @@ public class PayerIpVer4 implements ParamsQuery {
     public PayerIpVer4() {
     }
 
-    public PayerIpVer4(Number idClient, String inn, Fio fio) {
+    public PayerIpVer4(Number idClient, String inn, FioAttr fio) {
         this.idClient = idClient;
         this.inn = inn;
 
-        this.fio = new Fio(fio.getFirstName(), fio.getLastName(), fio.getPapaName());
+        this.fio = new FioAttr(fio.getFirstName(), fio.getLastName(), fio.getPapaName());
     }
 
     public PayerIpVer4(Number idClient, String inn, String firstName, String lastName, String secondName) {
@@ -41,14 +42,14 @@ public class PayerIpVer4 implements ParamsQuery {
         this.idClient = idClient;
         this.inn = inn;
 
-        fio = new Fio(firstName, lastName, secondName);
+        fio = new FioAttr(firstName, lastName, secondName);
     }
 
     public String getInn() {
         return inn;
     }
 
-    public Fio getFio() {
+    public FioAttr getFio() {
         return fio;
     }
 

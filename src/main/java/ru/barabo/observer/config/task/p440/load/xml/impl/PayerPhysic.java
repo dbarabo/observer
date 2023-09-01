@@ -34,10 +34,10 @@ public final class PayerPhysic implements ParamsQuery {
 	private String dateDoc;
 
 	@XStreamAlias("ФИО")
-	private Fio fioSaved;
+	private FioAttr fioSaved;
 
 	@XStreamAlias("ФИОФЛ")
-	private Fio fio;
+	private FioAttr fio;
 
 	// @XStreamAlias("АдрПлат") old 2020
 	@XStreamAlias("Адрес")
@@ -57,7 +57,7 @@ public final class PayerPhysic implements ParamsQuery {
 		this.idClient = idClient;
 		this.inn = inn;
 
-		this.fio = new Fio(firstName, lastName, secondName);
+		this.fio = new FioAttr(firstName, lastName, secondName);
 
 		this.address = Address.parseAddress(address);
 		
@@ -121,7 +121,7 @@ public final class PayerPhysic implements ParamsQuery {
 		return XmlLoader.parseDate(dateDoc);
 	}
 
-	public Fio getFio() {
+	public FioAttr getFio() {
 		return fio;
 	}
 

@@ -2,7 +2,7 @@ package ru.barabo.observer.config.barabo.p440.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -20,11 +20,11 @@ object TryPnoExecute : SingleSelector {
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_fns_from where state = 2 and substr(type_440p, 1, 5) = 'ПОРУЧ'"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(16, 0), executeWait = Duration.ofSeconds(5))
+            workTimeTo = LocalTime.of(17, 0), executeWait = Duration.ofSeconds(5))
 
     override fun name(): String = "Инкассовые попытка исполнить"
 
-    override fun config(): ConfigTask = P440Config
+    override fun config(): ConfigTask = EnsConfig
 
         override fun execute(elem: Elem): State {
 
@@ -44,7 +44,7 @@ object TryPnoExecute : SingleSelector {
 
     private const val SUBJECT_DOCUMENT_NOT_EXEC = "440-П Ошибка Документ не исполнен"
 
-    private val WAIT_EXECUTE = Duration.ofHours(1)
+    private val WAIT_EXECUTE = Duration.ofMinutes(15)
 
     private fun bodyNotExecDocument(date: LocalDateTime, elem: Elem): String = "Документ, инкас. поручения, созданный в $date " +
             "до сих пор не исполнен ptkb_440p_fns_from.id = ${elem.idElem}"
