@@ -91,7 +91,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("TEST", "AFINA" /*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -700,18 +700,18 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun validateOldRpo() {
+    fun validateXmlByXsd() {
 
-        val xsd = "/xsd/RPO_301.xsd"
+        val xsd = "/xsd/LSOZ.xsd"
 
         //val xmlFile = File("C:/440-П/2021/03/10/test/RPO10507717_250220210308_706511.xml") // ИП
 
-        val xmlFile = File("C:/440-П/2021/03/10/test/RPO10507717_250220210308_707004.xml")
+        val xmlFile = File("C:/temp2/LSOZ_0021_0000_F20230801_L20230831_C20230913_0001_WIN.xml")
 
         validateXml(xmlFile, xsd, ::errorFolder )
     }
 
-    private fun errorFolder(): File = Cmd.createFolder("${X440P}/${Get440pFiles.todayFolder()}/ERROR")
+    private fun errorFolder(): File = Cmd.createFolder("C:/temp2/err")
 
 
     //@Test
@@ -1200,7 +1200,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/08/31/UNCRYPTO/K301BB000001_20230831_120013_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/09/12/UNCRYPTO/K301BB000001_20230912_120011_reject") )
     }
 
     //@Test
@@ -1281,7 +1281,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 92404832L, task = ClearPrimFromArchiveDay)
+        val elem = Elem(idElem = 92688400L, task = ClearPrimFromArchiveDay)
 
         ClearPrimFromArchiveDay.execute(elem)
     }

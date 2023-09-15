@@ -10,8 +10,13 @@ import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.attribute.*
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
+
 
 object CheckTableSpace : SinglePerpetual {
 
@@ -100,3 +105,38 @@ private const val SELECT_NEXT_FILENAME = "select od.PTKB_PRECEPT.getNextFullFile
 private const val CURSOR_TABLE_SPACE = "{ ? = call od.PTKB_PRECEPT.getTableSpaceSize }"
 
 private val logger = LoggerFactory.getLogger(CheckTableSpace::class.java)
+
+fun setRight() {
+
+    logger.error("${System.getProperty("user.name")}")
+
+    val file: Path = Paths.get("\\\\192.168.0.35\\work1\\Dep_Plan")
+    val aclAttr: AclFileAttributeView = Files.getFileAttributeView(file, AclFileAttributeView::class.java)
+    //println(aclAttr.owner)
+    logger.error("${aclAttr.owner}")
+    for (aclEntry in aclAttr.acl) {
+        logger.error("$aclEntry")
+        //System.out.println(aclEntry)
+    }
+    //println()
+
+    val upls: UserPrincipalLookupService = file.fileSystem.userPrincipalLookupService
+    val user: UserPrincipal = upls.lookupPrincipalByName("PTKB\\nazarov") //System.getProperty("user.name")
+    val builder: AclEntry.Builder = AclEntry.newBuilder()
+    builder
+        .setType(AclEntryType.ALLOW)
+        .setPrincipal(user)
+        .setPermissions(
+        //EnumSet.of(
+            AclEntryPermission.READ_DATA, AclEntryPermission.EXECUTE,
+            AclEntryPermission.READ_ACL, AclEntryPermission.READ_ATTRIBUTES, AclEntryPermission.READ_NAMED_ATTRS //,
+            //AclEntryPermission.WRITE_ACL, AclEntryPermission.DELETE
+        //)
+        )
+        .setFlags(AclEntryFlag.FILE_INHERIT, AclEntryFlag.DIRECTORY_INHERIT)
+        .build()
+
+    //builder.setPrincipal(user)
+    //builder.setType(AclEntryType.ALLOW)
+    //aclAttr.acl = Collections.singletonList(builder.build())
+}

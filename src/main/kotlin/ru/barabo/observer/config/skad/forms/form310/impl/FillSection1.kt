@@ -18,7 +18,7 @@ fun checkCreateData310Form(dateReport: Date): Data310Form? {
 
         val section1Row = toRowSection1(row)
 
-        data310Form.addSection1(section1Row)
+        data310Form.addSection1(section1Row, dateReport)
     }
 
     data310Form.addSection2(dateReport)
@@ -34,17 +34,18 @@ fun checkCreateData310Form(dateReport: Date): Data310Form? {
     return data310Form
 }
 
-private fun Data310Form.addSection1(rowSection1: RowSection1) {
+private fun Data310Form.addSection1(rowSection1: RowSection1, dateReport: Date) {
     if(rowSection1.isClosedPawnPact) {
         addClosedPawnPact(rowSection1)
     } else {
-        addOpenPawnPact(rowSection1)
+        addOpenPawnPact(rowSection1, dateReport)
     }
 }
 
-private fun Data310Form.addOpenPawnPact(rowSection1: RowSection1) {
+private fun Data310Form.addOpenPawnPact(rowSection1: RowSection1, dateReport: Date) {
 
-    val pawnGoodsIdList = AfinaQuery.selectCursor(SELECT_R1_3, arrayOf(rowSection1.pawnPactId) )
+    val pawnGoodsIdList = AfinaQuery.selectCursor(SELECT_R1_3,
+        arrayOf(rowSection1.pawnPactId, java.sql.Date(dateReport.time)) )
         .map { it[0].toString() }
 
     val subSectionR1123 = SubSectionR1123(
