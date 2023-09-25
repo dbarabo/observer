@@ -23,7 +23,7 @@ object BaraboSmtp : SendMail {
 
     val PRIM_AUTO = arrayOf("oper@ptkb.ru", smtpProperties.from, "neganova@ptkb.ru").onlyAfinaOrYa()
 
-    val BOOKER = arrayOf("kudryavceva@ptkb.ru").onlyAfinaOrYa()
+    val BOOKER = arrayOf("kudryavceva@ptkb.ru", "bakharev@ptkb.ru", "haritonenko@ptkb.ru", "pavlenko@ptkb.ru").onlyAfinaOrYa()
 
     val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 

@@ -66,7 +66,7 @@ private fun Data310Form.addClosedPawnPact(rowSection1: RowSection1) {
 
 private const val SELECT_R1 = "{? = call od.PTKB_FORM_310.getSection1( ? ) }"
 
-private const val SELECT_R1_3 = "{? = call od.PTKB_FORM_310.getSection1_3PawnGoods( ? ) }"
+private const val SELECT_R1_3 = "{? = call od.PTKB_FORM_310.getSection1_3PawnGoods( ?, ? ) }"
 
 private data class RowSection1(val pawnPactId: Number, val loanId: Number, val pawnpactOpen: Date,
                                val pawnpactLabel: String?, val signLoan: Date, val pawnpactClose: Date?,

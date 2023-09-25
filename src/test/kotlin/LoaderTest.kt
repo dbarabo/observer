@@ -35,9 +35,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
-import ru.barabo.observer.config.cbr.ticket.task.X440P
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
@@ -1198,9 +1196,9 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    //@Test
+    @Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/09/12/UNCRYPTO/K301BB000001_20230912_120011_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/09/22/UNCRYPTO/K301BB000001_20230922_173802_reject") )
     }
 
     //@Test
