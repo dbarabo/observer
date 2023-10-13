@@ -35,7 +35,7 @@ object RutdfCreateReport : Periodical {
 
     override val accessibleData: AccessibleData =  AccessibleData(
         WeekAccess.WORK_ONLY, false,
-        LocalTime.of(12, 0), LocalTime.of(20, 0), Duration.ofMinutes(1))
+        LocalTime.of(11, 50), LocalTime.of(20, 0), Duration.ofMinutes(10))
 
     override fun name(): String = "RUTDF создать файл"
 

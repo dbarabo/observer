@@ -32,7 +32,6 @@ object CheckTableSpace : SinglePerpetual {
         workTimeFrom = LocalTime.of(6, 30), workTimeTo = LocalTime.of(23, 50) )
 
     override fun execute(elem: Elem): State {
-
         val spaces = AfinaQuery.selectCursor(CURSOR_TABLE_SPACE)
 
         for (space in spaces) {

@@ -12,11 +12,11 @@ object NbkiSmtp : SendMail {
             password = MasterKey.value("NBKI_PSWD"),
             from = "nbki@ptkb.ru")
 
-    private val NBKI = arrayOf("RUTDF@nbki.ru") //arrayOf("credithistory@nbki.ru")
+    private val NBKI =  arrayOf("RUTDF@nbki.ru") //arrayOf("ChangeCreditHistory@nbki.ru") // //arrayOf("credithistory@nbki.ru")
 
     private val SUBJECT_NBKI = "NBKI information"
 
-    private val BODY_NBKI = "file contains information about loans from PTKB bank"
+    private val BODY_NBKI = "information about loans from PTKB bank" //"file contains xlsx file"
 
     fun sendToNbki(file: File) {
 

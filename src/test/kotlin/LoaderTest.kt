@@ -40,6 +40,7 @@ import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
+import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
@@ -1194,11 +1195,14 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 
         elem.task?.execute(elem)
+
+        val file = File("")
+        file.name
     }
 
-    @Test
+    //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/09/22/UNCRYPTO/K301BB000001_20230922_173802_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/10/04/UNCRYPTO/K301BB000001_20231004_122154_reject") )
     }
 
     //@Test
@@ -1279,9 +1283,16 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 92688400L, task = ClearPrimFromArchiveDay)
+        val elem = Elem(idElem = 93076872L, task = ClearPrimFromArchiveDay)
 
         ClearPrimFromArchiveDay.execute(elem)
+    }
+
+    @Test fun testCheckNotLoaded440pFiles() {
+
+        val elem = Elem(idElem = 93076872L, task = CheckNotLoaded440pFiles)
+
+        CheckNotLoaded440pFiles.execute(elem)
     }
 
     //@Test

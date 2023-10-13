@@ -20,7 +20,7 @@ object UncryptoScad440p : FileProcessor, FileFinder {
     override fun config(): ConfigTask = CryptoScad // ScadConfig
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
-            false, LocalTime.MIN, LocalTime.of(16, 0)/*LocalTime.MAX*/, Duration.ofSeconds(1))
+            false, LocalTime.MIN, LocalTime.of(23, 0)/*LocalTime.MAX*/, Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::getFolder440p, ".*\\.vrb"))
 

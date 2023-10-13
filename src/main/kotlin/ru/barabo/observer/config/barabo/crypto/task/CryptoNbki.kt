@@ -26,7 +26,7 @@ object CryptoNbki : FileFinder, FileProcessor {
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofHours(4))
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.txt"))
+            listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.xlsx"))
 
     override fun processFile(file: File) {
 
