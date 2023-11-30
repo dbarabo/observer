@@ -14,8 +14,8 @@ object CheckOpenArchiveDay : SingleSelector {
     override val select: String =
             "select co.doc, to_char(co.ArcDate, 'dd.mm.yyyy') from ChangeOperDate co where co.doc = od.PTKB_PRECEPT.findArchiveOpenDay and rownum = 1"
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(19, 0),
-            workTimeTo = LocalTime.of(22, 0))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(18, 30),
+            workTimeTo = LocalTime.of(23, 55))
 
     override fun name(): String = "Есть Открытый Архив. день"
 

@@ -7,6 +7,7 @@ import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
@@ -20,7 +21,7 @@ object ExecOpenArchiveDay : Periodical {
     override var lastPeriod: LocalDateTime? = null
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(21, 47),
-            workTimeTo = LocalTime.of(23, 59) )
+            workTimeTo = LocalTime.of(23, 59), executeWait = Duration.ofMinutes(70) )
 
     override fun name(): String = "Архивный день - открытие"
 

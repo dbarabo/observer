@@ -27,19 +27,24 @@ object CheckTicketArchive440p : SingleSelector {
         val data = AfinaQuery.select(SELECT_ARCHIVE_INFO, arrayOf(elem.idElem)).first()
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_440P_ERROR,
-                body = errorMessage(elem.name, data[0], data[1]) )
+                body = errorMessage(elem.name, data[0], data[1], data[2]) )
 
         return State.OK
     }
 
-    private const val SELECT_ARCHIVE_INFO = "select to_char(a.created, 'dd.mm.yy hh24:mi:ss'), " +
-            "decode(a.STATE, 0, 'СОЗДАН', 1, 'Отправлен', 2, 'Подписан', 5, 'Отправлен', 99, " +
-            "'Получена квитанция', to_char(a.STATE) ) from od.ptkb_440p_archive a where a.id = ?"
+    private const val SELECT_ARCHIVE_INFO = """
+        select to_char(a.created, 'dd.mm.yy hh24:mi:ss'),
+          decode(a.STATE, 0, 'СОЗДАН', 1, 'Отправлен', 2, 'Подписан', 5, 'Отправлен', 99,
+          'Получена квитанция', to_char(a.STATE) ), decode(a.is_smev_source, 0, 'БАНКОМ', 'СМЭВ') source_ 
+          from od.ptkb_440p_archive a where a.id = ?
+    """
 
     private const val SUBJECT_440P_ERROR = "440-П Ошибка"
 
-    private fun errorMessage(fileName :String, created :Any?, state :Any?) = "На отправленный архив до сих пор не получена квитанция\n" +
+    private fun errorMessage(fileName :String, created :Any?, state :Any?, source_: Any?) =
+            "На отправленный архив до сих пор не получена квитанция\n" +
             "\tФайл архива: $fileName\n" +
             "\tСоздан: $created\n" +
-            "\tСостояние архива: $state"
+            "\tСостояние архива: $state\n" +
+            "\tИсточник: $source_"
 }

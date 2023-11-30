@@ -12,6 +12,7 @@ import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
 import ru.barabo.observer.config.task.template.file.FileProcessor
+import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.time.Duration
 import java.time.LocalTime
@@ -22,7 +23,8 @@ object GetSmevArchives : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = EnsConfig //P440Config
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(10))
+    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false,
+        LocalTime.of(2, 0), LocalTime.of(23, 30), Duration.ofSeconds(10))
 
     override val fileFinderData: List<FileFinderData> =
         listOf(FileFinderData(SMEV_IN,"AFN_MIFNS00_0507717_\\d{8}_\\d{5}\\.zip", isModifiedTodayOnly = false))
@@ -38,6 +40,12 @@ object GetSmevArchives : FileFinder, FileProcessor {
 
         arjArchives?.forEach {
             Archive.extractFromArj(it, smevInToday().absolutePath)
+        }
+
+        if(file.exists()) {
+
+            BaraboSmtp.send(to=BaraboSmtp.AUTO, subject="${name()} - Не удалось удалить файл",
+                body = "${name()} - Не удалось удалить файл $file")
         }
     }
 }

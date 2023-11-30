@@ -34,6 +34,8 @@ object CheckExistsTicketRutdf : Periodical {
 
     override fun execute(elem: Elem): State {
 
+        isExistsYesterdayFile()
+
         val absents = AfinaQuery.select(SELECT_ABSENT_TICKET2)
 
         if (absents.isEmpty()) return State.OK
@@ -49,6 +51,15 @@ object CheckExistsTicketRutdf : Periodical {
         return State.ERROR
     }
 
+    private fun isExistsYesterdayFile() {
+
+        val isExistsYesterday = (AfinaQuery.selectValue(SELECT_IS_EXISTS_YESTERDAY_FILE) as Number).toInt() != 0
+
+        if(!isExistsYesterday) {
+            sendMailAbsentYesterdayFile()
+        }
+    }
+
     private fun sendMailAbsentTicket(fileName: String, dateFile: Date) {
         BaraboSmtp.sendStubThrows(
             to = BaraboSmtp.AUTO,
@@ -56,7 +67,17 @@ object CheckExistsTicketRutdf : Periodical {
             body = "Нет квитка на отправленный $dateFile файл RUTDF $fileName"
         )
     }
+
+    private fun sendMailAbsentYesterdayFile() {
+        BaraboSmtp.sendStubThrows(
+            to = BaraboSmtp.AUTO,
+            subject = "вчера НЕ отправлялся файл в НБКИ",
+            body = "В предыдущий рабочий день вообще не отправлялся файл в НБКИ. Это ненормально, проверьте все ли в порядке."
+        )
+    }
 }
+
+private const val SELECT_IS_EXISTS_YESTERDAY_FILE = "select od.PTKB_RUTDF.IS_EXISTS_YESTERDAY_FILE from dual"
 
 private const val SELECT_ABSENT_TICKET2 = """
  select f.file_name, f.date_file

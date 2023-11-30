@@ -1,4 +1,5 @@
 import oracle.jdbc.OracleTypes
+import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
@@ -107,9 +108,42 @@ class LoaderTest {
     }
 
     //@Test
-    fun testCashOutCountryChecker() {
+    fun testParseKeyRate() {
 
-        CashOutCountryChecker.check(1239666409L,"MTL!")
+        //val request = "https://www.cbr.ru/hd_base/KeyRate/"
+        val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.10.2013&UniDbQuery.To=30.10.2023"
+
+        val body = Jsoup.connect(request)
+            .header("Content-Type","application/x-www-form-urlencoded")
+            .cookie("TALanguage", "ALL")
+            .data("mode", "filterReviews")
+            .data("filterRating", "")
+            .data("filterSegment", "")
+            .data("filterSeasons", "")
+            .data("filterLang", "ALL")
+            .referrer(request)
+            .header("X-Requested-With", "XMLHttpRequest")
+            //.header("X-Puid",xpuid)
+            //.data("returnTo",returnTo)
+            .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+            //.method(Connection.Method.POST)
+             .get().body()
+
+        //logger.error("$body")
+
+        val find = body.allElements?.first { (it.className()?.indexOf("data"/*"table-wrapper"*/) ?: -1) >= 0 }
+
+        logger.error("$find")
+
+       // val regex = Pattern.compile("(.*?)<td>(.*?)</td>(.*?)")
+
+        val regex = Pattern.compile("(<td>(.*?)</td>)")
+
+        val regexMatcher = regex.matcher("$find")
+
+        while (regexMatcher.find()) {
+            logger.error(regexMatcher.group(2))
+        }
     }
 
 
@@ -1200,10 +1234,16 @@ res3 = [calc.DEC_TEST];
         file.name
     }
 
-    //@Test
+    @Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/10/04/UNCRYPTO/K301BB000001_20231004_122154_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/11/29/UNCRYPTO/K301BB000001_20231129_112839_reject") )
     }
+
+    //@Test
+    fun testLoaderRutdfTicketCheckTradeByPath() {
+        LoaderRutdfTicketReject.checkTradeByPath( LocalDate.of(2023, 2, 1), LocalDate.of(2023, 6, 1) )
+    }
+
 
     //@Test
     fun testRegExpFio() {
@@ -1283,12 +1323,18 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 93076872L, task = ClearPrimFromArchiveDay)
+        val elem = Elem(idElem = 93570767L,
+        //17 93584962L,
+        //18 93584719L,
+        //19 93592149L,
+        // 93558795L,
+            task = ClearPrimFromArchiveDay)
 
         ClearPrimFromArchiveDay.execute(elem)
     }
 
-    @Test fun testCheckNotLoaded440pFiles() {
+    //@Test
+    fun testCheckNotLoaded440pFiles() {
 
         val elem = Elem(idElem = 93076872L, task = CheckNotLoaded440pFiles)
 

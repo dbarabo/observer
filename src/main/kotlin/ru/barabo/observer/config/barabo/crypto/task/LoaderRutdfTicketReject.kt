@@ -1,10 +1,23 @@
 package ru.barabo.observer.config.barabo.crypto.task
 
+import org.slf4j.LoggerFactory
+import ru.barabo.db.Query
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.config.cbr.ibank.task.toDate
+import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
+import ru.barabo.observer.config.fns.ens.task.dateFolder
+import ru.barabo.observer.config.skad.anywork.task.xNbki
+import ru.barabo.observer.config.task.finder.isFind
 import java.io.File
 import java.nio.charset.Charset
+import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.regex.Pattern
 
 object LoaderRutdfTicketReject {
+
+    private val logger = LoggerFactory.getLogger(LoaderRutdfTicketReject::class.java)
 
     fun loadTicket(ticketFile: File) {
 
@@ -47,20 +60,19 @@ object LoaderRutdfTicketReject {
                         uid = line.substringAfter('\t').trim()
 
                         state = if(event == "2.4") {
-
                             StateFind.FIND_GUARANTOR
-
                         } else {
                             saveError(lastSentRutDfFile, uid, event, errorBuffer)
                             StateFind.FIND_ERROR
                         }
+
                     } else if(line.indexOf("B45_APPLICATION\t") == 0) {
 
                         val tags = line.split('\t')
                         if(tags.size > 4) {
                             uid = tags[4].trim()
                             saveError(lastSentRutDfFile, uid, event, errorBuffer)
-                            StateFind.FIND_ERROR
+                            state = StateFind.FIND_ERROR
                         }
                     }
                 }
@@ -105,7 +117,79 @@ object LoaderRutdfTicketReject {
 
         AfinaQuery.execute(EXEC_SAVE_ERROR, arrayOf(rutDfFile, uid, event, error, guarantorUid))
     }
+
+    fun checkTradeByPath(startDate: LocalDate, endExlusive: LocalDate = LocalDate.now()) {
+
+        val maskFile = "K301BB000001_\\d{8}_\\d{6}"
+
+        val patterFile = Pattern.compile(maskFile, Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+
+
+        var loopDate = startDate
+
+        var count = 0
+
+        while (loopDate < endExlusive) {
+
+            val directory = File("${xNbki()}/${loopDate.dateFolder()}/CRYPTO" )
+
+            directory.listFiles { f ->
+                !f.isDirectory && patterFile.isFind(f.name)
+            }?.forEach {
+                count = findTradeByFile(it, count)
+            }
+
+            loopDate = loopDate.plusDays(1)
+        }
+    }
+
+    fun findTradeByFile(file: File, countIn: Int): Int {
+        logger.error("FILE=${file.absoluteFile}")
+
+        var countOut = countIn
+
+        val lines = file.readLines(Charset.forName("cp1251"))
+
+        var guid = ""
+
+        for(line in lines) {
+
+            when {
+                (line.indexOf("C17_UID\t") == 0 || line.indexOf("B10_UID\t") == 0 ) ->
+                    guid = line.substringAfter('\t').trim()
+
+                (line.indexOf("C18_TRADE\t") == 0 || line.indexOf("B11_TRADE\t") == 0 ) -> {
+
+                    val dateString = line.substringAfter ('\t')
+                        .substringAfter ('\t')
+                        .substring(0..9)
+
+
+                    logger.error("GUID=$guid")
+                    logger.error("DATE_TRADE=$dateString")
+
+                    countOut++
+
+                    logger.error("countOut=$countOut")
+
+                    val loanDate = AfinaQuery.selectValue(SELECT_DATE_LOAN, arrayOf(guid)) as Timestamp
+
+                    if(loanDate.toLocalDateTime().toLocalDate() != dateString.toDateByPoint()) {
+                        logger.error("!!!!!!!!!! ERROR DATE LOAN = ${loanDate.toLocalDateTime().toLocalDate()}")
+                    }
+
+
+                }
+            }
+        }
+
+        return countOut
+    }
 }
+
+private const val SELECT_DATE_LOAN = "select od.PTKB_RUTDF.getStartDateByGuid( ? ) from dual"
+
+fun String.toDateByPoint(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
 private const val SELECT_LAST_SENT_RUTDF_FILE = "select od.PTKB_RUTDF.getLastRutDf(?) from dual"
 

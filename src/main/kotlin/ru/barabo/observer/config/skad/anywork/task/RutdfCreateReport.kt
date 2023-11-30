@@ -35,13 +35,12 @@ object RutdfCreateReport : Periodical {
 
     override val accessibleData: AccessibleData =  AccessibleData(
         WeekAccess.WORK_ONLY, false,
-        LocalTime.of(11, 50), LocalTime.of(20, 0), Duration.ofMinutes(10))
+        LocalTime.of(10, 0), LocalTime.of(20, 0),
+        Duration.ofMinutes(119))
 
     override fun name(): String = "RUTDF создать файл"
 
     override fun config(): ConfigTask = AnyWork
-
-    private fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
 
     private fun xNbkiToday() = "${xNbki()}${todayFolder()}"
 
@@ -115,3 +114,5 @@ object RutdfCreateReport : Periodical {
 
     private const val GET_DATA_FILE = "{ call od.PTKB_RUTDF.getAllDataFile(?, ?) }"
 }
+
+fun xNbki() = "X:/НБКИ/".ifTest("C:/НБКИ/")
