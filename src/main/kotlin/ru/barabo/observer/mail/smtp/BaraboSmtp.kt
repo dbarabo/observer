@@ -138,10 +138,10 @@ object BaraboSmtp : SendMail {
                 attachments = arrayOf(file))
     }
 
-    fun sendMantisTicket(subjectBody: String, attach: File) {
+    fun sendMantisTicket(subjectBody: String, attach: File?) {
 
         send(to = MANTIS,  bcc = OPER_YA, subject = subjectBody, body = subjectBody,
-            attachments = arrayOf(attach))
+            attachments = if(attach != null) arrayOf(attach) else emptyArray() )
     }
 }
 

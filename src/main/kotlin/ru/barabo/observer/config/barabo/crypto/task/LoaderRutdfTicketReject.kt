@@ -66,7 +66,9 @@ object LoaderRutdfTicketReject {
                             StateFind.FIND_ERROR
                         }
 
-                    } else if(line.indexOf("B45_APPLICATION\t") == 0) {
+                    } else if((line.indexOf("B45_APPLICATION\t") == 0) ||
+                        (line.indexOf("C55_APPLICATION\t") == 0)
+                    ) {
 
                         val tags = line.split('\t')
                         if(tags.size > 4) {

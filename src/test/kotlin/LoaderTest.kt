@@ -47,6 +47,7 @@ import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
+import ru.barabo.observer.config.skad.anywork.task.CbrKeyRateLoader
 import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
 import ru.barabo.observer.config.skad.anywork.task.Extract407pByRfm
 import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
@@ -108,10 +109,17 @@ class LoaderTest {
     }
 
     //@Test
+    fun testCbrKeyRateLoader() {
+        val elem = Elem(idElem = 0L, task = CbrKeyRateLoader)
+
+        CbrKeyRateLoader.execute(elem)
+    }
+
+    //@Test
     fun testParseKeyRate() {
 
         //val request = "https://www.cbr.ru/hd_base/KeyRate/"
-        val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.10.2013&UniDbQuery.To=30.10.2023"
+        val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.10.2013&UniDbQuery.To=14.12.2023"
 
         val body = Jsoup.connect(request)
             .header("Content-Type","application/x-www-form-urlencoded")
@@ -1234,9 +1242,9 @@ res3 = [calc.DEC_TEST];
         file.name
     }
 
-    @Test
+    //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/11/29/UNCRYPTO/K301BB000001_20231129_112839_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/12/13/UNCRYPTO/K301BB000001_20231213_121100_reject") )
     }
 
     //@Test
@@ -1323,7 +1331,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 93570767L,
+        val elem = Elem(idElem = 93873110L,
         //17 93584962L,
         //18 93584719L,
         //19 93592149L,

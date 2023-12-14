@@ -37,6 +37,8 @@ object AnyWork : AbstractConfig() {
 
         Extract407pByRfm.findAll()
 
+        CbrKeyRateLoader.findAll()
+
         executeTasks()
     }
 }
