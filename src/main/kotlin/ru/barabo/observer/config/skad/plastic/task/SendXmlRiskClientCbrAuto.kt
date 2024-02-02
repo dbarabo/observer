@@ -2,6 +2,7 @@ package ru.barabo.observer.config.skad.plastic.task
 
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
@@ -56,6 +57,7 @@ object SendXmlRiskClientCbrAuto : SinglePerpetual {
 }
 
 private fun sendMailInfo(zipFileName: String) {
+
     BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_CBR_RISK, cc = BaraboSmtp.MANAGERS_UOD,
         subject = SUBJECT_RISK_INFO, body = bodyInfo(zipFileName))
 }
@@ -80,3 +82,4 @@ fun pathFolderRiskCbr(): String = "$pathFolderRisk/${todayPath()}".byFolderExist
 private fun todayPath(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
 private val pathFolderRisk = "H:/Gu_cb/Уровень риска из ЦБ/out".ifTest("C:/Gu_cb/Уровень риска из ЦБ/out")
+

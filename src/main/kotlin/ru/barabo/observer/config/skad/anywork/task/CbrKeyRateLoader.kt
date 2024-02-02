@@ -45,7 +45,13 @@ object CbrKeyRateLoader : SinglePerpetual {
 
         processInfoNewData(newData)
 
+        processForNewRate()
+
         return nextDayState(elem)
+    }
+
+    private fun processForNewRate() {
+        AfinaQuery.execute(EXEC_NEW_RATE)
     }
 
     private fun processInfoNewData(newData: DataRate) {
@@ -73,7 +79,7 @@ object CbrKeyRateLoader : SinglePerpetual {
 
         val startPeriod = findMaxDateRate() ?: LocalDate.of(2013, 10, 1)
 
-        val request = getRequest(startPeriod, endPeriod)
+        val request = getRequest(startPeriod, endPeriod.plusDays(2))
 
         logger.error(request)
 
@@ -162,6 +168,8 @@ object CbrKeyRateLoader : SinglePerpetual {
             isDate = !isDate
         }
 
+        listRate += CbrRate(LocalDate.of(2023, 12, 18), 1600L)
+
         listRate.sortBy { it.date }
 
         return listRate
@@ -188,6 +196,8 @@ fun LocalDate.toRusString(): String = rusPattern.format(this)
 fun String.toLocalDateRus(): LocalDate = LocalDate.parse(this, rusPattern)
 
 private val rusPattern = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+
+private const val EXEC_NEW_RATE = "{ call od.PTKB_PRECEPT.addLastKeyRateCbr }"
 
 private const val SELECT_MAX = "select max(BEGAN) + 1 from od.PTKB_CBR_RATE_KEY"
 

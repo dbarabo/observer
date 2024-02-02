@@ -59,7 +59,7 @@ private fun sendResponseNotFound(idRequest: Number) {
 
     val info = "В файле $fileName c $countRecord записями клиентов не найдено ни одного клиента в Афине"
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT, body = info)
+    BaraboSmtp.sendStubThrows(to = toEmailsList(), bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT, body = info)
 }
 
 private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
@@ -70,8 +70,15 @@ private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
 
     val content = HtmlContent(info, info, HEADER_TABLE, data)
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
+    BaraboSmtp.sendStubThrows(to = toEmailsList(), bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
         body = content.html(), subtypeBody = "html")
+}
+
+fun toEmailsList():Array<String> {
+
+    val toEmails = AfinaQuery.selectValue(SELECT_TO_EMAILS) as String
+
+    return toEmails.split(';').toTypedArray()
 }
 
 private val logger = LoggerFactory.getLogger(ClientRiskLoader::class.java)
@@ -141,3 +148,5 @@ private val X_CBR = "H:/Gu_cb/Уровень риска из ЦБ".ifTest("C:/31
 private fun xCbrToday() = File("$X_CBR/${todayFolder()}")
 
 fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+
+private const val SELECT_TO_EMAILS = "select OD.GetEmailByPTKBNotification('PTKB_CheckRiskCbr') from dual"

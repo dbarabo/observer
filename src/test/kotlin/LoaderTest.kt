@@ -47,10 +47,7 @@ import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
-import ru.barabo.observer.config.skad.anywork.task.CbrKeyRateLoader
-import ru.barabo.observer.config.skad.anywork.task.ClientRiskLoader
-import ru.barabo.observer.config.skad.anywork.task.Extract407pByRfm
-import ru.barabo.observer.config.skad.anywork.task.RutdfCreateReport
+import ru.barabo.observer.config.skad.anywork.task.*
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
@@ -58,6 +55,7 @@ import ru.barabo.observer.config.skad.forms.ed711497.impl.DefaultPercentOutData
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
 import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
 import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
+import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
 import ru.barabo.observer.config.skad.plastic.task.SendXmlRiskClientCbrAuto
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.finder.isFind
@@ -119,7 +117,9 @@ class LoaderTest {
     fun testParseKeyRate() {
 
         //val request = "https://www.cbr.ru/hd_base/KeyRate/"
-        val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.10.2013&UniDbQuery.To=14.12.2023"
+        //val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.12.2023&UniDbQuery.To=18.12.2023"
+
+        val request = "https://www.cbr.ru/press/keypr"
 
         val body = Jsoup.connect(request)
             .header("Content-Type","application/x-www-form-urlencoded")
@@ -138,6 +138,8 @@ class LoaderTest {
              .get().body()
 
         //logger.error("$body")
+
+        logger.error("$body")
 
         val find = body.allElements?.first { (it.className()?.indexOf("data"/*"table-wrapper"*/) ?: -1) >= 0 }
 
@@ -1244,7 +1246,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2023/12/13/UNCRYPTO/K301BB000001_20231213_121100_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("Z:/temp/K301BB000001_20240122_100127_reject") )
     }
 
     //@Test
@@ -1331,7 +1333,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 93873110L,
+        val elem = Elem(idElem = 94352916L,
         //17 93584962L,
         //18 93584719L,
         //19 93592149L,
@@ -1369,8 +1371,24 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testValidate311P() {
 
-        val file = MessageCreator311p.createMessage(1289785658L) //1289785611L)
+        //val file =
+            MessageCreator311p.createMessage(1289785658L) //1289785611L)
     }
+
+    //@Test
+    fun testToEmails() {
+
+        val x = toEmailsList()
+        for(i in x) {
+            logger.error(i)
+        }
+    }
+
+    //@Test
+    fun testLoaderNbkiFileSent() {
+        LoaderNbkiFileSent.load(LocalDate.of(2023, 10,1))
+    }
+
 }
 
 fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")
