@@ -39,8 +39,25 @@ object ClientRiskLoader : FileFinder, FileProcessor {
         val idRequest = loadXmlData(file)
 
         sendResponseByRequest(idRequest)
+
+        callExtProcedureNoneException(idRequest)
+
     }
 }
+
+private fun callExtProcedureNoneException(idRequest: Number) {
+
+    try {
+
+        AfinaQuery.execute(EXEC_EXT_PROC, arrayOf(idRequest))
+
+    } catch (e: Exception) {
+        logger.error(EXEC_EXT_PROC, e)
+
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = "FAIL FOR $EXEC_EXT_PROC", body = e.message?:"")
+    }
+}
+
 
 private fun sendResponseByRequest(idRequest: Number) {
 
@@ -135,6 +152,8 @@ private const val SELECT_HEADER_EMPTY_FOUND =
     "select file_name, count_records, od.XLS_REPORT_ALL.isEqualsRiskCbr(id) from OD.PTKB_CBR_CLIENT_RISK where id = ?"
 
 private const val CURSOR_REPORT_CBR_RISK = "{ ? = call od.XLS_REPORT_ALL.getRiskClientCbrByFileId( ? ) }"
+
+private const val EXEC_EXT_PROC = "{ call od.DPC_PTKB_ACCOUNTBLOCK_ZSK(?)  }"
 
 private const val EXEC_TRUNC_TABLE = "{ call od.PTKB_CEC.truncateCbrClientRiskAll }"
 

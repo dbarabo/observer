@@ -1333,7 +1333,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 94352916L,
+        val elem = Elem(idElem = 94494256L,
         //17 93584962L,
         //18 93584719L,
         //19 93592149L,
@@ -1386,7 +1386,9 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderNbkiFileSent() {
-        LoaderNbkiFileSent.load(LocalDate.of(2023, 10,1))
+        //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
+
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240207_132345") )
     }
 
 }

@@ -16,6 +16,19 @@ object LoaderNbkiFileSent {
             .select(SELECT_FILES, arrayOf(start.toTimestamp()))
             .associate { (it[0] as Number).toLong() to (it[1] as String) }
 
+        processByFiles(mapFiles)
+    }
+
+    fun loadByFile(file: File) {
+
+        val mapFile = AfinaQuery
+            .select(SELECT_FILES_BY_NAME, arrayOf(file.nameWithoutExtension.uppercase()))
+            .associate { (it[0] as Number).toLong() to (it[1] as String) }
+
+        processByFiles(mapFile)
+    }
+
+    private fun processByFiles(mapFiles: Map<Long, String>) {
         for(entry in mapFiles.entries) {
 
             val file = File(nbkiFullFileName(entry.value) )
@@ -63,13 +76,14 @@ object LoaderNbkiFileSent {
                             ev.state = StateFind.FIND_GROUPHEADER
                         }
 
-                        "C4_ID" ->
-                            if(ev.event == "1.7") {
+                        "C4_ID",  "B4_TAXPAYERID" -> {
+                            if (ev.event in arrayOf("1.7", "1.9")) {
                                 ev.uidRow = line
                                 ev.state = StateFind.FIND_GROUPHEADER
                             } else {
                                 ev.buffer += line
                             }
+                        }
 
                         "C17_UID", "B10_UID" -> {
                             ev.uidRow = line
@@ -190,8 +204,24 @@ object LoaderNbkiFileSent {
 
             "C4_ID" -> {
 
+                val linePassport = words[5]
+                val numberPassport = words[6]
+
+                logger.error("linePassport=$linePassport")
+                logger.error("numberPassport=$numberPassport")
+                logger.error("dateEvent=${ev.dateEvent}")
+
                 (AfinaQuery.selectValue(SELECT_MAIN_BY_PASSPORT,
-                    arrayOf(idFile, words[5], words[6], ev.event, ev.dateEvent.toTimestamp())) as Number).toLong()
+                    arrayOf(idFile, linePassport, numberPassport, ev.event, ev.dateEvent.toTimestamp())) as? Number)?.toLong()
+            }
+
+            "B4_TAXPAYERID" -> {
+                val inn = words[2]
+                logger.error("inn=$inn")
+                logger.error("dateEvent=${ev.dateEvent}")
+
+                (AfinaQuery.selectValue(SELECT_MAIN_BY_INN,
+                    arrayOf(idFile, inn, ev.event, ev.dateEvent.toTimestamp())) as? Number)?.toLong()
             }
 
             "C17_UID", "B10_UID" -> {
@@ -276,6 +306,8 @@ private const val SELECT_MAIN_BY_PASSPORT = "select od.PTKB_RUTDF.getMainByPassp
 
 private const val SELECT_MAIN_BY_GUID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
 
+private const val SELECT_MAIN_BY_INN = "select od.PTKB_RUTDF.getMainByInnOrganization(?, ?, ?, ?) from dual"
+
 private const val EXEC_SAVE_LINE = "insert into od.PTKB_RUTDF_TEMP_FILE (ID_MAIN, TAG, INFO) values (?, ?, ?)"
 
 private const val SELECT_EXISTS_REJECT = """
@@ -293,4 +325,10 @@ from od.ptkb_rutdf_file f
 where f.state = 1
   and f.date_file > ?
 order by f.date_file
+"""
+
+private const val SELECT_FILES_BY_NAME = """
+select f.id, f.file_name
+from od.ptkb_rutdf_file f
+where f.file_name = ?
 """

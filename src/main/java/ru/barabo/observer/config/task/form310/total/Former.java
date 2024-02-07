@@ -42,8 +42,8 @@ public class Former {
     @XStreamAlias("Руководитель")
     final private Executor leader;
 
-    @XStreamAlias("ГлавБух")
-    final private Executor chiefAccountant;
+    //@XStreamAlias("ГлавБух")
+    //final private Executor chiefAccountant;
 
     @XStreamAlias("Исполнитель")
     final private Executor executor;
@@ -52,7 +52,7 @@ public class Former {
 
         leader = new Executor(form310Data.getLeader());
 
-        chiefAccountant = new Executor(form310Data.getChiefAccountant());
+        //chiefAccountant = new Executor(form310Data.getChiefAccountant());
 
         executor = new Executor(form310Data.getExecutor());
     }
