@@ -1,6 +1,8 @@
 package ru.barabo.observer.config.skad.forms.form310
 
 import ru.barabo.observer.config.task.form310.section.r1.DataForm310R1
+import ru.barabo.observer.config.task.form310.section.r1.SectionR15
+import ru.barabo.observer.config.task.form310.section.r1.SectionR16
 import ru.barabo.observer.config.task.form310.section.r2.DataForm310R2
 import ru.barabo.observer.config.task.form310.section.r3.DataForm310R3
 import ru.barabo.observer.config.task.form310.section.r4.DataForm310R4
@@ -13,6 +15,10 @@ import ru.barabo.observer.config.task.form310.section.r6.DataForm310R64
 class Data310Form {
 
     lateinit var sectionsR1: List<DataForm310R1>
+
+    lateinit var sectionsR15: List<SectionR15>
+
+    lateinit var sectionsR16: List<SectionR16>
 
     lateinit var sectionsR2: List<DataForm310R2>
 
@@ -36,6 +42,22 @@ class Data310Form {
         }
 
         (sectionsR1 as MutableList<DataForm310R1>).add(item)
+    }
+
+    internal fun addSection15(item: SectionR15) {
+        if(!(::sectionsR15.isInitialized)) {
+            sectionsR15 = ArrayList<SectionR15>()
+        }
+
+        (sectionsR15 as MutableList<SectionR15>).add(item)
+    }
+
+    internal fun addSection16(item: SectionR16) {
+        if(!(::sectionsR16.isInitialized)) {
+            sectionsR16 = ArrayList<SectionR16>()
+        }
+
+        (sectionsR16 as MutableList<SectionR16>).add(item)
     }
 
     internal fun addSection2(item: DataForm310R2) {

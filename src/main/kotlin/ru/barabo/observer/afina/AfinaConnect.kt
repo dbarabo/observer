@@ -2,6 +2,7 @@ package ru.barabo.observer.afina
 
 import ru.barabo.db.DbConnection
 import ru.barabo.db.DbSetting
+import ru.barabo.db.Query
 import ru.barabo.db.SessionException
 import ru.barabo.observer.crypto.MasterKey
 

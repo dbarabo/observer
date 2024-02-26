@@ -14,6 +14,7 @@ import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
 import ru.barabo.observer.config.task.finder.FileFinderData
+import ru.barabo.observer.config.task.p407.load.ClientBank
 import ru.barabo.observer.config.task.p407.load.RfmFile
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
@@ -63,13 +64,15 @@ object Extract407pByRfm : FileFinder, ActionTask, Executor {
 
         for(client in clients) {
 
-            val start = client.requestInfo.extractRequestInfo.dateStart.toDate().toTimestamp()
+            /*val start = client.requestInfo.extractRequestInfo.dateStart.toDate().toTimestamp()
             val end = client.requestInfo.extractRequestInfo.dateEnd.toDate().toTimestamp()
 
             val params = arrayOf<Any?>(file.nameWithoutExtension, client.clientBankJuric.name,
                 client.clientBankJuric.inn, client.clientBankJuric.kpp, start, end)
+*/
 
-            val id = AfinaQuery.execute(INS_RFM, params = params, outParamTypes = intArrayOf(OracleTypes.NUMBER))!![0] as Number
+            val id = AfinaQuery.execute(INS_RFM, params = client.paramsClient(file),
+                outParamTypes = intArrayOf(OracleTypes.NUMBER))!![0] as Number
 
             idList += id
         }
@@ -80,6 +83,17 @@ object Extract407pByRfm : FileFinder, ActionTask, Executor {
         file.delete()
 
         return idList
+    }
+
+    private fun ClientBank.paramsClient(file: File): Array<Any?> {
+        val start = requestInfo.extractRequestInfo.dateStart.toDate().toTimestamp()
+        val end = requestInfo.extractRequestInfo.dateEnd.toDate().toTimestamp()
+
+        return if(clientBankJuric == null)
+            arrayOf<Any?>(file.nameWithoutExtension, clientBankPhysic.fio.fullName, clientBankPhysic.inn, "", start, end)
+        else
+            arrayOf<Any?>(file.nameWithoutExtension, clientBankJuric.name, clientBankJuric.inn, clientBankJuric.kpp,
+                start, end)
     }
 
     private fun extractById(id: Number) {

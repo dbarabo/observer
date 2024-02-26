@@ -4,6 +4,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.skad.forms.form310.Data310Form;
 import ru.barabo.observer.config.task.form310.section.r1.DataForm310R1;
+import ru.barabo.observer.config.task.form310.section.r1.SectionR15;
+import ru.barabo.observer.config.task.form310.section.r1.SectionR16;
 import ru.barabo.observer.config.task.form310.section.r2.DataForm310R2;
 import ru.barabo.observer.config.task.form310.section.r3.DataForm310R3;
 import ru.barabo.observer.config.task.form310.section.r4.DataForm310R4;
@@ -23,6 +25,12 @@ public class DataForm310 {
 
     @XStreamImplicit(itemFieldName = "Р1")
     final private List<DataForm310R1> dataForm310R1;
+
+    @XStreamImplicit(itemFieldName = "Р1.5")
+    final private List<SectionR15> sectionR15;
+
+    @XStreamImplicit(itemFieldName = "Р1.6")
+    final private List<SectionR16> sectionR16;
 
     @XStreamImplicit(itemFieldName = "Р2")
     final private List<DataForm310R2> dataForm310R2;
@@ -52,6 +60,10 @@ public class DataForm310 {
     public DataForm310(Data310Form data) {
 
         dataForm310R1 = data.getSectionsR1();
+
+        sectionR15 = data.getSectionsR15().isEmpty() ? null : data.getSectionsR15();
+
+        sectionR16 = data.getSectionsR16().isEmpty() ? null : data.getSectionsR16();
 
         dataForm310R2 = data.getSectionsR2().isEmpty() ? null : data.getSectionsR2();
 

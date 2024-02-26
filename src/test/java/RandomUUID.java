@@ -1,3 +1,5 @@
+import java.io.*;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -52,4 +54,45 @@ public class RandomUUID {
     public void testCreateVersion1() {
         System.out.println(createVersion1());
     }
+
+
+    public static void addLineTo(String filePath, String findLineBefore, String addLine) throws IOException {
+
+        BufferedReader br = null;
+
+        StringBuilder newData = new StringBuilder();
+        boolean isNotFind = true;
+
+        try {
+            br = new BufferedReader(new FileReader( filePath ));
+            String line;
+
+            while((line = br.readLine()) != null) {
+
+                newData.append(line).append("\n");
+
+                if(isNotFind) {
+                    if(line.trim().equals(findLineBefore)) {
+
+                        isNotFind = false;
+                        newData.append(addLine).append("\n");
+                    }
+                }
+            }
+        } finally {
+            if(br != null) br.close();
+        }
+
+        BufferedWriter out = null;
+
+        try {
+            out = new BufferedWriter(new FileWriter(filePath ) );
+
+            out.write(newData.toString());
+        } finally {
+            if(out != null) out.close();
+        }
+   }
+
+
 }

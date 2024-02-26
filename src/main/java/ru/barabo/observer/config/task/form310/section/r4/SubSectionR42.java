@@ -47,10 +47,21 @@ public class SubSectionR42 {
     @XStreamAlias("Р4.2_14")
     final private String typeConstruction;
 
+    @XStreamAlias("Р4.2_15")
+    final private String areaSqMFree;
+
+    @XStreamAlias("Р4.2_16")
+    final private String idFromForeign;
+
+    @XStreamAlias("Р4.2_17")
+    final private String rightRent;
+
     public SubSectionR42(String propertyType, String cadastralNumber, String conditionalNumber, String purpose,
                          String name, String functionalGroup, Number shareSizePercent, Number areaSqM,
                          String codeLandCategory, String permittedUseLandPlot, String codePledgerRight,
-                         Date expiryDateLease, String typeConstruction) {
+                         Date expiryDateLease, String typeConstruction,
+                         String areaSqMFree, String idFromForeign, String rightRent
+                         ) {
 
         this.propertyType = propertyType;
 
@@ -77,5 +88,9 @@ public class SubSectionR42 {
         this.expiryDateLease = XmlLoader.formatDate(expiryDateLease);
 
         this.typeConstruction = typeConstruction;
+
+        this.areaSqMFree = areaSqMFree;
+        this.idFromForeign = idFromForeign;
+        this.rightRent = rightRent;
     }
 }

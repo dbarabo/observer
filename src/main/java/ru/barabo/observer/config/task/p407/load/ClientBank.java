@@ -17,6 +17,9 @@ public class ClientBank {
     @XStreamAlias("ЮрЛицо")
     private ClientBankJuric clientBankJuric;
 
+    @XStreamAlias("ФизЛицо")
+    private ClientBankPhysic clientBankPhysic;
+
     @XStreamAlias("ВидЗапрИнфо")
     private RequestInfo requestInfo;
 
@@ -26,5 +29,9 @@ public class ClientBank {
 
     public RequestInfo getRequestInfo() {
         return requestInfo;
+    }
+
+    public ClientBankPhysic getClientBankPhysic() {
+        return clientBankPhysic;
     }
 }

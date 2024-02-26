@@ -1,7 +1,9 @@
 package ru.barabo.observer.config.skad.plastic.task
 
 import org.slf4j.LoggerFactory
+import ru.barabo.cmd.Cmd
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.afina.modifyTestScript
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
@@ -10,6 +12,7 @@ import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -78,21 +81,30 @@ P.S. DBA все-равно придется звать, даже если авт
 
         val nextFileName = AfinaQuery.selectValue(SELECT_NEXT_FILENAME, arrayOf(tableSpace) ) as String
 
+        val currentFileName = AfinaQuery.selectValue(SELECT_CURRENT_FILENAME, arrayOf(tableSpace) ) as String
+
         val command = commandFileTableSpace(tableSpace, nextFileName)
 
         AfinaQuery.execute(command)
 
-        sendInfoFileAdded(tableSpace, nextFileName, command)
+        val dataTextFile = modifyTestScript(currentFileName, nextFileName)
+
+        val textFile = File("${Cmd.tempFolder("bak").absoluteFile}/af.sql")
+
+        textFile.writeText(dataTextFile)
+
+        sendInfoFileAdded(tableSpace, nextFileName, command, textFile)
     }
 
-    private fun sendInfoFileAdded(tableSpace: String, fileName: String, command: String) {
+    private fun sendInfoFileAdded(tableSpace: String, fileName: String, command: String, textFile: File) {
 
         val subject = "Добавлен новый файл в tableSpace $tableSpace"
 
-        val body = "$subject\nимя файла: $fileName\nкоманда добавления:$command"
+        val body = "$subject\nимя файла: $fileName\nкоманда добавления:$command\nТакже модифицирован файл бэкапа (во вложении) ${textFile.name}"
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.TTS, cc = BaraboSmtp.AUTO,
-            subject = subject, body = body, charsetSubject = "UTF-8")
+            subject = subject, body = body, charsetSubject = "UTF-8", attachments = arrayOf(textFile)
+        )
     }
 
     private fun commandFileTableSpace(tableSpace: String, fileName: String): String =
@@ -100,6 +112,9 @@ P.S. DBA все-равно придется звать, даже если авт
 }
 
 private const val SELECT_NEXT_FILENAME = "select od.PTKB_PRECEPT.getNextFullFileName( ? ) from dual"
+
+private const val SELECT_CURRENT_FILENAME = "select od.PTKB_PRECEPT.getCurrentFullFileName( ? ) from dual"
+
 
 private const val CURSOR_TABLE_SPACE = "{ ? = call od.PTKB_PRECEPT.getTableSpaceSize }"
 

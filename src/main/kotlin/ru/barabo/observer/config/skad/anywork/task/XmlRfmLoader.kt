@@ -20,6 +20,9 @@ class XmlRfmLoader<E> {
         xstream.processAnnotations(RequestInfo::class.java)
         xstream.processAnnotations(ExtractRequestInfo::class.java)
 
+        xstream.processAnnotations(ClientBankPhysic::class.java)
+        xstream.processAnnotations(PhysicFio::class.java)
+
         xstream.useAttributeFor(String::class.java)
         xstream.useAttributeFor(Int::class.java)
 

@@ -1,5 +1,4 @@
 import oracle.jdbc.OracleTypes
-import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
@@ -8,6 +7,7 @@ import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
+import ru.barabo.observer.afina.getTextFileBackup
 import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
@@ -19,7 +19,6 @@ import ru.barabo.observer.config.barabo.plastic.release.task.*
 import ru.barabo.observer.config.barabo.plastic.release.task.OutRegisterAquiringMonth.processTerminals
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.isRemoteNetDisk
 import ru.barabo.observer.config.barabo.plastic.release.task.autoupdate.remoteFilePath
-import ru.barabo.observer.config.barabo.plastic.turn.checker.CashOutCountryChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.CtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.checker.MtlChecker
 import ru.barabo.observer.config.barabo.plastic.turn.task.*
@@ -360,13 +359,6 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(File("C:/КартСтандарт/test/AFP_ACQ20190315_0226.0023"), LoadAcq, Duration.ZERO)
 
         LoadAcq.execute(elem)
-    }
-
-    //@Test
-    fun testExtract407pByRfm() {
-        val elem = Elem(File("C:/app/RFM_040507717_20230706_001.xml"), Extract407pByRfm, Duration.ZERO)
-
-        Extract407pByRfm.execute(elem)
     }
 
 
@@ -1246,7 +1238,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("Z:/temp/K301BB000001_20240122_100127_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/02/12/UNCRYPTO/K301BB000001_20240212_113950_reject") )
     }
 
     //@Test
@@ -1388,9 +1380,22 @@ res3 = [calc.DEC_TEST];
     fun testLoaderNbkiFileSent() {
         //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
 
-        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240207_132345") )
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240222_115704") )
     }
 
+    //@Test
+    fun testGetTextFileBackup() {
+        val text = getTextFileBackup()
+
+        logger.error(text)
+    }
+
+    //@Test
+    fun testExtract407pByRfm() {
+        val elem = Elem(File("C:/app/RFM_040507717_20240221_001.xml"), Extract407pByRfm, Duration.ZERO)
+
+        Extract407pByRfm.execute(elem)
+    }
 }
 
 fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")

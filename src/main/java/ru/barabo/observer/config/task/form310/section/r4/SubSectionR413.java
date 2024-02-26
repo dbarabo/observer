@@ -15,12 +15,17 @@ public class SubSectionR413 {
     @XStreamAlias("Р4.13_4")
     final private String amountMoney;
 
-    public SubSectionR413(String collateralAccountCode, String infoAmountMoney, Number amountMoney) {
+    @XStreamAlias("Р4.13_5")
+    final private String idSubjectCode; // required
+
+    public SubSectionR413(String collateralAccountCode, String infoAmountMoney, Number amountMoney, String idSubjectCode) {
 
         this.collateralAccountCode = collateralAccountCode;
 
         this.infoAmountMoney = infoAmountMoney;
 
         this.amountMoney = amountMoney == null ? null : XmlLoader.formatSum(amountMoney);
+
+        this.idSubjectCode = idSubjectCode == null ? "@@@@@@@@" : idSubjectCode;
     }
 }

@@ -21,6 +21,10 @@ fun checkCreateData310Form(dateReport: Date): Data310Form? {
         data310Form.addSection1(section1Row, dateReport)
     }
 
+    data310Form.addSection15(dateReport)
+
+    data310Form.addSection16(dateReport)
+
     data310Form.addSection2(dateReport)
 
     data310Form.addSection3(dateReport)

@@ -47,7 +47,8 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
 
                     subSectionR42 = SubSectionR42(propertyType?.toString(), cadastralNumber,
                         conditionalNumber, purpose, name, functionalGroup, shareSizePercent, areaSqM, codeLandCategory,
-                        permittedUseLandPlot, codePledgerRight, expiryDateLease, typeConstruction)
+                        permittedUseLandPlot, codePledgerRight, expiryDateLease, typeConstruction,
+                        areaSqMFree, idFromForeign, rightRent)
                 }
                 TypePledge.Transport -> {
                     subSectionR43 = SubSectionR43(category?.toString(), vinCar, idSelfPropelledCar, yearIssue, brand, model, frameNumber,
@@ -81,7 +82,7 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
                     subSectionR412 = SubSectionR412(typeIntellectualProperty, documentNumber)
                 }
                 TypePledge.CollateralAccount -> {
-                    subSectionR413 = SubSectionR413(collateralAccountCode, infoAmountMoney, amountMoney)
+                    subSectionR413 = SubSectionR413(collateralAccountCode, infoAmountMoney, amountMoney, idSubjectCode)
                 }
                 TypePledge.ShareCapital -> {
                     subSectionR414 = SubSectionR414(idSubjectCode, authorizedCapitalPercent)
@@ -103,10 +104,14 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
                     subSectionR419 = SubSectionR419(typeSecurity, securitySeries, securityNumber)
                 }
                 TypePledge.PropertyRights -> {
-                    subSectionR420 = SubSectionR420(typePropertyRights, name)
+                    subSectionR420 = SubSectionR420(typePropertyRights, name, typePropertyPact, datePropertyPact, numberPropertyPact)
                 }
                 TypePledge.Others -> {
                     subSectionR421 = SubSectionR421(typeOthers, name)
+                }
+                TypePledge.OthersSingle -> {
+                    throw Exception("НЕ реализовано :( для $typePledge")
+                    //subSectionR422 = SubSectionR422(typeOthers, name)
                 }
             }
 
@@ -144,7 +149,8 @@ private enum class TypePledge(val order: Int) {
     Certificates(17),
     Securities(18),
     PropertyRights(19),
-    Others(20);
+    Others(20),
+    OthersSingle(21)
 }
 
 private fun typePledgeByOrder(order: Int): TypePledge =
@@ -228,7 +234,15 @@ private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode:
 
                                val typePropertyRights: String?,
 
-                               val typeOthers: String?
+                               val typeOthers: String?,
+
+                               val areaSqMFree: String?, // Р4.2_15
+                               val idFromForeign: String?, // Р4.2_16
+                               val rightRent: String?, // Р4.2_17
+
+                               val typePropertyPact: String?, // Р4.20_4
+                               val datePropertyPact: java.util.Date?, // Р4.20_5
+                               val numberPropertyPact: String? // Р4.20_6
 
 )
 
@@ -321,6 +335,14 @@ private fun toRowSection4(row: Array<Any?>): RowSection4 {
 
         typePropertyRights = row[64] as? String,
 
-        typeOthers = row[65] as? String
+        typeOthers = row[65] as? String,
+
+        areaSqMFree = row[66] as? String,
+        idFromForeign = row[67] as? String,
+        rightRent = row[68] as? String,
+
+        typePropertyPact = row[69] as? String,
+        datePropertyPact = row[70] as? java.util.Date,
+        numberPropertyPact = row[71] as? String
     )
 }
