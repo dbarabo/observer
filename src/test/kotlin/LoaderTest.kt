@@ -1237,11 +1237,6 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/02/12/UNCRYPTO/K301BB000001_20240212_113950_reject") )
-    }
-
-    //@Test
     fun testLoaderRutdfTicketCheckTradeByPath() {
         LoaderRutdfTicketReject.checkTradeByPath( LocalDate.of(2023, 2, 1), LocalDate.of(2023, 6, 1) )
     }
@@ -1377,10 +1372,15 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
+    fun testLoaderRutdfTicketReject() {
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/03/26/UNCRYPTO/K301BB000001_20240326_101227_reject") )
+    }
+
+    //@Test
     fun testLoaderNbkiFileSent() {
         //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
 
-        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240222_115704") )
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240401_114114") )
     }
 
     //@Test

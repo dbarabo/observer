@@ -230,6 +230,7 @@ object LoaderNbkiFileSent {
                 logger.error("guid=$guid")
                 logger.error("event=${ev.event}")
                 logger.error("dateEvent=${ev.dateEvent}")
+                logger.error("guarantUid=${ev.guarantUid}")
 
                 (AfinaQuery.selectValue(SELECT_MAIN_BY_GUID,
                     arrayOf(idFile, guid, ev.event, ev.dateEvent.toTimestamp(), ev.guarantUid)) as? Number)?.toLong()

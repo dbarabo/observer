@@ -87,30 +87,11 @@ class ShiftTest {
     }
 
 
-    @Test
+    //@Test
     fun firstShifTest() {
 
-        val primterkombank = Shift.encrypt("primter@rambler.ru")
-        logger.error("primterkombank@gmail.com=$primterkombank")
+        //logger.error(InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault()))
 
-        val dbarabo = Shift.encrypt("dbarabo@gmail.com")
-        logger.error("dbarabo@gmail.com=$dbarabo")
-
-        val ptkbPswd = Shift.encrypt("Vsitkjdrf907369")
-        logger.error("ptkbPswd=$ptkbPswd")
-
-        /*
-        val dbarabo = Shift.decrypt("9aKALO/eUfC+x7DT1/bs6e9I6+iHYg8JY7KHAyZ3K/E=")
-        logger.error("dbarabo=$dbarabo")
-
-        val ptkb = Shift.decrypt("flH6Ibec/wOXYvbJc1u+IwZfOfp1PQMydzVMRRcm3UBF7UkBqViGMg==")
-        logger.error("ptkb=$ptkb")
-
-        val pswd = Shift.decrypt("PvxK/Qnz/Mno/sGWDhXT8bsMSLKdDapp")
-        logger.error("pswd=$pswd")
-
-        logger.error(InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault()))
-        */
     }
 
     //@Test
