@@ -16,35 +16,19 @@ object CryptoScad : AbstractConfig() {
 
     override fun configRun() {
 
-        UncryptoEns.findAll()
+         UncryptoEns.findAll()
 
-        PbSaverScadVer4.findAll()
+         Ticket440pFns.findAll()
 
-        SignScadArchive440p.findAll()
+         Ticket311pFnsLoadScad.findAll()
 
-        Ticket440pFns.findAll()
+         Uncrypto550pScad.findAll()
 
-
-
-        CreateCrypto311p512.findAll()
-        SignScadArchive311p.findAll()
-        Ticket311pFnsLoadScad.findAll()
+         CreateCrypto311p512.findAll()
+         SignScadArchive311p.findAll()
 
         UncryptoScad440p.findAll()
-        CryptoScad440p.findAll()
 
-        CryptoFtsValScad.findAll()
-        CryptoValCb181UScad.findAll()
-        SignScadOnlyFile.findAll()
-        SignScadCbFts181U.findAll()
-
-        UnCryptoScad364p.findAll()
-        UnSignScad364p.findAll()
-        UnCryptoAny.findAll()
-
-        Uncrypto550pScad.findAll()
-
-        SignScadSend550p.findAll()
 
         InfoRequest349p.findAll()
 
@@ -54,9 +38,31 @@ object CryptoScad : AbstractConfig() {
 
         AddSignMain600P.findAll()
 
-        CreateSaveResponse390p.findAll()
-        Sign390pArchive.findAll()
+        PbSaverScadVer4.findAll()
 
+        SignScadArchive440p.findAll()
+
+
+        CryptoScad440p.findAll()
+
+        CryptoFtsValScad.findAll()
+        CryptoValCb181UScad.findAll()
+        SignScadOnlyFile.findAll()
+        SignScadCbFts181U.findAll()
+
+        SignScadSend550p.findAll()
+
+                 UnCryptoScad364p.findAll()
+                 UnSignScad364p.findAll()
+                 UnCryptoAny.findAll()
+
+        /*
+
+
+
+                         CreateSaveResponse390p.findAll()
+                         Sign390pArchive.findAll()
+                 */
         this.executeTasks()
     }
 }

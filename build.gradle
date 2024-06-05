@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        kotlin_ver = "1.9.20"
+        kotlin_ver = "1.9.24"
 
-        tornadofx_ver = "1.7.20" //"1.7.20" //"1.7.13"
+        tornadofx_ver = "1.7.20"  //"1.7.13"
     }
 
     repositories {

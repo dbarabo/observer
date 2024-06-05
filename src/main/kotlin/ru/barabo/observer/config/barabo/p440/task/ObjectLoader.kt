@@ -30,6 +30,7 @@ import java.io.File
 import java.nio.charset.Charset
 
 
+
 object UnoLoader : GeneralLoader<UnoFromFns>() {
 
     override fun name(): String = "Загрузка UNO-файла (инкассо-263-ФЗ)"
@@ -78,35 +79,8 @@ object RpoLoader : GeneralLoader<RpoFromFns>() {
         try {
             super.processFile(file)
         } catch (e: XmlLoadException) {
-            createPb2File(file)
+            createPb2FileZsv(file, RpoFromFns::emptyRpoFromFns)
         }
-    }
-
-    private fun createPb2File(file: File) {
-
-        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
-
-        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
-        BaraboSmtp.errorSend(elem)
-
-        val rpoPb2 = RpoFromFns.emptyRpoFromFns()
-
-        val uniqueSession = AfinaQuery.uniqueSession()
-
-        try {
-            rpoPb2.saveData(file, uniqueSession)
-
-            AfinaQuery.commitFree(uniqueSession)
-        } catch (e: Exception) {
-
-            logger.error("createPb2File", e)
-
-            AfinaQuery.rollbackFree(uniqueSession)
-
-            throw SessionException(e.message ?: "")
-        }
-
-        file.moveToLoaded()
     }
 }
 
@@ -121,35 +95,8 @@ object RooLoader : GeneralLoader<RooFromFns>() {
         try {
             super.processFile(file)
         } catch (e: XmlLoadException) {
-            createPb2File(file)
+            createPb2FileZsv(file, RooFromFns::emptyRooFromFns)
         }
-    }
-
-    private fun createPb2File(file: File) {
-
-        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
-
-        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
-        BaraboSmtp.errorSend(elem)
-
-        val rooPb2 = RooFromFns.emptyRooFromFns()
-
-        val uniqueSession = AfinaQuery.uniqueSession()
-
-        try {
-            rooPb2.saveData(file, uniqueSession)
-
-            AfinaQuery.commitFree(uniqueSession)
-        } catch (e: Exception) {
-
-            logger.error("createPb2File", e)
-
-            AfinaQuery.rollbackFree(uniqueSession)
-
-            throw SessionException(e.message ?: "")
-        }
-
-        file.moveToLoaded()
     }
 }
 
@@ -169,7 +116,8 @@ object ZsoLoaderVer4 : GeneralLoader<ZsoFromFnsVer4>() {
         try {
             super.processFile(file)
         } catch (e: Exception) {
-            createPb2File(file)
+            //createPb2File(file)
+            createPb2FileZsv(file, ZsoFromFnsVer4::emptyZsoFromFns)
         }
     }
 
@@ -324,7 +272,7 @@ private fun GeneralLoader<*>.createPb2FileZsv(file: File, emptyZsvCreator: ()->A
         ?: throw SessionException("elem file=$file not found")
 
     elem.error =
-        "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
+        "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB1 с ошибкой расшифрования"
     BaraboSmtp.errorSend(elem)
 
     val zsvPb2 = emptyZsvCreator()
@@ -332,7 +280,9 @@ private fun GeneralLoader<*>.createPb2FileZsv(file: File, emptyZsvCreator: ()->A
     val uniqueSession = AfinaQuery.uniqueSession()
 
     try {
-        zsvPb2.saveData(file, uniqueSession)
+        val idFnsFrom = zsvPb2.saveData(file, uniqueSession)
+
+        updateCheckCodeError(idFnsFrom, uniqueSession)
 
         AfinaQuery.commitFree(uniqueSession)
     } catch (e: Exception) {
@@ -346,6 +296,19 @@ private fun GeneralLoader<*>.createPb2FileZsv(file: File, emptyZsvCreator: ()->A
 
     file.moveToLoaded()
 }
+
+private fun updateCheckCodeError(idFnsFrom: Number, sessionSetting: SessionSetting) {
+
+    val params = arrayOf<Any?>(UNCRYPTO_ERROR_CODE, UNCRYPTO_ERROR_TEXT, idFnsFrom)
+
+    AfinaQuery.execute(UPDATE_CHECK_CODE, params, sessionSetting)
+}
+
+private const val UNCRYPTO_ERROR_CODE = "05"
+
+private const val UNCRYPTO_ERROR_TEXT = "Ошибка расшифрования файла. Ключ шифрования неверен."
+
+private const val UPDATE_CHECK_CODE = "update od.ptkb_440p_fns_from set check_codes = ?, check_text_errors = ? where id = ?"
 
 private fun getErrorTypeFormat(file: File): String? {
 

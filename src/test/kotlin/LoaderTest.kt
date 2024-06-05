@@ -1320,7 +1320,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 94494256L,
+        val elem = Elem(idElem = 95907220L,
         //17 93584962L,
         //18 93584719L,
         //19 93592149L,
@@ -1373,14 +1373,14 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/03/26/UNCRYPTO/K301BB000001_20240326_101227_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/05/22/UNCRYPTO/K301BB000001_20240522_110225_reject") )
     }
 
     //@Test
     fun testLoaderNbkiFileSent() {
         //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
 
-        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240401_114114") )
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240426_101650") )
     }
 
     //@Test

@@ -4,6 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -78,11 +79,21 @@ private fun checkTicketRejectFile(ticket: File) {
 
     AfinaQuery.execute(EXEC_SAVE_TICKET2, arrayOf(sendFileName, ticket.absolutePath, rejectFileName))
 
-    if(rejectFileName.isEmpty()) return
+    if(rejectFileName.isEmpty()) {
+        loadFileWithBody(ticket)
+        return
+    }
 
     val rejectFile = File("${ticket.parent}/$rejectFileName")
 
     createMantisError(rejectFile)
+}
+
+private fun loadFileWithBody(ticket: File) {
+
+    val fileNameLoad = ticket.name.substringBeforeLast("_ticket")
+
+    LoaderNbkiFileSent.loadByFile(File(fileNameLoad) )
 }
 
 private fun checkTicketSignCheck(ticketSign: File) {
