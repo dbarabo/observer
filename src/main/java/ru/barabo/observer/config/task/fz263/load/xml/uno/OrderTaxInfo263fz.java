@@ -158,7 +158,7 @@ public class OrderTaxInfo263fz implements FromFnsInfo {
     @Override
     public Number getMainSum() {
 
-        return Long.parseLong(mainSumKopeika);
+        return mainSumKopeika == null ? null : Long.parseLong(mainSumKopeika);
     }
 
     @Override

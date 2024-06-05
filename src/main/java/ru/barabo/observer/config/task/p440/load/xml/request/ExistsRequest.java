@@ -40,7 +40,7 @@ public final class ExistsRequest extends AbstractRequest {
 			return onDate;
 		}
 
-		return datePeriod.getStartDate();
+		return datePeriod == null ? null : datePeriod.getStartDate();
 	}
 
 	private Date getDateEndByState() {
@@ -53,7 +53,7 @@ public final class ExistsRequest extends AbstractRequest {
 			return null;
 		}
 
-		return datePeriod.getEndDate();
+		return datePeriod == null ? null : datePeriod.getEndDate();
 	}
 
 	@Override

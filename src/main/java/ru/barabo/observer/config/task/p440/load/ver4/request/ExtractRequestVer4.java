@@ -25,6 +25,10 @@ public class ExtractRequestVer4 extends AbstractRequest {
             return typeAllAccounts.getStartDate();
         }
 
+        if(typeDetailAccounts == null) {
+            return null;
+        }
+
         Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getStartDate() != null).findFirst();
 
         return account.map(TypeDetailAccounts::getStartDate).orElse(null);
@@ -34,6 +38,10 @@ public class ExtractRequestVer4 extends AbstractRequest {
     public Date getSubDate() {
         if (typeAllAccounts != null && typeAllAccounts.getEndDate() != null) {
             return typeAllAccounts.getEndDate();
+        }
+
+        if(typeDetailAccounts == null) {
+            return null;
         }
 
         Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getEndDate() != null).findFirst();

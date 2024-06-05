@@ -103,6 +103,15 @@ object RooLoader : GeneralLoader<RooFromFns>() {
 object ZsnLoader : GeneralLoader<ZsnFromFns>() {
 
     override fun name(): String = "Загрузка ZSN-файла (наличие сч.)"
+
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2FileZsv(file, ZsnFromFns::emptyZsnFromFns)
+        }
+    }
 }
 
 private val logger = LoggerFactory.getLogger(ZsoLoader::class.java)
@@ -280,6 +289,7 @@ private fun GeneralLoader<*>.createPb2FileZsv(file: File, emptyZsvCreator: ()->A
     val uniqueSession = AfinaQuery.uniqueSession()
 
     try {
+
         val idFnsFrom = zsvPb2.saveData(file, uniqueSession)
 
         updateCheckCodeError(idFnsFrom, uniqueSession)

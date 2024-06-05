@@ -25,6 +25,10 @@ public class RestRequestVer4 extends AbstractRequest {
             return typeAllAccounts.getOnStateDate();
         }
 
+        if(typeDetailAccounts == null) {
+            return null;
+        }
+
         Optional<TypeDetailAccounts> account = typeDetailAccounts.stream().filter(acc -> acc.getOnDate() != null).findFirst();
 
         return account.get().getOnDate();
@@ -34,7 +38,7 @@ public class RestRequestVer4 extends AbstractRequest {
     public String getAccounts() {
         if ((typeAllAccounts != null && typeAllAccounts.getOnStateDate() != null) ||
                 typeDetailAccounts == null ||
-                typeDetailAccounts.size() == 0) {
+                typeDetailAccounts.isEmpty()) {
             return null;
         }
 
