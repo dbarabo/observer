@@ -1,9 +1,7 @@
 package ru.barabo.observer.config.fns.scad
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.barabo.crypto.task.CreateSaveResponse390p
 import ru.barabo.observer.config.barabo.crypto.task.InfoRequest349p
-import ru.barabo.observer.config.barabo.crypto.task.Sign390pArchive
 import ru.barabo.observer.config.barabo.p440.task.Ticket440pFns
 import ru.barabo.observer.config.fns.scad.task.UncryptoEns
 import ru.barabo.observer.config.skad.crypto.task.*

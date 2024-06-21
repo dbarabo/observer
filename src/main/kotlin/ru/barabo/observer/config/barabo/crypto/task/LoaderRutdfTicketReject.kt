@@ -12,6 +12,7 @@ import java.io.File
 import java.nio.charset.Charset
 import java.sql.Timestamp
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
@@ -31,6 +32,8 @@ object LoaderRutdfTicketReject {
 
         var uid = ""
 
+        var dateEvent: LocalDate? = null
+
         for(line in ticketFile.readLines(Charset.forName("CP1251"))) {
 
             when(state) {
@@ -45,7 +48,10 @@ object LoaderRutdfTicketReject {
 
                 StateFind.FIND_GROUP_HEADER -> {
                     if(line.indexOf("0_GROUPHEADER\t") == 0) {
-                        event = findEvent(line)
+
+                        val (ev,  dt) = findEvent(line)
+                        event = ev
+                        dateEvent = dt
 
                         state = StateFind.FIND_UID
                     } else {
@@ -62,7 +68,7 @@ object LoaderRutdfTicketReject {
                         state = if(event == "2.4") {
                             StateFind.FIND_GUARANTOR
                         } else {
-                            saveError(lastSentRutDfFile, uid, event, errorBuffer)
+                            saveError(lastSentRutDfFile, uid, event, errorBuffer, eventDate = dateEvent)
                             StateFind.FIND_ERROR
                         }
 
@@ -73,7 +79,7 @@ object LoaderRutdfTicketReject {
                         val tags = line.split('\t')
                         if(tags.size > 4) {
                             uid = tags[4].trim()
-                            saveError(lastSentRutDfFile, uid, event, errorBuffer)
+                            saveError(lastSentRutDfFile, uid, event, errorBuffer, eventDate = dateEvent)
                             state = StateFind.FIND_ERROR
                         }
                     }
@@ -86,9 +92,9 @@ object LoaderRutdfTicketReject {
 
                         state = StateFind.FIND_ERROR
 
-                        saveError(lastSentRutDfFile, uid, event, errorBuffer, guarantorUid)
+                        saveError(lastSentRutDfFile, uid, event, errorBuffer, guarantorUid, dateEvent)
                     } else {
-                        saveError(lastSentRutDfFile, uid, event, errorBuffer)
+                        saveError(lastSentRutDfFile, uid, event, errorBuffer, eventDate = dateEvent)
                         state = StateFind.FIND_ERROR
                     }
                 }
@@ -96,10 +102,10 @@ object LoaderRutdfTicketReject {
         }
     }
 
-    private fun findEvent(line: String): String {
+    private fun findEvent(line: String): Pair<String, LocalDate> {
         val params = line.split('\t')
 
-        return params[2]
+        return Pair(params[2], params[5].toDateByPoint())
     }
 
     private fun guarantorUid(line: String): String {
@@ -115,9 +121,14 @@ object LoaderRutdfTicketReject {
         return AfinaQuery.selectValue(SELECT_LAST_SENT_RUTDF_FILE, arrayOf(withoutReject)) as Number
     }
 
-    private fun saveError(rutDfFile: Number, uid: String, event: String, error: String, guarantorUid: String = "") {
+    private fun saveError(rutDfFile: Number, uid: String, event: String, error: String,
+                          guarantorUid: String = "", eventDate: LocalDate?) {
 
-        AfinaQuery.execute(EXEC_SAVE_ERROR, arrayOf(rutDfFile, uid, event, error, guarantorUid))
+        val dateEvent = eventDate?.toTimestamp() ?: LocalDateTime::class.javaObjectType
+
+        val params: Array<Any?> = arrayOf(rutDfFile, uid, event, error, guarantorUid, dateEvent)
+
+        AfinaQuery.execute(EXEC_SAVE_ERROR, params)
     }
 
     fun checkTradeByPath(startDate: LocalDate, endExlusive: LocalDate = LocalDate.now()) {
@@ -195,7 +206,7 @@ fun String.toDateByPoint(): LocalDate = LocalDate.parse(this, DateTimeFormatter.
 
 private const val SELECT_LAST_SENT_RUTDF_FILE = "select od.PTKB_RUTDF.getLastRutDf(?) from dual"
 
-private const val EXEC_SAVE_ERROR = "{ call od.PTKB_RUTDF.saveError(?, ?, ?, ?, ?) }"
+private const val EXEC_SAVE_ERROR = "{ call od.PTKB_RUTDF.saveError(?, ?, ?, ?, ?, ?) }"
 
 private enum class StateFind {
     FIND_ERROR,

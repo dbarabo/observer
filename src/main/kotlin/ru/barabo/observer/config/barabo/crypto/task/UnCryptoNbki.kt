@@ -40,7 +40,8 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
         CryptoPro.decode(decodeFile, zipFile)
 
-        Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
+        Archive.extractFromZip(zipFile, unCryptoFolder.absolutePath)
+        //Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
 
         //checkTicket(unCryptoFolder, zipFile.nameWithoutExtension)
         checkTicketRutDf(unCryptoFolder, zipFile.nameWithoutExtension)

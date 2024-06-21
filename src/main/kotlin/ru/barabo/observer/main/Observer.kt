@@ -27,6 +27,7 @@ object Observer {
 
         val config = when (comp) {
             "BARABO" -> "BARABO"
+            "GRYPTOPRO"-> "BARABO"
             "OPERATOR" -> "CBR"
             "JZDO" -> "JZDO"
             "SKAD" -> "SCAD"

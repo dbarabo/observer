@@ -1373,14 +1373,14 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/05/22/UNCRYPTO/K301BB000001_20240522_110225_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/06/21/UNCRYPTO/K301BB000001_20240621_115840_reject") )
     }
 
     //@Test
     fun testLoaderNbkiFileSent() {
         //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
 
-        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240426_101650") )
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240605_111930") )
     }
 
     //@Test
