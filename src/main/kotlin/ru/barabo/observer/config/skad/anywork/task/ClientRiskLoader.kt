@@ -29,7 +29,7 @@ object ClientRiskLoader : FileFinder, FileProcessor {
     override fun config(): ConfigTask = AnyWork
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(0, 0), workTimeTo = LocalTime.of(7, 0),
+        workTimeFrom = LocalTime.of(0, 0), workTimeTo = LocalTime.of(13, 0),
         executeWait = Duration.ofMinutes(3))
 
     override val fileFinderData: List<FileFinderData> = listOf(FileFinderData( ::xCbrToday, ".*\\.xml"))
