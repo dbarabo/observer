@@ -1371,9 +1371,9 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-   //@Test
+   @Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/07/10/UNCRYPTO/K301BB000001_20240710_153326_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/07/18/UNCRYPTO/K301BB000001_20240718_100731_reject") )
     }
 
     //@Test

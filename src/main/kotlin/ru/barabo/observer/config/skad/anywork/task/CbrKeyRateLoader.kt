@@ -168,8 +168,6 @@ object CbrKeyRateLoader : SinglePerpetual {
             isDate = !isDate
         }
 
-        listRate += CbrRate(LocalDate.of(2023, 12, 18), 1600L)
-
         listRate.sortBy { it.date }
 
         return listRate
