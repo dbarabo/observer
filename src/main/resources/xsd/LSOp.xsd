@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- XML СХЕМА ЭЛЕКТРОННОГО ДОКУМЕНТА "ИНФОРМАЦИЯ О СЧЕТАХ. ОПЕРАЦИИ"
+	 ПОДГОТОВЛЕННОГО В СООТВЕТСТВИИ С УКАЗАНИЕМ БАНКА РОССИИ ОТ 30.11.2014 № 3462-У 
+	 "О СОСТАВЕ И ФОРМАТАХ ПРЕДСТАВЛЕНИЯ УЧЕТНО-ОПЕРАЦИОННОЙ И ИНОЙ ИНФОРМАЦИИ
+	 КРЕДИТНОЙ ОРГАНИЗАЦИИ (ЕЕ ФИЛИАЛА) В ЭЛЕКТРОННОМ ВИДЕ" -->
+<!-- Схема протестирована в Altova XMLSpy 2016 Enterprise Edition x64 -->	 
+<!-- дата последней модификации: 01.08.2016 11:40 -->
+<!-- пространство имен, версия, идентификатор схемы, подключение библиотеки -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:stl="http://www.cbr.ru/3462/stl-1.0" version="1.1" id="LSOp">
+	<!-- импортируем описания простых типов STL.xsd
+		 можно явно указать путь к схеме например так: schemaLocation="file:///C:/XSD/3462/STL.xsd"-->
+	<xs:import namespace="http://www.cbr.ru/3462/stl-1.0" schemaLocation="STL.xsd"/>
+	<!-- ОПИСАНИЕ СТРУКТУРЫ -->
+	<!-- КОРНЕВОЙ ТЕГ -->
+	<xs:element name="TRANSPORT">
+		<xs:complexType>
+			<!-- обязательные элементы -->
+			<xs:sequence>
+				<xs:element ref="THEADER"/>
+				<xs:element ref="Table"/>
+			</xs:sequence>
+			<!-- обязательный атрибут корневого элемента -->
+			<xs:attribute name="verspo" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование и номер версии программного обеспечения, с помощью которого сформирован данный файл</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- Заголовок документа -->
+	<xs:element name="THEADER">
+		<xs:complexType>
+			<!-- обязательные элементы -->
+			<xs:sequence>
+				<xs:element ref="Bank"/>
+				<xs:element ref="PBDate"/>
+				<xs:element ref="PLDate"/>
+			</xs:sequence>
+			<!-- обязательные атрибуты заголовка -->
+			<xs:attribute name="len" type="stl:ST_LEN" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="date" type="stl:ST_DATE" use="required">
+				<xs:annotation>
+					<xs:documentation>дата формирования файла электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="time" type="stl:ST_TIME" use="required">
+				<xs:annotation>
+					<xs:documentation>время формирования файла электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="nmbbank" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>реквизиты кредитной организации</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="vsp" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование внутреннего структурного подразделения кредитной организации</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="file" type="stl:ST_FILENAME" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- элементы заголовка -->
+	<xs:element name="Bank" type="xs:token">
+		<xs:annotation>
+			<xs:documentation>Сведения о банке</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PBDate" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>Дата начала периода</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PLDate" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>Дата окончания периода</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- НАБОРЫ ЗАПИСЕЙ -->
+	<xs:element name="Table">
+		<xs:complexType>
+			<!-- обязательный элемент (запись) -->
+			<xs:sequence>
+				<xs:element ref="Rec" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<!-- атрибуты наборов записей -->
+			<xs:attribute name="len" type="xs:unsignedLong" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="nRec" type="xs:unsignedLong" use="required">
+				<xs:annotation>
+					<xs:documentation>количество записей</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>	
+		</xs:complexType>
+		<!-- определяем уникальность номера записи -->
+		<xs:unique name="uniqueID">
+			<xs:selector xpath="./Rec"/>
+			<xs:field xpath="@RecID"/>
+		</xs:unique>
+	</xs:element>
+	<!-- ЗАПИСЬ -->
+	<xs:element name="Rec">
+		<xs:complexType>
+			<!-- в любой последовательности и не обязательные элементы -->
+			<!-- модификация от 19.05.2016 - скорректированы обязательные параметры -->
+			<xs:all>
+				<xs:element ref="DATA" 				minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="SUM" 				minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="DT_ACCOUNT" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_ACCOUNT" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="UKEY" 				minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="TIME" 				minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DCM_DATE" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DCM_NUM" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_SUMC" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_SUMC" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="APPOINT" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="SCO" 				minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_KSM" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_ACCOUNT" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_BIK" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_SWIFT" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_INN" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_KPP" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_OGRN" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="DT_EXT_TNAME" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_KSM" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_ACCOUNT" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_BIK" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_SWIFT" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_INN" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_KPP" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_OGRN" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KT_EXT_TNAME" 		minOccurs="0" maxOccurs="1"/>
+			</xs:all>
+			<!-- атрибуты записи -->
+			<xs:attribute name="RecID" type="stl:ST_RECID" use="required">
+				<xs:annotation>
+					<xs:documentation>уникальный номер записи</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="len" type="stl:ST_LEN" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- ЭЛЕМЕНТЫ ЗАПИСИ -->
+	<xs:element name="UKEY" type="stl:ST_TXT40">
+		<xs:annotation>
+			<xs:documentation>уникальный код бухгалтерской записи</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DATA" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата бухгалтерской записи</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TIME" type="stl:ST_TIME">
+		<xs:annotation>
+			<xs:documentation>время бухгалтерской записи</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DCM_DATE" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата документа, на основании которого сделана бухгалтерская запись</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DCM_NUM" type="stl:ST_TXT32">
+		<xs:annotation>
+			<xs:documentation>номер документа, на основании которого сделана бухгалтерская запись</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_ACCOUNT" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета по дебету бухгалтерской записи</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_ACCOUNT" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета по кредиту бухгалтерской записи</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SUM" type="stl:ST_SUM">
+		<xs:annotation>
+			<xs:documentation>сумма бухгалтерской записи в валюте Российской Федерации</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_SUMC" type="stl:ST_SUM">
+		<xs:annotation>
+			<xs:documentation>сумма бухгалтерской записи в иностранной валюте счета по дебету</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_SUMC" type="stl:ST_SUM">
+		<xs:annotation>
+			<xs:documentation>сумма бухгалтерской записи в иностранной валюте счета по кредиту</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="APPOINT" type="stl:ST_TXT210">
+		<xs:annotation>
+			<xs:documentation>информация о назначении платежа при осуществлении перевода денежных средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SCO" type="stl:ST_SCO">
+		<xs:annotation>
+			<xs:documentation>символы кассовой операции</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_KSM" type="stl:ST_KOD_GOS">
+		<xs:annotation>
+			<xs:documentation>кодовое обозначение государства</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_ACCOUNT" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета банка контрагента – плательщика, не являющегося клиентом кредитной организации</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_BIK" type="stl:ST_BIK">
+		<xs:annotation>
+			<xs:documentation>БИК банка контрагента – плательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_SWIFT" type="stl:ST_SWIFT">
+		<xs:annotation>
+			<xs:documentation>международный банковский идентификационный код банка контрагента – плательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_INN" type="stl:ST_INN">
+		<xs:annotation>
+			<xs:documentation>ИНН, КИО контрагента – плательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_KPP" type="stl:ST_KPP">
+		<xs:annotation>
+			<xs:documentation>КПП контрагента – плательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_OGRN" type="stl:ST_OGRN">
+		<xs:annotation>
+			<xs:documentation>ОГРН или ОГРНИП контрагента – плательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DT_EXT_TNAME" type="stl:ST_TNAME">
+		<xs:annotation>
+			<xs:documentation>информация о контрагенте – плательщике</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_KSM" type="stl:ST_KOD_GOS">
+		<xs:annotation>
+			<xs:documentation>кодовое обозначение государства</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_ACCOUNT" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета банка контрагента – получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_BIK" type="stl:ST_BIK">
+		<xs:annotation>
+			<xs:documentation>БИК банка контрагента – получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_SWIFT" type="stl:ST_SWIFT">
+		<xs:annotation>
+			<xs:documentation>международный банковский идентификационный код банка контрагента – получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_INN" type="stl:ST_INN">
+		<xs:annotation>
+			<xs:documentation>ИНН, КИО получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_KPP" type="stl:ST_KPP">
+		<xs:annotation>
+			<xs:documentation>КПП контрагента – получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_OGRN" type="stl:ST_OGRN">
+		<xs:annotation>
+			<xs:documentation>ОГРН или ОГРНИП контрагента – получателя средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KT_EXT_TNAME" type="stl:ST_TNAME">
+		<xs:annotation>
+			<xs:documentation>информация о контрагенте – получателе средств</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

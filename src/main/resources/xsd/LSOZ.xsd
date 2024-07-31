@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- XML СХЕМА ЭЛЕКТРОННОГО ДОКУМЕНТА "ИНФОРМАЦИЯ ОБ ОТКРЫТЫХ И ЗАКРЫТЫХ СЧЕТАХ"
+	 ПОДГОТОВЛЕННОГО В СООТВЕТСТВИИ С УКАЗАНИЕМ БАНКА РОССИИ ОТ 30.11.2014 № 3462-У 
+	 "О СОСТАВЕ И ФОРМАТАХ ПРЕДСТАВЛЕНИЯ УЧЕТНО-ОПЕРАЦИОННОЙ И ИНОЙ ИНФОРМАЦИИ
+	 КРЕДИТНОЙ ОРГАНИЗАЦИИ (ЕЕ ФИЛИАЛА) В ЭЛЕКТРОННОМ ВИДЕ" -->
+<!-- Схема протестирована в Altova XMLSpy 2016 Enterprise Edition x64 -->	 
+<!-- дата последней модификации: 16.06.2016 13:40 -->
+<!-- пространство имен, версия, идентификатор схемы, подключение библиотеки -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:stl="http://www.cbr.ru/3462/stl-1.0" version="1.1" id="LSOZ">
+	<!-- импортируем описания простых типов STL.xsd 
+		 можно явно указать путь к схеме например так: schemaLocation="file:///C:/XSD/3462/STL.xsd"-->
+	<xs:import namespace="http://www.cbr.ru/3462/stl-1.0" schemaLocation="STL.xsd"/>
+	<!-- ОПИСАНИЕ СТРУКТУРЫ -->
+	<!-- КОРНЕВОЙ ТЕГ -->
+	<xs:element name="TRANSPORT">
+		<xs:complexType>
+			<!-- обязательные элементы -->
+			<xs:sequence>
+				<xs:element ref="THEADER"/>
+				<xs:element ref="Table"/>
+			</xs:sequence>
+			<!-- атрибуты корневого элемента -->
+			<xs:attribute name="verspo" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование и номер версии программного обеспечения, с помощью которого сформирован данный файл</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- Заголовок документа -->
+	<xs:element name="THEADER">
+		<xs:complexType>
+			<!-- обязательные элементы -->
+			<xs:sequence>
+				<xs:element ref="Bank"/>
+				<xs:element ref="PBDate"/>
+				<xs:element ref="PLDate"/>
+			</xs:sequence>
+			<!-- атрибуты заголовка -->
+			<xs:attribute name="len" type="stl:ST_LEN" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="date" type="stl:ST_DATE" use="required">
+				<xs:annotation>
+					<xs:documentation>дата формирования файла электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="time" type="stl:ST_TIME" use="required">
+				<xs:annotation>
+					<xs:documentation>время формирования файла электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="nmbbank" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>реквизиты кредитной организации</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="vsp" type="xs:token" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование внутреннего структурного подразделения кредитной организации</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="file" type="stl:ST_FILENAME" use="required">
+				<xs:annotation>
+					<xs:documentation>наименование электронного документа</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- элементы заголовка -->
+	<xs:element name="Bank" type="xs:token">
+		<xs:annotation>
+			<xs:documentation>Сведения о банке</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PBDate" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>Дата начала периода</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PLDate" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>Дата окончания периода</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- НАБОРЫ ЗАПИСЕЙ -->
+	<xs:element name="Table">
+		<xs:complexType>
+			<!-- обязательный элемент (запись) -->
+			<xs:sequence>
+				<xs:element ref="Rec" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<!-- атрибуты наборов записей -->
+			<xs:attribute name="len" type="xs:unsignedLong" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="nRec" type="xs:unsignedLong" use="required">
+				<xs:annotation>
+					<xs:documentation>количество записей</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>	
+		</xs:complexType>
+		<!-- определяем уникальность номера записи -->
+		<xs:unique name="uniqueID">
+			<xs:selector xpath="./Rec"/>
+			<xs:field xpath="@RecID"/>
+		</xs:unique>
+	</xs:element>
+	<!-- ЗАПИСЬ -->
+	<xs:element name="Rec">
+		<xs:complexType>
+			<!-- в любой последовательности и не обязательные элементы -->
+			<xs:all>
+				<xs:element ref="OPEN" 			minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="ACCOUNT" 		minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="TNAME" 		minOccurs="1" maxOccurs="1"/>
+				<xs:element ref="AGREE_DATE" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="AGREE_NUM" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="TNAME_2" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="OPEN_NALOG" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="CLOSE" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="CLOSE_NALOG" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="BIK" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="SWIFT" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="INN" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="KPP" 			minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="PR_KONS" 		minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="ACCOUNT_KONS" 	minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="OGRN" 			minOccurs="0" maxOccurs="1"/>
+			</xs:all>
+			<!-- атрибуты записи -->
+			<xs:attribute name="RecID" type="stl:ST_RECID" use="required">
+				<xs:annotation>
+					<xs:documentation>номер записи</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="len" type="stl:ST_LEN" use="required">
+				<xs:annotation>
+					<xs:documentation>длина блока</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<!-- ЭЛЕМЕНТЫ ЗАПИСИ -->
+	<xs:element name="OPEN" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата открытия счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AGREE_DATE" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата договора</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AGREE_NUM" type="stl:ST_TXT32">
+		<xs:annotation>
+			<xs:documentation>номер договора</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TNAME" type="stl:ST_TNAME">
+		<xs:annotation>
+			<xs:documentation>информация о клиенте (например так: //Иванов Иван Иванович////100000, г. Москва, ул. Улица, д. 10, кв. 1//р/с 40702810000000467001 в АКБ "Учебный" г. Москва//)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TNAME_2" type="stl:ST_TXT4000">
+		<xs:annotation>
+			<xs:documentation>вид банковского счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ACCOUNT" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="OPEN_NALOG" type="stl:ST_DATE_NOT_PROVIDET">
+		<xs:annotation>
+			<xs:documentation>дата сообщения налоговому органу об открытии банковского счета (дата в формате дд.мм.гггг или дата не  предусмотрена - '-' (знак минус или тире))</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="CLOSE" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата закрытия счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="CLOSE_NALOG" type="stl:ST_DATE">
+		<xs:annotation>
+			<xs:documentation>дата сообщения налоговому органу о закрытии банковского счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="BIK" type="stl:ST_BIK">
+		<xs:annotation>
+			<xs:documentation>банковский идентификационный код </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SWIFT" type="stl:ST_SWIFT">
+		<xs:annotation>
+			<xs:documentation>международный банковский идентификационный код </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="INN" type="stl:ST_INN">
+		<xs:annotation>
+			<xs:documentation>индивидуальный номер налогоплательщика</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="KPP" type="stl:ST_KPP">
+		<xs:annotation>
+			<xs:documentation>код причины постановки на учет юридического лица</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PR_KONS" type="stl:ST_PRIZ_ACC">
+		<xs:annotation>
+			<xs:documentation>признак счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ACCOUNT_KONS" type="stl:ST_ACC">
+		<xs:annotation>
+			<xs:documentation>номер счета для отражения в балансе итоговой суммы</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="OGRN" type="stl:ST_OGRN">
+		<xs:annotation>
+			<xs:documentation>основной государственный регистрационный номер</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>
