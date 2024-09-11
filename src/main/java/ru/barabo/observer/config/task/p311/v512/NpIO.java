@@ -12,12 +12,14 @@ public final class NpIO {
     private InnIo innIo;//private String innIo;
 
     @XStreamAlias("КИО")
-    private String kio;
+    private KioIo kio;
 
     public NpIO(String name, String innIo, String kio) {
 
-        this.kio = kio;
-        this.innIo = new InnIo(innIo);
+        this.kio = ((kio == null) || kio.isEmpty()) ? null : new KioIo(kio);
+
+        this.innIo = ((innIo == null) || innIo.isEmpty()) ? null : new InnIo(innIo);
+
         this.name = name;
     }
 }

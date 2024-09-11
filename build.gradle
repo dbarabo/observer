@@ -24,12 +24,12 @@ plugins {
 }
 
 apply plugin: 'idea'
-apply plugin: 'org.openjfx.javafxplugin'
+//apply plugin: 'org.openjfx.javafxplugin'
 
-javafx {
+/*javafx {
     version = "12.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
+}*/
 
 compileJava.options.encoding = 'UTF-8'
 
