@@ -29,7 +29,7 @@ object CreateCrypto311p512 : SingleSelector {
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,
         LocalTime.of(9, 0),
-        LocalTime.of(16, 55), Duration.ofSeconds(1))
+        LocalTime.of(15, 55), Duration.ofSeconds(1))
 
     override val select: String =
 """
