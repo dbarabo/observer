@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
 
 @XStreamConverter(value= ToAttributedValueConverter.class, strings={"value"})
 public class StringElement {
-    String value;
+    public String value;
 
     public StringElement(String value) {
         this.value = value;

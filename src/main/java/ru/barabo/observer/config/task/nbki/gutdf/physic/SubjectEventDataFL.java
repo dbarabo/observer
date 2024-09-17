@@ -9,25 +9,25 @@ import java.util.List;
 @XStreamAlias("Events")
 public class SubjectEventDataFL {
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.1")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_1")
     private final List<FlEvent1_1> flEvent1_1List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.2")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_2")
     private final List<FlEvent1_2> flEvent1_2List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.3")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_3")
     private final List<FlEvent1_3> flEvent1_3List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.4")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_4")
     private final List<FlEvent1_4> flEvent1_4List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.7")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_7")
     private final List<FlEvent1_7> flEvent1_7List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.9")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_9")
     private final List<FlEvent1_9> flEvent1_9List;
 
-    @XStreamImplicit(itemFieldName = "FL_event_1.12")
+    @XStreamImplicit(itemFieldName = "FL_Event_1_12")
     private final List<FlEvent1_12> flEvent1_12List;
 
     public SubjectEventDataFL(List<FlEvent1_1> flEvent1_1List, List<FlEvent1_2> flEvent1_2List,
