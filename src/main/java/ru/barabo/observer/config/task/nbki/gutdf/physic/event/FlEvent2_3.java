@@ -53,7 +53,7 @@ public class FlEvent2_3 extends AbstractEventData  {
     final Fl55Application fl55Application; // minOccurs="0" Блок 55. Сведения об обращении субъекта к источнику с предложением совершить сделку
 
     @XStreamAlias("FL_56_Participation")
-    final Fl54Accounting Fl56Participation; // Блок 56. Сведения об участии в обязательстве, по которому формируется кредитная история
+    final Fl56Participation fl56Participation; // Блок 56. Сведения об участии в обязательстве, по которому формируется кредитная история
 
     public FlEvent2_3(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, Fl18Deal fl18Deal,
                       Fl19Amount fl19Amount, List<Fl19_1AmountInfo> fl191AmountInfoList,
@@ -61,7 +61,7 @@ public class FlEvent2_3 extends AbstractEventData  {
                       Fl25_26_27_28Group fl25262728Group, Fl29MonthlyPayment fl29MonthlyPayment,
                       Fl29_1DebtBurdenInfo fl291DebtBurdenInfo, Fl20JointDebtors fl20JointDebtors,
                       Fl54Accounting fl54Accounting, Fl55Application fl55Application,
-                      Fl54Accounting fl56Participation) {
+                      Fl56Participation fl56Participation) {
 
         super(orderNum, eventDate);
 
@@ -77,6 +77,6 @@ public class FlEvent2_3 extends AbstractEventData  {
         this.fl20JointDebtors = fl20JointDebtors;
         this.fl54Accounting = fl54Accounting;
         this.fl55Application = fl55Application;
-        Fl56Participation = fl56Participation;
+        this.fl56Participation = fl56Participation;
     }
 }

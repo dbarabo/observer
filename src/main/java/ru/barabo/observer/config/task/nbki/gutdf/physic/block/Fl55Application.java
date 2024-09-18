@@ -62,7 +62,7 @@ public class Fl55Application {
 
         this.sum = sum == null ? null : new StringElement(XmlLoader.formatSum(sum) );
 
-        currency = sum == null ? null : new StringElement("643");
+        currency = sum == null ? null : new StringElement("RUB");
 
         this.uid = new StringElement(uid);
 

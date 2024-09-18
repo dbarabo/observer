@@ -42,7 +42,7 @@ public class Fl19_1AmountInfo {
     public Fl19_1AmountInfo(Integer securityTypeCode, Date calcDate, String securityUid, Long liabilityLimit) {
         this.securityFact0 = null;
         this.securityFact1 = new StringElement("");
-        this.securityCurrency = securityTypeCode == null ? null : new StringElement("643");
+        this.securityCurrency = securityTypeCode == null ? null : new StringElement("RUB");
         this.securityTypeCode = securityTypeCode == null ? null : new StringElement(securityTypeCode.toString());
         this.calcDate = new StringElement( calcDate == null ? "-" : XmlLoader.formatDate(calcDate));
         this.securityUid = securityUid == null ? null : new StringElement(securityUid);

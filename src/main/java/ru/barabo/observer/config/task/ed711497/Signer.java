@@ -2,7 +2,6 @@ package ru.barabo.observer.config.task.ed711497;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
-import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
 
 import java.util.Date;
 
@@ -10,7 +9,7 @@ import java.util.Date;
 public class Signer {
 
     @XStreamAlias("Должн")
-    private final String positionMainBank = "Начальник ОРОиОС ДОК";
+    private final String positionMainBank = "Начальник ООК";
 
     @XStreamAlias("Тлф")
     private final String phoneMainBank = "(423)220-96-93";
@@ -20,6 +19,6 @@ public class Signer {
 
 
     @XStreamAlias("tns:ФИО")
-    private final Fio fio = new Fio("Евгения", "Кокшарова",  "Владимировна");
+    private final Fio fio = new Fio("Анастасия", "Шабот",  "Дмитриевна");
 
 }

@@ -5,6 +5,6 @@ package ru.barabo.observer.config.task.nbki.gutdf.physic.block;
  */
 public class Fl36ProvisionPayment {
 
-
+    // TODO - в АБС это не настроено - пусть там сначала настроят
 
 }

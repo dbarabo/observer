@@ -7,7 +7,7 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 import java.util.List;
 
 /**
- * предмета залога 32, 35
+ * предмет залога 32, 35
  */
 public class PropertyIdGroupFl32_35Group {
 

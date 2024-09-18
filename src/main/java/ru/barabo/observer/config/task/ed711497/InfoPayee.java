@@ -2,7 +2,6 @@ package ru.barabo.observer.config.task.ed711497;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
-import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
 
 import java.util.Date;
 

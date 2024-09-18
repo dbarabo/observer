@@ -21,7 +21,7 @@ public class Fl19Amount {
 
         this.sum = new StringElement(sum == null ? "-" : XmlLoader.formatSum(sum));
 
-        this.currency = new StringElement(sum == null ? "-" : "643");
+        this.currency = new StringElement(sum == null ? "-" : "RUB");
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
