@@ -4,6 +4,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 
+import java.util.List;
+
 /**
  * Блок 33. Сведения о поручительствах
  */
@@ -16,7 +18,7 @@ public class Fl33Warranty {
     private final StringElement warrantyFact1; // 33.1. Признак наличия поручительства = 1
 
     @XStreamImplicit(itemFieldName = "Uid_group_FL_33_Warranty")
-    private final UidGroupFl33Warranty uidGroupFl33WarrantyList; // Список поручительств
+    private final List<UidGroupFl33Warranty> uidGroupFl33WarrantyList; // Список поручительств
 
     public Fl33Warranty() {
         this.warrantyFact0 = new StringElement("");
@@ -24,7 +26,7 @@ public class Fl33Warranty {
         this.uidGroupFl33WarrantyList = null;
     }
 
-    public Fl33Warranty(UidGroupFl33Warranty uidGroupFl33WarrantyList) {
+    public Fl33Warranty(List<UidGroupFl33Warranty> uidGroupFl33WarrantyList) {
 
         this.warrantyFact0 = null;
         this.warrantyFact1 = new StringElement("");

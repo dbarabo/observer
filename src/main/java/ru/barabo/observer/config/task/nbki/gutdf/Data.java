@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.nbki.gutdf;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutdfData;
+import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectUl;
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl;
 
 import java.util.List;
