@@ -23,8 +23,9 @@ public class FlEvent1_3  extends AbstractEventData {
     @XStreamAlias("FL_57_Reject")
     final Fl57Reject fl57Reject;
 
-    public FlEvent1_3(Integer orderNum, Date eventDate, String operationCode,
-                      Fl55Application fl55Application, Fl29_1DebtBurdenInfo fl29_1DebtBurdenInfo, Fl57Reject fl57Reject) {
+    public FlEvent1_3(Integer orderNum, Date eventDate, Fl55Application fl55Application,
+                      Fl29_1DebtBurdenInfo fl29_1DebtBurdenInfo, Fl57Reject fl57Reject) {
+
         super(orderNum, eventDate);
 
         this.fl29_1DebtBurdenInfo = fl29_1DebtBurdenInfo;

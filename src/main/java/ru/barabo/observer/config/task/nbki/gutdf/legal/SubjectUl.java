@@ -1,8 +1,6 @@
 package ru.barabo.observer.config.task.nbki.gutdf.legal;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.title.SubjectTitleDataFl;
 
 /**
  * Сведения о субъекте - юридическом лице
