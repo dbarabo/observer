@@ -39,9 +39,12 @@ public class Fl54Accounting {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; //54.7. Дата расчета
 
-    public Fl54Accounting(Number offBalanceAmount, Number minInterest, Number maxInterest, String supportInfo, Date calcDate) {
+    public Fl54Accounting(Number offBalanceAmount, Number minInterest, Number maxInterest, String supportInfo,
+                          Date calcDate) {
+
         this.exist0 = offBalanceAmount == null ? null : new StringElement("");
         this.sum = offBalanceAmount == null ? null : new StringElement(XmlLoader.formatSum(offBalanceAmount));
+
         this.exist1 = offBalanceAmount != null ? null : new StringElement("");;
         this.minInterest = new StringElement(minInterest == null ? "0.00" : XmlLoader.formatSum(minInterest));
         this.maxInterest = new StringElement(maxInterest == null ? "0.00" : XmlLoader.formatSum(maxInterest));

@@ -44,7 +44,7 @@ public class Fl18Deal {
     @XStreamAlias("partialExist_0")
     private final StringElement partialExist0 = new StringElement(""); //18.13. Признак возникновения обязательства в результате получения части прав кредитора от другого лица = 0
 
-    @XStreamAlias("creditLineExist_1")
+    @XStreamAlias("creditLineExist_0")
     private final StringElement creditLineExist0; //18.14. Признак кредитной линии = 0
 
     @XStreamAlias("creditLineExist_1")

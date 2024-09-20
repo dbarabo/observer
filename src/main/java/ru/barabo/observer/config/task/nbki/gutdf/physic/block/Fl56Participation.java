@@ -37,6 +37,7 @@ public class Fl56Participation {
 
     public Fl56Participation(Integer role, Integer kindCode, String uid, Date fundDate, Boolean isOverdue90,
                              Boolean isStop) {
+
         this.role = new StringElement(role.toString());
         this.kindCode = new StringElement(kindCode.toString());
         this.uid = new StringElement(uid);

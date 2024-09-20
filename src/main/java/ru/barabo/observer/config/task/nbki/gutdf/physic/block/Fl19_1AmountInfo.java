@@ -14,6 +14,9 @@ public class Fl19_1AmountInfo {
     @XStreamAlias("securityFact_1")
     private final StringElement securityFact1; //19(1).1. Признак обеспечивающего обязательства = 1
 
+    @XStreamAlias("securitySum")
+    private final StringElement securitySum; // minOccurs="0" dec15p2Type >19(1).2. Сумма обеспечиваемого обязательства
+
     @XStreamAlias("securityCurrency")
     private final StringElement securityCurrency; // minOccurs="0" 19(1).3. Валюта обеспечиваемого обязательства
 
@@ -32,6 +35,8 @@ public class Fl19_1AmountInfo {
     public Fl19_1AmountInfo() {
         this.securityFact0 = new StringElement("");
         this.securityFact1 = null;
+
+        this.securitySum = null;
         this.securityCurrency = null;
         this.securityTypeCode = null;
         this.calcDate = null;
@@ -39,9 +44,13 @@ public class Fl19_1AmountInfo {
         this.liabilityLimit = null;
     }
 
-    public Fl19_1AmountInfo(Integer securityTypeCode, Date calcDate, String securityUid, Long liabilityLimit) {
+    public Fl19_1AmountInfo(Number securitySum, Integer securityTypeCode, Date calcDate, String securityUid, Long liabilityLimit) {
+
         this.securityFact0 = null;
         this.securityFact1 = new StringElement("");
+
+        this.securitySum = securitySum == null ? null : new StringElement(XmlLoader.formatSum(securitySum));
+
         this.securityCurrency = securityTypeCode == null ? null : new StringElement("RUB");
         this.securityTypeCode = securityTypeCode == null ? null : new StringElement(securityTypeCode.toString());
         this.calcDate = new StringElement( calcDate == null ? "-" : XmlLoader.formatDate(calcDate));
