@@ -47,7 +47,7 @@ public class Fl55Application {
     private final StringElement stageDate; //55.12. Дата перехода обращения в текущую стадию рассмотрения
 
     @XStreamAlias("applicationCode")
-    private final StringElement code; //55.13. Код вида обращения
+    private final StringElement code = new StringElement("6"); //55.13. Код вида обращения 6 - В кредитную организацию
 
     @XStreamAlias("num")
     private final StringElement num; //55.14. Номер обращения minOccurs="0"
@@ -56,7 +56,7 @@ public class Fl55Application {
     private final StringElement loanSum; //55.15. Сумма одобренного займа (кредита), лизинга или обеспечения Dec15p2 minOccurs="0"
 
     public Fl55Application(String role, Number sum, String uid, Date applicationDate, Date approvalEndDate,Date stageEndDate,
-                           String purposeCode, String stageCode, Date stageDate, String code, String num, Number loanSum) {
+                           String purposeCode, String stageCode, Date stageDate, String num, Number loanSum) {
 
         this.role = new StringElement(role);
 
@@ -77,8 +77,6 @@ public class Fl55Application {
         this.stageCode = stageCode == null ? null : new StringElement(stageCode);
 
         this.stageDate = new StringElement(XmlLoader.formatDate(stageDate) );
-
-        this.code = new StringElement(code);
 
         this.num = num == null ? null : new StringElement(num);
 

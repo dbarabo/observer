@@ -5,35 +5,25 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("Title")
 public class SubjectTitleDataFl {
 
-    @XStreamAlias("FL_1_Name")
-    private final Fl1Name fio;
+    @XStreamAlias("FL_1_4_Group")
+    private final Fl1_4Group fl1_4Group;
 
-    @XStreamAlias("FL_2_PrevName")
-    private final Fl2PrevName flPrevName;
+    @XStreamAlias("Fl2_5Group")
+    private final Fl2_5Group fl2_5Group;
 
     @XStreamAlias("FL_3_Birth")
     private final Fl3Birth fl3Birth;
 
-    @XStreamAlias("FL_4_Doc")
-    private final Fl4Doc fl4Doc;
-
-    @XStreamAlias("FL_5_PrevDoc")
-    private final Fl5PrevDoc fl5PrevDoc;
-
     @XStreamAlias("FL_6_Tax")
-    private final Fl6Tax fl6Tax;
+    private final Fl6Tax fl6Tax; // minOccurs="0"
 
     @XStreamAlias("FL_7_Social")
-    private final Fl7Social fl7Social;
+    private final Fl7Social fl7Social;  // minOccurs="0"
 
-    public SubjectTitleDataFl(Fl1Name fio, Fl2PrevName flPrevName, Fl3Birth fl3Birth, Fl4Doc fl4Doc,
-                              Fl5PrevDoc fl5PrevDoc, Fl6Tax fl6Tax, Fl7Social fl7Social) {
-
-        this.fio = fio;
-        this.flPrevName = flPrevName;
+    public SubjectTitleDataFl(Fl1_4Group fl14Group, Fl2_5Group fl25Group, Fl3Birth fl3Birth, Fl6Tax fl6Tax, Fl7Social fl7Social) {
+        fl1_4Group = fl14Group;
+        fl2_5Group = fl25Group;
         this.fl3Birth = fl3Birth;
-        this.fl4Doc = fl4Doc;
-        this.fl5PrevDoc = fl5PrevDoc;
         this.fl6Tax = fl6Tax;
         this.fl7Social = fl7Social;
     }

@@ -12,11 +12,22 @@ public class SubjectFl {
     @XStreamAlias("Events")
     private final SubjectEventDataFL events;
 
+    transient private final Long idClient;
 
-    public SubjectFl(SubjectTitleDataFl title, SubjectEventDataFL events) {
+    public SubjectFl(Long idClient, SubjectTitleDataFl title, SubjectEventDataFL events) {
+
+        this.idClient = idClient;
 
         this.title = title;
 
         this.events = events;
+    }
+
+    public Long getIdClient() {
+        return idClient;
+    }
+
+    public SubjectEventDataFL getEvents() {
+        return events;
     }
 }
