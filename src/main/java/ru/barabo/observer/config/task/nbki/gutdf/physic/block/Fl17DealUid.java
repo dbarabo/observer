@@ -15,7 +15,7 @@ public class Fl17DealUid {
     private final StringElement num; // 17.2. Номер сделки
 
     @XStreamAlias("refUid")
-    private final StringElement refUid; // 17.3. УИд сделки, по которой задолженность была полностью или частично рефинансирована
+    private final StringElement refUid; // minOccurs="0" 17.3. УИд сделки, по которой задолженность была полностью или частично рефинансирована
 
     @XStreamAlias("openDate")
     private final StringElement openDate; // 17.4. Дата совершения сделки emptyValueType | xs:date

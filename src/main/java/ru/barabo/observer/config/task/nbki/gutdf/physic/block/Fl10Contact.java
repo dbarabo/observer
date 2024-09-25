@@ -14,6 +14,19 @@ public class Fl10Contact {
     @XStreamImplicit(itemFieldName = "email")
     final List<StringElement> emailList; //  maxOccurs="unbounded" minOccurs="0"
 
+    public Fl10Contact() {
+        phoneGroupFl10ContactList = null;
+
+        emailList = null;
+    }
+
+    public Fl10Contact(List<PhoneGroupFl10Contact> phoneGroupFl10ContactList,  List<StringElement> emailList) {
+
+        this.phoneGroupFl10ContactList = phoneGroupFl10ContactList == null || phoneGroupFl10ContactList.isEmpty()
+                ? null : phoneGroupFl10ContactList;
+
+        this.emailList = emailList == null || emailList.isEmpty() ? null : emailList;
+    }
 
     public Fl10Contact(List<PhoneGroupFl10Contact> phoneGroupFl10ContactList, String email) {
         this.phoneGroupFl10ContactList = phoneGroupFl10ContactList;

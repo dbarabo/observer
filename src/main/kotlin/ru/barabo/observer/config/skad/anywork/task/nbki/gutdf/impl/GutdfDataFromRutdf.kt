@@ -80,15 +80,7 @@ class GutdfDataFromRutdf(private val idRutdfFile: Long) : GutdfData {
 
         return data
     }
-
-    private fun createLegal(eventRecord: EventRecord, priorLegal: SubjectUl?): SubjectUl {
-
-
-        // TODO
-        return SubjectUl(null, null)
-    }
 }
-
 
 private const val SEL_EVENT_BY_RUTDF = "{ ? = call od.PTKB_GUTDF.getEventsByIdFile( ? ) }"
 

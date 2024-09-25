@@ -21,7 +21,7 @@ public class SumGroupFl32_35Group {
     private final StringElement assessDate; //emptyValueType 32.7. Дата проведения оценки предмета залога
 
     @XStreamAlias("priceCode")
-    private final StringElement priceCode; // dec15p2Type 32.5. Стоимость предмета залога
+    private final StringElement priceCode; // dec15p2Type 32.12. Вид стоимости предмета залога
 
     public SumGroupFl32_35Group(Number sum, Date assessDate, Integer priceCode) {
 

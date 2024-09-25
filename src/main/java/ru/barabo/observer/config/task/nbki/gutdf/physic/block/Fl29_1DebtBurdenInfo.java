@@ -24,13 +24,11 @@ public class Fl29_1DebtBurdenInfo {
     @XStreamImplicit(itemFieldName = "incomeInfoSource")
     private final List<StringElement> incomeInfoSourceList; // 29(1).4. Источник сведений о величине среднемесячного дохода заемщика
 
-
     @XStreamAlias("loadFact_0")
     private final StringElement loadFact0; // 29(1).5. Признак учета долговой нагрузки созаемщиков = 0
 
     @XStreamAlias("loadFact_1")
     private final StringElement loadFact1; // 29(1).5. Признак учета долговой нагрузки созаемщиков = 1
-
 
     @XStreamAlias("loadCalculationFact_0")
     private final StringElement loadCalculationFact0; // 29(1).6. Признак расчета показателя долговой нагрузки заемщика по заключенному потребительскому кредиту (займу)  = 0

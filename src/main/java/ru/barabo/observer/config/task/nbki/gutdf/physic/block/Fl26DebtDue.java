@@ -26,6 +26,18 @@ public class Fl26DebtDue {
     @XStreamAlias("debtDueStartDate")
     private final StringElement debtDueStartDate; //  minOccurs="0" 26.1. Дата возникновения срочной задолженности
 
+    public Fl26DebtDue() {
+        this.debtDueSum = new StringElement(XmlLoader.formatSum(0));
+
+        this.debtDueMainSum = null;
+
+        this.debtDuePercentSum = null;
+
+        this.debtDueOtherSum = null;
+
+        this.debtDueStartDate = null;
+    }
+
     public Fl26DebtDue(Number debtDueSum, Number debtDueMainSum, Number debtDuePercentSum, Number debtDueOtherSum,
                        Date debtDueStartDate) {
 

@@ -14,6 +14,12 @@ public class TaxNumGroupUl4Tax {
     @XStreamAlias("taxNum")
     private final StringElement taxNum; //4.2. Номер налогоплательщика
 
+    public TaxNumGroupUl4Tax(String taxNum) {
+
+        this.taxCode = new StringElement("1");
+        this.taxNum = new StringElement(taxNum);
+    }
+
     public TaxNumGroupUl4Tax(StringElement taxCode, StringElement taxNum) {
         this.taxCode = taxCode;
         this.taxNum = taxNum;

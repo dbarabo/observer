@@ -49,7 +49,7 @@ public class FlEvent2_1 extends AbstractEventData  {
     @XStreamAlias("FL_23_ContractChanges")
     final Fl23ContractChanges fl23ContractChanges; // Блок 23. Сведения об изменении договора
 
-    @XStreamAlias("FL_23_ContractChanges")
+    @XStreamAlias("FL_23_1_ContractTermsChanges")
     final Fl23_1ContractTermsChanges fl23_1ContractTermsChanges; // Блок 23(1). Сведения об изменении условий обязательства в результате наступления указанного в сделке события
 
     @XStreamAlias("FL_54_Accounting")

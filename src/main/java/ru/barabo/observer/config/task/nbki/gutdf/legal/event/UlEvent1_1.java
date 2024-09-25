@@ -17,7 +17,7 @@ public class UlEvent1_1 extends AbstractEventData {
     @XStreamAlias("UL_45_Application")
     final Ul45Application ul45Application;
 
-    public UlEvent1_1(Integer orderNum, Date eventDate, String operationCode, Ul45Application ul45Application) {
+    public UlEvent1_1(Integer orderNum, Date eventDate, Ul45Application ul45Application) {
         super(orderNum, eventDate);
 
         this.ul45Application = ul45Application;

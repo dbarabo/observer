@@ -14,12 +14,23 @@ public class SubjectUl {
     @XStreamAlias("Events")
     private final SubjectEventDataUl events;
 
+    transient private final Long idClient;
 
-    public SubjectUl(SubjectTitleDataUl title, SubjectEventDataUl events) {
+    public SubjectUl(Long idClient, SubjectTitleDataUl title, SubjectEventDataUl events) {
+
+        this.idClient = idClient;
 
         this.title = title;
 
         this.events = events;
+
     }
 
+    public Long getIdClient() {
+        return idClient;
+    }
+
+    public SubjectEventDataUl getEvents() {
+        return events;
+    }
 }

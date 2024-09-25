@@ -6,7 +6,6 @@ import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl55Application;
 
 import java.util.Date;
 
-@XStreamAlias("FL_event_1.1")
 public class FlEvent1_1 extends AbstractEventData {
 
     @XStreamAlias("OperationCode")

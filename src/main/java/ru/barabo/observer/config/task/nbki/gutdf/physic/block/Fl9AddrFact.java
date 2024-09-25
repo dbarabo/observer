@@ -68,7 +68,7 @@ public class Fl9AddrFact {
         this.apart = null;
     }
 
-    public Fl9AddrFact(Integer code, String postCode, String regStateNum, String okato, String street, String house,
+    public Fl9AddrFact(String postCode, String regStateNum, String okato, String street, String house,
                       String estate, String block, String build, String apart) {
 
         this.exist0 = null;

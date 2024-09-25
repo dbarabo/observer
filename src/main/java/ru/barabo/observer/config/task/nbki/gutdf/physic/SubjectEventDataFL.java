@@ -71,44 +71,6 @@ public class SubjectEventDataFL {
         this.flEvent2_6List = null;
     }
 
-    public SubjectEventDataFL(List<FlEvent1_1> flEvent1_1List, List<FlEvent1_2> flEvent1_2List,
-                              List<FlEvent1_3> flEvent1_3List, List<FlEvent1_4> flEvent1_4List,
-                              List<FlEvent1_7> flEvent1_7List, List<FlEvent1_9> flEvent1_9List,
-                              List<FlEvent1_12> flEvent1_12List,
-                              List<FlEvent2_1> flEvent2_1List, List<FlEvent2_2> flEvent2_2List,
-                              List<FlEvent2_2_1> flEvent2_2_1List, List<FlEvent2_3> flEvent2_3List,
-                              List<FlEvent2_4> flEvent2_4List, List<FlEvent2_5> flEvent2_5List,
-                              List<FlEvent2_6> flEvent2_6List) {
-
-        this.flEvent1_1List = flEvent1_1List;
-
-        this.flEvent1_2List = flEvent1_2List;
-
-        this.flEvent1_3List = flEvent1_3List;
-
-        this.flEvent1_4List = flEvent1_4List;
-
-        this.flEvent1_7List = flEvent1_7List;
-
-        this.flEvent1_9List = flEvent1_9List;
-
-        this.flEvent1_12List = flEvent1_12List;
-
-        this.flEvent2_1List = flEvent2_1List;
-
-        this.flEvent2_2List = flEvent2_2List;
-
-        this.flEvent2_2_1List = flEvent2_2_1List;
-
-        this.flEvent2_3List = flEvent2_3List;
-
-        this.flEvent2_4List = flEvent2_4List;
-
-        this.flEvent2_5List = flEvent2_5List;
-
-        this.flEvent2_6List = flEvent2_6List;
-    }
-
     public void addEvent1_1(@NotNull FlEvent1_1 event1_1) {
 
         if(flEvent1_1List == null) {
@@ -139,5 +101,85 @@ public class SubjectEventDataFL {
             flEvent1_4List = new ArrayList<>();
         }
         flEvent1_4List.add(event1_4);
+    }
+
+    public void addEvent1_7(@NotNull FlEvent1_7 event1_7) {
+
+        if(flEvent1_7List == null) {
+            flEvent1_7List = new ArrayList<>();
+        }
+        flEvent1_7List.add(event1_7);
+    }
+
+    public void addEvent1_9(@NotNull FlEvent1_9 event1_9) {
+
+        if(flEvent1_9List == null) {
+            flEvent1_9List = new ArrayList<>();
+        }
+        flEvent1_9List.add(event1_9);
+    }
+
+    public void addEvent1_12(@NotNull FlEvent1_12 event1_12) {
+
+        if(flEvent1_12List == null) {
+            flEvent1_12List = new ArrayList<>();
+        }
+        flEvent1_12List.add(event1_12);
+    }
+
+    public void addEvent2_1(@NotNull FlEvent2_1 event2_1) {
+
+        if(flEvent2_1List == null) {
+            flEvent2_1List = new ArrayList<>();
+        }
+        flEvent2_1List.add(event2_1);
+    }
+
+    public void addEvent2_2(@NotNull FlEvent2_2 event2_2) {
+
+        if(flEvent2_2List == null) {
+            flEvent2_2List = new ArrayList<>();
+        }
+        flEvent2_2List.add(event2_2);
+    }
+
+    public void addEvent2_2_1(@NotNull FlEvent2_2_1 event2_2_1) {
+
+        if(flEvent2_2_1List == null) {
+            flEvent2_2_1List = new ArrayList<>();
+        }
+        flEvent2_2_1List.add(event2_2_1);
+    }
+
+    public void addEvent2_3(@NotNull FlEvent2_3 event2_3) {
+
+        if(flEvent2_3List == null) {
+            flEvent2_3List = new ArrayList<>();
+        }
+        flEvent2_3List.add(event2_3);
+    }
+
+    public void addEvent2_4(@NotNull FlEvent2_4 event2_4) {
+
+        if(flEvent2_4List == null) {
+            flEvent2_4List = new ArrayList<>();
+        }
+        flEvent2_4List.add(event2_4);
+    }
+
+    public void addEvent2_5(@NotNull FlEvent2_5 event2_5) {
+
+        if(flEvent2_5List == null) {
+            flEvent2_5List = new ArrayList<>();
+        }
+        flEvent2_5List.add(event2_5);
+    }
+
+    public void addEvent2_6(@NotNull FlEvent2_6 event2_6) {
+
+        if(flEvent2_6List == null) {
+            flEvent2_6List = new ArrayList<>();
+        }
+        flEvent2_6List.add(event2_6);
     }
 }
