@@ -4,9 +4,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.nbki.gutdf.general.AbstractEventData;
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.Ul45Application;
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.Ul47Reject;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl29_1DebtBurdenInfo;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl55Application;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl57Reject;
 
 import java.util.Date;
 

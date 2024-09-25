@@ -30,6 +30,9 @@ public class Ul11Deal {
     private final StringElement novationExist0 = new StringElement(""); //18.8. Признак возникновения обязательства в результате новации = 0
 
     @XStreamAlias("monetarySourceExist_1")
+    private final StringElement monetarySourceExist_ = new StringElement(""); //18.10. Признак денежного обязательства субъекта = 1
+
+    @XStreamAlias("monetarySubjectExist_1")
     private final StringElement monetarySubjectExist1 = new StringElement(""); //18.10. Признак денежного обязательства субъекта = 1
 
     @XStreamAlias("endDate")
@@ -69,7 +72,7 @@ public class Ul11Deal {
     private final StringElement partnerFinancingFact0 = new StringElement(""); //18.22. Признак партнерского финансирования = 0
 
     public Ul11Deal(Integer role, Integer code, String kindCode, String purposeCode, Date endDate,
-                    String creditLineCode, Date startDate, Boolean isRepaymentFact, Boolean isFloatRate) {
+                    String creditLineCode, Date startDate, Boolean isFloatRate) {
 
         this.role = new StringElement(role.toString());
         this.code = new StringElement(code.toString());

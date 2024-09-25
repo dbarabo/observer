@@ -38,8 +38,7 @@ public class Ul17_18_19_20Group {
     @XStreamAlias("UL_20_Payment")
     private final Ul20Payment ul20Payment; // Блок 20. Сведения о внесении платежей
 
-    public Ul17_18_19_20Group(Boolean isLastPayExist, Date calcDate, Fl25Debt fl25Debt, Fl26DebtDue fl26DebtDue,
-                              Fl27DebtOverdue fl27DebtOverdue, Fl28Payment fl28Payment, Ul17Debt ul17Debt,
+    public Ul17_18_19_20Group(Boolean isLastPayExist, Date calcDate, Ul17Debt ul17Debt,
                               Ul18DebtDue ul18DebtDue, Ul19DebtOverdue ul19DebtOverdue, Ul20Payment ul20Payment) {
 
         this.lastPayExist0 = (!isLastPayExist) ? new StringElement("") : null;
