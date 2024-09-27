@@ -47,6 +47,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.*
+import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutDfCreator
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
@@ -1329,6 +1330,15 @@ res3 = [calc.DEC_TEST];
 
         ClearPrimFromArchiveDay.execute(elem)
     }
+
+    //@Test
+    fun testGutDfCreator() {
+
+        val file = GutDfCreator.createFileByRutdf(1318442516L)
+
+        logger.error("file=$file")
+    }
+
 
     //@Test
     fun testCheckNotLoaded440pFiles() {

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Версия 2.2. Сборка 30.07.2024 16:16-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+  <xs:include schemaLocation="BKIApiCommonTypes.xsd" />
+  <xs:include schemaLocation="ReferencesTypes.xsd" />
+  <xs:include schemaLocation="Blocks.xsd" />
+  <xs:include schemaLocation="Events.xsd" />
+  <xs:element name="Document">
+    <xs:annotation>
+      <xs:documentation>Электронный документ</xs:documentation>
+      <xs:documentation>Версия 2.2</xs:documentation>
+      <xs:documentation>Сборка 30.07.2024</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Source">
+          <xs:annotation>
+            <xs:documentation>Сведения об источнике формирования кредитной истории</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:choice>
+              <xs:annotation>
+                <xs:documentation>В зависимости от вида источника</xs:documentation>
+              </xs:annotation>
+              <xs:element name="FL_46_UL_36_OrgSource" type="FL_46_UL_36_OrgSource_Type">
+                <xs:annotation>
+                  <xs:documentation>Блок 46. Сведения об источнике – юридическом лице</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="FL_47_UL_37_PersonSource" type="FL_47_UL_37_PersonSource_Type">
+                <xs:annotation>
+                  <xs:documentation>Блок 47. Сведения об источнике – физическом лице</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="FL_48_UL_38_ArbitrationManagerSource" type="FL_48_UL_38_ArbitrationManagerSource_Type">
+                <xs:annotation>
+                  <xs:documentation>Блок 48. Сведения об источнике – арбитражном управляющем</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Data">
+          <xs:annotation>
+            <xs:documentation>Сведения о субъектах и событиях в кредитной истории</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+              <xs:element name="Subject_FL">
+                <xs:annotation>
+                  <xs:documentation>Сведения о субъекте - физическом лице</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Title" type="SubjectTitleDataFL">
+                      <xs:annotation>
+                        <xs:documentation>Титульная часть</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Events" type="SubjectEventDataFL">
+                      <xs:annotation>
+                        <xs:documentation>События</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Subject_UL">
+                <xs:annotation>
+                  <xs:documentation>Сведения о субъекте - юридическом лице</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Title" type="SubjectTitleDataUL">
+                      <xs:annotation>
+                        <xs:documentation>Титульная часть</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Events" type="SubjectEventDataUL">
+                      <xs:annotation>
+                        <xs:documentation>События</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="schemaVersion" type="refSchemaVersionType" use="required">
+        <xs:annotation>
+          <xs:documentation>Версия схемы</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inn" type="innType" use="optional">
+        <xs:annotation>
+          <xs:documentation>ИНН</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ogrn" type="ogrnType" use="optional">
+        <xs:annotation>
+          <xs:documentation>ОГРН или ОГРНИП</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="sourceID" type="string2000Type" use="optional">
+        <xs:annotation>
+          <xs:documentation>ID источника</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="regNumberDoc" type="string2000Type" use="required">
+        <xs:annotation>
+          <xs:documentation>Регистрационный номер документа, содержащего кредитную информацию</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dateDoc" type="xs:date" use="required">
+        <xs:annotation>
+          <xs:documentation>Дата документа, содержащего кредитную информацию</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="subjectsCount" type="xs:unsignedLong" use="required">
+        <xs:annotation>
+          <xs:documentation>Количество субъектов, сведения о которых указаны в документе, содержащем кредитную информацию</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="groupBlocksCount" type="xs:unsignedLong" use="required">
+        <xs:annotation>
+          <xs:documentation>Количество групп блоков показателей в документе, содержащем кредитную информацию</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="regNumberDocInaccept" type="string2000Type" use="optional">
+        <xs:annotation>
+          <xs:documentation>Исходящий регистрационный номер документа, содержащего кредитную информацию, с ранее не принятой информацией - для документа, содержащего кредитную информацию, которая ранее была не принята</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="SubjectTitleData">
+    <xs:annotation>
+      <xs:documentation>Технические атрибуты титульной части сведений о субъекте</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="subjectCode" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>Код субъекта кредитной истории</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="SubjectEventData">
+    <xs:annotation>
+      <xs:documentation>Технические атрибуты событий</xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+  <xs:complexType name="SubjectTitleDataFL">
+    <xs:annotation>
+      <xs:documentation>Титульная часть</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SubjectTitleData">
+        <xs:sequence>
+          <xs:element name="FL_1_4_Group" type="FL_1_4_Group_Type">
+            <xs:annotation>
+              <xs:documentation>Блок 1,4</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_2_5_Group" type="FL_2_5_Group_Type" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>Блок 2,5</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_3_Birth" type="FL_3_Birth_Type">
+            <xs:annotation>
+              <xs:documentation>Блок 3. Дата и место рождения</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_6_Tax" type="FL_6_Tax_Type" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Блок 6. Номер налогоплательщика и регистрационный номер</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_7_Social" type="FL_7_Social_Type" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Блок 7. СНИЛС</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubjectTitleDataUL">
+    <xs:annotation>
+      <xs:documentation>Титульная часть</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SubjectTitleData">
+        <xs:sequence>
+          <xs:element name="UL_1_Name" type="UL_1_Name_Type">
+            <xs:annotation>
+              <xs:documentation>Блок 1. Наименование юридического лица</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_2_Address" type="UL_2_Address_Type">
+            <xs:annotation>
+              <xs:documentation>Блок 2. Адрес юридического лица в пределах его места нахождения и контактная информация</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_3_Reg" type="UL_3_Reg_Type" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Блок 3. Регистрационный номер</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_4_Tax" type="UL_4_Tax_Type" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Блок 4. Номер налогоплательщика</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_5_Reorg" type="UL_5_Reorg_Type" maxOccurs="unbounded" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Блок 5. Сведения о смене наименования либо правопреемстве при реорганизации</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubjectEventDataFL">
+    <xs:annotation>
+      <xs:documentation>События</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SubjectEventData">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="FL_Event_1_1" type="FL_Event_1_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект обратился к источнику с предложением совершить сделку</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_2" type="FL_Event_1_2_Type">
+            <xs:annotation>
+              <xs:documentation>Источник одобрил обращение субъекта (направил ему оферту) или изменились сведения об обращении</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_3" type="FL_Event_1_3_Type">
+            <xs:annotation>
+              <xs:documentation>Источник отказался от совершения сделки по обращению субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_4" type="FL_Event_1_4_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_4_1" type="FL_Event_1_4_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_5" type="FL_Event_1_5_Type">
+            <xs:annotation>
+              <xs:documentation>Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_6" type="FL_Event_1_6_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_7" type="FL_Event_1_7_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_9" type="FL_Event_1_9_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_10" type="FL_Event_1_10_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о дееспособности субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_1_12" type="FL_Event_1_12_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_1" type="FL_Event_2_1_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об условиях обязательства субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_2" type="FL_Event_2_2_Type">
+            <xs:annotation>
+              <xs:documentation>Субъекту передана сумма займа (кредита), предмет лизинга передан лизингополучателю</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_2_1" type="FL_Event_2_2_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект стал принципалом по гарантии или поручителем по сделке</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_3" type="FL_Event_2_3_Type">
+            <xs:annotation>
+              <xs:documentation>Изменение задолженности, в том числе ввиду исполнения обязательства, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_4" type="FL_Event_2_4_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_5" type="FL_Event_2_5_Type">
+            <xs:annotation>
+              <xs:documentation>Обязательство субъекта прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_6" type="FL_Event_2_6_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о судебном споре или требовании по обязательству</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_8_1" type="FL_Event_2_8_1_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника открылось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_8_2" type="FL_Event_2_8_2_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника: В ходе конкурсного производства изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_8_3" type="FL_Event_2_8_3_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника завершилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_8_4" type="FL_Event_2_8_4_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_9_1" type="FL_Event_2_9_1_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника начался</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_9_2" type="FL_Event_2_9_2_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника: В ходе процесса ликвидации изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_9_3" type="FL_Event_2_9_3_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника завершился</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_9_4" type="FL_Event_2_9_4_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_10" type="FL_Event_2_10_Type">
+            <xs:annotation>
+              <xs:documentation>Источник прекратил передачу информации по обязательству</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_11" type="FL_Event_2_11_Type">
+            <xs:annotation>
+              <xs:documentation>Права по обязательству полностью перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_11_1" type="FL_Event_2_11_1_Type">
+            <xs:annotation>
+              <xs:documentation>Права по обязательству частично перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_11_2" type="FL_Event_2_11_2_Type">
+            <xs:annotation>
+              <xs:documentation>Права по обязательству получены от другого лица</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_2_12" type="FL_Event_2_12_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об обслуживающей организации (в частности, заключен, изменен или расторгнут договор обслуживания)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_3_1" type="FL_Event_3_1_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется внесение изменений в связи с ошибкой в показателях кредитной истории, не связанных с записью кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_3_2" type="FL_Event_3_2_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется внесение изменений в связи с ошибкой в показателях по событиям, связанным с записью кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_3_3" type="FL_Event_3_3_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение записи кредитной истории, сведения о которой отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_3_4" type="FL_Event_3_4_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение сведений об обращении, сведения о котором отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_3_5" type="FL_Event_3_5_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение кредитной истории субъекта, сведения о которой отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_4_1" type="FL_Event_4_1_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование отдельных показателей кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_4_2" type="FL_Event_4_2_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование записи кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="FL_Event_4_3" type="FL_Event_4_3_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование всей кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SubjectEventDataUL">
+    <xs:annotation>
+      <xs:documentation>События</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="SubjectEventData">
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="UL_Event_1_1" type="UL_Event_1_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект обратился к источнику с предложением совершить сделку</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_2" type="UL_Event_1_2_Type">
+            <xs:annotation>
+              <xs:documentation>Источник одобрил обращение (направил ему оферту) или изменились сведения об обращении</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_3" type="UL_Event_1_3_Type">
+            <xs:annotation>
+              <xs:documentation>Источник отказался от совершения сделки по обращению</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_4" type="UL_Event_1_4_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект и источник совершили сделку, кроме договора лизинга и поручительства по лизингу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_4_1" type="UL_Event_1_4_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект и источник заключили договор лизинга либо поручительства по лизингу и предмет лизинга передан лизингополучателю</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_5" type="UL_Event_1_5_Type">
+            <xs:annotation>
+              <xs:documentation>Для принудительного исполнения передано требование о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_6" type="UL_Event_1_6_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о взыскании долга по алиментам, платы за жилое помещение, коммунальные услуги или услуги связи либо указанное требование погашено</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_7" type="UL_Event_1_7_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения титульной части кредитной истории субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_1_12" type="UL_Event_1_12_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения по делу о банкротстве субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_1" type="UL_Event_2_1_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об условиях обязательства субъекта</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_2" type="UL_Event_2_2_Type">
+            <xs:annotation>
+              <xs:documentation>Субъекту передана сумма займа (кредита), предмет лизинга передан лизингополучателю</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_2_1" type="UL_Event_2_2_1_Type">
+            <xs:annotation>
+              <xs:documentation>Субъект стал принципалом по гарантии или поручителем по сделке</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_3" type="UL_Event_2_3_Type">
+            <xs:annotation>
+              <xs:documentation>Изменение задолженности, в том числе ввиду исполнения обязательства, наступила ответственность поручителя или обязательство принципала возместить выплаченную сумму</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_4" type="UL_Event_2_4_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об обеспечении исполнения обязательства</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_5" type="UL_Event_2_5_Type">
+            <xs:annotation>
+              <xs:documentation>Обязательство субъекта прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_6" type="UL_Event_2_6_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения о судебном споре или требовании по обязательству</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_8_1" type="UL_Event_2_8_1_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника открылось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_8_2" type="UL_Event_2_8_2_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника: В ходе конкурсного производства изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_8_3" type="UL_Event_2_8_3_Type">
+            <xs:annotation>
+              <xs:documentation>Конкурсное производство в отношении источника завершилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_8_4" type="UL_Event_2_8_4_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_9_1" type="UL_Event_2_9_1_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника начался</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_9_2" type="UL_Event_2_9_2_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника: В ходе процесса ликвидации изменились сведения об исполнении субъектом своего обязательства или его части либо обязательство прекратилось</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_9_3" type="UL_Event_2_9_3_Type">
+            <xs:annotation>
+              <xs:documentation>Процесс ликвидации источника завершился</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_9_4" type="UL_Event_2_9_4_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_10" type="UL_Event_2_10_Type">
+            <xs:annotation>
+              <xs:documentation>Источник прекратил передачу информации по обязательству</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_11" type="UL_Event_2_11_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству полностью перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_11_1" type="UL_Event_2_11_1_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству частично перешли к другому лицу</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_11_2" type="UL_Event_2_11_2_Type">
+            <xs:annotation>
+              <xs:documentation>Права кредитора по обязательству получены от другого лица</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_2_12" type="UL_Event_2_12_Type">
+            <xs:annotation>
+              <xs:documentation>Изменились сведения об обслуживающей организации (в частности, заключен, изменен или расторгнут договор обслуживания)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_3_1" type="UL_Event_3_1_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется внесение изменений в связи с ошибкой в показателях кредитной истории, не связанных с записью кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_3_2" type="UL_Event_3_2_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется внесение изменений в связи с ошибкой в показателях по событиям, связанным с записью кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_3_3" type="UL_Event_3_3_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение записи кредитной истории, сведения о которой отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_3_4" type="UL_Event_3_4_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение сведений об обращении, сведения о котором отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_3_5" type="UL_Event_3_5_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется исключение кредитной истории субъекта, сведения о которой отсутствуют у источника формирования кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_4_1" type="UL_Event_4_1_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование отдельных показателей кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_4_2" type="UL_Event_4_2_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование записи кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="UL_Event_4_3" type="UL_Event_4_3_Type">
+            <xs:annotation>
+              <xs:documentation>Требуется аннулирование всей кредитной истории</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

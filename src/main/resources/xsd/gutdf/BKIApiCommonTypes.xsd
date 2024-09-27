@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Версия 2.2. Сборка 30.07.2024 16:16-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+  <xs:simpleType name="departmentCodeType">
+    <xs:annotation>
+      <xs:documentation>«NNN-NNN» - 2 части по 3 цифры в каждой, разделенные символом «-» (дефис); лидирующий 0 указывается; 7 символов; цифры от 0 до 9, символ дефис</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{3}\-\d{3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="dec4p4Type">
+    <xs:annotation>
+      <xs:documentation>десятичная дробь вида «dddd.dddd», где «dddd» - от 1 до 4 цифр в целой части и «dddd» - 4 цифры в дробной части; до 9 символов; цифры от 0 до 9 и «.» (точка)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:pattern value="\d{1,4}\.\d{4}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="currencyCodeType">
+    <xs:annotation>
+      <xs:documentation>трехбуквенный код валюты; 3 символа; буквы латинского алфавита в верхнем регистре от A до Z</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="garCodeType">
+    <xs:annotation>
+      <xs:documentation>5 групп символов, разделенных символом «-» (дефис), в том числе слева направо 1 группа из 8 символов, 3 группы по 4 символа, 1 группа из 12 символов, дефис в позициях 9, 14, 19 и 24; 36 символов; цифры от 0 до 9; строчные буквы латинского алфавита от a до f; 4 разделителя «-» (дефис)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="docSeriesType">
+    <xs:annotation>
+      <xs:documentation>в соответствии со значением показателя «Код документа»; до 2000 символов; цифры от 0 до 9; прописные буквы русского или латинского алфавита (в том числе для указания римских цифр); разделитель «-» (дефис)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-ZА-ЯЁ0-9\-]{1,2000}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="dec15p2Type">
+    <xs:annotation>
+      <xs:documentation>от 1 до 15 цифр в целой части, символ «.» (точка), 2 цифры в дробной части; до 18 символов; цифры от 0 до 9 и «.» (точка)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:pattern value="\d{1,15}\.\d{2}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="dec3p2Type">
+    <xs:annotation>
+      <xs:documentation>десятичная дробь вида «ddd.dd», где «ddd» - от 1 до 3 цифр в целой части и «dd» - 2 цифры в дробной части; от 4 до 6 символов; цифры от 0 до 9 и одна десятичная точка</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:pattern value="\d{1,3}\.\d{2}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="dec4p3Type">
+    <xs:annotation>
+      <xs:documentation>десятичная дробь вида «dddd.ddd», где «dddd» - от 1 до 4 цифр в целой части, «ddd» - 3 цифры в дробной части; от 5 до 8 символов; цифры от 0 до 9 и одна десятичная точка</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:pattern value="\d{1,4}\.\d{3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="leiType">
+    <xs:annotation>
+      <xs:documentation>в соответствии с международным стандартом ISO 17442:2012 «Финансовые услуги. Идентификатор юридического лица»; 20 символов; цифры от 0 до 9, прописные буквы латинского алфавита от A до Z</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="garAddressType">
+    <xs:annotation>
+      <xs:documentation>в соответствии со структурой адреса в ГАР; до 2000 символов; прописные буквы русского алфавита; цифры от 0 до 9; знаки препинания «,» (запятая), «.» (точка) и разделители «-» (дефис), «/» (дробная черта)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[А-ЯЁ0-9\s\-\.,/]{1,2000}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="innType">
+    <xs:annotation>
+      <xs:documentation>12-значный цифровой код в соответствии со структурой ИНН физического лица или 10-значный цифровой код в соответствии со структурой ИНН юридического лица; 12 символов для ИНН физического лица или 10 символов для ИНН юридического лица; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="[ №!-~а-яА-ЯёЁ«»]*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="oksmType">
+    <xs:annotation>
+      <xs:documentation>3 цифры; 3 символа; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{3}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="scoreValueType">
+    <xs:annotation>
+      <xs:documentation>последовательность цифр, лидирующий 0 не указывается; от 1 до 4 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="0" />
+      <xs:totalDigits value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="durationDelayType">
+    <xs:annotation>
+      <xs:documentation>последовательность цифр; от 1 до 5 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="0" />
+      <xs:totalDigits value="5" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="paymentAvgType">
+    <xs:annotation>
+      <xs:documentation>последовательность цифр без пробелов и разделителей; от 1 до 9 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="0" />
+      <xs:totalDigits value="9" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="okatoType">
+    <xs:annotation>
+      <xs:documentation>11 цифр; 11 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{11}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="insuranceLimitType">
+    <xs:annotation>
+      <xs:documentation>последовательность цифр; до 12 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedLong">
+      <xs:minInclusive value="0" />
+      <xs:totalDigits value="12" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="emailType">
+    <xs:annotation>
+      <xs:documentation>имя почтового ящика'@'имя домена'.'имя домена верхнего уровня'. Может быть указано несколько имен доменов, разделенных точками; не более 256 символов; буквы латинского алфавита в верхнем регистре от A до Z и в нижнем регистре от a до z; цифры от 0 до 9; разделители «.» (точка), «-» (дефис), «_» (нижнее подчеркивание), «@»; для доменных имен в зоне «.рф» допустимо использование букв русского алфавита в верхнем регистре от А до Я и в нижнем регистре от а до я</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="256" />
+      <xs:pattern value="\S+@\S+\.\S+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="nameType">
+    <xs:annotation>
+      <xs:documentation>последовательность букв, возможно с разделителями «пробел» и «-» (дефис), символами скобок «(» и «)», между которыми содержатся буквы, символом апострофа «’», после которого содержатся буквы; до 2000 символов; прописные буквы русского алфавита, прописные буквы латинского алфавита, разделители «пробел» и «-» (дефис), символы скобок «(» и «)», апострофа «’»</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="2000" />
+      <xs:pattern value="([А-ЯЁA-Z](([А-ЯЁA-Z\s\-\*])|(\([А-ЯЁA-Z]+\))|(\.[А-ЯЁA-Z\s\-\*])|(`[А-ЯЁA-Z\s\-\*]))+)" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ogrnType">
+    <xs:annotation>
+      <xs:documentation>13-значный цифровой код для ОГРН или 15-значный цифровой код для ОГРНИП; 13 символов для ОГРН; 15 символов для ОГРНИП; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="[ №!-~а-яА-ЯёЁ«»]*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="phoneNumberType">
+    <xs:annotation>
+      <xs:documentation>«+A(BBB)CCCCC» или «ABBBCCCCC», где «A» (1 - 3 цифры) - код страны, «B» (1 - 5 цифр) - внутризоновый код, «C» (3 - 9 цифр) - номер телефонного устройства; от 8 до 20 символов, включая скобки и символ «+» (плюс); цифры от 0 до 9; символы «(» и «)» (открывающая и закрывающая круглые скобки), «+» (плюс)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="((\+\d{1,3}\(\d{1,5}\)\d{3,9})|\d{5,17})" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="authorityNameType">
+    <xs:annotation>
+      <xs:documentation>произвольный; до 2000 символов; для лиц, зарегистрированных в Российской Федерации, - только прописные буквы русского алфавита; для иных лиц - только прописные буквы латинского алфавита; цифры от 0 до 9; знаки препинания и разделители, в том числе пробел, символы «-» (дефис), «/» (дробная черта), «\» (обратная дробная черта), «№» (номер), «(» и «)» (открывающая и закрывающая круглые скобки), двойные прямые кавычки ("...")</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="([А-ЯЁ0-9\s\-\.,\\/№\(\)&quot;]+|[A-Z0-9\s\-\.,\\/№\(\)&quot;]+)" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="cyrilicStringType">
+    <xs:annotation>
+      <xs:documentation>Строка; до 2000 символов; буквы русского алфавита, символы пробела, дефиса, точки и запятой, кавычки</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="[а-яёА-ЯЁ0-9\s\-\.,/«»&quot;]{1,2000}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="joinDebtorCountType">
+    <xs:annotation>
+      <xs:documentation>1-999; до 3 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="999" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="string2000Type">
+    <xs:annotation>
+      <xs:documentation>не ограничивается; до 2000 символов; не ограничивается</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="[ —№!-~а-яА-ЯёЁ«»]*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="documentNumberType">
+    <xs:annotation>
+      <xs:documentation>произвольный; до 2000 символов; цифры; буквы только русского или только латинского алфавита;  символы «(» и «)» (открывающая и закрывающая круглые скобки), разделители «-» (дефис), «/» (дробная черта) и «.» (точка)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([а-яёА-ЯЁ0-9\-/()\.]{1,2000}|[a-zA-Z0-9\-/()\.]{1,2000})" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="uidType">
+    <xs:annotation>
+      <xs:documentation>в соответствии с приложением 2 к Положению № 758-П; 38 символов; цифры от 0 до 9 и буквы латинского алфавита от A до F; разделитель «-» (дефис). 15-й знак в последовательности символов УИД всегда должен принимать значение «1»; 20-й знак в последовательности символов УИД может принимать только значения «8», «9», «a» или «b»; 38-й знак в последовательности символов УИД (контрольный символ) должен быть равен значению, рассчитанному в соответствии с пунктом 5 приложения 2 к Положению № 758-П</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-f0-9]{8}\-[a-f0-9]{4}\-1[a-f0-9]{3}\-[ab89][a-f0-9]{3}\-[a-f0-9]{12}\-[a-f0-9]" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="stringUType">
+    <xs:annotation>
+      <xs:documentation>не ограничивается; до 2000 символов; не ограничиваются</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[^a-zа-яё]{1,2000}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="countryNameType">
+    <xs:annotation>
+      <xs:documentation>отдельное слово или слова, разделенные пробелами или символом «-» (дефис); до 2000 символов; прописные буквы только русского алфавита или прописные буквы только латинского алфавита; разделители «пробел» и «-» (дефис)</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:pattern value="([А-ЯЁ](([\-\s]|[А-ЯЁ]){0,1999})[А-ЯЁ])|([A-Z](([\-\s]|[A-Z]){0,1999})[A-Z])" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="wordsType">
+    <xs:annotation>
+      <xs:documentation>отдельное слово или слова, разделенные пробелами и запятыми; до 2000 символов; только прописные буквы русского алфавита или только прописные буквы латинского алфавита; пробел, запятая</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+      <xs:pattern value="([А-ЯЁ]([А-ЯЁ]|\s[А-ЯЁ]|,\s[А-ЯЁ]){1,1998}[А-ЯЁ]*)|([A-Z]([A-Z]|\s[A-Z]|,\s[A-Z]){1,1998}[A-Z]*)" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="dec4p2Type">
+    <xs:annotation>
+      <xs:documentation>десятичная дробь вида «dddd.dd», где «dddd» - от 1 до 4 цифр в целой части, «dd» - 2 цифры в дробной части; от 4 до 7 символов; цифры от 0 до 9 и одна десятичная точка</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:pattern value="\d{1,4}\.\d{2}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="snilsType">
+    <xs:annotation>
+      <xs:documentation>11 цифр; 11 символов; цифры от 0 до 9</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d{11}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="fileNameType">
+    <xs:annotation>
+      <xs:documentation>последовательность символов; до 2000 символов; без ограничений</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2000" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="fileHashType">
+    <xs:annotation>
+      <xs:documentation>32 шестнадцатиричных цифры; 32 символа; цифры от 0 до 9, латинские символы от a до f или от A до F</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9a-f]{64}|[0-9A-F]{64})" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="existType">
+    <xs:annotation>
+      <xs:documentation>Пустая строка; 0 символов; </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:length value="0" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

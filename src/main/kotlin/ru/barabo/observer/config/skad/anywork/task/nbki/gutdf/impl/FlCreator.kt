@@ -22,7 +22,7 @@ internal fun createPhysicEvent(eventRecord: EventRecord, priorPhysic: SubjectFl?
 
 private fun createPhysicTitle(clientId: Long): SubjectFl {
 
-    val titleData = AfinaQuery.selectCursor(SEL_TITLE_PHYSIC, arrayOf<Any?>(clientId))
+    val titleData = AfinaQuery.selectCursor(SEL_TITLE_PHYSIC, params = arrayOf(clientId))
 
     val titlePhysic = TitlePhysic(titleData[0])
 
@@ -82,14 +82,14 @@ private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord) {
 
 private fun createFlEvent1_1(eventRecord: EventRecord): FlEvent1_1 {
 
-    val application55 = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val application55 = createFl55Application(eventRecord.idEvent)
 
     return FlEvent1_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date, application55)
 }
 
 private fun createFlEvent1_2(eventRecord: EventRecord): FlEvent1_2 {
 
-    val application55 = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val application55 = createFl55Application(eventRecord.idEvent)
 
     val (operationCode, fl291) = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
 
@@ -98,7 +98,7 @@ private fun createFlEvent1_2(eventRecord: EventRecord): FlEvent1_2 {
 
 private fun createFlEvent1_3(eventRecord: EventRecord): FlEvent1_3 {
 
-    val application55 = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val application55 = createFl55Application(eventRecord.idEvent)
 
     val (_, fl291) = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
 
@@ -137,7 +137,7 @@ private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
-    val fl55Application = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val fl55Application = createFl55Application(eventRecord.idEvent)
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
@@ -233,7 +233,7 @@ private fun createFlEvent2_2(eventRecord: EventRecord): FlEvent2_2 {
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
-    val fl55Application = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val fl55Application = createFl55Application(eventRecord.idEvent)
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
@@ -290,7 +290,7 @@ private fun createFlEvent2_3(eventRecord: EventRecord): FlEvent2_3 {
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
-    val fl55Application = createFl55Application(eventRecord.loan, eventRecord.dateEvent)
+    val fl55Application = createFl55Application(eventRecord.idEvent)
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
@@ -357,7 +357,7 @@ private fun createFlEvent2_6(eventRecord: EventRecord): FlEvent2_6 {
 
 private fun createFl39Court(idEvent: Long): Fl39Court {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_39, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_39, params = arrayOf(idEvent))
 
     val fl = Fl39(data[0])
 
@@ -371,7 +371,7 @@ private fun createFl39Court(idEvent: Long): Fl39Court {
 
 private fun createFl38ContractEnd(idEvent: Long): Fl38ContractEnd {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_38, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_38, params = arrayOf(idEvent))[0]
 
     return Fl38ContractEnd((data[0] as Timestamp).date, (data[0] as Number).toInt())
 }
@@ -386,7 +386,7 @@ private fun createFl34Guarantee(): Fl34Guarantee? {
 
 private fun createFl33Warranty(idEvent: Long): Fl33Warranty {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_33, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_33, params = arrayOf(idEvent))
 
     if(data.isEmpty()) return Fl33Warranty()
 
@@ -404,7 +404,7 @@ private fun createFl33Warranty(idEvent: Long): Fl33Warranty {
 
 private fun createFl32_35Group(idEvent: Long): Fl32_35Group {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_32_35, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_32_35, params = arrayOf(idEvent))
 
     if(data.isEmpty()) return Fl32_35Group()
 
@@ -431,7 +431,7 @@ private fun createFl32_35Group(idEvent: Long): Fl32_35Group {
 
 private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Fl35Insurance> {
 
-    val data = AfinaQuery.selectCursor(SEL_INSURE_BY_COLLATERAL, arrayOf<Any?>(idCollateral, idEvent))
+    val data = AfinaQuery.selectCursor(SEL_INSURE_BY_COLLATERAL, params = arrayOf(idCollateral, idEvent))
 
     if(data.isEmpty()) return listOf(Fl35Insurance())
 
@@ -448,7 +448,7 @@ private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Fl35Ins
 
 private fun createFl24Fund(idEvent: Long): Fl24Fund {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_24, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_24, params = arrayOf(idEvent))
 
     val fl = Fl24(data[0])
 
@@ -457,7 +457,7 @@ private fun createFl24Fund(idEvent: Long): Fl24Fund {
 
 private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_25_26_27_28, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_25_26_27_28, params = arrayOf(idEvent))
 
     val fl = FlGroup2528(data[0])
 
@@ -485,7 +485,7 @@ private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
 
 private fun createFl23_1ContractTermsChanges(idEvent: Long): Fl23_1ContractTermsChanges {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_231, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_231, params = arrayOf(idEvent))
 
     val fl = Fl231(data[0])
 
@@ -495,7 +495,7 @@ private fun createFl23_1ContractTermsChanges(idEvent: Long): Fl23_1ContractTerms
 
 private fun createFl23ContractChanges(idEvent: Long): Fl23ContractChanges {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_23, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_23, params = arrayOf(idEvent))
 
     val fl = Fl23(data[0])
 
@@ -506,7 +506,7 @@ private fun createFl23ContractChanges(idEvent: Long): Fl23ContractChanges {
 
 private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_29, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_29, params = arrayOf(idEvent))
 
     val fl = Fl29(data[0])
 
@@ -516,7 +516,7 @@ private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
 
 private fun createFl56Participation(idEvent: Long): Fl56Participation {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_56, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_56, params = arrayOf(idEvent))
 
     val fl = Fl56(data[0])
 
@@ -525,7 +525,7 @@ private fun createFl56Participation(idEvent: Long): Fl56Participation {
 
 private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_54, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_54, params = arrayOf(idEvent))
 
     val fl = Fl54(data[0])
 
@@ -534,7 +534,7 @@ private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
 
 private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_22, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_22, params = arrayOf(idEvent))
 
     val fl = Fl22(data[0])
 
@@ -544,7 +544,7 @@ private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost {
 
 private fun createFl20JointDebtors(idEvent: Long): Fl20JointDebtors {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_20, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_20, params = arrayOf(idEvent))[0]
 
     return if(data[0] == null) Fl20JointDebtors()
     else Fl20JointDebtors((data[0] as Number).toInt())
@@ -552,7 +552,7 @@ private fun createFl20JointDebtors(idEvent: Long): Fl20JointDebtors {
 
 private fun createFl21PaymentTerms(idEvent: Long): Fl21PaymentTerms {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_21, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_21, params = arrayOf(idEvent))
 
     val fl = Fl21(data[0])
 
@@ -563,7 +563,7 @@ private fun createFl21PaymentTerms(idEvent: Long): Fl21PaymentTerms {
 
 private fun createFl19_1AmountInfo(idEvent: Long): Fl19_1AmountInfo {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_19, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_19, params = arrayOf(idEvent))
 
     val fl = Fl19(data[0])
 
@@ -573,14 +573,14 @@ private fun createFl19_1AmountInfo(idEvent: Long): Fl19_1AmountInfo {
 
 private fun createFl19Amount(idEvent: Long): Fl19Amount {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_19, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_19, params = arrayOf(idEvent))[0]
 
     return Fl19Amount(data[0] as Number, (data[1] as Timestamp).date)
 }
 
 private fun createFl18Deal(idEvent: Long): Fl18Deal {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_18, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_18, params = arrayOf(idEvent))
 
     val fl = Fl18(data[0])
 
@@ -590,7 +590,7 @@ private fun createFl18Deal(idEvent: Long): Fl18Deal {
 
 private fun createFl17DealUid(idEvent: Long): Fl17DealUid {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_17, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_17, params = arrayOf(idEvent))
 
     val fl = Fl17(data[0])
 
@@ -599,7 +599,7 @@ private fun createFl17DealUid(idEvent: Long): Fl17DealUid {
 
 private fun createFl11IndividualEntrepreneur(client: Long): Fl11IndividualEntrepreneur {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_11, arrayOf<Any?>(client))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_11, params = arrayOf(client))[0]
 
     val ogrn = (data[0] as? String) ?: return Fl11IndividualEntrepreneur()
 
@@ -608,14 +608,14 @@ private fun createFl11IndividualEntrepreneur(client: Long): Fl11IndividualEntrep
 
 private fun createFl10Contact(client: Long): Fl10Contact {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_10, arrayOf<Any?>(client))[0]
+    val data = AfinaQuery.selectValue(SEL_FL_10, params = arrayOf(client) ) as? String
 
-    val info = (data[0] as? String)?.split(";") ?: return Fl10Contact()
+    val info = data?.split(";") ?: return Fl10Contact()
 
-    val phones = info.filter { !(it.contains('@')) }
+    val phones = info.filter {it.isNotEmpty() && (!it.contains('@')) }
         .map { PhoneGroupFl10Contact(it) }
 
-    val mails = info.filter { it.contains('@') }
+    val mails = info.filter {it.isNotEmpty() && it.contains('@') }
         .map { StringElement(it) }
 
     return Fl10Contact(phones, mails)
@@ -623,18 +623,17 @@ private fun createFl10Contact(client: Long): Fl10Contact {
 
 private fun createFl9AddrFact(client: Long): Fl9AddrFact {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_9, arrayOf<Any?>(client))
+    val data = AfinaQuery.selectCursor(SEL_FL_9, params = arrayOf(client))
 
     val fl = Fl8(data[0])
 
-    return if(fl.code != 1)
-        Fl9AddrFact() else
+    return if(fl.code != 1) Fl9AddrFact() else
         Fl9AddrFact(fl.postCode, fl.regStateNum, fl.okato, fl.street, fl.house, fl.estate, fl.block, fl.build, fl.apart)
 }
 
 private fun createFl8AddrReg(client: Long): Fl8AddrReg {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_8, arrayOf<Any?>(client))
+    val data = AfinaQuery.selectCursor(SEL_FL_8, params = arrayOf(client))
 
     val fl8 = Fl8(data[0])
 
@@ -642,9 +641,9 @@ private fun createFl8AddrReg(client: Long): Fl8AddrReg {
         fl8.street, fl8.house, fl8.estate, fl8.block, fl8.build, fl8.apart)
 }
 
-private fun createFl55Application(loan: Long, dateEvent: Timestamp): Fl55Application {
+private fun createFl55Application(idEvent: Long): Fl55Application {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_55, arrayOf<Any?>(loan, dateEvent))
+    val data = AfinaQuery.selectCursor(SEL_FL_55, params = arrayOf(idEvent))
 
     val fl55 = Fl55(data[0])
 
@@ -654,7 +653,7 @@ private fun createFl55Application(loan: Long, dateEvent: Timestamp): Fl55Applica
 
 private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: Long): Pair<String, Fl29_1DebtBurdenInfo?> {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_29_1, arrayOf<Any?>(loan, dateEvent, client))
+    val data = AfinaQuery.selectCursor(SEL_FL_29_1, params = arrayOf(loan, dateEvent, client))
 
     val fl291 = Fl291(data[0])
 
@@ -667,7 +666,7 @@ private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: 
 
 private fun createFl57(loan: Long): Fl57Reject {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_57, arrayOf<Any?>(loan))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_57, params = arrayOf(loan))[0]
 
     return Fl57Reject((data[0] as Timestamp).date, (data[1] as Number).toInt())
 }
@@ -1144,7 +1143,6 @@ private data class TitlePhysic(
     val ogrn: String?,
     val isSpecialMode: Boolean,
     val snils: String?
-
 ) {
     constructor(rec: Array<Any?>) :
             this(lastName = rec[0] as String,
@@ -1177,7 +1175,7 @@ private data class TitlePhysic(
 
 private const val SEL_TITLE_PHYSIC = "{ ? = call od.PTKB_GUTDF.getTitlePhysic( ? ) }"
 
-private const val SEL_FL_55 = "{ ? = call od.PTKB_GUTDF.getFl55Application( ?, ? ) }"
+private const val SEL_FL_55 = "{ ? = call od.PTKB_GUTDF.getFl55Application( ? ) }"
 
 private const val SEL_FL_29_1 = "{ ? = call od.PTKB_GUTDF.getFl29_1DebtBurdenInfo( ?, ?, ? ) }"
 
@@ -1187,7 +1185,7 @@ private const val SEL_FL_8 = "{ ? = call od.PTKB_GUTDF.getFl8AddrReg( ? ) }"
 
 private const val SEL_FL_9 = "{ ? = call od.PTKB_GUTDF.getFl9AddrFact( ? ) }"
 
-private const val SEL_FL_10 = "{ ? = call od.PTKB_GUTDF.getFl10Contact( ? ) }"
+private const val SEL_FL_10 = "select od.PTKB_GUTDF.getFl10Contact( ? ) from dual"
 
 private const val SEL_FL_11 = "{ ? = call od.PTKB_GUTDF.getFl11IndividualEntrepreneur( ? ) }"
 

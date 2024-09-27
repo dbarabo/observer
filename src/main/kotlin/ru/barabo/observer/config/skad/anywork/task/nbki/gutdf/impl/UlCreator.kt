@@ -24,7 +24,7 @@ internal fun createLegal(eventRecord: EventRecord, priorLegal: SubjectUl?): Subj
 
 private fun createLegalTitle(clientId: Long): SubjectUl {
 
-    val titleData = AfinaQuery.selectCursor(SEL_TITLE_LEGAL, arrayOf<Any?>(clientId))
+    val titleData = AfinaQuery.selectCursor(SEL_TITLE_LEGAL, params = arrayOf(clientId))
 
     val titleLegal = TitleLegal(titleData[0])
 
@@ -104,7 +104,7 @@ private fun createEvent1_4(eventRecord: EventRecord): UlEvent1_4 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -133,7 +133,7 @@ private fun createEvent2_1(eventRecord: EventRecord): UlEvent2_1 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -160,7 +160,7 @@ private fun createlEvent2_2(eventRecord: EventRecord): UlEvent2_2 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -189,7 +189,7 @@ private fun createEvent2_2_1(eventRecord: EventRecord): UlEvent2_2_1 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -214,7 +214,7 @@ private fun createEvent2_3(eventRecord: EventRecord): UlEvent2_3 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -237,7 +237,7 @@ private fun createEvent2_4(eventRecord: EventRecord): UlEvent2_4 {
 
     val ul10DealUid = createUl10DealUid(eventRecord.idEvent)
 
-    val ul2326Group = createUl23_26Group(eventRecord.idEvent)
+    val ul2326Group = createUl2326Group(eventRecord.idEvent)
 
     val ul24Warranty = createUl24Warranty(eventRecord.idEvent)
 
@@ -257,7 +257,7 @@ private fun createEvent2_5(eventRecord: EventRecord): UlEvent2_5 {
 
     val ul12Amount = createUl12Amount(eventRecord.idEvent)
 
-    val ul121AmountInfo = createUl12_1AmountInfo(eventRecord.idEvent)
+    val ul121AmountInfo = createUl121AmountInfo(eventRecord.idEvent)
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
@@ -282,7 +282,7 @@ private fun createEvent2_6(eventRecord: EventRecord): UlEvent2_6 {
 
 private fun createUl30Court(idEvent: Long): Ul30Court {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_30, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_30, params = arrayOf(idEvent))
 
     val ul = Ul30(data[0])
 
@@ -296,14 +296,14 @@ private fun createUl30Court(idEvent: Long): Ul30Court {
 
 private fun createUl29ContractEnd(idEvent: Long): Ul29ContractEnd {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_29, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_UL_29, params = arrayOf(idEvent))[0]
 
     return Ul29ContractEnd((data[0] as Timestamp).date, (data[0] as Number).toInt())
 }
 
-private fun createUl23_26Group(idEvent: Long): Ul23_26Group {
+private fun createUl2326Group(idEvent: Long): Ul23_26Group {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_23_26, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_23_26, params = arrayOf(idEvent))
 
     if(data.isEmpty()) return Ul23_26Group()
 
@@ -329,7 +329,7 @@ private fun createUl23_26Group(idEvent: Long): Ul23_26Group {
 
 private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Ul26Insurance> {
 
-    val data = AfinaQuery.selectCursor(SEL_INSURE_BY_COLLATERAL, arrayOf<Any?>(idCollateral, idEvent))
+    val data = AfinaQuery.selectCursor(SEL_INSURE_BY_COLLATERAL, params = arrayOf(idCollateral, idEvent))
 
     if(data.isEmpty()) return listOf(Ul26Insurance())
 
@@ -346,7 +346,7 @@ private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Ul26Ins
 
 private fun createUl24Warranty(idEvent: Long): Ul24Warranty {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_24, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_24, params = arrayOf(idEvent))
 
     if(data.isEmpty()) return Ul24Warranty()
 
@@ -364,7 +364,7 @@ private fun createUl24Warranty(idEvent: Long): Ul24Warranty {
 
 private fun createUl16Fund(idEvent: Long): Ul16Fund {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_16, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_16, params = arrayOf(idEvent))
 
     val fl = Ul16(data[0])
 
@@ -373,7 +373,7 @@ private fun createUl16Fund(idEvent: Long): Ul16Fund {
 
 private fun createUl151ContractTermsChanges(idEvent: Long): Ul15_1ContractTermsChanges {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_15_1, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_15_1, params = arrayOf(idEvent))
 
     val ul = Ul151(data[0])
 
@@ -383,7 +383,7 @@ private fun createUl151ContractTermsChanges(idEvent: Long): Ul15_1ContractTermsC
 
 private fun createUl15ContractChanges(idEvent: Long): Ul15ContractChanges {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_15, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_15, params = arrayOf(idEvent))
 
     val ul = Ul15(data[0])
 
@@ -393,7 +393,7 @@ private fun createUl15ContractChanges(idEvent: Long): Ul15ContractChanges {
 }
 
 private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
-    val data = AfinaQuery.selectCursor(SEL_UL_17_18_19_20, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_17_18_19_20, params = arrayOf(idEvent))
 
     val ul = UlGroup2528(data[0])
 
@@ -420,7 +420,7 @@ private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
 
 private fun createUl46Participation(idEvent: Long): Ul46Participation {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_46, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_46, params = arrayOf(idEvent))
 
     val fl = Ul46(data[0])
 
@@ -429,7 +429,7 @@ private fun createUl46Participation(idEvent: Long): Ul46Participation {
 
 private fun createUl44Accounting(idEvent: Long): Ul44Accounting {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_44, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_44, params = arrayOf(idEvent))
 
     val ul = Ul44(data[0])
 
@@ -438,7 +438,7 @@ private fun createUl44Accounting(idEvent: Long): Ul44Accounting {
 
 private fun createUl13JointDebtors(idEvent: Long): Ul13JointDebtors {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_13, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_UL_13, params = arrayOf(idEvent))[0]
 
     return if(data[0] == null) Ul13JointDebtors()
     else Ul13JointDebtors((data[0] as Number).toInt())
@@ -446,7 +446,7 @@ private fun createUl13JointDebtors(idEvent: Long): Ul13JointDebtors {
 
 private fun createUl14PaymentTerms(idEvent: Long): Ul14PaymentTerms {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_14, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_14, params = arrayOf(idEvent))
 
     val ul = Ul14(data[0])
 
@@ -455,9 +455,9 @@ private fun createUl14PaymentTerms(idEvent: Long): Ul14PaymentTerms {
         ul.percentPayDate?.date, ul.freqCode, ul.percentEndDate?.date)
 }
 
-private fun createUl12_1AmountInfo(idEvent: Long): Ul12_1AmountInfo {
+private fun createUl121AmountInfo(idEvent: Long): Ul12_1AmountInfo {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_121, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_121, params = arrayOf(idEvent))
 
     val ul = Ul12(data[0])
 
@@ -467,14 +467,14 @@ private fun createUl12_1AmountInfo(idEvent: Long): Ul12_1AmountInfo {
 
 private fun createUl12Amount(idEvent: Long): Ul12Amount {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_12, arrayOf<Any?>(idEvent))[0]
+    val data = AfinaQuery.selectCursor(SEL_UL_12, params = arrayOf(idEvent))[0]
 
     return Ul12Amount(data[0] as Number, (data[1] as Timestamp).date)
 }
 
 private fun createUl11Deal(idEvent: Long): Ul11Deal {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_11, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_11, params = arrayOf(idEvent))
 
     val ul = Ul11(data[0])
 
@@ -484,7 +484,7 @@ private fun createUl11Deal(idEvent: Long): Ul11Deal {
 
 private fun createUl10DealUid(idEvent: Long): Ul10DealUid {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_10, arrayOf<Any?>(idEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_10, params = arrayOf(idEvent))
 
     val ul = Ul10(data[0])
 
@@ -493,14 +493,14 @@ private fun createUl10DealUid(idEvent: Long): Ul10DealUid {
 
 private fun createUl47Reject(loan: Long): Ul47Reject {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_47, arrayOf<Any?>(loan))[0]
+    val data = AfinaQuery.selectCursor(SEL_UL_47, params = arrayOf(loan))[0]
 
     return Ul47Reject((data[0] as Timestamp).date, (data[1] as Number).toInt())
 }
 
 private fun createUl45Application(loan: Long, dateEvent: Timestamp): Pair<Ul45Application, String?> {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_45, arrayOf<Any?>(loan, dateEvent))
+    val data = AfinaQuery.selectCursor(SEL_UL_45, params = arrayOf(loan, dateEvent))
 
     val ul = Ul45(data[0])
 

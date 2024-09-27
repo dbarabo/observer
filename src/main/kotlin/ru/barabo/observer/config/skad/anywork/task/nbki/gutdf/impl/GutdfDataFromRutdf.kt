@@ -4,39 +4,20 @@ import com.sun.jmx.snmp.Timestamp
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutdfData
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectUl
-import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl29_1DebtBurdenInfo
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl55Application
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl57Reject
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent1_1
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent1_2
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent1_3
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent1_4
-import ru.barabo.observer.config.task.nbki.gutdf.physic.title.*
 import java.util.*
 
-import java.util.Date
-
-class GutdfDataFromRutdf(private val idRutdfFile: Long) : GutdfData {
+class GutdfDataFromRutdf(idRutdfFile: Long) : GutdfData {
 
     private val _data = createData(idRutdfFile)
 
-    override fun filenameWithoutExt(): String {
-        TODO("Not yet implemented")
-    }
+    override fun filenameWithoutExt(): String = _data.fileName
 
-    override fun dateDocument(): Date {
-        TODO("Not yet implemented")
-    }
+    override fun dateDocument(): Date = _data.dateFile
 
-    override fun subjectsCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun subjectsCount(): Int = _data.subjectsCount
 
-    override fun groupBlocksCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun groupBlocksCount(): Int = _data.groupBlocksCount
 
     override fun subjectFlList(): List<SubjectFl>? = _data.fl.ifEmpty { null }
 
@@ -44,9 +25,13 @@ class GutdfDataFromRutdf(private val idRutdfFile: Long) : GutdfData {
 
     private fun createData(idRutdfFile: Long): DataFlUl {
 
-        val infoList = AfinaQuery.selectCursor(SEL_EVENT_BY_RUTDF, arrayOf<Any?>(idRutdfFile))
+        val (filename, dateFile) = AfinaQuery.select(SEL_FILENAME_DATA, params = arrayOf(idRutdfFile) )[0]
 
-        val data = DataFlUl(ArrayList<SubjectFl>(), ArrayList<SubjectUl>())
+        val infoList = AfinaQuery.selectCursor(SEL_EVENT_BY_RUTDF, params = arrayOf(idRutdfFile))
+
+        val fl = ArrayList<SubjectFl>()
+
+        val ul = ArrayList<SubjectUl>()
 
         var priorPhysic: SubjectFl? = null
 
@@ -63,7 +48,7 @@ class GutdfDataFromRutdf(private val idRutdfFile: Long) : GutdfData {
 
                     priorPhysic = newPhysic
 
-                    data.fl += newPhysic
+                    fl += newPhysic
                 }
             } else {
 
@@ -73,18 +58,18 @@ class GutdfDataFromRutdf(private val idRutdfFile: Long) : GutdfData {
 
                     priorLegal = newLegal
 
-                    data.ul += newLegal
+                    ul += newLegal
                 }
             }
         }
 
-        return data
+        return DataFlUl(fl, ul, infoList.size, fl.size + ul.size,
+            filename as String, (dateFile as Timestamp).date)
     }
 }
 
-private const val SEL_EVENT_BY_RUTDF = "{ ? = call od.PTKB_GUTDF.getEventsByIdFile( ? ) }"
-
-data class DataFlUl(val fl: MutableList<SubjectFl>, val ul: MutableList<SubjectUl>)
+data class DataFlUl(val fl: MutableList<SubjectFl>, val ul: MutableList<SubjectUl>,
+                    val groupBlocksCount: Int, val subjectsCount: Int, val fileName: String, val dateFile: Date)
 
 data class EventRecord(
     val orderNum: Long,
@@ -117,3 +102,7 @@ data class EventRecord(
                 flowOut = (rec[12] as? Timestamp) )
 
 }
+
+private const val SEL_EVENT_BY_RUTDF = "{ ? = call od.PTKB_GUTDF.getEventsByIdFile( ? ) }"
+
+private const val SEL_FILENAME_DATA = "select FILE_NAME, DATE_FILE from od.PTKB_RUTDF_FILE where ID = ?"
