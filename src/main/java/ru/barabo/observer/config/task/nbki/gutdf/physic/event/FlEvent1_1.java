@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class FlEvent1_1 extends AbstractEventData {
 
-    @XStreamAlias("OperationCode")
+    @XStreamAlias("operationCode")
     final String operationCode = "A";
 
     @XStreamAlias("FL_55_Application")

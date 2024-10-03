@@ -271,67 +271,31 @@ private val logger = LoggerFactory.getLogger(GutdfDataFromRutdf::class.java)
 
 private fun createFlEvent2_3(eventRecord: EventRecord): FlEvent2_3 {
 
-    var time = System.currentTimeMillis()
     val fl17DealUid = createFl17DealUid(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl17DealUid=$time")
 
-    time = System.currentTimeMillis()
     val fl18Deal = createFl18Deal(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl18Deal=$time")
 
-    time = System.currentTimeMillis()
     val fl19Amount = createFl19Amount(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl19Amount=$time")
 
-    time = System.currentTimeMillis()
     val fl19_1AmountInfo = createFl19_1AmountInfo(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl19_1AmountInfo=$time")
 
-    time = System.currentTimeMillis()
     val fl21PaymentTerms = createFl21PaymentTerms(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl21PaymentTerms=$time")
 
     val fl20JointDebtors = createFl20JointDebtors(eventRecord.idEvent)
 
-    time = System.currentTimeMillis()
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl22TotalCost=$time")
 
-    time = System.currentTimeMillis()
     val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl291DebtBurdenInfo=$time")
 
-    time = System.currentTimeMillis()
     val fl25_26_27_28Group = createFl25_26_27_28Group(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("fl25_26_27_28Group=$time")
 
-    time = System.currentTimeMillis()
     val fl29MonthlyPayment = createFl29MonthlyPayment(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl29MonthlyPayment=$time")
 
-    time = System.currentTimeMillis()
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl54Accounting=$time")
 
-    time = System.currentTimeMillis()
     val (_, fl55Application) = createFl55Application(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl55Application=$time")
 
-    time = System.currentTimeMillis()
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createFl56Participation=$time")
 
     return FlEvent2_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
@@ -496,6 +460,8 @@ private fun createFl24Fund(idEvent: Long): Fl24Fund {
 
 private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
 
+    var time = System.currentTimeMillis()
+
     val data = AfinaQuery.selectCursor(SEL_FL_25_26_27_28, params = arrayOf(idEvent))
 
     val fl = FlGroup2528(data[0])
@@ -518,6 +484,9 @@ private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
                             fl.totalSum, fl.totalMainSum, fl.totalPercentSum, fl.totalOtherSum,
                             fl.date, fl.sizeCode, fl.scheduleCode, fl.lastMissPaySum,
                             fl.paySum24)
+
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("fl25_26_27_28Group=$time")
 
     return Fl25_26_27_28Group(fl.isLastPayExist, fl.calcDate, fl25Debt, fl26DebtDue, fl27DebtOverdue, fl28Payment)
 }
@@ -555,9 +524,14 @@ private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
 
 private fun createFl56Participation(idEvent: Long): Fl56Participation {
 
+    var time = System.currentTimeMillis()
+
     val data = AfinaQuery.selectCursor(SEL_FL_56, params = arrayOf(idEvent))
 
     val fl = Fl56(data[0])
+
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl56Participation=$time")
 
     return Fl56Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate, fl.isOverdue90, fl.isStop)
 }

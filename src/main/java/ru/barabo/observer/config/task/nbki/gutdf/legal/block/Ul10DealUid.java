@@ -29,7 +29,7 @@ public class Ul10DealUid {
 
         this.num = num == null ? null : new StringElement(num);
 
-        this.refUid = num == null ? null : new StringElement(refUid);
+        this.refUid = refUid == null ? null : new StringElement(refUid);
 
         this.openDate = new StringElement(openDate == null ? "-" : XmlLoader.formatDate(openDate));
     }

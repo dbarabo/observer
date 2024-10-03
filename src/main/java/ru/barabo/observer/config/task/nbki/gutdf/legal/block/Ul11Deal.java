@@ -38,9 +38,6 @@ public class Ul11Deal {
     @XStreamAlias("endDate")
     private final StringElement endDate; //18.11. Дата прекращения обязательства субъекта по условиям сделки emptyValueType xs:date
 
-    @XStreamAlias("creditorCode")
-    private final StringElement creditorCode = new StringElement("1"); //18.12. Код вида кредитора – заимодавца 1-кредитная организация
-
     @XStreamAlias("partialExist_0")
     private final StringElement partialExist0 = new StringElement(""); //18.13. Признак возникновения обязательства в результате получения части прав кредитора от другого лица = 0
 

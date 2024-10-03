@@ -46,7 +46,7 @@ public class Ul44Accounting {
         this.rate = new StringElement(rate == null ? "0.00" : XmlLoader.formatSum(rate));
         supportExist0 = supportInfo != null ? null : new StringElement("");
         supportExist1 = supportInfo == null ? null : new StringElement("");
-        this.supportInfo = new StringElement(supportInfo);
+        this.supportInfo = supportInfo == null ? null : new StringElement(supportInfo);
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
 }

@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectEventDataUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectTitleDataUl
@@ -21,6 +22,8 @@ internal fun createLegal(eventRecord: EventRecord, priorLegal: SubjectUl?): Subj
 
     return newLegal
 }
+
+private val logger = LoggerFactory.getLogger(GutdfDataFromRutdf::class.java)
 
 private fun createLegalTitle(clientId: Long): SubjectUl {
 
@@ -48,9 +51,9 @@ private fun subjectTitleFromTitleLegal(title: TitleLegal): SubjectTitleDataUl {
 
     val tax = TaxNumGroupUl4Tax(StringElement(title.taxCode), StringElement(title.taxNum) )
 
-    val taxGroup = Ul4Tax(Ul4TaxType(listOf(tax)), null)
+    val taxGroup = Ul4TaxType(listOf(tax))
 
-    return SubjectTitleDataUl(name, ul2Address, Ul3Reg(ogrn, null), taxGroup, null)
+    return SubjectTitleDataUl(name, ul2Address, ogrn, taxGroup, null)
 }
 
 private fun SubjectEventDataUl.addNewEvent(eventRecord: EventRecord) {
@@ -393,6 +396,8 @@ private fun createUl15ContractChanges(idEvent: Long): Ul15ContractChanges {
 }
 
 private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
+    var time = System.currentTimeMillis()
+
     val data = AfinaQuery.selectCursor(SEL_UL_17_18_19_20, params = arrayOf(idEvent))
 
     val ul = UlGroup2528(data[0])
@@ -415,14 +420,22 @@ private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
         ul.totalSum, ul.totalMainSum, ul.totalPercentSum, ul.totalOtherSum,
         ul.date, ul.sizeCode, ul.scheduleCode)
 
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createUl17181920Group=$time")
+
     return Ul17_18_19_20Group(ul.isLastPayExist, ul.calcDate, ul17Debt, ul18DebtDue, ul19DebtOverdue, ul20Payment)
 }
 
 private fun createUl46Participation(idEvent: Long): Ul46Participation {
 
+    var time = System.currentTimeMillis()
+
     val data = AfinaQuery.selectCursor(SEL_UL_46, params = arrayOf(idEvent))
 
     val fl = Ul46(data[0])
+
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createUl46Participation=$time")
 
     return Ul46Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate, fl.isOverdue90, fl.isStop)
 }
@@ -584,7 +597,7 @@ private data class Ul2326Group(
                 sum = (rec[12] as? Number),
                 assessDate = (rec[13] as? Timestamp),
                 priceCode = (rec[14] as? Number)?.toInt(),
-                isExistsInsure = ( (rec[15] != null) && ((rec[16] as Number).toInt() != 0))
+                isExistsInsure = ( (rec[15] != null) && ((rec[15] as Number).toInt() != 0))
             )
 }
 

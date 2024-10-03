@@ -81,6 +81,6 @@ public class Fl27DebtOverdue {
 
         this.missDuration = missDuration == null ? null : new StringElement(missDuration.toString());
 
-        this.repaidMissDuration = missDuration == null ? null : new StringElement(repaidMissDuration.toString());
+        this.repaidMissDuration = repaidMissDuration == null ? null : new StringElement(repaidMissDuration.toString());
     }
 }

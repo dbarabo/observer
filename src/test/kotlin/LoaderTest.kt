@@ -1401,7 +1401,7 @@ res3 = [calc.DEC_TEST];
     @Test
     fun testGutDfCreator() {
 
-        val file = GutDfCreator.createFileByRutdf(1317371349L) //1318442516L
+        val file = GutDfCreator.createFileByRutdf(1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
 
         logger.error("file=$file")
     }

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class UlEvent1_1 extends AbstractEventData {
 
-    @XStreamAlias("OperationCode")
+    @XStreamAlias("operationCode")
     final String operationCode = "A";
 
     @XStreamAlias("UL_45_Application")
