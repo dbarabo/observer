@@ -3,7 +3,6 @@ package ru.barabo.observer.config.task.nbki.gutdf.legal;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import org.jetbrains.annotations.NotNull;
 import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*;
 
 import java.util.ArrayList;
 import java.util.List;

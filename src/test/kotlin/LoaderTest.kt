@@ -1332,15 +1332,6 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
-    fun testGutDfCreator() {
-
-        val file = GutDfCreator.createFileByRutdf(1318442516L)
-
-        logger.error("file=$file")
-    }
-
-
-    //@Test
     fun testCheckNotLoaded440pFiles() {
 
         val elem = Elem(idElem = 93076872L, task = CheckNotLoaded440pFiles)
@@ -1405,6 +1396,14 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(File("C:/app/RFM_040507717_20240221_001.xml"), Extract407pByRfm, Duration.ZERO)
 
         Extract407pByRfm.execute(elem)
+    }
+
+    @Test
+    fun testGutDfCreator() {
+
+        val file = GutDfCreator.createFileByRutdf(1317371349L) //1318442516L
+
+        logger.error("file=$file")
     }
 }
 

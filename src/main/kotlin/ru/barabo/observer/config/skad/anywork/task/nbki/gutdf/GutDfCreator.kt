@@ -10,7 +10,6 @@ import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl.GutdfDataFromRutdf
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
-import ru.barabo.observer.config.skad.forms.form310.impl.folderReportToday
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
 import java.io.File
@@ -22,12 +21,12 @@ object GutDfCreator {
     fun createFileByRutdf(idRutdf: Long?): File {
 
         var newIdRutdf: Long = 0
-        try {
-            newIdRutdf = idRutdf ?: generateNewRutdf()
+       // try {
+            newIdRutdf = idRutdf!!// ?: generateNewRutdf()
 
             val gutdfDataFromRutdf = GutdfDataFromRutdf(newIdRutdf)
 
-            val file = File("${folderReportToday().absolutePath}/${gutdfDataFromRutdf.filenameWithoutExt()}.xml")
+            val file = File("${folderGutDfToday().absolutePath}/${gutdfDataFromRutdf.filenameWithoutExt()}.xml")
 
             val xmlData = MainDocument(gutdfDataFromRutdf)
 
@@ -37,16 +36,16 @@ object GutDfCreator {
 
             return file
 
-        } catch (e: Exception) {
-
-            logger.error("createFileByRutdf idRutdf=$idRutdf newIdRutdf=$newIdRutdf", e)
-
-            if(idRutdf == null) {
-                AfinaQuery.execute(DEL_RUTDF_DATA, params = arrayOf(newIdRutdf))
-            }
-
-            throw Exception(e)
-        }
+//        } catch (e: Exception) {
+//
+//            logger.error("createFileByRutdf idRutdf=$idRutdf newIdRutdf=$newIdRutdf", e)
+//
+//            if(idRutdf == null) {
+//                AfinaQuery.execute(DEL_RUTDF_DATA, params = arrayOf(newIdRutdf))
+//            }
+//
+//            throw Exception(e)
+//        }
     }
 
     private fun generateNewRutdf(): Long {

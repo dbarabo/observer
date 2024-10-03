@@ -1,13 +1,16 @@
 package ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl
 
-import com.sun.jmx.snmp.Timestamp
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutdfData
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectUl
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
+import java.sql.Timestamp
 import java.util.*
 
 class GutdfDataFromRutdf(idRutdfFile: Long) : GutdfData {
+
+    private val logger = LoggerFactory.getLogger(GutdfDataFromRutdf::class.java)
 
     private val _data = createData(idRutdfFile)
 
@@ -40,6 +43,13 @@ class GutdfDataFromRutdf(idRutdfFile: Long) : GutdfData {
         for (record in infoList) {
             val eventRecord = EventRecord(record)
 
+            logger.error("eventId=${eventRecord.idEvent}")
+            logger.error("loan=${eventRecord.loan}")
+            logger.error("guarant=${eventRecord.guarant}")
+            logger.error("client=${eventRecord.clientId}")
+            logger.error("isPhysic=${eventRecord.isPhysic}")
+            logger.error("event=${eventRecord.event}")
+
             if(eventRecord.isPhysic) {
 
                 val newPhysic = createPhysicEvent(eventRecord, priorPhysic)
@@ -64,7 +74,7 @@ class GutdfDataFromRutdf(idRutdfFile: Long) : GutdfData {
         }
 
         return DataFlUl(fl, ul, infoList.size, fl.size + ul.size,
-            filename as String, (dateFile as Timestamp).date)
+            filename as String, (dateFile as Timestamp))
     }
 }
 

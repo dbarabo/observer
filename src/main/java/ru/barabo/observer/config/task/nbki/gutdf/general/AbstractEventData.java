@@ -10,7 +10,7 @@ public class AbstractEventData {
     @XStreamAlias("orderNum")
     final Integer orderNum;
 
-    @XStreamAlias("EventDate")
+    @XStreamAlias("eventDate")
     final String eventDate;
 
     public AbstractEventData(Integer orderNum, Date eventDate) {

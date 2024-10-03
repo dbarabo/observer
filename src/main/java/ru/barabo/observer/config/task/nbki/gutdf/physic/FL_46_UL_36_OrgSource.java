@@ -8,10 +8,10 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 @XStreamAlias("FL_46_UL_36_OrgSource")
 public class FL_46_UL_36_OrgSource {
 
-    @XStreamAlias("SourceCode")
+    @XStreamAlias("sourceCode")
     final private StringElement sourceCode = new StringElement("1");
 
-    @XStreamAlias("SourceRegistrationFact_1")
+    @XStreamAlias("sourceRegistrationFact_1")
     final private StringElement sourceRegistrationFact1 = new StringElement("");
 
     @XStreamAlias("fullName")
@@ -21,7 +21,7 @@ public class FL_46_UL_36_OrgSource {
     @XStreamAlias("regNum")
     final private StringElement regNum = new StringElement("1022500001325");
 
-    @XStreamAlias("SourceCreditInfoDate")
+    @XStreamAlias("sourceCreditInfoDate")
     final private StringElement sourceCreditInfoDate;
 
     public FL_46_UL_36_OrgSource(GutdfData gutdfData) {

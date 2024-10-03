@@ -45,12 +45,18 @@ public class Fl54Accounting {
         this.exist0 = offBalanceAmount == null ? null : new StringElement("");
         this.sum = offBalanceAmount == null ? null : new StringElement(XmlLoader.formatSum(offBalanceAmount));
 
-        this.exist1 = offBalanceAmount != null ? null : new StringElement("");;
+        this.exist1 = offBalanceAmount != null ? null : new StringElement("");
+
         this.minInterest = new StringElement(minInterest == null ? "0.00" : XmlLoader.formatSum(minInterest));
+
         this.maxInterest = new StringElement(maxInterest == null ? "0.00" : XmlLoader.formatSum(maxInterest));
+
         supportExist0 = supportInfo != null ? null : new StringElement("");
+
         supportExist1 = supportInfo == null ? null : new StringElement("");
-        this.supportInfo = new StringElement(supportInfo);
+
+        this.supportInfo = supportInfo == null ? null : new StringElement(supportInfo);
+
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
 }

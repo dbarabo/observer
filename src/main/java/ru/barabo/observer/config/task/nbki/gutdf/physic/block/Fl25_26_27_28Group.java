@@ -36,8 +36,8 @@ public class Fl25_26_27_28Group {
 
     public Fl25_26_27_28Group(Boolean isLastPayExist, Date calcDate, Fl25Debt fl25Debt, Fl26DebtDue fl26DebtDue,
                               Fl27DebtOverdue fl27DebtOverdue, Fl28Payment fl28Payment) {
-        this.lastPayExist0 = (!isLastPayExist) ? new StringElement("") : null;
-        this.lastPayExist1 = isLastPayExist ? new StringElement("") : null;
+        this.lastPayExist0 = (isLastPayExist != null && !isLastPayExist) ? new StringElement("") : null;
+        this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
 

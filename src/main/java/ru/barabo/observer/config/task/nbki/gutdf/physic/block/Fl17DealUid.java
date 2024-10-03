@@ -26,7 +26,7 @@ public class Fl17DealUid {
 
         this.num = num == null ? null : new StringElement(num);
 
-        this.refUid = num == null ? null : new StringElement(refUid);
+        this.refUid = (refUid == null || refUid.isEmpty())? null : new StringElement(refUid);
 
         this.openDate = new StringElement(openDate == null ? "-" : XmlLoader.formatDate(openDate));
     }

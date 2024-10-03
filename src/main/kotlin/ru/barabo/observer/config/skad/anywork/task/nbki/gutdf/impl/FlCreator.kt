@@ -1,6 +1,6 @@
 package ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl
 
-import com.sun.jmx.snmp.Timestamp
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
@@ -8,6 +8,7 @@ import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.title.*
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
+import java.sql.Timestamp
 import java.util.*
 
 internal fun createPhysicEvent(eventRecord: EventRecord, priorPhysic: SubjectFl?): SubjectFl {
@@ -40,15 +41,15 @@ private fun subjectTitleFromTitlePhysic(title: TitlePhysic): SubjectTitleDataFl 
     else
         Fl2PrevName(title.prevLastName, title.prevFirstName, title.prevMiddleName)
 
-    val fl3Birth = Fl3Birth(title.birthDate.date, title.birthPlace)
+    val fl3Birth = Fl3Birth(title.birthDate, title.birthPlace)
 
-    val fl4Doc = Fl4Doc(title.docCode, title.docSeries, title.docNum, title.issueDate.date, title.docIssuer,
+    val fl4Doc = Fl4Doc(title.docCode, title.docSeries, title.docNum, title.issueDate, title.docIssuer,
         title.deptCode, title.foreignerCode)
 
     val fl5PrevDoc = if(title.prevDocCode== null)
         Fl5PrevDoc()
     else
-        Fl5PrevDoc(title.prevDocCode, title.prevDocSeries, title.prevDocNum, title.prevIssueDate?.date,
+        Fl5PrevDoc(title.prevDocCode, title.prevDocSeries, title.prevDocNum, title.prevIssueDate,
             title.prevDocIssuer, title.prevDeptCode)
 
     val fl6Tax = title.inn?.let { Fl6Tax(it, title.ogrn, title.isSpecialMode) }
@@ -84,7 +85,7 @@ private fun createFlEvent1_1(eventRecord: EventRecord): FlEvent1_1 {
 
     val (_, application55) = createFl55Application(eventRecord.idEvent)
 
-    return FlEvent1_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date, application55)
+    return FlEvent1_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, application55)
 }
 
 private fun createFlEvent1_2(eventRecord: EventRecord): FlEvent1_2 {
@@ -93,7 +94,7 @@ private fun createFlEvent1_2(eventRecord: EventRecord): FlEvent1_2 {
 
     val fl291 = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
 
-    return FlEvent1_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date, operationCode, application55, fl291)
+    return FlEvent1_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, operationCode, application55, fl291)
 }
 
 private fun createFlEvent1_3(eventRecord: EventRecord): FlEvent1_3 {
@@ -104,7 +105,7 @@ private fun createFlEvent1_3(eventRecord: EventRecord): FlEvent1_3 {
 
     val fl57 = createFl57(eventRecord.loan)
 
-    return FlEvent1_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date, application55, fl291, fl57)
+    return FlEvent1_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent, application55, fl291, fl57)
 }
 
 private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
@@ -141,7 +142,7 @@ private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
-    return FlEvent1_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date, fl8AddrReg, fl9AddrFact, fl10Contact,
+    return FlEvent1_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl8AddrReg, fl9AddrFact, fl10Contact,
         fl11IndividualEntrepreneur, fl12Capacity, fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl20JointDebtors, fl22TotalCost, fl29_1DebtBurdenInfo, fl54Accounting, fl55Application,
         fl56Participation
@@ -150,7 +151,7 @@ private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
 
 private fun createFlEvent1_7(eventRecord: EventRecord): FlEvent1_7 {
 
-    return FlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date)
+    return FlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent)
 }
 
 private fun createFlEvent1_9(eventRecord: EventRecord): FlEvent1_9 {
@@ -163,13 +164,13 @@ private fun createFlEvent1_9(eventRecord: EventRecord): FlEvent1_9 {
 
     val fl11IndividualEntrepreneur = createFl11IndividualEntrepreneur(eventRecord.clientId)
 
-    return FlEvent1_9(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent1_9(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl8AddrReg, fl9AddrFact, fl10Contact, fl11IndividualEntrepreneur)
 }
 
 private fun createFlEvent1_12(eventRecord: EventRecord): FlEvent1_12 {
 
-    return FlEvent1_12(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent1_12(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         Fl13Bankruptcy(), Fl14BankruptcyEnd() )
 }
 
@@ -201,7 +202,7 @@ private fun createFlEvent2_1(eventRecord: EventRecord): FlEvent2_1 {
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
-    return FlEvent2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
         fl20JointDebtors, fl23ContractChanges, fl231ContractTermsChanges, fl54Accounting)
@@ -237,7 +238,7 @@ private fun createFlEvent2_2(eventRecord: EventRecord): FlEvent2_2 {
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
-    return FlEvent2_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl22TotalCost, fl24Fund, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
         fl20JointDebtors, fl54Accounting, fl55Application, fl56Participation)
@@ -261,40 +262,78 @@ private fun createFlEvent2_2_1(eventRecord: EventRecord): FlEvent2_2_1 {
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
-    return FlEvent2_2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl24Fund, fl54Accounting, fl56Participation)
 }
 
+private val logger = LoggerFactory.getLogger(GutdfDataFromRutdf::class.java)
+
 private fun createFlEvent2_3(eventRecord: EventRecord): FlEvent2_3 {
 
+    var time = System.currentTimeMillis()
     val fl17DealUid = createFl17DealUid(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl17DealUid=$time")
 
+    time = System.currentTimeMillis()
     val fl18Deal = createFl18Deal(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl18Deal=$time")
 
+    time = System.currentTimeMillis()
     val fl19Amount = createFl19Amount(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl19Amount=$time")
 
+    time = System.currentTimeMillis()
     val fl19_1AmountInfo = createFl19_1AmountInfo(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl19_1AmountInfo=$time")
 
+    time = System.currentTimeMillis()
     val fl21PaymentTerms = createFl21PaymentTerms(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl21PaymentTerms=$time")
 
     val fl20JointDebtors = createFl20JointDebtors(eventRecord.idEvent)
 
+    time = System.currentTimeMillis()
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl22TotalCost=$time")
 
+    time = System.currentTimeMillis()
     val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl291DebtBurdenInfo=$time")
 
+    time = System.currentTimeMillis()
     val fl25_26_27_28Group = createFl25_26_27_28Group(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("fl25_26_27_28Group=$time")
 
+    time = System.currentTimeMillis()
     val fl29MonthlyPayment = createFl29MonthlyPayment(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl29MonthlyPayment=$time")
 
+    time = System.currentTimeMillis()
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl54Accounting=$time")
 
+    time = System.currentTimeMillis()
     val (_, fl55Application) = createFl55Application(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl55Application=$time")
 
+    time = System.currentTimeMillis()
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
+    time = (System.currentTimeMillis() - time)/100
+    logger.error("createFl56Participation=$time")
 
-    return FlEvent2_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
         fl20JointDebtors, fl54Accounting, fl55Application, fl56Participation)
@@ -312,7 +351,7 @@ private fun createFlEvent2_4(eventRecord: EventRecord): FlEvent2_4 {
 
     val fl36ProvisionPayment = createFl36ProvisionPayment()
 
-    return FlEvent2_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl3235Group, fl33Warranty, fl34Guarantee, fl36ProvisionPayment)
 }
 
@@ -340,7 +379,7 @@ private fun createFlEvent2_5(eventRecord: EventRecord): FlEvent2_5 {
 
     val fl56Participation = createFl56Participation(eventRecord.idEvent)
 
-    return FlEvent2_5(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_5(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo), fl21PaymentTerms, fl22TotalCost,
         fl25262728Group, fl29MonthlyPayment, fl291DebtBurdenInfo, fl38ContractEnd, fl56Participation)
 }
@@ -351,7 +390,7 @@ private fun createFlEvent2_6(eventRecord: EventRecord): FlEvent2_6 {
 
     val fl39Court = createFl39Court(eventRecord.idEvent)
 
-    return FlEvent2_6(eventRecord.orderNum.toInt(), eventRecord.dateEvent.date,
+    return FlEvent2_6(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl39Court)
 }
 
@@ -364,7 +403,7 @@ private fun createFl39Court(idEvent: Long): Fl39Court {
     return when(fl.isExistsDisputeOrAct) {
         0 -> Fl39Court( false)
         1 -> Fl39Court( true)
-        else -> Fl39Court(fl.date?.date,fl.num, fl.actResolutionCode, fl.isActStarted,
+        else -> Fl39Court(fl.date,fl.num, fl.actResolutionCode, fl.isActStarted,
             fl.lawsuitCode, fl.sumTotal, fl.info)
     }
 }
@@ -373,15 +412,15 @@ private fun createFl38ContractEnd(idEvent: Long): Fl38ContractEnd {
 
     val data = AfinaQuery.selectCursor(SEL_FL_38, params = arrayOf(idEvent))[0]
 
-    return Fl38ContractEnd((data[0] as Timestamp).date, (data[0] as Number).toInt())
+    return Fl38ContractEnd((data[0] as Timestamp), (data[1] as Number).toInt())
 }
 
-private fun createFl36ProvisionPayment(): Fl36ProvisionPayment? {
-    return null
+private fun createFl36ProvisionPayment(): Fl36ProvisionPayment {
+    return Fl36ProvisionPayment()
 }
 
-private fun createFl34Guarantee(): Fl34Guarantee? {
-    return null
+private fun createFl34Guarantee(): Fl34Guarantee {
+    return Fl34Guarantee()
 }
 
 private fun createFl33Warranty(idEvent: Long): Fl33Warranty {
@@ -396,7 +435,7 @@ private fun createFl33Warranty(idEvent: Long): Fl33Warranty {
         val fl = Fl33(rec)
 
         listGroup +=
-            UidGroupFl33Warranty(fl.uid, fl.sum, fl.openDate?.date, fl.endDate?.date, fl.factEndDate?.date, fl.endCode)
+            UidGroupFl33Warranty(fl.uid, fl.sum, fl.openDate, fl.endDate, fl.factEndDate, fl.endCode)
     }
 
     return Fl33Warranty(listGroup)
@@ -414,11 +453,11 @@ private fun createFl32_35Group(idEvent: Long): Fl32_35Group {
         val fl = Fl3235Group(rec)
 
         val sumGroupFl3235GroupList = if(fl.sum == null) null
-                                        else listOf(SumGroupFl32_35Group(fl.sum, fl.assessDate?.date, fl.priceCode))
+                                        else listOf(SumGroupFl32_35Group(fl.sum, fl.assessDate, fl.priceCode))
 
-        val fl32Collateral = Fl32Collateral(fl.code, fl.date.date, sumGroupFl3235GroupList,
-            fl.collateralEndDate?.date, fl.collateralFactEndDate?.date, fl.endReason, fl.contractTotalSum,
-            fl.contractCount, fl.okato, fl.actualCost, fl.calcDate?.date
+        val fl32Collateral = Fl32Collateral(fl.code, fl.date, sumGroupFl3235GroupList,
+            fl.collateralEndDate, fl.collateralFactEndDate, fl.endReason, fl.contractTotalSum,
+            fl.contractCount, fl.okato, fl.actualCost, fl.calcDate
         )
 
         val insureList = if(fl.isExistsInsure) insureByCollateral(fl.idCollateral, idEvent) else listOf(Fl35Insurance())
@@ -440,7 +479,7 @@ private fun insureByCollateral(idCollateral: Number, idEvent: Long): List<Fl35In
     for(rec in data) {
         val fl = FlInsure(rec)
 
-        listGroup += Fl35Insurance(fl.startDate?.date, fl.insuranceEndDate?.date, fl.insuranceFactEndDate?.date, fl.endCode)
+        listGroup += Fl35Insurance(fl.startDate, fl.insuranceEndDate, fl.insuranceFactEndDate, fl.endCode)
     }
 
     return listGroup
@@ -452,7 +491,7 @@ private fun createFl24Fund(idEvent: Long): Fl24Fund {
 
     val fl = Fl24(data[0])
 
-    return Fl24Fund(fl.date?.date, fl.num, fl.startSum)
+    return Fl24Fund(fl.date, fl.num, fl.startSum)
 }
 
 private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
@@ -466,21 +505,21 @@ private fun createFl25_26_27_28Group(idEvent: Long): Fl25_26_27_28Group {
 
     val fl26DebtDue = if(fl.debtDueSum == null || Math.round(fl.debtDueSum.toDouble()*100) == 0L) Fl26DebtDue()
                         else Fl26DebtDue(fl.debtDueSum, fl.debtDueMainSum, fl.debtDuePercentSum, fl.debtDueOtherSum,
-                            fl.debtDueStartDate?.date)
+                            fl.debtDueStartDate)
 
     val fl27DebtOverdue = if(fl.debtOverdueSum == null || Math.round(fl.debtOverdueSum.toDouble()*100) == 0L) Fl27DebtOverdue()
                             else Fl27DebtOverdue(fl.debtOverdueSum, fl.debtOverdueMainSum, fl.debtOverduePercentSum,
-                                fl.debtOverdueOtherSum, fl.debtOverdueStartDate?.date, fl.mainMissDate?.date,
-                                fl.percentMissDate?.date, fl.missDuration, fl.repaidMissDuration)
+                                fl.debtOverdueOtherSum, fl.debtOverdueStartDate, fl.mainMissDate,
+                                fl.percentMissDate, fl.missDuration, fl.repaidMissDuration)
 
     val fl28Payment = if(fl.paymentSum == null || Math.round(fl.paymentSum.toDouble()*100) == 0L)
                         Fl28Payment(fl.sizeCode, fl.scheduleCode)
                         else Fl28Payment(fl.paymentSum, fl.paymentMainSum, fl.paymentPercentSum, fl.paymentOtherSum,
                             fl.totalSum, fl.totalMainSum, fl.totalPercentSum, fl.totalOtherSum,
-                            fl.date?.date, fl.sizeCode, fl.scheduleCode, fl.lastMissPaySum,
+                            fl.date, fl.sizeCode, fl.scheduleCode, fl.lastMissPaySum,
                             fl.paySum24)
 
-    return Fl25_26_27_28Group(fl.isLastPayExist, fl.calcDate.date, fl25Debt, fl26DebtDue, fl27DebtOverdue, fl28Payment)
+    return Fl25_26_27_28Group(fl.isLastPayExist, fl.calcDate, fl25Debt, fl26DebtDue, fl27DebtOverdue, fl28Payment)
 }
 
 private fun createFl23_1ContractTermsChanges(idEvent: Long): Fl23_1ContractTermsChanges {
@@ -490,7 +529,7 @@ private fun createFl23_1ContractTermsChanges(idEvent: Long): Fl23_1ContractTerms
     val fl = Fl231(data[0])
 
     return if(fl.termsChangeCode == null) Fl23_1ContractTermsChanges()
-    else Fl23_1ContractTermsChanges(fl.termsChangeCode, fl.termsChangeDesc, fl.changingDate?.date)
+    else Fl23_1ContractTermsChanges(fl.termsChangeCode, fl.termsChangeDesc, fl.changingDate)
 }
 
 private fun createFl23ContractChanges(idEvent: Long): Fl23ContractChanges {
@@ -500,8 +539,8 @@ private fun createFl23ContractChanges(idEvent: Long): Fl23ContractChanges {
     val fl = Fl23(data[0])
 
     return if(fl.code == null) Fl23ContractChanges()
-          else Fl23ContractChanges(fl.changeDate?.date, fl.code, fl.specialCode, fl.otherDesc,
-            fl.startDate?.date, fl.endDate?.date, fl.actualEndDate?.date, fl.endCode)
+          else Fl23ContractChanges(fl.changeDate, fl.code, fl.specialCode, fl.otherDesc,
+            fl.startDate, fl.endDate, fl.actualEndDate, fl.endCode)
 }
 
 private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
@@ -511,7 +550,7 @@ private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
     val fl = Fl29(data[0])
 
     return if(fl.sum == null) null
-            else Fl29MonthlyPayment(fl.sum, fl.calcDate?.date, fl.sumTotal)
+            else Fl29MonthlyPayment(fl.sum, fl.calcDate, fl.sumTotal)
 }
 
 private fun createFl56Participation(idEvent: Long): Fl56Participation {
@@ -520,7 +559,7 @@ private fun createFl56Participation(idEvent: Long): Fl56Participation {
 
     val fl = Fl56(data[0])
 
-    return Fl56Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate?.date, fl.isOverdue90, fl.isStop)
+    return Fl56Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate, fl.isOverdue90, fl.isStop)
 }
 
 private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
@@ -529,7 +568,7 @@ private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
 
     val fl = Fl54(data[0])
 
-    return Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate?.date)
+    return Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate)
 }
 
 private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost {
@@ -539,7 +578,7 @@ private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost {
     val fl = Fl22(data[0])
 
     return if(fl.calcDate == null) Fl22TotalCost()
-    else Fl22TotalCost(fl.minPercentCost, fl.minCost, fl.calcDate.date, fl.maxPercentCost, fl.maxCost)
+    else Fl22TotalCost(fl.minPercentCost, fl.minCost, fl.calcDate, fl.maxPercentCost, fl.maxCost)
 }
 
 private fun createFl20JointDebtors(idEvent: Long): Fl20JointDebtors {
@@ -557,8 +596,8 @@ private fun createFl21PaymentTerms(idEvent: Long): Fl21PaymentTerms {
     val fl = Fl21(data[0])
 
     return if(fl.mainPaySum == null) Fl21PaymentTerms()
-    else Fl21PaymentTerms(fl.mainPaySum, fl.mainPayDate?.date, fl.percentPaySum,
-        fl.percentPayDate?.date, fl.freqCode, fl.percentEndDate?.date)
+    else Fl21PaymentTerms(fl.mainPaySum, fl.mainPayDate, fl.percentPaySum,
+        fl.percentPayDate, fl.freqCode, fl.percentEndDate)
 }
 
 private fun createFl19_1AmountInfo(idEvent: Long): Fl19_1AmountInfo {
@@ -568,14 +607,14 @@ private fun createFl19_1AmountInfo(idEvent: Long): Fl19_1AmountInfo {
     val fl = Fl19(data[0])
 
     return if(fl.securityTypeCode == null) Fl19_1AmountInfo()
-           else Fl19_1AmountInfo(fl.securitySum, fl.securityTypeCode, fl.calcDate?.date, fl.securityUid, fl.liabilityLimit)
+           else Fl19_1AmountInfo(fl.securitySum, fl.securityTypeCode, fl.calcDate, fl.securityUid, fl.liabilityLimit)
 }
 
 private fun createFl19Amount(idEvent: Long): Fl19Amount {
 
     val data = AfinaQuery.selectCursor(SEL_FL_19, params = arrayOf(idEvent))[0]
 
-    return Fl19Amount(data[0] as Number, (data[1] as Timestamp).date)
+    return Fl19Amount(data[0] as Number, (data[1] as Timestamp))
 }
 
 private fun createFl18Deal(idEvent: Long): Fl18Deal {
@@ -584,8 +623,8 @@ private fun createFl18Deal(idEvent: Long): Fl18Deal {
 
     val fl = Fl18(data[0])
 
-    return Fl18Deal(fl.role, fl.code, fl.kindCode, fl.purposeCode, fl.isConsumer, fl.endDate?.date,
-        fl.creditLineCode, fl.startDate.date, fl.isRepaymentFact)
+    return Fl18Deal(fl.role, fl.code, fl.kindCode, fl.purposeCode, fl.isConsumer, fl.endDate,
+        fl.creditLineCode, fl.startDate, fl.isRepaymentFact)
 }
 
 private fun createFl17DealUid(idEvent: Long): Fl17DealUid {
@@ -594,7 +633,7 @@ private fun createFl17DealUid(idEvent: Long): Fl17DealUid {
 
     val fl = Fl17(data[0])
 
-    return Fl17DealUid(fl.uid, fl.num, fl.refUid, fl.openDate.date)
+    return Fl17DealUid(fl.uid, fl.num, fl.refUid, fl.openDate)
 }
 
 private fun createFl11IndividualEntrepreneur(client: Long): Fl11IndividualEntrepreneur {
@@ -603,7 +642,7 @@ private fun createFl11IndividualEntrepreneur(client: Long): Fl11IndividualEntrep
 
     val ogrn = (data[0] as? String) ?: return Fl11IndividualEntrepreneur()
 
-    return Fl11IndividualEntrepreneur(ogrn, (data[1] as Timestamp).date)
+    return Fl11IndividualEntrepreneur(ogrn, (data[1] as Timestamp))
 }
 
 private fun createFl10Contact(client: Long): Fl10Contact {
@@ -648,8 +687,8 @@ private fun createFl55Application(idEvent: Long): Pair<String?, Fl55Application>
     val fl55 = Fl55(data[0])
 
     return Pair(fl55.operationCode,
-        Fl55Application(fl55.role, fl55.sum, fl55.uid, fl55.applicationDate.date, fl55.approvalEndDate?.date,
-        fl55.stageEndDate?.date, fl55.purposeCode, fl55.stageCode, fl55.stageDate.date, fl55.num, fl55.loanSum))
+        Fl55Application(fl55.role, fl55.sum, fl55.uid, fl55.applicationDate, fl55.approvalEndDate,
+        fl55.stageEndDate, fl55.purposeCode, fl55.stageCode, fl55.stageDate, fl55.num, fl55.loanSum))
 }
 
 private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: Long): Fl29_1DebtBurdenInfo? {
@@ -659,7 +698,7 @@ private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: 
     val fl291 = Fl291(data[0])
 
     return if(fl291.loadRange == null) null else
-        Fl29_1DebtBurdenInfo(fl291.loadRange, fl291.loadCalcDate?.date, fl291.incomeInfo, fl291.incomeInfoSource,
+        Fl29_1DebtBurdenInfo(fl291.loadRange, fl291.loadCalcDate, fl291.incomeInfo, fl291.incomeInfoSource,
             fl291.isLoadFact, fl291.isLoadCalculationFact, fl291.dealUID)
 }
 
@@ -667,7 +706,7 @@ private fun createFl57(loan: Long): Fl57Reject {
 
     val data = AfinaQuery.selectCursor(SEL_FL_57, params = arrayOf(loan))[0]
 
-    return Fl57Reject((data[0] as Timestamp).date, (data[1] as Number).toInt())
+    return Fl57Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }
 
 private data class Fl39(
@@ -746,7 +785,7 @@ private data class Fl3235Group(
                 sum = (rec[12] as? Number),
                 assessDate = (rec[13] as? Timestamp),
                 priceCode = (rec[14] as? Number)?.toInt(),
-                isExistsInsure = ( (rec[15] != null) && ((rec[16] as Number).toInt() != 0))
+                isExistsInsure = ( (rec[15] != null) && ((rec[15] as Number).toInt() != 0))
             )
 }
 
@@ -1166,7 +1205,7 @@ private data class TitlePhysic(
                 prevIssueDate = rec[18] as? Timestamp,
                 prevDocIssuer = rec[19] as? String,
                 prevDeptCode = rec[20] as? String,
-                inn = rec[21] as String,
+                inn = rec[21] as? String,
                 ogrn = rec[22] as? String,
                 isSpecialMode = (rec[23] as Number).toInt() != 0,
                 snils = rec[24] as? String

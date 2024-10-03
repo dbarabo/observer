@@ -41,8 +41,8 @@ public class Ul17_18_19_20Group {
     public Ul17_18_19_20Group(Boolean isLastPayExist, Date calcDate, Ul17Debt ul17Debt,
                               Ul18DebtDue ul18DebtDue, Ul19DebtOverdue ul19DebtOverdue, Ul20Payment ul20Payment) {
 
-        this.lastPayExist0 = (!isLastPayExist) ? new StringElement("") : null;
-        this.lastPayExist1 = isLastPayExist ? new StringElement("") : null;
+        this.lastPayExist0 = (isLastPayExist != null && !isLastPayExist) ? new StringElement("") : null;
+        this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
 

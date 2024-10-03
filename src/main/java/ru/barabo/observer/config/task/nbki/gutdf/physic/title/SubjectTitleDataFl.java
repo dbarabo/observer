@@ -8,7 +8,7 @@ public class SubjectTitleDataFl {
     @XStreamAlias("FL_1_4_Group")
     private final Fl1_4Group fl1_4Group;
 
-    @XStreamAlias("Fl2_5Group")
+    @XStreamAlias("FL_2_5_Group")
     private final Fl2_5Group fl2_5Group;
 
     @XStreamAlias("FL_3_Birth")

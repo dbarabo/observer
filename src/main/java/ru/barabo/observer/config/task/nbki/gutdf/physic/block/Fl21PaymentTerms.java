@@ -54,10 +54,10 @@ public class Fl21PaymentTerms {
                             Integer freqCode, Date percentEndDate) {
 
         this.mainPaySum = new StringElement(XmlLoader.formatSum(mainPaySum));
-        this.mainPayDate = new StringElement(XmlLoader.formatDate(mainPayDate));
+        this.mainPayDate = mainPayDate == null ? null : new StringElement(XmlLoader.formatDate(mainPayDate));
         this.percentPaySum = new StringElement(XmlLoader.formatSum(percentPaySum));
-        this.percentPayDate = new StringElement(XmlLoader.formatDate(percentPayDate));
-        this.freqCode = new StringElement(freqCode.toString());
+        this.percentPayDate = percentPayDate == null ? null :  new StringElement(XmlLoader.formatDate(percentPayDate));
+        this.freqCode = freqCode == null ? null : new StringElement(freqCode.toString());
         this.minCardPay = null;
         this.graceDate = null;
         this.graceEndDate = null;

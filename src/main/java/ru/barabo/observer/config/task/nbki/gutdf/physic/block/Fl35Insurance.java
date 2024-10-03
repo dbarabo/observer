@@ -60,6 +60,6 @@ public class Fl35Insurance {
 
         this.insuranceFactEndDate = insuranceFactEndDate == null ? null : new StringElement(XmlLoader.formatDate(insuranceEndDate));
 
-        this.endCode = endCode == null ? null : new StringElement(endCode.toString());
+        this.endCode = insuranceFactEndDate == null ? null : new StringElement(endCode.toString());
     }
 }

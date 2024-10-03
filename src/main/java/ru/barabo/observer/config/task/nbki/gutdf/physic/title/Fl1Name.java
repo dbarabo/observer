@@ -12,7 +12,7 @@ public class Fl1Name {
     @XStreamAlias("firstName")
     private final StringElement firstName;
 
-    @XStreamAlias("lastName")
+    @XStreamAlias("middleName")
     private final StringElement middleName;
 
     public Fl1Name(String lastName, String firstName, String middleName) {

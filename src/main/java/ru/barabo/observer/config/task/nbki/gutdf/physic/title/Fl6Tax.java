@@ -6,7 +6,7 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 @XStreamAlias("FL_6_Tax")
 public class Fl6Tax {
 
-    @XStreamAlias("taxNum_group")
+    @XStreamAlias("TaxNum_group_FL_6_Tax")
     private final TaxNumGroup taxNumGroup;
 
     @XStreamAlias("regNum")
@@ -20,7 +20,7 @@ public class Fl6Tax {
 
     public Fl6Tax(String inn, String ogrn, Boolean isSpecialMode) {
 
-        taxNumGroup = new TaxNumGroup(inn);
+        taxNumGroup = inn == null ? null : new TaxNumGroup(inn);
 
         regNum = ogrn == null ? null : new StringElement(ogrn);
 

@@ -71,6 +71,6 @@ public class Fl32Collateral {
 
         this.actualCost = actualCost == null ? null : new StringElement(XmlLoader.formatSum(actualCost));
 
-        this.calcDate = calcDate == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
+        this.calcDate = actualCost == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
     }
 }
