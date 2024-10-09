@@ -46,13 +46,13 @@ public class Fl8AddrReg {
 
         this.code = new StringElement(code == null ? "1" : code.toString());
 
-        this.postCode = new StringElement(postCode);
+        this.postCode = postCode == null || postCode.isEmpty() ? null : new StringElement(postCode);
 
         this.countryCode = new StringElement("643");
 
         this.regStateNum = regStateNum == null ? null : new StringElement(regStateNum);
 
-        this.okato = new StringElement(okato);
+        this.okato = okato == null || okato.isEmpty() ? null : new StringElement(okato);
 
         this.street = street == null ? null : new StringElement(street);
 

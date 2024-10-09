@@ -48,6 +48,7 @@ import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.*
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutDfCreator
+import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.errorFolder
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
@@ -747,8 +748,6 @@ res3 = [calc.DEC_TEST];
         validateXml(xmlFile, xsd, ::errorFolder )
     }
 
-    private fun errorFolder(): File = Cmd.createFolder("C:/temp2/err")
-
 
     //@Test
     fun execObi() {
@@ -1374,7 +1373,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/10/01/UNCRYPTO/K301BB000001_20241001_100436_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/10/08/UNCRYPTO/K301BB000001_20241008_113501_reject") )
     }
 
     //@Test
@@ -1398,13 +1397,25 @@ res3 = [calc.DEC_TEST];
         Extract407pByRfm.execute(elem)
     }
 
-    @Test
+    //@Test
     fun testGutDfCreator() {
 
-        val file = GutDfCreator.createFileByRutdf(1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
+        GutDfCreator.createPullTest(LocalDate.of(2024, 8, 17), LocalDate.of(2024, 9, 1))
 
-        logger.error("file=$file")
+        //val file = GutDfCreator.createFileByRutdf(1318366350L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
+
+        //logger.error("file=$file")
     }
+
+    //@Test
+    fun testXsdSchema() {
+
+        val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240816_110759.xml")
+
+        validateXml(file, "/xsd//gutdf/Main.xsd", ::errorFolder )
+    }
+
+
 }
 
-fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")
+//fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")

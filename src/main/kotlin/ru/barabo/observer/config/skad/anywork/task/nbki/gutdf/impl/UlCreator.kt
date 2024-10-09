@@ -196,8 +196,6 @@ private fun createEvent2_2_1(eventRecord: EventRecord): UlEvent2_2_1 {
 
     val ul14PaymentTerms = createUl14PaymentTerms(eventRecord.idEvent)
 
-    val ul17181920Group = createUl17181920Group(eventRecord.idEvent)
-
     val ul16Fund = createUl16Fund(eventRecord.idEvent)
 
     val ul44Accounting = createUl44Accounting(eventRecord.idEvent)
@@ -205,7 +203,7 @@ private fun createEvent2_2_1(eventRecord: EventRecord): UlEvent2_2_1 {
     val ul46Participation = createUl46Participation(eventRecord.idEvent)
 
     return UlEvent2_2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul11Deal, ul12Amount,
-        listOf(ul121AmountInfo), ul14PaymentTerms, ul17181920Group, ul16Fund,
+        listOf(ul121AmountInfo), ul14PaymentTerms, ul16Fund,
         ul44Accounting, ul46Participation)
 }
 

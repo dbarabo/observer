@@ -7,16 +7,29 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.afina.selectValueType
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
+import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl.GutdfDataFromRutdf
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
 import java.io.File
+import java.time.LocalDate
 
 object GutDfCreator {
 
     private val logger = LoggerFactory.getLogger(GutDfCreator::class.java)
+
+    fun createPullTest(from: LocalDate, to: LocalDate) {
+
+        val list = AfinaQuery.select(TEST_SEL_RUTDF_LIST, params = arrayOf(from.toTimestamp(), to.toTimestamp()))
+
+        for(element in list) {
+            logger.error("file=${element[1]}")
+
+            createFileByRutdf((element[0] as Number).toLong())
+        }
+    }
 
     fun createFileByRutdf(idRutdf: Long?): File {
 
@@ -95,7 +108,7 @@ object GutDfCreator {
 
 private fun folderGutDfToday() = "$folderReport/${Get440pFiles.todayFolder()}".byFolderExists()
 
-private fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
+fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
 
 private val folderReport = "H:/Gu_cb/НБКИ/test".ifTest("C:/Gu_cb/НБКИ/test")
 
@@ -109,3 +122,6 @@ private const val FILL_DATA_RUTDF = "{ call od.PTKB_RUTDF.prepareProcessEvents( 
 
 private const val IS_EXISTS_DATA =
     "select count(*) from dual where exists (select 1 from od.ptkb_rutdf_main where RUTDF_FILE = ?)"
+
+private const val TEST_SEL_RUTDF_LIST =
+    "select f.id, f.file_name from od.ptkb_rutdf_file f where f.date_file >= ? and f.date_file < ? order by 2"

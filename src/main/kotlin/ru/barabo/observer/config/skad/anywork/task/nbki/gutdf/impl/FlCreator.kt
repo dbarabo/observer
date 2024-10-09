@@ -1055,9 +1055,9 @@ private data class Fl17(
 
 private data class Fl8(
     val code: Int?,
-    val postCode: String,
+    val postCode: String?,
     val regStateNum: String?,
-    val okato: String,
+    val okato: String?,
     val street: String?,
     val house: String?,
     val estate: String?,
@@ -1067,9 +1067,9 @@ private data class Fl8(
 ) {
     constructor(rec: Array<Any?>) :
             this(code = (rec[0] as? Number)?.toInt(),
-                postCode = (rec[1] as String),
+                postCode = (rec[1] as? String),
                 regStateNum = (rec[2] as? String),
-                okato = (rec[3] as String),
+                okato = (rec[3] as? String),
                 street = (rec[4] as? String),
                 house = (rec[5] as? String),
                 estate = (rec[6] as? String),
