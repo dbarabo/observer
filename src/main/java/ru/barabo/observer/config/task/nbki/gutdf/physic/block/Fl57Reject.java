@@ -20,4 +20,12 @@ public class Fl57Reject {
 
         this.rejectCode = new StringElement(rejectCode.toString());
     }
+
+    public StringElement getRejectDate() {
+        return rejectDate;
+    }
+
+    public StringElement getRejectCode() {
+        return rejectCode;
+    }
 }

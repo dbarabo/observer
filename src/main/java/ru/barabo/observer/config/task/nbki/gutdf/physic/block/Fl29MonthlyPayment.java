@@ -28,4 +28,16 @@ public class Fl29MonthlyPayment {
 
         this.sumTotal = sumTotal == null ? null : new StringElement(XmlLoader.formatSum(sumTotal));
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
+
+    public StringElement getSumTotal() {
+        return sumTotal;
+    }
 }

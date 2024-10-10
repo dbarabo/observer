@@ -76,4 +76,28 @@ public class Fl5PrevDoc {
 
         this.deptCode = deptCode == null ? null : new StringElement(deptCode);
     }
+
+    public StringElement getDocCode() {
+        return docCode;
+    }
+
+    public StringElement getDocSeries() {
+        return docSeries;
+    }
+
+    public StringElement getDocNum() {
+        return docNum;
+    }
+
+    public StringElement getIssueDate() {
+        return issueDate;
+    }
+
+    public StringElement getDocIssuer() {
+        return docIssuer;
+    }
+
+    public StringElement getDeptCode() {
+        return deptCode;
+    }
 }

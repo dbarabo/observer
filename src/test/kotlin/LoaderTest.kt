@@ -1397,10 +1397,10 @@ res3 = [calc.DEC_TEST];
         Extract407pByRfm.execute(elem)
     }
 
-    //@Test
+    @Test
     fun testGutDfCreator() {
 
-        GutDfCreator.createPullTest(LocalDate.of(2024, 8, 17), LocalDate.of(2024, 9, 1))
+        GutDfCreator.createPullTest(LocalDate.of(2024, 7, 1), LocalDate.of(2024, 8, 1))
 
         //val file = GutDfCreator.createFileByRutdf(1318366350L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
 

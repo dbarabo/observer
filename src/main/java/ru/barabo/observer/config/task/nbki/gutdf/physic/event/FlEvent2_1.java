@@ -79,4 +79,58 @@ public class FlEvent2_1 extends AbstractEventData  {
         fl23_1ContractTermsChanges = fl231ContractTermsChanges;
         this.fl54Accounting = fl54Accounting;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.1";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl17DealUid.getUid().value;
+    }
+
+    public Fl17DealUid getFl17DealUid() {
+        return fl17DealUid;
+    }
+
+    public Fl18Deal getFl18Deal() {
+        return fl18Deal;
+    }
+
+    public Fl19Amount getFl19Amount() {
+        return fl19Amount;
+    }
+
+    public List<Fl19_1AmountInfo> getFl19_1AmountInfoList() {
+        return fl19_1AmountInfoList;
+    }
+
+    public Fl21PaymentTerms getFl21PaymentTerms() {
+        return fl21PaymentTerms;
+    }
+
+    public Fl22TotalCost getFl22TotalCost() {
+        return fl22TotalCost;
+    }
+
+    public Fl25_26_27_28Group getFl25_26_27_28Group() {
+        return fl25_26_27_28Group;
+    }
+
+    public Fl29MonthlyPayment getFl29MonthlyPayment() {
+        return fl29MonthlyPayment;
+    }
+
+    public Fl23ContractChanges getFl23ContractChanges() {
+        return fl23ContractChanges;
+    }
+
+    public Fl23_1ContractTermsChanges getFl23_1ContractTermsChanges() {
+        return fl23_1ContractTermsChanges;
+    }
+
+    public Fl54Accounting getFl54Accounting() {
+        return fl54Accounting;
+    }
 }

@@ -328,7 +328,7 @@ where f.state = 1
 order by f.date_file
 """
 
-private const val SELECT_FILES_BY_NAME = """
+const val SELECT_FILES_BY_NAME = """
 select f.id, f.file_name
 from od.ptkb_rutdf_file f
 where f.file_name = ?

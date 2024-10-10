@@ -71,6 +71,62 @@ public class SubjectEventDataFL {
         this.flEvent2_6List = null;
     }
 
+    public List<FlEvent1_1> getFlEvent1_1List() {
+        return flEvent1_1List;
+    }
+
+    public List<FlEvent1_2> getFlEvent1_2List() {
+        return flEvent1_2List;
+    }
+
+    public List<FlEvent1_3> getFlEvent1_3List() {
+        return flEvent1_3List;
+    }
+
+    public List<FlEvent1_4> getFlEvent1_4List() {
+        return flEvent1_4List;
+    }
+
+    public List<FlEvent1_7> getFlEvent1_7List() {
+        return flEvent1_7List;
+    }
+
+    public List<FlEvent1_9> getFlEvent1_9List() {
+        return flEvent1_9List;
+    }
+
+    public List<FlEvent1_12> getFlEvent1_12List() {
+        return flEvent1_12List;
+    }
+
+    public List<FlEvent2_1> getFlEvent2_1List() {
+        return flEvent2_1List;
+    }
+
+    public List<FlEvent2_2> getFlEvent2_2List() {
+        return flEvent2_2List;
+    }
+
+    public List<FlEvent2_2_1> getFlEvent2_2_1List() {
+        return flEvent2_2_1List;
+    }
+
+    public List<FlEvent2_3> getFlEvent2_3List() {
+        return flEvent2_3List;
+    }
+
+    public List<FlEvent2_4> getFlEvent2_4List() {
+        return flEvent2_4List;
+    }
+
+    public List<FlEvent2_5> getFlEvent2_5List() {
+        return flEvent2_5List;
+    }
+
+    public List<FlEvent2_6> getFlEvent2_6List() {
+        return flEvent2_6List;
+    }
+
     public void addEvent1_1(@NotNull FlEvent1_1 event1_1) {
 
         if(flEvent1_1List == null) {

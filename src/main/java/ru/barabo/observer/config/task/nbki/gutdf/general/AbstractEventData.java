@@ -5,7 +5,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 
-public class AbstractEventData {
+public abstract class AbstractEventData {
 
     @XStreamAlias("orderNum")
     final Integer orderNum;
@@ -19,4 +19,12 @@ public class AbstractEventData {
 
         this.eventDate = XmlLoader.formatDate(eventDate);
     }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    abstract public String getEvent();
+
+    abstract public String getUnicalId();
 }

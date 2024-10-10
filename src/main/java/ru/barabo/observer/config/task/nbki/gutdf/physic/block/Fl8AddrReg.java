@@ -68,4 +68,44 @@ public class Fl8AddrReg {
 
         this.date = new StringElement("-");
     }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getPostCode() {
+        return postCode;
+    }
+
+    public StringElement getRegStateNum() {
+        return regStateNum;
+    }
+
+    public StringElement getOkato() {
+        return okato;
+    }
+
+    public StringElement getStreet() {
+        return street;
+    }
+
+    public StringElement getHouse() {
+        return house;
+    }
+
+    public StringElement getEstate() {
+        return estate;
+    }
+
+    public StringElement getBlock() {
+        return block;
+    }
+
+    public StringElement getBuild() {
+        return build;
+    }
+
+    public StringElement getApart() {
+        return apart;
+    }
 }

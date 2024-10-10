@@ -23,4 +23,12 @@ public class Data {
 
         subjectUlList = gutdfData.subjectUlList();
     }
+
+    public List<SubjectFl> getSubjectFlList() {
+        return subjectFlList;
+    }
+
+    public List<SubjectUl> getSubjectUlList() {
+        return subjectUlList;
+    }
 }

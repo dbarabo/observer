@@ -19,4 +19,18 @@ public class FlEvent1_1 extends AbstractEventData {
 
         this.fl55Application = fl55Application;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.1";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl55Application.getUid().value;
+    }
+
+    public Fl55Application getFl55Application() {
+        return fl55Application;
+    }
 }

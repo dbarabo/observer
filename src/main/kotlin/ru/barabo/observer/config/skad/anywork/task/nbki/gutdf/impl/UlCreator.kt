@@ -94,7 +94,7 @@ private fun createEvent1_3(eventRecord: EventRecord): UlEvent1_3 {
 
     val (ul45Application, _) = createUl45Application(eventRecord.idEvent)
 
-    val ul47Reject = createUl47Reject(eventRecord.loan)
+    val ul47Reject = createUl47Reject(eventRecord.idEvent)
 
     return UlEvent1_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul45Application, ul47Reject)
 }
@@ -502,9 +502,9 @@ private fun createUl10DealUid(idEvent: Long): Ul10DealUid {
     return Ul10DealUid(ul.uid, ul.num, ul.refUid, ul.openDate)
 }
 
-private fun createUl47Reject(loan: Long): Ul47Reject {
+private fun createUl47Reject(idEvent: Long): Ul47Reject {
 
-    val data = AfinaQuery.selectCursor(SEL_UL_47, params = arrayOf(loan))[0]
+    val data = AfinaQuery.selectCursor(SEL_UL_47, params = arrayOf(idEvent))[0]
 
     return Ul47Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }

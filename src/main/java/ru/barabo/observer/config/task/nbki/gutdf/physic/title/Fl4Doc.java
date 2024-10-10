@@ -50,4 +50,32 @@ public class Fl4Doc {
 
         this.foreignerCode = new StringElement(foreignerCode);
     }
+
+    public StringElement getDocCode() {
+        return docCode;
+    }
+
+    public StringElement getDocSeries() {
+        return docSeries;
+    }
+
+    public StringElement getDocNum() {
+        return docNum;
+    }
+
+    public StringElement getIssueDate() {
+        return issueDate;
+    }
+
+    public StringElement getDocIssuer() {
+        return docIssuer;
+    }
+
+    public StringElement getDeptCode() {
+        return deptCode;
+    }
+
+    public StringElement getForeignerCode() {
+        return foreignerCode;
+    }
 }

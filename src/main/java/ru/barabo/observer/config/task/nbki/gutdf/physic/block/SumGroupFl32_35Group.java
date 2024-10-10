@@ -33,4 +33,16 @@ public class SumGroupFl32_35Group {
 
         this.priceCode = new StringElement(priceCode.toString());
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getAssessDate() {
+        return assessDate;
+    }
+
+    public StringElement getPriceCode() {
+        return priceCode;
+    }
 }

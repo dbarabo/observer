@@ -23,4 +23,16 @@ public class Fl1Name {
 
         this.middleName = middleName == null ? null : new StringElement(middleName);
     }
+
+    public StringElement getLastName() {
+        return lastName;
+    }
+
+    public StringElement getFirstName() {
+        return firstName;
+    }
+
+    public StringElement getMiddleName() {
+        return middleName;
+    }
 }

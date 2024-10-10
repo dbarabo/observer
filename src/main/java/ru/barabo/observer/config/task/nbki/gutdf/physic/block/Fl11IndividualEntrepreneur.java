@@ -33,4 +33,12 @@ public class Fl11IndividualEntrepreneur {
         this.regNum = new StringElement(regNum);
         this.date = new StringElement(XmlLoader.formatDate(date));
     }
+
+    public StringElement getRegNum() {
+        return regNum;
+    }
+
+    public StringElement getDate() {
+        return date;
+    }
 }

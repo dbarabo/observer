@@ -83,4 +83,40 @@ public class Fl27DebtOverdue {
 
         this.repaidMissDuration = repaidMissDuration == null ? null : new StringElement(repaidMissDuration.toString());
     }
+
+    public StringElement getDebtOverdueSum() {
+        return debtOverdueSum;
+    }
+
+    public StringElement getDebtOverdueMainSum() {
+        return debtOverdueMainSum;
+    }
+
+    public StringElement getDebtOverduePercentSum() {
+        return debtOverduePercentSum;
+    }
+
+    public StringElement getDebtOverdueOtherSum() {
+        return debtOverdueOtherSum;
+    }
+
+    public StringElement getDebtOverdueStartDate() {
+        return debtOverdueStartDate;
+    }
+
+    public StringElement getMainMissDate() {
+        return mainMissDate;
+    }
+
+    public StringElement getPercentMissDate() {
+        return percentMissDate;
+    }
+
+    public StringElement getMissDuration() {
+        return missDuration;
+    }
+
+    public StringElement getRepaidMissDuration() {
+        return repaidMissDuration;
+    }
 }

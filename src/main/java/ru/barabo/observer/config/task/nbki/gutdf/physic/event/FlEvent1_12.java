@@ -28,4 +28,14 @@ public class FlEvent1_12 extends AbstractEventData {
 
         this.fl14BankruptcyEnd = fl14BankruptcyEnd;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.12";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return null;
+    }
 }

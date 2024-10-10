@@ -14,4 +14,12 @@ public class Fl1_4Group {
         this.fio = fio;
         this.fl4Doc = fl4Doc;
     }
+
+    public Fl1Name getFio() {
+        return fio;
+    }
+
+    public Fl4Doc getFl4Doc() {
+        return fl4Doc;
+    }
 }

@@ -25,4 +25,12 @@ public class Fl19Amount {
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
 }

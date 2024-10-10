@@ -33,4 +33,8 @@ public class Fl33Warranty {
 
         this.uidGroupFl33WarrantyList = uidGroupFl33WarrantyList;
     }
+
+    public List<UidGroupFl33Warranty> getUidGroupFl33WarrantyList() {
+        return uidGroupFl33WarrantyList;
+    }
 }

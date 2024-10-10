@@ -56,4 +56,20 @@ public class Fl25Debt {
         this.graceUnconfExist0 = null;
         this.graceUnconfExist1 = null;
     }
+
+    public StringElement getDebtSum() {
+        return debtSum;
+    }
+
+    public StringElement getDebtMainSum() {
+        return debtMainSum;
+    }
+
+    public StringElement getDebtPercentSum() {
+        return debtPercentSum;
+    }
+
+    public StringElement getDebtOtherSum() {
+        return debtOtherSum;
+    }
 }

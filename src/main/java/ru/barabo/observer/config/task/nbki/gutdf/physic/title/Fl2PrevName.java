@@ -51,4 +51,16 @@ public class Fl2PrevName {
 
         date = null;
     }
+
+    public StringElement getLastName() {
+        return lastName;
+    }
+
+    public StringElement getFirstName() {
+        return firstName;
+    }
+
+    public StringElement getMiddleName() {
+        return middleName;
+    }
 }

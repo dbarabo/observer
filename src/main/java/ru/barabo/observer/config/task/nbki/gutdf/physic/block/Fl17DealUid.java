@@ -30,4 +30,20 @@ public class Fl17DealUid {
 
         this.openDate = new StringElement(openDate == null ? "-" : XmlLoader.formatDate(openDate));
     }
+
+    public StringElement getUid() {
+        return uid;
+    }
+
+    public StringElement getNum() {
+        return num;
+    }
+
+    public StringElement getRefUid() {
+        return refUid;
+    }
+
+    public StringElement getOpenDate() {
+        return openDate;
+    }
 }

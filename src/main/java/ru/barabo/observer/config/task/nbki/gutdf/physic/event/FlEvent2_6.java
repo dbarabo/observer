@@ -27,4 +27,14 @@ public class FlEvent2_6 extends AbstractEventData {
 
         this.fl39Court = fl39Court;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.6";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl17DealUid.getUid().value;
+    }
 }

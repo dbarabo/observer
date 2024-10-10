@@ -34,4 +34,21 @@ public class Fl6Tax {
             specialMode1 = null;
         }
     }
+
+    public String getTax() {
+
+        return taxNumGroup == null ? null : isOgrnExists() + taxNumGroup.getTaxNum().value;
+    }
+
+    private String isOgrnExists() {
+        return regNum == null || regNum.value.isEmpty() ? "0" : "1";
+    }
+
+    public TaxNumGroup getTaxNumGroup() {
+        return taxNumGroup;
+    }
+
+    public StringElement getRegNum() {
+        return regNum;
+    }
 }

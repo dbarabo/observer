@@ -2,10 +2,12 @@ package ru.barabo.observer.config.task.nbki.gutdf.physic.event;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.nbki.gutdf.general.AbstractEventData;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*;
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl10Contact;
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl11IndividualEntrepreneur;
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl8AddrReg;
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl9AddrFact;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Изменились сведения о субъекте в основной части кредитной истории, кроме сведений о дееспособности, банкротстве, индивидуальном рейтинге и кредитной оценке
@@ -38,5 +40,31 @@ public class FlEvent1_9 extends AbstractEventData {
         this.fl10Contact = fl10Contact;
 
         this.fl11IndividualEntrepreneur = fl11IndividualEntrepreneur;
+    }
+
+    @Override
+    public String getEvent() {
+        return "1.9";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return null;
+    }
+
+    public Fl8AddrReg getFl8AddrReg() {
+        return fl8AddrReg;
+    }
+
+    public Fl9AddrFact getFl9AddrFact() {
+        return fl9AddrFact;
+    }
+
+    public Fl10Contact getFl10Contact() {
+        return fl10Contact;
+    }
+
+    public Fl11IndividualEntrepreneur getFl11IndividualEntrepreneur() {
+        return fl11IndividualEntrepreneur;
     }
 }

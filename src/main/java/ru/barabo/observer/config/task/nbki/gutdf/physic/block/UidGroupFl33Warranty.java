@@ -48,4 +48,28 @@ public class UidGroupFl33Warranty {
 
         this.endCode = endCode == null ? null : new StringElement(endCode.toString());
     }
+
+    public StringElement getUid() {
+        return uid;
+    }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getOpenDate() {
+        return openDate;
+    }
+
+    public StringElement getEndDate() {
+        return endDate;
+    }
+
+    public StringElement getFactEndDate() {
+        return factEndDate;
+    }
+
+    public StringElement getEndCode() {
+        return endCode;
+    }
 }

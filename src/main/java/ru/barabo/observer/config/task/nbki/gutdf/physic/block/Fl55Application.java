@@ -82,4 +82,49 @@ public class Fl55Application {
 
         this.loanSum = loanSum == null ? null : new StringElement(XmlLoader.formatSum(loanSum));
     }
+
+
+    public StringElement getRole() {
+        return role;
+    }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getUid() {
+        return uid;
+    }
+
+    public StringElement getApplicationDate() {
+        return applicationDate;
+    }
+
+    public StringElement getApprovalEndDate() {
+        return approvalEndDate;
+    }
+
+    public StringElement getStageEndDate() {
+        return stageEndDate;
+    }
+
+    public StringElement getPurposeCode() {
+        return purposeCode;
+    }
+
+    public StringElement getStageCode() {
+        return stageCode;
+    }
+
+    public StringElement getStageDate() {
+        return stageDate;
+    }
+
+    public StringElement getNum() {
+        return num;
+    }
+
+    public StringElement getLoanSum() {
+        return loanSum;
+    }
 }

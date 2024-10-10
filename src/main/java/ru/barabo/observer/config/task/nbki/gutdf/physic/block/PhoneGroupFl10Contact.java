@@ -17,4 +17,8 @@ public class PhoneGroupFl10Contact {
 
         phoneComment = null;
     }
+
+    public StringElement getPhone() {
+        return phone;
+    }
 }

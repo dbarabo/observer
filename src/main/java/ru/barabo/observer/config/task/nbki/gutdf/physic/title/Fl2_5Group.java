@@ -14,4 +14,12 @@ public class Fl2_5Group {
         this.flPrevName = flPrevName;
         this.fl5PrevDoc = fl5PrevDoc;
     }
+
+    public Fl2PrevName getFlPrevName() {
+        return flPrevName;
+    }
+
+    public Fl5PrevDoc getFl5PrevDoc() {
+        return fl5PrevDoc;
+    }
 }

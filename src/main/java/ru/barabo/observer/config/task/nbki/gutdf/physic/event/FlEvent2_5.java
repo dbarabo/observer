@@ -67,4 +67,14 @@ public class FlEvent2_5 extends AbstractEventData {
         this.fl38ContractEnd = fl38ContractEnd;
         this.fl56Participation = fl56Participation;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.5";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl17DealUid.getUid().value;
+    }
 }

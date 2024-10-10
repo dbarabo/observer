@@ -30,4 +30,8 @@ public class SubjectFl {
     public SubjectEventDataFL getEvents() {
         return events;
     }
+
+    public SubjectTitleDataFl getTitle() {
+        return title;
+    }
 }

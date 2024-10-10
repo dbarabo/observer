@@ -53,4 +53,24 @@ public class Fl22TotalCost {
         this.maxPercentCash = new StringElement(this.maxPercentCost.value);
         this.maxPercentCashless = new StringElement(this.maxPercentCost.value);
     }
+
+    public StringElement getMinPercentCost() {
+        return minPercentCost;
+    }
+
+    public StringElement getMinCost() {
+        return minCost;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
+
+    public StringElement getMaxPercentCost() {
+        return maxPercentCost;
+    }
+
+    public StringElement getMaxCost() {
+        return maxCost;
+    }
 }

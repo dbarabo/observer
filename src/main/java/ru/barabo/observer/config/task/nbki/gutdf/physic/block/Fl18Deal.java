@@ -117,4 +117,36 @@ public class Fl18Deal {
             this.repaymentFact1 = null;
         }
     }
+
+    public Boolean isConsumer() {
+        return consumerExist1 != null;
+    }
+
+    public StringElement getRole() {
+        return role;
+    }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getKindCode() {
+        return kindCode;
+    }
+
+    public StringElement getPurposeCode() {
+        return purposeCode;
+    }
+
+    public StringElement getEndDate() {
+        return endDate;
+    }
+
+    public StringElement getCreditLineCode() {
+        return creditLineCode;
+    }
+
+    public StringElement getStartDate() {
+        return startDate;
+    }
 }

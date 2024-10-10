@@ -24,4 +24,12 @@ public class Fl3Birth {
 
         this.birthPlace = new StringElement(birthPlace);
     }
+
+    public StringElement getBirthDate() {
+        return birthDate;
+    }
+
+    public StringElement getBirthPlace() {
+        return birthPlace;
+    }
 }

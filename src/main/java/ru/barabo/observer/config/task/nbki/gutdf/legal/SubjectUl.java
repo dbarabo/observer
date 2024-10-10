@@ -33,4 +33,8 @@ public class SubjectUl {
     public SubjectEventDataUl getEvents() {
         return events;
     }
+
+    public SubjectTitleDataUl getTitle() {
+        return title;
+    }
 }

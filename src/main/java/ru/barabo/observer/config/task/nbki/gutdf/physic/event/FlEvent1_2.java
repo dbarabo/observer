@@ -28,4 +28,18 @@ public class FlEvent1_2 extends AbstractEventData {
 
         this.fl29_1DebtBurdenInfo = fl29_1DebtBurdenInfo;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.2";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl55Application.getUid().value;
+    }
+
+    public Fl55Application getFl55Application() {
+        return fl55Application;
+    }
 }

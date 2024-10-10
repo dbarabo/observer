@@ -80,4 +80,36 @@ public class Fl23ContractChanges {
         this.endCode = endCode == null ? null : new StringElement(endCode.toString());
         this.currencyRate = null;
     }
+
+    public StringElement getChangeDate() {
+        return changeDate;
+    }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getSpecialCode() {
+        return specialCode;
+    }
+
+    public StringElement getOtherDesc() {
+        return otherDesc;
+    }
+
+    public StringElement getStartDate() {
+        return startDate;
+    }
+
+    public StringElement getEndDate() {
+        return endDate;
+    }
+
+    public StringElement getActualEndDate() {
+        return actualEndDate;
+    }
+
+    public StringElement getEndCode() {
+        return endCode;
+    }
 }

@@ -13,4 +13,8 @@ public class Fl7Social {
 
         this.socialNum = socialNum == null ? null : new StringElement(socialNum);
     }
+
+    public StringElement getSocialNum() {
+        return socialNum;
+    }
 }

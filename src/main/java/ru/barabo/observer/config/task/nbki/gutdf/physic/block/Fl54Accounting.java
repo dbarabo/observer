@@ -59,4 +59,24 @@ public class Fl54Accounting {
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getMinInterest() {
+        return minInterest;
+    }
+
+    public StringElement getMaxInterest() {
+        return maxInterest;
+    }
+
+    public StringElement getSupportInfo() {
+        return supportInfo;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
 }

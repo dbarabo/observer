@@ -47,4 +47,28 @@ public class Fl56Participation {
         this.stopExist0 = isStop ? null : new StringElement("");
         this.stopExist1 = isStop ? new StringElement("") : null;
     }
+
+    public StringElement getRole() {
+        return role;
+    }
+
+    public StringElement getKindCode() {
+        return kindCode;
+    }
+
+    public StringElement getUid() {
+        return uid;
+    }
+
+    public StringElement getFundDate() {
+        return fundDate;
+    }
+
+    public Boolean isOverdueExist() {
+        return overdueExist1 != null;
+    }
+
+    public Boolean isStopExist() {
+        return stopExist1 != null;
+    }
 }

@@ -46,4 +46,30 @@ public class Fl25_26_27_28Group {
         this.fl27DebtOverdue = fl27DebtOverdue;
         this.fl28Payment = fl28Payment;
     }
+
+    public Boolean isLastPayExist() {
+        if(lastPayExist1 == null && lastPayExist0 == null) return null;
+
+        return lastPayExist1 != null;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
+
+    public Fl25Debt getFl25Debt() {
+        return fl25Debt;
+    }
+
+    public Fl26DebtDue getFl26DebtDue() {
+        return fl26DebtDue;
+    }
+
+    public Fl27DebtOverdue getFl27DebtOverdue() {
+        return fl27DebtOverdue;
+    }
+
+    public Fl28Payment getFl28Payment() {
+        return fl28Payment;
+    }
 }

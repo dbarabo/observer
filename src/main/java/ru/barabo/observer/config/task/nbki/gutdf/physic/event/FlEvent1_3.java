@@ -34,4 +34,22 @@ public class FlEvent1_3  extends AbstractEventData {
 
         this.fl57Reject = fl57Reject;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.3";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl55Application.getUid().value;
+    }
+
+    public Fl55Application getFl55Application() {
+        return fl55Application;
+    }
+
+    public Fl57Reject getFl57Reject() {
+        return fl57Reject;
+    }
 }

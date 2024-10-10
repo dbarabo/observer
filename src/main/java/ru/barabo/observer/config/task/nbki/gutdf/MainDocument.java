@@ -54,4 +54,7 @@ public class MainDocument {
         data = new Data(gutdfData);
     }
 
+    public Data getData() {
+        return data;
+    }
 }

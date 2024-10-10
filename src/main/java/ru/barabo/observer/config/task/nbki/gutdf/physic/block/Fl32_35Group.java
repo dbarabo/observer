@@ -35,4 +35,8 @@ public class Fl32_35Group {
 
         propertyIdGroupFl32_35GroupList = propertyIdGroupFl3235GroupList;
     }
+
+    public List<PropertyIdGroupFl32_35Group> getPropertyIdGroupFl32_35GroupList() {
+        return propertyIdGroupFl32_35GroupList;
+    }
 }

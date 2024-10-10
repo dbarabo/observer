@@ -41,4 +41,26 @@ public class FlEvent2_4 extends AbstractEventData {
         this.fl34Guarantee = fl34Guarantee;
         this.fl36ProvisionPayment = fl36ProvisionPayment;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.4";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return fl17DealUid.getUid().value;
+    }
+
+    public Fl17DealUid getFl17DealUid() {
+        return fl17DealUid;
+    }
+
+    public Fl32_35Group getFl32_35Group() {
+        return fl32_35Group;
+    }
+
+    public Fl33Warranty getFl33Warranty() {
+        return fl33Warranty;
+    }
 }

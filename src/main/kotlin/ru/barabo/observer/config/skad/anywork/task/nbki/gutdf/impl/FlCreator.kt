@@ -103,7 +103,7 @@ private fun createFlEvent1_3(eventRecord: EventRecord): FlEvent1_3 {
 
     val fl291 = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
 
-    val fl57 = createFl57(eventRecord.loan)
+    val fl57 = createFl57(eventRecord.idEvent)
 
     return FlEvent1_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent, application55, fl291, fl57)
 }
@@ -676,9 +676,9 @@ private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: 
             fl291.isLoadFact, fl291.isLoadCalculationFact, fl291.dealUID)
 }
 
-private fun createFl57(loan: Long): Fl57Reject {
+private fun createFl57(idEvent: Long): Fl57Reject {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_57, params = arrayOf(loan))[0]
+    val data = AfinaQuery.selectCursor(SEL_FL_57, params = arrayOf(idEvent))[0]
 
     return Fl57Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }

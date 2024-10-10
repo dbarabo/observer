@@ -28,4 +28,16 @@ public class PropertyIdGroupFl32_35Group {
 
         this.fl35InsuranceList = fl35InsuranceList;
     }
+
+    public StringElement getPropertyId() {
+        return propertyId;
+    }
+
+    public Fl32Collateral getFl32Collateral() {
+        return fl32Collateral;
+    }
+
+    public List<Fl35Insurance> getFl35InsuranceList() {
+        return fl35InsuranceList;
+    }
 }

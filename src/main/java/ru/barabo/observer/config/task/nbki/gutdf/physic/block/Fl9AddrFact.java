@@ -95,4 +95,40 @@ public class Fl9AddrFact {
 
         this.apart = apart == null ? null : new StringElement(apart);
     }
+
+    public StringElement getPostCode() {
+        return postCode;
+    }
+
+    public StringElement getRegStateNum() {
+        return regStateNum;
+    }
+
+    public StringElement getOkato() {
+        return okato;
+    }
+
+    public StringElement getStreet() {
+        return street;
+    }
+
+    public StringElement getHouse() {
+        return house;
+    }
+
+    public StringElement getEstate() {
+        return estate;
+    }
+
+    public StringElement getBlock() {
+        return block;
+    }
+
+    public StringElement getBuild() {
+        return build;
+    }
+
+    public StringElement getApart() {
+        return apart;
+    }
 }

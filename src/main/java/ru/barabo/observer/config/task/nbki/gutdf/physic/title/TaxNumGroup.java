@@ -14,4 +14,8 @@ public class TaxNumGroup {
     public TaxNumGroup(String taxNum) {
         this.taxNum = new StringElement(taxNum);
     }
+
+    public StringElement getTaxNum() {
+        return taxNum;
+    }
 }

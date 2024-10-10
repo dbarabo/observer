@@ -57,4 +57,12 @@ public class Fl10Contact {
             emailList.add(new StringElement(email));
         }
     }
+
+    public List<PhoneGroupFl10Contact> getPhoneGroupFl10ContactList() {
+        return phoneGroupFl10ContactList;
+    }
+
+    public List<StringElement> getEmailList() {
+        return emailList;
+    }
 }
