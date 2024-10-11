@@ -34,4 +34,24 @@ public class SubjectTitleDataUl {
         this.ul4Tax = ul4Tax;
         this.ul5ReorgList = ul5ReorgList;
     }
+
+    public Ul1Name getUl1Name() {
+        return ul1Name;
+    }
+
+    public Ul2Address getUl2Address() {
+        return ul2Address;
+    }
+
+    public Ul3RegType getUl3Reg() {
+        return ul3Reg;
+    }
+
+    public Ul4TaxType getUl4Tax() {
+        return ul4Tax;
+    }
+
+    public List<Ul5Reorg> getUl5ReorgList() {
+        return ul5ReorgList;
+    }
 }

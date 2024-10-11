@@ -71,5 +71,33 @@ public class Ul14PaymentTerms {
 
         this.percentEndDate = percentEndDate == null ? null : new StringElement(XmlLoader.formatDate(percentEndDate));
     }
+
+    public StringElement getMainPaySum() {
+        return mainPaySum;
+    }
+
+    public StringElement getMainPayDate() {
+        return mainPayDate;
+    }
+
+    public StringElement getPercentPaySum() {
+        return percentPaySum;
+    }
+
+    public StringElement getPercentPayDate() {
+        return percentPayDate;
+    }
+
+    public StringElement getFreqCode() {
+        return freqCode;
+    }
+
+    public StringElement getMinCardPay() {
+        return minCardPay;
+    }
+
+    public StringElement getPercentEndDate() {
+        return percentEndDate;
+    }
 }
 

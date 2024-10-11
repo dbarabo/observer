@@ -22,4 +22,18 @@ public class UlEvent1_1 extends AbstractEventData {
 
         this.ul45Application = ul45Application;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.1";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul45Application.getUid().value;
+    }
+
+    public Ul45Application getUl45Application() {
+        return ul45Application;
+    }
 }

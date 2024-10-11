@@ -44,4 +44,16 @@ public class Ul15_1ContractTermsChanges {
 
         this.changingDate = new StringElement(changingDate == null ? "-" : XmlLoader.formatDate(changingDate));
     }
+
+    public StringElement getTermsChangeCode() {
+        return termsChangeCode;
+    }
+
+    public StringElement getTermsChangeDesc() {
+        return termsChangeDesc;
+    }
+
+    public StringElement getChangingDate() {
+        return changingDate;
+    }
 }

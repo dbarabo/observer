@@ -1,10 +1,6 @@
 package ru.barabo.observer.config.task.nbki.gutdf.legal.block;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl25Debt;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl26DebtDue;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl27DebtOverdue;
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl28Payment;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 
@@ -50,5 +46,32 @@ public class Ul17_18_19_20Group {
         this.ul18DebtDue = ul18DebtDue;
         this.ul19DebtOverdue = ul19DebtOverdue;
         this.ul20Payment = ul20Payment;
+    }
+
+    public Boolean isLastPay() {
+
+        if(lastPayExist1 == null && lastPayExist0 == null) return null;
+
+        return lastPayExist1 != null;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
+
+    public Ul17Debt getUl17Debt() {
+        return ul17Debt;
+    }
+
+    public Ul18DebtDue getUl18DebtDue() {
+        return ul18DebtDue;
+    }
+
+    public Ul19DebtOverdue getUl19DebtOverdue() {
+        return ul19DebtOverdue;
+    }
+
+    public Ul20Payment getUl20Payment() {
+        return ul20Payment;
     }
 }

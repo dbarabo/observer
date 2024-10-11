@@ -105,4 +105,39 @@ public class Ul30Court {
 
         this.info = info == null ? null : new StringElement(info);
     }
+
+    public String getActExist() { // 0 1 2
+
+        if(exist0 == null && exist1 == null) return "2";
+
+        return exist0 == null ? "1" : "0";
+    }
+
+    public StringElement getDate() {
+        return date;
+    }
+
+    public StringElement getNum() {
+        return num;
+    }
+
+    public StringElement getActResolutionCode() {
+        return actResolutionCode;
+    }
+
+    public Boolean isActStarted() {
+        return actStartExist1 != null;
+    }
+
+    public StringElement getLawsuitCode() {
+        return lawsuitCode;
+    }
+
+    public StringElement getSumTotal() {
+        return sumTotal;
+    }
+
+    public StringElement getInfo() {
+        return info;
+    }
 }

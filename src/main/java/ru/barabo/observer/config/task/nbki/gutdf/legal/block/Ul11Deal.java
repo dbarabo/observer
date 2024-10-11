@@ -103,4 +103,36 @@ public class Ul11Deal {
 
         this.startDate = new StringElement(XmlLoader.formatDate(startDate));
     }
+
+    public StringElement getRole() {
+        return role;
+    }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getKindCode() {
+        return kindCode;
+    }
+
+    public StringElement getPurposeCode() {
+        return purposeCode;
+    }
+
+    public StringElement getEndDate() {
+        return endDate;
+    }
+
+    public StringElement getCreditLineCode() {
+        return creditLineCode;
+    }
+
+    public Boolean isFloatRate() {
+        return floatRateExist1 != null;
+    }
+
+    public StringElement getStartDate() {
+        return startDate;
+    }
 }

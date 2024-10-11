@@ -20,4 +20,12 @@ public class Ul3RegType {
 
         this.lei = lei == null ? null : new StringElement(lei);
     }
+
+    public StringElement getOgrn() {
+        return ogrn;
+    }
+
+    public StringElement getLei() {
+        return lei;
+    }
 }

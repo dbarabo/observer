@@ -24,4 +24,8 @@ public class TaxNumGroupUl4Tax {
         this.taxCode = taxCode;
         this.taxNum = taxNum;
     }
+
+    public StringElement getTaxNum() {
+        return taxNum;
+    }
 }

@@ -41,5 +41,27 @@ public class UlEvent2_4 extends AbstractEventData {
         this.ul25Guarantee = ul25Guarantee;
         this.ul27ProvisionPayment = ul27ProvisionPayment;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.4";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul10DealUid.getUid().value;
+    }
+
+    public Ul10DealUid getUl10DealUid() {
+        return ul10DealUid;
+    }
+
+    public Ul23_26Group getUl23_26Group() {
+        return ul23_26Group;
+    }
+
+    public Ul24Warranty getUl24Warranty() {
+        return ul24Warranty;
+    }
 }
 

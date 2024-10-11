@@ -28,4 +28,12 @@ public class Ul12Amount {
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
 }

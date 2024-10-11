@@ -60,5 +60,23 @@ public class Ul12_1AmountInfo {
         this.securityUid = securityUid == null ? null : new StringElement(securityUid);
         this.liabilityLimit = liabilityLimit == null ? null : new StringElement(liabilityLimit.toString());
     }
+    public StringElement getSecuritySum() {
+        return securitySum;
+    }
 
+    public StringElement getSecurityTypeCode() {
+        return securityTypeCode;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
+
+    public StringElement getSecurityUid() {
+        return securityUid;
+    }
+
+    public StringElement getLiabilityLimit() {
+        return liabilityLimit;
+    }
 }

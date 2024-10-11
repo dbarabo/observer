@@ -159,4 +159,52 @@ public class SubjectEventDataUl {
         }
         ulEvent2_6List.add(event2_6);
     }
+
+    public List<UlEvent1_1> getUlEvent1_1List() {
+        return ulEvent1_1List;
+    }
+
+    public List<UlEvent1_2> getUlEvent1_2List() {
+        return ulEvent1_2List;
+    }
+
+    public List<UlEvent1_3> getUlEvent1_3List() {
+        return ulEvent1_3List;
+    }
+
+    public List<UlEvent1_4> getUlEvent1_4List() {
+        return ulEvent1_4List;
+    }
+
+    public List<UlEvent1_7> getUlEvent1_7List() {
+        return ulEvent1_7List;
+    }
+
+    public List<UlEvent2_1> getUlEvent2_1List() {
+        return ulEvent2_1List;
+    }
+
+    public List<UlEvent2_2> getUlEvent2_2List() {
+        return ulEvent2_2List;
+    }
+
+    public List<UlEvent2_2_1> getUlEvent2_2_1List() {
+        return ulEvent2_2_1List;
+    }
+
+    public List<UlEvent2_3> getUlEvent2_3List() {
+        return ulEvent2_3List;
+    }
+
+    public List<UlEvent2_4> getUlEvent2_4List() {
+        return ulEvent2_4List;
+    }
+
+    public List<UlEvent2_5> getUlEvent2_5List() {
+        return ulEvent2_5List;
+    }
+
+    public List<UlEvent2_6> getUlEvent2_6List() {
+        return ulEvent2_6List;
+    }
 }

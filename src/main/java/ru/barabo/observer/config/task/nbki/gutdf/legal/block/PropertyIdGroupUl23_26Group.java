@@ -30,4 +30,16 @@ public class PropertyIdGroupUl23_26Group {
         this.ul23Collateral = ul23Collateral;
         this.ul26Insurance = ul26Insurance;
     }
+
+    public StringElement getPropertyId() {
+        return propertyId;
+    }
+
+    public Ul23Collateral getUl23Collateral() {
+        return ul23Collateral;
+    }
+
+    public List<Ul26Insurance> getUl26Insurance() {
+        return ul26Insurance;
+    }
 }

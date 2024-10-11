@@ -37,4 +37,12 @@ public class FlEvent2_6 extends AbstractEventData {
     public String getUnicalId() {
         return fl17DealUid.getUid().value;
     }
+
+    public Fl17DealUid getFl17DealUid() {
+        return fl17DealUid;
+    }
+
+    public Fl39Court getFl39Court() {
+        return fl39Court;
+    }
 }

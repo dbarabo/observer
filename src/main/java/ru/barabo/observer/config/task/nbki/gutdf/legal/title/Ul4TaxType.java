@@ -16,4 +16,8 @@ public class Ul4TaxType {
 
         this.taxNumGroupUl4TaxList = taxNumGroupUl4TaxList;
     }
+
+    public List<TaxNumGroupUl4Tax> getTaxNumGroupUl4TaxList() {
+        return taxNumGroupUl4TaxList;
+    }
 }

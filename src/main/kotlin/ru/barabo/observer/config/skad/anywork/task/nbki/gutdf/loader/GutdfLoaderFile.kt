@@ -36,7 +36,8 @@ object GutdfLoaderFile {
         data.saveAll()
     }
 
-    private fun processFl(idFile: Number, subjectFlList: List<SubjectFl>): List<DataInfo> {
+    private fun processFl(idFile: Number, subjectFlList: List<SubjectFl>?): List<DataInfo> {
+        if(subjectFlList.isNullOrEmpty()) return emptyList()
 
         val data = ArrayList<DataInfo>()
 
@@ -148,10 +149,53 @@ object GutdfLoaderFile {
                 data.addAll( fl33Warranty(idMain, it.fl33Warranty) )
             }
 
+            fl.events.flEvent2_5List?.forEach {
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+
+                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, it.fl18Deal) )
+                data.addAll( fl19Amount(idMain, it.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
+                data.addAll( fl25262728Group(idMain, it.fl25_26_27_28Group) )
+                data.addAll( fl29MonthlyPayment(idMain, it.fl29MonthlyPayment) )
+                data.addAll( fl38ContractEnd(idMain, it.fl38ContractEnd) )
+                data.addAll( fl56Participation(idMain, it.fl56Participation) )
+            }
+
+            fl.events.flEvent2_6List?.forEach {
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+
+                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
+                data.addAll( fl39Court(idMain, it.fl39Court) )
+            }
+
             idMain.takeIf { it != 0 }?.let { data.addAll( title(it, fl.title) ) }
         }
 
         return data
+    }
+
+    private fun fl39Court(idMain: Number, fl39: Fl39Court): List<DataInfo> {
+        return listOf(
+            DataInfo(idMain, "FL_39_Court", "ActExist", fl39.getActExist()?:""),
+            DataInfo(idMain, "FL_39_Court", "date", fl39.date.value?:""),
+
+            DataInfo(idMain, "FL_39_Court", "num", fl39.num.value?:""),
+            DataInfo(idMain, "FL_39_Court", "actResolution", fl39.actResolutionCode.value?:""),
+            DataInfo(idMain, "FL_39_Court", "lawsuitCode", fl39.lawsuitCode.value?:""),
+            DataInfo(idMain, "FL_39_Court", "sumTotal", fl39.sumTotal.value?:""),
+            DataInfo(idMain, "FL_39_Court", "info", fl39.info.value?:""),
+            DataInfo(idMain, "FL_39_Court", "isActStarted", fl39.isActStarted.toDb())
+        )
+    }
+
+    private fun fl38ContractEnd(idMain: Number, fl38: Fl38ContractEnd): List<DataInfo> {
+        return listOf(
+            DataInfo(idMain, "FL_38_ContractEnd", "date", fl38.date.value?:""),
+            DataInfo(idMain, "FL_38_ContractEnd", "num", fl38.code.value?:"")
+        )
     }
 
     private fun fl3235Group(idMain: Number, fl3235: Fl32_35Group): List<DataInfo> {
@@ -489,7 +533,7 @@ object GutdfLoaderFile {
     }
 
     private fun findMainId(idFile: Number, taxPassport: String, event: String,
-                           unicalUid: String, eventDateXml: String): Number {
+                           unicalUid: String?, eventDateXml: String): Number {
 
         val id = when {
             (unicalUid == null) && (taxPassport.length == 13) ->
@@ -568,6 +612,6 @@ private const val EXEC_SAVE_DATA = "insert into od.PTKB_GUTDF_VALUES (ID_MAIN, B
 
 private const val EXEC_SAVE_DATA_ADD = "insert into od.PTKB_GUTDF_VALUES (ID_MAIN, BLOCK, TAG, VALUE, ADVANCE_ID) values (?, ?, ?, ?, ?)"
 
-private const val SEL_GUARANT_BY_ID = "select od.PTKB_GUTDF.getGuarantByUid( ? ) from dual"
+const val SEL_GUARANT_BY_ID = "select od.PTKB_GUTDF.getGuarantByUid( ? ) from dual"
 
-private const val SEL_PLEDGE = "select od.PTKB_GUTDF.getPledgeByPropertyId( ?, ? ) from dual"
+const val SEL_PLEDGE = "select od.PTKB_GUTDF.getPledgeByPropertyId( ?, ? ) from dual"

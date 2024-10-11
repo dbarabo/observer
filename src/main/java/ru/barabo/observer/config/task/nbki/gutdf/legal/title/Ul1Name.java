@@ -51,4 +51,20 @@ public class Ul1Name {
             this.prevFull = new StringElement(prevFull);
         }
     }
+
+    public StringElement getFullName() {
+        return fullName;
+    }
+
+    public StringElement getShortName() {
+        return shortName;
+    }
+
+    public StringElement getOtherName() {
+        return otherName;
+    }
+
+    public StringElement getPrevFull() {
+        return prevFull;
+    }
 }

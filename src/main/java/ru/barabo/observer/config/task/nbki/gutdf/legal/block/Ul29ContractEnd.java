@@ -23,4 +23,12 @@ public class Ul29ContractEnd {
 
         this.code = new StringElement(code.toString());
     }
+
+    public StringElement getDate() {
+        return date;
+    }
+
+    public StringElement getCode() {
+        return code;
+    }
 }

@@ -28,4 +28,16 @@ public class Ul16Fund {
 
         this.startSum = new StringElement(startSum == null ? "-" : XmlLoader.formatSum(startSum));
     }
+
+    public StringElement getDate() {
+        return date;
+    }
+
+    public StringElement getNum() {
+        return num;
+    }
+
+    public StringElement getStartSum() {
+        return startSum;
+    }
 }

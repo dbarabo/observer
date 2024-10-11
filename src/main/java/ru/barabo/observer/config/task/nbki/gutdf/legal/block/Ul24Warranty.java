@@ -33,4 +33,8 @@ public class Ul24Warranty {
 
         this.uidGroupUl24WarrantyList = uidGroupUl24WarrantyList;
     }
+
+    public List<UidGroupUl24Warranty> getUidGroupUl24WarrantyList() {
+        return uidGroupUl24WarrantyList;
+    }
 }

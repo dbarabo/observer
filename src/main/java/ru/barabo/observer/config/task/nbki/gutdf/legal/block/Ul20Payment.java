@@ -88,4 +88,48 @@ public class Ul20Payment {
 
         this.scheduleCode = new StringElement(scheduleCode.toString());
     }
+
+    public StringElement getPaymentSum() {
+        return paymentSum;
+    }
+
+    public StringElement getPaymentMainSum() {
+        return paymentMainSum;
+    }
+
+    public StringElement getPaymentPercentSum() {
+        return paymentPercentSum;
+    }
+
+    public StringElement getPaymentOtherSum() {
+        return paymentOtherSum;
+    }
+
+    public StringElement getTotalSum() {
+        return totalSum;
+    }
+
+    public StringElement getTotalMainSum() {
+        return totalMainSum;
+    }
+
+    public StringElement getTotalPercentSum() {
+        return totalPercentSum;
+    }
+
+    public StringElement getTotalOtherSum() {
+        return totalOtherSum;
+    }
+
+    public StringElement getDate() {
+        return date;
+    }
+
+    public StringElement getSizeCode() {
+        return sizeCode;
+    }
+
+    public StringElement getScheduleCode() {
+        return scheduleCode;
+    }
 }

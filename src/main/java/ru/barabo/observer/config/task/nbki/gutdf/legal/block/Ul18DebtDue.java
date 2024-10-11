@@ -51,4 +51,24 @@ public class Ul18DebtDue {
 
         this.debtDueStartDate = debtDueStartDate == null ? null : new StringElement(XmlLoader.formatDate(debtDueStartDate));
     }
+
+    public StringElement getDebtDueSum() {
+        return debtDueSum;
+    }
+
+    public StringElement getDebtDueMainSum() {
+        return debtDueMainSum;
+    }
+
+    public StringElement getDebtDuePercentSum() {
+        return debtDuePercentSum;
+    }
+
+    public StringElement getDebtDueOtherSum() {
+        return debtDueOtherSum;
+    }
+
+    public StringElement getDebtDueStartDate() {
+        return debtDueStartDate;
+    }
 }

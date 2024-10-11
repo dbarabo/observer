@@ -29,5 +29,23 @@ public class UlEvent2_6 extends AbstractEventData {
 
         this.ul30Court = ul30Court;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.6";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul10DealUid.getUid().value;
+    }
+
+    public Ul10DealUid getUl10DealUid() {
+        return ul10DealUid;
+    }
+
+    public Ul30Court getUl30Court() {
+        return ul30Court;
+    }
 }
 

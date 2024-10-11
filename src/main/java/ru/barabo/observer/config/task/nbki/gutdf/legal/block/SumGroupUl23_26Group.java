@@ -33,4 +33,16 @@ public class SumGroupUl23_26Group {
 
         this.priceCode = new StringElement(priceCode.toString());
     }
+
+    public StringElement getSum() {
+        return sum;
+    }
+
+    public StringElement getAssessDate() {
+        return assessDate;
+    }
+
+    public StringElement getPriceCode() {
+        return priceCode;
+    }
 }

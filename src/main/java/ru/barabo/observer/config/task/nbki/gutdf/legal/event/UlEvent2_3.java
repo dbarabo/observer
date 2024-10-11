@@ -65,4 +65,50 @@ public class UlEvent2_3 extends AbstractEventData {
         this.ul45Application = ul45Application;
         this.ul46Participation = ul46Participation;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.3";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul10DealUid.getUid().value;
+    }
+
+    public Ul10DealUid getUl10DealUid() {
+        return ul10DealUid;
+    }
+
+    public Ul11Deal getUl11Deal() {
+        return ul11Deal;
+    }
+
+    public Ul12Amount getUl12Amount() {
+        return ul12Amount;
+    }
+
+    public List<Ul12_1AmountInfo> getUl12_1AmountInfoList() {
+        return ul12_1AmountInfoList;
+    }
+
+    public Ul14PaymentTerms getUl14PaymentTerms() {
+        return ul14PaymentTerms;
+    }
+
+    public Ul17_18_19_20Group getUl17_18_19_20Group() {
+        return ul17_18_19_20Group;
+    }
+
+    public Ul44Accounting getUl44Accounting() {
+        return ul44Accounting;
+    }
+
+    public Ul45Application getUl45Application() {
+        return ul45Application;
+    }
+
+    public Ul46Participation getUl46Participation() {
+        return ul46Participation;
+    }
 }

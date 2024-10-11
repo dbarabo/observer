@@ -73,4 +73,48 @@ public class Ul23Collateral {
 
         this.calcDate = calcDate == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
     }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getDate() {
+        return date;
+    }
+
+    public List<SumGroupUl23_26Group> getSumGroupUl23_26Group() {
+        return sumGroupUl23_26Group;
+    }
+
+    public StringElement getCollateralEndDate() {
+        return collateralEndDate;
+    }
+
+    public StringElement getCollateralFactEndDate() {
+        return collateralFactEndDate;
+    }
+
+    public StringElement getEndReason() {
+        return endReason;
+    }
+
+    public StringElement getContractTotalSum() {
+        return contractTotalSum;
+    }
+
+    public StringElement getContractCount() {
+        return contractCount;
+    }
+
+    public StringElement getOkato() {
+        return okato;
+    }
+
+    public StringElement getActualCost() {
+        return actualCost;
+    }
+
+    public StringElement getCalcDate() {
+        return calcDate;
+    }
 }

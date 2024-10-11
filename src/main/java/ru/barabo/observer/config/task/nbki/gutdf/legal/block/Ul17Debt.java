@@ -45,4 +45,20 @@ public class Ul17Debt {
         this.debtPercentSum = new StringElement(XmlLoader.formatSum(debtPercentSum));
         this.debtOtherSum = new StringElement(XmlLoader.formatSum(debtOtherSum));
     }
+
+    public StringElement getDebtSum() {
+        return debtSum;
+    }
+
+    public StringElement getDebtMainSum() {
+        return debtMainSum;
+    }
+
+    public StringElement getDebtPercentSum() {
+        return debtPercentSum;
+    }
+
+    public StringElement getDebtOtherSum() {
+        return debtOtherSum;
+    }
 }

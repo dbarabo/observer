@@ -80,4 +80,44 @@ public class Ul2Address {
         foreignerFact0 = new StringElement("");
         foreignerFact1 = null;
     }
+
+    public StringElement getGarAddr() {
+        return garAddr;
+    }
+
+    public StringElement getOkato() {
+        return okato;
+    }
+
+    public StringElement getStreet() {
+        return street;
+    }
+
+    public StringElement getHouse() {
+        return house;
+    }
+
+    public StringElement getEstate() {
+        return estate;
+    }
+
+    public StringElement getBlock() {
+        return block;
+    }
+
+    public StringElement getBuild() {
+        return build;
+    }
+
+    public StringElement getApart() {
+        return apart;
+    }
+
+    public List<PhoneGroupFl10Contact> getPhoneList() {
+        return phoneList;
+    }
+
+    public List<StringElement> getEmailList() {
+        return emailList;
+    }
 }

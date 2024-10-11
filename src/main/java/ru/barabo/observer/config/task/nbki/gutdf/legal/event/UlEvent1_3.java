@@ -28,4 +28,18 @@ public class UlEvent1_3 extends AbstractEventData {
 
         this.ul47Reject = ul47Reject;
     }
+
+    @Override
+    public String getEvent() {
+        return "1.1";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul45Application.getUid().value;
+    }
+
+    public Ul45Application getUl45Application() {
+        return ul45Application;
+    }
 }

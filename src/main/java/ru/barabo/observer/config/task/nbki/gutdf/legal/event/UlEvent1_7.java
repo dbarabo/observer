@@ -16,4 +16,14 @@ public class UlEvent1_7 extends AbstractEventData {
     public UlEvent1_7(Integer orderNum, Date eventDate) {
         super(orderNum, eventDate);
     }
+
+    @Override
+    public String getEvent() {
+        return "1.7";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return null;
+    }
 }

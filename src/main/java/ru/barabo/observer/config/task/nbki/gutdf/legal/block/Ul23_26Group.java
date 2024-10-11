@@ -35,4 +35,8 @@ public class Ul23_26Group {
 
         this.propertyIdGroupUl23_26GroupList = propertyIdGroupUl23_26GroupList;
     }
+
+    public List<PropertyIdGroupUl23_26Group> getPropertyIdGroupUl23_26GroupList() {
+        return propertyIdGroupUl23_26GroupList;
+    }
 }

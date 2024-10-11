@@ -9,9 +9,11 @@ abstract class AbstractXmlLoader<E> {
 
     protected abstract fun processAnnotation(xstream: XStream)
 
+    private lateinit var xstream: XStream
+
     private fun xstream() : XStream {
 
-        val xstream = XStream(DomDriver())
+        xstream = XStream(DomDriver())
 
         processAnnotation(xstream)
 
@@ -22,8 +24,10 @@ abstract class AbstractXmlLoader<E> {
 
         val fileInputStream = FileInputStream(file)
 
+        xstream().autodetectAnnotations(true)
+
         @Suppress("UNCHECKED_CAST")
-        val xml = xstream().fromXML(fileInputStream) as E
+        val xml = xstream.fromXML(fileInputStream) as E
 
         fileInputStream.close()
 

@@ -65,4 +65,50 @@ public class UlEvent2_1 extends AbstractEventData {
         ul15_1ContractTermsChanges = ul151ContractTermsChanges;
         this.ul44Accounting = ul44Accounting;
     }
+
+    @Override
+    public String getEvent() {
+        return "2.1";
+    }
+
+    @Override
+    public String getUnicalId() {
+        return ul10DealUid.getUid().value;
+    }
+
+    public Ul10DealUid getUl10DealUid() {
+        return ul10DealUid;
+    }
+
+    public Ul11Deal getUl11Deal() {
+        return ul11Deal;
+    }
+
+    public Ul12Amount getUl12Amount() {
+        return ul12Amount;
+    }
+
+    public List<Ul12_1AmountInfo> getUl12_1AmountInfoList() {
+        return ul12_1AmountInfoList;
+    }
+
+    public Ul14PaymentTerms getUl14PaymentTerms() {
+        return ul14PaymentTerms;
+    }
+
+    public Ul17_18_19_20Group getUl17_18_19_20Group() {
+        return ul17_18_19_20Group;
+    }
+
+    public Ul15ContractChanges getUl15ContractChanges() {
+        return ul15ContractChanges;
+    }
+
+    public Ul15_1ContractTermsChanges getUl15_1ContractTermsChanges() {
+        return ul15_1ContractTermsChanges;
+    }
+
+    public Ul44Accounting getUl44Accounting() {
+        return ul44Accounting;
+    }
 }
