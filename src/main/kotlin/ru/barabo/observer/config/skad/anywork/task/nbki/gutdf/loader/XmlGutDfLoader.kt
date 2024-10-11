@@ -131,5 +131,8 @@ class XmlGutDfLoader<E> : AbstractXmlLoader<E>() {
         xstream.processAnnotations(Ul17Debt::class.java)
         xstream.processAnnotations(Ul18DebtDue::class.java)
         xstream.processAnnotations(Ul19DebtOverdue::class.java)
+
+        xstream.useAttributeFor(String::class.java)
+        xstream.useAttributeFor(Int::class.java)
     }
 }

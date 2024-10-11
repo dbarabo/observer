@@ -180,21 +180,21 @@ object GutdfLoaderFile {
     private fun fl39Court(idMain: Number, fl39: Fl39Court): List<DataInfo> {
         return listOf(
             DataInfo(idMain, "FL_39_Court", "ActExist", fl39.getActExist()?:""),
-            DataInfo(idMain, "FL_39_Court", "date", fl39.date.value?:""),
+            DataInfo(idMain, "FL_39_Court", "date", fl39.date?.value?:""),
 
-            DataInfo(idMain, "FL_39_Court", "num", fl39.num.value?:""),
-            DataInfo(idMain, "FL_39_Court", "actResolution", fl39.actResolutionCode.value?:""),
-            DataInfo(idMain, "FL_39_Court", "lawsuitCode", fl39.lawsuitCode.value?:""),
-            DataInfo(idMain, "FL_39_Court", "sumTotal", fl39.sumTotal.value?:""),
-            DataInfo(idMain, "FL_39_Court", "info", fl39.info.value?:""),
+            DataInfo(idMain, "FL_39_Court", "num", fl39.num?.value?:""),
+            DataInfo(idMain, "FL_39_Court", "actResolution", fl39.actResolutionCode?.value?:""),
+            DataInfo(idMain, "FL_39_Court", "lawsuitCode", fl39.lawsuitCode?.value?:""),
+            DataInfo(idMain, "FL_39_Court", "sumTotal", fl39.sumTotal?.value?:""),
+            DataInfo(idMain, "FL_39_Court", "info", fl39.info?.value?:""),
             DataInfo(idMain, "FL_39_Court", "isActStarted", fl39.isActStarted.toDb())
         )
     }
 
     private fun fl38ContractEnd(idMain: Number, fl38: Fl38ContractEnd): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_38_ContractEnd", "date", fl38.date.value?:""),
-            DataInfo(idMain, "FL_38_ContractEnd", "num", fl38.code.value?:"")
+            DataInfo(idMain, "FL_38_ContractEnd", "date", fl38.date?.value?:""),
+            DataInfo(idMain, "FL_38_ContractEnd", "num", fl38.code?.value?:"")
         )
     }
 
@@ -213,23 +213,23 @@ object GutdfLoaderFile {
 
     private fun PropertyIdGroupFl32_35Group.info(idMain: Number): List<DataInfo> {
 
-        val id = AfinaQuery.selectValue(SEL_PLEDGE, params = arrayOf(idMain, propertyId.value)) as Number
+        val id = AfinaQuery.selectValue(SEL_PLEDGE, params = arrayOf(idMain, propertyId?.value)) as Number
 
         val sum = if(fl32Collateral.sumGroupFl32_35GroupList.isNullOrEmpty()) null else fl32Collateral.sumGroupFl32_35GroupList[0]
 
         return listOf(
-            DataInfo(idMain, "FL_32_35_Group", "propertyId", propertyId.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "propertyId", propertyId?.value?:"", id),
 
-            DataInfo(idMain, "FL_32_35_Group", "date", fl32Collateral.date.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "code", fl32Collateral.code.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "collateralEndDate", fl32Collateral.collateralEndDate.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "collateralFactEndDate", fl32Collateral.collateralFactEndDate.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "endReason", fl32Collateral.endReason.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "contractTotalSum", fl32Collateral.contractTotalSum.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "contractCount", fl32Collateral.contractCount.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "location", fl32Collateral.okato.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "actualCost", fl32Collateral.actualCost.value?:"", id),
-            DataInfo(idMain, "FL_32_35_Group", "calcDate", fl32Collateral.calcDate.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "date", fl32Collateral.date?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "code", fl32Collateral.code?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "collateralEndDate", fl32Collateral.collateralEndDate?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "collateralFactEndDate", fl32Collateral.collateralFactEndDate?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "endReason", fl32Collateral.endReason?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "contractTotalSum", fl32Collateral.contractTotalSum?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "contractCount", fl32Collateral.contractCount?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "location", fl32Collateral.okato?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "actualCost", fl32Collateral.actualCost?.value?:"", id),
+            DataInfo(idMain, "FL_32_35_Group", "calcDate", fl32Collateral.calcDate?.value?:"", id),
 
             DataInfo(idMain, "FL_32_35_Group", "sum", sum?.sum?.value?:"", id),
             DataInfo(idMain, "FL_32_35_Group", "assessDate", sum?.assessDate?.value?:"", id),
@@ -253,104 +253,104 @@ object GutdfLoaderFile {
 
     private fun UidGroupFl33Warranty.info(idMain: Number): List<DataInfo> {
 
-        val id = AfinaQuery.selectValue(SEL_GUARANT_BY_ID, params = arrayOf(uid.value)) as Number
+        val id = AfinaQuery.selectValue(SEL_GUARANT_BY_ID, params = arrayOf(uid?.value)) as Number
 
         return listOf(
-            DataInfo(idMain, "FL_33_Warranty", "uid", uid.value?:"", id),
-            DataInfo(idMain, "FL_33_Warranty", "sum", sum.value?:"", id),
-            DataInfo(idMain, "FL_33_Warranty", "openDate", openDate.value?:"", id),
-            DataInfo(idMain, "FL_33_Warranty", "endDate", endDate.value?:"", id),
-            DataInfo(idMain, "FL_33_Warranty", "factEndDate", factEndDate.value?:"", id),
-            DataInfo(idMain, "FL_33_Warranty", "endCode", endCode.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "uid", uid?.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "sum", sum?.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "openDate", openDate?.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "endDate", endDate?.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "factEndDate", factEndDate?.value?:"", id),
+            DataInfo(idMain, "FL_33_Warranty", "endCode", endCode?.value?:"", id),
         )
     }
 
     private fun fl24Fund(idMain: Number, fl24: Fl24Fund): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_24_Fund", "date", fl24.date.value?:""),
-            DataInfo(idMain, "FL_24_Fund", "num", fl24.num.value?:""),
-            DataInfo(idMain, "FL_24_Fund", "startSum", fl24.startSum.value?:"")
+            DataInfo(idMain, "FL_24_Fund", "date", fl24.date?.value?:""),
+            DataInfo(idMain, "FL_24_Fund", "num", fl24.num?.value?:""),
+            DataInfo(idMain, "FL_24_Fund", "startSum", fl24.startSum?.value?:"")
         )
     }
 
     private fun fl25262728Group(idMain: Number, fl: Fl25_26_27_28Group): List<DataInfo> {
         return listOf(
             DataInfo(idMain, "FL_25_26_27_28_Group", "isLastPay", fl.isLastPayExist?.toDb()?:"" ),
-            DataInfo(idMain, "FL_25_26_27_28_Group", "calcDate", fl.calcDate.value?:""),
+            DataInfo(idMain, "FL_25_26_27_28_Group", "calcDate", fl.calcDate?.value?:""),
 
-            DataInfo(idMain, "FL_25_Debt", "debtSum", fl.fl25Debt.debtSum.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtMainSum", fl.fl25Debt.debtMainSum.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtPercentSum", fl.fl25Debt.debtPercentSum.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtOtherSum", fl.fl25Debt.debtOtherSum.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtSum", fl.fl25Debt.debtSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtMainSum", fl.fl25Debt.debtMainSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtPercentSum", fl.fl25Debt.debtPercentSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtOtherSum", fl.fl25Debt.debtOtherSum?.value?:""),
 
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueSum", fl.fl26DebtDue.debtDueSum.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueMainSum", fl.fl26DebtDue.debtDueMainSum.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDuePercentSum", fl.fl26DebtDue.debtDuePercentSum.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueOtherSum", fl.fl26DebtDue.debtDueOtherSum.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueStartDate", fl.fl26DebtDue.debtDueStartDate.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueSum", fl.fl26DebtDue.debtDueSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueMainSum", fl.fl26DebtDue.debtDueMainSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDuePercentSum", fl.fl26DebtDue.debtDuePercentSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueOtherSum", fl.fl26DebtDue.debtDueOtherSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueStartDate", fl.fl26DebtDue.debtDueStartDate?.value?:""),
 
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueSum", fl.fl27DebtOverdue.debtOverdueSum.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueMainSum", fl.fl27DebtOverdue.debtOverdueMainSum.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverduePercentSum", fl.fl27DebtOverdue.debtOverduePercentSum.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueOtherSum", fl.fl27DebtOverdue.debtOverdueOtherSum.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueStartDate", fl.fl27DebtOverdue.debtOverdueStartDate.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "mainMissDate", fl.fl27DebtOverdue.mainMissDate.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "percentMissDate", fl.fl27DebtOverdue.percentMissDate.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "missDuration", fl.fl27DebtOverdue.missDuration.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "repaidMissDuration", fl.fl27DebtOverdue.repaidMissDuration.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueSum", fl.fl27DebtOverdue.debtOverdueSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueMainSum", fl.fl27DebtOverdue.debtOverdueMainSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverduePercentSum", fl.fl27DebtOverdue.debtOverduePercentSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueOtherSum", fl.fl27DebtOverdue.debtOverdueOtherSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueStartDate", fl.fl27DebtOverdue.debtOverdueStartDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "mainMissDate", fl.fl27DebtOverdue.mainMissDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "percentMissDate", fl.fl27DebtOverdue.percentMissDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "missDuration", fl.fl27DebtOverdue.missDuration?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "repaidMissDuration", fl.fl27DebtOverdue.repaidMissDuration?.value?:""),
 
-            DataInfo(idMain, "FL_28_Payment", "paymentSum", fl.fl28Payment.paymentSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentMainSum", fl.fl28Payment.paymentMainSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentPercentSum", fl.fl28Payment.paymentPercentSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentOtherSum", fl.fl28Payment.paymentOtherSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalSum", fl.fl28Payment.totalSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalMainSum", fl.fl28Payment.totalMainSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalPercentSum", fl.fl28Payment.totalPercentSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalOtherSum", fl.fl28Payment.totalOtherSum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "date", fl.fl28Payment.date.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "sizeCode", fl.fl28Payment.sizeCode.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "scheduleCode", fl.fl28Payment.scheduleCode.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "lastMissPaySum", fl.fl28Payment.lastMissPaySum.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paySum24", fl.fl28Payment.paySum24.value?:"")
+            DataInfo(idMain, "FL_28_Payment", "paymentSum", fl.fl28Payment.paymentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentMainSum", fl.fl28Payment.paymentMainSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentPercentSum", fl.fl28Payment.paymentPercentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentOtherSum", fl.fl28Payment.paymentOtherSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalSum", fl.fl28Payment.totalSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalMainSum", fl.fl28Payment.totalMainSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalPercentSum", fl.fl28Payment.totalPercentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalOtherSum", fl.fl28Payment.totalOtherSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "date", fl.fl28Payment.date?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "sizeCode", fl.fl28Payment.sizeCode?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "scheduleCode", fl.fl28Payment.scheduleCode?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "lastMissPaySum", fl.fl28Payment.lastMissPaySum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paySum24", fl.fl28Payment.paySum24?.value?:"")
         )
     }
 
 
     private fun fl231ContractTermsChanges(idMain: Number, fl231: Fl23_1ContractTermsChanges): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "termsChangeCode", fl231.termsChangeCode.value?:""),
-            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "termsChangeDesc", fl231.termsChangeDesc.value?:""),
-            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "changingDate", fl231.changingDate.value?:"")
+            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "termsChangeCode", fl231.termsChangeCode?.value?:""),
+            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "termsChangeDesc", fl231.termsChangeDesc?.value?:""),
+            DataInfo(idMain, "FL_23_1_ContractTermsChanges", "changingDate", fl231.changingDate?.value?:"")
         )
     }
 
     private fun fl23ContractChanges(idMain: Number, fl23ContractChanges: Fl23ContractChanges): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_23_ContractChanges", "changeDate", fl23ContractChanges.changeDate.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "code", fl23ContractChanges.code.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "specialCode", fl23ContractChanges.specialCode.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "otherDesc", fl23ContractChanges.otherDesc.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "startDate", fl23ContractChanges.startDate.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "endDate", fl23ContractChanges.endDate.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "actualEndDate", fl23ContractChanges.actualEndDate.value?:""),
-            DataInfo(idMain, "FL_23_ContractChanges", "endCode", fl23ContractChanges.endCode.value?:"")
+            DataInfo(idMain, "FL_23_ContractChanges", "changeDate", fl23ContractChanges.changeDate?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "code", fl23ContractChanges.code?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "specialCode", fl23ContractChanges.specialCode?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "otherDesc", fl23ContractChanges.otherDesc?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "startDate", fl23ContractChanges.startDate?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "endDate", fl23ContractChanges.endDate?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "actualEndDate", fl23ContractChanges.actualEndDate?.value?:""),
+            DataInfo(idMain, "FL_23_ContractChanges", "endCode", fl23ContractChanges.endCode?.value?:"")
         )
     }
 
     private fun fl29MonthlyPayment(idMain: Number, fl29MonthlyPayment: Fl29MonthlyPayment): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_29_MonthlyPayment", "sum", fl29MonthlyPayment.sum.value?:""),
-            DataInfo(idMain, "FL_29_MonthlyPayment", "calcDate", fl29MonthlyPayment.calcDate.value?:""),
-            DataInfo(idMain, "FL_29_MonthlyPayment", "sumTotal", fl29MonthlyPayment.sumTotal.value?:"")
+            DataInfo(idMain, "FL_29_MonthlyPayment", "sum", fl29MonthlyPayment.sum?.value?:""),
+            DataInfo(idMain, "FL_29_MonthlyPayment", "calcDate", fl29MonthlyPayment.calcDate?.value?:""),
+            DataInfo(idMain, "FL_29_MonthlyPayment", "sumTotal", fl29MonthlyPayment.sumTotal?.value?:"")
         )
     }
 
     private fun fl56Participation(idMain: Number, fl56Participation: Fl56Participation): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_56_Participation", "role", fl56Participation.role.value?:""),
-            DataInfo(idMain, "FL_56_Participation", "kindCode", fl56Participation.kindCode.value?:""),
-            DataInfo(idMain, "FL_56_Participation", "uid", fl56Participation.uid.value?:""),
-            DataInfo(idMain, "FL_56_Participation", "fundDate", fl56Participation.fundDate.value?:""),
+            DataInfo(idMain, "FL_56_Participation", "role", fl56Participation.role?.value?:""),
+            DataInfo(idMain, "FL_56_Participation", "kindCode", fl56Participation.kindCode?.value?:""),
+            DataInfo(idMain, "FL_56_Participation", "uid", fl56Participation.uid?.value?:""),
+            DataInfo(idMain, "FL_56_Participation", "fundDate", fl56Participation.fundDate?.value?:""),
             DataInfo(idMain, "FL_56_Participation", "isOverdue", if(fl56Participation.isOverdueExist){"1"}else{"0"}),
             DataInfo(idMain, "FL_56_Participation", "isStop", if(fl56Participation.isStopExist){"1"}else{"0"})
         )
@@ -358,32 +358,32 @@ object GutdfLoaderFile {
 
     private fun fl54Accounting(idMain: Number, fl54Accounting: Fl54Accounting): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_54_Accounting", "sum", fl54Accounting.sum.value?:""),
-            DataInfo(idMain, "FL_54_Accounting", "minInterest", fl54Accounting.minInterest.value?:""),
-            DataInfo(idMain, "FL_54_Accounting", "maxInterest", fl54Accounting.maxInterest.value?:""),
-            DataInfo(idMain, "FL_54_Accounting", "supportInfo", fl54Accounting.supportInfo.value?:""),
-            DataInfo(idMain, "FL_54_Accounting", "calcDate", fl54Accounting.calcDate.value?:"")
+            DataInfo(idMain, "FL_54_Accounting", "sum", fl54Accounting.sum?.value?:""),
+            DataInfo(idMain, "FL_54_Accounting", "minInterest", fl54Accounting.minInterest?.value?:""),
+            DataInfo(idMain, "FL_54_Accounting", "maxInterest", fl54Accounting.maxInterest?.value?:""),
+            DataInfo(idMain, "FL_54_Accounting", "supportInfo", fl54Accounting.supportInfo?.value?:""),
+            DataInfo(idMain, "FL_54_Accounting", "calcDate", fl54Accounting.calcDate?.value?:"")
         )
     }
 
     private fun fl22TotalCost(idMain: Number, fl22TotalCost: Fl22TotalCost): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_22_TotalCost", "minPercentCost", fl22TotalCost.minPercentCost.value?:""),
-            DataInfo(idMain, "FL_22_TotalCost", "mainPayDate", fl22TotalCost.minCost.value?:""),
-            DataInfo(idMain, "FL_22_TotalCost", "calcDate", fl22TotalCost.calcDate.value?:""),
-            DataInfo(idMain, "FL_22_TotalCost", "maxPercentCost", fl22TotalCost.maxPercentCost.value?:""),
-            DataInfo(idMain, "FL_22_TotalCost", "maxCost", fl22TotalCost.maxCost.value?:"")
+            DataInfo(idMain, "FL_22_TotalCost", "minPercentCost", fl22TotalCost.minPercentCost?.value?:""),
+            DataInfo(idMain, "FL_22_TotalCost", "mainPayDate", fl22TotalCost.minCost?.value?:""),
+            DataInfo(idMain, "FL_22_TotalCost", "calcDate", fl22TotalCost.calcDate?.value?:""),
+            DataInfo(idMain, "FL_22_TotalCost", "maxPercentCost", fl22TotalCost.maxPercentCost?.value?:""),
+            DataInfo(idMain, "FL_22_TotalCost", "maxCost", fl22TotalCost.maxCost?.value?:"")
         )
     }
 
     private fun fl21PaymentTerms(idMain: Number, fl21PaymentTerms: Fl21PaymentTerms): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_21_PaymentTerms", "mainPaySum", fl21PaymentTerms.mainPaySum.value?:""),
-            DataInfo(idMain, "FL_21_PaymentTerms", "mainPayDate", fl21PaymentTerms.mainPayDate.value?:""),
-            DataInfo(idMain, "FL_21_PaymentTerms", "percentPaySum", fl21PaymentTerms.percentPaySum.value?:""),
-            DataInfo(idMain, "FL_21_PaymentTerms", "percentPayDate", fl21PaymentTerms.percentPayDate.value?:""),
-            DataInfo(idMain, "FL_21_PaymentTerms", "freqCode", fl21PaymentTerms.freqCode.value?:""),
-            DataInfo(idMain, "FL_21_PaymentTerms", "percentEndDate", fl21PaymentTerms.percentEndDate.value?:"")
+            DataInfo(idMain, "FL_21_PaymentTerms", "mainPaySum", fl21PaymentTerms.mainPaySum?.value?:""),
+            DataInfo(idMain, "FL_21_PaymentTerms", "mainPayDate", fl21PaymentTerms.mainPayDate?.value?:""),
+            DataInfo(idMain, "FL_21_PaymentTerms", "percentPaySum", fl21PaymentTerms.percentPaySum?.value?:""),
+            DataInfo(idMain, "FL_21_PaymentTerms", "percentPayDate", fl21PaymentTerms.percentPayDate?.value?:""),
+            DataInfo(idMain, "FL_21_PaymentTerms", "freqCode", fl21PaymentTerms.freqCode?.value?:""),
+            DataInfo(idMain, "FL_21_PaymentTerms", "percentEndDate", fl21PaymentTerms.percentEndDate?.value?:"")
         )
     }
 
@@ -393,48 +393,48 @@ object GutdfLoaderFile {
         val fl191 = fl191AmountInfoList[0]
 
         return listOf(
-            DataInfo(idMain, "FL_19_1_AmountInfo", "securitySum", fl191.securitySum.value?:""),
-            DataInfo(idMain, "FL_19_1_AmountInfo", "securityTypeCode", fl191.securityTypeCode.value?:""),
-            DataInfo(idMain, "FL_19_1_AmountInfo", "calcDate", fl191.calcDate.value?:""),
-            DataInfo(idMain, "FL_19_1_AmountInfo", "securityUid", fl191.securityUid.value?:""),
-            DataInfo(idMain, "FL_19_1_AmountInfo", "liabilityLimit", fl191.liabilityLimit.value?:"")
+            DataInfo(idMain, "FL_19_1_AmountInfo", "securitySum", fl191.securitySum?.value?:""),
+            DataInfo(idMain, "FL_19_1_AmountInfo", "securityTypeCode", fl191.securityTypeCode?.value?:""),
+            DataInfo(idMain, "FL_19_1_AmountInfo", "calcDate", fl191.calcDate?.value?:""),
+            DataInfo(idMain, "FL_19_1_AmountInfo", "securityUid", fl191.securityUid?.value?:""),
+            DataInfo(idMain, "FL_19_1_AmountInfo", "liabilityLimit", fl191.liabilityLimit?.value?:"")
         )
     }
 
     private fun fl19Amount(idMain: Number, fl19Amount: Fl19Amount): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_19_Amount", "sum", fl19Amount.sum.value?:""),
-            DataInfo(idMain, "FL_19_Amount", "calcDate", fl19Amount.calcDate.value?:"")
+            DataInfo(idMain, "FL_19_Amount", "sum", fl19Amount.sum?.value?:""),
+            DataInfo(idMain, "FL_19_Amount", "calcDate", fl19Amount.calcDate?.value?:"")
         )
     }
 
     private fun fl18Deal(idMain: Number, fl18Deal: Fl18Deal): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_18_Deal", "role", fl18Deal.role.value?:""),
-            DataInfo(idMain, "FL_18_Deal", "code", fl18Deal.code.value?:""),
-            DataInfo(idMain, "FL_18_Deal", "kindCode", fl18Deal.kindCode.value?:""),
-            DataInfo(idMain, "FL_18_Deal", "purposeCode", fl18Deal.purposeCode.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "role", fl18Deal.role?.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "code", fl18Deal.code?.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "kindCode", fl18Deal.kindCode?.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "purposeCode", fl18Deal.purposeCode?.value?:""),
 
-            DataInfo(idMain, "FL_18_Deal", "endDate", fl18Deal.endDate.value?:""),
-            DataInfo(idMain, "FL_18_Deal", "creditLineCode", fl18Deal.creditLineCode.value?:""),
-            DataInfo(idMain, "FL_18_Deal", "startDate", fl18Deal.startDate.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "endDate", fl18Deal.endDate?.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "creditLineCode", fl18Deal.creditLineCode?.value?:""),
+            DataInfo(idMain, "FL_18_Deal", "startDate", fl18Deal.startDate?.value?:""),
             DataInfo(idMain, "FL_18_Deal", "isConsumer", if(fl18Deal.isConsumer){"1"}else{"0"})
         )
     }
 
     private fun fl17DealUid(idMain: Number, fl17DealUid: Fl17DealUid): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_17_DealUid", "uid", fl17DealUid.uid.value?:""),
-            DataInfo(idMain, "FL_17_DealUid", "num", fl17DealUid.num.value?:""),
-            DataInfo(idMain, "FL_17_DealUid", "refUid", fl17DealUid.refUid.value?:""),
-            DataInfo(idMain, "FL_17_DealUid", "openDate", fl17DealUid.openDate.value?:"")
+            DataInfo(idMain, "FL_17_DealUid", "uid", fl17DealUid.uid?.value?:""),
+            DataInfo(idMain, "FL_17_DealUid", "num", fl17DealUid.num?.value?:""),
+            DataInfo(idMain, "FL_17_DealUid", "refUid", fl17DealUid.refUid?.value?:""),
+            DataInfo(idMain, "FL_17_DealUid", "openDate", fl17DealUid.openDate?.value?:"")
         )
     }
 
     private fun fl11IndividualEntrepreneur(idMain: Number, fl11IndividualEntrepreneur: Fl11IndividualEntrepreneur): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_11_IndividualEntrepreneur", "regNum", fl11IndividualEntrepreneur.regNum.value?:""),
-            DataInfo(idMain, "FL_11_IndividualEntrepreneur", "date", fl11IndividualEntrepreneur.date.value?:"")
+            DataInfo(idMain, "FL_11_IndividualEntrepreneur", "regNum", fl11IndividualEntrepreneur.regNum?.value?:""),
+            DataInfo(idMain, "FL_11_IndividualEntrepreneur", "date", fl11IndividualEntrepreneur.date?.value?:"")
         )
     }
 
@@ -450,65 +450,65 @@ object GutdfLoaderFile {
 
     private fun fl9AddrFact(idMain: Number, fl9AddrFact: Fl9AddrFact): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_9_AddrFact", "postCode", fl9AddrFact.postCode.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "regStateNum", fl9AddrFact.regStateNum.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "locationCode", fl9AddrFact.okato.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "street", fl9AddrFact.street.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "house", fl9AddrFact.house.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "estate", fl9AddrFact.estate.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "block", fl9AddrFact.block.value?:""),
-            DataInfo(idMain, "FL_9_AddrFact", "build", fl9AddrFact.build.value?:"")
+            DataInfo(idMain, "FL_9_AddrFact", "postCode", fl9AddrFact.postCode?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "regStateNum", fl9AddrFact.regStateNum?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "locationCode", fl9AddrFact.okato?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "street", fl9AddrFact.street?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "house", fl9AddrFact.house?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "estate", fl9AddrFact.estate?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "block", fl9AddrFact.block?.value?:""),
+            DataInfo(idMain, "FL_9_AddrFact", "build", fl9AddrFact.build?.value?:"")
         )
     }
 
     private fun fl8AddrReg(idMain: Number, fl8AddrReg: Fl8AddrReg): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_8_AddrReg", "code", fl8AddrReg.code.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "postCode", fl8AddrReg.postCode.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "regStateNum", fl8AddrReg.regStateNum.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "locationCode", fl8AddrReg.okato.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "street", fl8AddrReg.street.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "house", fl8AddrReg.house.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "estate", fl8AddrReg.estate.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "block", fl8AddrReg.block.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "build", fl8AddrReg.build.value?:"")
+            DataInfo(idMain, "FL_8_AddrReg", "code", fl8AddrReg.code?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "postCode", fl8AddrReg.postCode?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "regStateNum", fl8AddrReg.regStateNum?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "locationCode", fl8AddrReg.okato?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "street", fl8AddrReg.street?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "house", fl8AddrReg.house?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "estate", fl8AddrReg.estate?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "block", fl8AddrReg.block?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "build", fl8AddrReg.build?.value?:"")
         )
     }
 
     private fun fl57Reject(idMain: Number, fl57Reject: Fl57Reject): List<DataInfo> {
         return listOf(
-            DataInfo(idMain, "FL_57_Reject", "rejectDate", fl57Reject.rejectDate.value?:""),
-            DataInfo(idMain, "FL_57_Reject", "rejectCode", fl57Reject.rejectCode.value?:"")
+            DataInfo(idMain, "FL_57_Reject", "rejectDate", fl57Reject.rejectDate?.value?:""),
+            DataInfo(idMain, "FL_57_Reject", "rejectCode", fl57Reject.rejectCode?.value?:"")
         )
     }
 
     private fun title(idMain: Number, title: SubjectTitleDataFl): List<DataInfo> {
         val data = ArrayList<DataInfo>()
 
-        data += DataInfo(idMain, "FL_1_4_Group", "lastName", title.fl1_4Group.fio.lastName.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "firstName", title.fl1_4Group.fio.firstName.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "middleName", title.fl1_4Group.fio.middleName.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "lastName", title.fl1_4Group.fio.lastName?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "firstName", title.fl1_4Group.fio.firstName?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "middleName", title.fl1_4Group.fio.middleName?.value?:"")
 
-        data += DataInfo(idMain, "FL_1_4_Group", "docCode", title.fl1_4Group.fl4Doc.docCode.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "docNum", title.fl1_4Group.fl4Doc.docNum.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "docSeries", title.fl1_4Group.fl4Doc.docSeries.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "issueDate", title.fl1_4Group.fl4Doc.issueDate.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "docIssuer", title.fl1_4Group.fl4Doc.docIssuer.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "deptCode", title.fl1_4Group.fl4Doc.deptCode.value?:"")
-        data += DataInfo(idMain, "FL_1_4_Group", "foreignerCode", title.fl1_4Group.fl4Doc.foreignerCode.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "docCode", title.fl1_4Group.fl4Doc.docCode?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "docNum", title.fl1_4Group.fl4Doc.docNum?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "docSeries", title.fl1_4Group.fl4Doc.docSeries?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "issueDate", title.fl1_4Group.fl4Doc.issueDate?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "docIssuer", title.fl1_4Group.fl4Doc.docIssuer?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "deptCode", title.fl1_4Group.fl4Doc.deptCode?.value?:"")
+        data += DataInfo(idMain, "FL_1_4_Group", "foreignerCode", title.fl1_4Group.fl4Doc.foreignerCode?.value?:"")
 
-        data += DataInfo(idMain, "FL_2_5_Group", "lastName", title.fl2_5Group.flPrevName.lastName.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "firstName", title.fl2_5Group.flPrevName.firstName.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "middleName", title.fl2_5Group.flPrevName.middleName.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "lastName", title.fl2_5Group.flPrevName.lastName?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "firstName", title.fl2_5Group.flPrevName.firstName?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "middleName", title.fl2_5Group.flPrevName.middleName?.value?:"")
 
-        data += DataInfo(idMain, "FL_2_5_Group", "docCode", title.fl2_5Group.fl5PrevDoc.docCode.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "docNum", title.fl2_5Group.fl5PrevDoc.docNum.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "docSeries", title.fl2_5Group.fl5PrevDoc.docSeries.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "issueDate", title.fl2_5Group.fl5PrevDoc.issueDate.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "docIssuer", title.fl2_5Group.fl5PrevDoc.docIssuer.value?:"")
-        data += DataInfo(idMain, "FL_2_5_Group", "deptCode", title.fl2_5Group.fl5PrevDoc.deptCode.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "docCode", title.fl2_5Group.fl5PrevDoc.docCode?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "docNum", title.fl2_5Group.fl5PrevDoc.docNum?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "docSeries", title.fl2_5Group.fl5PrevDoc.docSeries?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "issueDate", title.fl2_5Group.fl5PrevDoc.issueDate?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "docIssuer", title.fl2_5Group.fl5PrevDoc.docIssuer?.value?:"")
+        data += DataInfo(idMain, "FL_2_5_Group", "deptCode", title.fl2_5Group.fl5PrevDoc.deptCode?.value?:"")
 
-        data += DataInfo(idMain, "FL_6_Tax", "regNum", title.fl6Tax.regNum.value?:"")
+        data += DataInfo(idMain, "FL_6_Tax", "regNum", title.fl6Tax.regNum?.value?:"")
         data += DataInfo(idMain, "FL_6_Tax", "taxNum", title.fl6Tax.taxNumGroup?.taxNum?.value?:"")
 
         data += DataInfo(idMain, "FL_7_Social", "socialNum", title.fl7Social.socialNum?.value?:"")
@@ -518,17 +518,17 @@ object GutdfLoaderFile {
 
     private fun fl55Application(idMain: Number, fl55Application: Fl55Application): List<DataInfo> {
         return listOf(
-        DataInfo(idMain, "FL_55_Application", "role", fl55Application.role.value?:""),
-        DataInfo(idMain, "FL_55_Application", "sum", fl55Application.sum.value?:""),
-        DataInfo(idMain, "FL_55_Application", "uid", fl55Application.uid.value?:""),
-        DataInfo(idMain, "FL_55_Application", "applicationDate", fl55Application.applicationDate.value?:""),
-        DataInfo(idMain, "FL_55_Application", "approvalEndDate", fl55Application.approvalEndDate.value?:""),
-        DataInfo(idMain, "FL_55_Application", "stageEndDate", fl55Application.stageEndDate.value?:""),
-        DataInfo(idMain, "FL_55_Application", "purposeCode", fl55Application.purposeCode.value?:""),
-        DataInfo(idMain, "FL_55_Application", "stageCode", fl55Application.stageCode.value?:""),
-        DataInfo(idMain, "FL_55_Application", "stageDate", fl55Application.stageDate.value?:""),
-        DataInfo(idMain, "FL_55_Application", "num", fl55Application.num.value?:""),
-        DataInfo(idMain, "FL_55_Application", "loanSum", fl55Application.loanSum.value?:"")
+        DataInfo(idMain, "FL_55_Application", "role", fl55Application.role?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "sum", fl55Application.sum?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "uid", fl55Application.uid?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "applicationDate", fl55Application.applicationDate?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "approvalEndDate", fl55Application.approvalEndDate?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "stageEndDate", fl55Application.stageEndDate?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "purposeCode", fl55Application.purposeCode?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "stageCode", fl55Application.stageCode?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "stageDate", fl55Application.stageDate?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "num", fl55Application.num?.value?:""),
+        DataInfo(idMain, "FL_55_Application", "loanSum", fl55Application.loanSum?.value?:"")
         )
     }
 
