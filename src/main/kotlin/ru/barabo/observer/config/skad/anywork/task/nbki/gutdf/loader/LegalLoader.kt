@@ -8,7 +8,7 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.block.*
 
 private val logger = LoggerFactory.getLogger(GutdfLoaderFile::class.java)
 
-fun processUl(idFile: Number, subjectUlList: List<SubjectUl>): List<DataInfo> {
+fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
 
     if(subjectUlList.isNullOrEmpty()) return emptyList()
 
@@ -427,10 +427,15 @@ private fun ul45Application(idMain: Number, ul45Application: Ul45Application): L
 private fun findMainId(idFile: Number, tax: String, event: String,
                        unicalUid: String?, eventDateXml: String): Number {
 
+    logger.error("tax=$tax")
+    logger.error("event=$event")
+    logger.error("unicalUid=$unicalUid")
+    logger.error("eventDateXml=$eventDateXml")
+
     return if(unicalUid == null) {
 
         AfinaQuery.selectValue(SEL_MAIN_BY_TAX,
-            params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp(), "")) as Number
+            params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp())) as Number
     } else {
         AfinaQuery.selectValue(SEL_MAIN_BY_UID,
             params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "")) as Number

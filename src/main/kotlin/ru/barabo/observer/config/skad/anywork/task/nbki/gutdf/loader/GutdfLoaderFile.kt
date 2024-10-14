@@ -33,7 +33,7 @@ object GutdfLoaderFile {
 
         data += processUl(idFile, mainDocument.data.subjectUlList)
 
-        data.saveAll()
+        data.saveAll(idFile)
     }
 
     private fun processFl(idFile: Number, subjectFlList: List<SubjectFl>?): List<DataInfo> {
@@ -92,53 +92,74 @@ object GutdfLoaderFile {
                 data.addAll( fl11IndividualEntrepreneur(idMain, it.fl11IndividualEntrepreneur) )
             }
 
-            fl.events.flEvent2_1List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+            fl.events.flEvent2_1List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
 
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, it.fl18Deal) )
-                data.addAll( fl19Amount(idMain, it.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
-                data.addAll( fl25262728Group(idMain, it.fl25_26_27_28Group) )
-                data.addAll( fl29MonthlyPayment(idMain, it.fl29MonthlyPayment) )
-                data.addAll( fl23ContractChanges(idMain, it.fl23ContractChanges) )
-                data.addAll( fl231ContractTermsChanges(idMain, it.fl23_1ContractTermsChanges) )
-                data.addAll( fl54Accounting(idMain, it.fl54Accounting) )
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
+                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
+
+                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                data.addAll( fl23ContractChanges(idMain, event.fl23ContractChanges) )
+                data.addAll( fl231ContractTermsChanges(idMain, event.fl23_1ContractTermsChanges) )
+                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
             }
 
-            fl.events.flEvent2_2List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+            fl.events.flEvent2_2List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
 
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, it.fl18Deal) )
-                data.addAll( fl19Amount(idMain, it.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
-                data.addAll( fl24Fund(idMain, it.fl24Fund) )
-                data.addAll( fl25262728Group(idMain, it.fl25_26_27_28Group) )
-                data.addAll( fl29MonthlyPayment(idMain, it.fl29MonthlyPayment) )
-                data.addAll( fl54Accounting(idMain, it.fl54Accounting) )
-                data.addAll( fl55Application(idMain, it.fl55Application) )
-                data.addAll( fl56Participation(idMain, it.fl56Participation) )
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
+                data.addAll( fl24Fund(idMain, event.fl24Fund) )
+                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
+
+                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
+                data.addAll( fl55Application(idMain, event.fl55Application) )
+                data.addAll( fl56Participation(idMain, event.fl56Participation) )
             }
 
-            fl.events.flEvent2_3List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+            fl.events.flEvent2_2_1List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
 
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, it.fl18Deal) )
-                data.addAll( fl19Amount(idMain, it.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
-                data.addAll( fl25262728Group(idMain, it.fl25_26_27_28Group) )
-                data.addAll( fl29MonthlyPayment(idMain, it.fl29MonthlyPayment) )
-                data.addAll( fl54Accounting(idMain, it.fl54Accounting) )
-                data.addAll( fl55Application(idMain, it.fl55Application) )
-                data.addAll( fl56Participation(idMain, it.fl56Participation) )
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl24Fund(idMain, event.fl24Fund) )
+                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
+                data.addAll( fl56Participation(idMain, event.fl56Participation) )
+            }
+
+            fl.events.flEvent2_3List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
+                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
+
+                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
+
+                event.fl55Application?.let { data.addAll( fl55Application(idMain, it) ) }
+
+                data.addAll( fl56Participation(idMain, event.fl56Participation) )
             }
 
             fl.events.flEvent2_4List?.forEach {
@@ -149,19 +170,21 @@ object GutdfLoaderFile {
                 data.addAll( fl33Warranty(idMain, it.fl33Warranty) )
             }
 
-            fl.events.flEvent2_5List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+            fl.events.flEvent2_5List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
 
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, it.fl18Deal) )
-                data.addAll( fl19Amount(idMain, it.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
-                data.addAll( fl25262728Group(idMain, it.fl25_26_27_28Group) )
-                data.addAll( fl29MonthlyPayment(idMain, it.fl29MonthlyPayment) )
-                data.addAll( fl38ContractEnd(idMain, it.fl38ContractEnd) )
-                data.addAll( fl56Participation(idMain, it.fl56Participation) )
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
+                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
+
+                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                data.addAll( fl38ContractEnd(idMain, event.fl38ContractEnd) )
+                data.addAll( fl56Participation(idMain, event.fl56Participation) )
             }
 
             fl.events.flEvent2_6List?.forEach {
@@ -508,10 +531,10 @@ object GutdfLoaderFile {
         data += DataInfo(idMain, "FL_2_5_Group", "docIssuer", title.fl2_5Group.fl5PrevDoc.docIssuer?.value?:"")
         data += DataInfo(idMain, "FL_2_5_Group", "deptCode", title.fl2_5Group.fl5PrevDoc.deptCode?.value?:"")
 
-        data += DataInfo(idMain, "FL_6_Tax", "regNum", title.fl6Tax.regNum?.value?:"")
-        data += DataInfo(idMain, "FL_6_Tax", "taxNum", title.fl6Tax.taxNumGroup?.taxNum?.value?:"")
+        data += DataInfo(idMain, "FL_6_Tax", "regNum", title.fl6Tax?.regNum?.value?:"")
+        data += DataInfo(idMain, "FL_6_Tax", "taxNum", title.fl6Tax?.taxNumGroup?.taxNum?.value?:"")
 
-        data += DataInfo(idMain, "FL_7_Social", "socialNum", title.fl7Social.socialNum?.value?:"")
+        data += DataInfo(idMain, "FL_7_Social", "socialNum", title.fl7Social?.socialNum?.value?:"")
 
         return data
     }
@@ -534,6 +557,12 @@ object GutdfLoaderFile {
 
     private fun findMainId(idFile: Number, taxPassport: String, event: String,
                            unicalUid: String?, eventDateXml: String): Number {
+
+        logger.error("idFile=$idFile")
+        logger.error("taxPassport=$taxPassport")
+        logger.error("event=$event")
+        logger.error("unicalUid=$unicalUid")
+        logger.error("eventDateXml=$eventDateXml")
 
         val id = when {
             (unicalUid == null) && (taxPassport.length == 13) ->
@@ -576,21 +605,24 @@ fun String.xmlDateToTimestamp(): Timestamp = xmlToLocalDate().toTimestamp()
 class DataInfo(val idMain: Number, val block: String, val tag: String, val value: String, val addId: Number? = null)
 private val logger = LoggerFactory.getLogger(GutdfLoaderFile::class.java)
 
-fun ArrayList<DataInfo>.saveAll() {
+fun ArrayList<DataInfo>.saveAll(idFile: Number) {
+
+    if(size == 0) return
 
     val session = AfinaQuery.uniqueSession()
 
     try {
+        AfinaQuery.execute(DEL_FILE_DATA,  params = arrayOf(idFile), sessionSetting = session)
 
         for (data in this) {
 
             if(data.addId == null) {
 
-                AfinaQuery.execute(EXEC_SAVE_DATA, arrayOf(data.idMain,
+                AfinaQuery.execute(EXEC_SAVE_DATA, sessionSetting = session, params = arrayOf(data.idMain,
                     data.block.uppercase(Locale.getDefault()), data.tag.uppercase(Locale.getDefault()), data.value))
             } else {
 
-                AfinaQuery.execute(EXEC_SAVE_DATA_ADD, arrayOf(data.idMain,
+                AfinaQuery.execute(EXEC_SAVE_DATA_ADD, sessionSetting = session, params = arrayOf(data.idMain,
                     data.block.uppercase(Locale.getDefault()), data.tag.uppercase(Locale.getDefault()), data.value, data.addId))
             }
         }
@@ -615,3 +647,6 @@ private const val EXEC_SAVE_DATA_ADD = "insert into od.PTKB_GUTDF_VALUES (ID_MAI
 const val SEL_GUARANT_BY_ID = "select od.PTKB_GUTDF.getGuarantByUid( ? ) from dual"
 
 const val SEL_PLEDGE = "select od.PTKB_GUTDF.getPledgeByPropertyId( ?, ? ) from dual"
+
+private const val DEL_FILE_DATA = "{ call od.PTKB_RUTDF.deleteAllValuesByFile( ? ) }"
+

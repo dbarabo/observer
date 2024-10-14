@@ -66,4 +66,36 @@ public class FlEvent2_2_1 extends AbstractEventData {
     public String getUnicalId() {
         return fl17DealUid.getUid().value;
     }
+
+    public Fl17DealUid getFl17DealUid() {
+        return fl17DealUid;
+    }
+
+    public Fl18Deal getFl18Deal() {
+        return fl18Deal;
+    }
+
+    public Fl19Amount getFl19Amount() {
+        return fl19Amount;
+    }
+
+    public List<Fl19_1AmountInfo> getFl19_1AmountInfoList() {
+        return fl19_1AmountInfoList;
+    }
+
+    public Fl21PaymentTerms getFl21PaymentTerms() {
+        return fl21PaymentTerms;
+    }
+
+    public Fl24Fund getFl24Fund() {
+        return fl24Fund;
+    }
+
+    public Fl54Accounting getFl54Accounting() {
+        return fl54Accounting;
+    }
+
+    public Fl56Participation getFl56Participation() {
+        return fl56Participation;
+    }
 }

@@ -47,7 +47,6 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.*
-import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutDfCreator
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.errorFolder
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutdfLoaderFile
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
@@ -1401,17 +1400,34 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testGutDfCreator() {
 
-        GutDfCreator.createPullTest(LocalDate.of(2024, 7, 1), LocalDate.of(2024, 8, 1))
+        //GutDfCreator.createPullTest(LocalDate.of(2024, 7, 1), LocalDate.of(2024, 8, 1))
 
         //val file = GutDfCreator.createFileByRutdf(1318366350L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
 
         //logger.error("file=$file")
     }
 
-    @Test
+    //@Test
+    fun testGutdfLoaderAllFilesFolder() {
+
+        val pathOt = File("X:\\НБКИ\\test\\2024\\10\\09")
+
+        pathOt
+            .listFiles { f ->(!f.isDirectory) }
+            .forEach {
+                logger.error("file=$it")
+                GutdfLoaderFile.loadByFile(it)
+            }
+
+        //val file = File("X:\\НБКИ\\test\\2024\\10\\10\\K301BB000001_20240701_122820.xml")
+
+        //GutdfLoaderFile.loadByFile(file)
+    }
+
+    //@Test
     fun testGutdfLoaderFile() {
 
-        val file = File("X:\\НБКИ\\test\\2024\\10\\10\\K301BB000001_20240731_142102.xml")
+        val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240807_105021.xml")
 
         GutdfLoaderFile.loadByFile(file)
     }

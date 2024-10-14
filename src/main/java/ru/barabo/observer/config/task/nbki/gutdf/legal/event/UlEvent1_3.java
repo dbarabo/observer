@@ -31,7 +31,7 @@ public class UlEvent1_3 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "1.1";
+        return "1.3";
     }
 
     @Override
