@@ -12,6 +12,7 @@ import ru.barabo.observer.config.task.nbki.gutdf.physic.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.title.*
+import ru.barabo.observer.config.task.nbki.gutdf.ticket.*
 
 class XmlGutDfLoader<E> : AbstractXmlLoader<E>() {
 
@@ -131,6 +132,13 @@ class XmlGutDfLoader<E> : AbstractXmlLoader<E>() {
         xstream.processAnnotations(Ul17Debt::class.java)
         xstream.processAnnotations(Ul18DebtDue::class.java)
         xstream.processAnnotations(Ul19DebtOverdue::class.java)
+
+        xstream.processAnnotations(MainNotificationOfAcceptance::class.java)
+        xstream.processAnnotations(MainNotificationOfReceipt::class.java)
+        xstream.processAnnotations(ErrorReceipt::class.java)
+        xstream.processAnnotations(ErrorInfo::class.java)
+        xstream.processAnnotations(Errors::class.java)
+        xstream.processAnnotations(DocInfo::class.java)
 
         xstream.useAttributeFor(String::class.java)
         xstream.useAttributeFor(Int::class.java)

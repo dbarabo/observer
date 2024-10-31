@@ -47,6 +47,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.*
+import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutDfCreator
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.errorFolder
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutdfLoaderFile
 import ru.barabo.observer.config.skad.crypto.p311.MessageCreator311p
@@ -1373,7 +1374,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/10/08/UNCRYPTO/K301BB000001_20241008_113501_reject") )
+        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/10/31/UNCRYPTO/K301BB000001_20241031_104534_reject") )
     }
 
     //@Test
@@ -1400,17 +1401,16 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testGutDfCreator() {
 
-        //GutDfCreator.createPullTest(LocalDate.of(2024, 7, 1), LocalDate.of(2024, 8, 1))
+        GutDfCreator.createPullTest(LocalDate.of(2024, 10, 9), LocalDate.of(2024, 10, 15))
 
-        //val file = GutDfCreator.createFileByRutdf(1318366350L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
-
-        //logger.error("file=$file")
+        //val file = GutDfCreator.createFileByRutdf(1317564515L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
+        //        logger.error("file=$file")
     }
 
     //@Test
     fun testGutdfLoaderAllFilesFolder() {
 
-        val pathOt = File("X:\\НБКИ\\test\\2024\\10\\09")
+        val pathOt = File("X:\\НБКИ\\test\\2024\\10\\14")
 
         pathOt
             .listFiles { f ->(!f.isDirectory) }
@@ -1427,13 +1427,15 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testGutdfLoaderFile() {
 
-        val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240807_105021.xml")
+        val file = File("X:\\НБКИ\\test\\2024\\10\\14\\K301BB000001_20241004_114324.xml")
 
         GutdfLoaderFile.loadByFile(file)
     }
 
     //@Test
     fun testXsdSchema() {
+
+
 
         val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240816_110759.xml")
 

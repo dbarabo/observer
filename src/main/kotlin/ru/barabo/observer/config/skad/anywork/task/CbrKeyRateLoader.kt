@@ -18,6 +18,7 @@ import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -31,17 +32,17 @@ object CbrKeyRateLoader : SinglePerpetual {
 
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val countTimes: Long = 15
+    override val countTimes: Long = 20
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(8, 0), workTimeTo = LocalTime.of(16, 30) )
+        workTimeFrom = LocalTime.of(15, 30), workTimeTo = LocalTime.of(18, 30) )
 
     override fun execute(elem: Elem): State {
 
         val dataElement = dataElement() ?: return super.execute(elem)
 
-        val newData = checkNewData(dataElement) ?: return nextDayState(elem)
+        val newData = checkNewData(dataElement) ?: return nextMinuteTimeState(elem)
 
         processInfoNewData(newData)
 
@@ -65,11 +66,17 @@ object CbrKeyRateLoader : SinglePerpetual {
         BaraboSmtp.sendMantisTicket(message, null)
     }
 
+    private fun nextMinuteTimeState(elem: Elem): State {
+
+        elem.executed = LocalDateTime.now().plusMinutes(20)
+        //.plusHours( CbrCurrencyLoader.accessibleData.workTimeFrom.hour.toLong() )
+
+        return State.NONE
+    }
+
     private fun nextDayState(elem: Elem): State {
 
-        elem.executed = LocalDate.now()
-            .plusDays(1)
-            .atStartOfDay()
+        elem.executed = LocalDate.now().atStartOfDay().plusDays(1)
             .plusHours( CbrCurrencyLoader.accessibleData.workTimeFrom.hour.toLong() )
 
         return State.NONE

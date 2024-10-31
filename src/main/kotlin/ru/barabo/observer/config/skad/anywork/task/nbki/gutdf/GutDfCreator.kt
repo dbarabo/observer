@@ -10,6 +10,7 @@ import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl.GutdfDataFromRutdf
+import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutdfLoaderFile
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
@@ -34,8 +35,8 @@ object GutDfCreator {
     fun createFileByRutdf(idRutdf: Long?): File {
 
         var newIdRutdf: Long = 0
-       // try {
-            newIdRutdf = idRutdf!!// ?: generateNewRutdf()
+        try {
+            newIdRutdf = idRutdf ?: generateNewRutdf()
 
             val gutdfDataFromRutdf = GutdfDataFromRutdf(newIdRutdf)
 
@@ -47,18 +48,24 @@ object GutDfCreator {
 
             validateXml(file, xsd, ::errorFolder )
 
+            loadFileToDb(file)
+
             return file
 
-//        } catch (e: Exception) {
-//
-//            logger.error("createFileByRutdf idRutdf=$idRutdf newIdRutdf=$newIdRutdf", e)
-//
-//            if(idRutdf == null) {
-//                AfinaQuery.execute(DEL_RUTDF_DATA, params = arrayOf(newIdRutdf))
-//            }
-//
-//            throw Exception(e)
-//        }
+        } catch (e: Exception) {
+
+            logger.error("createFileByRutdf idRutdf=$idRutdf newIdRutdf=$newIdRutdf", e)
+
+            if(idRutdf == null) {
+                AfinaQuery.execute(DEL_RUTDF_DATA, params = arrayOf(newIdRutdf))
+            }
+
+            throw Exception(e)
+        }
+    }
+
+    private fun loadFileToDb(file: File) {
+        GutdfLoaderFile.loadByFile(file)
     }
 
     private fun generateNewRutdf(): Long {
@@ -102,7 +109,11 @@ object GutDfCreator {
 
         val isExists = selectValueType<Number>(IS_EXISTS_DATA, arrayOf(idFile), sessionUni)?.toInt() ?: 0
 
-        return (isExists > 0)
+        if(isExists == 0) return false
+
+        AfinaQuery.execute( PROCESS_DATA_GUTDF, arrayOf(idFile), sessionUni )
+
+        return true
     }
 }
 
@@ -119,6 +130,8 @@ private const val DEL_RUTDF_DATA = "delete from od.PTKB_RUTDF_FILE where ID = ?"
 private const val CREATE_FILE = "{ call od.PTKB_RUTDF.createRutdfFileOut(?, ?) }"
 
 private const val FILL_DATA_RUTDF = "{ call od.PTKB_RUTDF.prepareProcessEvents( ? ) }"
+
+private const val PROCESS_DATA_GUTDF = "{ call od.PTKB_GUTDF.prepareProcessInfoUpdate( ? ) }"
 
 private const val IS_EXISTS_DATA =
     "select count(*) from dual where exists (select 1 from od.ptkb_rutdf_main where RUTDF_FILE = ?)"
