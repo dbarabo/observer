@@ -13,6 +13,7 @@ import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 object GutdfLoaderFile {
 
@@ -48,23 +49,23 @@ object GutdfLoaderFile {
             var idMain: Number = 0
 
             fl.events.flEvent1_1List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl55Application(idMain, it.fl55Application) )
             }
 
             fl.events.flEvent1_2List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl55Application(idMain, it.fl55Application) )
             }
 
             fl.events.flEvent1_3List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl55Application(idMain, it.fl55Application) )
                 data.addAll( fl57Reject(idMain, it.fl57Reject) )
             }
 
             fl.events.flEvent1_4List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl8AddrReg(idMain, it.fl8AddrReg) )
                 data.addAll( fl9AddrFact(idMain, it.fl9AddrFact) )
                 data.addAll( fl10Contact(idMain, it.fl10Contact) )
@@ -81,11 +82,11 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent1_7List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
             }
 
             fl.events.flEvent1_9List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl8AddrReg(idMain, it.fl8AddrReg) )
                 data.addAll( fl9AddrFact(idMain, it.fl9AddrFact) )
                 data.addAll( fl10Contact(idMain, it.fl10Contact) )
@@ -93,7 +94,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_1List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
 
                 data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
                 data.addAll( fl18Deal(idMain, event.fl18Deal) )
@@ -111,7 +112,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_2List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
 
                 data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
                 data.addAll( fl18Deal(idMain, event.fl18Deal) )
@@ -130,7 +131,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_2_1List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
 
                 data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
                 data.addAll( fl18Deal(idMain, event.fl18Deal) )
@@ -143,7 +144,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_3List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
 
                 data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
                 data.addAll( fl18Deal(idMain, event.fl18Deal) )
@@ -163,7 +164,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_4List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
 
                 data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
                 data.addAll( fl3235Group(idMain, it.fl32_35Group) )
@@ -171,7 +172,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_5List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate)
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
 
                 data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
                 data.addAll( fl18Deal(idMain, event.fl18Deal) )
@@ -188,7 +189,7 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_6List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate)
+                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
 
                 data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
                 data.addAll( fl39Court(idMain, it.fl39Court) )
@@ -240,7 +241,7 @@ object GutdfLoaderFile {
 
         val sum = if(fl32Collateral.sumGroupFl32_35GroupList.isNullOrEmpty()) null else fl32Collateral.sumGroupFl32_35GroupList[0]
 
-        return listOf(
+        val list = mutableListOf(
             DataInfo(idMain, "FL_32_35_Group", "propertyId", propertyId?.value?:"", id),
 
             DataInfo(idMain, "FL_32_35_Group", "date", fl32Collateral.date?.value?:"", id),
@@ -258,8 +259,32 @@ object GutdfLoaderFile {
             DataInfo(idMain, "FL_32_35_Group", "assessDate", sum?.assessDate?.value?:"", id),
             DataInfo(idMain, "FL_32_35_Group", "priceCode", sum?.priceCode?.value?:"", id)
         )
+
+        list.addAll(insureInfo(idMain, id) )
+
+        return list
     }
 
+    private fun PropertyIdGroupFl32_35Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
+
+        if(fl35InsuranceList.isNullOrEmpty()) return emptyList()
+
+        val insureList = fl35InsuranceList.filter { !(it.startDate?.value.isNullOrEmpty()) }
+
+        val data = ArrayList<DataInfo>()
+
+        for((index, insure) in insureList.withIndex())  {
+            data += DataInfo(idMain, "FL_35_INSURANCE_$index", "startDate", insure.startDate!!.value, idPledge)
+
+            data += DataInfo(idMain, "FL_35_INSURANCE_$index", "insuranceEndDate", insure.insuranceEndDate?.value?:"", idPledge)
+
+            data += DataInfo(idMain, "FL_35_INSURANCE_$index", "insuranceFactEndDate", insure.insuranceFactEndDate?.value?:"", idPledge)
+
+            data += DataInfo(idMain, "FL_35_INSURANCE_$index", "endCode", insure.endCode?.value?:"", idPledge)
+        }
+
+        return data
+    }
 
     private fun fl33Warranty(idMain: Number, fl33: Fl33Warranty): List<DataInfo> {
         if(fl33.uidGroupFl33WarrantyList.isNullOrEmpty() ) return emptyList()
@@ -556,7 +581,7 @@ object GutdfLoaderFile {
     }
 
     private fun findMainId(idFile: Number, taxPassport: String, event: String,
-                           unicalUid: String?, eventDateXml: String): Number {
+                           unicalUid: String?, eventDateXml: String, orderNum: Int): Number {
 
         logger.error("idFile=$idFile")
         logger.error("taxPassport=$taxPassport")
@@ -578,9 +603,11 @@ object GutdfLoaderFile {
 
             else -> AfinaQuery.selectValue(SEL_MAIN_BY_UID,
                 params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), ""))
-        }
+        } as Number
 
-        return id as Number
+        AfinaQuery.execute(UPDATE_MAIN_ORDER, params = arrayOf(orderNum, id))
+
+        return id
     }
 
     private fun loadFromXml(file: File): MainDocument {
@@ -590,6 +617,8 @@ object GutdfLoaderFile {
         return xmlLoader.load(file)
     }
 }
+
+const val UPDATE_MAIN_ORDER = "update od.PTKB_RUTDF_MAIN set ORDER_NUM_INFILE = ? where ID = ?"
 
 private const val SEL_MAIN_BY_PASSPORT = "select od.PTKB_RUTDF.getMainByPassport(?, ?, ?, ?, ?) from dual"
 

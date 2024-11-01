@@ -19,7 +19,8 @@ object AnyWork : AbstractConfig() {
         CheckerRedSaldoNow.findAll()
         CheckerDoubleTurnPeriod.findAll()
 
-        RutdfCreateReport.findAll()
+        //RutdfCreateReport.findAll()
+        GutDfCreateFile.findAll()
         CheckExistsTicketRutdf.findAll()
 
         CecReportProcess.findAll()

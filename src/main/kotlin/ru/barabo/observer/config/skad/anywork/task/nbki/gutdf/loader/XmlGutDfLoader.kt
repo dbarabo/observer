@@ -142,5 +142,7 @@ class XmlGutDfLoader<E> : AbstractXmlLoader<E>() {
 
         xstream.useAttributeFor(String::class.java)
         xstream.useAttributeFor(Int::class.java)
+        xstream.useAttributeFor(Integer::class.java)
+
     }
 }

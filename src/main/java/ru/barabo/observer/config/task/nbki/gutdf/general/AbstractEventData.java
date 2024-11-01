@@ -24,6 +24,10 @@ public abstract class AbstractEventData {
         return eventDate;
     }
 
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
     abstract public String getEvent();
 
     abstract public String getUnicalId();

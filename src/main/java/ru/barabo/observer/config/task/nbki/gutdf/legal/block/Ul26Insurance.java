@@ -62,4 +62,20 @@ public class Ul26Insurance {
 
         this.endCode = endCode == null ? null : new StringElement(endCode.toString());
     }
+
+    public StringElement getStartDate() {
+        return startDate;
+    }
+
+    public StringElement getInsuranceEndDate() {
+        return insuranceEndDate;
+    }
+
+    public StringElement getInsuranceFactEndDate() {
+        return insuranceFactEndDate;
+    }
+
+    public StringElement getEndCode() {
+        return endCode;
+    }
 }

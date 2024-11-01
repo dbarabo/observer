@@ -21,24 +21,24 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         var idMain: Number = 0
 
         ul.events?.ulEvent1_1List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
             data.addAll(ul45Application(idMain, it.ul45Application))
         }
 
         ul.events.ulEvent1_2List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll(ul45Application(idMain, it.ul45Application))
         }
 
         ul.events.ulEvent1_3List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll(ul45Application(idMain, it.ul45Application))
         }
 
         ul.events.ulEvent1_4List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -51,11 +51,11 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent1_7List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
         }
 
         ul.events.ulEvent2_1List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -69,7 +69,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_2List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -84,7 +84,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_2_1List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -97,7 +97,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_3List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -112,7 +112,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
 
         ul.events.ulEvent2_4List?.forEach {
 
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul2326Group(idMain, it.ul23_26Group) )
@@ -120,7 +120,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_5List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul11Deal(idMain, it.ul11Deal) )
@@ -135,7 +135,7 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_6List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate)
+            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
 
             data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
             data.addAll( ul30Court(idMain, it.ul30Court) )
@@ -217,7 +217,7 @@ private fun PropertyIdGroupUl23_26Group.info(idMain: Number): List<DataInfo> {
 
     val sum = if(ul23Collateral.sumGroupUl23_26Group.isNullOrEmpty()) null else ul23Collateral.sumGroupUl23_26Group[0]
 
-    return listOf(
+    val list = mutableListOf(
         DataInfo(idMain, "UL_23_26_Group", "propertyId", propertyId?.value?:"", id),
 
         DataInfo(idMain, "UL_23_26_Group", "date", ul23Collateral.date?.value?:"", id),
@@ -235,6 +235,31 @@ private fun PropertyIdGroupUl23_26Group.info(idMain: Number): List<DataInfo> {
         DataInfo(idMain, "UL_23_26_Group", "assessDate", sum?.assessDate?.value?:"", id),
         DataInfo(idMain, "UL_23_26_Group", "priceCode", sum?.priceCode?.value?:"", id)
     )
+
+    list.addAll(insureInfo(idMain, id) )
+
+    return list
+}
+
+private fun PropertyIdGroupUl23_26Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
+
+    if(ul26Insurance.isNullOrEmpty()) return emptyList()
+
+    val insureList = ul26Insurance.filter { !(it.startDate?.value.isNullOrEmpty()) }
+
+    val data = ArrayList<DataInfo>()
+
+    for((index, insure) in insureList.withIndex())  {
+        data += DataInfo(idMain, "UL_26_INSURANCE_$index", "startDate", insure.startDate!!.value, idPledge)
+
+        data += DataInfo(idMain, "UL_26_INSURANCE_$index", "insuranceEndDate", insure.insuranceEndDate?.value?:"", idPledge)
+
+        data += DataInfo(idMain, "UL_26_INSURANCE_$index", "insuranceFactEndDate", insure.insuranceFactEndDate?.value?:"", idPledge)
+
+        data += DataInfo(idMain, "UL_26_INSURANCE_$index", "endCode", insure.endCode?.value?:"", idPledge)
+    }
+
+    return data
 }
 
 private fun ul24Warranty(idMain: Number, ul24: Ul24Warranty): List<DataInfo> {
@@ -425,14 +450,14 @@ private fun ul45Application(idMain: Number, ul45Application: Ul45Application): L
 }
 
 private fun findMainId(idFile: Number, tax: String, event: String,
-                       unicalUid: String?, eventDateXml: String): Number {
+                       unicalUid: String?, eventDateXml: String, orderNum: Int): Number {
 
     logger.error("tax=$tax")
     logger.error("event=$event")
     logger.error("unicalUid=$unicalUid")
     logger.error("eventDateXml=$eventDateXml")
 
-    return if(unicalUid == null) {
+    val id =  if(unicalUid == null) {
 
         AfinaQuery.selectValue(SEL_MAIN_BY_TAX,
             params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp())) as Number
@@ -440,6 +465,10 @@ private fun findMainId(idFile: Number, tax: String, event: String,
         AfinaQuery.selectValue(SEL_MAIN_BY_UID,
             params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "")) as Number
     }
+
+    AfinaQuery.execute(UPDATE_MAIN_ORDER, params = arrayOf(orderNum, id))
+
+    return id
 }
 
 private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
