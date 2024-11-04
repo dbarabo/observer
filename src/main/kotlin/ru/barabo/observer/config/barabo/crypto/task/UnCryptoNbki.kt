@@ -4,6 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutDfTicketLoader
 import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -59,13 +60,15 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 }
 
 private fun checkTicketRutDf(unCryptoFolder: File, ticketFileName: String) {
-    val ticketFile = File("${unCryptoFolder.absoluteFile}/$ticketFileName")
+    val ticketFile = File("${unCryptoFolder.absoluteFile}/$ticketFileName.xml")
     if(!ticketFile.exists()) throw Exception ("Не найден файл квитанции $ticketFile")
 
     if(ticketFileName.indexOf("_ticket1") > 0) {
-        checkTicketSignCheck(ticketFile)
+        //checkTicketSignCheck(ticketFile)
+        GutDfTicketLoader.loadReceiptFile(ticketFile)
     } else {
-        checkTicketRejectFile(ticketFile)
+        GutDfTicketLoader.loadAcceptanceFile(ticketFile)
+        //checkTicketRejectFile(ticketFile)
     }
 }
 

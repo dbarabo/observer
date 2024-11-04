@@ -7,49 +7,49 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 public class DocInfo {
 
     @XStreamAlias("inn")
-    private StringElement inn;
+    public StringElement inn;
 
     @XStreamAlias("ogrn")
-    private StringElement ogrn;
+    public StringElement ogrn;
 
     @XStreamAlias("sourceId")
-    private StringElement sourceId;
+    public StringElement sourceId;
 
     @XStreamAlias("dataReceivedStatus")
-    private StringElement dataReceivedStatus;
+    public StringElement dataReceivedStatus;
 
     @XStreamAlias("outgoingDocDate")
-    private StringElement outgoingDocDate;
+    public StringElement outgoingDocDate;
 
     @XStreamAlias("outgoingDocNumber")
-    private StringElement outgoingDocNumber;
+    public StringElement outgoingDocNumber;
 
     @XStreamAlias("incomingDocDate")
-    private StringElement incomingDocDate;
+    public StringElement incomingDocDate;
 
     @XStreamAlias("incomingDocNumber")
-    private StringElement incomingDocNumber;
+    public StringElement incomingDocNumber;
 
     @XStreamAlias("dateTime")
-    private StringElement dateTime;
+    public StringElement dateTime;
 
     @XStreamAlias("fileName")
-    private StringElement fileName;
+    public StringElement fileName;
 
     @XStreamAlias("fileHash")
-    private StringElement fileHash;
+    public StringElement fileHash;
 
     @XStreamAlias("subjectsReceived")
-    private StringElement subjectsReceived;
+    public StringElement subjectsReceived;
 
     @XStreamAlias("eventsReceived")
-    private StringElement eventsReceived;
+    public StringElement eventsReceived;
 
     @XStreamAlias("eventsAccepted")
-    private StringElement eventsAccepted;
+    public StringElement eventsAccepted;
 
     @XStreamAlias("eventsRejected")
-    private StringElement eventsRejected;
+    public StringElement eventsRejected;
 
     public DocInfo() {}
 

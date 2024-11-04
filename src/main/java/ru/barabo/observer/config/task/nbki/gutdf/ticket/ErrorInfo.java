@@ -6,37 +6,37 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 public class ErrorInfo {
 
     @XStreamAlias("errorNum")
-    private String errorNum; // Порядковый номер ошибки в записи
+    public String errorNum; // Порядковый номер ошибки в записи
 
     @XStreamAlias("errorCode")
-    private StringElement errorCode;
+    public StringElement errorCode;
 
     @XStreamAlias("errorMessage")
-    private StringElement errorMessage;
+    public StringElement errorMessage;
 
     @XStreamAlias("uid")
-    private StringElement uid;
+    public StringElement uid;
 
     @XStreamAlias("orderNum")
-    private StringElement orderNum;
+    public StringElement orderNum;
 
     @XStreamAlias("orderNum_3_2")
-    private StringElement orderNum32;
+    public StringElement orderNum32;
 
     @XStreamAlias("subjectCode")
-    private StringElement subjectCode;
+    public StringElement subjectCode;
 
     @XStreamAlias("eventName")
-    private StringElement eventName;
+    public StringElement eventName;
 
     @XStreamAlias("blockName")
-    private StringElement blockName;
+    public StringElement blockName;
 
     @XStreamAlias("fieldName")
-    private StringElement fieldName;
+    public StringElement fieldName;
 
     @XStreamAlias("fieldValue")
-    private StringElement fieldValue;
+    public StringElement fieldValue;
 
     public String getErrorNum() {
         return errorNum;

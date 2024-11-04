@@ -8,13 +8,13 @@ public class MainNotificationOfAcceptance {
 
     @XStreamAlias("schemaVersion")
     @XStreamOmitField
-    private String schemaVersion;
+    public String schemaVersion;
 
     @XStreamAlias("DocInfo")
-    private DocInfo docInfo;
+    public DocInfo docInfo;
 
     @XStreamAlias("Errors")
-    private Errors errors;
+    public Errors errors;
 
     public MainNotificationOfAcceptance() {}
 

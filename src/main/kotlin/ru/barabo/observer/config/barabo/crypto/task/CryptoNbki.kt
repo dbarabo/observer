@@ -26,21 +26,21 @@ object CryptoNbki : FileFinder, FileProcessor {
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofHours(4))
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.txt"))
+            listOf(FileFinderData(::cryptoNbki,"K301BB000001_........_......\\.xml"))
 
     override fun processFile(file: File) {
 
-        val cryptoFile = File("${cryptoFolder(file).absolutePath}/${file.nameWithoutExtension}")
+        val filePathWithoutExt = "${cryptoFolder(file).absolutePath}/${file.nameWithoutExtension}"
+
+        val cryptoFile = File("$filePathWithoutExt.xml")
 
         file.copyTo(cryptoFile, true)
 
-        AfinaQuery.execute(EXEC_CHECK_SEND)
-
-        val signedFile = File("${cryptoFile.absolutePath}.p7s")
+        val signedFile = File("$filePathWithoutExt.xml.p7s")
 
         CryptoPro.sign(cryptoFile, signedFile)
 
-        val zipFile =  Archive.packToZip("${cryptoFile.absolutePath}.zip", cryptoFile, signedFile)
+        val zipFile =  Archive.packToZip("$filePathWithoutExt.zip", cryptoFile, signedFile)
 
         val encodeFile = File("${zipFile.absolutePath}.p7m")
 

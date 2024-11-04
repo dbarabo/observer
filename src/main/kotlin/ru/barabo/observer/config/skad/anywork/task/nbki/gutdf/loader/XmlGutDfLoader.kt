@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader
 
 import com.thoughtworks.xstream.XStream
+import com.thoughtworks.xstream.security.AnyTypePermission
 import ru.barabo.observer.config.cbr.ptkpsd.task.f101.AbstractXmlLoader
 import ru.barabo.observer.config.task.nbki.gutdf.*
 import ru.barabo.observer.config.task.nbki.gutdf.general.AbstractEventData
@@ -17,6 +18,8 @@ import ru.barabo.observer.config.task.nbki.gutdf.ticket.*
 class XmlGutDfLoader<E> : AbstractXmlLoader<E>() {
 
     override fun processAnnotation(xstream: XStream) {
+
+        xstream.addPermission(AnyTypePermission.ANY)
 
         xstream.autodetectAnnotations(true)
         xstream.processAnnotations(AbstractEventData::class.java)

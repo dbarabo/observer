@@ -12,19 +12,14 @@ object NbkiSmtp : SendMail {
             password = MasterKey.value("NBKI_PSWD"),
             from = "nbki@ptkb.ru")
 
-    private val NBKI =  arrayOf("RUTDF@nbki.ru") //arrayOf("credithistory@nbki.ru") //arrayOf("RUTDF@nbki.ru") //arrayOf("ChangeCreditHistory@nbki.ru") // //arrayOf("credithistory@nbki.ru")
+    private val NBKI =  arrayOf("GUTDF@nbki.ru") //arrayOf("RUTDF@nbki.ru") //arrayOf("credithistory@nbki.ru")  //arrayOf("ChangeCreditHistory@nbki.ru")
 
-    private val SUBJECT_NBKI = "NBKI information"
+    private val SUBJECT_NBKI = "ООО \"Примтеркомбанк\""//"NBKI information"
 
     private val BODY_NBKI = "information about loans from PTKB bank" //"file contains xlsx file"
 
     fun sendToNbki(file: File) {
 
         NbkiSmtp.send(to = NBKI, cc = BaraboSmtp.AUTO, subject = SUBJECT_NBKI, body = BODY_NBKI, attachments = arrayOf(file))
-    }
-
-    fun sendToTest() {
-
-        send(to = BaraboSmtp.AUTO, subject = "test", body = "test")
     }
 }

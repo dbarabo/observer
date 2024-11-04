@@ -13,7 +13,9 @@ object GutDfTicketLoader {
 
         val mainReceipt = loadReceiptFromXml(file)
 
-        val idFile = AfinaQuery.selectValue(SEL_IDFILE_BY_NAME, params = arrayOf(mainReceipt.fileName)) as Number
+        val fileWithoutExt = mainReceipt.fileName.value?.substringBefore('.')
+
+        val idFile = AfinaQuery.selectValue(SEL_IDFILE_BY_NAME, params = arrayOf(fileWithoutExt)) as Number
 
         if(mainReceipt.acceptanceStatusOK == null && mainReceipt.acceptanceStatusFail != null) {
             sendFailMessage(file, idFile, mainReceipt)
@@ -27,7 +29,9 @@ object GutDfTicketLoader {
 
         val mainAccept = loadAcceptFromXml(file)
 
-        val idFile = AfinaQuery.selectValue(SEL_IDFILE_BY_NAME, params = arrayOf(mainAccept.docInfo.fileName)) as Number
+        val fileWithoutExt = mainAccept.docInfo.fileName.value?.substringBefore('.')
+
+        val idFile = AfinaQuery.selectValue(SEL_IDFILE_BY_NAME, params = arrayOf(fileWithoutExt)) as Number
 
         updateAcceptTicket(file, idFile)
 
@@ -40,7 +44,7 @@ object GutDfTicketLoader {
 
     private fun updateAcceptTicket(fileTicket: File, idFile: Number) {
 
-        AfinaQuery.execute(UPDATE_TICKET_FILE, params = arrayOf(idFile, fileTicket.absoluteFile))
+        AfinaQuery.execute(UPDATE_TICKET_FILE, params = arrayOf(idFile, fileTicket.absolutePath))
     }
 
     private fun processFail(fileTicket: File, idFile: Number, mainAccept: MainNotificationOfAcceptance) {
@@ -51,9 +55,11 @@ object GutDfTicketLoader {
 
             for(error in mainAccept.errors.errorList) {
 
-                val orderNumInFile = error.orderNum!!.value!!.toInt()
+                val orderNumInFile = error.orderNum?.value?.toInt()
 
-                AfinaQuery.execute(DEL_MAIN_RECORD, params = arrayOf(idFile, orderNumInFile))
+                if(orderNumInFile != null) {
+                    AfinaQuery.execute(DEL_MAIN_RECORD, params = arrayOf(idFile, orderNumInFile))
+                }
             }
 
             AfinaQuery.commitFree(sessionSetting)
@@ -105,7 +111,7 @@ object GutDfTicketLoader {
 
 private val logger = LoggerFactory.getLogger(GutDfTicketLoader::class.java)
 
-private const val SEL_IDFILE_BY_NAME = "select OD.PTKB_RUTDF.getFileByName( ? ) from  from dual"
+private const val SEL_IDFILE_BY_NAME = "select OD.PTKB_RUTDF.getFileByName( ? ) from dual"
 
 private const val UPDATE_FIRST_TICKET = "{ call od.PTKB_RUTDF.updateFirstTicket( ? ) }"
 

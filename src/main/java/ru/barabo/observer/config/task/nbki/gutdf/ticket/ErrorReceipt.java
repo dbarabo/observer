@@ -6,10 +6,10 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 public class ErrorReceipt {
 
     @XStreamAlias("errorCode")
-    private StringElement errorCode;
+    public StringElement errorCode;
 
     @XStreamAlias("errorMessage")
-    private StringElement errorMessage;
+    public StringElement errorMessage;
 
     public StringElement getErrorCode() {
         return errorCode;

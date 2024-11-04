@@ -12,46 +12,46 @@ public class MainNotificationOfReceipt {
 
     @XStreamAlias("schemaVersion")
     @XStreamOmitField
-    private String schemaVersion;
+    public String schemaVersion;
 
     @XStreamAlias("inn")
-    private StringElement inn;
+    public StringElement inn;
 
     @XStreamAlias("ogrn")
-    private StringElement ogrn;
+    public StringElement ogrn;
 
     @XStreamAlias("sourceId")
-    private StringElement sourceId;
+    public StringElement sourceId;
 
     @XStreamAlias("outgoingDocDate")
-    private StringElement outgoingDocDate;
+    public StringElement outgoingDocDate;
 
     @XStreamAlias("outgoingDocNumber")
-    private StringElement outgoingDocNumber;
+    public StringElement outgoingDocNumber;
 
     @XStreamAlias("acceptanceStatusFail")
-    private StringElement acceptanceStatusFail;
+    public StringElement acceptanceStatusFail;
 
     @XStreamImplicit(itemFieldName = "Errors")
-    private List<ErrorReceipt> errorReceiptList;
+    public List<ErrorReceipt> errorReceiptList;
 
     @XStreamAlias("acceptanceStatusOK")
-    private StringElement acceptanceStatusOK;
+    public StringElement acceptanceStatusOK;
 
     @XStreamAlias("incomingDocDate")
-    private StringElement incomingDocDate;
+    public StringElement incomingDocDate;
 
     @XStreamAlias("incomingDocNumber")
-    private StringElement incomingDocNumber;
+    public StringElement incomingDocNumber;
 
     @XStreamAlias("fileName")
-    private StringElement fileName;
+    public StringElement fileName;
 
     @XStreamAlias("fileHash")
-    private StringElement fileHash;
+    public StringElement fileHash;
 
     @XStreamAlias("dateTime")
-    private StringElement dateTime;
+    public StringElement dateTime;
 
     public StringElement getFileName() {
         return fileName;

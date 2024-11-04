@@ -9,7 +9,7 @@ import java.util.List;
 public class Errors {
 
     @XStreamImplicit(itemFieldName = "Error")
-    private List<ErrorInfo> errorList;
+    public List<ErrorInfo> errorList;
 
     public List<ErrorInfo> getErrorList() {
         return errorList;
