@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ticket.task
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -59,6 +60,9 @@ object XmlLoaderCbrTicket311p : FileFinder, FileProcessor {
     private fun loadTicket(file: File) = initXStream().fromXML(file) as TicketCbr
 
     private fun initXStream() = XStream(DomDriver("CP1251")).apply {
+
+        addPermission(AnyTypePermission.ANY)
+
         processAnnotations(TicketCbr::class.java)
         processAnnotations(NameRecords::class.java)
         processAnnotations(FileRecord::class.java)

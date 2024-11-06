@@ -2,6 +2,7 @@ package ru.barabo.observer.config.skad.crypto.p311
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
@@ -208,6 +209,8 @@ private fun juricFolder(): File = Cmd.createFolder("$X311P/Отправка/${Ge
 
 private fun getXStream(charsetName: String): XStream {
     val xstream = XStream(DomDriver(charsetName))
+
+    xstream.addPermission(AnyTypePermission.ANY)
 
     xstream.useAttributeFor(String::class.java)
     xstream.useAttributeFor(Int::class.java)

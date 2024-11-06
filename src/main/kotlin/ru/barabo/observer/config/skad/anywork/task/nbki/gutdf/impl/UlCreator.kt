@@ -757,8 +757,8 @@ private data class Ul46(
                 kindCode = (rec[1] as Number).toInt(),
                 uid = (rec[2] as String),
                 fundDate = (rec[3] as? Timestamp),
-                isOverdue90 = (rec[4] as Number) != 0,
-                isStop = (rec[5] as Number) != 0,
+                isOverdue90 = (rec[4] as Number).toInt() != 0,
+                isStop = (rec[5] as Number).toInt() != 0,
             )
 }
 

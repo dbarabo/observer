@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task.p550
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder
+import com.thoughtworks.xstream.security.AnyTypePermission
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.load.CbEs550pXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.save.Kvit550
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.save.RecordEs
@@ -60,6 +61,8 @@ object EsProcess {
 
     private fun xstream(): XStream {
         val xstream = XStream(DomDriver("UTF-8", XmlFriendlyNameCoder("_-", "_")))
+
+        xstream.addPermission(AnyTypePermission.ANY)
 
         xstream.useAttributeFor(Long::class.java)
         xstream.useAttributeFor(RecordEs::class.java, "idInfo")

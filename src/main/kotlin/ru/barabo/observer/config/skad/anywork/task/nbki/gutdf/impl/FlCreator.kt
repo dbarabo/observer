@@ -92,7 +92,7 @@ private fun createFlEvent1_2(eventRecord: EventRecord): FlEvent1_2 {
 
     val (operationCode, application55)  = createFl55Application(eventRecord.idEvent)
 
-    val fl291 = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291 = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     return FlEvent1_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, operationCode, application55, fl291)
 }
@@ -101,7 +101,7 @@ private fun createFlEvent1_3(eventRecord: EventRecord): FlEvent1_3 {
 
     val (_, application55) = createFl55Application(eventRecord.idEvent)
 
-    val fl291 = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291 = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl57 = createFl57(eventRecord.idEvent)
 
@@ -134,7 +134,7 @@ private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
 
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
 
-    val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
@@ -190,7 +190,7 @@ private fun createFlEvent2_1(eventRecord: EventRecord): FlEvent2_1 {
 
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
 
-    val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl25_26_27_28Group = createFl25_26_27_28Group(eventRecord.idEvent)
 
@@ -204,7 +204,7 @@ private fun createFlEvent2_1(eventRecord: EventRecord): FlEvent2_1 {
 
     return FlEvent2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
-        fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
+        fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl291DebtBurdenInfo,
         fl20JointDebtors, fl23ContractChanges, fl231ContractTermsChanges, fl54Accounting)
 }
 
@@ -224,7 +224,7 @@ private fun createFlEvent2_2(eventRecord: EventRecord): FlEvent2_2 {
 
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
 
-    val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl24Fund = createFl24Fund(eventRecord.idEvent)
 
@@ -240,7 +240,7 @@ private fun createFlEvent2_2(eventRecord: EventRecord): FlEvent2_2 {
 
     return FlEvent2_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
-        fl21PaymentTerms, fl22TotalCost, fl24Fund, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
+        fl21PaymentTerms, fl22TotalCost, fl24Fund, fl25_26_27_28Group, fl29MonthlyPayment, fl291DebtBurdenInfo,
         fl20JointDebtors, fl54Accounting, fl55Application, fl56Participation)
 }
 
@@ -285,7 +285,7 @@ private fun createFlEvent2_3(eventRecord: EventRecord): FlEvent2_3 {
 
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
 
-    val fl29_1DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl25_26_27_28Group = createFl25_26_27_28Group(eventRecord.idEvent)
 
@@ -299,7 +299,7 @@ private fun createFlEvent2_3(eventRecord: EventRecord): FlEvent2_3 {
 
     return FlEvent2_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
-        fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl29_1DebtBurdenInfo,
+        fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl291DebtBurdenInfo,
         fl20JointDebtors, fl54Accounting, fl55Application, fl56Participation)
 }
 
@@ -331,7 +331,7 @@ private fun createFlEvent2_5(eventRecord: EventRecord): FlEvent2_5 {
 
     val fl21PaymentTerms = createFl21PaymentTerms(eventRecord.idEvent)
 
-    val fl291DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.loan, eventRecord.dateEvent, eventRecord.clientId)
+    val fl291DebtBurdenInfo = createFl291DebtBurdenInfo(eventRecord.idEvent)
 
     val fl22TotalCost = createFl22TotalCost(eventRecord.idEvent)
 
@@ -545,13 +545,13 @@ private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
     return Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate)
 }
 
-private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost {
+private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost? {
 
     val data = AfinaQuery.selectCursor(SEL_FL_22, params = arrayOf(idEvent))
 
     val fl = Fl22(data[0])
 
-    return if(fl.calcDate == null) Fl22TotalCost()
+    return if(fl.calcDate == null) null
     else Fl22TotalCost(fl.minPercentCost, fl.minCost, fl.calcDate, fl.maxPercentCost, fl.maxCost)
 }
 
@@ -665,9 +665,9 @@ private fun createFl55Application(idEvent: Long): Pair<String?, Fl55Application>
         fl55.stageEndDate, fl55.purposeCode, fl55.stageCode, fl55.stageDate, fl55.num, fl55.loanSum))
 }
 
-private fun createFl291DebtBurdenInfo(loan: Long, dateEvent: Timestamp, client: Long): Fl29_1DebtBurdenInfo? {
+private fun createFl291DebtBurdenInfo(idEvent: Long): Fl29_1DebtBurdenInfo? {
 
-    val data = AfinaQuery.selectCursor(SEL_FL_29_1, params = arrayOf(loan, dateEvent, client))
+    val data = AfinaQuery.selectCursor(SEL_FL_29_1, params = arrayOf(idEvent))
 
     val fl291 = Fl291(data[0])
 
@@ -938,8 +938,8 @@ private data class Fl56(
                 kindCode = (rec[1] as Number).toInt(),
                 uid = (rec[2] as String),
                 fundDate = (rec[3] as? Timestamp),
-                isOverdue90 = (rec[4] as Number) != 0,
-                isStop = (rec[5] as Number) != 0,
+                isOverdue90 = (rec[4] as Number).toInt() != 0,
+                isStop = (rec[5] as Number).toInt() != 0,
             )
 }
 
@@ -1080,20 +1080,20 @@ private data class Fl8(
 }
 
 private data class Fl291(
-    val loadRange: Int?,
-    val loadCalcDate: Timestamp?,
-    val incomeInfo: Int?,
-    val incomeInfoSource: Int?,
+    val loadRange: String?,
+    val loadCalcDate: String?,
+    val incomeInfo: String?,
+    val incomeInfoSource: String?,
     val isLoadFact: Boolean,
     val isLoadCalculationFact: Boolean,
     val dealUID: String?
 ) {
     constructor(rec: Array<Any?>) :
             this(
-                loadRange = (rec[0] as? Number)?.toInt(),
-                loadCalcDate = (rec[1] as? Timestamp),
-                incomeInfo = (rec[2] as? Number)?.toInt(),
-                incomeInfoSource = (rec[3] as? Number)?.toInt(),
+                loadRange = (rec[0] as? String),
+                loadCalcDate = (rec[1] as? String),
+                incomeInfo = (rec[2] as? String),
+                incomeInfoSource = (rec[3] as? String),
                 isLoadFact = (rec[4] as? Number)?.toInt() != 0,
                 isLoadCalculationFact = (rec[5] as? Number)?.toInt() != 0,
                 dealUID = (rec[6] as? String)
@@ -1190,7 +1190,7 @@ private const val SEL_TITLE_PHYSIC = "{ ? = call od.PTKB_GUTDF.getTitlePhysic( ?
 
 private const val SEL_FL_55 = "{ ? = call od.PTKB_GUTDF.getFl55Application( ? ) }"
 
-private const val SEL_FL_29_1 = "{ ? = call od.PTKB_GUTDF.getFl29_1DebtBurdenInfo( ?, ?, ? ) }"
+private const val SEL_FL_29_1 = "{ ? = call od.PTKB_GUTDF.getFl29_1DebtBurdenInfo( ? ) }"
 
 private const val SEL_FL_57 = "{ ? = call od.PTKB_GUTDF.getFl57Reject( ? ) }"
 

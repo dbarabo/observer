@@ -2,6 +2,7 @@ package ru.barabo.observer.config.correspond.task
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import org.apache.log4j.Logger
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
@@ -184,6 +185,8 @@ fun loadDecodeFile(file: File): File {
 }
 
 private fun initXStream() = XStream(DomDriver("CP1251")).apply {
+    addPermission(AnyTypePermission.ANY)
+
     processAnnotations(ContainerBase64::class.java)
 
     processAnnotations(ContainerEnvEnvelope::class.java)

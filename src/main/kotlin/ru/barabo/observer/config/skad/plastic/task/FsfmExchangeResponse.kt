@@ -3,6 +3,7 @@ package ru.barabo.observer.config.skad.plastic.task
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.Dom4JDriver
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder
+import com.thoughtworks.xstream.security.AnyTypePermission
 import org.dom4j.io.OutputFormat
 import ru.barabo.cmd.XmlValidator
 import ru.barabo.observer.afina.AfinaQuery
@@ -117,6 +118,8 @@ fun saveXml(file: File, xmlData: Any, charset: String = "UTF-8", isUseAttr: Bool
 
     val xstream = XStream(d4j)
     xstream.autodetectAnnotations(true)
+
+    xstream.addPermission(AnyTypePermission.ANY)
 
     if(isUseAttr) {
         xstream.useAttributeFor(String::class.java)

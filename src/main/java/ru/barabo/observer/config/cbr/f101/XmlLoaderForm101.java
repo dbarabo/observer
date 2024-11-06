@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.f101;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.apache.log4j.Logger;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
@@ -17,6 +18,7 @@ public class XmlLoaderForm101<E> {
     static private XStream getXStream() {
         XStream xstream = new XStream(new DomDriver("UTF-8"));
 
+        xstream.addPermission(AnyTypePermission.ANY);
 
         xstream.processAnnotations(F101Xml.class);
 

@@ -133,4 +133,8 @@ public class FlEvent2_3 extends AbstractEventData  {
     public Fl56Participation getFl56Participation() {
         return fl56Participation;
     }
+
+    public Fl29_1DebtBurdenInfo getFl29_1DebtBurdenInfo() {
+        return fl29_1DebtBurdenInfo;
+    }
 }

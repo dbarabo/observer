@@ -133,4 +133,8 @@ public class FlEvent2_1 extends AbstractEventData  {
     public Fl54Accounting getFl54Accounting() {
         return fl54Accounting;
     }
+
+    public Fl29_1DebtBurdenInfo getFl29_1DebtBurdenInfo() {
+        return fl29_1DebtBurdenInfo;
+    }
 }

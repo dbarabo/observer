@@ -14,6 +14,9 @@ public class SubjectEventDataFL {
     @XStreamImplicit(itemFieldName = "FL_Event_1_1")
     private List<FlEvent1_1> flEvent1_1List;
 
+    @XStreamImplicit(itemFieldName = "FL_Event_1_12")
+    private List<FlEvent1_12> flEvent1_12List;
+
     @XStreamImplicit(itemFieldName = "FL_Event_1_2")
     private List<FlEvent1_2> flEvent1_2List;
 
@@ -28,9 +31,6 @@ public class SubjectEventDataFL {
 
     @XStreamImplicit(itemFieldName = "FL_Event_1_9")
     private List<FlEvent1_9> flEvent1_9List;
-
-    @XStreamImplicit(itemFieldName = "FL_Event_1_12")
-    private List<FlEvent1_12> flEvent1_12List;
 
     @XStreamImplicit(itemFieldName = "FL_Event_2_1")
     private List<FlEvent2_1> flEvent2_1List;

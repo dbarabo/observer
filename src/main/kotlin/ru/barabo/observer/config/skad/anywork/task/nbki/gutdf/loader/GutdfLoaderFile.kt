@@ -64,21 +64,24 @@ object GutdfLoaderFile {
                 data.addAll( fl57Reject(idMain, it.fl57Reject) )
             }
 
-            fl.events.flEvent1_4List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
-                data.addAll( fl8AddrReg(idMain, it.fl8AddrReg) )
-                data.addAll( fl9AddrFact(idMain, it.fl9AddrFact) )
-                data.addAll( fl10Contact(idMain, it.fl10Contact) )
-                data.addAll( fl11IndividualEntrepreneur(idMain, it.fl11IndividualEntrepreneur) )
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, it.fl18Deal) )
-                data.addAll( fl19Amount(idMain, it.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, it.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, it.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, it.fl22TotalCost) )
-                data.addAll( fl54Accounting(idMain, it.fl54Accounting) )
-                data.addAll( fl55Application(idMain, it.fl55Application) )
-                data.addAll( fl56Participation(idMain, it.fl56Participation) )
+            fl.events.flEvent1_4List?.forEach { event ->
+                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
+                data.addAll( fl8AddrReg(idMain, event.fl8AddrReg) )
+                data.addAll( fl9AddrFact(idMain, event.fl9AddrFact) )
+                data.addAll( fl10Contact(idMain, event.fl10Contact) )
+                data.addAll( fl11IndividualEntrepreneur(idMain, event.fl11IndividualEntrepreneur) )
+                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
+                data.addAll( fl18Deal(idMain, event.fl18Deal) )
+                data.addAll( fl19Amount(idMain, event.fl19Amount) )
+                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
+                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
+                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
+
+                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
+
+                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
+                data.addAll( fl55Application(idMain, event.fl55Application) )
+                data.addAll( fl56Participation(idMain, event.fl56Participation) )
             }
 
             fl.events.flEvent1_7List?.forEach {
@@ -106,6 +109,8 @@ object GutdfLoaderFile {
 
                 event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
 
+                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
+
                 data.addAll( fl23ContractChanges(idMain, event.fl23ContractChanges) )
                 data.addAll( fl231ContractTermsChanges(idMain, event.fl23_1ContractTermsChanges) )
                 data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
@@ -124,6 +129,8 @@ object GutdfLoaderFile {
                 data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
 
                 event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
 
                 data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
                 data.addAll( fl55Application(idMain, event.fl55Application) )
@@ -156,6 +163,8 @@ object GutdfLoaderFile {
 
                 event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
 
+                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
+
                 data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
 
                 event.fl55Application?.let { data.addAll( fl55Application(idMain, it) ) }
@@ -183,6 +192,8 @@ object GutdfLoaderFile {
                 data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
 
                 event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
+
+                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
 
                 data.addAll( fl38ContractEnd(idMain, event.fl38ContractEnd) )
                 data.addAll( fl56Participation(idMain, event.fl56Participation) )
@@ -393,6 +404,18 @@ object GutdfLoaderFile {
         )
     }
 
+    private fun fl291DebtBurdenInfo(idMain: Number, fl291DebtBurdenInfo: Fl29_1DebtBurdenInfo): List<DataInfo> {
+        return listOf(
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "loadRange", fl291DebtBurdenInfo.loadRange?.value?:""),
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "loadCalcDate", fl291DebtBurdenInfo.loadCalcDate?.value?:""),
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "incomeInfo", fl291DebtBurdenInfo.incomeInfo?.value?:""),
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "incomeInfoSource", fl291DebtBurdenInfo.incomeInfoSourceList?.get(0)?.value?:""),
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "isLoadFact", fl291DebtBurdenInfo.isLoadFact?.toDb()?:""),
+            DataInfo(idMain, "FL_29_1_DebtBurdenInfo", "isLoadCalculationFact", fl291DebtBurdenInfo.isLoadCalculationFact?.toDb()?:"")
+        )
+    }
+
+
     private fun fl56Participation(idMain: Number, fl56Participation: Fl56Participation): List<DataInfo> {
         return listOf(
             DataInfo(idMain, "FL_56_Participation", "role", fl56Participation.role?.value?:""),
@@ -414,7 +437,9 @@ object GutdfLoaderFile {
         )
     }
 
-    private fun fl22TotalCost(idMain: Number, fl22TotalCost: Fl22TotalCost): List<DataInfo> {
+    private fun fl22TotalCost(idMain: Number, fl22TotalCost: Fl22TotalCost?): List<DataInfo> {
+        if(fl22TotalCost == null) return emptyList()
+
         return listOf(
             DataInfo(idMain, "FL_22_TotalCost", "minPercentCost", fl22TotalCost.minPercentCost?.value?:""),
             DataInfo(idMain, "FL_22_TotalCost", "mainPayDate", fl22TotalCost.minCost?.value?:""),

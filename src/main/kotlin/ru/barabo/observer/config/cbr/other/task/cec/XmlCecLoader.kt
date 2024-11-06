@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.other.task.cec
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import java.io.File
 import java.io.FileInputStream
 
@@ -10,6 +11,8 @@ class XmlCecLoader<E> {
     private fun xstream() : XStream {
 
         val xstream = XStream(DomDriver())
+
+        xstream.addPermission(AnyTypePermission.ANY)
 
         xstream.processAnnotations(FileXml::class.java)
         xstream.processAnnotations(Person::class.java)

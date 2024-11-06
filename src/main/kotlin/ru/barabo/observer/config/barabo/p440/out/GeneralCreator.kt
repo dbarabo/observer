@@ -2,6 +2,7 @@ package ru.barabo.observer.config.barabo.p440.out
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import org.slf4j.LoggerFactory
 import org.xml.sax.SAXException
 import ru.barabo.cmd.XmlValidator
@@ -170,6 +171,8 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
 
         private fun getXStream(): XStream {
             val xstream = XStream(DomDriver("windows-1251"))
+
+            xstream.addPermission(AnyTypePermission.ANY);
 
             xstream.useAttributeFor(String::class.java)
             xstream.useAttributeFor(Int::class.java)

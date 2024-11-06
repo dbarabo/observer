@@ -2,6 +2,7 @@ package ru.barabo.observer.config.task.p440.load;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.apache.log4j.Logger;
 import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz;
 import ru.barabo.observer.config.task.fz263.load.xml.upo.Suspension;
@@ -87,8 +88,9 @@ public class XmlLoader<E> {
 
 		String head3 = file.getName().substring(0, 3).toUpperCase();
 
-
 		XStream xstream = new XStream(new DomDriver("CP1251"));
+
+		xstream.addPermission(AnyTypePermission.ANY);
 
 		xstream.processAnnotations(getClassByPrefixFile(head3, isNewFormats(file) ));
 

@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task.f101
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import java.io.File
 import java.io.FileInputStream
 
@@ -14,6 +15,8 @@ abstract class AbstractXmlLoader<E> {
     private fun xstream() : XStream {
 
         xstream = XStream(DomDriver())
+
+        xstream.addPermission(AnyTypePermission.ANY)
 
         processAnnotation(xstream)
 

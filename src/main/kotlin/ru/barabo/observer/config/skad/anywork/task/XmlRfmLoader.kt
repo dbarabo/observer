@@ -2,6 +2,7 @@ package ru.barabo.observer.config.skad.anywork.task
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import ru.barabo.observer.config.task.clientrisk.fromcbr.MainRisks
 import ru.barabo.observer.config.task.clientrisk.fromcbr.Risk
 import ru.barabo.observer.config.task.p407.load.*
@@ -12,6 +13,8 @@ class XmlRfmLoader<E> {
     private fun xstream(): XStream {
 
         val xstream = XStream(DomDriver())
+
+        xstream.addPermission(AnyTypePermission.ANY)
 
         xstream.processAnnotations(RfmFile::class.java)
         xstream.processAnnotations(Clients::class.java)

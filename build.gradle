@@ -59,7 +59,7 @@ dependencies {
     implementation group: 'com.lowagie', name: 'itext', version: '2.1.7'
     implementation group: 'com.lowagie', name: 'itext-rtf', version: '2.1.7'
 
-    implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.11'
+    implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.20'
 
     implementation group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
 

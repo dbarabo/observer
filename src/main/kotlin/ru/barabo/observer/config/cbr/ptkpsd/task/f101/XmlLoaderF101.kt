@@ -2,6 +2,7 @@ package ru.barabo.observer.config.cbr.ptkpsd.task.f101
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
+import com.thoughtworks.xstream.security.AnyTypePermission
 import ru.barabo.observer.config.cbr.f101.Balance
 import ru.barabo.observer.config.cbr.f101.Creator
 import java.io.File
@@ -45,7 +46,7 @@ class XmlLoaderF101<E> {
 
         val xstream = XStream(DomDriver("UTF-8"))
 
-        //processAnnotation(xstream)
+        xstream.addPermission(AnyTypePermission.ANY)
 
         xstream.useAttributeFor(String::class.java)
         xstream.useAttributeFor(Int::class.java)

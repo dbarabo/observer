@@ -2,11 +2,9 @@ package ru.barabo.observer.config.task.nbki.gutdf.physic.block;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @XStreamAlias("FL_29_1_DebtBurdenInfo")
@@ -39,17 +37,17 @@ public class Fl29_1DebtBurdenInfo {
     @XStreamAlias("dealUid")
     private final StringElement dealUID; //29(1).7. УИд сделки (УИд обращения)
 
-    public Fl29_1DebtBurdenInfo(Integer loadRange, Date loadCalcDate, Integer incomeInfo, Integer incomeInfoSource,
+    public Fl29_1DebtBurdenInfo(String loadRange, String loadCalcDate, String incomeInfo, String incomeInfoSource,
                                 Boolean isLoadFact, Boolean isLoadCalculationFact, String dealUID) {
 
-        this.loadRange = new StringElement(loadRange.toString());
+        this.loadRange = new StringElement(loadRange);
 
-        this.loadCalcDate = new StringElement(XmlLoader.formatDate(loadCalcDate));
+        this.loadCalcDate = new StringElement(loadCalcDate);
 
-        this.incomeInfo = new StringElement(incomeInfo.toString());
+        this.incomeInfo = new StringElement(incomeInfo);
 
-        this.incomeInfoSourceList = new ArrayList<StringElement>();
-        this.incomeInfoSourceList.add(new StringElement(incomeInfoSource.toString()));
+        this.incomeInfoSourceList = new ArrayList<>();
+        this.incomeInfoSourceList.add(new StringElement(incomeInfoSource));
 
         if(isLoadFact) {
             this.loadFact0 = null;
@@ -68,5 +66,37 @@ public class Fl29_1DebtBurdenInfo {
         }
 
         this.dealUID = new StringElement(dealUID);
+    }
+
+    public StringElement getLoadRange() {
+        return loadRange;
+    }
+
+    public StringElement getLoadCalcDate() {
+        return loadCalcDate;
+    }
+
+    public StringElement getIncomeInfo() {
+        return incomeInfo;
+    }
+
+    public List<StringElement> getIncomeInfoSourceList() {
+        return incomeInfoSourceList;
+    }
+
+    public Boolean isLoadFact() {
+        if(loadFact0 == null && loadFact1 == null) return null;
+
+        return loadFact1 != null;
+    }
+
+    public Boolean isLoadCalculationFact() {
+        if(loadCalculationFact0 == null && loadCalculationFact1 == null) return null;
+
+        return loadCalculationFact1 != null;
+    }
+
+    public StringElement getDealUID() {
+        return dealUID;
     }
 }
