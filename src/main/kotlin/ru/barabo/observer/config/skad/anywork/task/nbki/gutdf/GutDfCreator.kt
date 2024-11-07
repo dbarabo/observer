@@ -121,7 +121,7 @@ private fun folderGutDfToday() = "$folderReport/${Get440pFiles.todayFolder()}".b
 
 fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
 
-private val folderReport = "H:/Gu_cb/НБКИ/test".ifTest("C:/Gu_cb/НБКИ/test")
+private val folderReport = "H:/Gu_cb/НБКИ".ifTest("C:/Gu_cb/НБКИ")
 
 private const val xsd =  "/xsd/gutdf/Main.xsd"
 
