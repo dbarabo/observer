@@ -626,6 +626,20 @@ object GutdfLoaderFile {
                         taxPassport.substring(4),
                         event, eventDateXml.xmlDateToTimestamp() ))
 
+            (unicalUid != null) &&
+            (event in listOf("1.1", "1.2", "1.3")) &&
+            (taxPassport.length == 13) ->
+                AfinaQuery.selectValue(SEL_MAIN_BY_UID_INN,
+                    params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(),
+                        taxPassport.substring(1), taxPassport.substring(0..0)))
+
+            (unicalUid != null) &&
+                    (event in listOf("1.1", "1.2", "1.3")) &&
+                    (taxPassport.length != 13) ->
+                AfinaQuery.selectValue(SEL_MAIN_BY_UID_PASSPORT,
+                    params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(),
+                        taxPassport.substring(0..3), taxPassport.substring(4)))
+
             else -> AfinaQuery.selectValue(SEL_MAIN_BY_UID,
                 params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), ""))
         } as Number
@@ -650,6 +664,10 @@ private const val SEL_MAIN_BY_PASSPORT = "select od.PTKB_RUTDF.getMainByPassport
 private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_INN = "select od.PTKB_RUTDF.getMainByInnIpOrPhysic(?, ?, ?, ?, ?) from dual"
+
+private const val SEL_MAIN_BY_UID_INN = "select od.PTKB_RUTDF.getMainByGuidAndInn(?, ?, ?, ?, ?, ?) from dual"
+
+private const val SEL_MAIN_BY_UID_PASSPORT = "select od.PTKB_RUTDF.getMainByGuidAndPassport(?, ?, ?, ?, ?, ?) from dual"
 
 
 fun String.xmlToLocalDate(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))

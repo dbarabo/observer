@@ -462,8 +462,16 @@ private fun findMainId(idFile: Number, tax: String, event: String,
         AfinaQuery.selectValue(SEL_MAIN_BY_TAX,
             params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp())) as Number
     } else {
-        AfinaQuery.selectValue(SEL_MAIN_BY_UID,
-            params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "")) as Number
+        if(event in listOf("1.1", "1.2", "1.3")) {
+            AfinaQuery.selectValue(SEL_MAIN_BY_UID_TAX,
+                params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), tax)
+            ) as Number
+
+        } else {
+            AfinaQuery.selectValue(SEL_MAIN_BY_UID,
+                params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "")
+            ) as Number
+        }
     }
 
     AfinaQuery.execute(UPDATE_MAIN_ORDER, params = arrayOf(orderNum, id))
@@ -472,5 +480,7 @@ private fun findMainId(idFile: Number, tax: String, event: String,
 }
 
 private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
+
+private const val SEL_MAIN_BY_UID_TAX = "select od.PTKB_RUTDF.getMainByGuidAndInnLegal(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_TAX = "select od.PTKB_RUTDF.getMainByInnOrganization(?, ?, ?, ?) from dual"

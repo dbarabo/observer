@@ -1,4 +1,5 @@
 import oracle.jdbc.OracleTypes
+import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
 import org.junit.Test
@@ -1435,11 +1436,16 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testXsdSchema() {
 
+        val textEncryptor = BasicTextEncryptor()
+
+        val encryptText ="gNNF5xtivaF1gilv9ltOIZFoepVKViFQ" //"gbilcsQAgWVnd/FwYF6T1ePdDYAODBQt+KIuCWI9sEM="
+
+        logger.error(textEncryptor.decrypt(encryptText))
 
 
-        val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240816_110759.xml")
+        //val file = File("X:\\НБКИ\\test\\2024\\10\\09\\K301BB000001_20240816_110759.xml")
 
-        validateXml(file, "/xsd//gutdf/Main.xsd", ::errorFolder )
+        //validateXml(file, "/xsd//gutdf/Main.xsd", ::errorFolder )
     }
 
 
