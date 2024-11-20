@@ -464,7 +464,7 @@ private fun findMainId(idFile: Number, tax: String, event: String,
     } else {
         if(event in listOf("1.1", "1.2", "1.3")) {
             AfinaQuery.selectValue(SEL_MAIN_BY_UID_TAX,
-                params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), tax)
+                params = arrayOf(idFile, unicalUid, tax, event, eventDateXml.xmlDateToTimestamp())
             ) as Number
 
         } else {
