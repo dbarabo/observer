@@ -25,42 +25,31 @@ object CryptoScad : AbstractConfig() {
          CreateCrypto311p512.findAll()
          SignScadArchive311p.findAll()
 
-        UncryptoScad440p.findAll()
+         UncryptoScad440p.findAll()
 
+         InfoRequest349p.findAll()
 
-        InfoRequest349p.findAll()
+         Crypto4077UScad.findAll()
+         AddSign600P.findAll()
+         CryptoArchive600P.findAll()
+         AddSignMain600P.findAll()
 
-        Crypto4077UScad.findAll()
-        AddSign600P.findAll()
-        CryptoArchive600P.findAll()
+         PbSaverScadVer4.findAll()
+         SignScadArchive440p.findAll()
 
-        AddSignMain600P.findAll()
+         CryptoScad440p.findAll()
 
-        PbSaverScadVer4.findAll()
+         CryptoFtsValScad.findAll()
+         CryptoValCb181UScad.findAll()
+         SignScadOnlyFile.findAll()
+         SignScadCbFts181U.findAll()
 
-        SignScadArchive440p.findAll()
+         SignScadSend550p.findAll()
 
+         UnCryptoScad364p.findAll()
+         UnSignScad364p.findAll()
+         UnCryptoAny.findAll()
 
-        CryptoScad440p.findAll()
-
-        CryptoFtsValScad.findAll()
-        CryptoValCb181UScad.findAll()
-        SignScadOnlyFile.findAll()
-        SignScadCbFts181U.findAll()
-
-        SignScadSend550p.findAll()
-
-                 UnCryptoScad364p.findAll()
-                 UnSignScad364p.findAll()
-                 UnCryptoAny.findAll()
-
-        /*
-
-
-
-                         CreateSaveResponse390p.findAll()
-                         Sign390pArchive.findAll()
-                 */
-        this.executeTasks()
+         this.executeTasks()
     }
 }
