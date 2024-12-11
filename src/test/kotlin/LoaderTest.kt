@@ -62,6 +62,7 @@ import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
 import ru.barabo.observer.config.skad.plastic.task.SendXmlRiskClientCbrAuto
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.finder.isFind
+import ru.barabo.observer.config.task.finder.isModifiedMore
 import ru.barabo.observer.config.task.info.InfoHtmlData
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
@@ -80,6 +81,7 @@ import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -1394,9 +1396,30 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testExtract407pByRfm() {
-        val elem = Elem(File("C:/app/RFM_040507717_20240221_001.xml"), Extract407pByRfm, Duration.ZERO)
+        //val elem = Elem(File("C:/app/RFM_040507717_20240221_001.xml"), Extract407pByRfm, Duration.ZERO)
 
-        Extract407pByRfm.execute(elem)
+        val startDayNow = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        Extract407pByRfm.fileFinderData.forEach { ff ->
+            ff.directory().listFiles { f ->
+                logger.error("F=$f")
+                (!f.isDirectory) &&
+                        ( ff.search?.isFind(f.name, ff.isNegative)?:true ) &&
+                        ( (!ff.isModifiedTodayOnly) || f.isModifiedMore(startDayNow) ) //&&
+
+                        //(!findElemInStore(f.lastModified(), f.name))
+            }?.forEach {
+                //val newElem = createNewElem(it)
+
+                //StoreSimple.save(newElem)
+
+                //result = this
+
+                logger.error("FINAD=$it")
+            }
+        }
+
+        //Extract407pByRfm.execute(elem)
     }
 
     //@Test
@@ -1432,6 +1455,8 @@ res3 = [calc.DEC_TEST];
 
         GutdfLoaderFile.loadByFile(file)
     }
+
+
 
     //@Test
     fun testXsdSchema() {
