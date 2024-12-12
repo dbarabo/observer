@@ -48,6 +48,7 @@ import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
 import ru.barabo.observer.config.skad.anywork.task.*
+import ru.barabo.observer.config.skad.anywork.task.cbr.extract.loader.CbrRequestLoader
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutDfCreator
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.errorFolder
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutdfLoaderFile
@@ -1472,6 +1473,15 @@ res3 = [calc.DEC_TEST];
 
         //validateXml(file, "/xsd//gutdf/Main.xsd", ::errorFolder )
     }
+
+    //@Test
+    fun testCbrRequestLoader() {
+
+        val file = File("C:/temp/ZBR_8888_NOCRD_000020231127000000218401.xml")
+
+        CbrRequestLoader.loadRequest(file)
+    }
+
 
 
 }

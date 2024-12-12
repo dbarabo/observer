@@ -94,13 +94,13 @@ compileKotlin {
         languageVersion = "1.9"
     }
 }*/
-/*
+
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions {
         languageVersion = "1.8"
     }
-}*/
+}
 
 jar {
 
