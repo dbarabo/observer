@@ -172,7 +172,7 @@ private fun title(idMain: Number, title: SubjectTitleDataUl): List<DataInfo> {
     data += DataInfo(idMain, "UL_3_Reg", "regNum", title.ul3Reg.ogrn?.value?:"")
     data += DataInfo(idMain, "UL_3_Reg", "lei", title.ul3Reg.lei?.value?:"")
 
-    data += DataInfo(idMain, "UL_4_Tax", "regNum", title.ul4Tax.taxNumGroupUl4TaxList[0].taxNum?.value?:"")
+    data += DataInfo(idMain, "UL_4_Tax", "taxNum", title.ul4Tax.taxNumGroupUl4TaxList[0].taxNum?.value?:"")
 
     return data
 }

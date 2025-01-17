@@ -24,7 +24,6 @@ object AnyWork : AbstractConfig() {
         CheckExistsTicketRutdf.findAll()
 
         CecReportProcess.findAll()
-        ClientRiskLoader.findAll()
 
         CheckOpenArchiveDay.findAll()
         ExecOpenArchiveDay.findAll()

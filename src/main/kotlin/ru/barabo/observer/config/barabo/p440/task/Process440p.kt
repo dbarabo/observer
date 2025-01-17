@@ -2,7 +2,6 @@ package ru.barabo.observer.config.barabo.p440.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector

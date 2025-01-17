@@ -13,6 +13,8 @@ import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.crypto.task.LoaderRutdfTicketReject
+import ru.barabo.observer.config.barabo.p440.out.ResponseData
+import ru.barabo.observer.config.barabo.p440.out.data.PbResponseDataVer4
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.release.add.OutApplicationData
@@ -65,6 +67,7 @@ import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.finder.isModifiedMore
 import ru.barabo.observer.config.task.info.InfoHtmlData
+import ru.barabo.observer.config.task.p440.out.xml.ver4.pb.FilePbXmlVer4
 import ru.barabo.observer.config.test.TestConfig
 import ru.barabo.observer.report.ReportXlsLockCards
 import ru.barabo.observer.store.Elem
@@ -88,6 +91,7 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.round
 import kotlin.math.roundToLong
+import kotlin.reflect.javaType
 
 
 class LoaderTest {
@@ -1276,7 +1280,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testFnsPercentOut() {
 
-        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2023, 12, 31))
+        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2024, 12, 31))
         fnsPercentOut.createFile()
     }
 
@@ -1458,7 +1462,6 @@ res3 = [calc.DEC_TEST];
     }
 
 
-
     //@Test
     fun testXsdSchema() {
 
@@ -1481,6 +1484,43 @@ res3 = [calc.DEC_TEST];
 
         CbrRequestLoader.loadRequest(file)
     }
+
+    //@Test
+    fun testConstuctParamReflection() {
+
+        val respDate: ResponseData = PbResponseDataVer4()
+
+        logger.error("class=${respDate.javaClass.name}")
+
+        for( constr in FilePbXmlVer4::class.constructors) {
+
+            logger.error("params.size=${constr.parameters.size}")
+
+            val param = constr.parameters.iterator().next().type.toString()
+
+            logger.error("par.type=$param")
+
+            val name = param.substringBefore('!')
+
+            logger.error("name=$name")
+
+            val respNAme = respDate.javaClass.name.substringBefore('!')
+
+            logger.error("respNAme=$respNAme")
+
+
+
+
+//            for(par in constr.parameters) {
+//               logger.error("par.type=${par.type.toString()}")
+//            }
+        }
+
+        //val construct =  FilePbXmlVer4::class.constructors.iterator().next()
+
+    }
+
+
 
 
 

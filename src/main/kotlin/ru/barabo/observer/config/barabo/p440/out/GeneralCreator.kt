@@ -12,7 +12,6 @@ import ru.barabo.observer.config.barabo.p440.out.data.AbstractResponseData
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.X440P
 import ru.barabo.observer.config.fns.scad.CryptoScad
-import ru.barabo.observer.config.skad.crypto.ScadConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.WeekAccess

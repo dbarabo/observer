@@ -5,7 +5,6 @@ import ru.barabo.observer.afina.AfinaConnect
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.plastic.release.PlasticReleaseConfig
 import ru.barabo.observer.config.barabo.plastic.turn.PlasticTurnConfig
 import ru.barabo.observer.config.cbr.ibank.IBank
@@ -20,7 +19,7 @@ import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
 import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.anywork.AnyWork
-import ru.barabo.observer.config.skad.crypto.ScadConfig
+import ru.barabo.observer.config.skad.longtime.LongTime
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.test.TestConfig
@@ -139,11 +138,11 @@ private fun getBuildInfoByBuild(build: String): BuildInfo =
         BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
 
 private fun ensScadConfig(): List<ConfigTask> = listOf(EnsConfig, CryptoScad,
-    PlasticOutSide, Acquiring, SenderMail, AnyWork)
+    PlasticOutSide, Acquiring, SenderMail, AnyWork, SenderInternalMail, LongTime)
 
 private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)
 
-private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherCbr, SenderInternalMail)
+private fun cbrConfigs(): List<ConfigTask> = listOf(PtkPsd, TicketPtkPsd, OtherCbr)
 
 private fun jzdoConfigs(): List<ConfigTask> = listOf(IBank, UPayConfig, PlasticTurnConfig, PlasticReleaseConfig)
 

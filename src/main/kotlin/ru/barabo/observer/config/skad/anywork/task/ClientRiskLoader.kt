@@ -6,8 +6,8 @@ import ru.barabo.html.HtmlContent
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.skad.forms.clientrisk.XmlClientRiskLoader
+import ru.barabo.observer.config.skad.longtime.LongTime
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.clientrisk.fromcbr.MainRisks
@@ -26,7 +26,7 @@ object ClientRiskLoader : FileFinder, FileProcessor {
 
     override fun name(): String = "Загрузка рисков клиентов из ЦБ"
 
-    override fun config(): ConfigTask = AnyWork
+    override fun config(): ConfigTask = LongTime
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
         workTimeFrom = LocalTime.of(0, 0), workTimeTo = LocalTime.of(13, 0),

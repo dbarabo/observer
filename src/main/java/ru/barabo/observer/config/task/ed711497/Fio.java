@@ -14,8 +14,10 @@ public final class Fio {
     @XStreamAlias("Отчество")
     private String papaName;
 
-    @XStreamAlias("ПрОтчество")
-    private String absentPapaName;
+
+//    @XStreamAlias("ПрОтчество")
+//    private String absentPapaName;
+
 
     public String getLastName() {
         return lastName;
@@ -30,10 +32,11 @@ public final class Fio {
         return papaName == null ? null : papaName;
     }
 
-    public String getAbsentPapaName() {
 
-        return absentPapaName == null ? null : absentPapaName;
-    }
+//    public String getAbsentPapaName() {
+//
+//        return absentPapaName == null ? null : absentPapaName;
+//    }
 
     public Fio() {
     }
@@ -42,13 +45,14 @@ public final class Fio {
 
         this.firstName = firstName;
         this.lastName = lastName;
+        this.papaName = (secondName == null || secondName.isEmpty()) ? null : secondName;
 
-        if(secondName == null || secondName.isEmpty()) {
-            this.papaName = null;
-            this.absentPapaName = "1";
-        } else {
-            this.absentPapaName = null;
-            this.papaName = secondName;
-        }
+//        if(secondName == null || secondName.isEmpty()) {
+//            this.papaName = null;
+//            this.absentPapaName = "1";
+//        } else {
+//            this.absentPapaName = null;
+//            this.papaName = secondName;
+//        }
     }
 }

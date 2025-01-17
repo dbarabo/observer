@@ -21,6 +21,10 @@ public class RequestInfo {
     @XStreamOmitField
     private Object signPact;
 
+    @XStreamAlias("ЭЛ05ЗапрОперБезОткрСчета")
+    @XStreamOmitField
+    private Object operNoAccount;
+
     @XStreamAlias("ЭЛ08ЗапрЗаявлНаОткрСчета")
     @XStreamOmitField
     private Object appPact;
