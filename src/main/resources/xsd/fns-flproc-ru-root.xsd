@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by SKS (GNIVC FNS RF) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn://x-artefacts-fns-flproc/root/310-68/4.0.2" xmlns:fnst="urn://x-artefacts-fns-flproc/types/4.0.2" targetNamespace="urn://x-artefacts-fns-flproc/root/310-68/4.0.2" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:import namespace="urn://x-artefacts-fns-flproc/types/4.0.2" schemaLocation="./commons/fns-flproc-types.xsd"/>
+<!-- edited with XMLSpy v2024 rel. 2 sp1 (x64) (https://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn://x-artefacts-fns-flproc/root/310-68/4.0.4" xmlns:fnst="urn://x-artefacts-fns-flproc/types/4.0.4" targetNamespace="urn://x-artefacts-fns-flproc/root/310-68/4.0.4" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="urn://x-artefacts-fns-flproc/types/4.0.4" schemaLocation="./commons/fns-flproc-types.xsd"/>
 	<xs:element name="FLPROCRequest">
 		<xs:annotation>
 			<xs:documentation>Информация банка о суммах выплаченных физическому лицу процентов по вкладам (остаткам на счетах)</xs:documentation>
@@ -34,14 +34,14 @@
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
-									<xs:attribute name="ИННЮЛ" type="fnst:ИННЮЛТип" use="optional">
+									<xs:attribute name="ИННЮЛ" type="fnst:ИННЮЛТип" use="required">
 										<xs:annotation>
-											<xs:documentation>ИНН реорганизованного банка</xs:documentation>
+											<xs:documentation>ИНН реорганизованного (ликвидированного) банка</xs:documentation>
 										</xs:annotation>
 									</xs:attribute>
-									<xs:attribute name="КПП" type="fnst:КППТип" use="optional">
+									<xs:attribute name="КПП" type="fnst:КППТип" use="required">
 										<xs:annotation>
-											<xs:documentation>КПП реорганизованного банка</xs:documentation>
+											<xs:documentation>КПП реорганизованного (ликвидированного) банка</xs:documentation>
 										</xs:annotation>
 									</xs:attribute>
 								</xs:complexType>
@@ -49,22 +49,22 @@
 						</xs:sequence>
 						<xs:attribute name="НаимБанк" type="fnst:string-1000" use="required">
 							<xs:annotation>
-								<xs:documentation>Сокращенное наименование банка</xs:documentation>
+								<xs:documentation>Наименование банка</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="ИНН" type="fnst:ИННЮЛТип" use="required">
 							<xs:annotation>
-								<xs:documentation>ИНН банка</xs:documentation>
+								<xs:documentation>Идентификационный номер налогоплательщика банка (ИНН банка)</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="КПП" type="fnst:КППТип" use="required">
 							<xs:annotation>
-								<xs:documentation>КПП банка</xs:documentation>
+								<xs:documentation>Код причины постановки на учет (КПП банка)</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="СведПроц" maxOccurs="10000">
+				<xs:element name="СведПроц" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Сведения о суммах выплаченных физическому лицу процентов по вкладам (остаткам на счетах)</xs:documentation>
 					</xs:annotation>
@@ -76,9 +76,19 @@
 								</xs:annotation>
 								<xs:complexType>
 									<xs:sequence>
+										<xs:element name="СумНачПроц" type="fnst:СумНачПроцТип" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Начисленная за налоговые периоды сумма процентов</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="СумНачПроцИнд" type="fnst:СумНачПроцТип" minOccurs="0" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Начисленная за налоговые периоды сумма процентов по счетам, открытым в качестве индивидуального предпринимателя</xs:documentation>
+											</xs:annotation>
+										</xs:element>
 										<xs:element name="ФИО" type="fnst:ФИОТип">
 											<xs:annotation>
-												<xs:documentation>Фамилия, имя, отчество физического лица</xs:documentation>
+												<xs:documentation>Фамилия, имя, отчество (при наличии) физического лица</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="УдЛичнФЛ" type="fnst:УдЛичнФЛКТип">
@@ -112,15 +122,25 @@
 											<xs:documentation>ИНН физического лица</xs:documentation>
 										</xs:annotation>
 									</xs:attribute>
-									<xs:attribute name="СумПроц" type="fnst:number-17.2" use="required">
+									<xs:attribute name="СумПроц" use="required">
 										<xs:annotation>
 											<xs:documentation>Полученная за налоговый период сумма процентов</xs:documentation>
 										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="fnst:number-17.2">
+												<xs:minInclusive value="0"/>
+											</xs:restriction>
+										</xs:simpleType>
 									</xs:attribute>
-									<xs:attribute name="СумПроцИнд" type="fnst:number-17.2" use="required">
+									<xs:attribute name="СумПроцИнд" use="required">
 										<xs:annotation>
 											<xs:documentation>Полученная за налоговый период сумма процентов по счетам, открытым в качестве индивидуального предпринимателя </xs:documentation>
 										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="fnst:number-17.2">
+												<xs:minInclusive value="0"/>
+											</xs:restriction>
+										</xs:simpleType>
 									</xs:attribute>
 								</xs:complexType>
 							</xs:element>
@@ -161,7 +181,7 @@
 						<xs:sequence>
 							<xs:element name="ФИО" type="fnst:ФИОТип">
 								<xs:annotation>
-									<xs:documentation>Фамилия, имя, отчество</xs:documentation>
+									<xs:documentation>Фамилия, имя, отчество (при наличии)</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>

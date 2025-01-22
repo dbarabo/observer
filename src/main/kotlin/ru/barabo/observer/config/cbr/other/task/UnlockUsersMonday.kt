@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.other.task
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.Periodical
@@ -28,7 +29,7 @@ object UnlockUsersMonday : Periodical {
 
     override fun name(): String = "Разлочить юзеров в понедельник"
 
-    override fun config(): ConfigTask = OtherCbr
+    override fun config(): ConfigTask = AnyWork
 
     private const val CALL_UNLOCK_USERS = "{ call od.unlock_from_morningworks(?) }"
 

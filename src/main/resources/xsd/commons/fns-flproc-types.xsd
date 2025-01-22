@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by SKS (GNIVC FNS RF) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn://x-artefacts-fns-flproc/types/4.0.2" targetNamespace="urn://x-artefacts-fns-flproc/types/4.0.2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!-- edited with XMLSpy v2024 rel. 2 sp1 (x64) (https://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn://x-artefacts-fns-flproc/types/4.0.4" targetNamespace="urn://x-artefacts-fns-flproc/types/4.0.4" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<!--==========================================  Структурированные типы  ==========================================-->
 	<xs:simpleType name="ИдЗапросТип">
 		<xs:restriction base="xs:string">
@@ -8,6 +8,32 @@
 			<xs:maxLength value="36"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="СумНачПроцТип">
+		<xs:annotation>
+			<xs:documentation>Сведения о начисленной за налоговой период сумме процентов</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="ПериодПроц" use="required">
+			<xs:annotation>
+				<xs:documentation>Период, за который начислены проценты</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:gYear">
+					<xs:minInclusive value="1900"/>
+					<xs:maxInclusive value="2099"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="СумПроц" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма начисленных процентов</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="fns:number-17.2">
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
 	<xs:complexType name="УдЛичнФЛКТип">
 		<xs:annotation>
 			<xs:documentation>Сведения о документе, удостоверяющем личность физического лица</xs:documentation>

@@ -18,8 +18,6 @@ object OtherCbr: AbstractConfig() {
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
 
-        UnlockUsersMonday.findAll()
-
         CheckTicket440p.findAll()
         CheckTicketArchive440p.findAll()
 

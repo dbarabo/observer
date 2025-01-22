@@ -248,7 +248,7 @@ open class Query (private val dbConnection :DbConnection) {
             }
 
             closeQueryData(session, TransactType.ROLLBACK, statement)
-            throw SessionException(e.message as String)
+            throw SessionException(e.message?:"!")
         }
 
         return result

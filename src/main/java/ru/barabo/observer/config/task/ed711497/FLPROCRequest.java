@@ -12,7 +12,7 @@ import java.util.UUID;
 public class FLPROCRequest {
     @XStreamAsAttribute
     @XStreamAlias("xmlns:tns")
-    final String xmlns = "urn://x-artefacts-fns-flproc/root/310-68/4.0.2";
+    final String xmlns = "urn://x-artefacts-fns-flproc/root/310-68/4.0.4";
 
     @XStreamAlias("ИдЗапрос")
     final private String idRequest = UUID.randomUUID().toString().toUpperCase();

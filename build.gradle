@@ -81,7 +81,8 @@ dependencies {
    // compile group: 'org.apache.poi', name: 'poi', version: '4.1.2'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
 
-    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc6', version: '11.2.0.4'
+    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '23.2.0.0'
+    //implementation group: 'com.oracle.database.jdbc', name: 'ojdbc6', version: '11.2.0.4'
     // implementation 'com.oracle.database.jdbc:ojdbc10:19.21.0.0'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'

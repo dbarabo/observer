@@ -11,6 +11,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.data.AbstractResponseData
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.cbr.ticket.task.X440P
+import ru.barabo.observer.config.fns.cbr.extract.createXml
 import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
@@ -90,11 +91,11 @@ abstract class GeneralCreator<X: Any>(protected val responseData: AbstractRespon
 
     override fun actionTask(): ActionTask = this
 
-    private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
-        val construct =  classXml.constructors.iterator().next()
-
-        return construct.call(responseData)
-    }
+//    private fun createXml(classXml :KClass<X>, responseData :AbstractResponseData) :X {
+//        val construct =  classXml.constructors.iterator().next()
+//
+//        return construct.call(responseData)
+//    }
 
     override fun execute(elem: Elem): State {
 

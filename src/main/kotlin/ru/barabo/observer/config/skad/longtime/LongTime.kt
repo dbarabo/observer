@@ -11,5 +11,7 @@ object LongTime : AbstractConfig() {
 
     override fun configRun() {
         ClientRiskLoader.findAll()
+
+        executeTasks()
     }
 }

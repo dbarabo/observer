@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.barabo.p440.task
 
+import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.fns.ens.EnsConfig
@@ -29,18 +30,23 @@ object Process440p : SingleSelector {
     override fun execute(elem: Elem): State {
 
         try {
-            AfinaQuery.execute(EXEC_440P, arrayOf(elem.idElem) )
+            AfinaQuery.execute(EXEC_440P, arrayOf(elem.idElem))
 
-            if(elem.name.indexOf("RPO") == 0) {
+            if (elem.name.indexOf("RPO") == 0) {
 
                 RooWaitCancel.execute(elem)
             }
-
         } catch (e: Exception) {
+
+            logger.error("Exception", e)
+
             if(isVipException(e.message)) {
-                return sendVipInfo(elem, e.message!!)
+
+                logger.error("isVipException sendVipInfo")
+
+                return sendVipInfo(elem, e.message?:"")
             } else {
-                throw SQLException(e.message)
+                throw SQLException(e.message?:"")
             }
         }
 
@@ -66,3 +72,5 @@ object Process440p : SingleSelector {
         return State.NONE
     }
 }
+
+private val logger = LoggerFactory.getLogger(Process440p::class.java)
