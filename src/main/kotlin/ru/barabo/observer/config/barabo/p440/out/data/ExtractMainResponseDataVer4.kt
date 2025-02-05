@@ -2,8 +2,10 @@ package ru.barabo.observer.config.barabo.p440.out.data
 
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
+import ru.barabo.observer.config.barabo.p440.out.ExtractResponseData
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
 import ru.barabo.observer.config.barabo.p440.out.OutType
+import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
 import ru.barabo.observer.config.task.p440.out.xml.ver4.AccountAbsent
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.ExtractMainAccountVer4
@@ -11,7 +13,7 @@ import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add.FileAddExtra
 import java.util.*
 import kotlin.math.min
 
-class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
+class ExtractMainResponseDataVer4 : AbstractRequestResponse(), ExtractResponseData {
     override fun typeInfo(): String = "ВЫПБНОСНОВ"
 
     override fun xsdSchema(): String = "/xsd/440-П_BVS.xsd"
@@ -20,11 +22,13 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
     override fun getViewHelp(): String = viewHelpVar
 
-    lateinit var accountAbsents: List<AccountAbsent>
+    private lateinit var accountAbsents: List<AccountAbsent>
 
-    lateinit var mainAccountsVer4: List<ExtractMainAccountVer4>
+    private lateinit var mainAccountsVer4: List<ExtractMainAccountVer4>
 
-    lateinit var operationDataAccount: List<Array<Any?>>
+    override fun getAccountAbsentList(): List<AccountAbsent> = accountAbsents
+
+    override fun getMainAccountList(): List<ExtractMainAccountVer4> = mainAccountsVer4
 
     override fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
@@ -36,6 +40,8 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
 
         createExtractInfo(sessionSetting)
     }
+
+    override fun maxOperationsCountInPart(): Int = MAX_OPERATION_COUNT_EXT_VER4
 
     private fun createExtractInfo(sessionSetting: SessionSetting) {
 
@@ -76,29 +82,29 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
         val accountsWithTurn = mainAccountsVer4.filter { it.groupInfoAddFile == null }
 
         for(account in accountsWithTurn) {
-            initOperationAccount(account)
+            val operationDataAccount = initOperationAccount(account)
 
-            account.addGroupInfoAddFile( getAddFileNames(account) )
+            val countFiles = countFiles(operationDataAccount)
 
-            createAddXmlFiles(account)
+            account.addGroupInfoAddFile( getAddFileNames(account, countFiles) )
+
+            createAddXmlFiles(account, operationDataAccount)
         }
     }
 
-    private fun createAddXmlFiles(account: ExtractMainAccountVer4) {
+    private fun createAddXmlFiles(account: ExtractMainAccountVer4, operationDataAccount: List<Array<Any?>>) {
 
         var countOperation = 0
 
-        val countFiles: Int = countFiles()
+        val countFiles: Int = countFiles(operationDataAccount)
 
         for(partNumber in 1..countFiles) {
-            val addResponseData = AddExtractResponseDataVer4(this, account, partNumber, countOperation)
+            val addResponseData =
+                AddExtractResponseDataVer4(this, account, partNumber, countOperation, operationDataAccount)
 
-            countOperation += min(MAX_OPERATION_COUNT_EXT_VER4, operationDataAccount.size - countOperation - 1)
+            countOperation += min(maxOperationsCountInPart(), operationDataAccount.size - countOperation - 1)
 
-            val addExtractXml =
-                FileAddExtractXmlVer4(
-                    addResponseData
-                )
+            val addExtractXml = FileAddExtractXmlVer4(addResponseData)
 
             val fileXml = GeneralCreator.saveXml(addResponseData.fileNameResponse(), addExtractXml)
 
@@ -108,53 +114,52 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse() {
         }
     }
 
-    private fun countFiles(): Int =
-        (operationDataAccount.size - 1) / MAX_OPERATION_COUNT_EXT_VER4 +
-                if( ((operationDataAccount.size - 1) % MAX_OPERATION_COUNT_EXT_VER4) == 0) 0 else 1
-
     private fun insertBvdResponseDb(addResponseData: AddExtractResponseDataVer4) {
         AfinaQuery.execute(INSERT_BVD_RESPONSE,
             arrayOf(addResponseData.idFromFns(),
                 OutType.EXTRACT_ADDITIONAL.dbValue, addResponseData.fileNameResponseTemplate()) )
     }
+}
 
-    private fun getAddFileNames(account: ExtractMainAccountVer4): List<String> {
+fun ExtractResponseData.countFiles(operations: List<*>): Int =   (operations.size - 1) / maxOperationsCountInPart() +
+        if( ((operations.size - 1) % maxOperationsCountInPart() ) == 0) 0 else 1
 
-        val countFiles: Int = countFiles()
+fun ResponseData.getAddFileNames(account: ExtractMainAccountVer4, countFiles: Int): List<String> {
 
-        val fileNames = ArrayList<String>()
+    val fileNames = ArrayList<String>()
 
-        val template = this.fileNameResponse().substringBefore(".").replace("BVS", "BVD")
+    val template = this.fileNameResponse().substringBefore(".").replace("BVS", "BVD")
 
-        for(index in 1..countFiles) {
+    for(index in 1..countFiles) {
 
-            val fileName = "${template}_${account.orderFile}_${String.format("%06d", index)}"
+        val fileName = "${template}_${account.orderFile}_${String.format("%06d", index)}"
 
-            fileNames.add(fileName)
-        }
-
-        return fileNames
+        fileNames.add(fileName)
     }
 
-    private fun initOperationAccount(account: ExtractMainAccountVer4) {
+    return fileNames
+}
 
-        val seq = AfinaQuery.nextSequence()
+fun initOperationAccount(account: ExtractMainAccountVer4): List<Array<Any?>> {
 
-        val sessionBack = AfinaQuery.uniqueSession()
+    val seq = AfinaQuery.nextSequence()
 
-        val params: Array<Any?> = arrayOf(account.startExtract, account.endExtract, account.code, seq)
+    val sessionBack = AfinaQuery.uniqueSession()
 
-        AfinaQuery.execute(EXEC_OPERATION_ACCOUNT, params, sessionBack)
+    val params: Array<Any?> = arrayOf(account.startExtract, account.endExtract, account.code, seq)
 
-        operationDataAccount = AfinaQuery.select(SELECT_EXTRACT, arrayOf(seq), sessionBack)
+    AfinaQuery.execute(EXEC_OPERATION_ACCOUNT, params, sessionBack)
 
-        AfinaQuery.rollbackFree(sessionBack)
-    }
+    val operationDataAccount = AfinaQuery.select(SELECT_EXTRACT, arrayOf(seq), sessionBack)
+
+    AfinaQuery.rollbackFree(sessionBack)
+
+    return operationDataAccount
 }
 
 //private val logger = LoggerFactory.getLogger(ExtractMainResponseDataVer4::class.java)
 
-const val MAX_OPERATION_COUNT_EXT_VER4 = 1000
+private const val MAX_OPERATION_COUNT_EXT_VER4 = 1000
 
 private const val SELECT_MAIN_EXTRACT_ACCOUNT = "{ ? = call od.PTKB_440P.getExtractMainAccountsVer4( ? ) }"
 

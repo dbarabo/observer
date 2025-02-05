@@ -2,10 +2,8 @@ package ru.barabo.observer.config.fns.cbr.extract
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.validateXml
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
-import ru.barabo.observer.config.barabo.p440.out.data.ExtractMainResponseDataVer4
 import ru.barabo.observer.config.fns.cbr.CbrConfig
 import ru.barabo.observer.config.fns.cbr.task.getCbrResponseToday
 import ru.barabo.observer.config.skad.plastic.task.saveXml
@@ -20,6 +18,7 @@ import java.io.File
 import java.time.Duration
 import java.time.LocalTime
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 
 enum class SaverType(val dbValue: Int, val outObject : ActionTask?) {
 
@@ -29,7 +28,7 @@ enum class SaverType(val dbValue: Int, val outObject : ActionTask?) {
     EXTRACT_ADDITIONAL(3, null);
 
     companion object {
-        private val HASH_DBVALUE_CREATOR = values().map { it -> Pair(it.dbValue, it.outObject) }.toMap()
+        private val HASH_DBVALUE_CREATOR = values().map { Pair(it.dbValue, it.outObject) }.toMap()
 
         fun creatorByDbValue(value: Int) : ActionTask? = HASH_DBVALUE_CREATOR[value]
     }
@@ -40,12 +39,12 @@ object PbSaverCbr : AbstractCbrSaver<FilePbXmlVer4>(PbResponseDataCbr(), FilePbX
     override fun name(): String = "ЦБ-Выписки выгрузка PB-файла"
 }
 
-object ExtractMainCbr : GeneralCreator<FileExtractMainXmlVer4>(ExtractMainResponseDataVer4(), FileExtractMainXmlVer4::class) {
+object ExtractMainCbr : AbstractCbrSaver<FileExtractMainXmlVer4>(ExtractMainResponseCbr(), FileExtractMainXmlVer4::class) {
 
-    override fun name(): String = "Выгрузка выписки ver.4"
+    override fun name(): String = "ЦБ-Выписки выгрузка BVS+BVD"
 }
 
-abstract class AbstractCbrSaver<X: Any>(val responseData: ResponseData, val clazzXml : KClass<X>) : DbSelector, ActionTask {
+abstract class AbstractCbrSaver<X: Any>(val responseData: ResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
     override fun config(): ConfigTask = CbrConfig
 
     override val select: String = "select id, FILENAME, TYPE_RESPONSE from od.PTKB_CBR_EXT_RESPONSE where state = 0"
@@ -75,7 +74,7 @@ abstract class AbstractCbrSaver<X: Any>(val responseData: ResponseData, val claz
 
         val file = File("${getCbrResponseToday().absolutePath}/${responseData.fileNameResponse()}.xml")
 
-        saveXml(file, xmlData)
+        saveXml(file, xmlData, isUseAttr = true)
 
         validateXml(file, responseData.xsdSchema())
 
@@ -91,6 +90,8 @@ fun<X: Any, Y: Any> createXml(classXml : KClass<X>, param: Y): X {
 
     val parClass = param.javaClass.name.substringBefore('!')
 
+    var firstConstruct: KFunction<X>? = null
+
     for(construct in classXml.constructors) {
 
         if(construct.parameters.size != 1) continue
@@ -100,10 +101,12 @@ fun<X: Any, Y: Any> createXml(classXml : KClass<X>, param: Y): X {
         if(parClass == paramClassName) {
 
             return construct.call(param)
+        } else {
+            firstConstruct = construct
         }
     }
 
-    throw Exception("Constructor not found for class=${classXml} with param=$param")
+    return firstConstruct?.call(param)!!
 }
 
 private const val UPDATE_STATE_RESPONSE = "update od.PTKB_CBR_EXT_RESPONSE set state = 1, sent = sysdate where id = ?"

@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+******************************************************************
+XML-СХЕМА для формы отчетности Файл
+СГЕНЕРИРОВАНА XSLT-ПРЕОБРАЗОВАНИЕМ GenSchema.xsl
+******************************************************************-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-operac:oper4:v4.00..3" xmlns="urn:cbr-operac:oper4:v4.00..3">
+<xs:element name="Файл" type="Файл" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+	<xs:complexType name="Файл" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ВЫПБНОСНОВ" type="ФайлВЫПБНОСНОВ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ПредБанка" type="ФайлПредБанка" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИдЭС" type="GUIDтип" use="required"/>
+		<xs:attribute name="ТипИнф" type="ТипИнфТип-лок" use="required"/>
+		<xs:attribute name="ВерсПрог" type="ВерсПрогТип-лок" use="required"/>
+		<xs:attribute name="ТелОтпр" type="Строка20" use="required"/>
+		<xs:attribute name="ДолжнОтпр" type="Строка100" use="required"/>
+		<xs:attribute name="ФамОтпр" type="Строка60" use="required"/>
+		<xs:attribute name="ВерсФорм" type="ВерсФормТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="СведЗапр" type="ФайлВЫПБНОСНОВСведЗапр" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Самостоят" type="ФайлВЫПБНОСНОВСамостоят" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="СведБанкПБР" type="ФайлВЫПБНОСНОВСведБанкПБР" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="КлиентСчет" type="ФайлВЫПБНОСНОВКлиентСчет" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="СведенияВып" type="ФайлВЫПБНОСНОВСведенияВып" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="НомВыпис" type="НомСправТип-лок" use="required"/>
+		<xs:attribute name="ДатаВыпис" type="Дата" use="required"/>
+		<xs:attribute name="ТипВыпис" type="ТипСправТип-лок" use="required"/>
+		<xs:attribute name="НаимПодтв" type="Строка100" use="optional"/>
+		<xs:attribute name="ВидВыпис" type="ВидСправТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведЗапр" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="НомЗапр" type="Строка20" use="required"/>
+		<xs:attribute name="ДатаЗапр" type="Дата" use="required"/>
+		<xs:attribute name="КодНО" type="КодНОТип-лок" use="required"/>
+		<xs:attribute name="ИндЗапр" type="ИндЗапрТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСамостоят" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="РегНом" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="НомФил" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимБанк" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБанк" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КППБанк" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведБанкПБР" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="СведБанк" type="ФайлВЫПБНОСНОВСведБанкПБРСведБанк" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="СведПБР" type="ФайлВЫПБНОСНОВСведБанкПБРСведПБР" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведБанкПБРСведБанк" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="РегНом" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="НомФил" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимБанк" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБанк" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КППБанк" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведБанкПБРСведПБР" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимУБР" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБР" type="ИННБРТип-лок" use="required"/>
+		<xs:attribute name="КППУБР" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчет" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="КлиентЮЛ" type="ФайлВЫПБНОСНОВКлиентСчетКлиентЮЛ" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="КлиентИП" type="ФайлВЫПБНОСНОВКлиентСчетКлиентИП" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="КлиентФЛ" type="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛ" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентЮЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИННЮЛ" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КПП" type="КППТип-лок" use="required"/>
+		<xs:attribute name="НаимЮЛ" type="НаимТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОИП" type="ФайлВЫПБНОСНОВКлиентСчетКлиентИПФИОИП" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННИП" type="ИННФЛТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентИПФИОИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОФЛ" type="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛФИОФЛ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Адрес" type="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛАдрес" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННФЛ" type="ИННФЛТип-лок" use="optional"/>
+		<xs:attribute name="ДатаРожд" type="Дата" use="required"/>
+		<xs:attribute name="МестоРожд" type="МестоРожТип-лок" use="required"/>
+		<xs:attribute name="КодДок" type="КодДокТип-лок" use="required"/>
+		<xs:attribute name="СерНомДок" type="СерНомДокТип-лок" use="required"/>
+		<xs:attribute name="ДатаДок" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛФИОФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВКлиентСчетКлиентФЛАдрес" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Индекс" type="ИндексТип-лок" use="optional"/>
+		<xs:attribute name="КодРегион" type="КодРегионТип-лок" use="required"/>
+		<xs:attribute name="Район" type="Строка50" use="optional"/>
+		<xs:attribute name="Город" type="Строка50" use="required"/>
+		<xs:attribute name="НаселПункт" type="Строка50" use="optional"/>
+		<xs:attribute name="Улица" type="Строка50" use="optional"/>
+		<xs:attribute name="Дом" type="Строка20" use="optional"/>
+		<xs:attribute name="Корпус" type="Строка20" use="optional"/>
+		<xs:attribute name="Квартира" type="Строка20" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВып" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="СчДатаПериод" type="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериод" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="СведБанкПБР" type="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБР" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="СведСЧОпер" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОпер" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="СчетОтсут" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсут" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериод" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ДейстПоСост" type="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериодДейстПоСост" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ИмПериод" type="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериодИмПериод" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериодДейстПоСост" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Дата" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчДатаПериодИмПериод" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="НачПериода" type="Дата" use="required"/>
+		<xs:attribute name="ОконПериода" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБР" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="СведБанк" type="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБРСведБанк" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="СведПБР" type="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБРСведПБР" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБРСведБанк" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="РегНом" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="НомФил" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимБанк" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБанк" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КППБанк" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведБанкПБРСведПБР" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимУБР" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБР" type="ИННБРТип-лок" use="required"/>
+		<xs:attribute name="КППУБР" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОпер" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ВалютаСч" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВалютаСч" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="ВидСч" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВидСч" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ВладелецСч" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСч" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ДепонентСч" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСч" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="БенефСч" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСч" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ИзмСчета" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчета" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="СвОстОборотСЧ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="СведДопФайл" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСведДопФайл" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="НомСч" type="НомСчТип-лок" use="required"/>
+		<xs:attribute name="ДатаОткр" type="Дата" use="required"/>
+		<xs:attribute name="ДатаОкон" type="Дата" use="optional"/>
+		<xs:attribute name="ДатаЗакр" type="Дата" use="optional"/>
+		<xs:attribute name="ПорНом" type="ПорНомТип-лок" use="required"/>
+		<xs:attribute name="ДатаНачПериод" type="Дата" use="required"/>
+		<xs:attribute name="ДатаОкПериод" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВалютаСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="КодВал" type="КодВалТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВидСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="КодВидСч" type="КодВидСчТип-лок" use="required"/>
+		<xs:attribute name="ВидИнСч" type="ВидСчТип-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ВлУказЛицо" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчВлУказЛицо" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ИноеВладелец" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелец" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчВлУказЛицо" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="УказЛицо" type="УказЛицоТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелец" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ВладелецЮЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецЮЛ" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ВладелецИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецИП" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ВладелецФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛ" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецЮЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИННЮЛ" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КПП" type="КППТип-лок" use="required"/>
+		<xs:attribute name="НаимЮЛ" type="НаимТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецИПФИОИП" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННИП" type="ИННФЛТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецИПФИОИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛФИОФЛ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Адрес" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛАдрес" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННФЛ" type="ИННФЛТип-лок" use="optional"/>
+		<xs:attribute name="ДатаРожд" type="Дата" use="required"/>
+		<xs:attribute name="МестоРожд" type="МестоРожТип-лок" use="required"/>
+		<xs:attribute name="КодДок" type="КодДокТип-лок" use="required"/>
+		<xs:attribute name="СерНомДок" type="СерНомДокТип-лок" use="required"/>
+		<xs:attribute name="ДатаДок" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛФИОФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперВладелецСчИноеВладелецВладелецФЛАдрес" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Индекс" type="ИндексТип-лок" use="optional"/>
+		<xs:attribute name="КодРегион" type="КодРегионТип-лок" use="required"/>
+		<xs:attribute name="Район" type="Строка50" use="optional"/>
+		<xs:attribute name="Город" type="Строка50" use="required"/>
+		<xs:attribute name="НаселПункт" type="Строка50" use="optional"/>
+		<xs:attribute name="Улица" type="Строка50" use="optional"/>
+		<xs:attribute name="Дом" type="Строка20" use="optional"/>
+		<xs:attribute name="Корпус" type="Строка20" use="optional"/>
+		<xs:attribute name="Квартира" type="Строка20" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ДепУказЛицо" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчДепУказЛицо" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ИноеДепонент" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонент" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчДепУказЛицо" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="УказЛицо" type="УказЛицоТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонент" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ДепонентЮЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентЮЛ" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ДепонентИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентИП" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ДепонентФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛ" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентЮЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИННЮЛ" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КПП" type="КППТип-лок" use="required"/>
+		<xs:attribute name="НаимЮЛ" type="НаимТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентИПФИОИП" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННИП" type="ИННФЛТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентИПФИОИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛФИОФЛ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Адрес" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛАдрес" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННФЛ" type="ИННФЛТип-лок" use="optional"/>
+		<xs:attribute name="ДатаРожд" type="Дата" use="required"/>
+		<xs:attribute name="МестоРожд" type="МестоРожТип-лок" use="required"/>
+		<xs:attribute name="КодДок" type="КодДокТип-лок" use="required"/>
+		<xs:attribute name="СерНомДок" type="СерНомДокТип-лок" use="required"/>
+		<xs:attribute name="ДатаДок" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛФИОФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперДепонентСчИноеДепонентДепонентФЛАдрес" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Индекс" type="ИндексТип-лок" use="optional"/>
+		<xs:attribute name="КодРегион" type="КодРегионТип-лок" use="required"/>
+		<xs:attribute name="Район" type="Строка50" use="optional"/>
+		<xs:attribute name="Город" type="Строка50" use="required"/>
+		<xs:attribute name="НаселПункт" type="Строка50" use="optional"/>
+		<xs:attribute name="Улица" type="Строка50" use="optional"/>
+		<xs:attribute name="Дом" type="Строка20" use="optional"/>
+		<xs:attribute name="Корпус" type="Строка20" use="optional"/>
+		<xs:attribute name="Квартира" type="Строка20" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="БенУказЛицо" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчБенУказЛицо" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ИноеБенеф" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенеф" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчБенУказЛицо" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="УказЛицо" type="УказЛицоТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенеф" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="БенефЮЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефЮЛ" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="БенефИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефИП" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="БенефФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛ" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефЮЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИННЮЛ" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КПП" type="КППТип-лок" use="required"/>
+		<xs:attribute name="НаимЮЛ" type="НаимТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОИП" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефИПФИОИП" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННИП" type="ИННФЛТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефИПФИОИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛФИОФЛ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Адрес" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛАдрес" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННФЛ" type="ИННФЛТип-лок" use="optional"/>
+		<xs:attribute name="ДатаРожд" type="Дата" use="required"/>
+		<xs:attribute name="МестоРожд" type="МестоРожТип-лок" use="required"/>
+		<xs:attribute name="КодДок" type="КодДокТип-лок" use="required"/>
+		<xs:attribute name="СерНомДок" type="СерНомДокТип-лок" use="required"/>
+		<xs:attribute name="ДатаДок" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛФИОФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперБенефСчИноеБенефБенефФЛАдрес" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Индекс" type="ИндексТип-лок" use="optional"/>
+		<xs:attribute name="КодРегион" type="КодРегионТип-лок" use="required"/>
+		<xs:attribute name="Район" type="Строка50" use="optional"/>
+		<xs:attribute name="Город" type="Строка50" use="required"/>
+		<xs:attribute name="НаселПункт" type="Строка50" use="optional"/>
+		<xs:attribute name="Улица" type="Строка50" use="optional"/>
+		<xs:attribute name="Дом" type="Строка20" use="optional"/>
+		<xs:attribute name="Корпус" type="Строка20" use="optional"/>
+		<xs:attribute name="Квартира" type="Строка20" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчета" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="СведБанкПБРИзм" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзм" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="СчетДоИзм" type="НомСчТип-лок" use="required"/>
+		<xs:attribute name="СчетИзмен" type="НомСчТип-лок" use="required"/>
+		<xs:attribute name="ДатаИзм" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзм" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="СведБанк" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзмСведБанк" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="СведПБР" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзмСведПБР" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзмСведБанк" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="РегНом" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="НомФил" type="РегНомТип-лок" use="required"/>
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимБанк" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБанк" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КППБанк" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперИзмСчетаСведБанкПБРИзмСведПБР" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="БИК" type="БИКтип" use="required"/>
+		<xs:attribute name="НаимУБР" type="НаимТип-лок" use="required"/>
+		<xs:attribute name="ИННБР" type="ИННБРТип-лок" use="required"/>
+		<xs:attribute name="КППУБР" type="КППТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ОстОборотСЧ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧОстОборотСЧ" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element name="НетУчета" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧНетУчета" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧОстОборотСЧ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ОстВх" type="ОстатокТип-лок" use="required"/>
+		<xs:attribute name="СумДеб" type="ОборотТип-лок" use="required"/>
+		<xs:attribute name="СумКред" type="ОборотТип-лок" use="required"/>
+		<xs:attribute name="ОстИсх" type="ОстатокТип-лок" use="required"/>
+		<xs:attribute name="КодВалОст" type="КодВалТип-лок" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСвОстОборотСЧНетУчета" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="НетУчетаОст" type="Строка100" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСведДопФайл" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ИмДопФ" type="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСведДопФайлИмДопФ" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="КолДопФ" type="КолДопТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСведСЧОперСведДопФайлИмДопФ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ДопФайл" type="ДопФайлТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсут" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ВладелецСч" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСч" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="НомСч" type="НомСчТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСч" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ВлУказЛицо" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчВлУказЛицо" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ИноеВладелец" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелец" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчВлУказЛицо" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="УказЛицо" type="УказЛицоТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелец" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ВладелецЮЛ" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецЮЛ" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ВладелецИП" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецИП" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="ВладелецФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛ" minOccurs="1" maxOccurs="1"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецЮЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="ИННЮЛ" type="ИННЮЛТип-лок" use="required"/>
+		<xs:attribute name="КПП" type="КППТип-лок" use="required"/>
+		<xs:attribute name="НаимЮЛ" type="НаимТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОИП" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецИПФИОИП" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННИП" type="ИННФЛТип-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецИПФИОИП" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИОФЛ" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛФИОФЛ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Адрес" type="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛАдрес" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИННФЛ" type="ИННФЛТип-лок" use="optional"/>
+		<xs:attribute name="ДатаРожд" type="Дата" use="required"/>
+		<xs:attribute name="МестоРожд" type="МестоРожТип-лок" use="required"/>
+		<xs:attribute name="КодДок" type="КодДокТип-лок" use="required"/>
+		<xs:attribute name="СерНомДок" type="СерНомДокТип-лок" use="required"/>
+		<xs:attribute name="ДатаДок" type="Дата" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛФИОФЛ" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлВЫПБНОСНОВСведенияВыпСчетОтсутВладелецСчИноеВладелецВладелецФЛАдрес" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Индекс" type="ИндексТип-лок" use="optional"/>
+		<xs:attribute name="КодРегион" type="КодРегионТип-лок" use="required"/>
+		<xs:attribute name="Район" type="Строка50" use="optional"/>
+		<xs:attribute name="Город" type="Строка50" use="required"/>
+		<xs:attribute name="НаселПункт" type="Строка50" use="optional"/>
+		<xs:attribute name="Улица" type="Строка50" use="optional"/>
+		<xs:attribute name="Дом" type="Строка20" use="optional"/>
+		<xs:attribute name="Корпус" type="Строка20" use="optional"/>
+		<xs:attribute name="Квартира" type="Строка20" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлПредБанка" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:sequence>
+			<xs:element name="ФИО" type="ФайлПредБанкаФИО" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="Должность" type="Строка100" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ФайлПредБанкаФИО" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Фамилия" type="Строка60" use="required"/>
+		<xs:attribute name="Имя" type="Строка60" use="required"/>
+		<xs:attribute name="Отчество" type="Строка60" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="НомСправТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1"/><xs:ЗначениеТипа ЗначТипа="123"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="20"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="РегНомТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0123"/><xs:ЗначениеТипа ЗначТипа="0"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:nonNegativeInteger"><xs:totalDigits value="4"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодНОТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="4320"/><xs:ЗначениеТипа ЗначТипа="0400"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:nonNegativeInteger"><xs:totalDigits value="4"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИННБРТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="7702235133"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="10"/><xs:enumeration value="7702235133"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИННЮЛТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1234567890"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="5"/><xs:maxLength value="10"/><xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{8}"/><xs:pattern value="\d{5}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИННФЛТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="771123456789"/><xs:ЗначениеТипа ЗначТипа="0"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="12"/><xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{10}"/><xs:pattern value="0"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КППТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="616301001"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="9"/><xs:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{7}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="НомСчТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1..20"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="20"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ВидСчТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1..25"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="25"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодВалТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="810"/><xs:ЗначениеТипа ЗначТипа="A98"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="3"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИндексТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="123560"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="6"/><xs:pattern value="[0-9]{6}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="СерНомДокТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="4511665544"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="25"/><xs:minLength value="1"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодДокТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="21"/><xs:ЗначениеТипа ЗначТипа="03"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ВидСправТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="3"/><xs:ЗначениеТипа ЗначТипа="5"/><xs:ЗначениеТипа ЗначТипа="8"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="1"/><xs:pattern value="[1-8]{1}"/><xs:enumeration value="3"/><xs:enumeration value="5"/><xs:enumeration value="8"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="МестоРожТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="254"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодРегионТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="01"/><xs:ЗначениеТипа ЗначТипа="14"/><xs:ЗначениеТипа ЗначТипа="99"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КолДопТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="325"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:nonNegativeInteger"><xs:totalDigits value="15"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ПорНомТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="951357"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="6"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОстатокТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="987654321.78"/><xs:ЗначениеТипа ЗначТипа="12378.00"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="20"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ОборотТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="123456789012345678.12"/><xs:ЗначениеТипа ЗначТипа="321.00"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="20"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="КодВидСчТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0100"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:nonNegativeInteger"><xs:totalDigits value="4"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ВерсФормТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="4.00"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:decimal"><xs:totalDigits value="4"/><xs:fractionDigits value="2"/><xs:enumeration value="4.00"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ИндЗапрТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="3216549870123654789753"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:nonNegativeInteger"><xs:totalDigits value="22"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ДопФайлТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:maxLength value="350"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="НаимТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="ПАО Волна"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="160"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ТипСправТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="1"/><xs:ЗначениеТипа ЗначТипа="2"/><xs:ЗначениеТипа ЗначТипа="3"/><xs:ЗначениеТипа ЗначТипа="4"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="1"/><xs:enumeration value="1"/><xs:enumeration value="2"/><xs:enumeration value="3"/><xs:enumeration value="4"/><xs:enumeration value="5"/><xs:enumeration value="6"/><xs:enumeration value="7"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ВерсПрогТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="40"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="ТипИнфТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="ВЫПБНОСНОВ"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="10"/><xs:enumeration value="ВЫПБНОСНОВ"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="УказЛицоТип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="счет названного лица"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:length value="20"/><xs:enumeration value="счет названного лица"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Дата" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="2014-11-02"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:date"><xs:pattern value="\d{4}-\d{2}-\d{2}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка20" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0..20 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="20"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка50" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0..50 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="50"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка60" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0..60 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="60"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="Строка100" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="0..100 символов"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="БИКтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="040125003"/><xs:ЗначениеТипа ЗначТипа="123456789"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{9}"/></xs:restriction></xs:simpleType>
+	<xs:simpleType name="GUIDтип" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="6F9619FF-8B86-D011-B42D-00CF4FC994FF"/><xs:ЗначениеТипа ЗначТипа="A57E17DF-8B86-B711-A42D-00CF4FC994AC"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType></xs:schema>

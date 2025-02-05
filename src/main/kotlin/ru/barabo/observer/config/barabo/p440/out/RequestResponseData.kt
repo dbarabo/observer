@@ -38,4 +38,6 @@ interface RequestResponseData : ResponseData {
      * электронных денежных средств
      */
     fun getViewHelp(): String
+
+    fun getIdRequest(): String
 }

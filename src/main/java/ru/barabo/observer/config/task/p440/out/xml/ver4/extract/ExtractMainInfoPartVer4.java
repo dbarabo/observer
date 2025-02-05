@@ -1,7 +1,7 @@
 package ru.barabo.observer.config.task.p440.out.xml.ver4.extract;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import ru.barabo.observer.config.barabo.p440.out.data.ExtractMainResponseDataVer4;
+import ru.barabo.observer.config.barabo.p440.out.ExtractResponseData;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.ClientVer4;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.GeneralInfoPartVer4;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.InfoBankPBRVer4;
@@ -28,7 +28,7 @@ public class ExtractMainInfoPartVer4 extends GeneralInfoPartVer4 {
     @XStreamAlias("СведенияВып")
     private InfoExtractDetail infoExtractDetail;
 
-    public ExtractMainInfoPartVer4(ExtractMainResponseDataVer4 extractMainResponseData) {
+    public ExtractMainInfoPartVer4(ExtractResponseData extractMainResponseData) {
 
         super(true);
 

@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.p440.out.xml.ver4;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import ru.barabo.observer.config.barabo.p440.out.RequestResponseData;
 import ru.barabo.observer.config.barabo.p440.out.data.*;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
@@ -28,7 +29,7 @@ public class InfoRequestDetail {
     @XStreamAlias("ВидСпр")
     private String viewHelpBnsOnly;
 
-    public InfoRequestDetail(AbstractRequestResponse request) {
+    public InfoRequestDetail(RequestResponseData request) {
         numberRequest = request.getNumberRequest();
 
         dateRequest = XmlLoader.formatDate(request.getDateRequest());

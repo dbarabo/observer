@@ -17,7 +17,7 @@ class AdditionalResponseData(
     override fun isSourceSmev(): Boolean = false
 
     override fun fileNameResponse(): String =
-            String.format("${fileNameResponseTemplate()}.xml", AbstractResponseData.dateFormatInFile())
+            String.format("${fileNameResponseTemplate()}.xml", dateFormatInFile())
 
     override fun fileNameFromFns(): String = mainResponseData.fileNameFromFns()
 

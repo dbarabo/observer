@@ -21,7 +21,7 @@ class PbResponseDataCbr : ResponseData {
 
     override fun typeInfo(): String = "ПОДБНПРИНТ"
 
-    override fun xsdSchema(): String = "/xsd/440-П_PB.xsd"
+    override fun xsdSchema(): String = "/xsd/cbr/PB.xsd"
 
     override fun fileNameResponse(): String = filenameResponse
 
@@ -44,11 +44,11 @@ class PbResponseDataCbr : ResponseData {
 
         val checkAttributeCodes = checkAttributeCodesAndValues?.toString()?.split("|")
 
-        val checkText = checkAttributeCodes?.get(0)
+        val checkText = checkAttributeCodes?.get(0)?.takeIf { it.isNotEmpty() }
 
-        val checkAttributes = checkAttributeCodes?.get(1)
+        val checkAttributes = checkAttributeCodes?.get(1)?.takeIf { it.isNotEmpty() }
 
-        val checkAttributeValues = checkAttributeCodes?.get(2)
+        val checkAttributeValues = checkAttributeCodes?.get(2)?.takeIf { it.isNotEmpty() }
 
         pbResult = generatePbResult(checkCodes as String, checkText, checkAttributes, checkAttributeValues)
 

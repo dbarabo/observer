@@ -52,7 +52,7 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
 
     private lateinit var payerVar: PayerXml
 
-    fun getIdRequest(): String =
+    override fun getIdRequest(): String =
         "${fnsVar.fnsCode}${dateFormatter.format(getDateRequest())}${getNumberRequest().padStart(10, '0')}"
 
     override fun fillDataFields(idResponse :Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
@@ -156,4 +156,4 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
     }
 }
 
-private const val CURSOR_ADDRESS_PHYSIC = "{ ? = call od.PTKB_440P.getAddressPhysic( ? ) }"
+const val CURSOR_ADDRESS_PHYSIC = "{ ? = call od.PTKB_440P.getAddressPhysic( ? ) }"

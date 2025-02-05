@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.p440.out.data
 
 import ru.barabo.db.SessionSetting
+import ru.barabo.observer.config.barabo.p440.out.ExtractResponseData
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.ExtractMainAccountVer4
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add.OperationAccountVer4
@@ -10,10 +11,21 @@ import kotlin.collections.ArrayList
 import kotlin.math.min
 
 class AddExtractResponseDataVer4 (
-    private val mainResponseData: ExtractMainResponseDataVer4,
+    private val mainResponseData: ExtractResponseData,
     val account: ExtractMainAccountVer4,
     val orderNumberFile: Int,
-    private val positionOperation: Int) : ResponseData {
+    positionOperation: Int,
+    operationDataAccount: List<Array<Any?>>) : ResponseData {
+
+    private val _operations: MutableList<OperationAccountVer4> = ArrayList()
+
+    init {
+        val countOperation = min(mainResponseData.maxOperationsCountInPart() + 1, operationDataAccount.size - positionOperation)
+
+        for(index in 1 until countOperation) {
+            _operations += createOperation(operationDataAccount[positionOperation + index], index)
+        }
+    }
 
     override fun typeInfo(): String = "ВЫПБНДОПОЛ"
 
@@ -21,7 +33,7 @@ class AddExtractResponseDataVer4 (
     override fun isSourceSmev(): Boolean = false
 
     override fun fileNameResponse(): String =
-        String.format("${fileNameResponseTemplate()}.xml", AbstractResponseData.dateFormatInFile())
+        String.format("${fileNameResponseTemplate()}.xml", dateFormatInFile())
 
     override fun fileNameFromFns(): String = mainResponseData.fileNameFromFns()
 
@@ -38,18 +50,7 @@ class AddExtractResponseDataVer4 (
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun getOperations(): List<OperationAccountVer4> {
-
-        val countOperation = min(MAX_OPERATION_COUNT_EXT_VER4 + 1, mainResponseData.operationDataAccount.size - positionOperation)
-
-        val operations = ArrayList<OperationAccountVer4>()
-
-        for(index in 1 until countOperation) {
-            operations += createOperation(mainResponseData.operationDataAccount[positionOperation + index], index)
-        }
-
-        return operations
-    }
+    fun getOperations(): List<OperationAccountVer4> = _operations
 
     private fun createOperation(row: Array<Any?>, orderOperation: Int): OperationAccountVer4 {
         return OperationAccountVer4(

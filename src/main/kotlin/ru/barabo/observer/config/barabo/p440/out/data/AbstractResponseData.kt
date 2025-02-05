@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
-import ru.barabo.observer.config.fns.scad.task.UncryptoEns
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -56,11 +55,6 @@ abstract class AbstractResponseData : ResponseData {
         return this
     }
 
-    companion object {
-
-        fun dateFormatInFile() = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())!!
-    }
-
     /**
      * default first select // r.FNS_FROM, r.IS_PB, r.FILE_NAME, f.FILE_NAME, f.type_assoc
      */
@@ -77,3 +71,5 @@ abstract class AbstractResponseData : ResponseData {
         isSmevSource = (rowData[4] as? Number) ?: 0
     }
 }
+
+fun dateFormatInFile(): String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())

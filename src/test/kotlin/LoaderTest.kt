@@ -43,6 +43,9 @@ import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
+import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
+import ru.barabo.observer.config.fns.cbr.extract.PbSaverCbr
+import ru.barabo.observer.config.fns.cbr.task.ProcessCbrRequest
 import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
@@ -91,7 +94,6 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.math.round
 import kotlin.math.roundToLong
-import kotlin.reflect.javaType
 
 
 class LoaderTest {
@@ -1508,22 +1510,36 @@ res3 = [calc.DEC_TEST];
 
             logger.error("respNAme=$respNAme")
 
-
-
-
 //            for(par in constr.parameters) {
 //               logger.error("par.type=${par.type.toString()}")
 //            }
         }
 
         //val construct =  FilePbXmlVer4::class.constructors.iterator().next()
-
     }
 
+    //@Test
+    fun testProcessCbrRequest() {
 
+        val elem = Elem(idElem = 1324916971L, task = ProcessCbrRequest)
 
+        ProcessCbrRequest.execute(elem)
+    }
 
+    //@Test
+    fun testPbSaverCbr() {
+
+        val elem = Elem(idElem = 1328617212L, task = PbSaverCbr)
+
+        PbSaverCbr.execute(elem)
+    }
+
+    //@Test
+    fun testExtractMainCbr() {
+
+        val elem = Elem(idElem = 1328617213L, task = ExtractMainCbr)
+
+        ExtractMainCbr.execute(elem)
+    }
 
 }
-
-//fun errorFolder(): File = Cmd.createFolder("C:/311-П/test/ERROR")
