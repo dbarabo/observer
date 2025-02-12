@@ -104,6 +104,30 @@ object Archive {
 
     private fun tempArchive(ext :String = "cab") :File = File("${tempFolder().absolutePath}/temp.$ext")
 
+    fun addToZip(zipFilePath: String, vararg files: File): File {
+
+        val zipFile = File(zipFilePath)
+        if(!zipFile.exists()) {
+            return packToZip(zipFilePath, *files)
+        }
+
+        val pathZip =  zipFile.toPath()
+
+        ZipOutputStream(Files.newOutputStream(pathZip)).use { out ->
+            for (file in files) {
+                FileInputStream(file).use { fi ->
+                    BufferedInputStream(fi).use { origin ->
+                        val entry = ZipEntry(file.name)
+                        out.putNextEntry(entry)
+                        origin.copyTo(out)
+                    }
+                }
+            }
+        }
+
+        return zipFile
+    }
+
     fun packToZip(zipFilePath: String, vararg files: File): File {
         File(zipFilePath).let { if (it.exists()) it.delete() }
 
