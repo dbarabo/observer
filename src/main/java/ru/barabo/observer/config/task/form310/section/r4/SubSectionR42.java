@@ -26,39 +26,43 @@ public class SubSectionR42 {
     @XStreamAlias("Р4.2_7")
     final private String functionalGroup;
 
-    @XStreamAlias("Р4.2_8")
-    final private String shareSizePercent;
+    @XStreamAlias("Р4.2_8н")
+    final private String numeratorShareInRight;
 
-    @XStreamAlias("Р4.2_9")
+    @XStreamAlias("Р4.2_9н")
+    final private String denominatorShareInRight;
+
+    @XStreamAlias("Р4.2_10н")
     final private String areaSqM;
 
-    @XStreamAlias("Р4.2_10")
+    @XStreamAlias("Р4.2_11н")
     final private String codeLandCategory;
 
-    @XStreamAlias("Р4.2_11")
+    @XStreamAlias("Р4.2_12н")
     final private String permittedUseLandPlot;
 
-    @XStreamAlias("Р4.2_12")
+    @XStreamAlias("Р4.2_13н")
     final private String codePledgerRight;
 
-    @XStreamAlias("Р4.2_13")
+    @XStreamAlias("Р4.2_14н")
     final private String expiryDateLease;
 
-    @XStreamAlias("Р4.2_14")
+    @XStreamAlias("Р4.2_15н")
     final private String typeConstruction;
 
-    @XStreamAlias("Р4.2_15")
+    @XStreamAlias("Р4.2_16н")
     final private String areaSqMFree;
 
-    @XStreamAlias("Р4.2_16")
+    @XStreamAlias("Р4.2_17н")
     final private String idFromForeign;
 
-    @XStreamAlias("Р4.2_17")
+    @XStreamAlias("Р4.2_18")
     final private String rightRent;
 
     public SubSectionR42(String propertyType, String cadastralNumber, String conditionalNumber, String purpose,
-                         String name, String functionalGroup, Number shareSizePercent, Number areaSqM,
-                         String codeLandCategory, String permittedUseLandPlot, String codePledgerRight,
+                         String name, String functionalGroup,
+                         Number numeratorShareInRight, Number denominatorShareInRight,
+                         Number areaSqM, String codeLandCategory, String permittedUseLandPlot, String codePledgerRight,
                          Date expiryDateLease, String typeConstruction,
                          String areaSqMFree, String idFromForeign, String rightRent
                          ) {
@@ -75,7 +79,9 @@ public class SubSectionR42 {
 
         this.functionalGroup = functionalGroup;
 
-        this.shareSizePercent = XmlLoader.formatDecimal3(shareSizePercent);
+        this.numeratorShareInRight = numeratorShareInRight == null ? null : numeratorShareInRight.intValue() + "";
+
+        this.denominatorShareInRight = denominatorShareInRight == null ? null : denominatorShareInRight.intValue() + "";
 
         this.areaSqM = areaSqM == null ? null : areaSqM.intValue() + "";
 

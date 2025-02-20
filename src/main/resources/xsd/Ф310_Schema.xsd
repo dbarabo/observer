@@ -4,7 +4,7 @@
 XML-СХЕМА для формы отчетности Ф0409310
 СГЕНЕРИРОВАНА XSLT-ПРЕОБРАЗОВАНИЕМ GenSchema.xsl
 ******************************************************************-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-ru:rep0409310:v2.0.4.5" xmlns="urn:cbr-ru:rep0409310:v2.0.4.5"><xs:element name="Ф0409310" type="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-ru:rep0409310:v3.0.4.5" xmlns="urn:cbr-ru:rep0409310:v3.0.4.5"><xs:element name="Ф0409310" type="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
 	<xs:complexType name="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:sequence>
 			<xs:element name="Составитель" type="Ф0409310Составитель" minOccurs="1" maxOccurs="1"/>
@@ -181,16 +181,17 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.2_5" type="Симв10-Спр-лок" use="optional"/>
 		<xs:attribute name="Р4.2_6" type="Строка255Непустая" use="optional"/>
 		<xs:attribute name="Р4.2_7" type="Симв10-Спр-лок" use="optional"/>
-		<xs:attribute name="Р4.2_8" type="ДесятПоложит-лок" use="optional"/>
-		<xs:attribute name="Р4.2_9" type="ДесятПоложит-лок" use="optional"/>
-		<xs:attribute name="Р4.2_10" type="Симв10-Спр-лок" use="optional"/>
-		<xs:attribute name="Р4.2_11" type="СтрокаДо2000Непустая-лок" use="optional"/>
-		<xs:attribute name="Р4.2_12" type="Симв10-Спр-лок" use="optional"/>
-		<xs:attribute name="Р4.2_13" type="Дата" use="optional"/>
-		<xs:attribute name="Р4.2_14" type="Симв10-Спр-лок" use="optional"/>
-		<xs:attribute name="Р4.2_15" type="Строка255Непустая" use="optional"/>
-		<xs:attribute name="Р4.2_16" type="Строка255Непустая" use="optional"/>
-		<xs:attribute name="Р4.2_17" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.2_8н" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.2_9н" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.2_10н" type="ДесятПоложит-лок" use="optional"/>
+		<xs:attribute name="Р4.2_11н" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_12н" type="СтрокаДо2000Непустая-лок" use="optional"/>
+		<xs:attribute name="Р4.2_13н" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_14н" type="Дата" use="optional"/>
+		<xs:attribute name="Р4.2_15н" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.2_16н" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.2_17н" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.2_18" type="Строка255Непустая" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.3_2" type="Симв10-Спр-лок" use="optional"/>
@@ -220,6 +221,9 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.5_5" type="Год-лок" use="optional"/>
 		<xs:attribute name="Р4.5_6" type="Строка255Непустая" use="optional"/>
 		<xs:attribute name="Р4.5_7" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.5_8" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.5_9" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.5_10" type="ЦелоеПолож" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.6" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.6_2" type="Симв10-Спр-лок" use="optional"/>
@@ -229,6 +233,9 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.6_6" type="Строка255Непустая" use="optional"/>
 		<xs:attribute name="Р4.6_7" type="Год-лок" use="optional"/>
 		<xs:attribute name="Р4.6_8" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_9" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.6_10" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.6_11" type="ЦелоеПолож" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.7" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.7_2" type="Строка255Непустая" use="optional"/>
@@ -280,6 +287,7 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.16_4" type="СтрокаДо50Непустая-лок" use="optional"/>
 		<xs:attribute name="Р4.16_5" type="Строка255Непустая" use="optional"/>
 		<xs:attribute name="Р4.16_6" type="Строка255Непустая" use="optional"/>
+		<xs:attribute name="Р4.16_7" type="Строка255Непустая" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.17" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.17_2" type="ДесятПоложит-лок" use="required"/>
