@@ -80,9 +80,9 @@ public class Fl18Deal {
         this.role = new StringElement(role.toString());
         this.code = new StringElement(code.toString());
 
-        this.kindCode = kindCode == null ? null : new StringElement(kindCode);
+        this.kindCode = (kindCode == null) || ((code != 1) && (code != 5)) ? null : new StringElement(kindCode);
 
-        this.purposeCode = purposeCode == null ? null : new StringElement(purposeCode);
+        this.purposeCode = (purposeCode == null) || ((code != 1) && (code != 5)) ? null : new StringElement(purposeCode);
 
         if(isConsumer) {
             this.consumerExist0 = null;

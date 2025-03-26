@@ -544,7 +544,11 @@ object GutdfLoaderFile {
             DataInfo(idMain, "FL_8_AddrReg", "house", fl8AddrReg.house?.value?:""),
             DataInfo(idMain, "FL_8_AddrReg", "estate", fl8AddrReg.estate?.value?:""),
             DataInfo(idMain, "FL_8_AddrReg", "block", fl8AddrReg.block?.value?:""),
-            DataInfo(idMain, "FL_8_AddrReg", "build", fl8AddrReg.build?.value?:"")
+            DataInfo(idMain, "FL_8_AddrReg", "build", fl8AddrReg.build?.value?:""),
+
+            DataInfo(idMain, "FL_8_AddrReg", "date", fl8AddrReg.dateRegister?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "dept", fl8AddrReg.deptName?.value?:""),
+            DataInfo(idMain, "FL_8_AddrReg", "deptCode", fl8AddrReg.deptCode?.value?:"")
         )
     }
 

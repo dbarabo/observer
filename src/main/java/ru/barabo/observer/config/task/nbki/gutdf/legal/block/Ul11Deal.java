@@ -74,9 +74,9 @@ public class Ul11Deal {
         this.role = new StringElement(role.toString());
         this.code = new StringElement(code.toString());
 
-        this.kindCode = kindCode == null ? null : new StringElement(kindCode);
+        this.kindCode = (kindCode == null) || ((role != 1) && (role != 5) ) ? null : new StringElement(kindCode);
 
-        this.purposeCode = purposeCode == null ? null : new StringElement(purposeCode);
+        this.purposeCode = (purposeCode == null) || ((role != 1) && (role != 5) ) ? null : new StringElement(purposeCode);
 
         if(isFloatRate) {
             this.floatRateExist0 = null;

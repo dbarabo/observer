@@ -1,7 +1,10 @@
 package ru.barabo.observer.config.task.nbki.gutdf.physic.block;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
+
+import java.util.Date;
 
 public class Fl8AddrReg {
 
@@ -39,10 +42,17 @@ public class Fl8AddrReg {
     private final StringElement apart; // 8.13. Квартира
 
     @XStreamAlias("date")
-    private final StringElement date; // 8.14. Дата регистрации  |emptyValueType
+    private final StringElement dateRegister; // 8.14. Дата регистрации  |emptyValueType
+
+    @XStreamAlias("dept")
+    private final StringElement deptName; // 8.15. Наименование регистрирующего органа
+
+    @XStreamAlias("deptCode")
+    private final StringElement deptCode; // 8.16. Код подразделения, осуществившего регистрацию
 
     public Fl8AddrReg(Integer code, String postCode, String regStateNum, String okato, String street, String house,
-                      String estate, String block, String build, String apart) {
+                      String estate, String block, String build, String apart,
+                      Date dateRegister, String deptName, String deptCode) {
 
         this.code = new StringElement(code == null ? "1" : code.toString());
 
@@ -66,7 +76,11 @@ public class Fl8AddrReg {
 
         this.apart = apart == null ? null : new StringElement(apart);
 
-        this.date = new StringElement("-");
+        this.dateRegister = dateRegister == null ? new StringElement("-") : new StringElement(XmlLoader.formatDate(dateRegister));
+
+        this.deptName = deptName == null ? null : new StringElement(deptName);
+
+        this.deptCode = deptCode == null ? null : new StringElement(deptCode);
     }
 
     public StringElement getCode() {
@@ -107,5 +121,17 @@ public class Fl8AddrReg {
 
     public StringElement getApart() {
         return apart;
+    }
+
+    public StringElement getDeptCode() {
+        return deptCode;
+    }
+
+    public StringElement getDeptName() {
+        return deptName;
+    }
+
+    public StringElement getDateRegister() {
+        return dateRegister;
     }
 }

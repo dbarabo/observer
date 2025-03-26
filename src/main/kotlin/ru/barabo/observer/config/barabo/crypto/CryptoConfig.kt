@@ -34,6 +34,4 @@ object CryptoConfig : AbstractConfig() {
 
         this.executeTasks()
     }
-
-
 }

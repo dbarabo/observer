@@ -651,7 +651,8 @@ private fun createFl8AddrReg(client: Long): Fl8AddrReg {
     val fl8 = Fl8(data[0])
 
     return Fl8AddrReg(fl8.code, fl8.postCode, fl8.regStateNum, fl8.okato,
-        fl8.street, fl8.house, fl8.estate, fl8.block, fl8.build, fl8.apart)
+        fl8.street, fl8.house, fl8.estate, fl8.block, fl8.build, fl8.apart,
+        fl8.dateRegister, fl8.deptName, fl8.deptCode)
 }
 
 private fun createFl55Application(idEvent: Long): Pair<String?, Fl55Application> {
@@ -1063,7 +1064,11 @@ private data class Fl8(
     val estate: String?,
     val block: String?,
     val build: String?,
-    val apart: String?
+    val apart: String?,
+
+    val dateRegister: Timestamp?,
+    val deptName: String?,
+    val deptCode: String?
 ) {
     constructor(rec: Array<Any?>) :
             this(code = (rec[0] as? Number)?.toInt(),
@@ -1075,7 +1080,11 @@ private data class Fl8(
                 estate = (rec[6] as? String),
                 block = (rec[7] as? String),
                 build = (rec[8] as? String),
-                apart = (rec[9] as? String)
+                apart = (rec[9] as? String),
+
+                dateRegister = (rec[10] as? Timestamp),
+                deptName = (rec[11] as? String),
+                deptCode = (rec[12] as? String),
                 )
 }
 

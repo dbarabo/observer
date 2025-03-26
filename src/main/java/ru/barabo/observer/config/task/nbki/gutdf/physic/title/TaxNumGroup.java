@@ -11,8 +11,14 @@ public class TaxNumGroup {
     @XStreamAlias("taxNum")
     private final StringElement taxNum;
 
+    @XStreamAlias("innChecked_1")
+    private final StringElement innChecked1;
+
+
     public TaxNumGroup(String taxNum) {
         this.taxNum = new StringElement(taxNum);
+
+        this.innChecked1 = new StringElement("");
     }
 
     public StringElement getTaxNum() {

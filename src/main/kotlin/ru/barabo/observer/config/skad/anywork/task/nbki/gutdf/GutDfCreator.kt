@@ -123,7 +123,7 @@ fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
 
 private val folderReport = "H:/Gu_cb/НБКИ".ifTest("C:/Gu_cb/НБКИ")
 
-private const val xsd =  "/xsd/gutdf/Main.xsd"
+private const val xsd =  "/xsd/gutdf/ver30/Main.xsd" //"/xsd/gutdf/Main.xsd"
 
 private const val DEL_RUTDF_DATA = "delete from od.PTKB_RUTDF_FILE where ID = ?"
 

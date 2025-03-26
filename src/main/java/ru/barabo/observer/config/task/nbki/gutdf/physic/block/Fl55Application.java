@@ -72,7 +72,7 @@ public class Fl55Application {
 
         this.stageEndDate = stageEndDate == null ? null : new StringElement(XmlLoader.formatDate(stageEndDate) );
 
-        this.purposeCode = purposeCode == null ? null : new StringElement(purposeCode);
+        this.purposeCode = (purposeCode == null) || ((!role.equals("1") ) && (!role.equals("5"))) ? null : new StringElement(purposeCode);
 
         this.stageCode = stageCode == null ? null : new StringElement(stageCode);
 

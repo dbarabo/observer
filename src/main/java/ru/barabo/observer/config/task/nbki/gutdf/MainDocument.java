@@ -8,7 +8,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 public class MainDocument {
 
     @XStreamAlias("schemaVersion")
-    final private String schemaVersion = "2.2";
+    final private String schemaVersion = "3.0";
 
     @XStreamAlias("inn")
     final private String inn = "2540015598";

@@ -2,7 +2,6 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -1542,4 +1541,15 @@ res3 = [calc.DEC_TEST];
         ExtractMainCbr.execute(elem)
     }
 
+    //@Test
+    fun testGutdfVersion4() {
+
+        val file = File("C:/temp/K301BB000001_20250311_115852.xml")
+
+        val xsd = "/xsd/gutdf/ver30/Main.xsd"
+
+        validateXml(file, xsd, ::errFolder )
+    }
 }
+
+private fun errFolder(): File = File("C:/temp/error")

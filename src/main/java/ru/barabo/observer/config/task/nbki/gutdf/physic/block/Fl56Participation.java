@@ -39,7 +39,9 @@ public class Fl56Participation {
                              Boolean isStop) {
 
         this.role = new StringElement(role.toString());
-        this.kindCode = new StringElement(kindCode.toString());
+
+        this.kindCode = ((role != 1) && (role != 5)) ? null : new StringElement(kindCode.toString());
+
         this.uid = new StringElement(uid);
         this.fundDate = fundDate == null ? null : new StringElement(XmlLoader.formatDate(fundDate));
         this.overdueExist0 = isOverdue90 ? null : new StringElement("");
