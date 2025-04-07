@@ -5,6 +5,8 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57Group
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.title.*
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
@@ -76,6 +78,7 @@ private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord) {
         "2.4" -> this.addEvent2_4(createFlEvent2_4(eventRecord) )
         "2.5" -> this.addEvent2_5(createFlEvent2_5(eventRecord) )
         "2.6" -> this.addEvent2_6(createFlEvent2_6(eventRecord) )
+        "3.1" -> this.addEvent3_1(createFlEvent3_1(eventRecord) )
 
         else -> throw Exception("event not found event=${eventRecord.event}")
     }
@@ -356,6 +359,22 @@ private fun createFlEvent2_6(eventRecord: EventRecord): FlEvent2_6 {
 
     return FlEvent2_6(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl39Court)
+}
+
+private fun createFlEvent3_1(eventRecord: EventRecord): FlEvent3_1 {
+
+    val currentFl55 = getFl55BySendEvent(eventRecord.idEvent)
+
+    val currentFl57 = if(eventRecord.event == "1.3") getFl57BySendEvent(eventRecord.idEvent) else null
+
+    val (_, newFl55) = createFl55Application(eventRecord.idEvent)
+    newFl55.stageCode = StringElement(currentFl55.stageCode.value)
+
+    val newFl57 = if(eventRecord.event == "1.3") createFl57(eventRecord.idEvent) else null
+
+    val group = Fl55_57GroupCurrentNew( Fl55_57Group(currentFl55, currentFl57),  Fl55_57Group(newFl55, newFl57) )
+
+    return FlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
 }
 
 private fun createFl39Court(idEvent: Long): Fl39Court {
@@ -664,6 +683,21 @@ private fun createFl55Application(idEvent: Long): Pair<String?, Fl55Application>
     return Pair(fl55.operationCode,
         Fl55Application(fl55.role, fl55.sum, fl55.uid, fl55.applicationDate, fl55.approvalEndDate,
         fl55.stageEndDate, fl55.purposeCode, fl55.stageCode, fl55.stageDate, fl55.num, fl55.loanSum))
+}
+
+private fun getFl55BySendEvent(idEvent: Long): Fl55Application {
+    val data = AfinaQuery.selectCursor(SEL_FL_55_FROM_GUTDF_VAL, params = arrayOf(idEvent))
+
+    val fl55 = Fl55(data[0])
+
+    return Fl55Application(fl55.role, fl55.sum, fl55.uid, fl55.applicationDate, fl55.approvalEndDate,
+        fl55.stageEndDate, fl55.purposeCode, fl55.stageCode, fl55.stageDate, fl55.num, fl55.loanSum)
+}
+
+private fun getFl57BySendEvent(idEvent: Long): Fl57Reject {
+    val data = AfinaQuery.selectCursor(SEL_FL_57_FROM_GUTDF_VAL, params = arrayOf(idEvent))[0]
+
+    return Fl57Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }
 
 private fun createFl291DebtBurdenInfo(idEvent: Long): Fl29_1DebtBurdenInfo? {
@@ -1248,3 +1282,9 @@ private const val SEL_FL_32_35 = "{ ? = call od.PTKB_GUTDF.getFl32_35Group( ? ) 
 private const val SEL_FL_38 = "{ ? = call od.PTKB_GUTDF.getFl38ContractEnd( ? ) }"
 
 private const val SEL_FL_39 = "{ ? = call od.PTKB_GUTDF.getFl39Court( ? ) }"
+
+private const val SEL_FL_55_FROM_GUTDF_VAL = "{ ? = call od.PTKB_GUTDF.fromGutdfValueFl55Application( ? ) }"
+
+private const val SEL_FL_57_FROM_GUTDF_VAL = "{ ? = call od.PTKB_GUTDF.fromGutdfValueFl57Reject( ? ) }"
+
+

@@ -41,7 +41,7 @@ public class Fl55Application {
     private final StringElement purposeCode; //55.10. minOccurs="0" Код цели запрошенного займа (кредита)
 
     @XStreamAlias("stageCode")
-    private final StringElement stageCode; //55.11. minOccurs="0" Код стадии рассмотрения обращения
+    private StringElement stageCode; //55.11. minOccurs="0" Код стадии рассмотрения обращения
 
     @XStreamAlias("stageDate")
     private final StringElement stageDate; //55.12. Дата перехода обращения в текущую стадию рассмотрения
@@ -114,6 +114,10 @@ public class Fl55Application {
 
     public StringElement getStageCode() {
         return stageCode;
+    }
+
+    public void setStageCode(StringElement stageCode) {
+        this.stageCode = stageCode;
     }
 
     public StringElement getStageDate() {
