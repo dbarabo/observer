@@ -14,16 +14,16 @@ public class FlEvent1_7 extends AbstractEventData {
     final String operationCode = "B";
 
     public FlEvent1_7(Integer orderNum, Date eventDate) {
-        super(orderNum, eventDate);
-    }
-
-    @Override
-    public String getEvent() {
-        return "1.7";
+        super(orderNum, eventDate, "1.7");
     }
 
     @Override
     public String getUnicalId() {
         return null;
+    }
+
+    @Override
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "1.7";
     }
 }

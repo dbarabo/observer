@@ -6,12 +6,13 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectEventDataUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectTitleDataUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47Group
+import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.legal.title.*
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.PhoneGroupFl10Contact
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
-import java.util.ArrayList
 
 internal fun createLegal(eventRecord: EventRecord, priorLegal: SubjectUl?): SubjectUl {
 
@@ -71,6 +72,7 @@ private fun SubjectEventDataUl.addNewEvent(eventRecord: EventRecord) {
         "2.4" -> this.addEvent2_4(createEvent2_4(eventRecord) )
         "2.5" -> this.addEvent2_5(createEvent2_5(eventRecord) )
         "2.6" -> this.addEvent2_6(createEvent2_6(eventRecord) )
+        "3.1" -> this.addEvent3_1(createEvent3_1(eventRecord) )
 
         else -> throw Exception("event LEGAL not found event=${eventRecord.event}")
     }
@@ -270,6 +272,22 @@ private fun createEvent2_5(eventRecord: EventRecord): UlEvent2_5 {
 
     return UlEvent2_5(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul11Deal, ul12Amount,
         listOf(ul121AmountInfo), ul14PaymentTerms, ul17181920Group, ul29ContractEnd, ul46Participation)
+}
+
+private fun createEvent3_1(eventRecord: EventRecord): UlEvent3_1 {
+
+    val currentUl45 = getUl45BySendEvent(eventRecord.idEvent)
+
+    val currentUl47 = if(eventRecord.event == "1.3") getUl47BySendEvent(eventRecord.idEvent) else null
+
+    val (newUl45, _) = createUl45Application(eventRecord.idEvent)
+    newUl45.stageCode = StringElement(currentUl45.stageCode.value)
+
+    val newUl47 = if(eventRecord.event == "1.3") createUl47Reject(eventRecord.idEvent) else null
+
+    val group = Ul45_47GroupCurrentNew( Ul45_47Group(currentUl45, currentUl47),  Ul45_47Group(newUl45, newUl47) )
+
+    return UlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
 }
 
 private fun createEvent2_6(eventRecord: EventRecord): UlEvent2_6 {
@@ -500,6 +518,21 @@ private fun createUl10DealUid(idEvent: Long): Ul10DealUid {
     val ul = Ul10(data[0])
 
     return Ul10DealUid(ul.uid, ul.num, ul.refUid, ul.openDate)
+}
+
+private fun getUl45BySendEvent(idEvent: Long): Ul45Application {
+    val data = AfinaQuery.selectCursor(SEL_UL_45_FROM_GUTDF_VAL, params = arrayOf(idEvent))
+
+    val ul = Ul45(data[0])
+
+    return Ul45Application(ul.role, ul.sum, ul.uid, ul.applicationDate, ul.approvalEndDate,
+        ul.stageEndDate, ul.purposeCode, ul.stageCode, ul.stageDate, ul.num, ul.loanSum)
+}
+
+private fun getUl47BySendEvent(idEvent: Long): Ul47Reject {
+    val data = AfinaQuery.selectCursor(SEL_UL_47_FROM_GUTDF_VAL, params = arrayOf(idEvent))[0]
+
+    return Ul47Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }
 
 private fun createUl47Reject(idEvent: Long): Ul47Reject {
@@ -969,3 +1002,7 @@ private const val SEL_UL_23_26 = "{ ? = call od.PTKB_GUTDF.getUl23_26Group( ? ) 
 private const val SEL_UL_29 = "{ ? = call od.PTKB_GUTDF.getUl29ContractEnd( ? ) }"
 
 private const val SEL_UL_30 = "{ ? = call od.PTKB_GUTDF.getUl30Court( ? ) }"
+
+private const val SEL_UL_45_FROM_GUTDF_VAL = "{ ? = call od.PTKB_GUTDF.fromGutdfValueUl45Application( ? ) }"
+
+private const val SEL_UL_47_FROM_GUTDF_VAL = "{ ? = call od.PTKB_GUTDF.fromGutdfValueUl47Reject( ? ) }"

@@ -56,6 +56,9 @@ public class SubjectEventDataFL {
     @XStreamImplicit(itemFieldName = "FL_Event_3_1")
     private List<FlEvent3_1> flEvent3_1List;
 
+    @XStreamImplicit(itemFieldName = "FL_Event_3_2")
+    private List<FlEvent3_2> flEvent3_2List;
+
     public SubjectEventDataFL() {
 
         this.flEvent1_1List = null;
@@ -73,6 +76,7 @@ public class SubjectEventDataFL {
         this.flEvent2_5List = null;
         this.flEvent2_6List = null;
         this.flEvent3_1List = null;
+        this.flEvent3_2List = null;
     }
 
     public List<FlEvent1_1> getFlEvent1_1List() {
@@ -133,6 +137,10 @@ public class SubjectEventDataFL {
 
     public List<FlEvent3_1> getFlEvent3_1List() {
         return flEvent3_1List;
+    }
+
+    public List<FlEvent3_2> getFlEvent3_2List() {
+        return flEvent3_2List;
     }
 
     public void addEvent1_1(@NotNull FlEvent1_1 event1_1) {
@@ -253,5 +261,13 @@ public class SubjectEventDataFL {
             flEvent3_1List = new ArrayList<>();
         }
         flEvent3_1List.add(event3_1);
+    }
+
+    public void addEvent3_2(@NotNull FlEvent3_2 event32) {
+
+        if(flEvent3_2List == null) {
+            flEvent3_2List = new ArrayList<>();
+        }
+        flEvent3_2List.add(event32);
     }
 }

@@ -15,14 +15,14 @@ public class FlEvent3_1 extends AbstractEventData {
     final Fl55_57GroupCurrentNew fl55_57Group;
 
     public FlEvent3_1(Integer orderNum, Date eventDate, Fl55_57GroupCurrentNew fl55_57Group) {
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "3.1");
 
         this.fl55_57Group = fl55_57Group;
     }
 
     @Override
     public String getEvent() {
-        return "3.1";
+        return super.getEvent() != null ? super.getEvent() : "3.1";
     }
 
     @Override

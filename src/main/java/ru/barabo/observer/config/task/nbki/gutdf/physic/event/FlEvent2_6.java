@@ -21,7 +21,7 @@ public class FlEvent2_6 extends AbstractEventData {
 
     public FlEvent2_6(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, Fl39Court fl39Court) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.6");
 
         this.fl17DealUid = fl17DealUid;
 
@@ -30,7 +30,7 @@ public class FlEvent2_6 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "2.6";
+        return super.getEvent() != null ? super.getEvent() : "2.6";
     }
 
     @Override

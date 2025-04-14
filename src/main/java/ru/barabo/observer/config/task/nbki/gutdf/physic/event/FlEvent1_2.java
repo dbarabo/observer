@@ -20,7 +20,8 @@ public class FlEvent1_2 extends AbstractEventData {
 
     public FlEvent1_2(Integer orderNum, Date eventDate, String operationCode,
                       Fl55Application fl55Application, Fl29_1DebtBurdenInfo fl29_1DebtBurdenInfo) {
-        super(orderNum, eventDate);
+
+        super(orderNum, eventDate, "1.2");
 
         this.operationCode = operationCode;
 
@@ -30,16 +31,16 @@ public class FlEvent1_2 extends AbstractEventData {
     }
 
     @Override
-    public String getEvent() {
-        return "1.2";
-    }
-
-    @Override
     public String getUnicalId() {
         return fl55Application.getUid().value;
     }
 
     public Fl55Application getFl55Application() {
         return fl55Application;
+    }
+
+    @Override
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "1.2";
     }
 }

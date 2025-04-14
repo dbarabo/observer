@@ -2,7 +2,6 @@ package ru.barabo.observer.config.skad.plastic.task
 
 import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
-import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists

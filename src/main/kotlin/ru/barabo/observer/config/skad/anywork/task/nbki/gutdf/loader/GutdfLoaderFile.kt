@@ -7,13 +7,15 @@ import ru.barabo.observer.config.skad.plastic.task.SELECT_FILES_BY_NAME
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent1_4
+import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent2_2
+import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent3_2
 import ru.barabo.observer.config.task.nbki.gutdf.physic.title.SubjectTitleDataFl
 import java.io.File
 import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 object GutdfLoaderFile {
 
@@ -64,24 +66,10 @@ object GutdfLoaderFile {
                 data.addAll( fl57Reject(idMain, it.fl57Reject) )
             }
 
-            fl.events.flEvent1_4List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
-                data.addAll( fl8AddrReg(idMain, event.fl8AddrReg) )
-                data.addAll( fl9AddrFact(idMain, event.fl9AddrFact) )
-                data.addAll( fl10Contact(idMain, event.fl10Contact) )
-                data.addAll( fl11IndividualEntrepreneur(idMain, event.fl11IndividualEntrepreneur) )
-                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, event.fl18Deal) )
-                data.addAll( fl19Amount(idMain, event.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
-
-                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
-
-                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
-                data.addAll( fl55Application(idMain, event.fl55Application) )
-                data.addAll( fl56Participation(idMain, event.fl56Participation) )
+            fl.events.flEvent1_4List?.forEach {
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
             }
 
             fl.events.flEvent1_7List?.forEach {
@@ -116,25 +104,10 @@ object GutdfLoaderFile {
                 data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
             }
 
-            fl.events.flEvent2_2List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
-
-                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, event.fl18Deal) )
-                data.addAll( fl19Amount(idMain, event.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
-                data.addAll( fl24Fund(idMain, event.fl24Fund) )
-                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
-
-                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
-
-                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
-
-                data.addAll( fl54Accounting(idMain, event.fl54Accounting) )
-                data.addAll( fl55Application(idMain, event.fl55Application) )
-                data.addAll( fl56Participation(idMain, event.fl56Participation) )
+            fl.events.flEvent2_2List?.forEach {
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
             }
 
             fl.events.flEvent2_2_1List?.forEach { event ->
@@ -206,10 +179,93 @@ object GutdfLoaderFile {
                 data.addAll( fl39Court(idMain, it.fl39Court) )
             }
 
+            fl.events.flEvent3_2List?.forEach {
+
+                logger.error("EVENT_3.2=${it.event}")
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
+            }
+
             idMain.takeIf { it != 0 }?.let { data.addAll( title(it, fl.title) ) }
         }
 
         return data
+    }
+
+    private fun FlEvent3_2.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+        val data = when {
+            flEvent14 != null -> {
+                flEvent14.event = "3.2"
+
+                flEvent14.tags(idFile, taxPassport).second
+            }
+
+            flEvent22 != null -> {
+                flEvent22.event = "3.2"
+
+                flEvent22.tags(idFile, taxPassport).second
+            }
+
+            else -> emptyList()
+        }
+
+        return Pair(idMain, data )
+    }
+
+    private fun FlEvent1_4.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val data = ArrayList<DataInfo>()
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+        data.addAll( fl8AddrReg(idMain, this.fl8AddrReg) )
+        data.addAll( fl9AddrFact(idMain, this.fl9AddrFact) )
+        data.addAll( fl10Contact(idMain, this.fl10Contact) )
+        data.addAll( fl11IndividualEntrepreneur(idMain, this.fl11IndividualEntrepreneur) )
+        data.addAll( fl17DealUid(idMain, this.fl17DealUid) )
+        data.addAll( fl18Deal(idMain, this.fl18Deal) )
+        data.addAll( fl19Amount(idMain, this.fl19Amount) )
+        data.addAll( fl191AmountInfo(idMain, this.fl19_1AmountInfoList) )
+        data.addAll( fl21PaymentTerms(idMain, this.fl21PaymentTerms) )
+        data.addAll( fl22TotalCost(idMain, this.fl22TotalCost) )
+
+        this.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
+
+        data.addAll( fl54Accounting(idMain, this.fl54Accounting) )
+        data.addAll( fl55Application(idMain, this.fl55Application) )
+        data.addAll( fl56Participation(idMain, this.fl56Participation) )
+
+        return Pair(idMain, data)
+    }
+
+    private fun FlEvent2_2.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val data = ArrayList<DataInfo>()
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+        data.addAll(fl17DealUid(idMain, this.fl17DealUid))
+        data.addAll(fl18Deal(idMain, this.fl18Deal))
+        data.addAll(fl19Amount(idMain, this.fl19Amount))
+        data.addAll(fl191AmountInfo(idMain, this.fl19_1AmountInfoList))
+        data.addAll(fl21PaymentTerms(idMain, this.fl21PaymentTerms))
+        data.addAll(fl22TotalCost(idMain, this.fl22TotalCost))
+        data.addAll(fl24Fund(idMain, this.fl24Fund))
+        data.addAll(fl25262728Group(idMain, this.fl25_26_27_28Group))
+
+        this.fl29MonthlyPayment?.let { data.addAll(fl29MonthlyPayment(idMain, it)) }
+
+        this.fl29_1DebtBurdenInfo?.let { data.addAll(fl291DebtBurdenInfo(idMain, it)) }
+
+        data.addAll(fl54Accounting(idMain, this.fl54Accounting))
+        data.addAll(fl55Application(idMain, this.fl55Application))
+        data.addAll(fl56Participation(idMain, this.fl56Participation))
+
+        return Pair(idMain, data)
     }
 
     private fun fl39Court(idMain: Number, fl39: Fl39Court): List<DataInfo> {

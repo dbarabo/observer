@@ -15,14 +15,9 @@ public class FlEvent1_1 extends AbstractEventData {
     final Fl55Application fl55Application;
 
     public FlEvent1_1(Integer orderNum, Date eventDate, Fl55Application fl55Application) {
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "1.1");
 
         this.fl55Application = fl55Application;
-    }
-
-    @Override
-    public String getEvent() {
-        return "1.1";
     }
 
     @Override
@@ -32,5 +27,10 @@ public class FlEvent1_1 extends AbstractEventData {
 
     public Fl55Application getFl55Application() {
         return fl55Application;
+    }
+
+    @Override
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "1.1";
     }
 }

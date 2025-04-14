@@ -22,7 +22,7 @@ public class FlEvent1_12 extends AbstractEventData {
     final Fl14BankruptcyEnd fl14BankruptcyEnd; // Блок 14. Сведения о завершении расчетов с кредиторами и освобождении субъекта от исполнения обязательств в связи с банкротством
 
     public FlEvent1_12(Integer orderNum, Date eventDate, Fl13Bankruptcy fl13Bankruptcy, Fl14BankruptcyEnd fl14BankruptcyEnd) {
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "1.12");
 
         this.fl13Bankruptcy = fl13Bankruptcy;
 
@@ -30,12 +30,12 @@ public class FlEvent1_12 extends AbstractEventData {
     }
 
     @Override
-    public String getEvent() {
-        return "1.12";
+    public String getUnicalId() {
+        return null;
     }
 
     @Override
-    public String getUnicalId() {
-        return null;
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "1.12";
     }
 }

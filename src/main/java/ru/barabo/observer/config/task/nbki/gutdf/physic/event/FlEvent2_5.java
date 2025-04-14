@@ -53,7 +53,7 @@ public class FlEvent2_5 extends AbstractEventData {
                       Fl29_1DebtBurdenInfo fl291DebtBurdenInfo, Fl38ContractEnd fl38ContractEnd,
                       Fl56Participation fl56Participation) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.5");
 
         this.fl17DealUid = fl17DealUid;
         this.fl18Deal = fl18Deal;
@@ -70,7 +70,7 @@ public class FlEvent2_5 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "2.5";
+        return super.getEvent() != null ? super.getEvent() : "2.5";
     }
 
     @Override

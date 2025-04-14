@@ -33,7 +33,7 @@ public class UlEvent2_4 extends AbstractEventData {
                       Ul24Warranty ul24Warranty, Ul25Guarantee ul25Guarantee,
                       Ul27ProvisionPayment ul27ProvisionPayment) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.4");
 
         this.ul10DealUid = ul10DealUid;
         ul23_26Group = ul2326Group;
@@ -44,7 +44,7 @@ public class UlEvent2_4 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "2.4";
+        return super.getEvent() != null ? super.getEvent() : "2.4";
     }
 
     @Override

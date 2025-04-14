@@ -94,7 +94,8 @@ data class EventRecord(
     val guidId: Long?,
     val typeOverdue: Int,
     val account25Out: Long?,
-    val flowOut: Timestamp?) {
+    val flowOut: Timestamp?,
+    val currentMain: Long? ) {
 
     constructor(rec: Array<Any?>) :
             this(orderNum = (rec[0] as Number).toLong(),
@@ -109,10 +110,13 @@ data class EventRecord(
                 guidId = (rec[9] as? Number)?.toLong(),
                 typeOverdue = (rec[10] as Number).toInt(),
                 account25Out =  (rec[11] as? Number)?.toLong(),
-                flowOut = (rec[12] as? Timestamp) )
+                flowOut = (rec[12] as? Timestamp),
+                currentMain = (rec[13] as? Number)?.toLong() )
 
 }
 
 private const val SEL_EVENT_BY_RUTDF = "{ ? = call od.PTKB_GUTDF.getEventsByIdFile( ? ) }"
+
+const val SEL_EVENT_BY_MAIN_ID = "{ ? = call od.PTKB_GUTDF.getEventById( ? ) }"
 
 private const val SEL_FILENAME_DATA = "select FILE_NAME, DATE_FILE from od.PTKB_RUTDF_FILE where ID = ?"

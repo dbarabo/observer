@@ -48,6 +48,9 @@ public class SubjectEventDataUl {
     @XStreamImplicit(itemFieldName = "UL_Event_2_6")
     private List<UlEvent2_6> ulEvent2_6List;
 
+    @XStreamImplicit(itemFieldName = "UL_Event_3_1")
+    private List<UlEvent3_1> ulEvent3_1List;
+
     public SubjectEventDataUl() {
 
         ulEvent1_1List = null;
@@ -62,6 +65,7 @@ public class SubjectEventDataUl {
         ulEvent2_4List = null;
         ulEvent2_5List = null;
         ulEvent2_6List = null;
+        ulEvent3_1List = null;
     }
 
     public void addEvent1_1(@NotNull UlEvent1_1 event1_1) {
@@ -158,6 +162,14 @@ public class SubjectEventDataUl {
             ulEvent2_6List = new ArrayList<>();
         }
         ulEvent2_6List.add(event2_6);
+    }
+
+    public void addEvent3_1(@NotNull UlEvent3_1 event3_1) {
+
+        if(ulEvent3_1List == null) {
+            ulEvent3_1List = new ArrayList<>();
+        }
+        ulEvent3_1List.add(event3_1);
     }
 
     public List<UlEvent1_1> getUlEvent1_1List() {

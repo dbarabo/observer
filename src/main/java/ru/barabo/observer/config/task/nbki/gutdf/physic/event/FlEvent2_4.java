@@ -33,18 +33,13 @@ public class FlEvent2_4 extends AbstractEventData {
                       Fl33Warranty fl33Warranty, Fl34Guarantee fl34Guarantee,
                       Fl36ProvisionPayment fl36ProvisionPayment) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.4");
 
         this.fl17DealUid = fl17DealUid;
         fl32_35Group = fl3235Group;
         this.fl33Warranty = fl33Warranty;
         this.fl34Guarantee = fl34Guarantee;
         this.fl36ProvisionPayment = fl36ProvisionPayment;
-    }
-
-    @Override
-    public String getEvent() {
-        return "2.4";
     }
 
     @Override
@@ -62,5 +57,10 @@ public class FlEvent2_4 extends AbstractEventData {
 
     public Fl33Warranty getFl33Warranty() {
         return fl33Warranty;
+    }
+
+    @Override
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "2.4";
     }
 }

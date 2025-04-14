@@ -13,7 +13,11 @@ public abstract class AbstractEventData {
     @XStreamAlias("eventDate")
     final public String eventDate;
 
-    public AbstractEventData(Integer orderNum, Date eventDate) {
+    transient private String eventValue;
+
+    public AbstractEventData(Integer orderNum, Date eventDate, String eventValue) {
+
+        this.eventValue = eventValue;
 
         this.orderNum = orderNum;
 
@@ -28,7 +32,13 @@ public abstract class AbstractEventData {
         return orderNum;
     }
 
-    abstract public String getEvent();
+    public String getEvent() {
+        return eventValue;
+    }
+
+    public void setEvent(String eventValue) {
+        this.eventValue = eventValue;
+    }
 
     abstract public String getUnicalId();
 }

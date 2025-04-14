@@ -65,7 +65,7 @@ public class FlEvent2_2 extends AbstractEventData {
                       Fl20JointDebtors fl20JointDebtors, Fl54Accounting fl54Accounting,
                       Fl55Application fl55Application, Fl56Participation fl56Participation) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.2");
 
         this.fl17DealUid = fl17DealUid;
         this.fl18Deal = fl18Deal;
@@ -81,11 +81,6 @@ public class FlEvent2_2 extends AbstractEventData {
         this.fl54Accounting = fl54Accounting;
         this.fl55Application = fl55Application;
         this.fl56Participation = fl56Participation;
-    }
-
-    @Override
-    public String getEvent() {
-        return "2.2";
     }
 
     @Override
@@ -143,5 +138,10 @@ public class FlEvent2_2 extends AbstractEventData {
 
     public Fl29_1DebtBurdenInfo getFl29_1DebtBurdenInfo() {
         return fl29_1DebtBurdenInfo;
+    }
+
+    @Override
+    public String getEvent() {
+        return super.getEvent() != null ? super.getEvent() : "2.2";
     }
 }

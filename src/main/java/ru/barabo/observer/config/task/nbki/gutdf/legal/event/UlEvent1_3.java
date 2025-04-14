@@ -22,7 +22,7 @@ public class UlEvent1_3 extends AbstractEventData {
     final Ul47Reject ul47Reject; // Блок 47. Сведения об отказе источника от предложения совершить сделку
 
     public UlEvent1_3(Integer orderNum, Date eventDate, Ul45Application ul45Application, Ul47Reject ul47Reject) {
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "1.3");
 
         this.ul45Application = ul45Application;
 
@@ -31,7 +31,7 @@ public class UlEvent1_3 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "1.3";
+        return super.getEvent() != null ? super.getEvent() : "1.3";
     }
 
     @Override

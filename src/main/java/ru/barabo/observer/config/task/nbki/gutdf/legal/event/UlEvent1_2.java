@@ -19,7 +19,7 @@ public class UlEvent1_2 extends AbstractEventData {
 
     public UlEvent1_2(Integer orderNum, Date eventDate, String operationCode,
                       Ul45Application ul45Application) {
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "1.2");
 
         this.operationCode = operationCode;
 
@@ -28,7 +28,7 @@ public class UlEvent1_2 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "1.2";
+        return super.getEvent() != null ? super.getEvent() : "1.2";
     }
 
     @Override

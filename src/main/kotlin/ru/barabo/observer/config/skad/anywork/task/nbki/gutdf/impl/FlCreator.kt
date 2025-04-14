@@ -79,6 +79,7 @@ private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord) {
         "2.5" -> this.addEvent2_5(createFlEvent2_5(eventRecord) )
         "2.6" -> this.addEvent2_6(createFlEvent2_6(eventRecord) )
         "3.1" -> this.addEvent3_1(createFlEvent3_1(eventRecord) )
+        "3.2" -> this.addEvent3_2(createFlEvent3_2(eventRecord) )
 
         else -> throw Exception("event not found event=${eventRecord.event}")
     }
@@ -376,6 +377,34 @@ private fun createFlEvent3_1(eventRecord: EventRecord): FlEvent3_1 {
 
     return FlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
 }
+
+private fun createFlEvent3_2(eventRecord: EventRecord): FlEvent3_2 {
+
+    val fl17DealUid = createFl17DealUid(eventRecord.currentMain!!)
+
+    val currentEvent = AfinaQuery.selectCursor(SEL_EVENT_BY_MAIN_ID, arrayOf(eventRecord.currentMain))[0]
+
+    val currentEventRecord = EventRecord(currentEvent)
+
+    return createFlEvent32(eventRecord, currentEventRecord, fl17DealUid)
+}
+
+private fun createFlEvent32(eventRecord: EventRecord, currentEventRecord: EventRecord, fl17DealUid: Fl17DealUid): FlEvent3_2 {
+
+    return when(currentEventRecord.event) {
+            "1.4" -> {
+                val event14 = createFlEvent1_4(currentEventRecord)
+                FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event14)
+            }
+            "2.2" -> {
+                val event22 = createFlEvent2_2(currentEventRecord)
+                FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event22)
+            }
+            else -> throw Exception("event not found event=${eventRecord.event}")
+        }
+}
+
+
 
 private fun createFl39Court(idEvent: Long): Fl39Court {
 

@@ -52,7 +52,7 @@ public class UlEvent2_3 extends AbstractEventData {
                       Ul13JointDebtors ul13JointDebtors, Ul44Accounting ul44Accounting,
                       Ul45Application ul45Application, Ul46Participation ul46Participation) {
 
-        super(orderNum, eventDate);
+        super(orderNum, eventDate, "2.3");
 
         this.ul10DealUid = ul10DealUid;
         this.ul11Deal = ul11Deal;
@@ -68,7 +68,7 @@ public class UlEvent2_3 extends AbstractEventData {
 
     @Override
     public String getEvent() {
-        return "2.3";
+        return super.getEvent() != null ? super.getEvent() : "2.3";
     }
 
     @Override
