@@ -396,9 +396,17 @@ private fun createFlEvent32(eventRecord: EventRecord, currentEventRecord: EventR
                 val event14 = createFlEvent1_4(currentEventRecord)
                 FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event14)
             }
+            "2.1" -> {
+                val event21 = createFlEvent2_1(currentEventRecord)
+                FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event21)
+            }
             "2.2" -> {
                 val event22 = createFlEvent2_2(currentEventRecord)
                 FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event22)
+            }
+            "2.3" -> {
+                val event23 = createFlEvent2_3(currentEventRecord)
+                FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event23)
             }
             else -> throw Exception("event not found event=${eventRecord.event}")
         }
