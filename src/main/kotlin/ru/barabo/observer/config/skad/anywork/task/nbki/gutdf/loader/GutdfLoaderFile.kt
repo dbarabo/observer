@@ -114,30 +114,15 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_4List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl3235Group(idMain, it.fl32_35Group) )
-                data.addAll( fl33Warranty(idMain, it.fl33Warranty) )
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
             }
 
-            fl.events.flEvent2_5List?.forEach { event ->
-                idMain = findMainId(idFile, taxPassport, event.event, event.unicalId, event.eventDate, event.orderNum)
-
-                data.addAll( fl17DealUid(idMain, event.fl17DealUid) )
-                data.addAll( fl18Deal(idMain, event.fl18Deal) )
-                data.addAll( fl19Amount(idMain, event.fl19Amount) )
-                data.addAll( fl191AmountInfo(idMain, event.fl19_1AmountInfoList) )
-                data.addAll( fl21PaymentTerms(idMain, event.fl21PaymentTerms) )
-                data.addAll( fl22TotalCost(idMain, event.fl22TotalCost) )
-                data.addAll( fl25262728Group(idMain, event.fl25_26_27_28Group) )
-
-                event.fl29MonthlyPayment?.let { data.addAll( fl29MonthlyPayment(idMain, it) ) }
-
-                event.fl29_1DebtBurdenInfo?.let { data.addAll( fl291DebtBurdenInfo(idMain, it) ) }
-
-                data.addAll( fl38ContractEnd(idMain, event.fl38ContractEnd) )
-                data.addAll( fl56Participation(idMain, event.fl56Participation) )
+            fl.events.flEvent2_5List?.forEach {
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
             }
 
             fl.events.flEvent2_6List?.forEach {
@@ -187,6 +172,18 @@ object GutdfLoaderFile {
                 flEvent23.event = "3.2"
 
                 flEvent23.tags(idFile, taxPassport).second
+            }
+
+            flEvent24 != null -> {
+                flEvent24.event = "3.2"
+
+                flEvent24.tags(idFile, taxPassport).second
+            }
+
+            flEvent25 != null -> {
+                flEvent25.event = "3.2"
+
+                flEvent25.tags(idFile, taxPassport).second
             }
 
             else -> emptyList()
@@ -268,6 +265,43 @@ object GutdfLoaderFile {
         data.addAll(fl23ContractChanges(idMain, this.fl23ContractChanges))
         data.addAll(fl231ContractTermsChanges(idMain, this.fl23_1ContractTermsChanges))
         data.addAll(fl54Accounting(idMain, this.fl54Accounting))
+
+        return Pair(idMain, data)
+    }
+
+    private fun FlEvent2_5.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val data = ArrayList<DataInfo>()
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+        data.addAll(fl17DealUid(idMain, this.fl17DealUid))
+        data.addAll(fl18Deal(idMain, this.fl18Deal))
+        data.addAll(fl19Amount(idMain, this.fl19Amount))
+        data.addAll(fl191AmountInfo(idMain, this.fl19_1AmountInfoList))
+        data.addAll(fl21PaymentTerms(idMain, this.fl21PaymentTerms))
+        data.addAll(fl22TotalCost(idMain, this.fl22TotalCost))
+        data.addAll(fl25262728Group(idMain, this.fl25_26_27_28Group))
+
+        this.fl29MonthlyPayment?.let { data.addAll(fl29MonthlyPayment(idMain, it)) }
+
+        this.fl29_1DebtBurdenInfo?.let { data.addAll(fl291DebtBurdenInfo(idMain, it)) }
+
+        data.addAll(fl38ContractEnd(idMain, this.fl38ContractEnd))
+        data.addAll(fl56Participation(idMain, this.fl56Participation))
+
+        return Pair(idMain, data)
+    }
+
+    private fun FlEvent2_4.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val data = ArrayList<DataInfo>()
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+        data.addAll(fl17DealUid(idMain, this.fl17DealUid))
+        data.addAll(fl3235Group(idMain, this.fl32_35Group))
+        data.addAll(fl33Warranty(idMain, this.fl33Warranty))
 
         return Pair(idMain, data)
     }

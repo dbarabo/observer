@@ -10,31 +10,37 @@ import java.util.Date;
 public class FlEvent3_2 extends AbstractEventData {
 
     @XStreamAlias("operationCode")
-    final String operationCode = "C.1";
+    private final String operationCode = "C.1";
 
     @XStreamAlias("startDate")
-    final String startDate;
+    private final String startDate;
 
     @XStreamAlias("FL_17_DealUid")
-    final Fl17DealUid fl17DealUid;
+    private final Fl17DealUid fl17DealUid;
 
     @XStreamAlias("FL_Event_1_4")
-    final FlEvent1_4 flEvent14;
+    private final FlEvent1_4 flEvent14;
 
     @XStreamAlias("FL_Event_2_1")
-    FlEvent2_1 flEvent21;
+    private FlEvent2_1 flEvent21;
 
     @XStreamAlias("FL_Event_2_2")
-    FlEvent2_2 flEvent22;
+    private FlEvent2_2 flEvent22;
 
     @XStreamAlias("FL_Event_2_3")
-    FlEvent2_3 flEvent23;
+    private FlEvent2_3 flEvent23;
+
+    @XStreamAlias("FL_Event_2_4")
+    private FlEvent2_4 flEvent24;
+
+    @XStreamAlias("FL_Event_2_5")
+    private FlEvent2_5 flEvent25;
 
     public FlEvent3_2(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, FlEvent1_4 flEvent14) {
 
         super(orderNum, eventDate, "3.2" );
 
-        this.startDate = XmlLoader.formatDate(eventDate);
+        this.startDate = XmlLoader.formatDate( eventDate);
 
         this.fl17DealUid = fl17DealUid;
 
@@ -62,6 +68,19 @@ public class FlEvent3_2 extends AbstractEventData {
         this.flEvent21 = flEvent21;
     }
 
+    public FlEvent3_2(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, FlEvent2_4 flEvent24) {
+
+        this(orderNum, eventDate, fl17DealUid, (FlEvent2_1) null);
+
+        this.flEvent24 = flEvent24;
+    }
+
+    public FlEvent3_2(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, FlEvent2_5 flEvent25) {
+
+        this(orderNum, eventDate, fl17DealUid, (FlEvent2_4) null);
+
+        this.flEvent25 = flEvent25;
+    }
 
     @Override
     public String getEvent() {
@@ -87,5 +106,13 @@ public class FlEvent3_2 extends AbstractEventData {
 
     public FlEvent2_1 getFlEvent21() {
         return flEvent21;
+    }
+
+    public FlEvent2_4 getFlEvent24() {
+        return flEvent24;
+    }
+
+    public FlEvent2_5 getFlEvent25() {
+        return flEvent25;
     }
 }
