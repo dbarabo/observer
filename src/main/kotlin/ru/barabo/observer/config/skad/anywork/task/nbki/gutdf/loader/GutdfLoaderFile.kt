@@ -846,4 +846,3 @@ const val SEL_GUARANT_BY_ID = "select od.PTKB_GUTDF.getGuarantByUid( ? ) from du
 const val SEL_PLEDGE = "select od.PTKB_GUTDF.getPledgeByPropertyId( ?, ? ) from dual"
 
 private const val DEL_FILE_DATA = "{ call od.PTKB_RUTDF.deleteAllValuesByFile( ? ) }"
-

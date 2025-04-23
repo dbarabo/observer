@@ -66,13 +66,14 @@ private fun SubjectEventDataUl.addNewEvent(eventRecord: EventRecord) {
         "1.4" -> this.addEvent1_4(createEvent1_4(eventRecord) )
         "1.7" -> this.addEvent1_7(createEvent1_7(eventRecord) )
         "2.1" -> this.addEvent2_1(createEvent2_1(eventRecord) )
-        "2.2" -> this.addEvent2_2(createlEvent2_2(eventRecord) )
+        "2.2" -> this.addEvent2_2(createEvent2_2(eventRecord) )
         "2.2.1" -> this.addEvent2_2_1(createEvent2_2_1(eventRecord) )
         "2.3" -> this.addEvent2_3(createEvent2_3(eventRecord) )
         "2.4" -> this.addEvent2_4(createEvent2_4(eventRecord) )
         "2.5" -> this.addEvent2_5(createEvent2_5(eventRecord) )
         "2.6" -> this.addEvent2_6(createEvent2_6(eventRecord) )
         "3.1" -> this.addEvent3_1(createEvent3_1(eventRecord) )
+        "3.2" -> this.addEvent3_2(createEvent3_2(eventRecord) )
 
         else -> throw Exception("event LEGAL not found event=${eventRecord.event}")
     }
@@ -157,7 +158,7 @@ private fun createEvent2_1(eventRecord: EventRecord): UlEvent2_1 {
         ul151ContractTermsChanges, ul44Accounting)
 }
 
-private fun createlEvent2_2(eventRecord: EventRecord): UlEvent2_2 {
+private fun createEvent2_2(eventRecord: EventRecord): UlEvent2_2 {
 
     val ul10DealUid = createUl10DealUid(eventRecord.idEvent)
 
@@ -288,6 +289,48 @@ private fun createEvent3_1(eventRecord: EventRecord): UlEvent3_1 {
     val group = Ul45_47GroupCurrentNew( Ul45_47Group(currentUl45, currentUl47),  Ul45_47Group(newUl45, newUl47) )
 
     return UlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
+}
+
+private fun createEvent3_2(eventRecord: EventRecord): UlEvent3_2 {
+
+    val ul10DealUid = createUl10DealUid(eventRecord.currentMain!!)
+
+    val currentEvent = AfinaQuery.selectCursor(SEL_EVENT_BY_MAIN_ID, arrayOf(eventRecord.currentMain))[0]
+
+    val currentEventRecord = EventRecord(currentEvent)
+
+    return createUlEvent32(eventRecord, currentEventRecord, ul10DealUid)
+}
+
+private fun createUlEvent32(eventRecord: EventRecord, currentEventRecord: EventRecord, ul10DealUid: Ul10DealUid): UlEvent3_2 {
+
+    return when(currentEventRecord.event) {
+        "1.4" -> {
+            val event14 = createEvent1_4(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event14)
+        }
+        "2.1" -> {
+            val event21 = createEvent2_1(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event21)
+        }
+        "2.2" -> {
+            val event22 = createEvent2_2(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event22)
+        }
+        "2.3" -> {
+            val event23 = createEvent2_3(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event23)
+        }
+        "2.4" -> {
+            val event24 = createEvent2_4(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event24)
+        }
+        "2.5" -> {
+            val event25 = createEvent2_5(currentEventRecord)
+            UlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, event25)
+        }
+        else -> throw Exception("event not found event=${eventRecord.event}")
+    }
 }
 
 private fun createEvent2_6(eventRecord: EventRecord): UlEvent2_6 {

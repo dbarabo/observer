@@ -5,6 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectTitleDataUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.SubjectUl
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*
 
 private val logger = LoggerFactory.getLogger(GutdfLoaderFile::class.java)
 
@@ -38,16 +39,9 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent1_4List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul11Deal(idMain, it.ul11Deal) )
-            data.addAll( ul12Amount(idMain, it.ul12Amount) )
-            data.addAll( ul121AmountInfo(idMain, it.ul12_1AmountInfoList) )
-            data.addAll( ul14PaymentTerms(idMain, it.ul14PaymentTerms) )
-            data.addAll( ul44Accounting(idMain, it.ul44Accounting) )
-            data.addAll(ul45Application(idMain, it.ul45Application))
-            data.addAll( ul46Participation(idMain, it.ul46Participation) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent1_7List?.forEach {
@@ -55,32 +49,15 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_1List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul11Deal(idMain, it.ul11Deal) )
-            data.addAll( ul12Amount(idMain, it.ul12Amount) )
-            data.addAll( ul121AmountInfo(idMain, it.ul12_1AmountInfoList) )
-            data.addAll( ul14PaymentTerms(idMain, it.ul14PaymentTerms) )
-            data.addAll(ul17181920Group(idMain, it.ul17_18_19_20Group))
-            data.addAll( ul15ContractChanges(idMain, it.ul15ContractChanges) )
-            data.addAll( ul151ContractTermsChanges(idMain, it.ul15_1ContractTermsChanges) )
-            data.addAll( ul44Accounting(idMain, it.ul44Accounting) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent2_2List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul11Deal(idMain, it.ul11Deal) )
-            data.addAll( ul12Amount(idMain, it.ul12Amount) )
-            data.addAll( ul121AmountInfo(idMain, it.ul12_1AmountInfoList) )
-            data.addAll( ul14PaymentTerms(idMain, it.ul14PaymentTerms) )
-            data.addAll(ul16Fund(idMain, it.ul16Fund))
-            data.addAll(ul17181920Group(idMain, it.ul17_18_19_20Group))
-            data.addAll( ul44Accounting(idMain, it.ul44Accounting) )
-            data.addAll( ul45Application(idMain, it.ul45Application) )
-            data.addAll( ul46Participation(idMain, it.ul46Participation) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent2_2_1List?.forEach {
@@ -97,41 +74,21 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
         }
 
         ul.events.ulEvent2_3List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul11Deal(idMain, it.ul11Deal) )
-            data.addAll( ul12Amount(idMain, it.ul12Amount) )
-            data.addAll( ul121AmountInfo(idMain, it.ul12_1AmountInfoList) )
-            data.addAll( ul14PaymentTerms(idMain, it.ul14PaymentTerms) )
-            data.addAll(ul17181920Group(idMain, it.ul17_18_19_20Group))
-            data.addAll( ul44Accounting(idMain, it.ul44Accounting) )
-            data.addAll( ul45Application(idMain, it.ul45Application) )
-            data.addAll( ul46Participation(idMain, it.ul46Participation) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent2_4List?.forEach {
-
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul2326Group(idMain, it.ul23_26Group) )
-            data.addAll( ul24Warranty(idMain, it.ul24Warranty) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent2_5List?.forEach {
-            idMain = findMainId(idFile, tax, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-            data.addAll( ul10DealUid(idMain, it.ul10DealUid) )
-            data.addAll( ul11Deal(idMain, it.ul11Deal) )
-            data.addAll( ul12Amount(idMain, it.ul12Amount) )
-            data.addAll( ul121AmountInfo(idMain, it.ul12_1AmountInfoList) )
-            data.addAll( ul14PaymentTerms(idMain, it.ul14PaymentTerms) )
-            data.addAll(ul17181920Group(idMain, it.ul17_18_19_20Group))
-
-            data.addAll( ul29ContractEnd(idMain, it.ul29ContractEnd) )
-
-            data.addAll( ul46Participation(idMain, it.ul46Participation) )
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
         }
 
         ul.events.ulEvent2_6List?.forEach {
@@ -141,10 +98,168 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
             data.addAll( ul30Court(idMain, it.ul30Court) )
         }
 
+        ul.events.ulEvent3_2List?.forEach {
+            val (id, dataList) = it.tags(idFile, tax)
+            idMain = id
+            data.addAll( dataList )
+        }
+
         idMain.takeIf { it != 0 }?.let { data.addAll( title(it, ul.title) ) }
     }
 
     return data
+}
+
+private fun UlEvent1_4.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
+    data.addAll( ul11Deal(idMain, this.ul11Deal) )
+    data.addAll( ul12Amount(idMain, this.ul12Amount) )
+    data.addAll( ul121AmountInfo(idMain, this.ul12_1AmountInfoList) )
+    data.addAll( ul14PaymentTerms(idMain, this.ul14PaymentTerms) )
+    data.addAll( ul44Accounting(idMain, this.ul44Accounting) )
+    data.addAll(ul45Application(idMain, this.ul45Application))
+    data.addAll( ul46Participation(idMain, this.ul46Participation) )
+
+    return Pair(idMain, data)
+}
+private fun UlEvent2_1.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll(ul10DealUid(idMain, this.ul10DealUid))
+    data.addAll(ul11Deal(idMain, this.ul11Deal))
+    data.addAll(ul12Amount(idMain, this.ul12Amount))
+    data.addAll(ul121AmountInfo(idMain, this.ul12_1AmountInfoList))
+    data.addAll(ul14PaymentTerms(idMain, this.ul14PaymentTerms))
+    data.addAll(ul17181920Group(idMain, this.ul17_18_19_20Group))
+    data.addAll(ul15ContractChanges(idMain, this.ul15ContractChanges))
+    data.addAll(ul151ContractTermsChanges(idMain, this.ul15_1ContractTermsChanges))
+    data.addAll(ul44Accounting(idMain, this.ul44Accounting))
+
+    return Pair(idMain, data)
+}
+
+private fun UlEvent2_2.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
+    data.addAll( ul11Deal(idMain, this.ul11Deal) )
+    data.addAll( ul12Amount(idMain, this.ul12Amount) )
+    data.addAll( ul121AmountInfo(idMain, this.ul12_1AmountInfoList) )
+    data.addAll( ul14PaymentTerms(idMain, this.ul14PaymentTerms) )
+    data.addAll(ul16Fund(idMain, this.ul16Fund))
+    data.addAll(ul17181920Group(idMain, this.ul17_18_19_20Group))
+    data.addAll( ul44Accounting(idMain, this.ul44Accounting) )
+    data.addAll( ul45Application(idMain, this.ul45Application) )
+    data.addAll( ul46Participation(idMain, this.ul46Participation) )
+
+    return Pair(idMain, data)
+}
+
+private fun UlEvent2_3.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
+    data.addAll( ul11Deal(idMain, this.ul11Deal) )
+    data.addAll( ul12Amount(idMain, this.ul12Amount) )
+    data.addAll( ul121AmountInfo(idMain, this.ul12_1AmountInfoList) )
+    data.addAll( ul14PaymentTerms(idMain, this.ul14PaymentTerms) )
+    data.addAll(ul17181920Group(idMain, this.ul17_18_19_20Group))
+    data.addAll( ul44Accounting(idMain, this.ul44Accounting) )
+    data.addAll( ul45Application(idMain, this.ul45Application) )
+    data.addAll( ul46Participation(idMain, this.ul46Participation) )
+
+    return Pair(idMain, data)
+}
+
+private fun UlEvent2_4.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
+    data.addAll( ul2326Group(idMain, this.ul23_26Group) )
+    data.addAll( ul24Warranty(idMain, this.ul24Warranty) )
+
+    return Pair(idMain, data)
+}
+
+private fun UlEvent2_5.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val data = java.util.ArrayList<DataInfo>()
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
+    data.addAll( ul11Deal(idMain, this.ul11Deal) )
+    data.addAll( ul12Amount(idMain, this.ul12Amount) )
+    data.addAll( ul121AmountInfo(idMain, this.ul12_1AmountInfoList) )
+    data.addAll( ul14PaymentTerms(idMain, this.ul14PaymentTerms) )
+    data.addAll(ul17181920Group(idMain, this.ul17_18_19_20Group))
+
+    data.addAll( ul29ContractEnd(idMain, this.ul29ContractEnd) )
+
+    data.addAll( ul46Participation(idMain, this.ul46Participation) )
+
+    return Pair(idMain, data)
+}
+
+private fun UlEvent3_2.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+
+    val data = when {
+
+        ulEvent14 != null -> {
+            ulEvent14.event = "3.2"
+
+            ulEvent14.tags(idFile, tax).second
+        }
+
+        ulEvent21 != null -> {
+            ulEvent21.event = "3.2"
+
+            ulEvent21.tags(idFile, tax).second
+        }
+
+        ulEvent22 != null -> {
+            ulEvent22.event = "3.2"
+
+            ulEvent22.tags(idFile, tax).second
+        }
+
+        ulEvent23 != null -> {
+            ulEvent23.event = "3.2"
+
+            ulEvent23.tags(idFile, tax).second
+        }
+
+        ulEvent24 != null -> {
+            ulEvent24.event = "3.2"
+
+            ulEvent24.tags(idFile, tax).second
+        }
+
+        ulEvent25 != null -> {
+            ulEvent25.event = "3.2"
+
+            ulEvent25.tags(idFile, tax).second
+        }
+
+        else -> emptyList()
+    }
+
+    return Pair(idMain, data)
 }
 
 private fun title(idMain: Number, title: SubjectTitleDataUl): List<DataInfo> {
