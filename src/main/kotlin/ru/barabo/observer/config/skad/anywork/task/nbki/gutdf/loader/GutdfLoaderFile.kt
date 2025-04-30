@@ -126,10 +126,9 @@ object GutdfLoaderFile {
             }
 
             fl.events.flEvent2_6List?.forEach {
-                idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
-
-                data.addAll( fl17DealUid(idMain, it.fl17DealUid) )
-                data.addAll( fl39Court(idMain, it.fl39Court) )
+                val (id, dataList) = it.tags(idFile, taxPassport)
+                idMain = id
+                data.addAll( dataList )
             }
 
             fl.events.flEvent3_2List?.forEach {
@@ -145,9 +144,29 @@ object GutdfLoaderFile {
         return data
     }
 
+    private fun FlEvent3_2.subMainEvent(): String {
+        return when {
+            flEvent14 != null -> "1.4"
+
+            flEvent21 != null -> "2.1"
+
+            flEvent22 != null -> "2.2"
+
+            flEvent23 != null -> "2.3"
+
+            flEvent24 != null -> "2.4"
+
+            flEvent25 != null -> "2.5"
+
+            else -> ""
+        }
+    }
+
     private fun FlEvent3_2.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = subMainEvent()
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         val data = when {
             flEvent14 != null -> {
@@ -186,6 +205,12 @@ object GutdfLoaderFile {
                 flEvent25.tags(idFile, taxPassport).second
             }
 
+            flEvent26 != null -> {
+                flEvent26.event = "3.2"
+
+                flEvent26.tags(idFile, taxPassport).second
+            }
+
             else -> emptyList()
         }
 
@@ -196,7 +221,9 @@ object GutdfLoaderFile {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "1.4" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll( fl8AddrReg(idMain, this.fl8AddrReg) )
         data.addAll( fl9AddrFact(idMain, this.fl9AddrFact) )
@@ -222,7 +249,9 @@ object GutdfLoaderFile {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "2.2" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl18Deal(idMain, this.fl18Deal))
@@ -248,7 +277,9 @@ object GutdfLoaderFile {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "2.1" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl18Deal(idMain, this.fl18Deal))
@@ -269,11 +300,27 @@ object GutdfLoaderFile {
         return Pair(idMain, data)
     }
 
+    private fun FlEvent2_6.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
+
+        val data = ArrayList<DataInfo>()
+
+        val subEvent = if (event == "3.2") "2.6" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
+
+        data.addAll(fl17DealUid(idMain, this.fl17DealUid))
+        data.addAll(fl39Court(idMain, this.fl39Court))
+
+        return Pair(idMain, data)
+    }
+
     private fun FlEvent2_5.tags(idFile: Number, taxPassport: String): Pair<Number, List<DataInfo>> {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "2.5" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl18Deal(idMain, this.fl18Deal))
@@ -297,7 +344,9 @@ object GutdfLoaderFile {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "2.4" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl3235Group(idMain, this.fl32_35Group))
@@ -310,7 +359,9 @@ object GutdfLoaderFile {
 
         val data = ArrayList<DataInfo>()
 
-        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum)
+        val subEvent = if(event == "3.2") "2.3" else ""
+
+        val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl18Deal(idMain, this.fl18Deal))
@@ -368,6 +419,9 @@ object GutdfLoaderFile {
     }
 
     private fun PropertyIdGroupFl32_35Group.info(idMain: Number): List<DataInfo> {
+
+        logger.error("idMain=$idMain")
+        logger.error("propertyId=${propertyId?.value}")
 
         val id = AfinaQuery.selectValue(SEL_PLEDGE, params = arrayOf(idMain, propertyId?.value)) as Number
 
@@ -731,13 +785,14 @@ object GutdfLoaderFile {
     }
 
     private fun findMainId(idFile: Number, taxPassport: String, event: String,
-                           unicalUid: String?, eventDateXml: String, orderNum: Int): Number {
+                           unicalUid: String?, eventDateXml: String, orderNum: Int, subEvent: String = ""): Number {
 
         logger.error("idFile=$idFile")
         logger.error("taxPassport=$taxPassport")
         logger.error("event=$event")
         logger.error("unicalUid=$unicalUid")
         logger.error("eventDateXml=$eventDateXml")
+        logger.error("subEvent=$subEvent")
 
         val id = when {
             (unicalUid == null) && (taxPassport.length == 13) ->
@@ -765,6 +820,9 @@ object GutdfLoaderFile {
                     params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(),
                         taxPassport.substring(0..3), taxPassport.substring(4)))
 
+            subEvent != "" -> AfinaQuery.selectValue(SEL_MAIN_BY_UID_SUBEVENT,
+                params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), subEvent) )
+
             else -> AfinaQuery.selectValue(SEL_MAIN_BY_UID,
                 params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), ""))
         } as Number
@@ -787,6 +845,8 @@ const val UPDATE_MAIN_ORDER = "update od.PTKB_RUTDF_MAIN set ORDER_NUM_INFILE = 
 private const val SEL_MAIN_BY_PASSPORT = "select od.PTKB_RUTDF.getMainByPassport(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
+
+private const val SEL_MAIN_BY_UID_SUBEVENT = "select od.PTKB_RUTDF.getMainByGuidSubEvent(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_INN = "select od.PTKB_RUTDF.getMainByInnIpOrPhysic(?, ?, ?, ?, ?) from dual"
 

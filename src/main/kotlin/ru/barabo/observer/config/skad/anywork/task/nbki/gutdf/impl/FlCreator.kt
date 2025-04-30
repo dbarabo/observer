@@ -5,6 +5,7 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl3235GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57Group
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*
@@ -364,14 +365,45 @@ private fun createFlEvent2_6(eventRecord: EventRecord): FlEvent2_6 {
 
 private fun createFlEvent3_1(eventRecord: EventRecord): FlEvent3_1 {
 
+    val currentEvent = AfinaQuery.selectCursor(SEL_EVENT_BY_MAIN_ID, arrayOf(eventRecord.currentMain))[0]
+
+    val currentEventRecord = EventRecord(currentEvent)
+
+    return createFlEvent31(eventRecord, currentEventRecord)
+}
+
+private fun createFlEvent31(eventRecord: EventRecord, currentEvent: EventRecord): FlEvent3_1 {
+
+    return when(currentEvent.event) {
+        "1.1", "1.2", "1.3" -> createEvent11Current31(eventRecord, currentEvent)
+
+        "2.4" -> createEvent24Current31(eventRecord, currentEvent)
+
+        else -> throw Exception("event not found event=${eventRecord.event}")
+    }
+}
+
+private fun createEvent24Current31(eventRecord: EventRecord, currentEvent: EventRecord): FlEvent3_1 {
+
+    val fl17DealUid = createFl17DealUid(eventRecord.currentMain!!)
+
+    val fl3235GroupCurrent = createFl32_35Group(eventRecord.currentMain)
+
+    val fl3235Group = Fl3235GroupCurrentNew(fl3235GroupCurrent, null)
+
+    return FlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, fl3235Group)
+}
+
+private fun createEvent11Current31(eventRecord: EventRecord, currentEvent: EventRecord): FlEvent3_1 {
+
     val currentFl55 = getFl55BySendEvent(eventRecord.idEvent)
 
-    val currentFl57 = if(eventRecord.event == "1.3") getFl57BySendEvent(eventRecord.idEvent) else null
+    val currentFl57 = if(currentEvent.event == "1.3") getFl57BySendEvent(eventRecord.idEvent) else null
 
     val (_, newFl55) = createFl55Application(eventRecord.idEvent)
     newFl55.stageCode = StringElement(currentFl55.stageCode.value)
 
-    val newFl57 = if(eventRecord.event == "1.3") createFl57(eventRecord.idEvent) else null
+    val newFl57 = if(currentEvent.event == "1.3") createFl57(eventRecord.idEvent) else null
 
     val group = Fl55_57GroupCurrentNew( Fl55_57Group(currentFl55, currentFl57),  Fl55_57Group(newFl55, newFl57) )
 
@@ -416,6 +448,11 @@ private fun createFlEvent32(eventRecord: EventRecord, currentEventRecord: EventR
                 val event25 = createFlEvent2_5(currentEventRecord)
                 FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event25)
             }
+            "2.6" -> {
+                val event26 = createFlEvent2_6(currentEventRecord)
+                FlEvent3_2(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, event26)
+            }
+
             else -> throw Exception("event not found event=${eventRecord.event}")
         }
 }

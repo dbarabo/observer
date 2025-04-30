@@ -36,6 +36,10 @@ public class FlEvent3_2 extends AbstractEventData {
     @XStreamAlias("FL_Event_2_5")
     private FlEvent2_5 flEvent25;
 
+    @XStreamAlias("FL_Event_2_6")
+    private FlEvent2_6 flEvent26;
+
+
     public FlEvent3_2(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, FlEvent1_4 flEvent14) {
 
         super(orderNum, eventDate, "3.2" );
@@ -82,6 +86,13 @@ public class FlEvent3_2 extends AbstractEventData {
         this.flEvent25 = flEvent25;
     }
 
+    public FlEvent3_2(Integer orderNum, Date eventDate, Fl17DealUid fl17DealUid, FlEvent2_6 flEvent26) {
+
+        this(orderNum, eventDate, fl17DealUid, (FlEvent2_5) null);
+
+        this.flEvent26 = flEvent26;
+    }
+
     @Override
     public String getEvent() {
         return super.getEvent() != null ? super.getEvent() : "3.2";
@@ -114,5 +125,9 @@ public class FlEvent3_2 extends AbstractEventData {
 
     public FlEvent2_5 getFlEvent25() {
         return flEvent25;
+    }
+
+    public FlEvent2_6 getFlEvent26() {
+        return flEvent26;
     }
 }
