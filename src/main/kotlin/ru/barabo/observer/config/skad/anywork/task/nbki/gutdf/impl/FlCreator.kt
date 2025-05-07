@@ -377,6 +377,8 @@ private fun createFlEvent31(eventRecord: EventRecord, currentEvent: EventRecord)
     return when(currentEvent.event) {
         "1.1", "1.2", "1.3" -> createEvent11Current31(eventRecord, currentEvent)
 
+        "2.1" -> createEvent21Current31(eventRecord, currentEvent)
+
         "2.4" -> createEvent24Current31(eventRecord, currentEvent)
 
         else -> throw Exception("event not found event=${eventRecord.event}")
@@ -392,6 +394,27 @@ private fun createEvent24Current31(eventRecord: EventRecord, currentEvent: Event
     val fl3235Group = Fl3235GroupCurrentNew(fl3235GroupCurrent, null)
 
     return FlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl17DealUid, fl3235Group)
+}
+
+private fun createEvent21Current31(eventRecord: EventRecord, currentEvent: EventRecord): FlEvent3_1 {
+
+    val (_, currentFl55) = createFl55Application(eventRecord.idEvent)
+
+    currentFl55.applicationDate = null
+
+    currentFl55.approvalEndDate = null
+
+    currentFl55.purposeCode = null
+
+    currentFl55.code = null
+
+    currentFl55.stageDate = null
+
+    val (_, newFl55) = createFl55Application(eventRecord.idEvent)
+
+    val group = Fl55_57GroupCurrentNew( Fl55_57Group(currentFl55, null),  Fl55_57Group(newFl55, null) )
+
+    return FlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
 }
 
 private fun createEvent11Current31(eventRecord: EventRecord, currentEvent: EventRecord): FlEvent3_1 {
@@ -456,7 +479,6 @@ private fun createFlEvent32(eventRecord: EventRecord, currentEventRecord: EventR
             else -> throw Exception("event not found event=${eventRecord.event}")
         }
 }
-
 
 
 private fun createFl39Court(idEvent: Long): Fl39Court {

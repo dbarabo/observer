@@ -22,8 +22,12 @@ public class Fl55Application {
     @XStreamAlias("uid")
     private final StringElement uid; // 55.4. УИд обращения
 
+    public void setApplicationDate(StringElement applicationDate) {
+        this.applicationDate = applicationDate;
+    }
+
     @XStreamAlias("applicationDate")
-    private final StringElement applicationDate; // 55.5. Дата обращения
+    private StringElement applicationDate; // 55.5. Дата обращения
 
     @XStreamAlias("sourceCode")
     private final StringElement sourceCode = new StringElement("1"); //55.6. Код источника
@@ -31,23 +35,39 @@ public class Fl55Application {
     @XStreamAlias("wayCode")
     private final StringElement wayCode = new StringElement("6"); //55.7. Код способа обращения
 
+    public void setApprovalEndDate(StringElement approvalEndDate) {
+        this.approvalEndDate = approvalEndDate;
+    }
+
     @XStreamAlias("approvalEndDate")
-    private final StringElement approvalEndDate; //55.8. minOccurs="0" Дата окончания действия инвестиционного предложения, одобрения обращения (оферты кредитора)
+    private StringElement approvalEndDate; //55.8. minOccurs="0" Дата окончания действия инвестиционного предложения, одобрения обращения (оферты кредитора)
 
     @XStreamAlias("stageEndDate")
     private final StringElement stageEndDate; //55.9. minOccurs="0" Дата окончания срока рассмотрения обращения
 
+    public void setPurposeCode(StringElement purposeCode) {
+        this.purposeCode = purposeCode;
+    }
+
     @XStreamAlias("purposeCode")
-    private final StringElement purposeCode; //55.10. minOccurs="0" Код цели запрошенного займа (кредита)
+    private StringElement purposeCode; //55.10. minOccurs="0" Код цели запрошенного займа (кредита)
 
     @XStreamAlias("stageCode")
     private StringElement stageCode; //55.11. minOccurs="0" Код стадии рассмотрения обращения
 
+    public void setStageDate(StringElement stageDate) {
+        this.stageDate = stageDate;
+    }
+
     @XStreamAlias("stageDate")
-    private final StringElement stageDate; //55.12. Дата перехода обращения в текущую стадию рассмотрения
+    private StringElement stageDate; //55.12. Дата перехода обращения в текущую стадию рассмотрения
+
+    public void setCode(StringElement code) {
+        this.code = code;
+    }
 
     @XStreamAlias("applicationCode")
-    private final StringElement code = new StringElement("6"); //55.13. Код вида обращения 6 - В кредитную организацию
+    private StringElement code = new StringElement("6"); //55.13. Код вида обращения 6 - В кредитную организацию
 
     @XStreamAlias("num")
     private final StringElement num; //55.14. Номер обращения minOccurs="0"
@@ -130,5 +150,17 @@ public class Fl55Application {
 
     public StringElement getLoanSum() {
         return loanSum;
+    }
+
+    public StringElement getCode() {
+        return code;
+    }
+
+    public StringElement getSourceCode() {
+        return sourceCode;
+    }
+
+    public StringElement getWayCode() {
+        return wayCode;
     }
 }
