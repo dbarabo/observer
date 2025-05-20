@@ -35,6 +35,8 @@ object EmailTempSender : SingleSelector {
 
         val (emailAll, subject, description, ccSeparator, bccSeparator, cursor, selectParams, columns, from) = info[0]
 
+        // EMAIL, SUBJECT, DESCRIPTION, CC, BCC, SELECT_TABLE, SELECT_PARAMS, COLUMNS, SENDER from od.PTCB_EMAILTEMP where CLASSIFIED = ?
+
         val emails = (emailAll as? String)?.split(";")?.toTypedArray()
             ?: return State.ARCHIVE.deleteEmailReturn(elem.idElem)
 

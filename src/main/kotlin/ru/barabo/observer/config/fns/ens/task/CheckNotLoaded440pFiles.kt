@@ -2,6 +2,7 @@ package ru.barabo.observer.config.fns.ens.task
 
 import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
+import ru.barabo.archive.Archive
 import ru.barabo.db.TemplateQuery
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
@@ -45,19 +46,27 @@ object CheckNotLoaded440pFiles : Periodical {
 
     override fun execute(elem: Elem): State {
 
-        var startCheckDay = LocalDate.now().minusDays(100)
+        var startCheckDay = LocalDate.now().minusDays(30)  //(100) //1196
+
+        //val searchArj = Pattern.compile(".*\\.arj", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
         val search = Pattern.compile(".*\\.vrb", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
         val filesAbsent = ArrayList<File>()
 
+        val dateEnd = LocalDate.now() //LocalDate.of(2023, 5, 20) // LocalDate.now()
+
         while (startCheckDay.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() <
-            LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()) {
+            dateEnd.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()) {
 
             val path = startCheckDay.folder440pByDate()
 
             startCheckDay = startCheckDay.plusDays(1)
 
+            /*path.listFiles { f -> (!f.isDirectory) && (searchArj.isFind(f.name))
+            }?.forEach {
+                Archive.extractFromArj(it, it.parent)
+            }*/
 
             val notFoundFiles = path.listFiles { f ->
                 (!f.isDirectory) &&

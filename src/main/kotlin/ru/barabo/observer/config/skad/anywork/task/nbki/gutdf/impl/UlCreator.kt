@@ -11,6 +11,9 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47Grou
 import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.legal.title.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.PhoneGroupFl10Contact
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57Group
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57GroupCurrentNew
+import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent3_1
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
 
@@ -276,6 +279,49 @@ private fun createEvent2_5(eventRecord: EventRecord): UlEvent2_5 {
 }
 
 private fun createEvent3_1(eventRecord: EventRecord): UlEvent3_1 {
+
+    val currentEvent = AfinaQuery.selectCursor(SEL_EVENT_BY_MAIN_ID, arrayOf(eventRecord.currentMain))[0]
+
+    val currentEventRecord = EventRecord(currentEvent)
+
+    return createEvent3_1(eventRecord, currentEventRecord)
+}
+
+private fun createEvent3_1(eventRecord: EventRecord, currentEvent: EventRecord): UlEvent3_1 {
+
+    return when(currentEvent.event) {
+        "1.1", "1.2", "1.3" -> createEvent11Current31(eventRecord, currentEvent)
+
+        "2.1" -> createEvent21Current31(eventRecord, currentEvent)
+
+        //"2.4" -> createEvent24Current31(eventRecord, currentEvent)
+
+        else -> throw Exception("event not found event=${eventRecord.event}")
+    }
+}
+
+private fun createEvent21Current31(eventRecord: EventRecord, currentEvent: EventRecord): UlEvent3_1 {
+
+    val (currentUl45, _) = createUl45Application(eventRecord.idEvent)
+
+    currentUl45.applicationDate = null
+
+    currentUl45.approvalEndDate = null
+
+    currentUl45.purposeCode = null
+
+    currentUl45.setCode(null)
+
+    currentUl45.stageDate = null
+
+    val (newUl45, _) = createUl45Application(eventRecord.idEvent)
+
+    val group = Ul45_47GroupCurrentNew( Ul45_47Group(currentUl45, null),  Ul45_47Group(newUl45, null) )
+
+    return UlEvent3_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, group)
+}
+
+private fun createEvent11Current31(eventRecord: EventRecord, currentEvent: EventRecord): UlEvent3_1 {
 
     val currentUl45 = getUl45BySendEvent(eventRecord.idEvent)
 
