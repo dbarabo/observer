@@ -798,8 +798,10 @@ private fun getFl55BySendEvent(idEvent: Long): Fl55Application {
         fl55.stageEndDate, fl55.purposeCode, fl55.stageCode, fl55.stageDate, fl55.num, fl55.loanSum)
 }
 
-private fun getFl57BySendEvent(idEvent: Long): Fl57Reject {
+private fun getFl57BySendEvent(idEvent: Long): Fl57Reject? {
     val data = AfinaQuery.selectCursor(SEL_FL_57_FROM_GUTDF_VAL, params = arrayOf(idEvent))[0]
+
+    if(data[0] == null) return null
 
     return Fl57Reject((data[0] as Timestamp), (data[1] as Number).toInt())
 }
