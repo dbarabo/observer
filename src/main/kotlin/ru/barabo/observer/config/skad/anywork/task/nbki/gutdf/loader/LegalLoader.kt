@@ -110,11 +110,11 @@ fun processUl(idFile: Number, subjectUlList: List<SubjectUl>?): List<DataInfo> {
     return data
 }
 
-private fun UlEvent1_4.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent1_4.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
 
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
     data.addAll( ul11Deal(idMain, this.ul11Deal) )
@@ -127,11 +127,11 @@ private fun UlEvent1_4.tags(idFile: Number, tax: String): Pair<Number, List<Data
 
     return Pair(idMain, data)
 }
-private fun UlEvent2_1.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent2_1.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
 
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll(ul10DealUid(idMain, this.ul10DealUid))
     data.addAll(ul11Deal(idMain, this.ul11Deal))
@@ -146,10 +146,10 @@ private fun UlEvent2_1.tags(idFile: Number, tax: String): Pair<Number, List<Data
     return Pair(idMain, data)
 }
 
-private fun UlEvent2_2.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent2_2.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
     data.addAll( ul11Deal(idMain, this.ul11Deal) )
@@ -165,10 +165,10 @@ private fun UlEvent2_2.tags(idFile: Number, tax: String): Pair<Number, List<Data
     return Pair(idMain, data)
 }
 
-private fun UlEvent2_3.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent2_3.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
     data.addAll( ul11Deal(idMain, this.ul11Deal) )
@@ -183,10 +183,10 @@ private fun UlEvent2_3.tags(idFile: Number, tax: String): Pair<Number, List<Data
     return Pair(idMain, data)
 }
 
-private fun UlEvent2_4.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent2_4.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
     data.addAll( ul2326Group(idMain, this.ul23_26Group) )
@@ -195,10 +195,10 @@ private fun UlEvent2_4.tags(idFile: Number, tax: String): Pair<Number, List<Data
     return Pair(idMain, data)
 }
 
-private fun UlEvent2_5.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
+private fun UlEvent2_5.tags(idFile: Number, tax: String, subEvent: String = ""): Pair<Number, List<DataInfo>> {
 
     val data = java.util.ArrayList<DataInfo>()
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
     data.addAll( ul11Deal(idMain, this.ul11Deal) )
@@ -214,46 +214,66 @@ private fun UlEvent2_5.tags(idFile: Number, tax: String): Pair<Number, List<Data
     return Pair(idMain, data)
 }
 
+private fun UlEvent3_2.subMainEvent(): String {
+    return when {
+        ulEvent14 != null -> "1.4"
+
+        ulEvent21 != null -> "2.1"
+
+        ulEvent22 != null -> "2.2"
+
+        ulEvent23 != null -> "2.3"
+
+        ulEvent24 != null -> "2.4"
+
+        ulEvent25 != null -> "2.5"
+
+        else -> ""
+    }
+}
+
 private fun UlEvent3_2.tags(idFile: Number, tax: String): Pair<Number, List<DataInfo>> {
 
-    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum)
+    val subEvent = subMainEvent()
+
+    val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     val data = when {
 
         ulEvent14 != null -> {
             ulEvent14.event = "3.2"
 
-            ulEvent14.tags(idFile, tax).second
+            ulEvent14.tags(idFile, tax, subEvent).second
         }
 
         ulEvent21 != null -> {
             ulEvent21.event = "3.2"
 
-            ulEvent21.tags(idFile, tax).second
+            ulEvent21.tags(idFile, tax, subEvent).second
         }
 
         ulEvent22 != null -> {
             ulEvent22.event = "3.2"
 
-            ulEvent22.tags(idFile, tax).second
+            ulEvent22.tags(idFile, tax, subEvent).second
         }
 
         ulEvent23 != null -> {
             ulEvent23.event = "3.2"
 
-            ulEvent23.tags(idFile, tax).second
+            ulEvent23.tags(idFile, tax, subEvent).second
         }
 
         ulEvent24 != null -> {
             ulEvent24.event = "3.2"
 
-            ulEvent24.tags(idFile, tax).second
+            ulEvent24.tags(idFile, tax, subEvent).second
         }
 
         ulEvent25 != null -> {
             ulEvent25.event = "3.2"
 
-            ulEvent25.tags(idFile, tax).second
+            ulEvent25.tags(idFile, tax, subEvent).second
         }
 
         else -> emptyList()
@@ -327,6 +347,9 @@ private fun ul2326Group(idMain: Number, ul2326: Ul23_26Group): List<DataInfo> {
 }
 
 private fun PropertyIdGroupUl23_26Group.info(idMain: Number): List<DataInfo> {
+
+    logger.error("idMain=$idMain")
+    logger.error("propertyId=${propertyId?.value}")
 
     val id = AfinaQuery.selectValue(SEL_PLEDGE, params = arrayOf(idMain, propertyId?.value)) as Number
 
@@ -565,28 +588,29 @@ private fun ul45Application(idMain: Number, ul45Application: Ul45Application): L
 }
 
 private fun findMainId(idFile: Number, tax: String, event: String,
-                       unicalUid: String?, eventDateXml: String, orderNum: Int): Number {
+                       unicalUid: String?, eventDateXml: String, orderNum: Int, subEvent: String = ""): Number {
 
     logger.error("tax=$tax")
     logger.error("event=$event")
     logger.error("unicalUid=$unicalUid")
     logger.error("eventDateXml=$eventDateXml")
+    logger.error("subEvent=$subEvent")
 
-    val id =  if(unicalUid == null) {
+    val id = when {
+        (unicalUid == null) ->
+            AfinaQuery.selectValue(SEL_MAIN_BY_TAX, params = arrayOf(idFile, tax, event,
+                eventDateXml.xmlDateToTimestamp())) as Number
 
-        AfinaQuery.selectValue(SEL_MAIN_BY_TAX,
-            params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp())) as Number
-    } else {
-        if(event in listOf("1.1", "1.2", "1.3")) {
-            AfinaQuery.selectValue(SEL_MAIN_BY_UID_TAX,
-                params = arrayOf(idFile, unicalUid, tax, event, eventDateXml.xmlDateToTimestamp())
-            ) as Number
+        event in listOf("1.1", "1.2", "1.3") ->
+            AfinaQuery.selectValue(SEL_MAIN_BY_TAX, params = arrayOf(idFile, tax, event,
+                eventDateXml.xmlDateToTimestamp())) as Number
 
-        } else {
-            AfinaQuery.selectValue(SEL_MAIN_BY_UID,
-                params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "")
-            ) as Number
-        }
+        subEvent != "" -> AfinaQuery.selectValue(SEL_MAIN_BY_UID_SUBEVENT,
+            params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), subEvent) ) as Number
+
+        else -> AfinaQuery.selectValue(SEL_MAIN_BY_UID,
+            params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), "") ) as Number
+
     }
 
     AfinaQuery.execute(UPDATE_MAIN_ORDER, params = arrayOf(orderNum, id))

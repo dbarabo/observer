@@ -846,7 +846,7 @@ private const val SEL_MAIN_BY_PASSPORT = "select od.PTKB_RUTDF.getMainByPassport
 
 private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?, ?, ?) from dual"
 
-private const val SEL_MAIN_BY_UID_SUBEVENT = "select od.PTKB_RUTDF.getMainByGuidSubEvent(?, ?, ?, ?, ?) from dual"
+const val SEL_MAIN_BY_UID_SUBEVENT = "select od.PTKB_RUTDF.getMainByGuidSubEvent(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_INN = "select od.PTKB_RUTDF.getMainByInnIpOrPhysic(?, ?, ?, ?, ?) from dual"
 
