@@ -11,9 +11,6 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47Grou
 import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.legal.title.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.PhoneGroupFl10Contact
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57Group
-import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57GroupCurrentNew
-import ru.barabo.observer.config.task.nbki.gutdf.physic.event.FlEvent3_1
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
 

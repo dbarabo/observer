@@ -25,6 +25,18 @@ public class RequestInfo {
     @XStreamOmitField
     private Object operNoAccount;
 
+    @XStreamAlias("ЭЛ06ЗапрОперЭлДенСредств")
+    @XStreamOmitField
+    private Object operElectr;
+
+    @XStreamAlias("ЭЛ11ЗапрОперСВекселями")
+    @XStreamOmitField
+    private Object operVeksel;
+
+    @XStreamAlias("ЭЛ14ЗапрРасшВыписок")
+    @XStreamOmitField
+    private Object operExtExtract;
+
     @XStreamAlias("ЭЛ08ЗапрЗаявлНаОткрСчета")
     @XStreamOmitField
     private Object appPact;
