@@ -53,11 +53,11 @@ public class Ul14PaymentTerms {
     public Ul14PaymentTerms(Number mainPaySum, Date mainPayDate, Number percentPaySum, Date percentPayDate,
                             Integer freqCode, Date percentEndDate) {
 
-        this.mainPaySum = new StringElement(XmlLoader.formatSum(mainPaySum));
+        this.mainPaySum = new StringElement(mainPaySum == null ? "-" : XmlLoader.formatSum(mainPaySum));
 
         this.mainPayDate = mainPayDate == null ? null : new StringElement(XmlLoader.formatDate(mainPayDate));
 
-        this.percentPaySum = new StringElement(XmlLoader.formatSum(percentPaySum));
+        this.percentPaySum = new StringElement(mainPaySum == null ? "-" : XmlLoader.formatSum(percentPaySum));
 
         this.percentPayDate = percentPayDate == null ? null :  new StringElement(XmlLoader.formatDate(percentPayDate));
 

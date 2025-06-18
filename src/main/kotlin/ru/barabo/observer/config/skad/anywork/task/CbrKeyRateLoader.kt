@@ -32,11 +32,11 @@ object CbrKeyRateLoader : SinglePerpetual {
 
     override val unit: ChronoUnit = ChronoUnit.MINUTES
 
-    override val countTimes: Long = 20
+    override val countTimes: Long = 15
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(15, 30), workTimeTo = LocalTime.of(18, 30) )
+        workTimeFrom = LocalTime.of(13, 0), workTimeTo = LocalTime.of(19, 30) )
 
     override fun execute(elem: Elem): State {
 

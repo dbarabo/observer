@@ -599,6 +599,7 @@ private fun createUl11Deal(idEvent: Long): Ul11Deal {
 
 private fun createUl10DealUid(idEvent: Long): Ul10DealUid {
 
+    logger.error("idEvent=$idEvent")
     val data = AfinaQuery.selectCursor(SEL_UL_10, params = arrayOf(idEvent))
 
     val ul = Ul10(data[0])
@@ -864,7 +865,7 @@ private data class UlGroup2528(
 
 private data class Ul46(
     val role: Int,
-    val kindCode: Int,
+    val kindCode: Int?,
     val uid: String,
     val fundDate: Timestamp?,
     val isOverdue90: Boolean,
@@ -873,7 +874,7 @@ private data class Ul46(
     constructor(rec: Array<Any?>) :
             this(
                 role = (rec[0] as Number).toInt(),
-                kindCode = (rec[1] as Number).toInt(),
+                kindCode = (rec[1] as? Number)?.toInt(),
                 uid = (rec[2] as String),
                 fundDate = (rec[3] as? Timestamp),
                 isOverdue90 = (rec[4] as Number).toInt() != 0,

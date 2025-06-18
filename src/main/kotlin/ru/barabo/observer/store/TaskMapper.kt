@@ -101,7 +101,7 @@ object TaskMapper {
             val lastWork = it[1] as Date
 
             val message =
-                """Похоже приложение observer.jar с билдом $buildName не запущено и не отвечает с $lastWork
+                """Похоже приложение observer.jar на компе $buildName не запущено и не отвечает с $lastWork
  Нужно проверить компьютер $buildName на то что он запущен и на нем работает Наблюдатель (observer.jar)
  С этим делом должны помочь ДТТС (найти комп и проверить), тем более что высока вероятность того, что они его и положили""".trimIndent()
 
@@ -127,12 +127,11 @@ private fun selectOtherBuilds(build: String) =
         "select BUILD, DUE from od.PTKB_VERSION_JAR where PROGRAM = 'OBSERVER.JAR' and coalesce(BUILD, '!') != '$build' and (sysdate - DUE > 40/(60*24) )"
 
 enum class BuildInfo(val build: String, val configs: List<ConfigTask>) {
-    Cbr("CBR", cbrConfigs()),
-    Barabo("BARABO", baraboConfigs()),
+    Cbr("OPERATOR", cbrConfigs()),
+    Barabo("GRYPTOPRO", baraboConfigs()),
     Jzdo("JZDO", jzdoConfigs()),
-    Scad("SCAD", scadSignatureConfigs()),
-    Correspond("CORRESPOND", cbrCorrespond()),
-    EnsScad("ENSSIGN", ensScadConfig()),
+    Correspond("KBRN", cbrCorrespond()),
+    EnsScad("FNS", ensScadConfig()),
     Test("TEST", testConfig())
 }
 

@@ -26,17 +26,13 @@ object Observer {
         val comp = InetAddress.getLocalHost().hostName.uppercase(Locale.getDefault())
 
         val config = when (comp) {
-            "BARABO" -> "BARABO"
-            "GRYPTOPRO"-> "BARABO"
-            "OPERATOR" -> "CBR"
+            "GRYPTOPRO"-> "GRYPTOPRO"
+            "OPERATOR" -> "OPERATOR"
             "JZDO" -> "JZDO"
-            "SKAD" -> "SCAD"
-            "BARABO_" -> "TEST"
             "DSPO" -> "TEST"
-            "POSEIDON" -> "CORRESPOND"
-            "KBRN" -> "CORRESPOND"
+            "KBRN" -> "KBRN"
 
-            "FNS" -> "ENSSIGN"
+            "FNS" -> "FNS"
 
             else -> throw Exception("Неизвестная конфигурация для компа $comp")
         }

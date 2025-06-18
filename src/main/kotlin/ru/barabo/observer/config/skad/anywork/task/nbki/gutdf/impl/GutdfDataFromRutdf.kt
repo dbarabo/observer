@@ -45,6 +45,7 @@ class GutdfDataFromRutdf(idRutdfFile: Long) : GutdfData {
 
             logger.error("eventId=${eventRecord.idEvent}")
             logger.error("loan=${eventRecord.loan}")
+            logger.error("guar=${eventRecord.guar}")
             logger.error("guarant=${eventRecord.guarant}")
             logger.error("client=${eventRecord.clientId}")
             logger.error("isPhysic=${eventRecord.isPhysic}")
@@ -88,14 +89,15 @@ data class EventRecord(
     val clientId: Long,
     val dateEvent: Timestamp,
     val event: String,
-    val loan: Long,
+    val loan: Long?,
     val typeDeal: Int,
     val guarant: Long?,
     val guidId: Long?,
     val typeOverdue: Int,
     val account25Out: Long?,
     val flowOut: Timestamp?,
-    val currentMain: Long? ) {
+    val currentMain: Long?,
+    val guar: Long?) {
 
     constructor(rec: Array<Any?>) :
             this(orderNum = (rec[0] as Number).toLong(),
@@ -104,14 +106,18 @@ data class EventRecord(
                 clientId = (rec[3] as Number).toLong(),
                 dateEvent = (rec[4] as Timestamp),
                 event = (rec[5] as String),
-                loan = (rec[6] as Number).toLong(),
+                loan = (rec[6] as? Number)?.toLong(),
                 typeDeal = (rec[7] as Number).toInt(),
                 guarant = (rec[8] as? Number)?.toLong(),
                 guidId = (rec[9] as? Number)?.toLong(),
                 typeOverdue = (rec[10] as Number).toInt(),
                 account25Out =  (rec[11] as? Number)?.toLong(),
                 flowOut = (rec[12] as? Timestamp),
-                currentMain = (rec[13] as? Number)?.toLong() )
+                currentMain = (rec[13] as? Number)?.toLong(),
+                guar = (rec[14] as? Number)?.toLong() )
+
+    val loanGuar: Long
+        get() = loan ?: guar!!
 
 }
 

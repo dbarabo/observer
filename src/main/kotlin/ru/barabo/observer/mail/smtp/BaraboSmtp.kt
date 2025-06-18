@@ -56,7 +56,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_COUNTRY = arrayOf("podft@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
-    val DELB_PLASTIC = arrayOf("cards@ptkb.ru", "tts@ptkb.ru", "shabot@ptkb.ru").onlyAfina()
+    val DELB_PLASTIC = arrayOf("cardinfo@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
     private val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
 
@@ -71,7 +71,7 @@ object BaraboSmtp : SendMail {
 
     val CORRESPOND = arrayOf("yurkova@ptkb.ru", "venukov@ptkb.ru", "kenetbaev@ptkb.ru").onlyAfina()
 
-    val IBANK_DELB = arrayOf("tts@ptkb.ru", "cards@ptkb.ru").onlyAfina()
+    val IBANK_DELB = arrayOf("tts@ptkb.ru", "cardinfo@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfinaOrYa() = if(TaskMapper.isAfinaBase()) this else YA
 

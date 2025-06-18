@@ -341,7 +341,7 @@ open class Query (private val dbConnection :DbConnection) {
                 return prepareSelectCursor(session, query, params, sessionSetting)
             }
             closeQueryData(session, TransactType.ROLLBACK, statement)
-            throw SessionException(e.message as String)
+            throw SessionException(e.message ?: "params.size=${params?.size}")
         }
 
         return QueryRequest(query, params, statement, resultSet)
