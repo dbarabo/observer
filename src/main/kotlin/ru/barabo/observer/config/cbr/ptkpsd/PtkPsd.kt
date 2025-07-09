@@ -22,12 +22,7 @@ object PtkPsd : AbstractConfig() {
         SendByPtkPsdCopy.findAll()
         CheckerIsSendPtkPsd.findAll()
 
-        CheckerIsSendKyccl.findAll()
-
         Load101FormXml.findAll()
-
-        //CheckerRedSaldoNow.findAll()
-        //CheckerDoubleTurnPeriod.findAll()
 
         Ticket440pCbr.findAll()
 

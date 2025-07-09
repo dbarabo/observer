@@ -1067,7 +1067,7 @@ private data class Fl29(
 
 private data class Fl56(
     val role: Int,
-    val kindCode: Int,
+    val kindCode: Int?,
     val uid: String,
     val fundDate: Timestamp?,
     val isOverdue90: Boolean,
@@ -1076,7 +1076,7 @@ private data class Fl56(
     constructor(rec: Array<Any?>) :
             this(
                 role = (rec[0] as Number).toInt(),
-                kindCode = (rec[1] as Number).toInt(),
+                kindCode = (rec[1] as? Number)?.toInt(),
                 uid = (rec[2] as String),
                 fundDate = (rec[3] as? Timestamp),
                 isOverdue90 = (rec[4] as Number).toInt() != 0,

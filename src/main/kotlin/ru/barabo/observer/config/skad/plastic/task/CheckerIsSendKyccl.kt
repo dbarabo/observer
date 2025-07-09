@@ -5,6 +5,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.PtkPsd
 import ru.barabo.observer.config.cbr.ptkpsd.task.CheckerIsSendPtkPsd
 import ru.barabo.observer.config.skad.crypto.task.AddSign600P
 import ru.barabo.observer.config.skad.crypto.task.nameDateToday
+import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -24,7 +25,7 @@ object CheckerIsSendKyccl : FileFinder, FileProcessor {
         AccessibleData(WeekAccess.WORK_ONLY, true, LocalTime.of(15, 0), LocalTime.of(21, 0),
             Duration.ofMinutes(59))
 
-    override fun config(): ConfigTask = PtkPsd
+    override fun config(): ConfigTask = PlasticOutSide
 
     override fun name(): String = "Проверка отправки файла Клиентов с Рисками ЦБ"
 
@@ -38,7 +39,7 @@ object CheckerIsSendKyccl : FileFinder, FileProcessor {
 
     private fun errorSendFile(fileName: String) {
 
-        BaraboSmtp.sendStubThrows(to = BaraboSmtp.KYCCL_CHECKER, bcc = BaraboSmtp.OPER, subject = ERROR_SUBJECT,
+        BaraboSmtp.sendStubThrows(to = BaraboSmtp.MANTIS, cc = BaraboSmtp.KYCCL_CHECKER, subject = ERROR_SUBJECT,
             body = errorBody(fileName)
         )
     }

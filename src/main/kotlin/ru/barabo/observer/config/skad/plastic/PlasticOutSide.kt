@@ -32,6 +32,7 @@ object PlasticOutSide : AbstractConfig() {
 
         CheckSpaceServer.findAll()
         CheckTableSpace.findAll()
+        CheckerIsSendKyccl.findAll()
 
         FsfmExchangeResponse.findAll()
 
@@ -43,6 +44,8 @@ object PlasticOutSide : AbstractConfig() {
         SendXmlRiskClientCbrAuto.findAll()
 
         UpdaterCrossRateMtl.findAll()
+
+
 
         this.executeTasks()
     }
