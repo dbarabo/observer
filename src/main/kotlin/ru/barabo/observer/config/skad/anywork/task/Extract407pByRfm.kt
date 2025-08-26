@@ -48,7 +48,6 @@ object Extract407pByRfm : FileFinder, ActionTask, Executor {
         for (request in requestList) {
             extractById(request)
         }
-        //extractById(1286099976L)
 
         return State.OK
     }
@@ -119,7 +118,7 @@ private const val CREATE_365P_RECORD = "{ call od.PTKB_CEC.create365pRecord(?, ?
 
 private const val INS_RFM = "{ call od.PTKB_CEC.addRfmExtract(?, ?, ?, ?, ?, ?, ?) }"
 
-private const val X_407P = "C:/407P_RFM"
+private const val X_407P = "H:/Gu_cb/407-П"
     //"K:/ARH_LEG/407-П (запросы РФМ)     !!! с 12.01.2022 будут ИЗМЕНЕНИЯ/2021_2022_Запросы+Ответы/2023/07/10.07.2023/Запрос"
 
 private fun xRfm() = File("$X_407P")

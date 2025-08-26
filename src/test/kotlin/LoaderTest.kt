@@ -2,6 +2,7 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -924,12 +925,6 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun executeGroupRateLoan() {
-        val elem = Elem(task = ExecuteGroupRateLoan)
-
-        elem.task?.execute(elem)
-    }
 
    // @Test
     fun load550P() {
@@ -1549,6 +1544,21 @@ res3 = [calc.DEC_TEST];
         val xsd = "/xsd/gutdf/ver30/Main.xsd"
 
         validateXml(file, xsd, ::errFolder )
+    }
+
+    //@Test
+    fun testKillUsers() {
+
+        val elem = Elem(task = ExecuteGroupRateLoan)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun executeGroupRateLoan() {
+        val elem = Elem(task = ExecuteGroupRateLoan)
+
+        elem.task?.execute(elem)
     }
 }
 

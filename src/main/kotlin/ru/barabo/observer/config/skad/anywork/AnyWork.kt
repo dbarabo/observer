@@ -20,6 +20,7 @@ object AnyWork : AbstractConfig() {
         CheckerDoubleTurnPeriod.findAll()
 
         UnlockUsersMonday.findAll()
+        LockUsersInHoliday.findAll()
 
         GutDfCreateFile.findAll()
         CheckExistsTicketRutdf.findAll()

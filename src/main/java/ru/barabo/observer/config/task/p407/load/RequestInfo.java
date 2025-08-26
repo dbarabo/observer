@@ -29,13 +29,9 @@ public class RequestInfo {
     @XStreamOmitField
     private Object operElectr;
 
-    @XStreamAlias("ЭЛ11ЗапрОперСВекселями")
+    @XStreamAlias("ЭЛ07ЗапрВалютнОперБезОткрСчета")
     @XStreamOmitField
-    private Object operVeksel;
-
-    @XStreamAlias("ЭЛ14ЗапрРасшВыписок")
-    @XStreamOmitField
-    private Object operExtExtract;
+    private Object operWithoutAccount;
 
     @XStreamAlias("ЭЛ08ЗапрЗаявлНаОткрСчета")
     @XStreamOmitField
@@ -45,13 +41,25 @@ public class RequestInfo {
     @XStreamOmitField
     private Object clientPact;
 
+    @XStreamAlias("ЭЛ10ЗапрКопийПаспортов")
+    @XStreamOmitField
+    private Object pasportPact;
+
+    @XStreamAlias("ЭЛ11ЗапрОперСВекселями")
+    @XStreamOmitField
+    private Object operVeksel;
+
+    @XStreamAlias("ЭЛ13ЗапрСберДепСерт")
+    @XStreamOmitField
+    private Object operdepoz;
+
     @XStreamAlias("ЭЛ91ЗапрБенефиц")
     @XStreamOmitField
     private Object benPact;
 
-    @XStreamAlias("ЭЛ10ЗапрКопийПаспортов")
+    @XStreamAlias("ЭЛ14ЗапрРасшВыписок")
     @XStreamOmitField
-    private Object pasportPact;
+    private Object operExtExtract;
 
     public ExtractRequestInfo getExtractRequestInfo() {
         return extractRequestInfo;

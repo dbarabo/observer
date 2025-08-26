@@ -42,6 +42,8 @@ object ExecuteGroupRateLoan: Periodical {
         val session = AfinaQuery.uniqueSession()
 
         try {
+            AfinaQuery.execute(query = EXECUTE_KILL_USER_LOCK, sessionSetting = session)
+
             AfinaQuery.execute(query = EXECUTE_GROUP_RATE_LOAN_JURIC, sessionSetting = session)
 
             AfinaQuery.execute(query = EXECUTE_GROUP_RATE_LOAN_PHYSIC, sessionSetting = session)
@@ -60,4 +62,6 @@ object ExecuteGroupRateLoan: Periodical {
     private const val EXECUTE_GROUP_RATE_LOAN_JURIC = "{ call od.PTKB_PRECEPT.registrationRateLoanJuric(sysdate) }"
 
     private const val EXECUTE_GROUP_RATE_LOAN_PHYSIC = "{ call od.PTKB_PRECEPT.registrationRateLoanPhysic(sysdate) }"
+
+    private const val EXECUTE_KILL_USER_LOCK = "{ call od.PTKB_PRECEPT.killUsersLockLoan }"
 }
