@@ -113,19 +113,32 @@ object Archive {
 
         val pathZip =  zipFile.toPath()
 
+        val existFiles = upPackFromZip(zipFilePath)
+
+
         ZipOutputStream(Files.newOutputStream(pathZip)).use { out ->
             for (file in files) {
-                FileInputStream(file).use { fi ->
-                    BufferedInputStream(fi).use { origin ->
-                        val entry = ZipEntry(file.name)
-                        out.putNextEntry(entry)
-                        origin.copyTo(out)
-                    }
+                addFile(out, file)
+            }
+
+            existFiles?.let {
+                for (file in existFiles) {
+                    addFile(out, file)
                 }
             }
         }
 
         return zipFile
+    }
+
+    private fun addFile(out: ZipOutputStream, file: File) {
+        FileInputStream(file).use { fi ->
+            BufferedInputStream(fi).use { origin ->
+                val entry = ZipEntry(file.name)
+                out.putNextEntry(entry)
+                origin.copyTo(out)
+            }
+        }
     }
 
     fun packToZip(zipFilePath: String, vararg files: File): File {
@@ -240,3 +253,4 @@ object Archive {
     }
 
 }
+

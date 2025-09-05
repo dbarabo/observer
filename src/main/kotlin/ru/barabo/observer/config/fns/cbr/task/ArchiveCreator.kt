@@ -97,7 +97,7 @@ object ArchiveCreator : SingleSelector {
             outParamTypes = intArrayOf(OracleTypes.VARCHAR), sessionSetting = session)?.get(0) as String
 
     private fun findOrCreateNewArchive(extractFilename: String, session: SessionSetting): String =
-        AfinaQuery.execute(CALL_FIND_CREATE_ARCHIVE, arrayOf(extractFilename),
+        AfinaQuery.execute(CALL_FIND_CREATE_ARCHIVE, arrayOf<Any?>(extractFilename),
             outParamTypes = intArrayOf(OracleTypes.VARCHAR), sessionSetting = session)?.get(0) as String
 
 }

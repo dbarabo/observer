@@ -109,4 +109,5 @@ fun<X: Any, Y: Any> createXml(classXml : KClass<X>, param: Y): X {
     return firstConstruct?.call(param)!!
 }
 
-private const val UPDATE_STATE_RESPONSE = "update od.PTKB_CBR_EXT_RESPONSE set state = 1, sent = sysdate where id = ?"
+private const val UPDATE_STATE_RESPONSE = "{ call od.PTKB_CBR_EXTRACT.updateBvsStatetoOut( ? ) }"
+    //"update od.PTKB_CBR_EXT_RESPONSE set state = 1, sent = sysdate where id = ?"

@@ -16,7 +16,7 @@ public class GroupInfoAddFile {
     private List<InfoNameAddFile> infoNameAddFiles;
 
     private static class SingltonGroupInfoAddFile {
-        private transient static final String ABSENT_NAME = "Отсутствует";
+        private transient static final String ABSENT_NAME = ""; //"Отсутствует";
     }
 
     static public GroupInfoAddFile absentAddFile() {
