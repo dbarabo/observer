@@ -23,13 +23,12 @@ object MoveTicketNbki : FileMover, FileFinder {
 
     override val pathsTo: Array<() -> String> = arrayOf(::xNbkiToday)
 
-    fun xNbkiToday(): String = "X:/НБКИ/${todayFolder()}"
-
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true,
         LocalTime.of(9, 0), LocalTime.of(23, 50), Duration.ZERO)
 
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
-
     override val isMove: Boolean = true
-
 }
+
+fun xNbkiToday(): String = "X:/НБКИ/${todayFolder()}"
+
+private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())

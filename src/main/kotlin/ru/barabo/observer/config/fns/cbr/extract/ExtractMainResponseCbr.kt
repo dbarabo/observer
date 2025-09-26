@@ -7,7 +7,7 @@ import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.valida
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.barabo.p440.out.data.*
 import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
-import ru.barabo.observer.config.fns.cbr.task.getCbrResponseToday
+import ru.barabo.observer.config.fns.cbr.task.getCbrResponseFolderByRequest
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.p440.load.xml.impl.Address
 import ru.barabo.observer.config.task.p440.load.xml.impl.FnsXml
@@ -169,7 +169,7 @@ class ExtractMainResponseCbr : ExtractResponseData {
 
             val addExtractXml = FileAddExtractXmlVer4(addResponseData)
 
-            val file = File("${getCbrResponseToday().absolutePath}/${addResponseData.fileNameResponse()}")
+            val file = File("${getCbrResponseFolderByRequest(fileNameFromFns()).absolutePath}/${addResponseData.fileNameResponse()}")
 
             saveXml(file, addExtractXml, isUseAttr = true)
 

@@ -5,7 +5,7 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.validateXml
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.fns.cbr.CbrConfig
-import ru.barabo.observer.config.fns.cbr.task.getCbrResponseToday
+import ru.barabo.observer.config.fns.cbr.task.getCbrResponseFolderByRequest
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
@@ -72,7 +72,8 @@ abstract class AbstractCbrSaver<X: Any>(val responseData: ResponseData, private 
 
         val xmlData = createXml(clazzXml, responseData)
 
-        val file = File("${getCbrResponseToday().absolutePath}/${responseData.fileNameResponse()}.xml")
+        val file = File(
+            "${getCbrResponseFolderByRequest(responseData.fileNameFromFns()).absolutePath}/${responseData.fileNameResponse()}.xml")
 
         saveXml(file, xmlData, isUseAttr = true)
 

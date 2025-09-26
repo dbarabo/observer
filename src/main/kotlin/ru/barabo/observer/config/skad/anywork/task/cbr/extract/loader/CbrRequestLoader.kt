@@ -3,7 +3,6 @@ package ru.barabo.observer.config.skad.anywork.task.cbr.extract.loader
 import oracle.jdbc.OracleTypes
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
-import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.XmlGutDfLoader
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.xmlDateToTimestamp
 import ru.barabo.observer.config.task.cbr.extract.request.MainFileRequest
 import ru.barabo.observer.config.task.cbr.extract.request.RequestVkoListIdRequest
@@ -19,10 +18,13 @@ object CbrRequestLoader {
 
         val mainRequest = loadRequestFromXml(file)
 
+        val emailFrom = File(file.absolutePath + ".txt")
+            .takeIf { it.exists() }?.readText(Charsets.UTF_16)?.trim() ?: ""
+
         val sessionSetting = AfinaQuery.uniqueSession()
 
         try {
-            val idMain = createMainRequest(sessionSetting, mainRequest, file.name)
+            val idMain = createMainRequest(sessionSetting, mainRequest, file.name, emailFrom)
 
             for(listIdRequest in mainRequest.requestVko.requestVkoListIdRequest) {
 
@@ -50,7 +52,7 @@ object CbrRequestLoader {
         }
     }
 
-    private fun createMainRequest(sessionSetting: SessionSetting, mainRequest: MainFileRequest, filename: String): Number {
+    private fun createMainRequest(sessionSetting: SessionSetting, mainRequest: MainFileRequest, filename: String, emailFrom: String): Number {
         val params = arrayOf<Any?>(filename.uppercase(Locale.getDefault()),
             mainRequest.guid,
             mainRequest.requestVko.regNumber,
@@ -60,7 +62,8 @@ object CbrRequestLoader {
             mainRequest.requestVko.sentRequest.xmlDateTimeToTimestamp(),
             mainRequest.requestVko.idRequest,
             mainRequest.requestVko.dueResponse.xmlDateToTimestamp(),
-            mainRequest.requestVko.isCardInfo.toNumberBoolean()
+            mainRequest.requestVko.isCardInfo.toNumberBoolean(),
+            emailFrom
         )
 
         val (idMain) = AfinaQuery.execute(INSERT_MAIN_REQUEST, params = params,
@@ -77,7 +80,7 @@ object CbrRequestLoader {
     }
 }
 
-private const val INSERT_MAIN_REQUEST = "{ call OD.PTKB_CBR_EXTRACT.addMainRequest(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }"
+private const val INSERT_MAIN_REQUEST = "{ call OD.PTKB_CBR_EXTRACT.addMainRequest(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }"
 
 private const val INSERT_ITEM_REQUEST = "{ call OD.PTKB_CBR_EXTRACT.addItemRequest(?, ?, ?, ?) }"
 

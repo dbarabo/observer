@@ -36,16 +36,13 @@ object PlasticOutSide : AbstractConfig() {
 
         FsfmExchangeResponse.findAll()
 
-        MoveTicketNbki.findAll()
-
+        MoverFromEmailClient.findAll() //MoveTicketNbki.findAll()
 
         ExecuteReglamentRun.findAll()
         SendXmlForm310.findAll()
         SendXmlRiskClientCbrAuto.findAll()
 
-        UpdaterCrossRateMtl.findAll()
-
-
+        // UpdaterCrossRateMtl.findAll() нет валюты уже давно
 
         this.executeTasks()
     }

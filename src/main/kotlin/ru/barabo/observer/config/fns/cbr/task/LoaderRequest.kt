@@ -38,3 +38,6 @@ private val CBR_FOLDER = if (TaskMapper.isAfinaBase()) "X:/ЦБ-ВЫПИСКИ" 
 fun getCbrRequestToday(): File = "$CBR_FOLDER/${Get440pFiles.todayFolder()}/Получено".byFolderExists()
 
 fun getCbrResponseToday(): File = "$CBR_FOLDER/${Get440pFiles.todayFolder()}/Отправка".byFolderExists()
+
+fun getCbrResponseFolderByRequest(filenameRequest: String): File =
+    "${getCbrResponseToday().absolutePath}/${filenameRequest.substringBefore('.')}".byFolderExists()

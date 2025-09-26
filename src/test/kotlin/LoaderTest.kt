@@ -1560,6 +1560,18 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
+
+    //@Test
+    fun readUtf16() {
+        val emailFrom = File("C:/temp/ZBR_0021_NOCRD_000020250919000000970201.xml.txt")
+
+        val text = emailFrom.readText(Charsets.UTF_16).trim()
+
+        logger.error("text=$text")
+    }
+
+
+
 }
 
 private fun errFolder(): File = File("C:/temp/error")
