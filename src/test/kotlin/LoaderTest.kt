@@ -62,10 +62,7 @@ import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.crypto.task.PbSaverScadVer4
 import ru.barabo.observer.config.skad.forms.ed711497.impl.DefaultPercentOutData
 import ru.barabo.observer.config.skad.forms.form310.impl.DefaultForm310Data
-import ru.barabo.observer.config.skad.plastic.task.CbrCurrencyLoader
-import ru.barabo.observer.config.skad.plastic.task.LoadVisaRate
-import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
-import ru.barabo.observer.config.skad.plastic.task.SendXmlRiskClientCbrAuto
+import ru.barabo.observer.config.skad.plastic.task.*
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.finder.isModifiedMore
@@ -1569,6 +1566,13 @@ res3 = [calc.DEC_TEST];
 
         logger.error("text=$text")
     }
+
+    //@Test
+    fun newFileTestAdd() {
+        CheckTableSpace.saveScriptData("/opt/oracle/oradata/AFINA/IX_USERS07.DBF", "/opt/oracle/oradata/AFINA/IX_USERS08.DBF")
+    }
+
+
 
 
 

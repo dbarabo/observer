@@ -29,10 +29,10 @@ object CheckTableSpace : SinglePerpetual {
 
     override val unit: ChronoUnit = ChronoUnit.HOURS
 
-    override val countTimes: Long = 6
+    override val countTimes: Long = 1
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(6, 30), workTimeTo = LocalTime.of(23, 50) )
+        workTimeFrom = LocalTime.of(9, 59), workTimeTo = LocalTime.of(23, 59) )
 
     override fun execute(elem: Elem): State {
         val spaces = AfinaQuery.selectCursor(CURSOR_TABLE_SPACE)
@@ -87,14 +87,22 @@ P.S. DBA все-равно придется звать, даже если авт
 
         AfinaQuery.execute(command)
 
+        val textFile = saveScriptData(currentFileName, nextFileName)
+
+        sendInfoFileAdded(tableSpace, nextFileName, command, textFile)
+    }
+
+    fun saveScriptData(currentFileName: String, nextFileName: String): File {
+
         val dataTextFile = modifyTestScript(currentFileName, nextFileName)
 
         val textFile = File("${Cmd.tempFolder("bak").absoluteFile}/af.sql")
 
         textFile.writeText(dataTextFile)
 
-        sendInfoFileAdded(tableSpace, nextFileName, command, textFile)
+        return textFile
     }
+
 
     private fun sendInfoFileAdded(tableSpace: String, fileName: String, command: String, textFile: File) {
 
