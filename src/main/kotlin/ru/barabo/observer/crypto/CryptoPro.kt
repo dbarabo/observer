@@ -109,7 +109,7 @@ private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
 
 private fun baraboCertificateData(): CertificateData = CertificateData(/*"tts@ptkb.ru"*/"antasuk@ptkb.ru", "ais@nbki.ru", listOf("ais@nbki.ru") )
 
-private fun jzdoCertificateData(): CertificateData = CertificateData("sima@ptkb.ru" /*"primachenko@ptkb.ru"*/, "e.krivonosov@cft.ru",
+private fun jzdoCertificateData(): CertificateData = CertificateData("88cfad3b29aecb9a723c46bf5a5e55a8d5e7521a"/*"sima@ptkb.ru"*/, "e.krivonosov@cft.ru",
         listOf("e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")
 
 
