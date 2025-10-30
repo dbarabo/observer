@@ -183,7 +183,9 @@ open class Query (private val dbConnection :DbConnection) {
         val session = dbConnection.getSession(sessionSetting)
 
         closeQueryData(session, TransactType.ROLLBACK)
-    }
+
+        dbConnection.closeSession(session)
+     }
 
     private fun prepareExecute(session :Session, query :String, params :Array<Any?>?,
                                outParamTypes :IntArray?) :QueryRequest {

@@ -45,7 +45,7 @@ object CryptoPro {
 
             val fileUnsign = try {
                 processCmd(cmd, unSigned)
-            }  catch (exception: IOException) {
+            }  catch (_: IOException) {
                 null
             }
 
@@ -109,8 +109,8 @@ private fun initCertByBuild(buildInfo: BuildInfo): CertificateData =
 
 private fun baraboCertificateData(): CertificateData = CertificateData(/*"tts@ptkb.ru"*/"antasuk@ptkb.ru", "ais@nbki.ru", listOf("ais@nbki.ru") )
 
-private fun jzdoCertificateData(): CertificateData = CertificateData("88cfad3b29aecb9a723c46bf5a5e55a8d5e7521a"/*"sima@ptkb.ru"*/, "e.krivonosov@cft.ru",
-        listOf("e.krivonosov@cft.ru", "e.maslakov@cft.ru"), "12345678")
+private fun jzdoCertificateData(): CertificateData = CertificateData("88cfad3b29aecb9a723c46bf5a5e55a8d5e7521a", "5406119655@cft.ru"/*"e.krivonosov@cft.ru"*/,
+        listOf("5406119655@cft.ru"/*"e.krivonosov@cft.ru", "e.maslakov@cft.ru"*/), "12345678")
 
 
 

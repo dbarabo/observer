@@ -27,7 +27,7 @@ open class DbConnection(protected val dbSetting: DbSetting) {
             sessionSetting.isAnotherUser)
 
 
-    private fun closeSession(connect :Session) {
+    fun closeSession(connect :Session) {
         try {
             pool.remove(connect)
 

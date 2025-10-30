@@ -39,7 +39,6 @@ public final class PayerPhysic implements ParamsQuery {
 	@XStreamAlias("ФИОФЛ")
 	private FioAttr fio;
 
-	// @XStreamAlias("АдрПлат") old 2020
 	@XStreamAlias("Адрес")
 	private Address address;
 	
