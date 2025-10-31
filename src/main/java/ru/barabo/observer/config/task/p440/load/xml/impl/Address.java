@@ -80,7 +80,10 @@ public final class Address {
 		address.index = index;
 		address.rayon = rayon;
 		address.city = city;
-		address.townNew = townNew;
+
+		//address.townNew = townNew;
+        address.town = townNew;
+
 		address.street = street;
 		address.house = house;
 		address.corpus = corpus;

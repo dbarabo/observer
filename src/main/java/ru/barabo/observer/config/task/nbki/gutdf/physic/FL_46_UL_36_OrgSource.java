@@ -17,11 +17,11 @@ public class FL_46_UL_36_OrgSource {
 
     @XStreamAlias("fullName")
     final private StringElement fullName =
-            new StringElement("Общество с ограниченной ответственностью \"Примтеркомбанк\"");
+            new StringElement("Общество с ограниченной ответственностью \"Примтеркомбанк\"".toUpperCase());
 
     @XStreamAlias("shortName")
     final private StringElement shortName =
-            new StringElement("ООО \"Примтеркомбанк\"");
+            new StringElement("ООО \"Примтеркомбанк\"".toUpperCase());
 
     @XStreamAlias("regNum")
     final private StringElement regNum = new StringElement("1022500001325");

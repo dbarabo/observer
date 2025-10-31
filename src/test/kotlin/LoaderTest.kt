@@ -99,7 +99,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA" /*"TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -819,26 +819,6 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
-
-    //@Test
-    fun outBvsExtract() {
-        // many count operations
-        //val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
-
-
-        // many count accounts
-        //val elem = Elem(idElem = 1235843359, task = ExtractMainSaverVer4)
-
-        // new many accounts format
-        //val elem = Elem(idElem = 1238437144, task = ExtractMainSaverVer4)
-
-        // bug infoNameAddFiles
-        val elem = Elem(idElem = 1264214539, task = ExtractMainSaverVer4)
-
-
-        elem.task?.execute(elem)
-    }
-
 
     //@Test
     fun oiaProcess() {
@@ -1572,8 +1552,34 @@ res3 = [calc.DEC_TEST];
         CheckTableSpace.saveScriptData("/opt/oracle/oradata/AFINA/IX_USERS07.DBF", "/opt/oracle/oradata/AFINA/IX_USERS08.DBF")
     }
 
+    //@Test
+    fun outBvsExtract() {
+        // many count operations
+        //val elem = Elem(idElem = 1236717012, task = ExtractMainSaverVer4)
 
 
+        // many count accounts
+        //val elem = Elem(idElem = 1235843359, task = ExtractMainSaverVer4)
+
+        // new many accounts format
+        //val elem = Elem(idElem = 1238437144, task = ExtractMainSaverVer4)
+
+        // bvs kovelev
+        val elem = Elem(idElem = 1348454648, task = ExtractMainSaverVer4)
+
+
+        elem.task?.execute(elem)
+    }
+
+    @Test
+    fun testValidateGutdf41() {
+
+        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+
+        val file = File("C:/temp/K301BB000001_20251031_115857.xml")
+
+        validateXml(file, xsd, ::errFolder )
+    }
 
 
 }
