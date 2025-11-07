@@ -46,9 +46,9 @@ object GutDfCreator {
 
             saveXml(file, xmlData, "UTF-8", true)
 
-            validateXml(file, xsd, ::errorFolder )
+            //validateXml(file, xsd, ::errorFolder )
 
-            loadFileToDb(file)
+            //loadFileToDb(file)
 
             return file
 

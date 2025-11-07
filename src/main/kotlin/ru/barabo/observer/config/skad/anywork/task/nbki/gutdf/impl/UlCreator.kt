@@ -13,13 +13,14 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.title.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.PhoneGroupFl10Contact
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
+import kotlin.math.roundToInt
 
 internal fun createLegal(eventRecord: EventRecord, priorLegal: SubjectUl?): SubjectUl {
 
     val newLegal: SubjectUl = if(priorLegal?.idClient == eventRecord.clientId) priorLegal
                                     else createLegalTitle(eventRecord.clientId)
 
-    newLegal.events.addNewEvent(eventRecord)
+    newLegal.events.addNewEvent(eventRecord, newLegal.title)
 
     return newLegal
 }
@@ -57,14 +58,14 @@ private fun subjectTitleFromTitleLegal(title: TitleLegal): SubjectTitleDataUl {
     return SubjectTitleDataUl(name, ul2Address, ogrn, taxGroup, null)
 }
 
-private fun SubjectEventDataUl.addNewEvent(eventRecord: EventRecord) {
+private fun SubjectEventDataUl.addNewEvent(eventRecord: EventRecord, title: SubjectTitleDataUl) {
 
     when(eventRecord.event) {
         "1.1" -> this.addEvent1_1(createEvent1_1(eventRecord) )
         "1.2" -> this.addEvent1_2(createEvent1_2(eventRecord) )
         "1.3" -> this.addEvent1_3(createEvent1_3(eventRecord) )
         "1.4" -> this.addEvent1_4(createEvent1_4(eventRecord) )
-        "1.7" -> this.addEvent1_7(createEvent1_7(eventRecord) )
+        "1.7" -> this.addEvent1_7(createEvent1_7(eventRecord, title) )
         "2.1" -> this.addEvent2_1(createEvent2_1(eventRecord) )
         "2.2" -> this.addEvent2_2(createEvent2_2(eventRecord) )
         "2.2.1" -> this.addEvent2_2_1(createEvent2_2_1(eventRecord) )
@@ -126,9 +127,29 @@ private fun createEvent1_4(eventRecord: EventRecord): UlEvent1_4 {
         listOf(ul121AmountInfo), ul14PaymentTerms, ul13JointDebtors, ul44Accounting, ul45Application, ul46Participation)
 }
 
-private fun createEvent1_7(eventRecord: EventRecord): UlEvent1_7 {
+private fun createEvent1_7(eventRecord: EventRecord, title: SubjectTitleDataUl): UlEvent1_7 {
 
-    return UlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent)
+    val ul1Name = Ul1Name(title.ul1Name.fullName?.value, title.ul1Name.shortName?.value,
+        title.ul1Name.otherName?.value, title.ul1Name.prevFull?.value)
+
+    val phoneList = title.ul2Address.phoneList?.map { PhoneGroupFl10Contact(it.phone.value) }
+    val emailList = title.ul2Address.emailList?.map { StringElement(it.value) }
+
+    val ul2Adress = Ul2Address(title.ul2Address.garAddr?.value, title.ul2Address.okato?.value,
+        title.ul2Address.street?.value, title.ul2Address.house?.value, title.ul2Address.estate?.value,
+        title.ul2Address.build?.value, title.ul2Address.block?.value, title.ul2Address.apart?.value,
+        phoneList, emailList)
+
+    val ul3Reg = Ul3RegType(title.ul3Reg.ogrn?.value, title.ul3Reg.lei?.value)
+
+    val taxList = title.ul4Tax.taxNumGroupUl4TaxList
+        .map { TaxNumGroupUl4Tax(StringElement(it.taxCode?.value), StringElement(it.taxNum?.value)) }
+
+    val ul4tax = Ul4TaxType(taxList)
+
+
+    return UlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
+        ul1Name, ul2Adress, ul3Reg, ul4tax)
 }
 
 private fun createEvent2_1(eventRecord: EventRecord): UlEvent2_1 {
@@ -226,6 +247,8 @@ private fun createEvent2_3(eventRecord: EventRecord): UlEvent2_3 {
 
     val ul13JointDebtors = createUl13JointDebtors(eventRecord.idEvent)
 
+    val ul271ProvisionPaymentOffset = createUl271ProvisionPaymentOffset()
+
     val ul44Accounting = createUl44Accounting(eventRecord.idEvent)
 
     val (ul45Application, _) = createUl45Application(eventRecord.idEvent)
@@ -234,23 +257,23 @@ private fun createEvent2_3(eventRecord: EventRecord): UlEvent2_3 {
 
     return UlEvent2_3(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul11Deal, ul12Amount,
         listOf(ul121AmountInfo), ul14PaymentTerms, ul17181920Group, ul13JointDebtors,
-        ul44Accounting, ul45Application, ul46Participation)
+        ul271ProvisionPaymentOffset, ul44Accounting, ul45Application, ul46Participation)
 }
 
 private fun createEvent2_4(eventRecord: EventRecord): UlEvent2_4 {
 
     val ul10DealUid = createUl10DealUid(eventRecord.idEvent)
 
-    val ul2326Group = createUl2326Group(eventRecord.idEvent)
+    val ul2326GroupList = createUl2326GroupList(eventRecord.idEvent)
 
-    val ul24Warranty = createUl24Warranty(eventRecord.idEvent)
+    val ul24WarrantyList = createUl24WarrantyList(eventRecord.idEvent)
 
     val ul25Guarantee = Ul25Guarantee()
 
     val ul27ProvisionPayment = Ul27ProvisionPayment()
 
-    return UlEvent2_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul2326Group,
-        ul24Warranty, ul25Guarantee, ul27ProvisionPayment)
+    return UlEvent2_4(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul2326GroupList,
+        ul24WarrantyList, ul25Guarantee, ul27ProvisionPayment)
 }
 
 private fun createEvent2_5(eventRecord: EventRecord): UlEvent2_5 {
@@ -406,13 +429,13 @@ private fun createUl29ContractEnd(idEvent: Long): Ul29ContractEnd {
     return Ul29ContractEnd((data[0] as Timestamp), (data[1] as Number).toInt())
 }
 
-private fun createUl2326Group(idEvent: Long): Ul23_26Group {
+private fun createUl2326GroupList(idEvent: Long): List<Ul23_26Group> {
 
     val data = AfinaQuery.selectCursor(SEL_UL_23_26, params = arrayOf(idEvent))
 
-    if(data.isEmpty()) return Ul23_26Group()
+    if(data.isEmpty()) return listOf( Ul23_26Group() )
 
-    val listGroup = ArrayList<PropertyIdGroupUl23_26Group>()
+    val listGroup = ArrayList<Ul23_26Group>()
 
     for(rec in data) {
         val ul = Ul2326Group(rec)
@@ -426,10 +449,10 @@ private fun createUl2326Group(idEvent: Long): Ul23_26Group {
 
         val insureList = if(ul.isExistsInsure) insureByCollateral(ul.idCollateral, idEvent) else listOf(Ul26Insurance())
 
-        listGroup += PropertyIdGroupUl23_26Group(ul.propertyId, ul23Collateral, insureList)
+        listGroup += Ul23_26Group(ul.propertyId, ul23Collateral, insureList)
     }
 
-    return Ul23_26Group(listGroup)
+    return listGroup
 }
 
 private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Ul26Insurance> {
@@ -449,22 +472,22 @@ private fun insureByCollateral(idCollateral:Number, idEvent: Long): List<Ul26Ins
     return listGroup
 }
 
-private fun createUl24Warranty(idEvent: Long): Ul24Warranty {
+private fun createUl24WarrantyList(idEvent: Long): List<Ul24Warranty> {
 
     val data = AfinaQuery.selectCursor(SEL_UL_24, params = arrayOf(idEvent))
 
-    if(data.isEmpty()) return Ul24Warranty()
+    if(data.isEmpty()) return listOf( Ul24Warranty() )
 
-    val listGroup = ArrayList<UidGroupUl24Warranty>()
+    val listGroup = ArrayList<Ul24Warranty>()
 
     for(rec in data) {
         val ul = Ul24(rec)
 
         listGroup +=
-            UidGroupUl24Warranty(ul.uid, ul.sum, ul.openDate, ul.endDate, ul.factEndDate, ul.endCode)
+            Ul24Warranty(ul.uid, ul.sum, ul.openDate, ul.endDate, ul.factEndDate, ul.endCode)
     }
 
-    return Ul24Warranty(listGroup)
+    return listGroup
 }
 
 private fun createUl16Fund(idEvent: Long): Ul16Fund {
@@ -504,23 +527,26 @@ private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
 
     val ul = UlGroup2528(data[0])
 
-    val ul17Debt = if(ul.debtSum == null) Ul17Debt()
-    else Ul17Debt(ul.debtSum, ul.debtMainSum, ul.debtPercentSum, ul.debtOtherSum)
-
-    val ul18DebtDue = if(ul.debtDueSum == null || Math.round(ul.debtDueSum.toDouble()*100) == 0L) Ul18DebtDue()
-    else Ul18DebtDue(ul.debtDueSum, ul.debtDueMainSum, ul.debtDuePercentSum, ul.debtDueOtherSum,
-        ul.debtDueStartDate)
-
-    val ul19DebtOverdue = if(ul.debtOverdueSum == null || Math.round(ul.debtOverdueSum.toDouble()*100) == 0L) Ul19DebtOverdue()
+    val ul19DebtOverdue = if(ul.debtOverdueSum == null || (ul.debtOverdueSum.toDouble() * 100).roundToInt() == 0) Ul19DebtOverdue()
     else Ul19DebtOverdue(ul.debtOverdueSum, ul.debtOverdueMainSum, ul.debtOverduePercentSum,
         ul.debtOverdueOtherSum, ul.debtOverdueStartDate, ul.mainMissDate,
         ul.percentMissDate, ul.missDuration, ul.repaidMissDuration)
 
-    val ul20Payment = if(ul.paymentSum == null || Math.round(ul.paymentSum.toDouble()*100) == 0L)
+    val ul20Payment = if(ul.paymentSum == null || (ul.paymentSum.toDouble() * 100).roundToInt() == 0)
         Ul20Payment(ul.sizeCode, ul.scheduleCode)
     else Ul20Payment(ul.paymentSum, ul.paymentMainSum, ul.paymentPercentSum, ul.paymentOtherSum,
         ul.totalSum, ul.totalMainSum, ul.totalPercentSum, ul.totalOtherSum,
         ul.date, ul.sizeCode, ul.scheduleCode)
+
+    if((ul.debtSum?.toInt()?:0) == 0) {
+        return Ul17_18_19_20Group(ul.isLastPayExist, ul.calcDate, ul19DebtOverdue, ul20Payment)
+    }
+
+    val ul17Debt = Ul17Debt(ul.debtSum, ul.debtMainSum, ul.debtPercentSum, ul.debtOtherSum)
+
+    val ul18DebtDue = if(ul.debtDueSum == null || (ul.debtDueSum.toDouble() * 100).roundToInt() == 0) Ul18DebtDue()
+    else Ul18DebtDue(ul.debtDueSum, ul.debtDueMainSum, ul.debtDuePercentSum, ul.debtDueOtherSum,
+        ul.debtDueStartDate)
 
     time = (System.currentTimeMillis() - time)/100
     logger.error("createUl17181920Group=$time")
@@ -540,6 +566,11 @@ private fun createUl46Participation(idEvent: Long): Ul46Participation {
     logger.error("createUl46Participation=$time")
 
     return Ul46Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate, fl.isOverdue90, fl.isStop)
+}
+
+private fun createUl271ProvisionPaymentOffset(): Ul271ProvisionPaymentOffset {
+
+    return Ul271ProvisionPaymentOffset()
 }
 
 private fun createUl44Accounting(idEvent: Long): Ul44Accounting {

@@ -1571,16 +1571,33 @@ res3 = [calc.DEC_TEST];
         elem.task?.execute(elem)
     }
 
-    @Test
+    //@Test
     fun testValidateGutdf41() {
 
         val xsd =  "/xsd/gutdf/ver41/Main.xsd"
 
-        val file = File("C:/temp/K301BB000001_20251031_115857.xml")
+        val file = File("C:/temp/K301BB000001_20251024_115836.xml")
 
         validateXml(file, xsd, ::errFolder )
     }
 
+//    @Test
+    fun testCreateGutdf() {
+
+        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+
+        //GutDfCreator.createFileByRutdf(1348865536)
+        //GutDfCreator.createFileByRutdf(1348701373)
+        //GutDfCreator.createFileByRutdf(1349654954)
+        //GutDfCreator.createFileByRutdf(1349795297)
+        //GutDfCreator.createFileByRutdf(1349620324)
+        //GutDfCreator.createFileByRutdf(1349447397) //31.10
+
+
+        val file = File("C:/Gu_cb/НБКИ/2025/11/07/K301BB000001_20251031_115857.xml")
+
+        validateXml(file, xsd, ::errFolder )
+    }
 
 }
 

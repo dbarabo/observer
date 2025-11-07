@@ -19,8 +19,8 @@ public class FlEvent1_4 extends AbstractEventData {
     @XStreamAlias("FL_9_AddrFact")
     final Fl9AddrFact fl9AddrFact; // Блок 9. Фактическое место жительства
 
-    @XStreamAlias("FL_10_Contact")
-    final Fl10Contact fl10Contact; // Блок 10. Контактные данные
+    @XStreamImplicit(itemFieldName = "FL_10_Contact")
+    final List<Fl10Contact> fl10ContactList; // Блок 10. Контактные данные
 
     @XStreamAlias("FL_11_IndividualEntrepreneur")
     final Fl11IndividualEntrepreneur fl11IndividualEntrepreneur; // Блок 11. Государственная регистрация в качестве индивидуального предпринимателя
@@ -62,7 +62,7 @@ public class FlEvent1_4 extends AbstractEventData {
     final Fl56Participation fl56Participation; // Блок 56. Сведения об участии в обязательстве, по которому формируется кредитная история
 
     public FlEvent1_4(Integer orderNum, Date eventDate, Fl8AddrReg fl8AddrReg, Fl9AddrFact fl9AddrFact,
-                      Fl10Contact fl10Contact, Fl11IndividualEntrepreneur fl11IndividualEntrepreneur,
+                      List<Fl10Contact> fl10ContactList, Fl11IndividualEntrepreneur fl11IndividualEntrepreneur,
                       Fl12Capacity fl12Capacity, Fl17DealUid fl17DealUid, Fl18Deal fl18Deal, Fl19Amount fl19Amount,
                       List<Fl19_1AmountInfo> fl19_1AmountInfoList, Fl21PaymentTerms fl21PaymentTerms,
                       Fl20JointDebtors fl20JointDebtors, Fl22TotalCost fl22TotalCost,
@@ -75,7 +75,7 @@ public class FlEvent1_4 extends AbstractEventData {
 
         this.fl9AddrFact = fl9AddrFact;
 
-        this.fl10Contact = fl10Contact;
+        this.fl10ContactList = fl10ContactList;
 
         this.fl11IndividualEntrepreneur = fl11IndividualEntrepreneur;
 
@@ -117,8 +117,8 @@ public class FlEvent1_4 extends AbstractEventData {
         return fl9AddrFact;
     }
 
-    public Fl10Contact getFl10Contact() {
-        return fl10Contact;
+    public List<Fl10Contact> getFl10ContactList() {
+        return fl10ContactList;
     }
 
     public Fl11IndividualEntrepreneur getFl11IndividualEntrepreneur() {

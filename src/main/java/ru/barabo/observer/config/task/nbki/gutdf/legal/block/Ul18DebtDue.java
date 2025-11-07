@@ -11,6 +11,15 @@ import java.util.Date;
  */
 public class Ul18DebtDue {
 
+    @XStreamAlias("debtDueExist_0")
+    private final StringElement debtDueExist0;
+
+    @XStreamAlias("debtDueExist_1")
+    private final StringElement debtDueExist1;
+
+    @XStreamAlias("debtDueStartDate")
+    private final StringElement debtDueStartDate; //  minOccurs="0" 26.1. Дата возникновения срочной задолженности
+
     @XStreamAlias("debtDueSum")
     private final StringElement debtDueSum; // dec15p2Type 26.3. Сумма срочной задолженности
 
@@ -23,11 +32,12 @@ public class Ul18DebtDue {
     @XStreamAlias("debtDueOtherSum")
     private final StringElement debtDueOtherSum; //  minOccurs="0" dec15p2Type 6.6. Сумма срочной задолженности по иным требованиям
 
-    @XStreamAlias("debtDueStartDate")
-    private final StringElement debtDueStartDate; //  minOccurs="0" 26.1. Дата возникновения срочной задолженности
-
     public Ul18DebtDue() {
-        this.debtDueSum = new StringElement(XmlLoader.formatSum(0));
+        debtDueExist0 = new StringElement("");
+
+        debtDueExist1 = null;
+
+        this.debtDueSum = null;
 
         this.debtDueMainSum = null;
 
@@ -41,6 +51,10 @@ public class Ul18DebtDue {
     public Ul18DebtDue(Number debtDueSum, Number debtDueMainSum, Number debtDuePercentSum, Number debtDueOtherSum,
                        Date debtDueStartDate) {
 
+        debtDueExist0 = null;
+
+        debtDueExist1 = new StringElement("");
+
         this.debtDueSum = new StringElement(XmlLoader.formatSum(debtDueSum == null ? 0 : debtDueSum));
 
         this.debtDueMainSum = debtDueMainSum == null ? null : new StringElement(XmlLoader.formatSum(debtDueMainSum));
@@ -49,8 +63,8 @@ public class Ul18DebtDue {
 
         this.debtDueOtherSum = debtDueOtherSum == null ? null : new StringElement(XmlLoader.formatSum(debtDueOtherSum));
 
-        this.debtDueStartDate = debtDueStartDate == null ? null : new StringElement(XmlLoader.formatDate(debtDueStartDate));
-    }
+        this.debtDueStartDate = new StringElement(debtDueStartDate == null ? "-" : XmlLoader.formatDate(debtDueStartDate));
+     }
 
     public StringElement getDebtDueSum() {
         return debtDueSum;

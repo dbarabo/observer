@@ -9,12 +9,6 @@ import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
  */
 public class Fl25Debt {
 
-    @XStreamAlias("exist_0")
-    private final StringElement exist0; // 25.1. Признак наличия задолженности = 0
-
-    @XStreamAlias("exist_1")
-    private final StringElement exist1; // 25.1. Признак наличия задолженности = 1
-
     @XStreamAlias("debtSum")
     private final StringElement debtSum; // dec15p2Type 25.4. Сумма задолженности
 
@@ -33,9 +27,10 @@ public class Fl25Debt {
     @XStreamAlias("graceUnconfExist_1")
     private final StringElement graceUnconfExist1; // minOccurs="0"25.9. Признак неподтвержденного льготного периода = 1
 
+    @XStreamAlias("currency")
+    private final StringElement currency = new StringElement("RUB");
+
     public Fl25Debt() {
-        this.exist0 = new StringElement("");
-        this.exist1 = null;
         this.debtSum = null;
         this.debtMainSum = null;
         this.debtPercentSum = null;
@@ -45,8 +40,6 @@ public class Fl25Debt {
     }
 
     public Fl25Debt(Number debtSum, Number debtMainSum, Number debtPercentSum, Number debtOtherSum) {
-        this.exist0 = null;
-        this.exist1 = new StringElement("");
 
         this.debtSum = new StringElement(XmlLoader.formatSum(debtSum));
         this.debtMainSum = new StringElement(XmlLoader.formatSum(debtMainSum));

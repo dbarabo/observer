@@ -20,6 +20,9 @@ public class Ul16Fund {
     @XStreamAlias("startSum")
     private final StringElement startSum; //emptyValueType| dec15p2Type 24.3. Сумма задолженности на дату передачи финансирования субъекту или возникновения обеспечения исполнения обязательства
 
+    @XStreamAlias("currency")
+    private final StringElement currency = new StringElement("RUB");
+
     public Ul16Fund(Date date, Integer num, Number startSum) {
 
         this.date = date == null ? null : new StringElement(XmlLoader.formatDate(date));

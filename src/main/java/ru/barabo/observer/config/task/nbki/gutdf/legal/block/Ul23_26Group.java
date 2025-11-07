@@ -17,26 +17,46 @@ public class Ul23_26Group {
     @XStreamAlias("assetKind_1")
     private final StringElement assetKind1; // 32.1. Признак наличия залога = 1
 
-    @XStreamImplicit(itemFieldName = "PropertyId_group_UL_23_26_Group")
-    private final List<PropertyIdGroupUl23_26Group> propertyIdGroupUl23_26GroupList;
+    @XStreamAlias("propertyId")
+    private final StringElement propertyId; // emptyValueType| Str 32.3., 35.9. Идентификационный код предмета залога
+
+    @XStreamAlias("UL_23_Collateral")
+    private final Ul23Collateral ul23Collateral; // Блок 32. Сведения о залоге
+
+    @XStreamImplicit(itemFieldName = "UL_26_Insurance")
+    private final List<Ul26Insurance> ul26Insurance; // Блок 26. Сведения о страховании предмета залога
 
     public Ul23_26Group() {
 
         this.assetKind0 = new StringElement("");
         this.assetKind1 = null;
 
-        propertyIdGroupUl23_26GroupList = null;
+        propertyId = null;
+
+        ul23Collateral = null;
+        ul26Insurance = null;
     }
 
-    public Ul23_26Group(List<PropertyIdGroupUl23_26Group> propertyIdGroupUl23_26GroupList) {
+    public Ul23_26Group(String propertyId, Ul23Collateral ul23Collateral,
+                        List<Ul26Insurance> ul26Insurance) {
         this.assetKind0 = null;
-
         this.assetKind1 = new StringElement("");
 
-        this.propertyIdGroupUl23_26GroupList = propertyIdGroupUl23_26GroupList;
+        this.propertyId = new StringElement(propertyId);
+
+        this.ul23Collateral = ul23Collateral;
+        this.ul26Insurance = ul26Insurance;
     }
 
-    public List<PropertyIdGroupUl23_26Group> getPropertyIdGroupUl23_26GroupList() {
-        return propertyIdGroupUl23_26GroupList;
+    public StringElement getPropertyId() {
+        return propertyId;
+    }
+
+    public Ul23Collateral getUl23Collateral() {
+        return ul23Collateral;
+    }
+
+    public List<Ul26Insurance> getUl26Insurance() {
+        return ul26Insurance;
     }
 }

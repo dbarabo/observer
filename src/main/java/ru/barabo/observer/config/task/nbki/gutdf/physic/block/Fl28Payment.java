@@ -54,13 +54,13 @@ public class Fl28Payment {
 
         this.paymentSum = new StringElement(XmlLoader.formatSum(0));
 
-        this.paymentMainSum = null;
-        this.paymentPercentSum = null;
-        this.paymentOtherSum = null;
-        this.totalSum = null;
-        this.totalMainSum = null;
-        this.totalPercentSum = null;
-        this.totalOtherSum = null;
+        this.paymentMainSum = new StringElement(XmlLoader.formatSum(0));
+        this.paymentPercentSum = new StringElement(XmlLoader.formatSum(0));
+        this.paymentOtherSum = new StringElement(XmlLoader.formatSum(0));
+        this.totalSum = new StringElement(XmlLoader.formatSum(0));
+        this.totalMainSum = new StringElement(XmlLoader.formatSum(0));
+        this.totalPercentSum = new StringElement(XmlLoader.formatSum(0));
+        this.totalOtherSum = new StringElement(XmlLoader.formatSum(0));
         this.date = null;
 
         this.sizeCode = new StringElement(sizeCode.toString());
@@ -78,19 +78,19 @@ public class Fl28Payment {
 
         this.paymentSum = new StringElement(XmlLoader.formatSum(paymentSum));
 
-        this.paymentMainSum = paymentMainSum == null ? null : new StringElement(XmlLoader.formatSum(paymentMainSum));
+        this.paymentMainSum = new StringElement(XmlLoader.formatSum(paymentMainSum == null ? 0 : paymentMainSum));
 
-        this.paymentPercentSum = paymentPercentSum == null ? null : new StringElement(XmlLoader.formatSum(paymentPercentSum));
+        this.paymentPercentSum = new StringElement(XmlLoader.formatSum(paymentPercentSum == null ? 0 : paymentPercentSum));
 
-        this.paymentOtherSum = paymentOtherSum == null ? null : new StringElement(XmlLoader.formatSum(paymentOtherSum));
+        this.paymentOtherSum = new StringElement(XmlLoader.formatSum(paymentOtherSum == null ? 0 : paymentOtherSum));
 
-        this.totalSum = totalSum == null ? null : new StringElement(XmlLoader.formatSum(totalSum));
+        this.totalSum = new StringElement(XmlLoader.formatSum(totalSum == null ? 0 : totalSum));
 
-        this.totalMainSum = totalMainSum == null ? null : new StringElement(XmlLoader.formatSum(totalMainSum));
+        this.totalMainSum = new StringElement(XmlLoader.formatSum(totalMainSum == null ? 0 : totalMainSum));
 
-        this.totalPercentSum = totalPercentSum == null ? null : new StringElement(XmlLoader.formatSum(totalPercentSum));
+        this.totalPercentSum = new StringElement(XmlLoader.formatSum(totalPercentSum == null ? 0 : totalPercentSum));
 
-        this.totalOtherSum = totalOtherSum == null ? null : new StringElement(XmlLoader.formatSum(totalOtherSum));
+        this.totalOtherSum = new StringElement(XmlLoader.formatSum(totalOtherSum == null ? 0 : totalOtherSum));
 
         this.date = date == null ? null : new StringElement(XmlLoader.formatDate(date));
 

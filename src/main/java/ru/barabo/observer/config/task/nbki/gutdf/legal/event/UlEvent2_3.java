@@ -37,6 +37,9 @@ public class UlEvent2_3 extends AbstractEventData {
     @XStreamAlias("UL_13_JointDebtors")
     final Ul13JointDebtors ul13JointDebtors; // Блок 13. Сведения о солидарных должниках
 
+    @XStreamAlias("UL_27_1_ProvisionPaymentOffset")
+    final Ul271ProvisionPaymentOffset ul271ProvisionPaymentOffset; // Блок 27(1). Сведения о погашении требований кредитора по обязательству предоставлением отступного, зачетом встречных требований, прощением долга
+
     @XStreamAlias("UL_44_Accounting")
     final Ul44Accounting ul44Accounting; // Блок 44. Сведения об учете обязательства
 
@@ -49,7 +52,7 @@ public class UlEvent2_3 extends AbstractEventData {
     public UlEvent2_3(Integer orderNum, Date eventDate, Ul10DealUid ul10DealUid, Ul11Deal ul11Deal,
                       Ul12Amount ul12Amount, List<Ul12_1AmountInfo> ul121AmountInfoList,
                       Ul14PaymentTerms ul14PaymentTerms, Ul17_18_19_20Group ul17181920Group,
-                      Ul13JointDebtors ul13JointDebtors, Ul44Accounting ul44Accounting,
+                      Ul13JointDebtors ul13JointDebtors, Ul271ProvisionPaymentOffset ul271ProvisionPaymentOffset, Ul44Accounting ul44Accounting,
                       Ul45Application ul45Application, Ul46Participation ul46Participation) {
 
         super(orderNum, eventDate, "2.3");
@@ -61,6 +64,7 @@ public class UlEvent2_3 extends AbstractEventData {
         this.ul14PaymentTerms = ul14PaymentTerms;
         ul17_18_19_20Group = ul17181920Group;
         this.ul13JointDebtors = ul13JointDebtors;
+        this.ul271ProvisionPaymentOffset = ul271ProvisionPaymentOffset;
         this.ul44Accounting = ul44Accounting;
         this.ul45Application = ul45Application;
         this.ul46Participation = ul46Participation;

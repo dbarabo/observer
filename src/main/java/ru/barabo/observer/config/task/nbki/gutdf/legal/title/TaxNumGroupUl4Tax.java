@@ -28,4 +28,8 @@ public class TaxNumGroupUl4Tax {
     public StringElement getTaxNum() {
         return taxNum;
     }
+
+    public StringElement getTaxCode() {
+        return taxCode;
+    }
 }

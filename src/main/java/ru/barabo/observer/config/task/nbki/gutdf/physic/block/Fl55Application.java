@@ -75,6 +75,13 @@ public class Fl55Application {
     @XStreamAlias("loanSum")
     private final StringElement loanSum; //55.15. Сумма одобренного займа (кредита), лизинга или обеспечения Dec15p2 minOccurs="0"
 
+    @XStreamAlias("loanCurrency")
+    private final StringElement loanCurrency;
+
+    @XStreamAlias("platformExist_0")
+    private final StringElement platformExist0 = new StringElement("");
+
+
     public Fl55Application(String role, Number sum, String uid, Date applicationDate, Date approvalEndDate,Date stageEndDate,
                            String purposeCode, String stageCode, Date stageDate, String num, Number loanSum) {
 
@@ -101,6 +108,8 @@ public class Fl55Application {
         this.num = num == null ? null : new StringElement(num);
 
         this.loanSum = loanSum == null ? null : new StringElement(XmlLoader.formatSum(loanSum));
+
+        this.loanCurrency =  loanSum == null ? null : new StringElement("RUB");
     }
 
 

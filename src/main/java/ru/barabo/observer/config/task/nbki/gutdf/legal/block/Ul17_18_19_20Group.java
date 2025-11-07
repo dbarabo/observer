@@ -22,6 +22,12 @@ public class Ul17_18_19_20Group {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; // 25.8., 26.7., 27.7., 28.13. Дата расчета
 
+    @XStreamAlias("exist_0")
+    private final StringElement exist0;
+
+    @XStreamAlias("exist_1")
+    private final StringElement exist1;
+
     @XStreamAlias("UL_17_Debt")
     private final Ul17Debt ul17Debt; // Блок 25. Сведения о задолженности
 
@@ -34,6 +40,22 @@ public class Ul17_18_19_20Group {
     @XStreamAlias("UL_20_Payment")
     private final Ul20Payment ul20Payment; // Блок 20. Сведения о внесении платежей
 
+    public Ul17_18_19_20Group(Boolean isLastPayExist, Date calcDate, Ul19DebtOverdue ul19DebtOverdue, Ul20Payment ul20Payment) {
+
+        this.lastPayExist0 = (isLastPayExist != null && !isLastPayExist) ? new StringElement("") : null;
+        this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
+
+        this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.exist0 = new StringElement("");
+        this.exist1 = null;
+
+        this.ul17Debt = null;
+        this.ul18DebtDue = null;
+        this.ul19DebtOverdue = ul19DebtOverdue;
+        this.ul20Payment = ul20Payment;
+    }
+
     public Ul17_18_19_20Group(Boolean isLastPayExist, Date calcDate, Ul17Debt ul17Debt,
                               Ul18DebtDue ul18DebtDue, Ul19DebtOverdue ul19DebtOverdue, Ul20Payment ul20Payment) {
 
@@ -41,6 +63,9 @@ public class Ul17_18_19_20Group {
         this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.exist0 = null;
+        this.exist1 = new StringElement("");
 
         this.ul17Debt = ul17Debt;
         this.ul18DebtDue = ul18DebtDue;

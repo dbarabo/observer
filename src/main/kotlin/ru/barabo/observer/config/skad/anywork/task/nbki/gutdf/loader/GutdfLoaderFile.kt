@@ -78,7 +78,7 @@ object GutdfLoaderFile {
                 idMain = findMainId(idFile, taxPassport, it.event, it.unicalId, it.eventDate, it.orderNum)
                 data.addAll( fl8AddrReg(idMain, it.fl8AddrReg) )
                 data.addAll( fl9AddrFact(idMain, it.fl9AddrFact) )
-                data.addAll( fl10Contact(idMain, it.fl10Contact) )
+                data.addAll( fl10Contact(idMain, it.fl10ContactList) )
                 data.addAll( fl11IndividualEntrepreneur(idMain, it.fl11IndividualEntrepreneur) )
             }
 
@@ -227,7 +227,7 @@ object GutdfLoaderFile {
 
         data.addAll( fl8AddrReg(idMain, this.fl8AddrReg) )
         data.addAll( fl9AddrFact(idMain, this.fl9AddrFact) )
-        data.addAll( fl10Contact(idMain, this.fl10Contact) )
+        data.addAll( fl10Contact(idMain, this.fl10ContactList) )
         data.addAll( fl11IndividualEntrepreneur(idMain, this.fl11IndividualEntrepreneur) )
         data.addAll( fl17DealUid(idMain, this.fl17DealUid) )
         data.addAll( fl18Deal(idMain, this.fl18Deal) )
@@ -349,8 +349,8 @@ object GutdfLoaderFile {
         val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
-        data.addAll(fl3235Group(idMain, this.fl32_35Group))
-        data.addAll(fl33Warranty(idMain, this.fl33Warranty))
+        data.addAll(fl3235Group(idMain, this.fl3235GroupList))
+        data.addAll(fl33Warranty(idMain, this.fl33WarrantyList))
 
         return Pair(idMain, data)
     }
@@ -405,12 +405,12 @@ object GutdfLoaderFile {
         )
     }
 
-    private fun fl3235Group(idMain: Number, fl3235: Fl32_35Group): List<DataInfo> {
-        if(fl3235.propertyIdGroupFl32_35GroupList.isNullOrEmpty() ) return emptyList()
+    private fun fl3235Group(idMain: Number, fl3235: List<Fl32_35Group>): List<DataInfo> {
+        if(fl3235.isEmpty() ) return emptyList()
 
         val data = ArrayList<DataInfo>()
 
-        for(pledge in fl3235.propertyIdGroupFl32_35GroupList) {
+        for(pledge in fl3235) {
 
             data.addAll(pledge.info(idMain))
         }
@@ -418,10 +418,7 @@ object GutdfLoaderFile {
         return data
     }
 
-    private fun PropertyIdGroupFl32_35Group.info(idMain: Number): List<DataInfo> {
-
-        logger.error("idMain=$idMain")
-        logger.error("propertyId=${propertyId?.value}")
+    private fun Fl32_35Group.info(idMain: Number): List<DataInfo> {
 
         val id = AfinaQuery.selectValue(SEL_PLEDGE, params = arrayOf(idMain, propertyId?.value)) as Number
 
@@ -451,7 +448,7 @@ object GutdfLoaderFile {
         return list
     }
 
-    private fun PropertyIdGroupFl32_35Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
+    private fun Fl32_35Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
 
         if(fl35InsuranceList.isNullOrEmpty()) return emptyList()
 
@@ -472,12 +469,12 @@ object GutdfLoaderFile {
         return data
     }
 
-    private fun fl33Warranty(idMain: Number, fl33: Fl33Warranty): List<DataInfo> {
-        if(fl33.uidGroupFl33WarrantyList.isNullOrEmpty() ) return emptyList()
+    private fun fl33Warranty(idMain: Number, fl33: List<Fl33Warranty>): List<DataInfo> {
+        if(fl33.isNullOrEmpty() ) return emptyList()
 
         val data = ArrayList<DataInfo>()
 
-        for(guarant in fl33.uidGroupFl33WarrantyList) {
+        for(guarant in fl33) {
 
             data.addAll(guarant.info(idMain))
         }
@@ -485,7 +482,7 @@ object GutdfLoaderFile {
         return data
     }
 
-    private fun UidGroupFl33Warranty.info(idMain: Number): List<DataInfo> {
+    private fun Fl33Warranty.info(idMain: Number): List<DataInfo> {
 
         val id = AfinaQuery.selectValue(SEL_GUARANT_BY_ID, params = arrayOf(uid?.value)) as Number
 
@@ -686,14 +683,14 @@ object GutdfLoaderFile {
         )
     }
 
-    private fun fl10Contact(idMain: Number, fl10Contact: Fl10Contact): List<DataInfo> {
+    private fun fl10Contact(idMain: Number, fl10ContactList: List<Fl10Contact>?): List<DataInfo> {
 
-        return listOf(
-            DataInfo(idMain, "FL_10_Contact", "phone",
-                fl10Contact.phoneGroupFl10ContactList?.joinToString(";"){ it.phone.value } ?:""),
-            DataInfo(idMain, "FL_10_Contact", "email",
-                fl10Contact.emailList?.joinToString(";") { it.value } ?:"")
-        )
+        if(fl10ContactList.isNullOrEmpty()) return emptyList()
+
+        return fl10ContactList.map { DataInfo(idMain, "FL_10_Contact",
+            if(it.phone != null)"phone" else "email",
+            if(it.phone != null)it.phone.value else it.email.value
+        ) }
     }
 
     private fun fl9AddrFact(idMain: Number, fl9AddrFact: Fl9AddrFact): List<DataInfo> {

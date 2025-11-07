@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.task.nbki.gutdf;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import ru.barabo.observer.afina.AfinaQuery;
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.GutdfData;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
@@ -8,7 +9,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 public class MainDocument {
 
     @XStreamAlias("schemaVersion")
-    final private String schemaVersion = "3.0";
+    final private String schemaVersion = "4.1";
 
     @XStreamAlias("inn")
     final private String inn = "2540015598";

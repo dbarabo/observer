@@ -1,5 +1,6 @@
 package ru.barabo.observer.config.task.nbki.gutdf.physic.block;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement;
 
@@ -8,61 +9,35 @@ import java.util.List;
 
 public class Fl10Contact {
 
-    @XStreamImplicit(itemFieldName = "Phone_group_FL_10_Contact")
-    final List<PhoneGroupFl10Contact> phoneGroupFl10ContactList; //  maxOccurs="unbounded" minOccurs="0"
+    @XStreamAlias("phone")
+    private final StringElement phone; //10.1. Номер телефона "((\+\d{1,3}\(\d{1,5}\)\d{3,9})|\d{5,17})"
 
-    @XStreamImplicit(itemFieldName = "email")
-    final List<StringElement> emailList; //  maxOccurs="unbounded" minOccurs="0"
+    @XStreamAlias("phoneComment")
+    private final StringElement phoneComment; //10.2. Комментарий к номеру телефона minOccurs="0"
 
-    public Fl10Contact() {
-        phoneGroupFl10ContactList = null;
+    @XStreamAlias("email")
+    final StringElement email; //  10.3. Адрес электронной почты
 
-        emailList = null;
-    }
+    public Fl10Contact(String element) {
 
-    public Fl10Contact(List<PhoneGroupFl10Contact> phoneGroupFl10ContactList,  List<StringElement> emailList) {
-
-        this.phoneGroupFl10ContactList = phoneGroupFl10ContactList == null || phoneGroupFl10ContactList.isEmpty()
-                ? null : phoneGroupFl10ContactList;
-
-        this.emailList = emailList == null || emailList.isEmpty() ? null : emailList;
-    }
-
-    public Fl10Contact(List<PhoneGroupFl10Contact> phoneGroupFl10ContactList, String email) {
-        this.phoneGroupFl10ContactList = phoneGroupFl10ContactList;
-
-        if(email == null) {
-            emailList = null;
+        if( element.contains("@") ){
+            email = new StringElement(element);
+            phone = null;
+            phoneComment = null;
         } else {
-            emailList = new ArrayList<>();
+            phone = new StringElement(element);
+            phoneComment = null;
 
-            emailList.add(new StringElement(email));
+            email = null;
         }
     }
 
-    public Fl10Contact(PhoneGroupFl10Contact phone, String email) {
-        if(phone == null) {
-            phoneGroupFl10ContactList = null;
-        } else {
-            phoneGroupFl10ContactList = new ArrayList<>();
-
-            phoneGroupFl10ContactList.add(phone);
-        }
-
-        if(email == null) {
-            emailList = null;
-        } else {
-            emailList = new ArrayList<>();
-
-            emailList.add(new StringElement(email));
-        }
+    public StringElement getPhone() {
+        return phone;
     }
 
-    public List<PhoneGroupFl10Contact> getPhoneGroupFl10ContactList() {
-        return phoneGroupFl10ContactList;
+    public StringElement getEmail() {
+        return email;
     }
 
-    public List<StringElement> getEmailList() {
-        return emailList;
-    }
 }

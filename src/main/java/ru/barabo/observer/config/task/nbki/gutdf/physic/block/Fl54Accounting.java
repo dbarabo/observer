@@ -17,6 +17,9 @@ public class Fl54Accounting {
     @XStreamAlias("sum")
     private final StringElement sum; //54.3. Сумма обязательства, учтенная на внебалансовых счетах
 
+    @XStreamAlias("currency")
+    private final StringElement currency; //54.8. Валюта суммы задолженности, учтенной на внебалансовых счетах
+
     @XStreamAlias("exist_1")
     private final StringElement exist1; //54.1. Признак учета обязательства = 1
 
@@ -44,6 +47,8 @@ public class Fl54Accounting {
 
         this.exist0 = offBalanceAmount == null ? null : new StringElement("");
         this.sum = offBalanceAmount == null ? null : new StringElement(XmlLoader.formatSum(offBalanceAmount));
+
+        this.currency = offBalanceAmount == null ? null : new StringElement("RUB");
 
         this.exist1 = offBalanceAmount != null ? null : new StringElement("");
 

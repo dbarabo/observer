@@ -35,6 +35,9 @@ public class Ul12_1AmountInfo {
     @XStreamAlias("liabilityLimit")
     private final StringElement liabilityLimit; // minOccurs="0" 19(1).7. Лимит ответственности по обеспечиваемому обязательству
 
+    @XStreamAlias("limitCurrency")
+    private final StringElement limitCurrency;
+
     public Ul12_1AmountInfo() {
         this.securityFact0 = new StringElement("");
         this.securityFact1 = null;
@@ -45,6 +48,7 @@ public class Ul12_1AmountInfo {
         this.calcDate = null;
         this.securityUid = null;
         this.liabilityLimit = null;
+        this.limitCurrency = null;
     }
 
     public Ul12_1AmountInfo(Number securitySum, Integer securityTypeCode, Date calcDate, String securityUid, Long liabilityLimit) {
@@ -59,6 +63,7 @@ public class Ul12_1AmountInfo {
         this.calcDate = new StringElement( calcDate == null ? "-" : XmlLoader.formatDate(calcDate));
         this.securityUid = securityUid == null ? null : new StringElement(securityUid);
         this.liabilityLimit = liabilityLimit == null ? null : new StringElement(liabilityLimit.toString());
+        this.limitCurrency = liabilityLimit == null ? null : new StringElement("RUB");
     }
     public StringElement getSecuritySum() {
         return securitySum;

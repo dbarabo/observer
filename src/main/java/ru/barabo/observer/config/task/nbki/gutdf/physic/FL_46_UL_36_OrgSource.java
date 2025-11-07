@@ -23,6 +23,9 @@ public class FL_46_UL_36_OrgSource {
     final private StringElement shortName =
             new StringElement("ООО \"Примтеркомбанк\"".toUpperCase());
 
+    @XStreamAlias("sourceDateStart")
+    final private StringElement sourceDateStart = new StringElement("2002-11-12");
+
     @XStreamAlias("regNum")
     final private StringElement regNum = new StringElement("1022500001325");
 

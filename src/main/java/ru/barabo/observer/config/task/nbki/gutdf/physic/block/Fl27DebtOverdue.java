@@ -73,15 +73,15 @@ public class Fl27DebtOverdue {
 
         this.debtOverdueOtherSum = debtOverdueOtherSum == null ? null : new StringElement(XmlLoader.formatSum(debtOverdueOtherSum));
 
-        this.debtOverdueStartDate = debtOverdueStartDate == null ? null : new StringElement(XmlLoader.formatDate(debtOverdueStartDate));
+        this.debtOverdueStartDate = new StringElement(debtOverdueStartDate == null ? "-" : XmlLoader.formatDate(debtOverdueStartDate));
 
         this.mainMissDate = mainMissDate == null ? null : new StringElement(XmlLoader.formatDate(mainMissDate));
 
         this.percentMissDate = percentMissDate == null ? null : new StringElement(XmlLoader.formatDate(percentMissDate));
 
-        this.missDuration = missDuration == null ? null : new StringElement(missDuration.toString());
+        this.missDuration = new StringElement(missDuration == null ? "0" : missDuration.toString());
 
-        this.repaidMissDuration = repaidMissDuration == null ? null : new StringElement(repaidMissDuration.toString());
+        this.repaidMissDuration = new StringElement(repaidMissDuration == null ? "0" : repaidMissDuration.toString());
     }
 
     public StringElement getDebtOverdueSum() {

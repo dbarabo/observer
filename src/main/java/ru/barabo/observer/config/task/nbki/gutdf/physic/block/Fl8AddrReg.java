@@ -76,7 +76,7 @@ public class Fl8AddrReg {
 
         this.apart = apart == null ? null : new StringElement(apart);
 
-        this.dateRegister = dateRegister == null ? new StringElement("-") : new StringElement(XmlLoader.formatDate(dateRegister));
+        this.dateRegister = dateRegister == null ? null : new StringElement(XmlLoader.formatDate(dateRegister));
 
         this.deptName = deptName == null ? null : new StringElement(deptName);
 

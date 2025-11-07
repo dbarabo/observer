@@ -46,6 +46,9 @@ public class FlEvent2_3 extends AbstractEventData  {
     @XStreamAlias("FL_20_JointDebtors")
     final Fl20JointDebtors fl20JointDebtors; // Блок 20. Сведения о солидарных должниках
 
+    @XStreamAlias("FL_36_1_ProvisionPaymentOffset")
+    final Fl361ProvisionPaymentOffset fl361ProvisionPaymentOffset; // Блок 36(1). Сведения о погашении требований кредитора по обязательству предоставлением отступного, зачетом встречных требований, прощением долга, за счет реализации предмета лизинга
+
     @XStreamAlias("FL_54_Accounting")
     final Fl54Accounting fl54Accounting; // Блок 54. Сведения об учете обязательства
 
@@ -60,6 +63,7 @@ public class FlEvent2_3 extends AbstractEventData  {
                       Fl21PaymentTerms fl21PaymentTerms, Fl22TotalCost fl22TotalCost,
                       Fl25_26_27_28Group fl25262728Group, Fl29MonthlyPayment fl29MonthlyPayment,
                       Fl29_1DebtBurdenInfo fl291DebtBurdenInfo, Fl20JointDebtors fl20JointDebtors,
+                      Fl361ProvisionPaymentOffset fl361ProvisionPaymentOffset,
                       Fl54Accounting fl54Accounting, Fl55Application fl55Application,
                       Fl56Participation fl56Participation) {
 
@@ -75,6 +79,7 @@ public class FlEvent2_3 extends AbstractEventData  {
         this.fl29MonthlyPayment = fl29MonthlyPayment;
         fl29_1DebtBurdenInfo = fl291DebtBurdenInfo;
         this.fl20JointDebtors = fl20JointDebtors;
+        this.fl361ProvisionPaymentOffset = fl361ProvisionPaymentOffset;
         this.fl54Accounting = fl54Accounting;
         this.fl55Application = fl55Application;
         this.fl56Participation = fl56Participation;

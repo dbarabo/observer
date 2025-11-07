@@ -22,6 +22,12 @@ public class Fl25_26_27_28Group {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; // 25.8., 26.7., 27.7., 28.13. Дата расчета
 
+    @XStreamAlias("exist_0")
+    private final StringElement exist0;
+
+    @XStreamAlias("exist_1")
+    private final StringElement exist1;
+
     @XStreamAlias("FL_25_Debt")
     private final Fl25Debt fl25Debt; // Блок 25. Сведения о задолженности
 
@@ -34,12 +40,31 @@ public class Fl25_26_27_28Group {
     @XStreamAlias("FL_28_Payment")
     private final Fl28Payment fl28Payment; // Блок 28. Сведения о внесении платежей
 
+    public Fl25_26_27_28Group(Boolean isLastPayExist, Date calcDate, Fl27DebtOverdue fl27DebtOverdue, Fl28Payment fl28Payment) {
+        this.lastPayExist0 = (isLastPayExist != null && !isLastPayExist) ? new StringElement("") : null;
+        this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
+
+        this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.exist0 = new StringElement("");
+        this.exist1 = null;
+
+        this.fl25Debt = null;
+        this.fl26DebtDue = null;
+        this.fl27DebtOverdue = fl27DebtOverdue;
+        this.fl28Payment = fl28Payment;
+    }
+
+
     public Fl25_26_27_28Group(Boolean isLastPayExist, Date calcDate, Fl25Debt fl25Debt, Fl26DebtDue fl26DebtDue,
                               Fl27DebtOverdue fl27DebtOverdue, Fl28Payment fl28Payment) {
         this.lastPayExist0 = (isLastPayExist != null && !isLastPayExist) ? new StringElement("") : null;
         this.lastPayExist1 = (isLastPayExist != null && isLastPayExist) ? new StringElement("") : null;
 
         this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.exist0 = null;
+        this.exist1 = new StringElement("");
 
         this.fl25Debt = fl25Debt;
         this.fl26DebtDue = fl26DebtDue;

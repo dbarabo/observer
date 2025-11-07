@@ -189,8 +189,8 @@ private fun UlEvent2_4.tags(idFile: Number, tax: String, subEvent: String = ""):
     val idMain = findMainId(idFile, tax, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
     data.addAll( ul10DealUid(idMain, this.ul10DealUid) )
-    data.addAll( ul2326Group(idMain, this.ul23_26Group) )
-    data.addAll( ul24Warranty(idMain, this.ul24Warranty) )
+    data.addAll( ul2326Group(idMain, this.ul23_26GroupList) )
+    data.addAll( ul24Warranty(idMain, this.ul24WarrantyList) )
 
     return Pair(idMain, data)
 }
@@ -333,12 +333,12 @@ private fun ul29ContractEnd(idMain: Number, ul29: Ul29ContractEnd): List<DataInf
     )
 }
 
-private fun ul2326Group(idMain: Number, ul2326: Ul23_26Group): List<DataInfo> {
-    if(ul2326.propertyIdGroupUl23_26GroupList.isNullOrEmpty() ) return emptyList()
+private fun ul2326Group(idMain: Number, ul2326: List<Ul23_26Group>): List<DataInfo> {
+    if(ul2326.size == 1 && ul2326[0].propertyId == null) return emptyList()
 
     val data = java.util.ArrayList<DataInfo>()
 
-    for(pledge in ul2326.propertyIdGroupUl23_26GroupList) {
+    for(pledge in ul2326) {
 
         data.addAll(pledge.info(idMain))
     }
@@ -346,7 +346,7 @@ private fun ul2326Group(idMain: Number, ul2326: Ul23_26Group): List<DataInfo> {
     return data
 }
 
-private fun PropertyIdGroupUl23_26Group.info(idMain: Number): List<DataInfo> {
+private fun Ul23_26Group.info(idMain: Number): List<DataInfo> {
 
     logger.error("idMain=$idMain")
     logger.error("propertyId=${propertyId?.value}")
@@ -379,7 +379,7 @@ private fun PropertyIdGroupUl23_26Group.info(idMain: Number): List<DataInfo> {
     return list
 }
 
-private fun PropertyIdGroupUl23_26Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
+private fun Ul23_26Group.insureInfo(idMain: Number, idPledge: Number): List<DataInfo> {
 
     if(ul26Insurance.isNullOrEmpty()) return emptyList()
 
@@ -400,12 +400,12 @@ private fun PropertyIdGroupUl23_26Group.insureInfo(idMain: Number, idPledge: Num
     return data
 }
 
-private fun ul24Warranty(idMain: Number, ul24: Ul24Warranty): List<DataInfo> {
-    if(ul24.uidGroupUl24WarrantyList.isNullOrEmpty() ) return emptyList()
+private fun ul24Warranty(idMain: Number, ul24: List<Ul24Warranty>): List<DataInfo> {
+    if(ul24.size == 1 && ul24[0].uid == null ) return emptyList()
 
     val data = ArrayList<DataInfo>()
 
-    for(guarant in ul24.uidGroupUl24WarrantyList) {
+    for(guarant in ul24) {
 
         data.addAll(guarant.info(idMain))
     }
@@ -413,7 +413,7 @@ private fun ul24Warranty(idMain: Number, ul24: Ul24Warranty): List<DataInfo> {
     return data
 }
 
-private fun UidGroupUl24Warranty.info(idMain: Number): List<DataInfo> {
+private fun Ul24Warranty.info(idMain: Number): List<DataInfo> {
 
     val id = AfinaQuery.selectValue(SEL_GUARANT_BY_ID, params = arrayOf(uid?.value)) as Number
 
