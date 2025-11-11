@@ -51,4 +51,8 @@ public class Fl6Tax {
     public StringElement getRegNum() {
         return regNum;
     }
+
+    public boolean isSpecialMode() {
+        return specialMode0 == null;
+    }
 }

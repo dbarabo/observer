@@ -2,7 +2,6 @@ package ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl
 
 import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
-import ru.barabo.observer.config.task.nbki.gutdf.legal.block.Ul24Warranty
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectEventDataFL
 import ru.barabo.observer.config.task.nbki.gutdf.physic.SubjectFl
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*
@@ -11,6 +10,7 @@ import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57Gro
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.current.Fl55_57GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.physic.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.physic.title.*
+import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
 import java.util.*
@@ -21,7 +21,7 @@ internal fun createPhysicEvent(eventRecord: EventRecord, priorPhysic: SubjectFl?
     val newPhysic: SubjectFl = if(priorPhysic?.idClient == eventRecord.clientId) priorPhysic
                                 else createPhysicTitle(eventRecord.clientId)
 
-    newPhysic.events.addNewPhysicEvent(eventRecord)
+    newPhysic.events.addNewPhysicEvent(eventRecord, newPhysic.title)
 
     return newPhysic
 }
@@ -64,14 +64,14 @@ private fun subjectTitleFromTitlePhysic(title: TitlePhysic): SubjectTitleDataFl 
     return SubjectTitleDataFl(Fl1_4Group(fio, fl4Doc), Fl2_5Group(flPrevName, fl5PrevDoc), fl3Birth, fl6Tax, fl7Social)
 }
 
-private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord) {
+private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord, title: SubjectTitleDataFl) {
 
     when(eventRecord.event) {
         "1.1" -> this.addEvent1_1(createFlEvent1_1(eventRecord) )
         "1.2" -> this.addEvent1_2(createFlEvent1_2(eventRecord) )
         "1.3" -> this.addEvent1_3(createFlEvent1_3(eventRecord) )
         "1.4" -> this.addEvent1_4(createFlEvent1_4(eventRecord) )
-        "1.7" -> this.addEvent1_7(createFlEvent1_7(eventRecord) )
+        "1.7" -> this.addEvent1_7(createFlEvent1_7(eventRecord, title) )
         "1.9" -> this.addEvent1_9(createFlEvent1_9(eventRecord) )
         "1.12" -> this.addEvent1_12(createFlEvent1_12(eventRecord) )
         "2.1" -> this.addEvent2_1(createFlEvent2_1(eventRecord) )
@@ -156,9 +156,51 @@ private fun createFlEvent1_4(eventRecord: EventRecord): FlEvent1_4 {
     )
 }
 
-private fun createFlEvent1_7(eventRecord: EventRecord): FlEvent1_7 {
+private fun createFlEvent1_7(eventRecord: EventRecord, title: SubjectTitleDataFl): FlEvent1_7 {
 
-    return FlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent)
+    val fl1Name = Fl1Name(title.fl1_4Group.fio.lastName?.value,
+        title.fl1_4Group.fio.firstName?.value, title.fl1_4Group.fio.middleName?.value)
+
+    val fl4Doc = Fl4Doc(
+        title.fl1_4Group.fl4Doc.docCode?.value, title.fl1_4Group.fl4Doc.docSeries?.value,
+        title.fl1_4Group.fl4Doc.docNum?.value,
+        title.fl1_4Group.fl4Doc.issueDate?.value?.let { XmlLoader.parseDate(it) },
+        title.fl1_4Group.fl4Doc.docIssuer?.value, title.fl1_4Group.fl4Doc.deptCode?.value,
+        title.fl1_4Group.fl4Doc.foreignerCode?.value,
+    )
+
+    val fl14Group = Fl1_4Group(fl1Name, fl4Doc)
+
+    val flPrevName =
+        if(title.fl2_5Group.flPrevName.lastName?.value == null)
+            Fl2PrevName()
+        else
+            Fl2PrevName(title.fl2_5Group.flPrevName.lastName?.value,
+                title.fl2_5Group.flPrevName.firstName?.value,
+                title.fl2_5Group.flPrevName.middleName?.value)
+
+    val fl5PrevDoc = if(title.fl2_5Group.fl5PrevDoc.docCode?.value == null)
+        Fl5PrevDoc()
+    else
+        Fl5PrevDoc(title.fl2_5Group.fl5PrevDoc.docCode?.value,
+            title.fl2_5Group.fl5PrevDoc.docSeries?.value,
+            title.fl2_5Group.fl5PrevDoc.docNum?.value,
+            title.fl2_5Group.fl5PrevDoc.issueDate?.value?.let { XmlLoader.parseDate(it) },
+            title.fl2_5Group.fl5PrevDoc.docIssuer?.value,
+            title.fl2_5Group.fl5PrevDoc.deptCode?.value)
+
+    val fl25Group = Fl2_5Group(flPrevName, fl5PrevDoc)
+
+    val fl3Birth = Fl3Birth(title.fl3Birth.birthDate?.value?.let { XmlLoader.parseDate(it) },
+        title.fl3Birth.birthPlace?.value)
+
+    val fl6Tax = title.fl6Tax?.taxNumGroup?.taxNum?.value?.let {
+        Fl6Tax(title.fl6Tax?.taxNumGroup?.taxNum?.value, title.fl6Tax?.regNum?.value, title.fl6Tax?.isSpecialMode) }
+
+    val fl7Social = title.fl7Social?.socialNum?.value?.let { Fl7Social(it) }
+
+    return FlEvent1_7(eventRecord.orderNum.toInt(), eventRecord.dateEvent, fl14Group,
+        fl25Group, fl3Birth, fl6Tax, fl7Social)
 }
 
 private fun createFlEvent1_9(eventRecord: EventRecord): FlEvent1_9 {
@@ -1219,7 +1261,8 @@ private data class Fl8(
     val deptCode: String?
 ) {
     constructor(rec: Array<Any?>) :
-            this(code = (rec[0] as? Number)?.toInt(),
+            this(
+                code = (rec[0] as? Number)?.toInt(),
                 postCode = (rec[1] as? String),
                 regStateNum = (rec[2] as? String),
                 okato = (rec[3] as? String),
@@ -1233,7 +1276,7 @@ private data class Fl8(
                 dateRegister = (rec[10] as? Timestamp),
                 deptName = (rec[11] as? String),
                 deptCode = (rec[12] as? String),
-                )
+            )
 }
 
 private data class Fl291(

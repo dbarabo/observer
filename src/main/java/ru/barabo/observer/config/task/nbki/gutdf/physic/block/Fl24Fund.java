@@ -18,7 +18,7 @@ public class Fl24Fund {
     private final StringElement num; //minOccurs="0" 24.2. Порядковый номер транша
 
     @XStreamAlias("startSum")
-    private final StringElement startSum; //emptyValueType| dec15p2Type 24.3. Сумма задолженности на дату передачи финансирования субъекту или возникновения обеспечения исполнения обязательства
+    private final StringElement startSum; // dec15p2Type 24.3. Сумма задолженности на дату передачи финансирования субъекту или возникновения обеспечения исполнения обязательства
 
     @XStreamAlias("currency")
     private final StringElement currency = new StringElement("RUB");
@@ -29,7 +29,7 @@ public class Fl24Fund {
 
         this.num = num == null ? null : new StringElement(num.toString());
 
-        this.startSum = new StringElement(startSum == null ? "-" : XmlLoader.formatSum(startSum));
+        this.startSum = new StringElement(XmlLoader.formatSum(startSum == null ? 0 : startSum));
     }
 
     public StringElement getDate() {

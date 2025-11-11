@@ -1581,7 +1581,29 @@ res3 = [calc.DEC_TEST];
         validateXml(file, xsd, ::errFolder )
     }
 
-//    @Test
+    @Test
+    fun testCreateGutdfPeriod() {
+
+        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+
+        val data = AfinaQuery.select(SEL_CHECK)
+
+        for (fileInfo in data) {
+            val id = (fileInfo[0] as Number).toLong()
+
+            val fileName = fileInfo[1] as String
+
+            logger.error("!!fileName=$fileName")
+
+            GutDfCreator.createFileByRutdf(id)
+
+            val file = File("C:/Gu_cb/НБКИ/2025/11/11/$fileName.xml")
+
+            validateXml(file, xsd, ::errFolder )
+        }
+    }
+
+    //@Test
     fun testCreateGutdf() {
 
         val xsd =  "/xsd/gutdf/ver41/Main.xsd"
@@ -1593,8 +1615,16 @@ res3 = [calc.DEC_TEST];
         //GutDfCreator.createFileByRutdf(1349620324)
         //GutDfCreator.createFileByRutdf(1349447397) //31.10
 
+        //GutDfCreator.createFileByRutdf(1349836797) //07.11
 
-        val file = File("C:/Gu_cb/НБКИ/2025/11/07/K301BB000001_20251031_115857.xml")
+        //GutDfCreator.createFileByRutdf(1349415547) //30.10
+        //GutDfCreator.createFileByRutdf(1347954290) //14.10
+
+        //GutDfCreator.createFileByRutdf(1345435351) //12.09
+
+        GutDfCreator.createFileByRutdf(1339072553) //25.06
+
+        val file = File("C:/Gu_cb/НБКИ/2025/11/11/K301BB000001_20250625_153211.xml")
 
         validateXml(file, xsd, ::errFolder )
     }
@@ -1602,3 +1632,10 @@ res3 = [calc.DEC_TEST];
 }
 
 private fun errFolder(): File = File("C:/temp/error")
+
+private const val SEL_CHECK = """select f.id, f.file_name
+from od.ptkb_rutdf_file f
+where f.date_file >= date '2025-01-01'
+  and f.date_file < date '2025-06-20'
+order by f.date_file desc"""
+
