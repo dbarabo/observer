@@ -15,6 +15,9 @@ public class UlEvent3_2 extends AbstractEventData {
     @XStreamAlias("startDate")
     private final String startDate;
 
+    @XStreamAlias("changeReason")
+    private final String changeReason = "1";
+
     @XStreamAlias("UL_10_DealUid")
     private final Ul10DealUid ul10DealUid;
 
@@ -40,7 +43,7 @@ public class UlEvent3_2 extends AbstractEventData {
 
         super(orderNum, eventDate, "3.2" );
 
-        this.startDate = XmlLoader.formatDate( eventDate);
+        this.startDate = XmlLoader.formatDateTimeClearTime(eventDate);
 
         this.ul10DealUid = ul10DealUid;
 

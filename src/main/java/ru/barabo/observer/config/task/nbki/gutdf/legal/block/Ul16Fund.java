@@ -29,7 +29,7 @@ public class Ul16Fund {
 
         this.num = num == null ? null : new StringElement(num.toString());
 
-        this.startSum = new StringElement(startSum == null ? "-" : XmlLoader.formatSum(startSum));
+        this.startSum = new StringElement(XmlLoader.formatSum(startSum == null ? 0 : startSum));
     }
 
     public StringElement getDate() {

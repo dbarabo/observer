@@ -15,6 +15,9 @@ public class FlEvent3_2 extends AbstractEventData {
     @XStreamAlias("startDate")
     private final String startDate;
 
+    @XStreamAlias("changeReason")
+    private final String changeReason = "1";
+
     @XStreamAlias("FL_17_DealUid")
     private final Fl17DealUid fl17DealUid;
 
@@ -44,7 +47,7 @@ public class FlEvent3_2 extends AbstractEventData {
 
         super(orderNum, eventDate, "3.2" );
 
-        this.startDate = XmlLoader.formatDate( eventDate);
+        this.startDate = XmlLoader.formatDateTimeClearTime( eventDate);
 
         this.fl17DealUid = fl17DealUid;
 

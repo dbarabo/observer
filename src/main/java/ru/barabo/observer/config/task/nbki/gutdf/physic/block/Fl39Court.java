@@ -47,6 +47,9 @@ public class Fl39Court {
     @XStreamAlias("info")
     private final StringElement info; // minOccurs="0" 39.9. Дополнительные сведения по судебному акту
 
+    @XStreamAlias("currency")
+    private final StringElement currency; // 30.10. Валюта суммы требований, подлежащих удовлетворению
+
     /**
      * @param isExistsDispute - только спор суд. акта в любом случае нет
      */
@@ -74,6 +77,7 @@ public class Fl39Court {
         this.lawsuitCode = null;
         this.sumTotal = null;
         this.info = null;
+        this.currency = null;
     }
 
     public Fl39Court(Date date, String num, Integer actResolutionCode, Boolean isActStarted,
@@ -104,6 +108,8 @@ public class Fl39Court {
         this.sumTotal = new StringElement(sumTotal == null ? "-" : XmlLoader.formatSum(sumTotal));
 
         this.info = info == null ? null : new StringElement(info);
+
+        this.currency = new StringElement("RUB");
     }
 
     public String getActExist() { // 0 1 2

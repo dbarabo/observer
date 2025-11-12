@@ -15,6 +15,9 @@ public class FlEvent3_1 extends AbstractEventData {
     @XStreamAlias("operationCode")
     final String operationCode = "C.1";
 
+    @XStreamAlias("changeReason")
+    private final String changeReason = "1";
+
     @XStreamAlias("FL_55_57_Group")
     private Fl55_57GroupCurrentNew fl55_57Group;
 

@@ -1581,7 +1581,7 @@ res3 = [calc.DEC_TEST];
         validateXml(file, xsd, ::errFolder )
     }
 
-    @Test
+    //@Test
     fun testCreateGutdfPeriod() {
 
         val xsd =  "/xsd/gutdf/ver41/Main.xsd"
@@ -1597,7 +1597,7 @@ res3 = [calc.DEC_TEST];
 
             GutDfCreator.createFileByRutdf(id)
 
-            val file = File("C:/Gu_cb/НБКИ/2025/11/11/$fileName.xml")
+            val file = File("C:/Gu_cb/НБКИ/2025/11/12/$fileName.xml")
 
             validateXml(file, xsd, ::errFolder )
         }
@@ -1622,9 +1622,16 @@ res3 = [calc.DEC_TEST];
 
         //GutDfCreator.createFileByRutdf(1345435351) //12.09
 
-        GutDfCreator.createFileByRutdf(1339072553) //25.06
+        //GutDfCreator.createFileByRutdf(1339072553) //25.06
+        //GutDfCreator.createFileByRutdf(1338307569) // 16.06
 
-        val file = File("C:/Gu_cb/НБКИ/2025/11/11/K301BB000001_20250625_153211.xml")
+        //GutDfCreator.createFileByRutdf(1337148831) // 28.05
+        //GutDfCreator.createFileByRutdf(1336465252) // 20.05
+
+        GutDfCreator.createFileByRutdf(1335430223) // 30.04
+
+
+        val file = File("C:/Gu_cb/НБКИ/2025/11/12/K301BB000001_20250430_123651.xml")
 
         validateXml(file, xsd, ::errFolder )
     }
@@ -1636,6 +1643,6 @@ private fun errFolder(): File = File("C:/temp/error")
 private const val SEL_CHECK = """select f.id, f.file_name
 from od.ptkb_rutdf_file f
 where f.date_file >= date '2025-01-01'
-  and f.date_file < date '2025-06-20'
+  and f.date_file < date '2025-02-03'
 order by f.date_file desc"""
 

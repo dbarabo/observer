@@ -11,6 +11,9 @@ public class UlEvent3_1 extends AbstractEventData {
     @XStreamAlias("operationCode")
     final String operationCode = "C.1";
 
+    @XStreamAlias("changeReason")
+    private final String changeReason = "1";
+
     @XStreamAlias("UL_45_47_Group")
     final Ul45_47GroupCurrentNew ul45_47Group;
 

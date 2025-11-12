@@ -32,10 +32,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 
 public class XmlLoader<E> {
 
@@ -172,6 +169,29 @@ public class XmlLoader<E> {
 
 		return formatter.format(date);
 	}
+
+    public static Date clearTimeInDate(Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        return cal.getTime();
+    }
+
+    public static String formatDateTimeClearTime(Date date) {
+        if (date == null) {
+            return null;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(XML_DATE_TIME_FORMAT);
+
+        return formatter.format(clearTimeInDate(date));
+    }
+
 
 	public static String formatDateTime(Date date) {
 		if (date == null) {
