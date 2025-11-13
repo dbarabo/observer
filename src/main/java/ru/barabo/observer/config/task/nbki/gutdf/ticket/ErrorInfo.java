@@ -8,6 +8,12 @@ public class ErrorInfo {
     @XStreamAlias("errorNum")
     public String errorNum; // Порядковый номер ошибки в записи
 
+    @XStreamAlias("eventDate")
+    public StringElement eventDate;
+
+    @XStreamAlias("eventTime")
+    public StringElement eventTime;
+
     @XStreamAlias("errorCode")
     public StringElement errorCode;
 
@@ -25,6 +31,9 @@ public class ErrorInfo {
 
     @XStreamAlias("subjectCode")
     public StringElement subjectCode;
+
+    @XStreamAlias("subjectID")
+    public StringElement subjectID;
 
     @XStreamAlias("eventName")
     public StringElement eventName;
