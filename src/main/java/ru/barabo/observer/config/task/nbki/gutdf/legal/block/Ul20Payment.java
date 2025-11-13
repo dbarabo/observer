@@ -44,6 +44,9 @@ public class Ul20Payment {
     @XStreamAlias("scheduleCode")
     private final StringElement scheduleCode; // emptyValueType|refPaymentDeadlineType 28.11. Код соблюдения срока внесения платежей
 
+    @XStreamAlias("payCurrency")
+    private final StringElement payCurrency = new StringElement("RUB"); // 28.16. Валюта внесенных платежей
+
     public Ul20Payment(Integer sizeCode, Integer scheduleCode) {
 
         this.paymentSum = new StringElement(XmlLoader.formatSum(0));

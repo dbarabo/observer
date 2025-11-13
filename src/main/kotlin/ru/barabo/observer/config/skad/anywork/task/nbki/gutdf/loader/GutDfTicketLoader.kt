@@ -51,11 +51,17 @@ object GutDfTicketLoader {
 
         val sessionSetting = AfinaQuery.uniqueSession()
 
+        val listErr = mainAccept.errors.errorList.joinToString { it.orderNum.value }
+        logger.error("listErr=$listErr")
+        logger.error("idFile=$idFile")
+
         try {
 
             for(error in mainAccept.errors.errorList) {
 
                 val orderNumInFile = error.orderNum?.value?.toInt()
+
+                logger.error("orderNumInFile=$orderNumInFile")
 
                 if(orderNumInFile != null) {
                     AfinaQuery.execute(DEL_MAIN_RECORD, params = arrayOf(idFile, orderNumInFile))

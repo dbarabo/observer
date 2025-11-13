@@ -50,6 +50,9 @@ public class Fl28Payment {
     @XStreamAlias("paySum24")
     private final StringElement paySum24; // dec15p2Type minOccurs="0" 28.15. Сумма внесенных платежей за 24 календарных месяца, за исключением платежей с просрочкой более 30 календарных дней
 
+    @XStreamAlias("payCurrency")
+    private final StringElement payCurrency = new StringElement("RUB"); // 28.16. Валюта внесенных платежей
+
     public Fl28Payment(Integer sizeCode, Integer scheduleCode) {
 
         this.paymentSum = new StringElement(XmlLoader.formatSum(0));
@@ -70,7 +73,6 @@ public class Fl28Payment {
         this.lastMissPaySum = null;
         this.paySum24 = null;
     }
-
 
     public Fl28Payment(Number paymentSum, Number paymentMainSum, Number paymentPercentSum, Number paymentOtherSum,
                        Number totalSum, Number totalMainSum, Number totalPercentSum, Number totalOtherSum,
