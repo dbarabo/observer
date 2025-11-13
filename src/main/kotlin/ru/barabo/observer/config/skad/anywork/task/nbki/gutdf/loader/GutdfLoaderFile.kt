@@ -505,44 +505,45 @@ object GutdfLoaderFile {
     }
 
     private fun fl25262728Group(idMain: Number, fl: Fl25_26_27_28Group): List<DataInfo> {
+
         return listOf(
             DataInfo(idMain, "FL_25_26_27_28_Group", "isLastPay", fl.isLastPayExist?.toDb()?:"" ),
             DataInfo(idMain, "FL_25_26_27_28_Group", "calcDate", fl.calcDate?.value?:""),
 
-            DataInfo(idMain, "FL_25_Debt", "debtSum", fl.fl25Debt.debtSum?.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtMainSum", fl.fl25Debt.debtMainSum?.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtPercentSum", fl.fl25Debt.debtPercentSum?.value?:""),
-            DataInfo(idMain, "FL_25_Debt", "debtOtherSum", fl.fl25Debt.debtOtherSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtSum", fl.fl25Debt?.debtSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtMainSum", fl.fl25Debt?.debtMainSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtPercentSum", fl.fl25Debt?.debtPercentSum?.value?:""),
+            DataInfo(idMain, "FL_25_Debt", "debtOtherSum", fl.fl25Debt?.debtOtherSum?.value?:""),
 
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueSum", fl.fl26DebtDue.debtDueSum?.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueMainSum", fl.fl26DebtDue.debtDueMainSum?.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDuePercentSum", fl.fl26DebtDue.debtDuePercentSum?.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueOtherSum", fl.fl26DebtDue.debtDueOtherSum?.value?:""),
-            DataInfo(idMain, "FL_26_DebtDue", "debtDueStartDate", fl.fl26DebtDue.debtDueStartDate?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueSum", fl.fl26DebtDue?.debtDueSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueMainSum", fl.fl26DebtDue?.debtDueMainSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDuePercentSum", fl.fl26DebtDue?.debtDuePercentSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueOtherSum", fl.fl26DebtDue?.debtDueOtherSum?.value?:""),
+            DataInfo(idMain, "FL_26_DebtDue", "debtDueStartDate", fl.fl26DebtDue?.debtDueStartDate?.value?:""),
 
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueSum", fl.fl27DebtOverdue.debtOverdueSum?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueMainSum", fl.fl27DebtOverdue.debtOverdueMainSum?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverduePercentSum", fl.fl27DebtOverdue.debtOverduePercentSum?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueOtherSum", fl.fl27DebtOverdue.debtOverdueOtherSum?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueStartDate", fl.fl27DebtOverdue.debtOverdueStartDate?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "mainMissDate", fl.fl27DebtOverdue.mainMissDate?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "percentMissDate", fl.fl27DebtOverdue.percentMissDate?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "missDuration", fl.fl27DebtOverdue.missDuration?.value?:""),
-            DataInfo(idMain, "FL_27_DebtOverdue", "repaidMissDuration", fl.fl27DebtOverdue.repaidMissDuration?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueSum", fl.fl27DebtOverdue?.debtOverdueSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueMainSum", fl.fl27DebtOverdue?.debtOverdueMainSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverduePercentSum", fl.fl27DebtOverdue?.debtOverduePercentSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueOtherSum", fl.fl27DebtOverdue?.debtOverdueOtherSum?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "debtOverdueStartDate", fl.fl27DebtOverdue?.debtOverdueStartDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "mainMissDate", fl.fl27DebtOverdue?.mainMissDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "percentMissDate", fl.fl27DebtOverdue?.percentMissDate?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "missDuration", fl.fl27DebtOverdue?.missDuration?.value?:""),
+            DataInfo(idMain, "FL_27_DebtOverdue", "repaidMissDuration", fl.fl27DebtOverdue?.repaidMissDuration?.value?:""),
 
-            DataInfo(idMain, "FL_28_Payment", "paymentSum", fl.fl28Payment.paymentSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentMainSum", fl.fl28Payment.paymentMainSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentPercentSum", fl.fl28Payment.paymentPercentSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paymentOtherSum", fl.fl28Payment.paymentOtherSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalSum", fl.fl28Payment.totalSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalMainSum", fl.fl28Payment.totalMainSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalPercentSum", fl.fl28Payment.totalPercentSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "totalOtherSum", fl.fl28Payment.totalOtherSum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "date", fl.fl28Payment.date?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "sizeCode", fl.fl28Payment.sizeCode?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "scheduleCode", fl.fl28Payment.scheduleCode?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "lastMissPaySum", fl.fl28Payment.lastMissPaySum?.value?:""),
-            DataInfo(idMain, "FL_28_Payment", "paySum24", fl.fl28Payment.paySum24?.value?:"")
+            DataInfo(idMain, "FL_28_Payment", "paymentSum", fl.fl28Payment?.paymentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentMainSum", fl.fl28Payment?.paymentMainSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentPercentSum", fl.fl28Payment?.paymentPercentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paymentOtherSum", fl.fl28Payment?.paymentOtherSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalSum", fl.fl28Payment?.totalSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalMainSum", fl.fl28Payment?.totalMainSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalPercentSum", fl.fl28Payment?.totalPercentSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "totalOtherSum", fl.fl28Payment?.totalOtherSum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "date", fl.fl28Payment?.date?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "sizeCode", fl.fl28Payment?.sizeCode?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "scheduleCode", fl.fl28Payment?.scheduleCode?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "lastMissPaySum", fl.fl28Payment?.lastMissPaySum?.value?:""),
+            DataInfo(idMain, "FL_28_Payment", "paySum24", fl.fl28Payment?.paySum24?.value?:"")
         )
     }
 

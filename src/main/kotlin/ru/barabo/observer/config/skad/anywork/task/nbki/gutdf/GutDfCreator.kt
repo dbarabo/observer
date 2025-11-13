@@ -46,9 +46,9 @@ object GutDfCreator {
 
             saveXml(file, xmlData, "UTF-8", true)
 
-            //validateXml(file, xsd, ::errorFolder )
+            validateXml(file, xsd, ::errorFolder )
 
-            //loadFileToDb(file)
+            loadFileToDb(file)
 
             return file
 
@@ -123,7 +123,7 @@ fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
 
 private val folderReport = "H:/Gu_cb/НБКИ".ifTest("C:/Gu_cb/НБКИ")
 
-private const val xsd =  "/xsd/gutdf/ver30/Main.xsd"
+private const val xsd =  "/xsd/gutdf/ver41/Main.xsd" //"/xsd/gutdf/ver30/Main.xsd"
 
 private const val DEL_RUTDF_DATA = "delete from od.PTKB_RUTDF_FILE where ID = ?"
 
