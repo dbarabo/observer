@@ -90,4 +90,8 @@ public class ErrorInfo {
     public StringElement getFieldValue() {
         return fieldValue;
     }
+
+    public StringElement getEventDate() {
+        return eventDate;
+    }
 }
