@@ -412,7 +412,9 @@ object GutdfLoaderFile {
 
         for(pledge in fl3235) {
 
-            data.addAll(pledge.info(idMain))
+            if(pledge.propertyId != null) {
+                data.addAll(pledge.info(idMain))
+            }
         }
 
         return data
