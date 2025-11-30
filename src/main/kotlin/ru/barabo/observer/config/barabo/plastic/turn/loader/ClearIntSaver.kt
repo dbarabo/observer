@@ -85,7 +85,7 @@ private class ClearIntSaverImpl : ClearIntSaver {
             TypePayInfo.ClaimMessage -> saveClaimMessage(header.table, payId, sessionSetting)
 
             TypePayInfo.DetailFeeVisa -> {} // errorIfFindTableTypeInfo(TypePayInfo.DetailFeeVisa, paySystem)
-            TypePayInfo.ConverseToRur -> errorIfFindTableTypeInfo(TypePayInfo.ConverseToRur, paySystem)
+            TypePayInfo.ConverseToRur -> {} // errorIfFindTableTypeInfo(TypePayInfo.ConverseToRur, paySystem)
 
         }
     }
@@ -587,8 +587,8 @@ private enum class TypePayInfo(val dbValue: Int) {
         }
 
         private fun isConverseFromRur(header1: String, header2: String): Boolean {
-            return header1.indexOf(CONVERSE_HEADER) == 0 ||
-                    (header2.indexOf(CONVERSE_HEADER) == 0 && header1.isBlank())
+            return header1.indexOf(CONVERSE_HEADER, ignoreCase = true) >= 0 ||
+                    (header2.indexOf(CONVERSE_HEADER, ignoreCase = true) >= 0 && header1.isBlank())
         }
 
         private fun isFeeType(header1: String, header2: String): Boolean {
@@ -621,9 +621,9 @@ private const val SETTLEMENT_PAYSYSTEM = "Расчеты по "
 
 private const val SETTLEMENT_CORRESPOND = "Расчеты по коррсчетам"
 
-private const val CONVERSE_TO_RUR_HEADER = "Валютный эквивалент возмещения в " //рублях"
+private const val CONVERSE_TO_RUR_HEADER = "Валютный эквивалент возмещения" //рублях"
 
-private const val CONVERSE_HEADER = "Рублевый эквивалент возмещения в валюте"
+private const val CONVERSE_HEADER = "эквивалент возмещения в валюте"
 
 private const val FEE_VISA = "Информация о комиссиях"
 

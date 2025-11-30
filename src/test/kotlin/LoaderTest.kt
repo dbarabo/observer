@@ -99,7 +99,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("TEST", "AFINA"/* "TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1603,6 +1603,9 @@ res3 = [calc.DEC_TEST];
         }
     }
 
+
+
+
     //@Test
     fun testCreateGutdf() {
 
@@ -1636,6 +1639,35 @@ res3 = [calc.DEC_TEST];
         validateXml(file, xsd, ::errFolder )
     }
 
+    //@Test
+    fun tesSfrShema() {
+        val file = File("C:/temp/FRS010507717_RS0020251117_00217717250000000001_100.xml")
+
+        val xsd =  "/xsd/sfr/FRS0_101.xsd"
+
+        validateXml(file, xsd, ::errFolder )
+    }
+
+    //@Test
+    fun testConverse() {
+        val header1 = "Эквивалент возмещения в валюте (MasterCard, ICA=14500)"
+
+        val header2 = "Нет возмещения в валюте"
+
+        val x = header1.indexOf(CONVERSE_HEADER, ignoreCase = true)
+
+        logger.error("$x")
+
+        //logger.error("${isConverseFromRur(header1, header2)}")
+    }
+
+}
+
+private const val CONVERSE_HEADER = "эквивалент возмещения в валюте"
+
+private fun isConverseFromRur(header1: String, header2: String): Boolean {
+    return header1.indexOf(CONVERSE_HEADER, ignoreCase = true) > 0 ||
+            (header2.indexOf(CONVERSE_HEADER, ignoreCase = true) > 0 && header1.isBlank())
 }
 
 private fun errFolder(): File = File("C:/temp/error")

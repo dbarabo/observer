@@ -17,7 +17,7 @@ object Observer {
 
         try {
             lock = ServerSocket(2905)
-        } catch (e: java.lang.Exception) {
+        } catch (_: java.lang.Exception) {
             logger.error("Observer already running! Exit...")
             exitProcess(-1)
         }
@@ -30,7 +30,9 @@ object Observer {
             "OPERATOR" -> "OPERATOR"
             "JZDO" -> "JZDO"
             "DSPO" -> "TEST"
+
             "KBRN" -> "KBRN"
+            "ARM-KBRN" -> "KBRN"
 
             "FNS" -> "FNS"
 

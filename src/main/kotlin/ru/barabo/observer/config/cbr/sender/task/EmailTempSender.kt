@@ -19,12 +19,12 @@ object EmailTempSender : SingleSelector {
 
     override fun name(): String = "Отправка из PTCB_EMAILTEMP"
 
-    override fun config(): ConfigTask = SenderInternalMail //SenderMail
+    override fun config(): ConfigTask = SenderInternalMail
 
     override val select: String = "select CLASSIFIED, SUBJECT || '>> ' || EMAIL from od.PTCB_EMAILTEMP"
 
     override val accessibleData: AccessibleData = AccessibleData(workWeek = WeekAccess.ALL_DAYS,
-        workTimeFrom = LocalTime.of(1, 0),
+        workTimeFrom = LocalTime.of(4, 50),
         workTimeTo = LocalTime.of(23, 55))
 
     override fun execute(elem: Elem): State {

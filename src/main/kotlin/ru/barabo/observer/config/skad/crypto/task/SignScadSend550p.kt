@@ -22,7 +22,7 @@ object SignScadSend550p : FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = CryptoScad // ScadConfig
 
-    override fun name(): String = "Подписать scad и отправить"
+    override fun name(): String = "Подписать 550-П и отправить"
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( ::folder550pOut,"ARH550P_0021_0000_........_...\\.arj", isModifiedTodayOnly = true))

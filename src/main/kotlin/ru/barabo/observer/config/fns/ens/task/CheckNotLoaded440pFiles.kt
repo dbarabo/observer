@@ -1,27 +1,17 @@
 package ru.barabo.observer.config.fns.ens.task
 
-import oracle.jdbc.OracleTypes
 import org.slf4j.LoggerFactory
-import ru.barabo.archive.Archive
-import ru.barabo.db.TemplateQuery
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.barabo.p440.task.RooWaitCancel
-import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
-import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
-import ru.barabo.observer.config.cbr.ticket.task.X440P
 import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.isFind
-import ru.barabo.observer.config.task.finder.isModifiedMore
 import ru.barabo.observer.config.task.template.periodic.Periodical
-import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import ru.barabo.observer.store.derby.StoreSimple
 import java.io.File
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -46,7 +36,7 @@ object CheckNotLoaded440pFiles : Periodical {
 
     override fun execute(elem: Elem): State {
 
-        var startCheckDay = LocalDate.now().minusDays(30)  //(100) //1196
+        var startCheckDay = LocalDate.now().minusDays(100)  //(100) //1196
 
         //val searchArj = Pattern.compile(".*\\.arj", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
@@ -86,7 +76,7 @@ object CheckNotLoaded440pFiles : Periodical {
             val info = filesAbsent.joinToString(" \n\r",  "", "")
 
             BaraboSmtp.sendStubThrows(
-                to = BaraboSmtp.AUTO,
+                to = BaraboSmtp.YA,
                 subject = "Не загружены найденные файлы по 440-П",
                 body = info
             )
@@ -105,6 +95,6 @@ fun isNotFoundInBase(fileNameWithoutExt: String): Boolean {
 
 private const val SELECT_ID_BY_FILE = "select f.id from od.ptkb_440p_fns_from f where f.file_name = ?"
 
-fun LocalDate.folder440pByDate(): File = "X:/440-П/${this.dateFolder()}/Получено".byFolderExists()
+fun LocalDate.folder440pByDate(): File = "X:/440-П/${this.dateFolder()}/Получено/smev".byFolderExists()
 
 fun LocalDate.dateFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(this)
