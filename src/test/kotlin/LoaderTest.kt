@@ -47,6 +47,7 @@ import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
 import ru.barabo.observer.config.fns.cbr.extract.PbSaverCbr
 import ru.barabo.observer.config.fns.cbr.task.ProcessCbrRequest
 import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
+import ru.barabo.observer.config.fns.ens.task.Create311p514
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
@@ -85,6 +86,7 @@ import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Year
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -99,7 +101,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA"/* "TEST"*/)
+        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1572,6 +1574,17 @@ res3 = [calc.DEC_TEST];
     }
 
     //@Test
+    fun create311p514() {
+        val elem = Elem(idElem = 1352749195, task = Create311p514)
+
+        //val elem = Elem(idElem = 1352749193, task = Create311p514)
+
+        //val elem = Elem(idElem = 1352749202, task = Create311p514)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
     fun testValidateGutdf41() {
 
         val xsd =  "/xsd/gutdf/ver41/Main.xsd"
@@ -1659,6 +1672,18 @@ res3 = [calc.DEC_TEST];
         logger.error("$x")
 
         //logger.error("${isConverseFromRur(header1, header2)}")
+    }
+
+    //@Test
+    fun testJarResourcesManager() {
+        //val resPath = "/cert/${TaskMapper.buildInfo.build}/pki1.conf"
+
+        //return ResourcesManager.copyFromJar(File(Cmd.JAR_FOLDER), resPath) != null
+    }
+
+    //@Test
+    fun testYear() {
+        logger.error("year=${Year.now().getValue()}")
     }
 
 }

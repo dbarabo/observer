@@ -24,7 +24,7 @@ import java.util.*
 object CreateCrypto311p512 : SingleSelector {
     override fun name(): String = "311-П 5.12 Создать+шифровать"
 
-    override fun config(): ConfigTask = CryptoScad // ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,

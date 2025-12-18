@@ -3,7 +3,6 @@ package ru.barabo.observer.config.task.p311.v512;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.xml.impl.Fio;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @XStreamAlias("НПФЛ")
@@ -11,6 +10,9 @@ public final class NpFl {
 
     @XStreamAlias("ИННФЛ")
     private String inn;
+
+    @XStreamAlias("ПрДатаРожд")
+    private String fullBirthDate = MainFile.isFormat514() ? "3" : null;
 
     @XStreamAlias("ДатаРожд")
     private String birthDate;

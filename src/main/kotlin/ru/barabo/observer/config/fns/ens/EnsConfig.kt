@@ -3,6 +3,7 @@ package ru.barabo.observer.config.fns.ens
 import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
+import ru.barabo.observer.config.fns.ens.task.Create311p514
 import ru.barabo.observer.config.fns.ens.task.Send440pArchiveToSmev
 import ru.barabo.observer.config.skad.crypto.task.AddToArchive440pScad
 
@@ -29,6 +30,8 @@ object EnsConfig : AbstractConfig() {
         BosSendIfNeed.findAll()
 
         CheckNotLoaded440pFiles.findAll()
+
+        // Create311p514.findAll() // start 2026-01-01
 
         this.executeTasks()
     }

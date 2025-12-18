@@ -3,6 +3,8 @@ package ru.barabo.observer.config.task.p311.v512;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.time.Year;
+
 @XStreamAlias("Файл")
 public final class MainFile {
 
@@ -36,7 +38,7 @@ public final class MainFile {
 
     @XStreamAlias("ВерсФорм")
     @XStreamAsAttribute
-    private final String versionFormat = "5.13";
+    private final String versionFormat = isFormat514() ? "5.14" : "5.13";
 
     @XStreamAlias("Документ")
     private final MainDocument mainDocument;
@@ -48,5 +50,9 @@ public final class MainFile {
 
     public boolean isFakeFile() {
         return mainDocument == null;
+    }
+
+    static public boolean isFormat514() {
+        return (Year.now().getValue() > 2025);
     }
 }
