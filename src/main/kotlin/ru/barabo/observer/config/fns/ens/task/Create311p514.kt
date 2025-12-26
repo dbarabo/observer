@@ -30,10 +30,10 @@ object Create311p514 : SingleSelector {
 
     override val select: String =
         """
-select r.id, a.code ||  decode(a.closed, od.max_date, ' O'  || a.opened, ' C' || a.closed)
+select r.id, a.code ||  decode(a.closed, od.max_date, ' O'  || a.opened, ' C' || a.closed) || decode(r.IS_FNS, 1, ' ФНС', ' СФР')
 from od.PTKB_361P_REGISTER r, od.account a 
 where r.state = 0 and trunc(r.SENDDATE) = TRUNC(SYSDATE) and r.NUMBER_FILE > 0 and a.doc = r.idaccount
-and r.IS_FNS = 1
+order by r.IS_FNS desc
 """
 
     override fun execute(elem: Elem): State {

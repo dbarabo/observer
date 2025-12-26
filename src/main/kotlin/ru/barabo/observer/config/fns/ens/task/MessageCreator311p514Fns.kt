@@ -15,6 +15,7 @@ import ru.barabo.observer.config.task.p311.v512.AccountClose
 import ru.barabo.observer.config.task.p311.v512.AccountOpen
 import ru.barabo.observer.config.task.p311.v512.MainDocument
 import ru.barabo.observer.config.task.p311.v512.MainFile
+import ru.barabo.observer.config.task.p311.v512.MainFileSfr
 import ru.barabo.observer.config.task.p311.v512.NoInn
 import ru.barabo.observer.config.task.p311.v512.NpFl
 import ru.barabo.observer.config.task.p311.v512.NpIO
@@ -40,9 +41,29 @@ object MessageCreator311p514Fns {
 
     fun createMessage(idMessage: Number): File {
 
-        val mainFileData =  getMainFileData(idMessage)
+        val isFns = (AfinaQuery.selectValue(SELECT_IS_FNS, arrayOf(idMessage)) as Number).toInt()
 
-        return saveXmlFile(idMessage, mainFileData)
+        return if(isFns == 1) {
+            val mainFileData = getMainFileData(idMessage)
+            saveXmlFile(idMessage, mainFileData)
+        } else {
+            val mainFileData = getMainFileDataSfr(idMessage)
+            saveXmlFile(idMessage, mainFileData)
+        }
+    }
+
+    private fun saveXmlFile(idMessage: Number, mainFileData: MainFileSfr): File {
+
+        val fileName = AfinaQuery.selectValue(SELECT_FILENAME, arrayOf(idMessage) ) as String
+
+        val xmlFile = if(mainFileData.isFakeFile) fullFile(fileName)
+        else saveXml(fileName, mainFileData, "windows-1251")
+
+        val xsd = "/xsd/sfr/FRS0_101.xsd"
+
+        validateXml(xmlFile, xsd, ::errorFolder )
+
+        return xmlFile
     }
 
     private fun saveXmlFile(idMessage: Number, mainFileData: MainFile): File {
@@ -94,6 +115,7 @@ object MessageCreator311p514Fns {
         xstream.useAttributeFor(Boolean::class.java)
         xstream.useAttributeFor(Integer::class.java)
 
+        xstream.processAnnotations(MainFileSfr::class.java)
         xstream.processAnnotations(MainFile::class.java)
         xstream.processAnnotations(MainDocument::class.java)
         xstream.processAnnotations(SvAccount::class.java)
@@ -120,7 +142,7 @@ object MessageCreator311p514Fns {
         return File("${folder.absolutePath}/$fileName")
     }
 
-    private fun getMainFileData(idMessage: Number): MainFile {
+    private fun getMainFileDataSfr(idMessage: Number): MainFileSfr {
         val sessionSetting = AfinaQuery.uniqueSession()
 
         val mainFile = try {
@@ -140,6 +162,40 @@ object MessageCreator311p514Fns {
 
             val mainDocument = if(numberMessage != "0") createMainDocument(info.drop(1)) else null
 
+            MainFileSfr(idFile, mainDocument)
+        } catch (e: Exception) {
+
+            logger.error("createMessage idMessage=$idMessage", e)
+
+            AfinaQuery.rollbackFree(sessionSetting)
+
+            throw Exception(e)
+        }
+
+        AfinaQuery.commitFree(sessionSetting)
+
+        return mainFile
+    }
+
+    private fun getMainFileData(idMessage: Number): MainFile {
+        val sessionSetting = AfinaQuery.uniqueSession()
+
+        val mainFile = try {
+
+            val info = AfinaQuery.execute(EXEC_GET_MESSAGE_INFO, arrayOf(idMessage), sessionSetting,
+                intArrayOf(OracleTypes.VARCHAR,
+                    OracleTypes.NUMBER, OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.VARCHAR,
+                    OracleTypes.NUMBER, OracleTypes.VARCHAR, OracleTypes.DATE, OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.DATE,
+                    OracleTypes.NUMBER, OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.VARCHAR,
+                    OracleTypes.VARCHAR, OracleTypes.VARCHAR, OracleTypes.VARCHAR,
+                    OracleTypes.DATE, OracleTypes.VARCHAR, OracleTypes.DATE
+                ))
+
+            val idFile = info?.get(0) as String
+
+            val numberMessage = info[3] as String
+
+            val mainDocument = if(numberMessage != "0") createMainDocument(info.drop(1)) else null
 
             MainFile(idFile, mainDocument)
         } catch (e: Exception) {
@@ -251,6 +307,8 @@ private fun sfrFolderSent(): File = Cmd.createFolder("${sfrFolder().absolutePath
 private fun fnsFolderSent(): File = Cmd.createFolder("${fnsFolder().absolutePath}/ОТПРАВКА")
 
 private const val SELECT_FILENAME = "select od.PTKB_FNS_EXPORT_XML.getFileName(?) from dual"
+
+private const val SELECT_IS_FNS = "select IS_FNS from od.PTKB_361P_REGISTER where id = ?"
 
 private const val EXEC_GET_MESSAGE_INFO = """{ call od.PTKB_FNS_EXPORT_XML.getMessageInfo(
         ?, /*idFile*/

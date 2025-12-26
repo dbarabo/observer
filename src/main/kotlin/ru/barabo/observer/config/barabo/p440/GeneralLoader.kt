@@ -33,7 +33,7 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
             listOf(FileFinderData(ToUncrypto440p::getUncFolder440p, ".*\\.xml"),
                 FileFinderData(::getUncryptoFolderSmev, ".*\\.xml") )
 
-    override fun config(): ConfigTask = EnsConfig // P440Config
+    override fun config(): ConfigTask = EnsConfig
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS,
             false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))

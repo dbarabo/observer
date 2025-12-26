@@ -37,6 +37,8 @@ object CreateAccount311p : Periodical {
 
     private const val EXEC_CREATE_PHYSIC_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execDataPriorDay }"
 
+    private const val EXEC_CREATE_JUR_FRS = "{ call od.PTKB_FNS_EXPORT_XML.createExportForFRS }"
+
     override fun execute(elem: Elem): State {
 
         var error: String? = null
@@ -53,6 +55,8 @@ object CreateAccount311p : Periodical {
         AfinaQuery.execute(EXEC_CREATE_PHYSIC_ACCOUNT)
 
         error?.let { throw SessionException(it) }
+
+        AfinaQuery.execute(EXEC_CREATE_JUR_FRS)
 
         return State.OK
     }
