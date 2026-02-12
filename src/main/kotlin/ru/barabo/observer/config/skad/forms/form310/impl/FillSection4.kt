@@ -82,7 +82,7 @@ internal fun Data310Form.addSection4(dateReport: java.util.Date) {
                     subSectionR412 = SubSectionR412(typeIntellectualProperty, documentNumber)
                 }
                 TypePledge.CollateralAccount -> {
-                    subSectionR413 = SubSectionR413(collateralAccountCode, infoAmountMoney, amountMoney, idSubjectCode)
+                    subSectionR413 = SubSectionR413(collateralAccountCode, infoAmountMoney, amountMoney, idSubjectCode, collateralAccountRest)
                 }
                 TypePledge.ShareCapital -> {
                     subSectionR414 = SubSectionR414(idSubjectCode, authorizedCapitalPercent)
@@ -245,8 +245,9 @@ private data class RowSection4(val idCodeSubjectPledge: Number, val accountCode:
 
                                val typePropertyPact: String?, // Р4.20_4
                                val datePropertyPact: java.util.Date?, // Р4.20_5
-                               val numberPropertyPact: String? // Р4.20_6
+                               val numberPropertyPact: String?, // Р4.20_6
 
+                               val collateralAccountRest: Number? //Р4.13_6
 )
 
 private fun toRowSection4(row: Array<Any?>): RowSection4 {
@@ -349,6 +350,9 @@ private fun toRowSection4(row: Array<Any?>): RowSection4 {
 
         typePropertyPact = row[70] as? String,
         datePropertyPact = row[71] as? java.util.Date,
-        numberPropertyPact = row[72] as? String
+        numberPropertyPact = row[72] as? String,
+
+        // 73-74 числитель-знаменатель
+        collateralAccountRest = row[75] as? Number
     )
 }

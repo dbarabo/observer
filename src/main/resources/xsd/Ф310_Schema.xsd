@@ -4,7 +4,7 @@
 XML-СХЕМА для формы отчетности Ф0409310
 СГЕНЕРИРОВАНА XSLT-ПРЕОБРАЗОВАНИЕМ GenSchema.xsl
 ******************************************************************-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-ru:rep0409310:v3.0.4.5" xmlns="urn:cbr-ru:rep0409310:v3.0.4.5"><xs:element name="Ф0409310" type="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:cbr-ru:rep0409310:v4.0.4.5" xmlns="urn:cbr-ru:rep0409310:v4.0.4.5"><xs:element name="Ф0409310" type="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
 	<xs:complexType name="Ф0409310" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:sequence>
 			<xs:element name="Составитель" type="Ф0409310Составитель" minOccurs="1" maxOccurs="1"/>
@@ -65,6 +65,7 @@ XML-СХЕМА для формы отчетности Ф0409310
 			<xs:element name="Р6.2" type="Ф0409310Данные310Р6.2" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="Р6.3" type="Ф0409310Данные310Р6.3" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="Р6.4" type="Ф0409310Данные310Р6.4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Р6.5" type="Ф0409310Данные310Р6.5" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="Ид" type="ЦелоеПолож" use="required"/>
 	</xs:complexType>
@@ -269,10 +270,13 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.13_3" type="Симв10-Спр-лок" use="optional"/>
 		<xs:attribute name="Р4.13_4" type="Десят20.2неотриц-лок" use="optional"/>
 		<xs:attribute name="Р4.13_5" type="Строка255Непустая" use="required"/>
+		<xs:attribute name="Р4.13_6" type="Десят20.2неотриц-лок" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.14" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.14_2" type="ИдСубъекта-лок" use="required"/>
 		<xs:attribute name="Р4.14_3" type="ДесятПоложит-лок" use="optional"/>
+		<xs:attribute name="Р4.14_4" type="ЦелоеПолож" use="optional"/>
+		<xs:attribute name="Р4.14_5" type="ЦелоеПолож" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.15" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.15_2" type="Строка255Непустая" use="required"/>
@@ -280,6 +284,7 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р4.15_4" type="Симв10-Спр-лок" use="optional"/>
 		<xs:attribute name="Р4.15_5" type="ИдСубъекта-лок" use="required"/>
 		<xs:attribute name="Р4.15_6" type="Симв10-Спр-лок" use="optional"/>
+		<xs:attribute name="Р4.15_7" type="Строка255Непустая" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р4Р4.16" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р4.16_2" type="Симв10-Спр-лок" use="optional"/>
@@ -367,11 +372,10 @@ XML-СХЕМА для формы отчетности Ф0409310
 		<xs:attribute name="Р5.3_2" type="СтрокаДо50Непустая-лок" use="optional"/>
 		<xs:attribute name="Р5.3_3" type="СтрокаДо1000Непустая-лок" use="optional"/>
 		<xs:attribute name="Р5.3_4" type="РегНомерКОТип" use="optional"/>
-		<xs:attribute name="Р5.3_5" type="кодБИК--лок" use="optional"/>
-		<xs:attribute name="Р5.3_6" type="СтрокаДо50Непустая-лок" use="optional"/>
-		<xs:attribute name="Р5.3_7" type="кодTIN-лок" use="optional"/>
-		<xs:attribute name="Р5.3_8" type="СтрокаДо50Непустая-лок" use="optional"/>
-		<xs:attribute name="Р5.3_9" type="кодNUM-лок" use="optional"/>
+		<xs:attribute name="Р5.3_5н" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р5.3_6н" type="кодTIN-лок" use="optional"/>
+		<xs:attribute name="Р5.3_7н" type="СтрокаДо50Непустая-лок" use="optional"/>
+		<xs:attribute name="Р5.3_8н" type="кодNUM-лок" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310Данные310Р6.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р6.1_1" type="ИдСсуды-лок" use="required"/>
@@ -388,6 +392,10 @@ XML-СХЕМА для формы отчетности Ф0409310
 	<xs:complexType name="Ф0409310Данные310Р6.4" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="Р6.4_1" type="ИдЗалога-лок" use="required"/>
 		<xs:attribute name="Р6.4_2" type="ИдЗалога-лок" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="Ф0409310Данные310Р6.5" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<xs:attribute name="Р6.5_1" type="ИдГрпЗалога-лок" use="required"/>
+		<xs:attribute name="Р6.5_2" type="ИдГрпЗалога-лок" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="Ф0409310НетДанных" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<xs:attribute name="КодНепредставления" type="КодНепредставленияТип" use="required"/>
@@ -435,7 +443,6 @@ XML-СХЕМА для формы отчетности Ф0409310
 	<xs:simpleType name="СтрокаДо1000Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="1000"/></xs:restriction></xs:simpleType>
 	<xs:simpleType name="СтрокаДо2000Непустая-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="2000"/></xs:restriction></xs:simpleType>
 	<xs:simpleType name="ФИАСтип-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="167ad7b0-0441-487b-a283-8dc248e01b70"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/></xs:restriction></xs:simpleType>
-	<xs:simpleType name="кодБИК--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="044525225"/><xs:ЗначениеТипа ЗначТипа="-"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:pattern value="\d{9}|[-]"/></xs:restriction></xs:simpleType>
 	<xs:simpleType name="ИНН_ЮЛ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
 	<xs:simpleType name="ИНН_ФЛ--лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>
 	<xs:simpleType name="кодКИО-лок" xmlns:xs="http://www.w3.org/2001/XMLSchema"><xs:annotation><xs:appinfo><xs:ПримерыЗначений><xs:ЗначениеТипа ЗначТипа="253400a1234567890a35"/></xs:ПримерыЗначений></xs:appinfo></xs:annotation><xs:restriction base="xs:string"><xs:minLength value="1"/><xs:maxLength value="100"/></xs:restriction></xs:simpleType>

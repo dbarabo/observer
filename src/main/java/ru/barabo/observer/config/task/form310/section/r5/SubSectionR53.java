@@ -13,19 +13,16 @@ public class SubSectionR53 {
     @XStreamAlias("Р5.3_4")
     private final String registrationNumberBank;
 
-    @XStreamAlias("Р5.3_5")
-    private final String bik;
-
-    @XStreamAlias("Р5.3_6")
+    @XStreamAlias("Р5.3_5н")
     private final String swift;
 
-    @XStreamAlias("Р5.3_7")
+    @XStreamAlias("Р5.3_6н")
     private final String tin;
 
-    @XStreamAlias("Р5.3_8")
+    @XStreamAlias("Р5.3_7н")
     private final String lei;
 
-    @XStreamAlias("Р5.3_9")
+    @XStreamAlias("Р5.3_8н")
     private final String registrationNumberCountry;
 
     public SubSectionR53(Number codeCountryOksm, String fullName, String registrationNumberBank, String bik, String swift,
@@ -37,7 +34,7 @@ public class SubSectionR53 {
 
         this.registrationNumberBank = registrationNumberBank;
 
-        this.bik = bik;
+        //this.bik = bik;
 
         this.swift = swift;
 

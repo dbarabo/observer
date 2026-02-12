@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p311.v512;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.time.LocalDate;
 import java.time.Year;
 
 @XStreamAlias("Файл")
@@ -54,6 +55,8 @@ public final class MainFile {
 
     static public boolean isFormat514() {
 
-        return (Year.now().getValue() > 2025);
+        LocalDate smev514 = LocalDate.of(2026, 3, 31);
+
+        return LocalDate.now().isAfter(smev514);
     }
 }

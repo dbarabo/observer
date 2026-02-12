@@ -15,7 +15,7 @@ import java.time.LocalTime
 object ExecuteClearInt : SingleSelector {
 
     override val select: String =
-        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 0 and trunc(ondate) >= trunc(sysdate)-6"
+        "select c.id, c.file_name from od.ptkb_clearint c where c.state = 0 and trunc(ondate) >= trunc(sysdate)-13"
 
     override val accessibleData: AccessibleData = AccessibleData(/*workWeek = WeekAccess.ALL_DAYS,*/
         workTimeFrom = LocalTime.of(7, 0),

@@ -46,9 +46,13 @@ abstract class AbstractResponseData : ResponseData {
     protected open fun addWhere(): String = ""
 
     override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {
-        val rowData = AfinaQuery.select(
-                selectResponse(addSeparFields(), addSeparTables(), addWhere() ),
-                arrayOf(idResponse) )[0]
+
+        val selectQuery = selectResponse(addSeparFields(), addSeparTables(), addWhere() )
+
+        logger.error("selectQuery=$selectQuery")
+        logger.error("idResponse=$idResponse")
+
+        val rowData = AfinaQuery.select(selectQuery, arrayOf(idResponse) )[0]
 
         fillDataFields(idResponse, rowData, sessionSetting)
 

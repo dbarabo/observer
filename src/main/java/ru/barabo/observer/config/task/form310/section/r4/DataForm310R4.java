@@ -68,7 +68,7 @@ public class DataForm310R4 {
     @XStreamAlias("Р4.20")
     final private SubSectionR420 subSectionR420;
 
-    @XStreamAlias("Р4.20")
+    @XStreamAlias("Р4.21")
     final private SubSectionR421 subSectionR421;
 
     public DataForm310R4(Number idCodeSubjectPledge,

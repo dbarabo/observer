@@ -25,7 +25,8 @@ object UnSignScad364p  : FileFinder, FileProcessor {
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true),
+            //FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true),
+            FileFinderData(::unCrypto364p,".*\\.(arj|txt)"),
             FileFinderData(::ticketFtsDirectory,"(FC|FS|NC|NS).*\\.xml"),
             FileFinderData(::ticket407pRfmFolder, "PI_RFM.*\\.xml")
     )

@@ -8,6 +8,7 @@ import ru.barabo.observer.config.barabo.crypto.CryptoConfig
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
+import ru.barabo.observer.config.task.p311.v512.MainFile
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
@@ -56,7 +57,9 @@ object CreateAccount311p : Periodical {
 
         error?.let { throw SessionException(it) }
 
-        AfinaQuery.execute(EXEC_CREATE_JUR_FRS)
+        if(MainFile.isFormat514()) {
+            AfinaQuery.execute(EXEC_CREATE_JUR_FRS)
+        }
 
         return State.OK
     }

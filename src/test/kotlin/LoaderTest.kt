@@ -83,11 +83,7 @@ import java.sql.Clob
 import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.Year
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -101,7 +97,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/ "TEST")
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -393,9 +389,9 @@ res3 = [calc.DEC_TEST];
 
 
     //@Test
-    fun test440pExec() {
+    fun testProcess440p() {
 
-        val elem = Elem(idElem = 1187605445L)// женя 1187580606L) // RPO=1186808886L
+        val elem = Elem(idElem = 1356119524L)
 
         Process440p.execute(elem)
     }
@@ -547,7 +543,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun execCtl() {
-        val elem = Elem(idElem = 1204883376, task = ExecuteCtlMtl) //1186566414
+        val elem = Elem(idElem = 1355897508, task = ExecuteCtlMtl)
 
         elem.task?.execute(elem)
 
@@ -587,6 +583,19 @@ res3 = [calc.DEC_TEST];
 
         AfinaQuery.execute(EXEC_CTL_MTL, arrayOf(1186187440L))
     }
+
+    //@Test
+    fun testUpoLoad() {
+
+        //val file = File("C:/temp/UPO10507717_254320260205_502496.xml")
+
+        val file = File("C:/temp/UPO10507717_380420260205_505301.xml")
+
+
+        UpoLoader.processFile(file)
+    }
+
+
 
     //@Test
     fun testZsoLoad() {
@@ -788,7 +797,11 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun exec440p() {
 
-        val elem = Elem(idElem = 1238437141, task = Process440p)
+        //val elem = Elem(idElem = 1238437141, task = Process440p)
+
+        val elem = Elem(idElem = 1356119593, task = Process440p)
+
+
 
         elem.task?.execute(elem)
     }
@@ -1255,7 +1268,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testFnsPercentOut() {
 
-        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2024, 12, 31))
+        val fnsPercentOut = DefaultPercentOutData(LocalDate.of(2025, 12, 31))
         fnsPercentOut.createFile()
     }
 
@@ -1284,7 +1297,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testForm310() {
 
-        val form310 = DefaultForm310Data(LocalDate.of(2022, 11, 1))
+        val form310 = DefaultForm310Data(LocalDate.of(2026, 1, 1))
 
         form310.createFile()
     }
@@ -1692,6 +1705,17 @@ res3 = [calc.DEC_TEST];
     fun testYear() {
         logger.error("year=${Year.now().getValue()}")
     }
+
+    //@Test
+    fun testMonth() {
+
+        val smev514 = LocalDate.of(2025, 12, 28)
+
+        val isAfter = LocalDate.now().isAfter(smev514)
+
+        logger.error("isAfter=$isAfter")
+    }
+
 
 }
 
