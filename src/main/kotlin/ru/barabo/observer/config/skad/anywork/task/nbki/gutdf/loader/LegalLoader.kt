@@ -602,8 +602,9 @@ private fun findMainId(idFile: Number, tax: String, event: String,
                 eventDateXml.xmlDateToTimestamp())) as Number
 
         event in listOf("1.1", "1.2", "1.3") ->
-            AfinaQuery.selectValue(SEL_MAIN_BY_TAX, params = arrayOf(idFile, tax, event,
-                eventDateXml.xmlDateToTimestamp())) as Number
+            AfinaQuery.selectValue(SEL_MAIN_BY_TAX_UIDIFNOTNULL,
+                params = arrayOf(idFile, tax, event, eventDateXml.xmlDateToTimestamp(), unicalUid
+                    )) as Number
 
         subEvent != "" -> AfinaQuery.selectValue(SEL_MAIN_BY_UID_SUBEVENT,
             params = arrayOf(idFile, unicalUid, event, eventDateXml.xmlDateToTimestamp(), subEvent) ) as Number
@@ -623,3 +624,5 @@ private const val SEL_MAIN_BY_UID = "select od.PTKB_RUTDF.getMainByGuid(?, ?, ?,
 private const val SEL_MAIN_BY_UID_TAX = "select od.PTKB_RUTDF.getMainByGuidAndInnLegal(?, ?, ?, ?, ?) from dual"
 
 private const val SEL_MAIN_BY_TAX = "select od.PTKB_RUTDF.getMainByInnOrganization(?, ?, ?, ?) from dual"
+
+private const val SEL_MAIN_BY_TAX_UIDIFNOTNULL = "select od.PTKB_RUTDF.getMainByInnAndGuid(?, ?, ?, ?, ?) from dual"

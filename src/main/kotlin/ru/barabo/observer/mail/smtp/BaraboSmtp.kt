@@ -44,7 +44,7 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_390P = arrayOf("shabot@ptkb.ru", "naumova@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("yanushkevich@ptkb.ru", "shabot@ptkb.ru", "farahova@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("yanushkevich@ptkb.ru", "shabot@ptkb.ru").onlyAfina()
 
     private val MANAGERS_AUTO = arrayOf("sherbo@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
@@ -52,11 +52,11 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_PLASTIC = arrayOf("oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
-    val UOD = arrayOf("shabot@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "farahova@ptkb.ru", "pallas@ptkb.ru").onlyAfina()
+    val UOD = arrayOf("shabot@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "pallas@ptkb.ru").onlyAfina()
 
     val CHECKER_COUNTRY = arrayOf("podft@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
-    val DELB_PLASTIC = arrayOf("farahova@ptkb.ru", "tts@ptkb.ru").onlyAfina()
+    val DELB_PLASTIC = arrayOf("shabot@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
     val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
 
@@ -70,7 +70,7 @@ object BaraboSmtp : SendMail {
 
     val CORRESPOND = arrayOf("yurkova@ptkb.ru", "venukov@ptkb.ru", "kenetbaev@ptkb.ru").onlyAfina()
 
-    val IBANK_DELB = arrayOf("tts@ptkb.ru", "farahova@ptkb.ru").onlyAfina()
+    val IBANK_DELB = arrayOf("tts@ptkb.ru", "shabot@ptkb.ru").onlyAfina()
 
     private fun Array<String>.onlyAfinaOrYa() = if(TaskMapper.isAfinaBase()) this else YA
 

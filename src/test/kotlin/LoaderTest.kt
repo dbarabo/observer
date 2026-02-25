@@ -50,6 +50,7 @@ import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
 import ru.barabo.observer.config.fns.ens.task.Create311p514
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
+import ru.barabo.observer.config.skad.acquiring.task.AcquiringProcessTerminal
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
 import ru.barabo.observer.config.skad.acquiring.task.RecalcTerminalsRate
@@ -534,6 +535,15 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun execWeechat() {
         val elem = Elem(idElem = 1218838711 /*1218838744*/, task = ExecuteWeechatFile)
+
+        elem.task?.execute(elem)
+
+        logger.error("Ok")
+    }
+
+    //@Test
+    fun execAcquiring() {
+        val elem = Elem(idElem = 1298944516, task = AcquiringProcessTerminal)
 
         elem.task?.execute(elem)
 
