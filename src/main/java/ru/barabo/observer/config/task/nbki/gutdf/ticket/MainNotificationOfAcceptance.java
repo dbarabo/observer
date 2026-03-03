@@ -16,6 +16,10 @@ public class MainNotificationOfAcceptance {
     @XStreamAlias("Errors")
     public Errors errors;
 
+    @XStreamAlias("Warnings")
+    @XStreamOmitField
+    public Object warnings;
+
     public MainNotificationOfAcceptance() {}
 
     public DocInfo getDocInfo() {

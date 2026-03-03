@@ -38,7 +38,7 @@ object MinComissionMonthPos : Periodical {
 
         AfinaQuery.execute(EXEC_CREATE_COMISSION)
 
-        AfinaQuery.execute(EXEC_EXECUTE_COMISSION)
+        AfinaQuery.execute(EXEC_INTERNAL_COMISSION)
 
         sendMailReport()
 
@@ -83,6 +83,8 @@ object MinComissionMonthPos : Periodical {
     )
 
     private const val EXEC_CREATE_COMISSION = "{ call od.PTKB_PLASTIC_TURN.processMinComissionMonthPos }"
+
+    private const val EXEC_INTERNAL_COMISSION = "{ call od.PTKB_PLASTIC_TURN.executeMinComisInternal }"
 
     private const val EXEC_EXECUTE_COMISSION = "{ call od.PTKB_PLASTIC_TURN.executeMinComissionMonthPos }"
 

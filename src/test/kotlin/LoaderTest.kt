@@ -1196,7 +1196,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testMinComissionMonthPos() {
-        val elem = Elem(idElem = 30, name = "01/01/2020", task = MinComissionMonthPos)
+        val elem = Elem(idElem = 30, name = "01/03/2026", task = MinComissionMonthPos)
 
         elem.task?.execute(elem)
     }

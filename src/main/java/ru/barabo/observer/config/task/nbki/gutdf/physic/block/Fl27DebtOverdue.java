@@ -36,7 +36,7 @@ public class Fl27DebtOverdue {
     private final StringElement mainMissDate; // minOccurs="0" 27.8. Дата последнего пропущенного платежа по основному долгу
 
     @XStreamAlias("percentMissDate")
-    private final StringElement percentMissDate; // minOccurs="0" 27.8. 27.9. Дата последнего пропущенного платежа по процентам<
+    private final StringElement percentMissDate; // minOccurs="0" 27.9. Дата последнего пропущенного платежа по процентам<
 
     @XStreamAlias("missDuration")
     private final StringElement missDuration; // minOccurs="0" 27.11. Продолжительность просрочки в днях
