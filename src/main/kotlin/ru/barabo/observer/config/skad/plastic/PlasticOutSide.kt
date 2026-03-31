@@ -20,9 +20,6 @@ object PlasticOutSide : AbstractConfig() {
         OutRegisterAquiring.findAll()
         OutRest.findAll()
 
-        CreateAccount311p.findAll()
-        RecreateAfterError311p.findAll()
-
         CbrCurrencyLoader.findAll()
         ExecuteExchangeCbr.findAll()
 

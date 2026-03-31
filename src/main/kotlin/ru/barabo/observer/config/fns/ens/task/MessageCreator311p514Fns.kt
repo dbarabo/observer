@@ -302,9 +302,9 @@ private fun sfrFolder(): File = Cmd.createFolder("${X311P}/СФР/${Get440pFiles
 
 private fun fnsFolder(): File = Cmd.createFolder("${X311P}/ФНС/${Get440pFiles.todayFolder()}")
 
-private fun sfrFolderSent(): File = Cmd.createFolder("${sfrFolder().absolutePath}/ОТПРАВКА")
+fun sfrFolderSent(): File = Cmd.createFolder("${sfrFolder().absolutePath}/ОТПРАВКА")
 
-private fun fnsFolderSent(): File = Cmd.createFolder("${fnsFolder().absolutePath}/ОТПРАВКА")
+fun fnsFolderSent(): File = Cmd.createFolder("${fnsFolder().absolutePath}/ОТПРАВКА")
 
 private const val SELECT_FILENAME = "select od.PTKB_FNS_EXPORT_XML.getFileName(?) from dual"
 
@@ -321,3 +321,8 @@ private const val EXEC_GET_MESSAGE_INFO = """{ call od.PTKB_FNS_EXPORT_XML.getMe
 private const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" ?>\n"
 
 private val X311P = "X:/311-П".ifTest("C:/311-П")
+
+val SFR_TO_SMEV = "$X311P/СФР/to_smev"
+
+val FNS_TO_SMEV = "$X311P/ФНС/to_smev"
+

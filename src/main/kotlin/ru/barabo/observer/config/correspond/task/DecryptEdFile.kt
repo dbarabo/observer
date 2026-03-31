@@ -137,7 +137,7 @@ private fun uncryptMoveNotLoadFile(file: File): State {
     return State.OK
 }
 
-private fun uncryptMoveFile(file: File): State {
+fun uncryptMoveFile(file: File): State {
 
     val decodeFile =  loadDecodeFile(file)
 

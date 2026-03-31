@@ -43,6 +43,7 @@ import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
+import ru.barabo.observer.config.correspond.task.uncryptMoveFile
 import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
 import ru.barabo.observer.config.fns.cbr.extract.PbSaverCbr
 import ru.barabo.observer.config.fns.cbr.task.ProcessCbrRequest
@@ -85,6 +86,7 @@ import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.*
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -1172,13 +1174,6 @@ res3 = [calc.DEC_TEST];
         }
     }
 
-
-    //@Test
-    fun testDecode() {
-
-       // DecryptEdFile.loadFile(File("c:/temp/050771700000000000PacketEPD119009lf.ED"))
-    }
-
     //@Test
     fun testReportTransListLoader() {
 
@@ -1719,11 +1714,27 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testMonth() {
 
-        val smev514 = LocalDate.of(2025, 12, 28)
+        val smev514 = LocalDate.of(2026, 3, 31)
 
-        val isAfter = LocalDate.now().isAfter(smev514)
+        val isAfter = LocalDate.now().plusDays(2).isAfter(smev514)
 
         logger.error("isAfter=$isAfter")
+    }
+
+    //@Test
+    fun testDecode() {
+
+        //uncryptMoveFile(File("c:/temp/050771700000000000PacketEPD1300028iz.ED"))
+
+        val file = File("c:/temp/qq.txt")
+
+        val infoBase64 = file.readBytes()
+
+        //val infoBase64 = "MIINswYJKoZIhvcNAQcDoIINpDCCDaACAQIxggKAMIIBOAIBADBYMEQxCzAJBgNVBAYTAlJVMQswCQYDVQQIEwIwNTEMMAoGA1UEChMDQ0JSMQ0wCwYDVQQLEwRVQlpJMQswCQYDVQQDEwJDQQIQQGAbkJSYZTnXRbpXZ9tbZjAXBgkqhQMHAQEHAgEwCgYIKoUDBwEBBgEEgb8wgbwEMO+g7bsnyD4a/9GlmjmVVKKLaYwNiSrIFWwDyMe4hGDAQ6T+eq5yZmIME8vV42aObjBmMB8GCCqFAwcBAQEBMBMGByqFAwICJAAGCCqFAwcBAQICA0MABEAG1c8erz8evB+Ujucgh4TkHNqWYpsU9rMOarFUn2iQ/LPapIL0OvbjOQ52gTR9aujWCZnNr9V6hcOFeH2HPxl2BCBSHtMeyzaLO2OwjTSkmbmM5i4kr8HEPlgt8fmFgLmZNjCCAUACAQAwYDBMMQswCQYDVQQGEwJSVTELMAkGA1UECBMCMDAxDzANBgNVBAcTBlJUR1NCUjENMAsGA1UEChMER0NLSTEQMA4GA1UEAxMHQURNSU5DQQIQQGAbkMmBkSrvFngjZ7be9TAXBgkqhQMHAQEHAgEwCgYIKoUDBwEBBgEEgb8wgbwEMJgtsh48srukbrtUqhHXclokvIKBEdTuQVSA6FNkDWvfQRcL2ewOhQmkfRssmV7LiDBmMB8GCCqFAwcBAQEBMBMGByqFAwICJAAGCCqFAwcBAQICA0MABECnxyRa+HlcfQmh1DWwBIEDDT5jTChwoRXyRK4faDsQv+amJ4ASlSVF0RPxf8lK+V8TlJc6Y8E74r3oarFiDu9lBCB+VLGl5Eaw5m00jzCJbz7o46pfTDHIeRO4SqT4fgxsqjCCCvIGCSqGSIb3DQEHATAfBgkqhQMHAQEFAgIwEgQQsfyFRt2gyG9wAhBZpwLCxoCCCsLepMPaMfGFX4FIZGESDoSmWDnwuWCu9xJAJInpJITwGhaO491iDDW8b4FeNb+mHGdjQ/bYr/7GWK40vWy5jCKHBqPDAmVfQ76pGkOJeDz4NWtWxgYLTwctEAmyoLZtNnvZR4ZQoFjsllf9lWAV0DJ98s2kUS+SDmEMejBhcEtKvV9lCBhGkRkqjlfPYZXPOtpQvRnjHl1sGYnwlHbRi9OV140Mths/saDe1zRheo6fgyNAzTflG9n99dcttcIKnFAea4FSBok0/5HP5Y3DWcNQ9Fh6SRZSz+hLJ0Vi/IiOKn6iY4cU+50+kJl+fI8HnelejCjlEmpv5xR7RAoLZipGyQ4KwnI4U0xheZFA7yubJxw47fP/tI5vAnBKH5qgACVEMXepmAp09jPYJGBA14zohqwxMt5U5HXlPUOwybaeko1vLUBVbZV4bdEqRnnMNAqA/xpwYLiLp4LhBUsnyiPPYlyU1hiiQV+BOmBe3dzyLHAFcQ+ZF6Y5VgGPT5sXk6V0GA2gqCRCM0QE6mQt+UIcerEyi6b5xb+FYMSTZn2qaEUNpkMKAZX5r2LGCm6KX6s/tLRBIbX/wDR+/K+aB+kVyI+ZHPpRflYAm4tpp8rF4UoStqZ1SBmPw53v9S4cU+uCWNQpztsyUI/6sj8LEqzvu6L+UjhOMLyYvt0TDKyxdOOkh85yYh58UOVFT8lDof147uBK2gqdkALXLzc6MX+CeGINu2faWKRpMa7CduylYBJ/V5cWsjmQAflmSLKOI1sC6+FSLjcPHQ3W5L2WPXPsrkzegVQXsidoDeKKUo8BnHexNUJn/VPx6qXy/LWATKAL5NNY6rFvaJlFvz8hUd8GqAO8TOMpXBr/wqgNGwFZKziSLpkcwzbg4oP88X1o0tq2lUWuVVTp752FfKr6DEmgqUu8v6ckuVmGnEp1PJSjJx907YxJpnM24ZlKzGMbx2Z1Hg9JGMBrUC+tZ3QwB/ijc1fmrIcni+Qn4WEj1VbQbnSFMbN64aeua/LO2MXk3lYIrqeOt5ikAUc0ogEA2W/HPFndICDwItOMWC/F999pzwOJURwX2g59KGD+4moa17ITxcWFLnTGDDeUYdBJuoHgZeK0BOP47s51fzrrvRwb64pvFY8/z4OUJHBjCSiPWd6scTyDY21Jk6riUelzW5EtLDgRRL23Ca01JwdXB1RZ09UPUF0uTALAFDwLfecsCYvKSG/OpLqi8eNtoMIybdE5IKTiv6wfz9myiHQ1145N9Fi/bixLUJZ1cAHFQ3HRMH9my4fkbV7M3bKXEO2zODm+vuPtegFAWp4dx9hV0zAP9kPiVQEz0w0zYSwLCtNNhcDR50Ax8Gl8Vx0Z7Icfo02j9rkuJlrm4RoP1cvNLmNFBlOxf6rzjhy+eYXmfaFwXqX8M+69myGTNnh+7/6gtgYITks86ybKR5fhcRLtAcj1ggYkTb28rF2pwnyELsNuCtSRcVccjwUx/R9ysj4WdXCKr0swoY8svXBHmgOf7g917ixYZZ265foVEDS1kWMHPnlG8ZB3ZLgcJFajAEXHHKLjgCy84HfguWfiw1DXo8vl6D1rMs+ARYuWUmAfYt5yCdvPce3ankfTSQrSP72PyA0U8XPpJ9twlsBlciaaNJqHbPbKPgjNl7fqnbNexfgKHeq9vrTNbgG4lmmKNJXJBX06hZv+Qweumj+cZRGXlo9R/24zVjX67B2rA1yewD/JJ5feo1cXa+eKVNCWrI5Do7T+OnG08VkJAv/XQkU2bHxFaRS8i2SAQgOGtxqoPbXmS6N2jUw9fhJiQ8iIcsffsqLOXVQHFWXdORaEUoUrZVBdRE7OaLugF3UY05ETLoteFUECjG8SyrKlPkXLB1DFeiF7dCVUK1r+Krr0TsOpWyGbwyvEE9IV+ICy99+r/U3a0eQRyP7FSrWZfE8pzoYaG2fXPbqMx9ueXUTBQpgwsIdrGzEJ/lQWadII+oZB6nof6soRxfcoo9Sz0AriuGYjtejzJ8GZ8vNp+S3kibpfNKK01uiBCqmVWVggUSgb7vc5QHZkaZ6y/b4boDHqJXVOWNIKMjH9INIWX8/extwRRHPdiZ9ZqxdBXvgdBU93BmMwxtU0P5jRHOj/XW+G250OVRtD9D58Zpa0L8U7483NCQDPP+XfTWJItHutQ31+StERCcl1ZMlo4dXaTeZTprO4O2oYnrTvhm1GaGWxd6uWuiwSTc4GQ8cLDCCVmxNYiUqGSeaCWh6iWJen5lBGH2wwu/o1bi4y0qrdYcTKF2zbRvONozIzxdxpSYUJhPoJ5SvP1fCaWJgPUeWwfopHS2cIlY+tXFxE70LQJaLw0MfjSsel2sxJZeSsVnCz1DJKoKLeFdsFX5R0v7QrMbxhpbkDOsiAFZ4QhcQ4Qw880OLSQCs4BqswJ78R/pZreQMgGzwZjzUs3sxLvDGVcVjAcsR9YZunueR5hbOA/WkDiYqnPB/2JSxvdNL6sLgrvmTIFkLrBnqYNy8gOkutNCySkz5NQV/M3ckDs4iJRQ1DeQfmnnKAaiMqDTJQnvYIrqbtYWPH7yhF6S5mrqAwR19MMWFv4lgwa4/C3btWOyMnGnsitEQPk3PyrSidq+SOnkFeMfLw5jNmtuuOP+AqqHmXGtmFpnRuSqOoR8iZw9icwhaDMuJPtFUTMJj4YnBNlOFJ0Sbcgx+mr+I8Lwv5n5YLIwJz6l8TW7aF7xqCeap86Dm1xWhd8knEuiXe6eXjJuxjmZQfAwG/bVL1W0Bo9JBoJbeXPf/S3PGK5AHI86a6S8BNclkKQFReaw7EUkBSOZ3Bn3Z6+usiISteCT4F9KnPM7gjQZfK3e75Tc1Oi+W7J7JitFITCHiZ0bxmqeBqwyUc4FAa6d5jrPkC/CXdPKTcA+gf4lvpY1P+v51lo+b6Cu2YhXkWLUCGPIdlOAQv+8srp8Y+rsn7iBWklCZ4vtktZZ/J0EnsreuUSIkJiXmc85Eq6Z6eKwmIiM7bwplAoTY8hIrdR3zeTg1/MmFQA/mwYR0FyrXbsN+v062t2V0VtpWA1M0NVo+a00AIqxknGboWSVRk9aCmPvzmd507nTcpKpr/akY2JzSpU/EcA/1quOy6TYmM50z3/9oqM/FZQFeYdY11IPWyjMJ4WINmhqVQ8AlknDs3Mp6Dz3fppg+/eFj5B0iPFiZCopImp3v0h//UFTw8Rl+UAQcxU9rG1I38Xto7eL+mAPsaNm2KfxaxT33kLIuz99LkgRXkkbaEMnzKDYJatZj/POgSnQOb4cXB7RgZvcOiss166f3ar9dH1TD/PhRf/43S3T+xusx4OtUTiXsMh+WV2g5cL3EWq0iAFjEWjojfkBnWyw5U33sDCwcDXPlRhs0tD/I4k3gtoI9eRYmt5njEA3qznjL5r4kqls5hpETAi22gOlsz4rZsHI8vNZSLRsdDcz1UaaPqv8nP86LOU9KWjQRyWH6oXY+UKHIgCqqXALHwirjHzC7e4EhVbzJLmEU/na+mm6oC3yiIDKp0Uqf+5gnd3GK9v562sP6QZoFQE106xHvYcZCTpJClE31QmUOwS+TubZ7JjKFaq/yPJNRhufGhvfkTVFDQ8Asx4KaU1Jo0tG2DT7gAuQoKdg9/i7MAzqONCV1z5p37TW4r/M6ywVeQSJNSUjxIZt96NYahk9qhITAfBgkqhQMHAQAGAQExEgQQ+r1ErXPApezEE4dwz4A/3w=="
+
+        val decode = Base64.getDecoder().decode(infoBase64)
+
+        logger.error(decode.decodeToString())
     }
 
 

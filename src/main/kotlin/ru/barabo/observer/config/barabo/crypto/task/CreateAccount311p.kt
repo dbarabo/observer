@@ -4,8 +4,7 @@ import org.slf4j.LoggerFactory
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.crypto.CryptoConfig
-import ru.barabo.observer.config.skad.plastic.PlasticOutSide
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.p311.v512.MainFile
@@ -21,6 +20,10 @@ object CreateAccount311p : Periodical {
 
     private val logger = LoggerFactory.getLogger(CreateAccount311p::class.java)
 
+    override fun config(): ConfigTask = EnsConfig //PlasticOutSide
+
+    override fun name(): String = "311-П 1. Запустить выгрузку"
+
     override val unit: ChronoUnit =  ChronoUnit.DAYS
 
     override var count: Long = 1
@@ -29,10 +32,6 @@ object CreateAccount311p : Periodical {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
             LocalTime.of(10, 0), LocalTime.of(15, 50), Duration.ofHours(1))
-
-    override fun name(): String = "311-П 1. Запустить выгрузку"
-
-    override fun config(): ConfigTask = PlasticOutSide // CryptoConfig
 
     private const val EXEC_CREATE_JUR_ACCOUNT = "{ call od.PTKB_FNS_EXPORT_XML.execJurDataPriorDay }"
 
