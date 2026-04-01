@@ -21,9 +21,9 @@ object OtherCbr: AbstractConfig() {
         CheckTicket440p.findAll()
         CheckTicketArchive440p.findAll()
 
-        CheckTicketArchive311p.findAll()
-        CheckTicketCbrFile311p.findAll()
-        CheckTicketFns311p.findAll()
+        //CheckTicketArchive311p.findAll()
+        //CheckTicketCbrFile311p.findAll()
+        //CheckTicketFns311p.findAll()
 
         // off 06.04.2020 go to week reports
         CorrectPrim.findAll()

@@ -298,9 +298,9 @@ private fun errorFolder(): File = Cmd.createFolder("$X311P/ФИЗИКИ/Отпр
 
 private fun String.isSfr() = indexOf("FRS") == 0
 
-private fun sfrFolder(): File = Cmd.createFolder("${X311P}/СФР/${Get440pFiles.todayFolder()}")
+fun sfrFolder(): File = Cmd.createFolder("${X311P}/СФР/${Get440pFiles.todayFolder()}")
 
-private fun fnsFolder(): File = Cmd.createFolder("${X311P}/ФНС/${Get440pFiles.todayFolder()}")
+fun fnsFolder(): File = Cmd.createFolder("${X311P}/ФНС/${Get440pFiles.todayFolder()}")
 
 fun sfrFolderSent(): File = Cmd.createFolder("${sfrFolder().absolutePath}/ОТПРАВКА")
 
@@ -322,7 +322,19 @@ private const val XML_HEADER = "<?xml version=\"1.0\" encoding=\"windows-1251\" 
 
 private val X311P = "X:/311-П".ifTest("C:/311-П")
 
-val SFR_TO_SMEV = "$X311P/СФР/to_smev"
+private val SFR = "$X311P/СФР"
 
-val FNS_TO_SMEV = "$X311P/ФНС/to_smev"
+private val FNS = "$X311P/ФНС"
+
+val SFR_TO_SMEV = "$SFR/to_smev"
+
+val FNS_TO_SMEV = "$FNS/to_smev"
+
+val SFR_FROM_SMEV = "$SFR/from_smev"
+
+val FNS_FROM_SMEV = "$FNS/from_smev"
+
+fun sfrFolderGet(): File = Cmd.createFolder("${sfrFolder().absolutePath}/ПОЛУЧЕНО")
+
+fun fnsFolderGet(): File = Cmd.createFolder("${fnsFolder().absolutePath}/ПОЛУЧЕНО")
 

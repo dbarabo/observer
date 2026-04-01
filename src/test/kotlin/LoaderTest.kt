@@ -42,6 +42,7 @@ import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
+import ru.barabo.observer.config.correspond.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
 import ru.barabo.observer.config.correspond.task.uncryptMoveFile
 import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
@@ -100,7 +101,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
+        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -1737,7 +1738,11 @@ res3 = [calc.DEC_TEST];
         logger.error(decode.decodeToString())
     }
 
+    //@Test
+    fun testLoadArchiveFromSfr() {
 
+        LoadArchiveFromSfr.processFile(File("C:/temp/SFRW00212026040100001.zip"))
+    }
 }
 
 private const val CONVERSE_HEADER = "эквивалент возмещения в валюте"

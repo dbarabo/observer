@@ -36,8 +36,7 @@ object SendArchive311pZip : SingleSelector {
 
         val sessionSetting  = AfinaQuery.uniqueSession()
         try {
-            AfinaQuery.execute(query = EXEC_SEND_ARCHIVE_ZIP, params = arrayOf(idArchive),
-                sessionSetting, outParamTypes = intArrayOf(OracleTypes.VARCHAR))
+            AfinaQuery.execute(query = EXEC_SEND_ARCHIVE_ZIP, params = arrayOf(idArchive), sessionSetting )
 
             val archiveFullPath = File("${folderNow.absolutePath}/$archiveNameNoExt.zip")
 

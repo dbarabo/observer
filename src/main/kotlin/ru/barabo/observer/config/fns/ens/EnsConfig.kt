@@ -4,6 +4,7 @@ import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.RecreateAfterError311p
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.correspond.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
 import ru.barabo.observer.config.fns.ens.task.Create311p514
 import ru.barabo.observer.config.fns.ens.task.Send440pArchiveToSmev
@@ -38,6 +39,7 @@ object EnsConfig : AbstractConfig() {
         RecreateAfterError311p.findAll()
         Create311p514.findAll() // start 2026-04-01
         SendArchive311pZip.findAll() // start 2026-04-01
+        LoadArchiveFromSfr.findAll()
 
         this.executeTasks()
     }
