@@ -18,19 +18,19 @@ public class DocInfo {
     @XStreamAlias("dataReceivedStatus")
     public StringElement dataReceivedStatus;
 
-    @XStreamAlias("outgoingDocDate")
+    @XStreamAlias("outgoingDocDateTime")
     public StringElement outgoingDocDate;
 
     @XStreamAlias("outgoingDocNumber")
     public StringElement outgoingDocNumber;
 
-    @XStreamAlias("incomingDocDate")
+    @XStreamAlias("incomingDocDateTime")
     public StringElement incomingDocDate;
 
     @XStreamAlias("incomingDocNumber")
     public StringElement incomingDocNumber;
 
-    @XStreamAlias("dateTime")
+    @XStreamAlias("docDateTime")
     public StringElement dateTime;
 
     @XStreamAlias("fileName")

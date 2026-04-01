@@ -23,7 +23,7 @@ public class MainNotificationOfReceipt {
     @XStreamAlias("sourceId")
     public StringElement sourceId;
 
-    @XStreamAlias("outgoingDocDate")
+    @XStreamAlias("outgoingDocDateTime")
     public StringElement outgoingDocDate;
 
     @XStreamAlias("outgoingDocNumber")
@@ -38,7 +38,7 @@ public class MainNotificationOfReceipt {
     @XStreamAlias("acceptanceStatusOK")
     public StringElement acceptanceStatusOK;
 
-    @XStreamAlias("incomingDocDate")
+    @XStreamAlias("incomingDocDateTime")
     public StringElement incomingDocDate;
 
     @XStreamAlias("incomingDocNumber")
@@ -50,8 +50,11 @@ public class MainNotificationOfReceipt {
     @XStreamAlias("fileHash")
     public StringElement fileHash;
 
-    @XStreamAlias("dateTime")
+    @XStreamAlias("docDateTime")
     public StringElement dateTime;
+
+    @XStreamAlias("sendingDateTime")
+    public StringElement sendingDateTime;
 
     public StringElement getFileName() {
         return fileName;

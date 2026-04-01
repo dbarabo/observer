@@ -20,6 +20,10 @@ public class MainNotificationOfAcceptance {
     @XStreamOmitField
     public Object warnings;
 
+    @XStreamAlias("sendingDateTime")
+    @XStreamOmitField
+    public String sendingDateTime;
+
     public MainNotificationOfAcceptance() {}
 
     public DocInfo getDocInfo() {
