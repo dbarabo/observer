@@ -24,8 +24,6 @@ object PtkPsd : AbstractConfig() {
 
         Ticket440pCbr.findAll()
 
-        //Send311pArchive.findAll()
-
         // execute all
         executeTasks()
     }

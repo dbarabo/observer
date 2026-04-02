@@ -1,4 +1,4 @@
-package ru.barabo.observer.config.correspond.task
+package ru.barabo.observer.config.fns.ens.task
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
@@ -9,8 +9,6 @@ import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.fns.ens.EnsConfig
-import ru.barabo.observer.config.fns.ens.task.SFR_FROM_SMEV
-import ru.barabo.observer.config.fns.ens.task.sfrFolderGet
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -22,12 +20,12 @@ import ru.barabo.observer.config.task.template.file.FileProcessor
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import java.io.File
 import java.nio.charset.Charset
+import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.LocalTime
 
 object LoadArchiveFromSfr : FileFinder, FileProcessor {
-
 
     override fun name(): String = "311-П СФР Забрать архив"
 
@@ -111,7 +109,7 @@ private const val EXEC_TICKET_LOAD = "{ call od.PTKB_440P.ticketSfrLoad(?, ?, ?,
 
 private val DATE_FORMAT = SimpleDateFormat("dd.MM.yyyy")
 
-fun String.dateParseRu(): java.sql.Date = java.sql.Date(DATE_FORMAT.parse(this).time)
+fun String.dateParseRu(): Date = Date(DATE_FORMAT.parse(this).time)
 
 private const val SUBJECT_311P_ERROR = "311-П Ошибка в квитке от СФР"
 

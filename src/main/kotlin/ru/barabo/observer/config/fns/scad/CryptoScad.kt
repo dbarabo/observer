@@ -22,9 +22,6 @@ object CryptoScad : AbstractConfig() {
 
          Uncrypto550pScad.findAll()
 
-         //CreateCrypto311p512.findAll()
-         //SignScadArchive311p.findAll()
-
          UncryptoScad440p.findAll()
 
          InfoRequest349p.findAll()

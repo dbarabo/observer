@@ -265,7 +265,7 @@ object MessageCreator311p514Fns {
 
             TypeFace.IP -> SvNp(codeFace, svidNU, NpIP(inn!!, ogrn!!, firstName!!, mainName, secondName) )
 
-            TypeFace.ForeignOOO -> SvNp(codeFace, svidNU, NpIO(mainName, inn, kio) )
+            TypeFace.ForeignOOO -> SvNp(codeFace, svidNU, NpIO(mainName, inn, kio, kpp) )
 
             TypeFace.Physic -> SvNp(codeFace, NpFl(inn, birthDate, birthPlace, codeDocuments, lineNumberDocument,
                 dateOutDocument, firstName!!, mainName, secondName))

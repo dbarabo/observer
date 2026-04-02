@@ -2,7 +2,6 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -42,9 +41,8 @@ import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
-import ru.barabo.observer.config.correspond.task.LoadArchiveFromSfr
+import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
-import ru.barabo.observer.config.correspond.task.uncryptMoveFile
 import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
 import ru.barabo.observer.config.fns.cbr.extract.PbSaverCbr
 import ru.barabo.observer.config.fns.cbr.task.ProcessCbrRequest

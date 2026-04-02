@@ -91,13 +91,13 @@ object Ticket311pFnsLoadScad :  FileFinder, FileProcessor {
                 body = errorMessage(ticketFileName, resultMessage, ticketBody, idRegister))
     }
 
-    private const val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
+    const val SELECT_ID_REGISTER = "select max(rp.id) from od.ptkb_361p_register rp where rp.NUMBER_MAIL = ?"
 
-    private const val UPDATE_REGISTER = "{ call od.PTKB_440P.loadTicketFileFns311p(?, ?, ?, ?, ?) }"
+    const val UPDATE_REGISTER = "{ call od.PTKB_440P.loadTicketFileFns311p(?, ?, ?, ?, ?) }"
 
-    private const val SUBJECT_311P_ERROR = "311-П Ошибка в квитке от ФНС"
+    const val SUBJECT_311P_ERROR = "311-П Ошибка в квитке от ФНС"
 
-    private fun errorMessage(fileName: String, resultMessage: String?, ticketBody: String?, regId: Number) =
+    fun errorMessage(fileName: String, resultMessage: String?, ticketBody: String?, regId: Number) =
             "На отправленный файл получена квитанция из ФНС с ошибкой \n" +
                     "\tФайл квитка: $fileName\n" +
                     "\tКод ошибки: $resultMessage\n" +

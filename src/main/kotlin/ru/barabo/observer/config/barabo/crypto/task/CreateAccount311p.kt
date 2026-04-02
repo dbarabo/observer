@@ -56,9 +56,7 @@ object CreateAccount311p : Periodical {
 
         error?.let { throw SessionException(it) }
 
-        if(MainFile.isFormat514()) {
-            AfinaQuery.execute(EXEC_CREATE_JUR_FRS)
-        }
+        AfinaQuery.execute(EXEC_CREATE_JUR_FRS)
 
         return State.OK
     }

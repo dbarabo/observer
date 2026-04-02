@@ -8,18 +8,23 @@ public final class NpIO {
     @XStreamAlias("НаимОрг")
     private String name;
 
+    @XStreamAlias("КПП")
+    private String kpp;
+
     @XStreamAlias("ИННИО")
     private InnIo innIo;//private String innIo;
 
     @XStreamAlias("КИО")
     private KioIo kio;
 
-    public NpIO(String name, String innIo, String kio) {
+    public NpIO(String name, String innIo, String kio, String kpp) {
 
         this.kio = ((kio == null) || kio.isEmpty()) ? null : new KioIo(kio);
 
         this.innIo = ((innIo == null) || innIo.isEmpty()) ? null : new InnIo(innIo);
 
         this.name = name;
+
+        this.kpp = ((kpp == null) || kpp.isEmpty()) ? null : kpp;
     }
 }
