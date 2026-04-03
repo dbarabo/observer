@@ -5,12 +5,8 @@ import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.RecreateAfterError311p
 import ru.barabo.observer.config.barabo.p440.task.*
 import ru.barabo.observer.config.cbr.other.task.CheckTicketArchive311p
-import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
-import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
-import ru.barabo.observer.config.fns.ens.task.Create311p514
-import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromFns
-import ru.barabo.observer.config.fns.ens.task.Send440pArchiveToSmev
-import ru.barabo.observer.config.fns.ens.task.SendArchive311pZip
+import ru.barabo.observer.config.cbr.other.task.CheckTicketFns311p
+import ru.barabo.observer.config.fns.ens.task.*
 import ru.barabo.observer.config.skad.crypto.task.AddToArchive440pScad
 
 object EnsConfig : AbstractConfig() {
@@ -43,10 +39,12 @@ object EnsConfig : AbstractConfig() {
         SendArchive311pZip.findAll()
         LoadArchiveFromSfr.findAll()
         LoadArchiveFromFns.findAll()
+        CheckSentBySmevArchive311p.findAll()
 
-        //CheckTicketArchive311p.findAll()
+        CheckTicketFns311p.findAll()
+        CheckTicketArchive311p.findAll()
         //CheckTicketCbrFile311p.findAll()
-        //CheckTicketFns311p.findAll()
+
 
 
         this.executeTasks()

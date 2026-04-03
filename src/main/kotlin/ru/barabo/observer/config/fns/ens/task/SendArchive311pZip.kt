@@ -1,6 +1,5 @@
 package ru.barabo.observer.config.fns.ens.task
 
-import oracle.jdbc.OracleTypes
 import ru.barabo.db.SessionException
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.selectValueType
