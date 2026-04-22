@@ -18,7 +18,6 @@ public class SubSectionR413 {
     @XStreamAlias("Р4.13_5")
     final private String idSubjectCode; // required
 
-
     @XStreamAlias("Р4.13_6")
     final private String collateralAccountRest;// optional
 
