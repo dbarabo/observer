@@ -41,7 +41,7 @@ public class BnpInfoPartVer4 {
         @XStreamAlias("КодПричНеисп")
         private Integer codeWhyNotExecute = 1;
 
-        @XStreamAlias("ДопСвед")
+        @XStreamAlias("ДопСведен")
         private String descriptionWhyNotExecute;
 
         @XStreamAlias("ДатаНаправ")
@@ -73,5 +73,7 @@ public class BnpInfoPartVer4 {
             this.sumPartExecKopeika = XmlLoader.formatInteger(responseData.getSumPartExecKopeika());
 
             this.account = responseData.getAccount();
+
+            this.descriptionWhyNotExecute = responseData.getDopInfo();
         }
 }

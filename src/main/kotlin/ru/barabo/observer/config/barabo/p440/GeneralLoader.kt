@@ -47,7 +47,7 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
     fun actionTask(name :String) : ActionTask {
 
         val actionTask = try {
-            FileLoader.objectByPrefix(name.substring(0, 3).uppercase(Locale.getDefault()))
+            FileLoader.objectByPrefix(name.take(3).uppercase(Locale.getDefault()))
         } catch (e: Exception) {
             logger.error("actionTask=$name", e)
 

@@ -348,6 +348,11 @@ object GutdfLoaderFile {
 
         val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
+        logger.error("idMain=$idMain")
+        logger.error("unicalId=$unicalId")
+        logger.error("orderNum=$orderNum")
+
+
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
         data.addAll(fl3235Group(idMain, this.fl3235GroupList))
         data.addAll(fl33Warranty(idMain, this.fl33WarrantyList))
@@ -477,6 +482,10 @@ object GutdfLoaderFile {
         val data = ArrayList<DataInfo>()
 
         for(guarant in fl33) {
+
+            if(guarant.uid?.value.isNullOrEmpty()) continue
+
+            logger.error("guarant.uid=${guarant.uid?.value}")
 
             data.addAll(guarant.info(idMain))
         }

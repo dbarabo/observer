@@ -27,10 +27,9 @@ public class SenderBank {
 	}
 
 	public static SenderBank OUR_MAIN_UOD = new SenderBank("Начальник Департамента обслуживания клиентов",
-			"Лидия", "Юркова", "Васильевна");
+			"Елена", "Урсу", "Леостиновна");
 
-
-	public static SenderBank create(String[] items) {
+    public static SenderBank create(String[] items) {
 		if (items == null || items.length < 2) {
 			return null;
 		}

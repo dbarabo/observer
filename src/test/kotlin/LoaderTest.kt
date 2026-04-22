@@ -2,6 +2,7 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -99,7 +100,7 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", "AFINA"/*"TEST"*/)
+        TaskMapper.init("TEST", /**"AFINA"*/"TEST")
 
         com.sun.javafx.application.PlatformImpl.startup {}
     }
@@ -109,11 +110,45 @@ class LoaderTest {
 
     //@Test
     fun validateXmlTest() {
-        val xmlFile = File("C:/report/SBC110507717_254020221102_002100002200005270_100.xml")
-        val xsd = "/xsd/SBC1_512.xsd"
+        val xmlFile = File("C:/temp/0/0/ZSV10507717_781420260416_006773.xml")
+        val xsd = "/xsd/fns/from-fns/ZSV_402.xsd"
 
-        validateXml(xmlFile, xsd) { File("C:/report/1")  }
+        validateXml(xmlFile, xsd) { File("C:/temp/1")  }
     }
+
+    //@Test
+    fun loadZso() {
+
+        val file = File("C:/temp/0/0/ZSV10507717_781420260416_006773.xml")
+
+        val elem = Elem(file, ZsvLoaderVer4, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun loadZsn() {
+
+        val file = File("C:/temp/0/0/ZSN10507717_510020260409_000014.xml")
+        //val xsd = "/xsd/fns/from-fns/ZSN_402.xsd"
+        //validateXml(file, xsd) { File("C:/temp/1")  }
+
+        val elem = Elem(file, ZsnLoader, Duration.ZERO)
+
+        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
+
+        //val elem = Elem(File("D:/logs/QWE/PNO40507717_253620220511_057378.xml"), PnoLoader, Duration.ZERO)
+
+        //val elem = Elem(File("C:/Картстандарт/test/ROO10507717_254320190226_000000.xml"), RooLoader, Duration.ZERO)
+
+        // женя
+        //val elem = Elem(File("C:/Картстандарт/test/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
+
+        //val elem = Elem(File("C:/Картстандарт/test/рита/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
 
     //@Test
     fun testCbrKeyRateLoader() {
@@ -396,22 +431,6 @@ res3 = [calc.DEC_TEST];
         val elem = Elem(idElem = 1356119524L)
 
         Process440p.execute(elem)
-    }
-
-    //@Test
-    fun loadZsn() {
-        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
-
-        val elem = Elem(File("D:/logs/QWE/PNO40507717_253620220511_057378.xml"), PnoLoader, Duration.ZERO)
-
-        //val elem = Elem(File("C:/Картстандарт/test/ROO10507717_254320190226_000000.xml"), RooLoader, Duration.ZERO)
-
-        // женя
-        //val elem = Elem(File("C:/Картстандарт/test/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
-
-        //val elem = Elem(File("C:/Картстандарт/test/рита/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
-
-        elem.task?.execute(elem)
     }
 
         //@Test

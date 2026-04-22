@@ -18,16 +18,16 @@ import java.time.LocalTime
 
 object CheckerIsSendKyccl : FileFinder, FileProcessor {
 
+    override fun config(): ConfigTask = PlasticOutSide
+
+    override fun name(): String = "Проверка отправки файла Клиентов с Рисками ЦБ"
+
     override val fileFinderData: List<FileFinderData> =
         listOf( FileFinderData(::folderRiskCbr, "KYCCL_2540015598_0021_.*\\.xml") )
 
     override val accessibleData: AccessibleData =
         AccessibleData(WeekAccess.WORK_ONLY, true, LocalTime.of(15, 0), LocalTime.of(21, 0),
-            Duration.ofMinutes(59))
-
-    override fun config(): ConfigTask = PlasticOutSide
-
-    override fun name(): String = "Проверка отправки файла Клиентов с Рисками ЦБ"
+            Duration.ofMinutes(43))
 
     override fun isThrowWhenNotExists() = false
 

@@ -24,9 +24,12 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 	@XStreamAlias("ТипИнф")
 	protected String typeInfo;
 
+    @XStreamAlias("ВерсФорм")
+    protected String versionFormat;
+
 	abstract protected FromFnsInfo getFromFnsInfo();
 
-	private static final String COLUMNS = "FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
+	private static final String COLUMNS = "VERSION, FNS_POST, FNS_PHONE, FNS_FIO, TYPE_440P, BANK_BIK, BANK_NAME, FNS_CODEID, FNS_NAME, "
 			+ "MAIN_NUMBER, MAIN_DATE, MAIN_CODE, MAIN_DESCRIPTION, MAIN_SUM, MAIN_TYPE, MAIN_STATUS, "
 			+ "ACCOUNTS, CARDS, CARDS_CURRENCY, ADD_NUMBER, ADD_DATE, SUB_NUMBER, SUB_DATE, ACCOUNTS_START_DATE, ACCOUNTS_END_DATE, "
 			+ "UUID, "
@@ -56,6 +59,7 @@ abstract public class AbstractFromFns implements MainParamsQuery {
 		}
 
 		return new ArrayList<Object>(Arrays.asList(
+                versionFormat == null ? String.class : versionFormat,
 				fnsPost == null ? String.class : fnsPost,
 				fnsPhone == null ? String.class : fnsPhone,
 				fnsFio == null ? String.class : fnsFio,

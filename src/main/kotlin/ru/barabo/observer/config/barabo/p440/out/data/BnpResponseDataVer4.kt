@@ -11,7 +11,7 @@ class BnpResponseDataVer4 : AbstractResponseData() {
     override fun xsdSchema(): String = "/xsd/440-П_BNP.xsd"
 
     override fun addSeparFields(): String = ", f.MAIN_NUMBER, f.MAIN_DATE, f.FNS_CODEID, f.MAIN_SUM, " +
-            "p.INN, p.KPP, p.NAME, od.ptkb_440p.getPnoPartSumExecute(f.id), f.ACCOUNTS "
+            "p.INN, p.KPP, p.NAME, od.ptkb_440p.getPnoPartSumExecute(f.id), f.ACCOUNTS, od.ptkb_440p.getRestOtherAccounts(f.id) "
 
     override fun addSeparTables(): String = ", od.PTKB_440P_CLIENT p "
 
@@ -30,6 +30,8 @@ class BnpResponseDataVer4 : AbstractResponseData() {
     var sumPartExecKopeika: Number? = null
 
     var account: String? = null
+
+    var dopInfo: String? = null
 
     lateinit var payer: PayerJur
 
@@ -52,5 +54,7 @@ class BnpResponseDataVer4 : AbstractResponseData() {
         sumPartExecKopeika = rowData[12] as? Number
 
         account = rowData[13] as? String
+
+        dopInfo = rowData[14] as? String
     }
 }

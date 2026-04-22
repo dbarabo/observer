@@ -19,10 +19,10 @@ public class AbstractFileXmlVer4 {
     final protected String pnoneSender = "(423)222-98-82";
 
     @XStreamAlias("ДолжнОтпр")
-    final protected String fnsPostSender = "Специалист по сопровождению";
+    final protected String fnsPostSender = "Зам начальника ДСПО";
 
     @XStreamAlias("ФамОтпр")
-    final protected String familySender = "Колтовская А В";
+    final protected String familySender = "Барабошкин Д В";
 
     @XStreamAlias("ВерсФорм")
     final protected String fnsFormatVersion = "4.00";
