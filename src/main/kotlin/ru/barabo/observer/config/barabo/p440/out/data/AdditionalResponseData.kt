@@ -16,6 +16,8 @@ class AdditionalResponseData(
     override fun xsdSchema(): String = "/xsd/BVD_300.xsd"
     override fun isSourceSmev(): Boolean = false
 
+    override fun versionRequest(): String = mainResponseData.versionRequest()
+
     override fun fileNameResponse(): String =
             String.format("${fileNameResponseTemplate()}.xml", dateFormatInFile())
 

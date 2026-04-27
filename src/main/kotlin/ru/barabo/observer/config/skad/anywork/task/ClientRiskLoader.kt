@@ -75,7 +75,7 @@ private fun sendResponseNotFound(idRequest: Number) {
 
     val info = "В файле $fileName c $countRecord записями клиентов не найдено ни одного клиента в Афине"
 
-    BaraboSmtp.sendStubThrows(to = toEmailsList(), bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT, body = info)
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT, body = info)
 }
 
 private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
@@ -86,7 +86,7 @@ private fun sendResponseFound(idRequest: Number, data: List<Array<Any?>>) {
 
     val content = HtmlContent(info, info, HEADER_TABLE, data)
 
-    BaraboSmtp.sendStubThrows(to = toEmailsList(), bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_CBR_RISK, subject = SUBJECT,
         body = content.html(), subtypeBody = "html")
 }
 

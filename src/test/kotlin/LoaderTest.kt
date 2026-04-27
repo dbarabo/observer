@@ -110,8 +110,8 @@ class LoaderTest {
 
     //@Test
     fun validateXmlTest() {
-        val xmlFile = File("C:/temp/0/0/ZSV10507717_781420260416_006773.xml")
-        val xsd = "/xsd/fns/from-fns/ZSV_402.xsd"
+        val xmlFile = File("C:/temp/0/0/BNS1_ZSN10507717_110020260401_000021_20260406_0021_000001.xml")
+        val xsd = "/xsd/fns/to-fns/6952U_BNS_402.xsd"
 
         validateXml(xmlFile, xsd) { File("C:/temp/1")  }
     }

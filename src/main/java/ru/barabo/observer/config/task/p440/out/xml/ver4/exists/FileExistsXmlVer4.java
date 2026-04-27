@@ -11,7 +11,7 @@ public class FileExistsXmlVer4 extends AbstractFileXmlVer4 {
 
     @XStreamAsAttribute
     @XStreamAlias("xmlns")
-    final String xmlns = "urn:cbr-440P:spr4:v4.00..3";
+    private String xmlns;
 
     @XStreamAlias("СПРБННАЛИЧ")
     private ExistsInfoPartVer4 existsInfoPartVer4;
@@ -22,6 +22,8 @@ public class FileExistsXmlVer4 extends AbstractFileXmlVer4 {
     public FileExistsXmlVer4(ExistsResponseDataVer4 existsResponseData) {
 
         super(existsResponseData);
+
+        this.xmlns = "4.00".equals(existsResponseData.versionRequest() ) ? "urn:cbr-440P:spr4:v4.00..3" : "urn:cbr-6952U:spr4:v4.02..3";
 
         this.existsInfoPartVer4 = new ExistsInfoPartVer4(existsResponseData);
     }

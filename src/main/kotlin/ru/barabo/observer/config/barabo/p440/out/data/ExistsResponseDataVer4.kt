@@ -10,9 +10,10 @@ class ExistsResponseDataVer4 : AbstractRequestResponse() {
 
     override fun typeInfo(): String = "СПРБННАЛИЧ"
 
-    override fun xsdSchema(): String = "/xsd/440-П_BNS.xsd"
-
     private lateinit var viewHelpVar: String
+
+    override fun xsdSchema(): String =
+        if(versionRequest() == "4.00") "/xsd/440-П_BNS.xsd" else "/xsd/fns/to-fns/6952U_BNS_402.xsd"
 
     lateinit var existsAccountsVer4: List<ExistsAccountVer4>
 

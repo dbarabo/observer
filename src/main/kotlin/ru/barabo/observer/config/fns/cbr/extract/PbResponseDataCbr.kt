@@ -31,6 +31,8 @@ class PbResponseDataCbr : ResponseData {
 
     override fun isSourceSmev(): Boolean = false
 
+    override fun versionRequest(): String = "4.00"
+
     override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {
 
         val (idCbr, responseFile, requestFile, checkCodes, checkAttributeCodesAndValues) =

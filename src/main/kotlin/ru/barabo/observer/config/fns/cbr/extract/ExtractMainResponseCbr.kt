@@ -40,6 +40,8 @@ class ExtractMainResponseCbr : ExtractResponseData {
 
     override fun isSourceSmev(): Boolean = false
 
+    override fun versionRequest(): String = "4.00"
+
     override fun fileNameResponse(): String = _fileNameResponse
 
     override fun fileNameFromFns(): String = _fileNameFromFns

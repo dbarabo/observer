@@ -19,4 +19,6 @@ interface ResponseData {
     fun xsdSchema(): String
 
     fun isSourceSmev(): Boolean
+
+    fun versionRequest(): String
 }

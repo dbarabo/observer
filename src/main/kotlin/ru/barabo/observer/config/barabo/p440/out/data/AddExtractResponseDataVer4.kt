@@ -44,6 +44,8 @@ class AddExtractResponseDataVer4 (
         return "${template}_${account.orderFile}_${String.format("%06d",orderNumberFile)}"
     }
 
+    override fun versionRequest(): String = mainResponseData.versionRequest()
+
     override fun idFromFns(): Number = mainResponseData.idFromFns()
 
     override fun init(idResponse: Number, sessionSetting: SessionSetting): ResponseData {

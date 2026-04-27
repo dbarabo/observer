@@ -25,9 +25,21 @@ public class AbstractFileXmlVer4 {
     final protected String familySender = "Барабошкин Д В";
 
     @XStreamAlias("ВерсФорм")
-    final protected String fnsFormatVersion = "4.00";
+    protected String fnsFormatVersion;
 
     public AbstractFileXmlVer4(ResponseData responseData) {
+
+        this.fnsFormatVersion = isOldFormat4(responseData.versionRequest()) ? "4.00" : "4.02";
+
         this.typeInfo = responseData.typeInfo();
+    }
+
+    private boolean isOldFormat4(String formatValue) {
+
+        if(formatValue == null) return true;
+
+        return "4.00".equals(formatValue) ||
+               "3.72".equals(formatValue) ||
+               "3.01".equals(formatValue);
     }
 }

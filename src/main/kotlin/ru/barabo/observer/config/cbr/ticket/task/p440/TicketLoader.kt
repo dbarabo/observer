@@ -24,7 +24,11 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
         private const val SOURCE_FOLDER = "src"
     }
 
+    override fun isThrowWhenNotExists(): Boolean = false
+
     override fun processFile(file: File) {
+
+        if(!file.exists()) return
 
         val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
 

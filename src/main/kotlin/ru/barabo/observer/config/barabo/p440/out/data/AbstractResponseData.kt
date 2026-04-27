@@ -21,6 +21,8 @@ abstract class AbstractResponseData : ResponseData {
 
     private lateinit var isSmevSource: Number
 
+    private lateinit var versionRequestInfo: String
+
     override fun idFromFns(): Number = fromFns
 
     override fun fileNameResponse(): String = fileNameResponse
@@ -31,13 +33,16 @@ abstract class AbstractResponseData : ResponseData {
 
     override fun isSourceSmev(): Boolean = isSmevSource.toInt() != 0
 
+    override fun versionRequest(): String = versionRequestInfo
+
     fun isPbFile(): Boolean = fileNameResponse.indexOf("PB") == 0
 
     private fun selectResponse(addSeparFields :String, addSeparTables :String, addWhere :String) :String =
-            "select r.FNS_FROM, r.IS_PB, r.FILE_NAME, f.FILE_NAME, f.type_assoc $addSeparFields " +
+            "select r.FNS_FROM, f.VERSION, r.FILE_NAME, f.FILE_NAME, f.type_assoc $addSeparFields " +
             "from od.PTKB_440P_RESPONSE r, od.PTKB_440P_FNS_FROM f $addSeparTables " +
             "where r.id = ? and r.fns_from = f.id $addWhere"
 
+    //select r.FNS_FROM, r.IS_PB,
 
     protected open fun addSeparFields(): String = ""
 
@@ -65,6 +70,8 @@ abstract class AbstractResponseData : ResponseData {
     protected open fun fillDataFields(idResponse: Number, rowData :Array<Any?>, sessionSetting: SessionSetting) {
 
         fromFns = rowData[0] as Number
+
+        versionRequestInfo =  rowData[1]?.let { it as String } ?: "3.01"
 
         fileNameResponseTemplate = (rowData[2] as String).substringBeforeLast(".")
 
