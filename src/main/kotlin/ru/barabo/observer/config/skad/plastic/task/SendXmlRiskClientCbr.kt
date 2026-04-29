@@ -41,8 +41,6 @@ object SendXmlRiskClientCbr : SingleSelector {
             return sendError(elem, mail, if (error.isNullOrEmpty()) "mail is NULL" else error)
         }
 
-        //val codeRisk = (infoMail[2] as Number).toInt()
-
         val typeClient = (infoMail[3] as? String)?.toInt()
 
         try {

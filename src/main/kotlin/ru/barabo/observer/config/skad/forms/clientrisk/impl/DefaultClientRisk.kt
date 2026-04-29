@@ -52,7 +52,7 @@ private fun todayDate(): String = DateTimeFormatter.ofPattern("yyyyMMdd").format
 
 //private const val fileName = "KYC.xml"
 
-private const val xsd =  "/xsd/kyc.xsd"
+private const val xsd =  "/xsd/kyc/ClientFileXML.xsd"
 
 private const val SELECT_CLIENT_RISK = "{ ? = call od.XLS_REPORT_ALL.getRiskClientByCbr(?) }"
 

@@ -107,6 +107,38 @@ class LoaderTest {
 
     private fun separ() = ";"
 
+    //@Test
+    fun testSendXmlRiskClientCbrAuto() {
+        val elem = Elem(idElem = 30, name = "test", task = SendXmlRiskClientCbrAuto)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun validateKycXmlTest() {
+        val xmlFile = File("C:/temp/0/0/KYCCL_2540015598_0021_20260428_000001.xml")
+        val xsd = "/xsd/kyc/ClientFileXML.xsd"
+
+        validateXml(xmlFile, xsd) { File("C:/temp/1")  }
+    }
+
+    //@Test
+    fun testProcess440p() {
+
+        val elem = Elem(idElem = 1362286466L) //UNO
+
+        Process440p.execute(elem)
+    }
+
+    //@Test
+    fun loadUno() {
+
+        val file = File("C:/temp/0/0/UNO10507717_251120260428_001098.xml")
+
+        val elem = Elem(file, UnoLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
 
     //@Test
     fun validateXmlTest() {
@@ -148,6 +180,7 @@ class LoaderTest {
 
         elem.task?.execute(elem)
     }
+
 
 
     //@Test
@@ -424,14 +457,6 @@ res3 = [calc.DEC_TEST];
         LoadAcqAdvUPay.execute(elem)
     }
 
-
-    //@Test
-    fun testProcess440p() {
-
-        val elem = Elem(idElem = 1356119524L)
-
-        Process440p.execute(elem)
-    }
 
         //@Test
     fun processOci() {
@@ -1310,12 +1335,6 @@ res3 = [calc.DEC_TEST];
         logger.error("state=$state")
     }
 
-    //@Test
-    fun testSendXmlRiskClientCbrAuto() {
-        val elem = Elem(idElem = 30, name = "test", task = SendXmlRiskClientCbrAuto)
-
-        elem.task?.execute(elem)
-    }
 
     //@Test
     fun testForm310() {

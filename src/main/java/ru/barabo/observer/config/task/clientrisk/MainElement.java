@@ -13,11 +13,11 @@ public class MainElement {
 
     @XStreamAsAttribute
     @XStreamAlias("xmlns")
-    final String xmlns = "urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10";
+    final String xmlns = "urn:cbr-ru:e-forms-mf-form-KYC:v0.0.11";//"urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10";
 
-    @XStreamAsAttribute
-    @XStreamAlias("xsi:schemaLocation")
-    final String schemaLocation = "urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10 schema.xsd";
+    //@XStreamAsAttribute
+    //@XStreamAlias("xsi:schemaLocation")
+    //final String schemaLocation = "urn:cbr-ru:e-forms-mf-form-KYC:v0.0.10 schema.xsd";
 
     @XStreamAsAttribute
     @XStreamAlias("xmlns:xsi")

@@ -69,7 +69,6 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.AUTO, subject = SUBJECT_440P_ERROR, body = info.errorText(file) )
     }
-
 }
 
 fun folderLoaded440p() :File = "${getFolder440p().absolutePath}/loaded".byFolderExists()
