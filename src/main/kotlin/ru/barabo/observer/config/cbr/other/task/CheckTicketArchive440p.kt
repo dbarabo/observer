@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -12,15 +12,15 @@ import java.time.LocalTime
 
 object CheckTicketArchive440p : SingleSelector {
 
+    override fun name(): String = "Нет квитков на Архив"
+
+    override fun config(): ConfigTask = EnsConfig
+
     override val select: String =
             "select id, FILE_NAME from od.ptkb_440p_archive where state != 99 and sysdate - created > 2/24"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(13, 0),
             workTimeTo = LocalTime.of(18, 0))
-
-    override fun name(): String = "Нет квитков на Архив"
-
-    override fun config(): ConfigTask = OtherCbr
 
     override fun execute(elem: Elem) : State {
 

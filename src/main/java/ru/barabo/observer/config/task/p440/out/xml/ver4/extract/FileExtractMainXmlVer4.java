@@ -12,7 +12,7 @@ public class FileExtractMainXmlVer4 extends AbstractFileXmlVer4 {
 
     @XStreamAsAttribute
     @XStreamAlias("xmlns")
-    final String xmlns = "urn:cbr-operac:oper4:v4.00..3";
+    final String xmlns;
 
     @XStreamAlias("ВЫПБНОСНОВ")
     private ExtractMainInfoPartVer4 extractMainInfoPartVer4;
@@ -25,5 +25,8 @@ public class FileExtractMainXmlVer4 extends AbstractFileXmlVer4 {
         super(extractMainResponseData);
 
         extractMainInfoPartVer4 = new ExtractMainInfoPartVer4(extractMainResponseData);
+
+        this.xmlns = "4.00".equals(extractMainResponseData.versionRequest() ) ? "urn:cbr-operac:oper4:v4.00..3" : "urn:cbr-6952U:oper4:v4.02..3";
+
     }
 }

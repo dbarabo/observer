@@ -65,7 +65,7 @@ object MinComissionMonthPos : Periodical {
         return content.html()
     }
 
-    private fun title() = "Список документов комиссий за эквайринговые операции по МИН. сумме 1999руб за ${
+    private fun title() = "Список документов комиссий за эквайринговые операции по МИН. сумме 3999руб за ${
         java.text.SimpleDateFormat(
             "MMM"
         ).format(java.util.Date())}"

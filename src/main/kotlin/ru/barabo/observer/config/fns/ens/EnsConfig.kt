@@ -4,7 +4,9 @@ import ru.barabo.observer.config.AbstractConfig
 import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.RecreateAfterError311p
 import ru.barabo.observer.config.barabo.p440.task.*
+import ru.barabo.observer.config.cbr.other.task.CheckTicket440p
 import ru.barabo.observer.config.cbr.other.task.CheckTicketArchive311p
+import ru.barabo.observer.config.cbr.other.task.CheckTicketArchive440p
 import ru.barabo.observer.config.cbr.other.task.CheckTicketFns311p
 import ru.barabo.observer.config.fns.ens.task.*
 import ru.barabo.observer.config.skad.crypto.task.AddToArchive440pScad
@@ -40,6 +42,9 @@ object EnsConfig : AbstractConfig() {
         LoadArchiveFromSfr.findAll()
         LoadArchiveFromFns.findAll()
         CheckSentBySmevArchive311p.findAll()
+
+        CheckTicket440p.findAll()
+        CheckTicketArchive440p.findAll()
 
         CheckTicketFns311p.findAll()
         CheckTicketArchive311p.findAll()

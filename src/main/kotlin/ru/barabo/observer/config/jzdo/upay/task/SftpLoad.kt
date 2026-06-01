@@ -29,8 +29,8 @@ object SftpLoad : SinglePerpetual  {
 
     override fun config(): ConfigTask = UPayConfig
 
-    private val sftpSetting = SftpSetting(user = "b000764", host = "10.250.0.13", port = 2222,
-            privateKeyPath = "${Cmd.LIB_FOLDER}/privzk.ppk")
+    private val sftpSetting = SftpSetting(user = "b000764", host = "10.250.201.1", port = 2222,
+            privateKeyPath = "${Cmd.LIB_FOLDER}/privzk.ppk") //старый "10.250.0.13"
 
     private const val ARCHIVE_PATH = "D:/archive_pay"
 

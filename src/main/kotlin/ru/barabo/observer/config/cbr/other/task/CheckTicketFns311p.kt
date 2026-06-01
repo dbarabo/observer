@@ -42,7 +42,7 @@ where r.id_register is null and r.state != 9
     from od.ptkb_361p_register r
     where r.id_register is null and r.state != 9
      and r.created > trunc(sysdate, 'YYYY')
-     and sysdate - r.created - od.countHoliday(r.created, sysdate) > 2"""
+     and sysdate - r.created - od.countHoliday(r.created, sysdate) > 1"""
 
     private const val SUBJECT_311P_ERROR = "311-П Ошибка - нет квитков от ФНС(СФР)"
 

@@ -8,7 +8,9 @@ class BnpResponseDataVer4 : AbstractResponseData() {
 
     override fun typeInfo(): String = "СБЩБННЕИСП"
 
-    override fun xsdSchema(): String = "/xsd/440-П_BNP.xsd"
+    override fun xsdSchema(): String =
+        if(versionRequest() in arrayOf("4.00", "3.72") ) "/xsd/440-П_BNP.xsd" else "/xsd/fns/to-fns/6952U_BNP_402.xsd"
+
 
     override fun addSeparFields(): String = ", f.MAIN_NUMBER, f.MAIN_DATE, f.FNS_CODEID, f.MAIN_SUM, " +
             "p.INN, p.KPP, p.NAME, od.ptkb_440p.getPnoPartSumExecute(f.id), f.ACCOUNTS, od.ptkb_440p.getRestOtherAccounts(f.id) "

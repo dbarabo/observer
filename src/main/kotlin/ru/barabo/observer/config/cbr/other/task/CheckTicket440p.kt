@@ -2,7 +2,7 @@ package ru.barabo.observer.config.cbr.other.task
 
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.other.OtherCbr
+import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.template.db.SingleSelector
 import ru.barabo.observer.mail.smtp.BaraboSmtp
@@ -13,18 +13,18 @@ import java.time.LocalTime
 
 object CheckTicket440p : SingleSelector {
 
+    override fun name(): String = "Нет квитков из ФНС"
+
+    override fun config(): ConfigTask = EnsConfig
+
     override val select: String =
             "select id from od.ptkb_440p_response where state != 99 and od.getWorkDayBack(sysdate, 3) > sent and rownum = 1"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(11, 0),
             workTimeTo = LocalTime.of(14, 0), executeWait = Duration.ofSeconds(1))
 
-    override fun name(): String = "Нет квитков из ФНС"
-
-    override fun config(): ConfigTask = OtherCbr
-
     private const val SELECT_FILES = "select r.file_name, to_char(r.sent, 'dd.mm.yy hh24:mi:ss') " +
-            "from od.ptkb_440p_response r where r.state != 99 and od.getWorkDayBack(sysdate, 3) > r.sent"
+            "from od.ptkb_440p_response r where r.state != 99 and od.getWorkDayBack(sysdate, 3) > r.sent order by r.sent"
 
     override fun execute(elem: Elem) :State {
 

@@ -1,3 +1,4 @@
+import com.sun.javafx.application.PlatformImpl
 import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
@@ -13,6 +14,7 @@ import ru.barabo.observer.config.barabo.crypto.task.CreateAccount311p
 import ru.barabo.observer.config.barabo.crypto.task.LoadBik
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
 import ru.barabo.observer.config.barabo.crypto.task.LoaderRutdfTicketReject
+import ru.barabo.observer.config.barabo.p440.out.OutType
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.barabo.p440.out.data.PbResponseDataVer4
 import ru.barabo.observer.config.barabo.p440.task.*
@@ -100,12 +102,20 @@ class LoaderTest {
 
     @Before
     fun initTestBase() {
-        TaskMapper.init("TEST", /**"AFINA"*/"TEST")
+        TaskMapper.init("TEST", /*"AFINA"*/"TEST")
 
-        com.sun.javafx.application.PlatformImpl.startup {}
+        PlatformImpl.startup {}
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testInArrayString() {
+        val x = "4.00" in arrayOf("4.00", "3.72")
+
+        logger.error("x=$x")
+    }
+
 
     //@Test
     fun testSendXmlRiskClientCbrAuto() {
@@ -122,18 +132,11 @@ class LoaderTest {
         validateXml(xmlFile, xsd) { File("C:/temp/1")  }
     }
 
-    //@Test
-    fun testProcess440p() {
-
-        val elem = Elem(idElem = 1362286466L) //UNO
-
-        Process440p.execute(elem)
-    }
 
     //@Test
     fun loadUno() {
 
-        val file = File("C:/temp/0/0/UNO10507717_251120260428_001098.xml")
+        val file = File("C:/temp/0/0/UNO10507717_270020260503_019545.xml")
 
         val elem = Elem(file, UnoLoader, Duration.ZERO)
 
@@ -151,19 +154,23 @@ class LoaderTest {
     //@Test
     fun loadZso() {
 
-        val file = File("C:/temp/0/0/ZSV10507717_781420260416_006773.xml")
+        val file = File("C:/temp/0/0/ZSO10507717_250820260525_000499.xml")
 
-        val elem = Elem(file, ZsvLoaderVer4, Duration.ZERO)
+        val xsd = "/xsd/fns/from-fns/ZSO_402.xsd"
+        validateXml(file, xsd) { File("C:/temp/1")  }
+
+        val elem = Elem(file, ZsoLoaderVer4, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
 
+
     //@Test
     fun loadZsn() {
 
-        val file = File("C:/temp/0/0/ZSN10507717_510020260409_000014.xml")
-        //val xsd = "/xsd/fns/from-fns/ZSN_402.xsd"
-        //validateXml(file, xsd) { File("C:/temp/1")  }
+        val file = File("C:/temp/0/0/ZSN10507717_510020260409_000099.xml")
+        val xsd = "/xsd/fns/from-fns/ZSN_402.xsd"
+        validateXml(file, xsd) { File("C:/temp/1")  }
 
         val elem = Elem(file, ZsnLoader, Duration.ZERO)
 
@@ -173,14 +180,58 @@ class LoaderTest {
 
         //val elem = Elem(File("C:/Картстандарт/test/ROO10507717_254320190226_000000.xml"), RooLoader, Duration.ZERO)
 
-        // женя
-        //val elem = Elem(File("C:/Картстандарт/test/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
-
         //val elem = Elem(File("C:/Картстандарт/test/рита/RPO10507717_251020190226_000000.xml"), RpoLoader, Duration.ZERO)
 
         elem.task?.execute(elem)
     }
 
+    //@Test
+    fun testProcess440p() {
+
+        val elem = Elem(idElem = 1364408186L) //ZSN-4.02
+
+        Process440p.execute(elem)
+    }
+
+    //@Test
+    fun testBOSGenerator402() {
+        val repeatCreator = OutType.creatorByDbValue(2)!!
+
+        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
+
+        val file = File("D:/440-П/test/ZSO10507717_250820260525_000499.xml")
+
+        val elem = Elem(
+            1364406610L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testBNSGenerator402() {
+        val repeatCreator = OutType.creatorByDbValue(4)!!
+
+        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
+
+        val file = File("D:/440-П/test/ZSN10507717_773120190311_500500.xml")
+
+        val elem = Elem(
+            1364408189L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun validateBns() {
+
+        val file = File("C:/temp/0/0/BNS1_ZSN10507717_510020260409_000099_20260526_0021_000001.xml")
+        val xsd = "/xsd/fns/to-fns/6952U_BNS_402.xsd"
+        validateXml(file, xsd) { File("C:/temp/1") }
+    }
 
 
     //@Test

@@ -20,7 +20,7 @@ object CheckTicketArchive311p : SingleSelector {
     override val select: String = """
 select a.id, a.file_name
 from od.ptkb_361p_archive a
-where sysdate > a.sent + 30/(60*24)
+where sysdate > a.sent + 1/24
   and ( (a.state in (0, 1) ) 
       or
       (a.state = 2 and coalesce(a.return_code, '-1') = '0')

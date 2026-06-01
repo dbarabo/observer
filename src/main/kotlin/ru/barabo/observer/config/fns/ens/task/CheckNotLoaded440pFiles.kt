@@ -36,9 +36,7 @@ object CheckNotLoaded440pFiles : Periodical {
 
     override fun execute(elem: Elem): State {
 
-        var startCheckDay = LocalDate.now().minusDays(100)  //(100) //1196
-
-        //val searchArj = Pattern.compile(".*\\.arj", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+        var startCheckDay = LocalDate.now().minusDays(30)
 
         val search = Pattern.compile(".*\\.vrb", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 

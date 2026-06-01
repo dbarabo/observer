@@ -3,7 +3,6 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4.bnp;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.barabo.p440.out.data.BnpResponseDataVer4;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
-import ru.barabo.observer.config.task.p440.load.xml.SenderBank;
 import ru.barabo.observer.config.task.p440.out.xml.ver4.InfoBankPBRVer4;
 
 import java.util.Date;

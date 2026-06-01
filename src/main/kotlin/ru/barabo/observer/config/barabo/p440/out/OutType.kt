@@ -15,7 +15,7 @@ enum class OutType(val dbValue :Int, val outObject :GeneralCreator<*>?) {
     BNP(6, bnpCreator() );
 
     companion object {
-        private val HASH_DBVALUE_CREATOR = values().map { it -> Pair(it.dbValue, it.outObject) }.toMap()
+        private val HASH_DBVALUE_CREATOR = values().associate { it -> Pair(it.dbValue, it.outObject) }
 
         fun creatorByDbValue(value :Int) :GeneralCreator<*>? = HASH_DBVALUE_CREATOR[value]
     }

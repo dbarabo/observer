@@ -136,19 +136,23 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
                 address, birhday, birhPlace, codeDoc, lineNumberDoc, dateDoc
             ).apply {
 
-                val addressRow = AfinaQuery.selectCursor(CURSOR_ADDRESS_PHYSIC, arrayOf(idClient), sessionSetting)[0]
+                if(versionRequest() == "4.00") {
 
-                payerPhysic.address = Address.createAddress(
-                    addressRow[0] as? String,
-                    addressRow[1] as? String,
-                    addressRow[2] as? String,
-                    addressRow[3] as? String,
-                    addressRow[4] as? String,
-                    addressRow[5] as? String,
-                    addressRow[6] as? String,
-                    addressRow[7] as? String,
-                    addressRow[8] as? String
-                )
+                    val addressRow =
+                        AfinaQuery.selectCursor(CURSOR_ADDRESS_PHYSIC, arrayOf(idClient), sessionSetting)[0]
+
+                    payerPhysic.address = Address.createAddress(
+                        addressRow[0] as? String,
+                        addressRow[1] as? String,
+                        addressRow[2] as? String,
+                        addressRow[3] as? String,
+                        addressRow[4] as? String,
+                        addressRow[5] as? String,
+                        addressRow[6] as? String,
+                        addressRow[7] as? String,
+                        addressRow[8] as? String
+                    )
+                }
             }
 
             else -> throw Exception("unknown payerType type $payerType")

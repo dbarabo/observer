@@ -18,9 +18,6 @@ object OtherCbr: AbstractConfig() {
         TtsMailFromOtk.findAll()
         SbMailFromCbr.findAll()
 
-        CheckTicket440p.findAll()
-        CheckTicketArchive440p.findAll()
-
         // off 06.04.2020 go to week reports
         CorrectPrim.findAll()
         CorrectPrimMonth.findAll()

@@ -10,7 +10,8 @@ import java.util.*
 class RestResponseDataVer4 : AbstractRequestResponse() {
     override fun typeInfo(): String = "СПРОБОСТАТ"
 
-    override fun xsdSchema(): String = "/xsd/440-П_BOS.xsd"
+    override fun xsdSchema(): String =
+        if(versionRequest() == "4.00") "/xsd/440-П_BOS.xsd" else "/xsd/fns/to-fns/6952U_BOS_402.xsd"
 
     private lateinit var viewHelpVar: String
 
