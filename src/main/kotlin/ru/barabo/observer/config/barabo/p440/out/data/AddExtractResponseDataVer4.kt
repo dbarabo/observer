@@ -11,7 +11,7 @@ import kotlin.collections.ArrayList
 import kotlin.math.min
 
 class AddExtractResponseDataVer4 (
-    private val mainResponseData: ExtractResponseData,
+    val mainResponseData: ExtractResponseData,
     val account: ExtractMainAccountVer4,
     val orderNumberFile: Int,
     positionOperation: Int,
@@ -29,7 +29,9 @@ class AddExtractResponseDataVer4 (
 
     override fun typeInfo(): String = "ВЫПБНДОПОЛ"
 
-    override fun xsdSchema(): String = "/xsd/440-П_BVD.xsd"
+    override fun xsdSchema(): String =
+        if(mainResponseData.versionRequest() == "4.00") "/xsd/440-П_BVD.xsd" else "/xsd/fns/to-fns/6952U_BVD_402.xsd"
+
     override fun isSourceSmev(): Boolean = false
 
     override fun fileNameResponse(): String =

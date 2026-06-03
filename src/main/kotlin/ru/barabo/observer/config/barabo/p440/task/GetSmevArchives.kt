@@ -38,7 +38,8 @@ object GetSmevArchives : FileFinder, FileProcessor {
 
         val arjArchives = Archive.extractFromZip(newArchiveFile, smevInToday().absolutePath)
 
-        arjArchives?.forEach {
+        arjArchives?.filter { it.extension.uppercase()  == "ARJ" }?.forEach {
+
             Archive.extractFromArj(it, smevInToday().absolutePath)
         }
 

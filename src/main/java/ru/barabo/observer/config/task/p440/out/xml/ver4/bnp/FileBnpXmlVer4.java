@@ -11,7 +11,7 @@ public class FileBnpXmlVer4 extends AbstractFileXmlVer4 {
 
     @XStreamAsAttribute
     @XStreamAlias("xmlns")
-    final String xmlns = "urn:cbr-440P:soob4:v4.00..3";
+    final String xmlns;
 
     @XStreamAlias("СБЩБННЕИСП")
     private BnpInfoPartVer4 bnpInfoPart;
@@ -21,6 +21,8 @@ public class FileBnpXmlVer4 extends AbstractFileXmlVer4 {
 
     public FileBnpXmlVer4(BnpResponseDataVer4 bnpResponseData) {
         super(bnpResponseData);
+
+        this.xmlns = "3.72".equals(bnpResponseData.versionRequest() ) ? "urn:cbr-440P:soob4:v4.00..3" : "urn:cbr-6952U:soob4:v4.02..3";
 
         this.bnpInfoPart = new BnpInfoPartVer4(bnpResponseData);
     }

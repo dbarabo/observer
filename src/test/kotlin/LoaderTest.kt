@@ -194,6 +194,38 @@ class LoaderTest {
     }
 
     //@Test
+    fun testBVSGenerator402Empty() {
+        val repeatCreator = OutType.creatorByDbValue(3)!!
+
+        val file = File("D:/440-П/test/ZSO10507717_250820260525_000499.xml")
+
+        val elem = Elem(
+            1364537685L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testBNPGenerator402() {
+        val repeatCreator = OutType.creatorByDbValue(6)!!
+
+        //val elem = Elem(File("D:/440-П/test/ZSN10507717_773120190311_500500.xml"), ZsnLoader, Duration.ZERO)
+
+        val file = File("D:/440-П/test/ZSO10507717_250820260525_000499.xml")
+
+        val elem = Elem(
+            1364562798L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
+    }
+
+
+
+    //@Test
     fun testBOSGenerator402() {
         val repeatCreator = OutType.creatorByDbValue(2)!!
 

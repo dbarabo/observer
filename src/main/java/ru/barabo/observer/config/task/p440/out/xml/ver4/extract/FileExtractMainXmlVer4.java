@@ -27,6 +27,5 @@ public class FileExtractMainXmlVer4 extends AbstractFileXmlVer4 {
         extractMainInfoPartVer4 = new ExtractMainInfoPartVer4(extractMainResponseData);
 
         this.xmlns = "4.00".equals(extractMainResponseData.versionRequest() ) ? "urn:cbr-operac:oper4:v4.00..3" : "urn:cbr-6952U:oper4:v4.02..3";
-
     }
 }
