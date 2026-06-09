@@ -11,7 +11,7 @@ class RestResponseDataVer4 : AbstractRequestResponse() {
     override fun typeInfo(): String = "СПРОБОСТАТ"
 
     override fun xsdSchema(): String =
-        if(versionRequest() in arrayOf("4.00", "3.72")) "/xsd/440-П_BOS.xsd" else "/xsd/fns/to-fns/6952U_BOS_402.xsd"
+        if( isOldFormat() ) "/xsd/440-П_BOS.xsd" else "/xsd/fns/to-fns/6952U_BOS_402.xsd"
 
     private lateinit var viewHelpVar: String
 

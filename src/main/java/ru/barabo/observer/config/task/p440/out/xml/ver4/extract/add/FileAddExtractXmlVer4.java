@@ -23,7 +23,7 @@ public class FileAddExtractXmlVer4 extends AbstractFileXmlVer4 {
 
         super(addExtractResponseData);
 
-        this.xmlns = "4.00".equals(addExtractResponseData.versionRequest() )
+        this.xmlns = isOldFormat4(addExtractResponseData.versionRequest() )
                 ?  "urn:cbr-440P:oper4:v4.00..3" : "urn:cbr-6952U:oper4:v4.02..3";
 
         this.addExtractInfoPartVer4 = new AddExtractInfoPartVer4(addExtractResponseData);

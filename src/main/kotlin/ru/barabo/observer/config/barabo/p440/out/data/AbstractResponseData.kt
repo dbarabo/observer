@@ -35,12 +35,15 @@ abstract class AbstractResponseData : ResponseData {
 
     override fun versionRequest(): String = versionRequestInfo
 
+    fun isOldFormat(): Boolean = versionRequest() in arrayOf("4.00", "3.72", "3.01")
+
     fun isPbFile(): Boolean = fileNameResponse.indexOf("PB") == 0
 
     private fun selectResponse(addSeparFields :String, addSeparTables :String, addWhere :String) :String =
             "select r.FNS_FROM, f.VERSION, r.FILE_NAME, f.FILE_NAME, f.type_assoc $addSeparFields " +
             "from od.PTKB_440P_RESPONSE r, od.PTKB_440P_FNS_FROM f $addSeparTables " +
             "where r.id = ? and r.fns_from = f.id $addWhere"
+
 
     //select r.FNS_FROM, r.IS_PB,
 

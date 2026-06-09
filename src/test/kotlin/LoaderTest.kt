@@ -194,6 +194,20 @@ class LoaderTest {
     }
 
     //@Test
+    fun testBVSGenerator400Simple() {
+        val repeatCreator = OutType.creatorByDbValue(3)!!
+
+        val file = File("D:/440-П/test/ZSO10507717_250820260525_000499.xml")
+
+        val elem = Elem(
+            1364757544L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
     fun testBVSGenerator402Empty() {
         val repeatCreator = OutType.creatorByDbValue(3)!!
 

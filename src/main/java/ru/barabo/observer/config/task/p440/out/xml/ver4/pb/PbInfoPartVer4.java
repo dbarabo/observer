@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.task.p440.out.xml.pb.PbResult;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @XStreamAlias("ПОДБНПРИНТ")
@@ -15,9 +16,10 @@ public class PbInfoPartVer4 {
     @XStreamImplicit(itemFieldName = "Результат")
     private List<PbResult> pbResultList;
 
-    public PbInfoPartVer4(String fileName, List<PbResult> pbResultList) {
 
-        this.pbDoc = new PbDocument(fileName);
+    public PbInfoPartVer4(String fileName, List<PbResult> pbResultList, Timestamp dateQueue) {
+
+        this.pbDoc = new PbDocument(fileName, dateQueue);
 
         this.pbResultList = pbResultList;
     }

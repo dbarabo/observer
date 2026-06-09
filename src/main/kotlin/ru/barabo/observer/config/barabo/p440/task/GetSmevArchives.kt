@@ -1,6 +1,7 @@
 package ru.barabo.observer.config.barabo.p440.task
 
 import ru.barabo.archive.Archive
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.SMEV_CHECK
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
@@ -36,11 +37,18 @@ object GetSmevArchives : FileFinder, FileProcessor {
         file.copyTo(newArchiveFile, overwrite = true)
         file.delete()
 
+        val fnsContainerId =
+            AfinaQuery.selectValue(SELECT_FNS_CONTAINER, arrayOf(file.name.uppercase())) as String
+
         val arjArchives = Archive.extractFromZip(newArchiveFile, smevInToday().absolutePath)
+
+        arjArchives?.addFilesToContainer(fnsContainerId)
 
         arjArchives?.filter { it.extension.uppercase()  == "ARJ" }?.forEach {
 
-            Archive.extractFromArj(it, smevInToday().absolutePath)
+            val files = Archive.extractFromArj(it, smevInToday().absolutePath)
+
+            files?.addFilesToContainer(fnsContainerId)
         }
 
         if(file.exists()) {
@@ -51,6 +59,16 @@ object GetSmevArchives : FileFinder, FileProcessor {
     }
 }
 
+private fun Array<File>.addFilesToContainer(fnsContainerId: String) {
+    this.forEach { AfinaQuery.execute(ADD_FILE_TO_CONTAINER,
+        arrayOf(fnsContainerId, it.name.uppercase())) }
+}
+
+
 fun smevInToday() = "${getFolder440p().absolutePath}/$SMEV_CHECK".byFolderExists()
 
 val SMEV_IN: String = "$X440P/$SMEV_CHECK/in"
+
+private const val SELECT_FNS_CONTAINER = "select QUERY_ID from od.PTKB_FNS_CONTAINER where upper(FILENAME) = ?"
+
+private const val ADD_FILE_TO_CONTAINER = "{ call OD.PTKB_440P.addFileToFnsContainer(?, ?) }"

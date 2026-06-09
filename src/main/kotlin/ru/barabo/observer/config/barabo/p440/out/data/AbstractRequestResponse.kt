@@ -136,7 +136,7 @@ abstract class AbstractRequestResponse : AbstractResponseData(), RequestResponse
                 address, birhday, birhPlace, codeDoc, lineNumberDoc, dateDoc
             ).apply {
 
-                if(versionRequest() == "4.00") {
+                if(versionRequest() in arrayOf("4.00", "3.72") ) {
 
                     val addressRow =
                         AfinaQuery.selectCursor(CURSOR_ADDRESS_PHYSIC, arrayOf(idClient), sessionSetting)[0]

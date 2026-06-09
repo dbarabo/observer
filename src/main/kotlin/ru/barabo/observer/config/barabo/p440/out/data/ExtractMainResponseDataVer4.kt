@@ -103,7 +103,7 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse(), ExtractResponseDa
             val addResponseData =
                 AddExtractResponseDataVer4(this, account, partNumber, countOperation, operationDataAccount)
 
-            countOperation += min(maxOperationsCountInPart(), operationDataAccount.size - countOperation - 1)
+            countOperation += min(maxOperationsCountInPart(), operationDataAccount.size - countOperation)
 
             val addExtractXml = FileAddExtractXmlVer4(addResponseData)
 
@@ -143,6 +143,11 @@ fun ResponseData.getAddFileNames(account: ExtractMainAccountVer4, countFiles: In
 
 fun initOperationAccount(account: ExtractMainAccountVer4): List<Array<Any?>> {
 
+    val params: Array<Any?> = arrayOf(account.code, account.startExtract, account.endExtract)
+
+    return AfinaQuery.selectCursor(SELECT_EXTRACT_CURSOR, params)
+
+    /*
     val seq = AfinaQuery.nextSequence()
 
     val sessionBack = AfinaQuery.uniqueSession()
@@ -156,6 +161,7 @@ fun initOperationAccount(account: ExtractMainAccountVer4): List<Array<Any?>> {
     AfinaQuery.rollbackFree(sessionBack)
 
     return operationDataAccount
+*/
 }
 
 //private val logger = LoggerFactory.getLogger(ExtractMainResponseDataVer4::class.java)
@@ -173,3 +179,5 @@ private const val SELECT_EXTRACT = "select p.oper, substr(p.Description, 1, 160)
 private const val INSERT_BVD_RESPONSE = """
     insert into od.ptkb_440p_response (id, FNS_FROM, IS_PB, STATE, FILE_NAME, SENT) 
      values (classified.nextval, ?, ?, 2, ?, sysdate) """
+
+private const val SELECT_EXTRACT_CURSOR = "{ ? = call od.XLS_REPORT_ALL.getStatementByAccountCode( ?, ?, ?, 0 ) }"

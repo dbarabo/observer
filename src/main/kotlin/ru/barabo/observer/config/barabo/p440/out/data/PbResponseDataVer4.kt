@@ -2,17 +2,21 @@ package ru.barabo.observer.config.barabo.p440.out.data
 
 import ru.barabo.db.SessionSetting
 import ru.barabo.observer.config.task.p440.out.xml.pb.PbResult
+import java.sql.Timestamp
 import java.util.*
 
 class PbResponseDataVer4 : AbstractResponseData() {
 
-    override fun xsdSchema(): String = "/xsd/440-П_PB.xsd"
+    override fun xsdSchema(): String =
+        if( isOldFormat() ) "/xsd/440-П_PB.xsd" else "/xsd/fns/to-fns/6952U_PB_402.xsd"
 
     override fun typeInfo(): String = "ПОДБНПРИНТ"
 
     override fun addSeparFields(): String =
-        ", f.CHECK_CODES, f.CHECK_TEXT_ERRORS, f.CHECK_ATTR_ERROR, f.CHECK_ATTR_RES_ERROR"
+        ", f.CHECK_CODES, f.CHECK_TEXT_ERRORS, f.CHECK_ATTR_ERROR, f.CHECK_ATTR_RES_ERROR, od.PTKB_440P.getDateQueue(f.id) "
 
+    var dateQueue: Timestamp? = null
+        private set
 
     private lateinit var pbResult : List<PbResult>
 
@@ -29,6 +33,8 @@ class PbResponseDataVer4 : AbstractResponseData() {
         val checkAttributeCodes = rowData[7] as? String
 
         val checkAttributeValues = rowData[8] as? String
+
+        dateQueue = rowData[9] as? Timestamp
 
         pbResult = generatePbResult(checkCodes, checkTextErrors, checkAttributeCodes, checkAttributeValues)
     }

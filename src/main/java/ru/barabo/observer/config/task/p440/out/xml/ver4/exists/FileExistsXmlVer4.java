@@ -23,7 +23,7 @@ public class FileExistsXmlVer4 extends AbstractFileXmlVer4 {
 
         super(existsResponseData);
 
-        this.xmlns = "4.00".equals(existsResponseData.versionRequest() ) ? "urn:cbr-440P:spr4:v4.00..3" : "urn:cbr-6952U:spr4:v4.02..3";
+        this.xmlns = isOldFormat4( existsResponseData.versionRequest() )  ? "urn:cbr-440P:spr4:v4.00..3" : "urn:cbr-6952U:spr4:v4.02..3";
 
         this.existsInfoPartVer4 = new ExistsInfoPartVer4(existsResponseData);
     }

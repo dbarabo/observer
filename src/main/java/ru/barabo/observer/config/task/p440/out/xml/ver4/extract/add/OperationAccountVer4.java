@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.p440.out.xml.ver4.extract.add;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 import ru.barabo.observer.config.task.p440.out.xml.extract.DocumentInfo;
+import ru.barabo.observer.config.task.p440.out.xml.extract.IdDevice;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -31,6 +32,9 @@ public class OperationAccountVer4 {
     @XStreamAlias("НазПлат")
     private String description;
 
+    @XStreamAlias("ИдУстройства")
+    private IdDevice idDevice;
+
     @XStreamAlias("РеквДок")
     private DocumentInfo documentInfo;
 
@@ -43,7 +47,7 @@ public class OperationAccountVer4 {
     public OperationAccountVer4(Integer orderOper, Timestamp operDate, Number debet, Number credit, String description,
                                 String vid, String number, Date date,
                                 String corrAccount, String bankName, String bik,
-                                String payerName, String payerInn, String payerKpp, String payerAccount) {
+                                String payerName, String payerInn, String payerKpp, String payerAccount, String ipAddress) {
 
         this.orderOper = String.format("%06d", orderOper);
 
@@ -62,5 +66,7 @@ public class OperationAccountVer4 {
         this.bankInfo = new BankInfoVer4(corrAccount, bankName, bik);
 
         this.payerInfo = new PayerInfoVer4(payerName, payerInn, payerKpp, payerAccount);
+
+        this.idDevice = (ipAddress == null) ? null : new IdDevice(ipAddress);
     }
 }

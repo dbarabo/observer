@@ -20,10 +20,17 @@ class AddExtractResponseDataVer4 (
     private val _operations: MutableList<OperationAccountVer4> = ArrayList()
 
     init {
+        /*
         val countOperation = min(mainResponseData.maxOperationsCountInPart() + 1, operationDataAccount.size - positionOperation)
 
         for(index in 1 until countOperation) {
             _operations += createOperation(operationDataAccount[positionOperation + index], index)
+        }*/
+
+        val countOperation = min(mainResponseData.maxOperationsCountInPart(), operationDataAccount.size - positionOperation)
+
+        for(index in 0 until countOperation) {
+            _operations += createOperation(operationDataAccount[positionOperation + index], index+1)
         }
     }
 
@@ -59,6 +66,30 @@ class AddExtractResponseDataVer4 (
     private fun createOperation(row: Array<Any?>, orderOperation: Int): OperationAccountVer4 {
         return OperationAccountVer4(
             orderOperation,
+            row[0] as Timestamp, //Timestamp((row[0] as Timestamp).time),
+            (row[1] as? Number) ?: 0.0,
+            (row[2] as? Number) ?: 0.0,
+
+            row[11] as? String,
+
+            row[12] as? String,
+            row[10] as? String,
+            row[13] as? Date,
+
+            row[7] as? String, //BANKACCOUNT
+            row[8] as? String,
+            row[9] as String,
+
+            row[4] as? String, //CLIENTNAME
+            row[5] as? String ?: "0", //CLIENTINN
+            row[6] as? String ?: "0", //CLIENTKPP
+            row[3] as? String, //CLIENTACCOUNT
+
+            (row[17] as String).takeIf { versionRequest() != "4.00" }
+        )
+
+        /*OperationAccountVer4(
+            orderOperation,
             Timestamp((row[0] as Date).time),
             (row[12] as? Number) ?: 0.0,
             (row[13] as? Number) ?: 0.0,
@@ -77,6 +108,6 @@ class AddExtractResponseDataVer4 (
             row[9] as? String ?: "0",
             row[10] as? String ?: "0",
             row[11] as? String
-        )
+        )*/
     }
 }

@@ -34,7 +34,7 @@ public class AbstractFileXmlVer4 {
         this.typeInfo = responseData.typeInfo();
     }
 
-    private boolean isOldFormat4(String formatValue) {
+    protected boolean isOldFormat4(String formatValue) {
 
         if(formatValue == null) return true;
 
