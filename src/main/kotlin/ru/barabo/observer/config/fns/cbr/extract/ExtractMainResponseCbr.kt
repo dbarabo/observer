@@ -167,7 +167,7 @@ class ExtractMainResponseCbr : ExtractResponseData {
         for(partNumber in 1..countFiles) {
             val addResponseData = AddExtractResponseDataVer4(this, account, partNumber, countOperation, operationDataAccount)
 
-            countOperation += min(maxOperationsCountInPart(), operationDataAccount.size - countOperation - 1)
+            countOperation += min(maxOperationsCountInPart(), operationDataAccount.size - countOperation)
 
             val addExtractXml = FileAddExtractXmlVer4(addResponseData)
 

@@ -6,6 +6,7 @@ import ru.barabo.observer.config.barabo.p440.out.ExtractResponseData
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
 import ru.barabo.observer.config.barabo.p440.out.OutType
 import ru.barabo.observer.config.barabo.p440.out.ResponseData
+import ru.barabo.observer.config.task.p440.load.XmlLoader
 import ru.barabo.observer.config.task.p440.out.xml.TypeResponseValue
 import ru.barabo.observer.config.task.p440.out.xml.ver4.AccountAbsent
 import ru.barabo.observer.config.task.p440.out.xml.ver4.extract.ExtractMainAccountVer4
@@ -122,8 +123,8 @@ class ExtractMainResponseDataVer4 : AbstractRequestResponse(), ExtractResponseDa
     }
 }
 
-fun ExtractResponseData.countFiles(operations: List<*>): Int =   (operations.size - 1) / maxOperationsCountInPart() +
-        if( ((operations.size - 1) % maxOperationsCountInPart() ) == 0) 0 else 1
+fun ExtractResponseData.countFiles(operations: List<*>): Int =   (operations.size) / maxOperationsCountInPart() +
+        if( ((operations.size) % maxOperationsCountInPart() ) == 0) 0 else 1
 
 fun ResponseData.getAddFileNames(account: ExtractMainAccountVer4, countFiles: Int): List<String> {
 
