@@ -43,4 +43,12 @@ object Get440pFiles : FileFinder, FileProcessor {
 
 fun getFolder440p(): File = "$X440P/${Get440pFiles.todayFolder()}/Получено".byFolderExists()
 
+fun sentFolderNewSmev440pToday(): File = "$X440P/${Get440pFiles.todayFolder()}/Отправка/$NEW_SMEV_440P_FOLDER".byFolderExists()
+
+fun sentFolderNewSmevUno403Today(): File = "$X440P/${Get440pFiles.todayFolder()}/Отправка/$NEW_SMEV_UNO403_FOLDER".byFolderExists()
+
 val X440P = if (TaskMapper.isAfinaBase()) "X:/440-П" else "C:/440-П"
+
+const val NEW_SMEV_440P_FOLDER = "docfns440p"
+
+const val NEW_SMEV_UNO403_FOLDER = "docvzkrorg403"

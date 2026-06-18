@@ -40,7 +40,13 @@ object PbSaverScadVer4 : GeneralCreator<FilePbXmlVer4>(PbResponseDataVer4(), Fil
 
         val sourcePb = File("$pbFolder/${responseData.fileNameResponse()}")
 
-        ScadComplex.signAndMoveSource(sourcePb, sourceFolderThis)
+        if(responseData.isOldFormat()) {
+            ScadComplex.signAndMoveSource(sourcePb, sourceFolderThis)
+        } /*else {
+            val newSource = File("${sourceFolderThis.absolutePath}/${sourcePb.name}")
+            sourcePb.copyTo(newSource, true)
+            sourcePb.delete()
+        }*/
 
         return result
     }

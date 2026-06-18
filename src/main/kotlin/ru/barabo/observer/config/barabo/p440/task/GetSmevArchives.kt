@@ -22,7 +22,7 @@ object GetSmevArchives : FileFinder, FileProcessor {
 
     override fun name(): String = "ЕНС - Получить архивы"
 
-    override fun config(): ConfigTask = EnsConfig //P440Config
+    override fun config(): ConfigTask = EnsConfig
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false,
         LocalTime.of(2, 0), LocalTime.of(23, 30), Duration.ofSeconds(10))

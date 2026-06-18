@@ -42,6 +42,7 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.cbr.ticket.task.sentFolderNewSmev440pToday
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
@@ -108,6 +109,7 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
 
     //@Test
     fun testInArrayString() {
@@ -191,6 +193,20 @@ class LoaderTest {
         val elem = Elem(idElem = 1364408186L) //ZSN-4.02
 
         Process440p.execute(elem)
+    }
+
+    //@Test
+    fun testPbGenerator402() {
+        val repeatCreator = OutType.creatorByDbValue(1)!!
+
+        val file = File("D:/440-П/test/ZSO10507717_250820260525_000499.xml")
+
+        val elem = Elem(
+            1365311973L, file.nameWithoutExtension, repeatCreator,
+            Duration.ZERO
+        )
+
+        elem.task?.execute(elem)
     }
 
     //@Test

@@ -71,7 +71,7 @@ fun String.byFolderExists(): File {
 
 abstract class GeneralCreator<X: Any>(protected val responseData: AbstractResponseData, private val clazzXml : KClass<X>) : DbSelector, ActionTask {
 
-    override fun config(): ConfigTask = CryptoScad //ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
     override val select: String = "select id, FILE_NAME, IS_PB from od.ptkb_440p_response where state = 0"
 

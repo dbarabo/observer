@@ -49,7 +49,7 @@ object Send440pArchiveToSmev : SingleSelector {
             params = arrayOf(elem.idElem),
             outParamTypes = intArrayOf(java.sql.Types.VARCHAR) )
 
-        val archivePath = getArchivePath(true)
+        val archivePath = getArchivePath( "AFN",true)
 
         val archive = File("${archivePath}/${elem.name}.ARJ")
 
