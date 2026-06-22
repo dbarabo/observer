@@ -38,6 +38,8 @@ object SignScadArchive440p : SingleSelector {
                 params = arrayOf(elem.idElem),
                 outParamTypes = intArrayOf(java.sql.Types.VARCHAR, OracleTypes.NUMBER) )
 
+        if(elem.name.substring(0..2) != "AFN") return State.OK
+
         val isSmevArchive: Int = (results?.get(1) as? Number)?.toInt() ?: 0
 
         val archivePath = getArchivePath("AFN", isSmevArchive != 0)

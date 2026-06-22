@@ -19,7 +19,8 @@ object Send440pArchive : SingleSelector {
 
     private val logger = LoggerFactory.getLogger(Send440pArchive::class.java)
 
-    override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 3 and coalesce(IS_SMEV_SOURCE, 0) = 0"
+    override val select: String =
+        "select id, FILE_NAME from od.ptkb_440p_archive where state = 3 and coalesce(IS_SMEV_SOURCE, 0) = 0 and FILE_NAME like 'AFN%'"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
             workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))

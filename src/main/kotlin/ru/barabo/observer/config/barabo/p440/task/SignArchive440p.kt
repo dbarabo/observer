@@ -48,7 +48,6 @@ object SignArchive440p: SingleSelector {
         try {
             if(!archive.exists()) throw SessionException("file not found ${archive.absolutePath}")
 
-            // Verba.signByBarabo(archive)
         } catch (e :Exception) {
             logger.error("execute", e)
 

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.P440Config
 import ru.barabo.observer.config.barabo.p440.SMEV_CHECK
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator.Companion.sendFolder440p
 import ru.barabo.observer.config.barabo.p440.out.sendFolder440pSmev
@@ -34,10 +33,13 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
     private val logger = LoggerFactory.getLogger(AddToArchive440p::class.java)
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),
-            FileFinderData(::sourceFolderSmev, "PB\\d.*\\.xml"),
+        FileFinderData(::sourceFolder, "PB\\d.*\\.xml"),
+        FileFinderData(::sourceFolderSmev, "PB\\d.*\\.xml"),
 
-            FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb")
+        FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb"),
+
+        FileFinderData(::sentFolderNewSmev440pToday, "B(VD|VS|NS|NP|OS).*\\.xml"),
+        FileFinderData(::sentFolderNewSmevUno403Today, "B(VD|VS|NS|NP|OS).*\\.xml")
     )
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeTo = LocalTime.of(18, 30))

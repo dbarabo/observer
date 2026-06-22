@@ -52,3 +52,11 @@ val X440P = if (TaskMapper.isAfinaBase()) "X:/440-П" else "C:/440-П"
 const val NEW_SMEV_440P_FOLDER = "docfns440p"
 
 const val NEW_SMEV_UNO403_FOLDER = "docvzkrorg403"
+
+const val OUT_FOLDER = "out"
+
+const val IN_FOLDER = "in"
+
+val SMEV_440P_OUT_FOLDER = "$X440P/$NEW_SMEV_440P_FOLDER/$OUT_FOLDER"
+
+val SMEV_UNO403_OUT_FOLDER = "$X440P/$NEW_SMEV_UNO403_FOLDER/$OUT_FOLDER"
