@@ -30,7 +30,9 @@ object CryptoScad440p: FileProcessor, FileFinder {
             LocalTime.of(18, 0), // 17:45,
             Duration.ofSeconds(1))
 
-    override val fileFinderData: List<FileFinderData> = listOf(FileFinderData(::sendFolder440p, "B(VD|VS|NS|NP|OS).*\\.xml"))
+    override val fileFinderData: List<FileFinderData> = listOf(
+        FileFinderData(::sendFolder440p, "B(VD|VS|NS|NP|OS).*\\.xml")
+    )
 
     override fun processFile(file: File) {
 

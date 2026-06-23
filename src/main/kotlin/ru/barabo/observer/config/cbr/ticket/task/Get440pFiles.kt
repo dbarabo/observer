@@ -47,6 +47,10 @@ fun sentFolderNewSmev440pToday(): File = "$X440P/${Get440pFiles.todayFolder()}/�
 
 fun sentFolderNewSmevUno403Today(): File = "$X440P/${Get440pFiles.todayFolder()}/Отправка/$NEW_SMEV_UNO403_FOLDER".byFolderExists()
 
+fun smev440pInToday(): File = "${getFolder440p().absolutePath}/$NEW_SMEV_440P_FOLDER".byFolderExists()
+
+fun smevUno403InToday(): File = "${getFolder440p().absolutePath}/$NEW_SMEV_UNO403_FOLDER".byFolderExists()
+
 val X440P = if (TaskMapper.isAfinaBase()) "X:/440-П" else "C:/440-П"
 
 const val NEW_SMEV_440P_FOLDER = "docfns440p"
@@ -60,3 +64,8 @@ const val IN_FOLDER = "in"
 val SMEV_440P_OUT_FOLDER = "$X440P/$NEW_SMEV_440P_FOLDER/$OUT_FOLDER"
 
 val SMEV_UNO403_OUT_FOLDER = "$X440P/$NEW_SMEV_UNO403_FOLDER/$OUT_FOLDER"
+
+val SMEV_440P_IN_FOLDER = "$X440P/$NEW_SMEV_440P_FOLDER/$IN_FOLDER"
+
+val SMEV_UNO403_IN_FOLDER = "$X440P/$NEW_SMEV_UNO403_FOLDER/$IN_FOLDER"
+

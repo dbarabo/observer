@@ -8,6 +8,8 @@ import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.task.FileLoader
 import ru.barabo.observer.config.barabo.p440.task.ToUncrypto440p
 import ru.barabo.observer.config.cbr.ticket.task.p440.folderLoaded440p
+import ru.barabo.observer.config.cbr.ticket.task.smev440pInToday
+import ru.barabo.observer.config.cbr.ticket.task.smevUno403InToday
 import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.ActionTask
@@ -31,7 +33,11 @@ abstract class GeneralLoader <in T> : FileProcessor, FileFinder where T : Abstra
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData(ToUncrypto440p::getUncFolder440p, ".*\\.xml"),
-                FileFinderData(::getUncryptoFolderSmev, ".*\\.xml") )
+                FileFinderData(::getUncryptoFolderSmev, ".*\\.xml"),
+
+                FileFinderData(::smev440pInToday, ".*\\.xml"),
+                FileFinderData(::smevUno403InToday, ".*\\.xml")
+                )
 
     override fun config(): ConfigTask = EnsConfig
 
