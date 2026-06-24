@@ -15,6 +15,9 @@ public final class PayerXml implements ParamsQuery {
 	@XStreamAlias("ПлИП")
 	private PayerIp payerIp;
 
+    @XStreamAlias("ПФЛИП")
+    private PayerIp payerIpFl;
+
 	@XStreamAlias("ПФЛ")
 	private PayerPhysic payerPhysic;
 
@@ -31,6 +34,10 @@ public final class PayerXml implements ParamsQuery {
 		if (payerIp != null) {
 			return payerIp.getParams();
 		}
+
+        if (payerIpFl != null) {
+            return payerIpFl.getParams();
+        }
 
 		if (payerPhysic != null) {
 			return payerPhysic.getParams();
@@ -50,6 +57,10 @@ public final class PayerXml implements ParamsQuery {
 			return payerIp.getListColumns();
 		}
 
+        if (payerIpFl != null) {
+            return payerIpFl.getListColumns();
+        }
+
 		if (payerPhysic != null) {
 			return payerPhysic.getListColumns();
 		}
@@ -62,7 +73,7 @@ public final class PayerXml implements ParamsQuery {
 	}
 
 	public PayerIp getPayerIp() {
-		return payerIp;
+		return payerIp == null ? payerIpFl : payerIp;
 	}
 
 	public PayerPhysic getPayerPhysic() {

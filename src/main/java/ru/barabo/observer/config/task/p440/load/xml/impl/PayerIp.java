@@ -13,6 +13,9 @@ public final class PayerIp implements ParamsQuery {
 	@XStreamAlias("ИННИП")
 	private String inn;
 
+    @XStreamAlias("ИННФЛ")
+    private String innFl;
+
 	@XStreamAlias("ФИО")
 	private FioAttr fio;
 
@@ -34,7 +37,7 @@ public final class PayerIp implements ParamsQuery {
 	}
 
 	public String getInn() {
-		return inn;
+		return inn == null ? innFl : inn;
 	}
 
 	public FioAttr getFio() {
@@ -44,11 +47,11 @@ public final class PayerIp implements ParamsQuery {
 	@Override
 	public List<Object> getParams() {
 
-		return new ArrayList<Object>(Arrays.asList(inn == null ? String.class : inn,
+		return new ArrayList<Object>(Arrays.asList(getInn() == null ? String.class : getInn(),
 				fio == null || fio.getFirstName() == null ? String.class : fio.getFirstName(),
 				fio == null || fio.getLastName() == null ? String.class : fio.getLastName(),
 				fio == null || fio.getPapaName() == null ? String.class : fio.getPapaName(),
-				PayerType.Pboul.getValueDb()));
+                inn != null ? PayerType.Pboul.getValueDb() : PayerType.Physic.getValueDb() ));
 	}
 
 	private static final String COLUMNS = "INN, FIRST_NAME, LAST_NAME, SECOND_NAME, TYPE, FNS_FROM, ID";
