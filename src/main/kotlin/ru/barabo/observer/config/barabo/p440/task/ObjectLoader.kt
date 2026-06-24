@@ -13,6 +13,7 @@ import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz
 import ru.barabo.observer.config.task.fz263.load.xml.uno.UnoFromFns
 import ru.barabo.observer.config.task.fz263.load.xml.upo.UpoFromFns
+import ru.barabo.observer.config.task.fz263.load.xml.upv.UpvFromFns
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsoFromFnsVer4
 import ru.barabo.observer.config.task.p440.load.ver4.request.ZsvFromFnsVer4
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns
@@ -68,6 +69,23 @@ object UpoLoader : GeneralLoader<UpoFromFns>() {
             createPb2FileZsv(file, UpoFromFns::emptyUpoFromFns)
         }
     }
+}
+
+object UpvLoader : GeneralLoader<UpvFromFns>() {
+
+    override fun name(): String = "Загрузка UPV-файла (продажа валют)"
+
+    override fun config(): ConfigTask = EnsConfig
+
+    /*
+    override fun processFile(file: File) {
+
+        try {
+            super.processFile(file)
+        } catch (e: Exception) {
+            createPb2FileZsv(file, UpvFromFns::emptyUpvFromFns)
+        }
+    }*/
 }
 
 object RpoLoader : GeneralLoader<RpoFromFns>() {

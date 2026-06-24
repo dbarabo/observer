@@ -134,6 +134,16 @@ class LoaderTest {
         validateXml(xmlFile, xsd) { File("C:/temp/1")  }
     }
 
+    //@Test
+    fun loadUpv() {
+
+        val file = File("C:/temp/0/0/UPV10507717_253620260512_000004.xml")
+
+        val elem = Elem(file, UpvLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
 
     //@Test
     fun loadUno() {

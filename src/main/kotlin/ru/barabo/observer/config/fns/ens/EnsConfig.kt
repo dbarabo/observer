@@ -48,8 +48,6 @@ object EnsConfig : AbstractConfig() {
 
         CheckTicketFns311p.findAll()
         CheckTicketArchive311p.findAll()
-        //CheckTicketCbrFile311p.findAll()
-
 
 
         this.executeTasks()

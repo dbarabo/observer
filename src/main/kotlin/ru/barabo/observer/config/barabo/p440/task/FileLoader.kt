@@ -39,7 +39,10 @@ enum class FileLoader(val actionTask: ActionTask, val prefixFile:String) {
 
     UPO(UpoLoader, "UPO"),
 
-    UNO(UnoLoader, "UNO");
+    UNO(UnoLoader, "UNO"),
+
+    UPV(UpvLoader, "UPV");
+
 
     companion object {
 

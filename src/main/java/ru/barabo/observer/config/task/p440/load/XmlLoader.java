@@ -6,6 +6,9 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.apache.log4j.Logger;
 import ru.barabo.observer.config.task.fz263.load.xml.uno.OrderTaxInfo263fz;
 import ru.barabo.observer.config.task.fz263.load.xml.upo.Suspension;
+import ru.barabo.observer.config.task.fz263.load.xml.upv.OrderUno;
+import ru.barabo.observer.config.task.fz263.load.xml.upv.SaleCurrency;
+import ru.barabo.observer.config.task.fz263.load.xml.upv.UpvFromFns;
 import ru.barabo.observer.config.task.p440.load.ver4.TypeFileLoadVer4;
 import ru.barabo.observer.config.task.p440.load.ver4.request.*;
 import ru.barabo.observer.config.task.p440.load.xml.AbstractFromFns;
@@ -145,6 +148,9 @@ public class XmlLoader<E> {
 		xstream.processAnnotations(Suspension.class);
 		xstream.processAnnotations(OrderTaxInfo263fz.class);
 
+        xstream.processAnnotations(OrderUno.class);
+        xstream.processAnnotations(SaleCurrency.class);
+        xstream.processAnnotations(UpvFromFns.class);
 
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);
