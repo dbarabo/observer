@@ -57,7 +57,7 @@ object SendXmlRiskClientCbrAuto : SinglePerpetual {
 
 private fun sendMailInfo(zipFileName: String) {
 
-    BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_CBR_RISK, cc = BaraboSmtp.MANAGERS_UOD,
+    BaraboSmtp.sendStubThrows(to = BaraboSmtp.CHECKER_CBR_RISK, cc = BaraboSmtp.MANAGERS_SVK,
         subject = SUBJECT_RISK_INFO, body = bodyInfo(zipFileName))
 }
 

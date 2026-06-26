@@ -52,12 +52,12 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
                 info.errorValues?.joinToString(";") ?: String::class.javaObjectType,
                 info.errorAtributes?.joinToString(";") ?: String::class.javaObjectType)
 
-        AfinaQuery.execute(INSERT_TICKET, params)
-
         val fileTo = File("${folderLoaded440p().absolutePath}/${file.name}")
 
         file.copyTo(fileTo, true)
         file.delete()
+
+        AfinaQuery.execute(INSERT_TICKET, params)
 
         if(info.isFailTicketInfo()) {
 

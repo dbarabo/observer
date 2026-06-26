@@ -150,7 +150,6 @@ public class XmlLoader<E> {
 
         xstream.processAnnotations(OrderUno.class);
         xstream.processAnnotations(SaleCurrency.class);
-        xstream.processAnnotations(UpvFromFns.class);
 
 		xstream.useAttributeFor(String.class);
 		xstream.useAttributeFor(Integer.class);
