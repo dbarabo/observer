@@ -39,7 +39,10 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
         FileFinderData(Send440pArchive::sendFolderCrypto440p, "B(VD|VS|NS|NP|OS).*\\.vrb"),
 
         FileFinderData(::sentFolderNewSmev440pToday, "B(VD|VS|NS|NP|OS).*\\.xml"),
-        FileFinderData(::sentFolderNewSmevUno403Today, "B(VD|VS|NS|NP|OS).*\\.xml")
+        FileFinderData(::sentFolderNewSmevUno403Today, "B(VD|VS|NS|NP|OS).*\\.xml"),
+
+        FileFinderData(::sentFolderNewSmev440pToday, "PB\\d.*\\.xml"),
+        FileFinderData(::sentFolderNewSmevUno403Today, "PB\\d.*\\.xml")
     )
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeTo = LocalTime.of(18, 30))

@@ -30,12 +30,14 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
 
         if(!file.exists()) return
 
-        val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
+        if(file.name.indexOf("KWTFCB_AFN") == 0) {
 
-        try {
-            ScadComplex.unsignAndMoveSource(file, folderTo)
-        } catch (e: Exception) {
-            logger.error("ScadComplex.unsignAndMoveSource file=$file", e)
+            val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
+            try {
+                ScadComplex.unsignAndMoveSource(file, folderTo)
+            } catch (e: Exception) {
+                logger.error("ScadComplex.unsignAndMoveSource file=$file", e)
+            }
         }
 
         val info = try {

@@ -47,26 +47,6 @@ object CryptoScad440p: FileProcessor, FileFinder {
         }
     }
 
-    private fun setFileToNew440p(sourceFile: File) {
-
-        val copyFile = File("${sentFolderNewSmev440pToday().absolutePath}/${sourceFile.name}")
-        sourceFile.copyTo(copyFile, true)
-
-        if(copyFile.exists()) {
-            sourceFile.delete()
-        }
-    }
-
-    private fun setFileToNewSmev403(sourceFile: File) {
-
-        val copyFile = File("${sentFolderNewSmevUno403Today().absolutePath}/${sourceFile.name}")
-        sourceFile.copyTo(copyFile, true)
-
-        if(copyFile.exists()) {
-            sourceFile.delete()
-        }
-    }
-
     private fun cryptoScad(file: File) {
         val cryptoScad = File("${Send440pArchive.sendFolderCrypto440p().absolutePath}/${file.nameWithoutExtension}.vrb")
 
@@ -74,15 +54,35 @@ object CryptoScad440p: FileProcessor, FileFinder {
     }
 }
 
-private const val SELECT_SMEV_TYPE_FILE = "select OD.PTKB_440P.getSmevTypeByFileName( ? ) from dual"
+fun setFileToNew440p(sourceFile: File) {
 
-private const val OLD_VERSION_FILES = 0
+    val copyFile = File("${sentFolderNewSmev440pToday().absolutePath}/${sourceFile.name}")
+    sourceFile.copyTo(copyFile, true)
 
-private const val PB_OLD_SMEV_FILES = 1
+    if(copyFile.exists()) {
+        sourceFile.delete()
+    }
+}
 
-private const val NEW_SMEV_440P_FILES = 2
+fun setFileToNewSmev403(sourceFile: File) {
 
-private const val NEW_SMEV_UNO_373_FILES = 3
+    val copyFile = File("${sentFolderNewSmevUno403Today().absolutePath}/${sourceFile.name}")
+    sourceFile.copyTo(copyFile, true)
+
+    if(copyFile.exists()) {
+        sourceFile.delete()
+    }
+}
+
+const val SELECT_SMEV_TYPE_FILE = "select OD.PTKB_440P.getSmevTypeByFileName( ? ) from dual"
+
+const val OLD_VERSION_FILES = 0
+
+const val PB_OLD_SMEV_FILES = 1
+
+const val NEW_SMEV_440P_FILES = 2
+
+const val NEW_SMEV_UNO_373_FILES = 3
 
 
 

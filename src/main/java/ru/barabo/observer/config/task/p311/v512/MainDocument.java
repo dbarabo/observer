@@ -38,7 +38,7 @@ public final class MainDocument {
     private final String positionMainBank = "Начальник ДОК";
 
     @XStreamAlias("ФамПрБ")
-    private final String secondNameMainBank = "Фарахова Е.В.";
+    private final String secondNameMainBank = "Урсу Е.Л.";
 
     @XStreamAlias("ТелБанка")
     private final String phoneMainBank = "(423)220-96-93";

@@ -3,7 +3,6 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -42,16 +41,15 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
 import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
-import ru.barabo.observer.config.cbr.ticket.task.sentFolderNewSmev440pToday
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
-import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
 import ru.barabo.observer.config.fns.cbr.extract.ExtractMainCbr
 import ru.barabo.observer.config.fns.cbr.extract.PbSaverCbr
 import ru.barabo.observer.config.fns.cbr.task.ProcessCbrRequest
 import ru.barabo.observer.config.fns.ens.task.CheckNotLoaded440pFiles
 import ru.barabo.observer.config.fns.ens.task.Create311p514
+import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
 import ru.barabo.observer.config.skad.acquiring.task.AcquiringProcessTerminal
@@ -89,7 +87,6 @@ import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.*
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
@@ -200,7 +197,7 @@ class LoaderTest {
     //@Test
     fun testProcess440p() {
 
-        val elem = Elem(idElem = 1364408186L) //ZSN-4.02
+        val elem = Elem(idElem = 1366573981L) //ZSN-4.02
 
         Process440p.execute(elem)
     }

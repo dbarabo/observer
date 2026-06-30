@@ -1,6 +1,8 @@
 package ru.barabo.observer.config.skad.crypto.task
 
+import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.barabo.p440.out.GeneralCreator
+import ru.barabo.observer.config.barabo.p440.out.ResponseData
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.barabo.p440.out.data.PbResponseData
 import ru.barabo.observer.config.barabo.p440.out.data.PbResponseDataVer4
@@ -36,20 +38,33 @@ object PbSaverScadVer4 : GeneralCreator<FilePbXmlVer4>(PbResponseDataVer4(), Fil
 
         val pbFolder = if(responseData.isSourceSmev()) sendFolder440pSmev().absolutePath else sendFolder440p().absolutePath
 
-        val sourceFolderThis = if(responseData.isSourceSmev()) sourceFolderSmev() else sourceFolder()
-
         val sourcePb = File("$pbFolder/${responseData.fileNameResponse()}")
 
-        if(responseData.isOldFormat()) {
-            ScadComplex.signAndMoveSource(sourcePb, sourceFolderThis)
-        } /*else {
-            val newSource = File("${sourceFolderThis.absolutePath}/${sourcePb.name}")
-            sourcePb.copyTo(newSource, true)
-            sourcePb.delete()
-        }*/
+        processFilePbNewSmev(sourcePb, responseData)
 
         return result
     }
+}
+
+private fun processFilePbNewSmev(sourcePb: File, responseData: ResponseData) {
+
+    val smevTypeFile = (AfinaQuery.selectValue(SELECT_SMEV_TYPE_FILE, arrayOf(sourcePb.name)) as Number).toInt()
+
+    when(smevTypeFile) {
+        OLD_VERSION_FILES, PB_OLD_SMEV_FILES -> cryptoScadPb(sourcePb, responseData)
+
+        NEW_SMEV_440P_FILES -> setFileToNew440p(sourcePb)
+
+        NEW_SMEV_UNO_373_FILES -> setFileToNewSmev403(sourcePb)
+
+        else -> throw Exception("Неизвестный источник файла smevTypeFile=$smevTypeFile sourcePb=$sourcePb")
+    }
+}
+
+private fun cryptoScadPb(sourcePb: File, responseData: ResponseData) {
+    val sourceFolderThis = if(responseData.isSourceSmev()) sourceFolderSmev() else sourceFolder()
+
+    ScadComplex.signAndMoveSource(sourcePb, sourceFolderThis)
 }
 
 fun sourceFolder() = "${GeneralCreator.sendFolder440p().absolutePath}/src".byFolderExists()
