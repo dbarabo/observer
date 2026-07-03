@@ -44,15 +44,6 @@ object UnoLoader : GeneralLoader<UnoFromFns>() {
 
         unoData.saveData(idFromFns, sessionSetting, ::insertPno)
     }
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2FileZsv(file, UnoFromFns::emptyFromFns)
-        }
-    }
 }
 
 object UpoLoader : GeneralLoader<UpoFromFns>() {
@@ -66,7 +57,13 @@ object UpoLoader : GeneralLoader<UpoFromFns>() {
         try {
             super.processFile(file)
         } catch (e: Exception) {
-            createPb2FileZsv(file, UpoFromFns::emptyUpoFromFns)
+            logger.error("UpoLoader.processFile e.message=${e.message}")
+
+            if((e.message?.indexOf("ORA-20000: Не указан счет(а) для файла ФНС") ?: -1) >= 0) {
+                createPb2FileZsv(file, UpoFromFns::emptyUpoFromFns)
+            } else {
+                throw Exception(e)
+            }
         }
     }
 }
@@ -76,30 +73,11 @@ object UpvLoader : GeneralLoader<UpvFromFns>() {
     override fun name(): String = "Загрузка UPV-файла (продажа валют)"
 
     override fun config(): ConfigTask = EnsConfig
-
-    /*
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2FileZsv(file, UpvFromFns::emptyUpvFromFns)
-        }
-    }*/
 }
 
 object RpoLoader : GeneralLoader<RpoFromFns>() {
 
     override fun name(): String = "Загрузка RPO-файла (арест)"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: XmlLoadException) {
-            createPb2FileZsv(file, RpoFromFns::emptyRpoFromFns)
-        }
-    }
 }
 
 object RooLoader : GeneralLoader<RooFromFns>() {
@@ -107,138 +85,24 @@ object RooLoader : GeneralLoader<RooFromFns>() {
     private val logger = LoggerFactory.getLogger(RooLoader::class.java)
 
     override fun name(): String = "Загрузка ROO-файла (отмена)"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: XmlLoadException) {
-            createPb2FileZsv(file, RooFromFns::emptyRooFromFns)
-        }
-    }
 }
 
 object ZsnLoader : GeneralLoader<ZsnFromFns>() {
 
     override fun name(): String = "Загрузка ZSN-файла (наличие сч.)"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2FileZsv(file, ZsnFromFns::emptyZsnFromFns)
-        }
-    }
 }
 
-private val logger = LoggerFactory.getLogger(ZsoLoader::class.java)
+private val logger = LoggerFactory.getLogger(ZsoLoaderVer4::class.java)
 
 object ZsoLoaderVer4 : GeneralLoader<ZsoFromFnsVer4>() {
 
     override fun name(): String = "Загрузка ZSO-файла (остатки) ver.4"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            //createPb2File(file)
-            createPb2FileZsv(file, ZsoFromFnsVer4::emptyZsoFromFns)
-        }
-    }
-
-    private fun createPb2File(file: File) {
-
-        val type = getErrorTypeFormat(file)
-
-        type?.let { createErrorTypeFormat(file, it) } ?: createErrorUncrypto(file)
-    }
-
-    private fun createErrorTypeFormat(file: File, typeFormat: String) {
-
-        val zsoTypeFormat = ZsoFromFnsVer4.emptyZsoFromFnsErrorTypeFormat(typeFormat)
-
-        createError(zsoTypeFormat, file)
-    }
-
-    private fun createErrorUncrypto(file: File) {
-        val elem = StoreSimple.findElemByFile(file.name, file.parent, ZsoLoaderVer4.actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
-
-        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
-        BaraboSmtp.errorSend(elem)
-
-        val zsoPb2 = ZsoFromFnsVer4.emptyZsoFromFns()
-
-        createError(zsoPb2, file)
-    }
-}
-
-object ZsoLoader : GeneralLoader<ZsoFromFns>() {
-
-    override fun name(): String = "Загрузка ZSO-файла (остатки)"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2File(file)
-        }
-    }
-
-    private fun createPb2File(file: File) {
-
-        val type = getErrorTypeFormat(file)
-
-        type?.let { createErrorTypeFormat(file, it) } ?: createErrorUncrypto(file)
-    }
-
-    private fun createErrorTypeFormat(file: File, typeFormat: String) {
-
-        val zsoTypeFormat = ZsoFromFns.emptyZsoFromFnsErrorTypeFormat(typeFormat)
-
-        createError(zsoTypeFormat, file)
-    }
-
-    private fun createErrorUncrypto(file: File) {
-        val elem = StoreSimple.findElemByFile(file.name, file.parent, actionTask(file.name)) ?: throw SessionException("elem file=$file not found")
-
-        elem.error = "Ошибка расшифрования файла. Данный запрос не будет обработан. В ФНС отправится PB2 с ошибкой расшифрования"
-        BaraboSmtp.errorSend(elem)
-
-        val zsoPb2 = ZsoFromFns.emptyZsoFromFns()
-
-        createError(zsoPb2, file)
-    }
 }
 
 object ZsvLoaderVer4 : GeneralLoader<ZsvFromFnsVer4>() {
 
     override fun name(): String = "Загрузка ZSV-файла (выписка) ver.4"
 
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2FileZsv(file, ZsvFromFnsVer4::emptyZsvFromFns)
-        }
-    }
-}
-
-object ZsvLoader : GeneralLoader<ZsvFromFns>() {
-
-    override fun name(): String = "Загрузка ZSV-файла (выписка)"
-
-    override fun processFile(file: File) {
-
-        try {
-            super.processFile(file)
-        } catch (e: Exception) {
-            createPb2FileZsv(file)
-        }
-    }
 }
 
 object ApnLoader : GeneralLoader<ApnFromFns>() {
@@ -332,9 +196,9 @@ private fun updateCheckCodeError(idFnsFrom: Number, sessionSetting: SessionSetti
     AfinaQuery.execute(UPDATE_CHECK_CODE, params, sessionSetting)
 }
 
-private const val UNCRYPTO_ERROR_CODE = "05"
+private const val UNCRYPTO_ERROR_CODE = "15"
 
-private const val UNCRYPTO_ERROR_TEXT = "Ошибка расшифрования файла. Ключ шифрования неверен."
+private const val UNCRYPTO_ERROR_TEXT = "Не задан реквизит Счет или ЭСП Одновременно оба этих элемента не могут отсутствовать"
 
 private const val UPDATE_CHECK_CODE = "update od.ptkb_440p_fns_from set check_codes = ?, check_text_errors = ? where id = ?"
 
@@ -351,7 +215,7 @@ private fun getErrorTypeFormat(file: File): String? {
 
     val endIndex = text.indexOf("ВерсПрог=")
 
-    if(startIndex < 0 || endIndex <= startIndex) {
+    if(startIndex !in 0..<endIndex) {
         return null
     }
 

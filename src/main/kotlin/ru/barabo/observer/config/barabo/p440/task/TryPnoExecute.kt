@@ -20,9 +20,9 @@ object TryPnoExecute : SingleSelector {
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_fns_from where state = 2 and substr(type_440p, 1, 5) = 'ПОРУЧ'"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(17, 0), executeWait = Duration.ofSeconds(5))
+            workTimeTo = LocalTime.of(19, 0), executeWait = Duration.ofSeconds(5))
 
-    override fun name(): String = "Инкассовые попытка исполнить"
+    override fun name(): String = "Инкассовые проверить что исполнили"
 
     override fun config(): ConfigTask = EnsConfig
 

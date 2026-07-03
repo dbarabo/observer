@@ -32,11 +32,11 @@ public class MainFileSfr {
 
     @XStreamAlias("ДолжнОтпр")
     @XStreamAsAttribute
-    private final String positionSender = "Специалист по сопровождению";
+    private final String positionSender = "Зам начальника ДСПО";
 
     @XStreamAlias("ФамОтпр")
     @XStreamAsAttribute
-    private final String secondNameSender = "КОЛТОВСКАЯ";
+    private final String secondNameSender = "БАРАБОШКИН";
 
     @XStreamAlias("КолДок")
     @XStreamAsAttribute

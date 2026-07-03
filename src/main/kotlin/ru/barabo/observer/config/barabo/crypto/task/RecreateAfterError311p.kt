@@ -14,11 +14,11 @@ object RecreateAfterError311p : SingleSelector {
 
     override fun name(): String = "311-П Выгрузить Счет после ошибки"
 
-    override fun config(): ConfigTask = EnsConfig // PlasticOutSide
+    override fun config(): ConfigTask = EnsConfig
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.WORK_ONLY, false,
             LocalTime.of(11, 0),
-            LocalTime.of(15, 59), null)
+            LocalTime.of(17, 59), null)
 
     override val select: String = """select r.id, a.code || ' ' || decode(r.type_send, 0, 'О ' || to_char(a.opened, 'dd.mm.yy'), 'З ' || to_char(a.closed,'dd.mm.yy') )
 from od.ptkb_361p_register r

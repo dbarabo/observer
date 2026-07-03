@@ -39,7 +39,7 @@ object Ticket311pFnsLoadScad :  FileFinder, FileProcessor {
     private fun ticket311pDirectory() = ticket311p().byFolderExists()
 
     override fun processFile(file: File) {
-        ScadComplex.unsignAndMoveSource(file)
+        //ScadComplex.unsignAndMoveSource(file)
 
         loadXmlToAfina(file)
     }

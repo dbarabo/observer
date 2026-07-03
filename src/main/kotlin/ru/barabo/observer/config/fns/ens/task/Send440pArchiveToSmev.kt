@@ -27,7 +27,7 @@ object Send440pArchiveToSmev : SingleSelector {
         "select id, FILE_NAME from od.ptkb_440p_archive where state = 3 and (coalesce(IS_SMEV_SOURCE, 0) = 1 or FILE_NAME not like 'AFN%')"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-        workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
+        workTimeTo = LocalTime.of(23, 0), executeWait = Duration.ofSeconds(5))
 
     override fun name(): String = "ЕНС Отправка архива для Смев"
 

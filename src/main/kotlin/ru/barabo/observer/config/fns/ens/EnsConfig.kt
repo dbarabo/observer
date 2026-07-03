@@ -34,6 +34,7 @@ object EnsConfig : AbstractConfig() {
         BosSendIfNeed.findAll()
 
         CheckNotLoaded440pFiles.findAll()
+        CheckArchiveStateFromSmev.findAll()
 
         CreateAccount311p.findAll()
         RecreateAfterError311p.findAll()

@@ -25,7 +25,7 @@ object SignScadArchive440p : SingleSelector {
 
     override val accessibleData: AccessibleData = AccessibleData(
             workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(17, 50),
+            workTimeTo = LocalTime.of(22, 50),
             executeWait = Duration.ofSeconds(5))
 
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_archive where state = 0 and " +

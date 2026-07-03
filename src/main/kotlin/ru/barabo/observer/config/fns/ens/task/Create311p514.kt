@@ -26,7 +26,7 @@ object Create311p514 : SingleSelector {
     override val accessibleData: AccessibleData = AccessibleData(
         WeekAccess.WORK_ONLY, false,
         LocalTime.of(9, 0),
-        LocalTime.of(15, 55), Duration.ofSeconds(1))
+        LocalTime.of(18, 30), Duration.ofSeconds(1))
 
     override val select: String =
         """

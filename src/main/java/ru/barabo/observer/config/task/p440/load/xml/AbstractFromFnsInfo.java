@@ -23,8 +23,12 @@ abstract public class AbstractFromFnsInfo implements FromFnsInfo {
 	@XStreamOmitField
 	protected Object ignoredElement;
 
+    @XStreamAlias("Исполнитель")
+    @XStreamOmitField
+    protected Object ignoredElement373;
 
-	@Override
+
+    @Override
 	public String getAccountsStartDates() {
 		return "";
 	}

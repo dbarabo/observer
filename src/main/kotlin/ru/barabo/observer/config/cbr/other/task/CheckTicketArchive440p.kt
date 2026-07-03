@@ -12,17 +12,20 @@ import java.time.LocalTime
 
 object CheckTicketArchive440p : SingleSelector {
 
-    override fun name(): String = "Нет квитков на Архив"
+    override fun name(): String = "Проверка размещения архивов в СМЭВ"
 
     override fun config(): ConfigTask = EnsConfig
 
     override val select: String =
         """select a.id, a.FILE_NAME
   from od.ptkb_440p_archive a
-  left join od.ptkb_fns_container f on upper(f.filename) = a.FILE_NAME || '.ZIP'
- where state != 99 
-   and sysdate - created > 2/24
-   and (f.query_id is null or f.result_code != 1)
+  left join od.ptkb_fns_container f on upper(f.filename) like a.FILE_NAME || '%'
+ where a.state != 99 
+   and sysdate - a.created > 2/24
+   and (f.query_id is null 
+     or 
+     nvl(f.result_code, 0) != 0
+   )
 """
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(13, 0),

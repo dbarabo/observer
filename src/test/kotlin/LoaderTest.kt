@@ -3,6 +3,7 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.exchange.VisaCalculator
@@ -132,6 +133,24 @@ class LoaderTest {
     }
 
     //@Test
+    fun loadUpo() {
+
+        val file = File("C:/temp/0/0/UPO10507717_250820260703_502627.xml")
+
+        val elem = Elem(file, UpoLoader, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
+    fun testProcess440p() {
+
+        val elem = Elem(idElem = 1367047278L)
+
+        Process440p.execute(elem)
+    }
+
+    //@Test
     fun loadUpv() {
 
         val file = File("C:/temp/0/0/UPV10507717_253620260512_000004.xml")
@@ -194,13 +213,7 @@ class LoaderTest {
         elem.task?.execute(elem)
     }
 
-    //@Test
-    fun testProcess440p() {
 
-        val elem = Elem(idElem = 1366573981L) //ZSN-4.02
-
-        Process440p.execute(elem)
-    }
 
     //@Test
     fun testPbGenerator402() {
@@ -768,24 +781,6 @@ res3 = [calc.DEC_TEST];
 
 
         UpoLoader.processFile(file)
-    }
-
-
-
-    //@Test
-    fun testZsoLoad() {
-
-        val file = File("C:/Картстандарт/test/ZSO10507717_250820190212_516920.xml")
-
-        ZsoLoader.processFile(file)
-    }
-
-    //@Test
-    fun testZsvLoad() {
-
-        val file = File("C:/Картстандарт/test/ZSV10507717_631020190211_000025.xml")
-
-        ZsvLoader.processFile(file)
     }
 
     //@Test

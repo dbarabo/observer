@@ -1,22 +1,18 @@
 package ru.barabo.observer.config.fns.ens.task
 
-import org.slf4j.LoggerFactory
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
-import ru.barabo.observer.config.task.finder.isFind
 import ru.barabo.observer.config.task.template.periodic.Periodical
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
-import java.io.File
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.regex.Pattern
+import kotlin.collections.joinToString
 
 object CheckNotLoaded440pFiles : Periodical {
 
@@ -36,63 +32,23 @@ object CheckNotLoaded440pFiles : Periodical {
 
     override fun execute(elem: Elem): State {
 
-        var startCheckDay = LocalDate.now().minusDays(30)
+        val filesAbsent = AfinaQuery.selectCursor(SELECT_ABSENT_FILES)
 
-        val search = Pattern.compile(".*\\.vrb", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+        if(filesAbsent.isEmpty()) return State.OK
 
-        val filesAbsent = ArrayList<File>()
+        val info = filesAbsent.joinToString(" \n\r") {  "${it[0]}" }
 
-        val dateEnd = LocalDate.now() //LocalDate.of(2023, 5, 20) // LocalDate.now()
-
-        while (startCheckDay.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() <
-            dateEnd.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()) {
-
-            val path = startCheckDay.folder440pByDate()
-
-            startCheckDay = startCheckDay.plusDays(1)
-
-            /*path.listFiles { f -> (!f.isDirectory) && (searchArj.isFind(f.name))
-            }?.forEach {
-                Archive.extractFromArj(it, it.parent)
-            }*/
-
-            val notFoundFiles = path.listFiles { f ->
-                (!f.isDirectory) &&
-                        (search.isFind(f.name)) &&
-                        (isNotFoundInBase(f.nameWithoutExtension.uppercase()))
-            }
-
-            if (notFoundFiles != null && notFoundFiles.isNotEmpty()) {
-
-                logger.error(notFoundFiles.joinToString(" \n\r",  "", ""))
-
-                filesAbsent.addAll(notFoundFiles)
-            }
-        }
-
-        if(filesAbsent.isNotEmpty()) {
-            val info = filesAbsent.joinToString(" \n\r",  "", "")
-
-            BaraboSmtp.sendStubThrows(
+        BaraboSmtp.sendStubThrows(
                 to = BaraboSmtp.YA,
                 subject = "Не загружены найденные файлы по 440-П",
                 body = info
-            )
-        }
+        )
 
         return State.OK
     }
 }
 
-private val logger = LoggerFactory.getLogger(CheckNotLoaded440pFiles::class.java)
+private const val SELECT_ABSENT_FILES = "{ ? = call od.PTKB_440P.getAbsentFilesInAfina }"
 
-fun isNotFoundInBase(fileNameWithoutExt: String): Boolean {
-    //logger.error(fileNameWithoutExt)
-    return AfinaQuery.selectValue(SELECT_ID_BY_FILE, arrayOf<Any?>("$fileNameWithoutExt.XML")) == null
-}
-
-private const val SELECT_ID_BY_FILE = "select f.id from od.ptkb_440p_fns_from f where f.file_name = ?"
-
-fun LocalDate.folder440pByDate(): File = "X:/440-П/${this.dateFolder()}/Получено/smev".byFolderExists()
 
 fun LocalDate.dateFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(this)

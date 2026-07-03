@@ -44,7 +44,17 @@ abstract class TicketLoader<T> : FileProcessor where T : AbstractTicket {
           XmlLoader<T>().load(file).ticketInfo
         } catch (e: Exception) {
             logger.error("XmlLoader<T>().load=$file this=$this", e)
-            throw Exception(e)
+
+            val folderTo = "${file.parent}/$SOURCE_FOLDER".byFolderExists()
+            try {
+                ScadComplex.unsignAndMoveSource(file, folderTo)
+
+                XmlLoader<T>().load(file).ticketInfo
+
+            } catch (e: Exception) {
+                logger.error("ScadComplex.unsignAndMoveSource file=$file", e)
+                throw Exception(e)
+            }
         }
 
         val params :Array<Any?> = arrayOf(info.resposeFileName.substringBeforeLast("."),

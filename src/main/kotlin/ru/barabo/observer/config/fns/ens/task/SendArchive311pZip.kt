@@ -21,7 +21,7 @@ object SendArchive311pZip : SingleSelector {
     override val select: String = "select id, FILE_NAME from od.ptkb_361p_archive where state = 0 and sysdate >= created + 15/(60*24)"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(9, 0),
-        workTimeTo = LocalTime.of(17, 55), executeWait = Duration.ofSeconds(20))
+        workTimeTo = LocalTime.of(18, 45), executeWait = Duration.ofSeconds(20))
 
     override fun execute(elem: Elem): State {
 

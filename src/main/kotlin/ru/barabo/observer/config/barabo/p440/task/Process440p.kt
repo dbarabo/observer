@@ -23,7 +23,7 @@ object Process440p : SingleSelector {
     override val select: String = "select id, FILE_NAME from od.ptkb_440p_fns_from where state = 0"
 
     override val accessibleData: AccessibleData = AccessibleData(workTimeFrom = LocalTime.of(8, 0),
-            workTimeTo = LocalTime.of(18, 0), executeWait = Duration.ofSeconds(5))
+            workTimeTo = LocalTime.of(18, 30), executeWait = Duration.ofSeconds(5))
 
     const val EXEC_440P = "{ call od.PTKB_440P.processRaise(?) }"
 
@@ -59,7 +59,7 @@ object Process440p : SingleSelector {
 
     private const val SUBJECT_VIP = "440-П VIP"
 
-    private val WAIT_VIP = Duration.ofHours(4)
+    private val WAIT_VIP = Duration.ofMinutes(15)
 
     private fun sendVipInfo(elem: Elem, vipInfo :String): State {
 

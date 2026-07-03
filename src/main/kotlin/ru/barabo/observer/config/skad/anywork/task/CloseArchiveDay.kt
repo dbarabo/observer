@@ -12,7 +12,11 @@ import ru.barabo.observer.config.task.ActionTask
 import ru.barabo.observer.config.task.Executor
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 
 private val logger = LoggerFactory.getLogger(CloseArchiveDay::class.java)
 
@@ -29,7 +33,7 @@ object CloseArchiveDay : Executor, ActionTask {
     override val accessibleData: AccessibleData = AccessibleData(
         workTimeFrom = LocalTime.of(9, 0),
         workTimeTo = LocalTime.of(21, 0),
-        executeWait = null
+        executeWait = Duration.ofHours(9)
     )
 
     override fun execute(elem: Elem): State {
@@ -38,12 +42,16 @@ object CloseArchiveDay : Executor, ActionTask {
             return State.OK
         }
 
+        if(AfinaQuery.isHoliday(LocalDate.now()) ) {
+            elem.executed = LocalDateTime.now().plus(1, ChronoUnit.DAYS)
+            return State.NONE
+        }
+
         val anotherSessionSetting = AfinaQuery.uniqueSession(true)
 
         try {
             val (idArchive, isNeedCreateActual) =  AfinaQuery.execute(EXEC_CLOSE_ARCHIVE_DAY, null,
                 anotherSessionSetting, intArrayOf(OracleTypes.NUMBER, OracleTypes.NUMBER) )!!
-
 
             logger.error("idArchive=$idArchive isNeedCreateActual =$isNeedCreateActual")
 
