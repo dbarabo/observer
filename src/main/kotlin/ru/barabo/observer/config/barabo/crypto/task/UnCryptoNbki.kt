@@ -56,6 +56,7 @@ object UnCryptoNbki : FileFinder, FileProcessor {
             file
         }
 
+
         checkTicketRutDf(fileTicket.parentFile, fileTicket.nameWithoutExtension)
     }
 
