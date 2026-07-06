@@ -28,18 +28,31 @@ object CloseArchiveDay : Executor, ActionTask {
 
     override fun actionTask(): ActionTask = this
 
-    override fun findAbstract(): Executor? = findBySelect(null)
-
     override val accessibleData: AccessibleData = AccessibleData(
         workTimeFrom = LocalTime.of(9, 0),
         workTimeTo = LocalTime.of(21, 0),
         executeWait = Duration.ofHours(9)
     )
 
+    override fun findAbstract(): Executor? {
+
+        val closeTime = if(LocalDateTime.now().hour < 17)
+                            LocalDateTime.now().withHour(18).withMinute(0)
+                        else
+                            LocalDateTime.now().plusDays(1).withHour(18).withMinute(0)
+
+        return findBySelect(closeTime)
+    }
+
+
     override fun execute(elem: Elem): State {
 
         if (isCloseArchiveDay(elem.idElem)) {
             return State.OK
+        }
+
+        if(LocalTime.now().hour >= 21) {
+            elem.executed = LocalDateTime.now().plus((10 + (24 - LocalTime.now().hour)).toLong(), ChronoUnit.HOURS)
         }
 
         if(AfinaQuery.isHoliday(LocalDate.now()) ) {

@@ -49,7 +49,11 @@ object CryptoNbki : FileFinder, FileProcessor {
         NbkiSmtp.sendToNbki(encodeFile)
     }
 
-    fun cryptoNbki() : File = File("X:/НБКИ/${todayFolder()}")
+    fun cryptoNbkiTicket1(): File = File("X:/НБКИ/${todayFolder()}/TICKET_1")
+
+    fun cryptoNbkiTicket2(): File = File("X:/НБКИ/${todayFolder()}/TICKET_2")
+
+    fun cryptoNbki(): File = File("X:/НБКИ/${todayFolder()}")
 
     private fun cryptoFolder(file: File) :File {
         val folder = File("${file.parent}/CRYPTO")

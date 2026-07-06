@@ -27,25 +27,35 @@ object UnCryptoNbki : FileFinder, FileProcessor {
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ZERO)
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData(CryptoNbki::cryptoNbki,"K301BB000001.*\\.p7m"))
+            listOf(
+                FileFinderData(CryptoNbki::cryptoNbki,"K301BB000001.*\\.p7m"),
+
+                FileFinderData(CryptoNbki::cryptoNbkiTicket1,"K301BB000001.*\\.xml"),
+                FileFinderData(CryptoNbki::cryptoNbkiTicket2,"K301BB000001.*\\.xml")
+                )
 
     override fun processFile(file: File) {
 
         val unCryptoFolder = unCryptoFolder(file)
 
-        val decodeFile = File("${unCryptoFolder.absolutePath}/${file.name}")
+        val fileNameNoExt = if(file.extension == "p7m") {
 
-        file.copyTo(decodeFile, true)
+            val decodeFile = File("${unCryptoFolder.absolutePath}/${file.name}")
 
-        val zipFile = File("${unCryptoFolder.absolutePath}/${decodeFile.nameWithoutExtension}")
+            file.copyTo(decodeFile, true)
 
-        CryptoPro.decode(decodeFile, zipFile)
+            val zipFile = File("${unCryptoFolder.absolutePath}/${decodeFile.nameWithoutExtension}")
 
-        Archive.extractFromZip(zipFile, unCryptoFolder.absolutePath)
-        //Archive.extractFromCab(zipFile, unCryptoFolder.absolutePath)
+            CryptoPro.decode(decodeFile, zipFile)
 
-        //checkTicket(unCryptoFolder, zipFile.nameWithoutExtension)
-        checkTicketRutDf(unCryptoFolder, zipFile.nameWithoutExtension)
+            Archive.extractFromZip(zipFile, unCryptoFolder.absolutePath)
+
+            zipFile.nameWithoutExtension
+        }  else {
+            file.nameWithoutExtension
+        }
+
+        checkTicketRutDf(unCryptoFolder, fileNameNoExt)
     }
 
     private fun unCryptoFolder(file: File) : File {
@@ -64,11 +74,9 @@ private fun checkTicketRutDf(unCryptoFolder: File, ticketFileName: String) {
     if(!ticketFile.exists()) throw Exception ("Не найден файл квитанции $ticketFile")
 
     if(ticketFileName.indexOf("_ticket1") > 0) {
-        //checkTicketSignCheck(ticketFile)
         GutDfTicketLoader.loadReceiptFile(ticketFile)
     } else {
         GutDfTicketLoader.loadAcceptanceFile(ticketFile)
-        //checkTicketRejectFile(ticketFile)
     }
 }
 

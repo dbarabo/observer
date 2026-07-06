@@ -135,7 +135,7 @@ class LoaderTest {
     //@Test
     fun loadUpo() {
 
-        val file = File("C:/temp/0/0/UPO10507717_250820260703_502627.xml")
+        val file = File("C:/temp/0/0/UPO10507717_250220260703_503458.xml")
 
         val elem = Elem(file, UpoLoader, Duration.ZERO)
 
@@ -143,9 +143,22 @@ class LoaderTest {
     }
 
     //@Test
+    fun loadZso() {
+
+        val file = File("C:/temp/0/0/ZSO10507717_254020260705_008047.xml")
+
+        val xsd = "/xsd/fns/from-fns/ZSO_402.xsd"
+        validateXml(file, xsd) { File("C:/temp/1")  }
+
+        val elem = Elem(file, ZsoLoaderVer4, Duration.ZERO)
+
+        elem.task?.execute(elem)
+    }
+
+    //@Test
     fun testProcess440p() {
 
-        val elem = Elem(idElem = 1367047278L)
+        val elem = Elem(idElem = 1367047292L)
 
         Process440p.execute(elem)
     }
@@ -179,18 +192,7 @@ class LoaderTest {
         validateXml(xmlFile, xsd) { File("C:/temp/1")  }
     }
 
-    //@Test
-    fun loadZso() {
 
-        val file = File("C:/temp/0/0/ZSO10507717_250820260525_000499.xml")
-
-        val xsd = "/xsd/fns/from-fns/ZSO_402.xsd"
-        validateXml(file, xsd) { File("C:/temp/1")  }
-
-        val elem = Elem(file, ZsoLoaderVer4, Duration.ZERO)
-
-        elem.task?.execute(elem)
-    }
 
 
     //@Test
