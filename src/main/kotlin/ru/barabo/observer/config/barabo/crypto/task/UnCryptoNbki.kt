@@ -4,6 +4,7 @@ import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.CryptoConfig
+import ru.barabo.observer.config.barabo.crypto.task.CryptoNbki.unCryptoNbki
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutDfTicketLoader
 import ru.barabo.observer.config.skad.plastic.task.LoaderNbkiFileSent
 import ru.barabo.observer.config.task.AccessibleData
@@ -36,9 +37,9 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
     override fun processFile(file: File) {
 
-        val unCryptoFolder = unCryptoFolder(file)
+        val fileTicket = if(file.extension == "p7m") {
 
-        val fileNameNoExt = if(file.extension == "p7m") {
+            val unCryptoFolder = unCryptoFolder(file)
 
             val decodeFile = File("${unCryptoFolder.absolutePath}/${file.name}")
 
@@ -50,12 +51,12 @@ object UnCryptoNbki : FileFinder, FileProcessor {
 
             Archive.extractFromZip(zipFile, unCryptoFolder.absolutePath)
 
-            zipFile.nameWithoutExtension
+            zipFile
         }  else {
-            file.nameWithoutExtension
+            file
         }
 
-        checkTicketRutDf(unCryptoFolder, fileNameNoExt)
+        checkTicketRutDf(fileTicket.parentFile, fileTicket.nameWithoutExtension)
     }
 
     private fun unCryptoFolder(file: File) : File {

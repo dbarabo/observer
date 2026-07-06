@@ -55,6 +55,8 @@ object CryptoNbki : FileFinder, FileProcessor {
 
     fun cryptoNbki(): File = File("X:/НБКИ/${todayFolder()}")
 
+    fun unCryptoNbki(): File = File("X:/НБКИ/${todayFolder()}/UNCRYPTO")
+
     private fun cryptoFolder(file: File) :File {
         val folder = File("${file.parent}/CRYPTO")
 
