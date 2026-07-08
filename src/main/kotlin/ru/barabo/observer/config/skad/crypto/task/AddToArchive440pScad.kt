@@ -45,7 +45,7 @@ object AddToArchive440pScad : FileFinder, FileProcessor {
         FileFinderData(::sentFolderNewSmevUno403Today, "PB\\d.*\\.xml")
     )
 
-    override val accessibleData: AccessibleData = AccessibleData(workTimeTo = LocalTime.of(18, 30))
+    override val accessibleData: AccessibleData = AccessibleData(workTimeTo = LocalTime.of(19, 0))
 
     private val PATTERN_PB =  Pattern.compile("PB\\d.*\\.xml", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 

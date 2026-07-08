@@ -27,7 +27,7 @@ object CryptoScad440p: FileProcessor, FileFinder {
             WeekAccess.ALL_DAYS,
             false,
             LocalTime.MIN,
-            LocalTime.of(18, 0), // 17:45,
+            LocalTime.of(18, 55),
             Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(
