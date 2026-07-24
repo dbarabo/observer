@@ -80,6 +80,10 @@ public class XmlLoader<E> {
 		}
 	}
 
+    static public boolean isNewFormatGutdf() {
+        return false;
+    }
+
 	static public boolean isNewFormats(File file) {
 		return !getDateFile(file).isBefore(LocalDate.of(2021, 3,16 ));
 	}
@@ -185,6 +189,16 @@ public class XmlLoader<E> {
         cal.set(Calendar.MILLISECOND, 0);
 
         return cal.getTime();
+    }
+
+    public static String formatDateTimeWithZone10(Date date) {
+        if (date == null) {
+            return null;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat(XML_DATE_TIME_FORMAT);
+
+        return formatter.format(date)+"+10:00";
     }
 
     public static String formatDateTimeClearTime(Date date) {

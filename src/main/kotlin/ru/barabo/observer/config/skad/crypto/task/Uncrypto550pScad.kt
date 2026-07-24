@@ -1,7 +1,6 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import oracle.jdbc.OracleTypes
-import org.slf4j.LoggerFactory
 import ru.barabo.archive.Archive
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.ifTest
@@ -25,9 +24,7 @@ object Uncrypto550pScad :  FileFinder, FileProcessor {
 
     override fun config(): ConfigTask = CryptoScad // ScadConfig
 
-    override fun name(): String = "639-П Расшифровать Scad"
-
-    private val logger = LoggerFactory.getLogger(Uncrypto550pScad::class.java)
+    override fun name(): String = "764-П Расшифровать Scad"
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( ::folder550pIn,"CB_ES550P_........_...\\.XML", isModifiedTodayOnly = false))
@@ -50,11 +47,7 @@ object Uncrypto550pScad :  FileFinder, FileProcessor {
         val archiveFileName = File("${folder550pOut()}/${archiveName()}.arj")
 
         Archive.addToArj(archiveFileName.absolutePath, outXmlFile)
-
-        //uncryptoXml.copyTo(File("$GIS_GMP_639PATH/${uncryptoXml.name}"))
     }
-
-    //private const val GIS_GMP_639PATH = "\\\\gis_gmp/IN"
 
     private fun archiveName(): String
             = AfinaQuery.execute(query = EXEC_ADD_TO_ARCHIVE, outParamTypes = intArrayOf(OracleTypes.VARCHAR))?.get(0) as String

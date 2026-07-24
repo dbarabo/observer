@@ -3,6 +3,7 @@ package ru.barabo.observer.config.task.nbki.gutdf.general;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public abstract class AbstractEventData {
@@ -13,7 +14,11 @@ public abstract class AbstractEventData {
     @XStreamAlias("eventDate")
     final public String eventDate;
 
+    @XStreamAlias("eventDateTime")
+    final public String eventDateTime;
+
     transient private String eventValue;
+
 
     public AbstractEventData(Integer orderNum, Date eventDate, String eventValue) {
 
@@ -21,7 +26,9 @@ public abstract class AbstractEventData {
 
         this.orderNum = orderNum;
 
-        this.eventDate = XmlLoader.formatDate(eventDate);
+        this.eventDate = XmlLoader.isNewFormatGutdf() ? null : XmlLoader.formatDate(eventDate);
+
+        this.eventDateTime = XmlLoader.isNewFormatGutdf() ? XmlLoader.formatDateTimeWithZone10(eventDate) : null;
     }
 
     public String getEventDate() {

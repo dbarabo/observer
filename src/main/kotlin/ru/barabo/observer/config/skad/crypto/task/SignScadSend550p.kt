@@ -20,16 +20,16 @@ import java.util.*
 
 object SignScadSend550p : FileFinder, FileProcessor {
 
-    override fun config(): ConfigTask = CryptoScad // ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
-    override fun name(): String = "Подписать 550-П и отправить"
+    override fun name(): String = "764-П подписать и отправить"
 
     override val fileFinderData: List<FileFinderData> =
             listOf(FileFinderData( ::folder550pOut,"ARH550P_0021_0000_........_...\\.arj", isModifiedTodayOnly = true))
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofMinutes(3))
 
-    const val ptkPsdOutPath = "p:"
+    const val ptkPsdOutPath = "Y:/foiv-wz/answer" ///"p:"
 
     private fun folder550pOutSrc() = "${folder550pOut().absolutePath}/src".byFolderExists()
 

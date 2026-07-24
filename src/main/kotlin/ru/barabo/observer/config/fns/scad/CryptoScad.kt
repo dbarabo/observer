@@ -1,8 +1,8 @@
 package ru.barabo.observer.config.fns.scad
 
 import ru.barabo.observer.config.AbstractConfig
-import ru.barabo.observer.config.barabo.crypto.task.InfoRequest349p
 import ru.barabo.observer.config.barabo.p440.task.Ticket440pFns
+import ru.barabo.observer.config.portal.task.GetProcess550pFiles
 import ru.barabo.observer.config.fns.scad.task.UncryptoEns
 import ru.barabo.observer.config.skad.crypto.task.*
 
@@ -14,13 +14,15 @@ object CryptoScad : AbstractConfig() {
 
     override fun configRun() {
 
+        Uncrypto550pScad.findAll()
+        SignScadSend550p.findAll()
+
+
          UncryptoEns.findAll()
 
          Ticket440pFns.findAll()
 
          Ticket311pFnsLoadScad.findAll()
-
-         Uncrypto550pScad.findAll()
 
          UncryptoScad440p.findAll()
 
@@ -38,8 +40,6 @@ object CryptoScad : AbstractConfig() {
          CryptoValCb181UScad.findAll()
          SignScadOnlyFile.findAll()
          SignScadCbFts181U.findAll()
-
-         SignScadSend550p.findAll()
 
          UnCryptoScad364p.findAll()
          UnSignScad364p.findAll()

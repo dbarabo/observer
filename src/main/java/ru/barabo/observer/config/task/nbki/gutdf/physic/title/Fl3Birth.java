@@ -13,7 +13,7 @@ public class Fl3Birth {
     private final StringElement birthDate;
 
     @XStreamAlias("countryCode")
-    private final StringElement countryCode = new StringElement("643");
+    private final StringElement countryCode = XmlLoader.isNewFormatGutdf() ? null : new StringElement("643");
 
     @XStreamAlias("birthPlace")
     private final StringElement birthPlace;
@@ -22,7 +22,7 @@ public class Fl3Birth {
 
         this.birthDate = new StringElement( XmlLoader.formatDate(birthDate) );
 
-        this.birthPlace = new StringElement(birthPlace);
+        this.birthPlace = XmlLoader.isNewFormatGutdf() ? null : new StringElement(birthPlace);
     }
 
     public StringElement getBirthDate() {

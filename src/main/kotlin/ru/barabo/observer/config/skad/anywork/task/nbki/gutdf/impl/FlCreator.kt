@@ -251,10 +251,13 @@ private fun createFlEvent2_1(eventRecord: EventRecord): FlEvent2_1 {
 
     val fl54Accounting = createFl54Accounting(eventRecord.idEvent)
 
+    val fl56Participation: Fl56Participation? =
+        if(XmlLoader.isNewFormatGutdf()) createFl56Participation(eventRecord.idEvent) else null
+
     return FlEvent2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent,
         fl17DealUid, fl18Deal, fl19Amount, listOf(fl19_1AmountInfo),
         fl21PaymentTerms, fl22TotalCost, fl25_26_27_28Group, fl29MonthlyPayment, fl291DebtBurdenInfo,
-        fl20JointDebtors, fl23ContractChanges, fl231ContractTermsChanges, fl54Accounting)
+        fl20JointDebtors, fl23ContractChanges, fl231ContractTermsChanges, fl54Accounting, fl56Participation)
 }
 
 private fun createFlEvent2_2(eventRecord: EventRecord): FlEvent2_2 {

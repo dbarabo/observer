@@ -19,6 +19,7 @@ import ru.barabo.observer.config.fns.ens.EnsConfig
 import ru.barabo.observer.config.fns.monitor.MonitorConfig
 import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.jzdo.upay.UPayConfig
+import ru.barabo.observer.config.portal.PortalTransport
 import ru.barabo.observer.config.skad.acquiring.Acquiring
 import ru.barabo.observer.config.skad.anywork.AnyWork
 import ru.barabo.observer.config.skad.longtime.LongTime
@@ -139,7 +140,8 @@ private fun getBuildInfoByBuild(build: String): BuildInfo =
         BuildInfo.values().firstOrNull { it.build == build } ?: throw SessionException("build name is unknown $build")
 
 private fun ensScadConfig(): List<ConfigTask> = listOf(EnsConfig, CryptoScad,
-    PlasticOutSide, Acquiring, SenderMail, AnyWork, SenderInternalMail, LongTime, CbrConfig, MonitorConfig
+    PlasticOutSide, Acquiring, SenderMail, AnyWork, SenderInternalMail, LongTime, CbrConfig, MonitorConfig,
+    PortalTransport
 )
 
 private fun cbrCorrespond(): List<ConfigTask> = listOf(Correspond)

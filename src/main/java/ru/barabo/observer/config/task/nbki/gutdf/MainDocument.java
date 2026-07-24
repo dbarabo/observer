@@ -9,7 +9,7 @@ import ru.barabo.observer.config.task.p440.load.XmlLoader;
 public class MainDocument {
 
     @XStreamAlias("schemaVersion")
-    final private String schemaVersion = "4.1";
+    final private String schemaVersion = XmlLoader.isNewFormatGutdf() ? "5.1" : "4.1";
 
     @XStreamAlias("inn")
     final private String inn = "2540015598";
@@ -25,6 +25,9 @@ public class MainDocument {
 
     @XStreamAlias("dateDoc")
     final private String dateDoc;
+
+    @XStreamAlias("dateTimeDoc")
+    final private String dateTimeDoc;
 
     @XStreamAlias("subjectsCount")
     final private Integer subjectsCount;
@@ -44,7 +47,9 @@ public class MainDocument {
 
         filenameWithoutExt = gutdfData.filenameWithoutExt();
 
-        dateDoc = XmlLoader.formatDate(gutdfData.dateDocument() );
+        dateDoc = XmlLoader.isNewFormatGutdf()  ? null : XmlLoader.formatDate(gutdfData.dateDocument() );
+
+        dateTimeDoc = XmlLoader.isNewFormatGutdf()  ? XmlLoader.formatDateTimeWithZone10(gutdfData.dateDocument() ) : null;
 
         subjectsCount = gutdfData.subjectsCount();
 

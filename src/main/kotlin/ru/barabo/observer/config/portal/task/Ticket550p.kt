@@ -1,8 +1,7 @@
-package ru.barabo.observer.config.cbr.ticket.task
+package ru.barabo.observer.config.portal.task
 
-import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
+import ru.barabo.observer.config.portal.PortalTransport
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -19,11 +18,18 @@ import java.util.regex.Pattern
 object Ticket550p: FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","wz..._05\\.717", isModifiedTodayOnly = true))
+            listOf(
+                FileFinderData(
+                    "Z:/foiv-wz/request",
+                    "UVARH550P_0021_0000_........_...\\.xml",
+                    isModifiedTodayOnly = true
+                )
+            )
 
-    override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
+    override val accessibleData: AccessibleData =
+        AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
-    override fun config(): ConfigTask = TicketPtkPsd
+    override fun config(): ConfigTask = PortalTransport
 
     override fun name(): String = "764-П Ответ"
 
@@ -34,14 +40,17 @@ object Ticket550p: FileFinder, FileProcessor {
     private const val SUBJECT_MAIL = "Квитки по 764-П"
 
     override fun processFile(file : File) {
-        val ticketFiles = Archive.extractFromCab(file, in550p())
 
-        val text = ticketFiles?.joinToString("\n") { readTicketInfo(it) } ?:""
+        val ticketFile = File("${in550p()}/${file.name}")
+
+        file.copyTo(ticketFile)
+
+        val text = readTicketInfo(ticketFile)
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, bcc = BaraboSmtp.CHECKER_550P, subject = SUBJECT_MAIL, body = text)
     }
 
-    private fun readTicketInfo(fileTicket :File) :String {
+    private fun readTicketInfo(fileTicket : File) :String {
 
         val textFile = fileTicket.readText()
 

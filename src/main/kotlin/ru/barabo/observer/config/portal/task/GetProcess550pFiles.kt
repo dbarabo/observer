@@ -1,10 +1,10 @@
-package ru.barabo.observer.config.cbr.ticket.task
+package ru.barabo.observer.config.portal.task
 
 import ru.barabo.archive.Archive
 import ru.barabo.cmd.Cmd
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
+import ru.barabo.observer.config.portal.PortalTransport
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -21,55 +21,26 @@ import java.util.regex.Pattern
 object GetProcess550pFiles : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData( "C:/PTK_POST/ELO/OUT","wz...005\\.717", isModifiedTodayOnly = true))
+            listOf(
+                FileFinderData( "Z:/foiv-wz/request","cb_550p_........_0..\\.arj", isModifiedTodayOnly = true)
+            )
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
-    override fun config(): ConfigTask = TicketPtkPsd
+    override fun config(): ConfigTask = PortalTransport //TicketPtkPsd
 
-    override fun name(): String = "639-П Получить и отправить"
-
-    private fun folder550pIn() :String = "X:/639-П/In/${todayFolder()}"
-
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+    override fun name(): String = "764-П Получить"
 
     override fun processFile(file : File) {
-        val arjArchives = Archive.extractFromCab(file, folder550pIn())
-
         val tempFolder = Cmd.tempFolder("p550")
 
-        arjArchives?.forEach { arj ->
-            Archive.extractFromArj(arj, tempFolder.absolutePath)
+           Archive.extractFromArj(file, tempFolder.absolutePath)
 
             tempFolder.listFiles()?.filter { !it.isDirectory }?.forEach {
                 it.renameTo(File("${folder550pIn()}/${it.name}"))
             }
 
             tempFolder.delete()
-/*
-            val search = Pattern.compile("CB.*\\.XML", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
-
-            val xmlInFiles = File(folder550pIn()).listFiles { f ->
-                !f.isDirectory && search.isFind(f.name, false)
-            }
-
-            xmlInFiles?.forEach { EsProcess.process(it) }
-
-            val xmlOutFiles = File(EsProcess.folder550pOut()).listFiles { f ->
-                !f.isDirectory && f.name.indexOf(".XML", ignoreCase = true) > 0
-            }
-
-            val archiveFileName = archiveFileName()
-
-            Archive.addToArj(archiveFileName, xmlOutFiles)
-
-            val signFile = Verba.signByCbr(File(archiveFileName))
-
-            SendByPtkPsdCopy.executeFile(signFile)
-
-            sendMailFilesInfo(archiveFileName, xmlCrypto)
-
- */
         }
     }
 
@@ -104,5 +75,8 @@ object GetProcess550pFiles : FileFinder, FileProcessor {
         return "${EsProcess.folder550pOut()}/ARH550P_0021_0000_${todayBlind()}_00$max.arj"
     }
 
-    fun todayBlind(): String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
-}
+fun todayBlind(): String = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDate.now())
+
+private fun folder550pIn() :String = "X:/639-П/In/${todayFolder()}"
+
+private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())

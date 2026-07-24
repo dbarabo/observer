@@ -1,6 +1,10 @@
 package ru.barabo.observer.config.cbr.ticket
 
 import ru.barabo.observer.config.cbr.ticket.task.*
+import ru.barabo.observer.config.portal.task.GetProcess550pFiles
+import ru.barabo.observer.config.portal.task.Ticket364FtsCab
+import ru.barabo.observer.config.portal.task.Ticket364FtsText
+import ru.barabo.observer.config.portal.task.Ticket550p
 import ru.barabo.observer.config.task.ActionTask
 
 enum class PrefixTicket(private val prefix :String,

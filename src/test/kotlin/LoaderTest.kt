@@ -3,9 +3,9 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
+import ru.barabo.cmd.XmlValidator
 import ru.barabo.exchange.VisaCalculator
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.afina.clobToString
@@ -40,8 +40,8 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.ClearPrimFromArchiveDay
 import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
-import ru.barabo.observer.config.cbr.ticket.task.GetProcess550pFiles
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
+import ru.barabo.observer.config.portal.task.todayBlind
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
@@ -91,6 +91,7 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
+import javax.script.ScriptEngineManager
 import kotlin.math.round
 import kotlin.math.roundToLong
 
@@ -109,11 +110,15 @@ class LoaderTest {
     private fun separ() = ";"
 
 
-    //@Test
-    fun testInArrayString() {
-        val x = "4.00" in arrayOf("4.00", "3.72")
 
-        logger.error("x=$x")
+    //@Test
+    fun testValidator() {
+
+        val XSD_SCHEMA_PATH = "/xsd/VO_CIK_CB_7.xsd"
+
+        val file = File("C:/temp/0/K1022500001325_170726_014628_Z_0026.xml")
+
+        XmlValidator.validate(file, XSD_SCHEMA_PATH)
     }
 
 
@@ -326,6 +331,62 @@ class LoaderTest {
     }
 
     //@Test
+    fun testSmevRequest() {
+        val request = "https://nsud.gosuslugi.ru/pud/#/exchange-session/v2?messageId=ebd824b3-7c0e-11f1-aee4-31c21a149abc&smevArea=PROD"
+
+        val body = Jsoup.connect(request)
+            .header("Content-Type","application/x-www-form-urlencoded")
+            .cookie("TALanguage", "ALL")
+            .data("mode", "filterReviews")
+            .data("filterRating", "")
+            .data("filterSegment", "")
+            .data("filterSeasons", "")
+            .data("filterLang", "ALL")
+            .referrer(request)
+            .header("X-Requested-With", "XMLHttpRequest")
+            //.header("X-Puid",xpuid)
+            //.data("returnTo",returnTo)
+            .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+            //.method(Connection.Method.POST)
+            .get().body()
+
+        logger.error("$body")
+    }
+
+    //@Test
+    fun testJs() {
+        
+        val script = "result=1+2"
+        val mgr = ScriptEngineManager()
+        val jsEngine = mgr.getEngineByName("JavaScript")
+
+        jsEngine.eval(script)
+        val result = jsEngine.get("result")
+
+        logger.error(result.toString())
+    }
+
+    /*
+    @Test
+    fun testSelenium() {
+
+        WebDriverManager.chromedriver().setup()
+
+        val driver = ChromeDriver()
+
+        val request = "https://nsud.gosuslugi.ru/pud/#/exchange-session/v2?messageId=ebd824b3-7c0e-11f1-aee4-31c21a149abc&smevArea=PROD"
+
+        driver.get(request)
+
+        val pageSource = driver.pageSource
+
+        driver.quit()
+
+        logger.error(pageSource)
+    }*/
+
+
+    //@Test
     fun testParseKeyRate() {
 
         //val request = "https://www.cbr.ru/hd_base/KeyRate/"
@@ -473,7 +534,7 @@ res3 = [calc.DEC_TEST];
     fun fileMax() {
 
 
-        val search = Pattern.compile("ARH550P_0021_0000_${GetProcess550pFiles.todayBlind()}_...\\.arj",
+        val search = Pattern.compile("ARH550P_0021_0000_${todayBlind()}_...\\.arj",
                 Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
         val max = (File("X:/639-П/Out/2019/12/16").listFiles { f ->
