@@ -1,8 +1,8 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.cbr.ticket.task.Ticket407ArjXml.ticket407pRfm
-import ru.barabo.observer.config.cbr.ticket.task.TicketFtsText.ticketFtsDirectory
+import ru.barabo.observer.config.portal.task.Ticket600pOnDifm.ticket407pRfm
+import ru.barabo.observer.config.portal.task.TicketFtsText.ticketFtsDirectory
 import ru.barabo.observer.config.fns.scad.CryptoScad
 import ru.barabo.observer.config.skad.crypto.task.UnCryptoScad364p.unCrypto364p
 import ru.barabo.observer.config.task.AccessibleData
@@ -19,7 +19,7 @@ object UnSignScad364p  : FileFinder, FileProcessor {
 
     override fun name(): String = "Scad Снять ЭЦП"
 
-    override fun config(): ConfigTask = CryptoScad // ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
     override val accessibleData: AccessibleData
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))

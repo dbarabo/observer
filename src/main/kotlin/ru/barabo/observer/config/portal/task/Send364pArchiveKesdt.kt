@@ -32,7 +32,7 @@ object Send364pArchiveKesdt : FileMover, FileFinder {
     override val isMove: Boolean = true
 }
 
-private fun todayF(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now()).byFolderExists().absolutePath
+private fun todayF(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
 fun send364pCopy(): String = "${getFolder364pForFind().absolutePath}/${todayF()}"
 

@@ -16,7 +16,7 @@ object Crypto4077UScad : FileFinder, FileProcessor {
 
     override fun name(): String = "Зашифровать 4077-У Scad"
 
-    override fun config(): ConfigTask = CryptoScad // ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
     override val fileFinderData: List<FileFinderData> = listOf(
             FileFinderData( ::pathToday, "SKO4077U.*\\.XML" ) )
@@ -27,7 +27,7 @@ object Crypto4077UScad : FileFinder, FileProcessor {
 
         val archiveArj = ScadComplex.crypto4077U(file)
 
-        val copyOut = File("${SignScadSend550p.ptkPsdOutPath}/${archiveArj.name}")
+        val copyOut = File("НЕТ ТАКОГО ПУТИ!!!/${archiveArj.name}")
 
         archiveArj.copyTo(copyOut, true)
     }

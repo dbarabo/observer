@@ -29,7 +29,7 @@ object SignScadSend550p : FileFinder, FileProcessor {
 
     override val accessibleData: AccessibleData = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofMinutes(3))
 
-    const val ptkPsdOutPath = "Y:/foiv-wz/answer" ///"p:"
+    private const val ptkPsdOutPath = "Y:/foiv-wz/answer"
 
     private fun folder550pOutSrc() = "${folder550pOut().absolutePath}/src".byFolderExists()
 

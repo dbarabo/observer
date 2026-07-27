@@ -26,7 +26,6 @@ object CryptoScad : AbstractConfig() {
 
          UncryptoScad440p.findAll()
 
-         Crypto4077UScad.findAll()
          AddSign600P.findAll()
          CryptoArchive600P.findAll()
          AddSignMain600P.findAll()

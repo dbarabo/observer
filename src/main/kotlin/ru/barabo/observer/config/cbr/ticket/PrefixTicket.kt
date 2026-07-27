@@ -1,10 +1,7 @@
 package ru.barabo.observer.config.cbr.ticket
 
 import ru.barabo.observer.config.cbr.ticket.task.*
-import ru.barabo.observer.config.portal.task.GetProcess550pFiles
-import ru.barabo.observer.config.portal.task.Ticket364FtsCab
-import ru.barabo.observer.config.portal.task.Ticket364FtsText
-import ru.barabo.observer.config.portal.task.Ticket550p
+import ru.barabo.observer.config.portal.task.*
 import ru.barabo.observer.config.task.ActionTask
 
 enum class PrefixTicket(private val prefix :String,
@@ -14,12 +11,12 @@ enum class PrefixTicket(private val prefix :String,
     P311("2z", Ticket311pCbr, Ticket311pFns),
     P349_FSFM("oz", TicketFsfm349p, Fsfm349pRequest),
     P364("sz", Ticket364FtsText, Ticket364FtsCab),
-    FTS("tz", TicketFtsText, TicketFtsCab),
+    FTS("tz", TicketFtsText, TzFtsArj),
     LEGAL("0z", TicketLegalText, TicketLegalCab),
     VAL_VBK("nz", null, TicketVbkArchive),
     P550("wz", GetProcess550pFiles, Ticket550p),
     P440 ("mz", null, Get440pFiles),
-    P407 ("fz", Ticket407CabXml, Ticket407ArjXml),
+    //P407 ("fz", Ticket407CabXml, Ticket600pOnDifm),
     P4077 ("rf", Ticket4077Cbr, Ticket4077RosFin),
     P390 ("ns", Ticket390IzvXml, Get390pArchive);
 

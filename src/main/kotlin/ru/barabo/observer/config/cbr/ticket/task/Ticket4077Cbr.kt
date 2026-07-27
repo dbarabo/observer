@@ -3,6 +3,7 @@ package ru.barabo.observer.config.cbr.ticket.task
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
+import ru.barabo.observer.config.portal.task.TicketFtsText
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
