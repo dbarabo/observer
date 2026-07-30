@@ -2,7 +2,6 @@ package ru.barabo.observer.config.portal.task
 
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
-import ru.barabo.observer.config.cbr.ticket.TicketPtkPsd
 import ru.barabo.observer.config.portal.PortalTransport
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -29,7 +28,7 @@ object Ticket407XmlFromCbr: FileFinder, FileProcessor {
         AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
 
-    private fun ticket407pCb() :String = "K:/ARH_LEG/407-П/ИЭС_ЦБ/${TicketFtsText.todayFolder()}".byFolderExists().absolutePath
+    fun ticket407pCb() :String = "K:/ARH_LEG/407-П/ИЭС_ЦБ/${TicketFtsText.todayFolder()}".byFolderExists().absolutePath
 
     override fun processFile(file: File) {
 

@@ -260,14 +260,18 @@ fun validateXml(file: File, xsdSchema: String, folderIfError: ()->File) {
     } catch (e: Exception) {
         logger.error("validateXml $file", e)
 
-        if(file.exists()) {
-            val errorFile = File("${folderIfError().absolutePath}/${file.name}")
-
-            file.copyTo(errorFile, true)
-
-            file.delete()
-        }
+        moveFileIfExists(file, folderIfError)
 
         throw Exception(e)
+    }
+}
+
+fun moveFileIfExists(file: File, folderTo: ()->File) {
+    if(file.exists()) {
+        val errorFile = File("${folderTo().absolutePath}/${file.name}")
+
+        file.copyTo(errorFile, true)
+
+        file.delete()
     }
 }

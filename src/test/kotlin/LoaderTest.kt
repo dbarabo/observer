@@ -3,6 +3,7 @@ import oracle.jdbc.OracleTypes
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
+import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.XmlValidator
@@ -108,6 +109,23 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testGutDfCreator() {
+
+        //GutDfCreator.createPullTest(LocalDate.of(2024, 10, 30), LocalDate.of(2024, 11, 1))
+
+        val file = GutDfCreator.createFileByRutdf(null) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
+        logger.error("file=$file")
+    }
+
+    //@Test
+    fun testCbrKeyRateLoade() {
+        val elem = Elem(idElem = 0L, task = CbrKeyRateLoader)
+
+        CbrKeyRateLoader.execute(elem)
+    }
+
 
 
 
@@ -1635,14 +1653,6 @@ res3 = [calc.DEC_TEST];
         //Extract407pByRfm.execute(elem)
     }
 
-    //@Test
-    fun testGutDfCreator() {
-
-        //GutDfCreator.createPullTest(LocalDate.of(2024, 10, 30), LocalDate.of(2024, 11, 1))
-
-        val file = GutDfCreator.createFileByRutdf(1321758199L) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
-        logger.error("file=$file")
-    }
 
     //@Test
     fun testGutdfLoaderAllFilesFolder() {

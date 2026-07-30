@@ -11,6 +11,7 @@ import ru.barabo.observer.config.cbr.ibank.task.toTimestamp
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.impl.GutdfDataFromRutdf
 import ru.barabo.observer.config.skad.anywork.task.nbki.gutdf.loader.GutdfLoaderFile
+import ru.barabo.observer.config.skad.crypto.p311.moveFileIfExists
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
@@ -35,12 +36,14 @@ object GutDfCreator {
     fun createFileByRutdf(idRutdf: Long?): File {
 
         var newIdRutdf: Long = 0
+
+        lateinit var file: File
         try {
             newIdRutdf = idRutdf ?: generateNewRutdf()
 
             val gutdfDataFromRutdf = GutdfDataFromRutdf(newIdRutdf)
 
-            val file = File("${folderGutDfToday().absolutePath}/${gutdfDataFromRutdf.filenameWithoutExt()}.xml")
+            file = File("${folderGutDfToday().absolutePath}/${gutdfDataFromRutdf.filenameWithoutExt()}.xml")
 
             val xmlData = MainDocument(gutdfDataFromRutdf)
 
@@ -56,8 +59,11 @@ object GutDfCreator {
 
             logger.error("createFileByRutdf idRutdf=$idRutdf newIdRutdf=$newIdRutdf", e)
 
+
             if(idRutdf == null) {
                 AfinaQuery.execute(DEL_RUTDF_DATA, params = arrayOf(newIdRutdf))
+
+                moveFileIfExists(file, ::errorFolder)
             }
 
             throw Exception(e)

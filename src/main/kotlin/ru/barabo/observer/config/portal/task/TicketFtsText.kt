@@ -3,6 +3,7 @@ package ru.barabo.observer.config.portal.task
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.portal.PortalTransport
+import ru.barabo.observer.config.portal.task.TicketFtsText.ticketFts
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -30,8 +31,6 @@ object TicketFtsText : FileFinder, FileProcessor {
 
     fun ticketFts(): String = "X:/VAL/FTS/Квитки/${todayFolder()}"
 
-    fun ticketFtsDirectory(): File = ticketFts().byFolderExists()
-
     fun todayFolder(): String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
 
     override fun processFile(file: File) {
@@ -39,3 +38,5 @@ object TicketFtsText : FileFinder, FileProcessor {
         file.copyTo(copyXml)
     }
 }
+
+fun ticketFtsDirectory(): File = ticketFts().byFolderExists()

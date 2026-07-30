@@ -2,8 +2,6 @@ package ru.barabo.observer.config.portal.task
 
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.portal.task.TicketFtsText
-import ru.barabo.observer.config.portal.task.TicketFtsText.ticketFtsDirectory
 import ru.barabo.observer.config.portal.PortalTransport
 import ru.barabo.observer.config.skad.crypto.task.srcFolder
 import ru.barabo.observer.config.task.AccessibleData

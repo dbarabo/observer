@@ -3,6 +3,7 @@ package ru.barabo.observer.config.portal.task
 import ru.barabo.archive.Archive
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.portal.PortalTransport
+import ru.barabo.observer.config.skad.crypto.task.srcFolder
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.finder.FileFinder
@@ -21,7 +22,7 @@ object Ticket600pOnDifm: FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
             listOf(
-                FileFinderData("Z:/foiv-fz/request", ".*\\.arj", isModifiedTodayOnly = true)
+                FileFinderData("Z:/foiv-fz/request", ".*\\.arj", isModifiedTodayOnly = false)
             )
 
     override val accessibleData: AccessibleData =
@@ -32,6 +33,12 @@ object Ticket600pOnDifm: FileFinder, FileProcessor {
     override fun processFile(file : File) {
 
         Archive.extractFromArj(file, ticket407pRfm(), ".*\\.xml")
+
+        val src = File("${srcFolder().absolutePath}/${file.name}")
+        file.copyTo(src)
+        if(src.exists()) {
+            file.delete()
+        }
 
         BaraboSmtp.sendStubThrows(to = BaraboSmtp.PODFT, subject = "407-П Ответ ZRFM", body = "Квитки в папке ${ticket407pRfm()}")
     }

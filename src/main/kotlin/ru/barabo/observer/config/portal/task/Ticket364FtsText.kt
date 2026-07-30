@@ -28,10 +28,6 @@ object Ticket364FtsText : FileFinder, FileProcessor {
 
     override fun name(): String = "364-П ФТС Текст-UVKESDT"
 
-    fun ticket364p() :String = "X:/364-П/Квитки/${todayFolder()}"
-
-    private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
-
     override fun processFile(file : File) {
 
         val copyTicket = File("${ticket364p()}/${file.name}")
@@ -50,3 +46,7 @@ object Ticket364FtsText : FileFinder, FileProcessor {
         BaraboSmtp.sendStubThrows(to=CURRENCY_CONTROL, subject=subject, body = text, attachments = arrayOf(fileTicket))
     }
 }
+
+private fun todayFolder() :String = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
+
+fun ticket364p() :String = "X:/364-П/Квитки/${todayFolder()}"

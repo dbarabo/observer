@@ -14,6 +14,8 @@ import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
 import ru.barabo.observer.mail.smtp.BaraboSmtp
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -23,6 +25,10 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.regex.Pattern
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 object CbrKeyRateLoader : SinglePerpetual {
 
@@ -89,6 +95,24 @@ object CbrKeyRateLoader : SinglePerpetual {
         val request = getRequest(startPeriod, endPeriod.plusDays(2))
 
         logger.error(request)
+
+        val trustAllCerts: Array<TrustManager> = arrayOf<TrustManager>(object : X509TrustManager {
+
+            override fun checkClientTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun checkServerTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun getAcceptedIssuers(): Array<out X509Certificate?>? {
+                return null
+            }
+        })
+
+        val sc: SSLContext = SSLContext.getInstance("SSL")
+        sc.init(null, trustAllCerts, SecureRandom())
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
+
 
         val body = try {
 

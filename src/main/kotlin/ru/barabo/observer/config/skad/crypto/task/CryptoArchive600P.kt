@@ -19,7 +19,7 @@ object CryptoArchive600P : FileFinder, FileProcessor {
 
     override fun name(): String = "600-П Зашифровать-отправить"
 
-    override fun config(): ConfigTask = CryptoScad // ScadConfig
+    override fun config(): ConfigTask = CryptoScad
 
     override val accessibleData: AccessibleData = AccessibleData( workTimeFrom = LocalTime.of(9, 0),
             workTimeTo = LocalTime.of(21, 58), executeWait = Duration.ofMinutes(1) )

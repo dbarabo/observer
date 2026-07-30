@@ -1,9 +1,9 @@
 package ru.barabo.observer.config.skad.crypto.task
 
 import ru.barabo.observer.config.ConfigTask
-import ru.barabo.observer.config.portal.task.Ticket600pOnDifm.ticket407pRfm
-import ru.barabo.observer.config.portal.task.TicketFtsText.ticketFtsDirectory
 import ru.barabo.observer.config.fns.scad.CryptoScad
+import ru.barabo.observer.config.portal.task.Ticket600pOnDifm.ticket407pRfm
+import ru.barabo.observer.config.portal.task.ticketFtsDirectory
 import ru.barabo.observer.config.skad.crypto.task.UnCryptoScad364p.unCrypto364p
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
@@ -25,10 +25,9 @@ object UnSignScad364p  : FileFinder, FileProcessor {
             = AccessibleData(WeekAccess.ALL_DAYS, false, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            //FileFinderData(::unCrypto364p,"DT10......_......_......._._0021_0000_............\\.xml", isNegative = true),
-            FileFinderData(::unCrypto364p,".*\\.(arj|txt)"),
+            FileFinderData(::unCrypto364p,".*\\.txt"),
             FileFinderData(::ticketFtsDirectory,"(FC|FS|NC|NS).*\\.xml"),
-            FileFinderData(::ticket407pRfmFolder, "PI_RFM.*\\.xml")
+            FileFinderData(::ticket407pRfmFolder, "[PN]I_.*\\.xml")
     )
 
     override fun processFile(file: File) {
