@@ -15,6 +15,7 @@ import ru.barabo.observer.config.skad.crypto.p311.moveFileIfExists
 import ru.barabo.observer.config.skad.crypto.p311.validateXml
 import ru.barabo.observer.config.skad.plastic.task.saveXml
 import ru.barabo.observer.config.task.nbki.gutdf.MainDocument
+import ru.barabo.observer.config.task.p440.load.XmlLoader
 import java.io.File
 import java.time.LocalDate
 
@@ -129,7 +130,7 @@ fun errorFolder(): File = "${folderGutDfToday()}/ERROR".byFolderExists()
 
 private val folderReport = "H:/Gu_cb/НБКИ".ifTest("C:/Gu_cb/НБКИ")
 
-private const val xsd =  "/xsd/gutdf/ver41/Main.xsd" //"/xsd/gutdf/ver30/Main.xsd"
+private val xsd = if(XmlLoader.isNewFormatGutdf()) "/xsd/gutdf/ver51/Main.xsd" else "/xsd/gutdf/ver41/Main.xsd"
 
 private const val DEL_RUTDF_DATA = "delete from od.PTKB_RUTDF_FILE where ID = ?"
 

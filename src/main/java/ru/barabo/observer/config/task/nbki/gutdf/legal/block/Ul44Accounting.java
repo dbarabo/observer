@@ -39,6 +39,10 @@ public class Ul44Accounting {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; //54.7. Дата расчета
 
+    @XStreamAlias("unaccountedSum")
+    private final StringElement unaccountedSum = XmlLoader.isNewFormatGutdf()
+            ? new StringElement("0.00") : null; // 44.8. Сумма задолженности, не учтенная на балансовых и внебалансовых счетах
+
     public Ul44Accounting(Number offBalanceAmount, Number rate, String supportInfo,
                           Date calcDate) {
 
@@ -46,7 +50,7 @@ public class Ul44Accounting {
         this.sum = offBalanceAmount == null ? null : new StringElement(XmlLoader.formatSum(offBalanceAmount));
         this.currency = offBalanceAmount == null ? null : new StringElement("RUB");
 
-        this.exist1 = offBalanceAmount != null ? null : new StringElement("");;
+        this.exist1 = offBalanceAmount != null ? null : new StringElement("");
         this.rate = new StringElement(rate == null ? "0.00" : XmlLoader.formatSum(rate));
         supportExist0 = supportInfo != null ? null : new StringElement("");
         supportExist1 = supportInfo == null ? null : new StringElement("");

@@ -42,6 +42,10 @@ public class Fl54Accounting {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; //54.7. Дата расчета
 
+    @XStreamAlias("unaccountedSum")
+    private final StringElement unaccountedSum = XmlLoader.isNewFormatGutdf()
+            ? new StringElement("0.00") : null;//54.9. Сумма задолженности, не учтенная на балансовых и внебалансовых счетах
+
     public Fl54Accounting(Number offBalanceAmount, Number minInterest, Number maxInterest, String supportInfo,
                           Date calcDate) {
 

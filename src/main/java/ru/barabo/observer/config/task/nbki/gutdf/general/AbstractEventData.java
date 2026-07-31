@@ -12,7 +12,7 @@ public abstract class AbstractEventData {
     final Integer orderNum;
 
     @XStreamAlias("eventDate")
-    final public String eventDate;
+    final private String eventDate;
 
     @XStreamAlias("eventDateTime")
     final public String eventDateTime;
@@ -32,7 +32,8 @@ public abstract class AbstractEventData {
     }
 
     public String getEventDate() {
-        return eventDate;
+
+        return XmlLoader.isNewFormatGutdf() ? eventDateTime.substring(0, "yyyy-mm-dd".length()) : eventDate;
     }
 
     public Integer getOrderNum() {

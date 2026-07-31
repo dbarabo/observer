@@ -19,6 +19,9 @@ public class Ul23Collateral {
     @XStreamAlias("date")
     private final StringElement date; // emptyValueType| 32.4. Дата заключения договора залога
 
+    @XStreamAlias("startDate")
+    private final StringElement startDate; // emptyValueType| 23.4. Дата возникновения залога
+
     @XStreamImplicit(itemFieldName = "Sum_group_UL_23_26_Group")
     private final List<SumGroupUl23_26Group> sumGroupUl23_26Group; // minOccurs="0"  Предметы залога
 
@@ -46,6 +49,9 @@ public class Ul23Collateral {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; // minOccurs="0 32.17. Дата расчета актуальной стоимости предмета залога
 
+    @XStreamAlias("acquiredExist_1")
+    private final StringElement acquiredExist1; // 23.19. Признак залога приобретаемого объекта по сделке = 1
+
     public Ul23Collateral(String code, Date date, List<SumGroupUl23_26Group> sumGroupUl23_26Group,
                           Date collateralEndDate, Date collateralFactEndDate, Integer endReason,
                           Number contractTotalSum, Integer contractCount, String okato, Number actualCost,
@@ -53,7 +59,9 @@ public class Ul23Collateral {
 
         this.code = new StringElement(code);
 
-        this.date = new StringElement(XmlLoader.formatDate(date));
+        this.date = XmlLoader.isNewFormatGutdf() ? null : new StringElement(XmlLoader.formatDate(date));
+
+        this.startDate = XmlLoader.isNewFormatGutdf() ? new StringElement(XmlLoader.formatDate(date)) : null;
 
         this.sumGroupUl23_26Group = sumGroupUl23_26Group;
 
@@ -72,6 +80,8 @@ public class Ul23Collateral {
         this.actualCost = actualCost == null ? null : new StringElement(XmlLoader.formatSum(actualCost));
 
         this.calcDate = calcDate == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.acquiredExist1 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
     }
 
     public StringElement getCode() {

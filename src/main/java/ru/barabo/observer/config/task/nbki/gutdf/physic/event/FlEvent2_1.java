@@ -55,6 +55,7 @@ public class FlEvent2_1 extends AbstractEventData  {
     @XStreamAlias("FL_54_Accounting")
     final Fl54Accounting fl54Accounting; // Блок 54. Сведения об учете обязательства
 
+    @XStreamAlias("FL_56_Participation")
     final Fl56Participation fl56Participation; //new! 5.1 Блок 56. Сведения об участии в обязательстве, по которому формируется кредитная история
 
 

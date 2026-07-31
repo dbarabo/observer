@@ -279,6 +279,14 @@ object GutdfLoaderFile {
 
         val subEvent = if(event == "3.2") "2.1" else ""
 
+        logger.error("idFile=$idFile")
+        logger.error("taxPassport=$taxPassport")
+        logger.error("event=$event")
+        logger.error("unicalId=$unicalId")
+        logger.error("eventDate=$eventDate")
+        logger.error("orderNum=$orderNum")
+        logger.error("subEvent=$subEvent")
+
         val idMain = findMainId(idFile, taxPassport, this.event, this.unicalId, this.eventDate, this.orderNum, subEvent)
 
         data.addAll(fl17DealUid(idMain, this.fl17DealUid))
