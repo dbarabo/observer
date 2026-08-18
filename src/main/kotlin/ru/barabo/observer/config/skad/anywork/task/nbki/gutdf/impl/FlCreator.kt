@@ -598,7 +598,7 @@ private fun createFl32_35GroupList(idEvent: Long): List<Fl32_35Group> {
 
         val fl32Collateral = Fl32Collateral(fl.code, fl.date, sumGroupFl3235GroupList,
             fl.collateralEndDate, fl.collateralFactEndDate, fl.endReason, fl.contractTotalSum,
-            fl.contractCount, fl.okato, fl.actualCost, fl.calcDate
+            fl.contractCount, fl.okato, fl.actualCost, fl.calcDate, fl.priceCode, fl.isHome
         )
 
         val insureList = if(fl.isExistsInsure) insureByCollateral(fl.idCollateral, idEvent) else listOf(Fl35Insurance())
@@ -933,7 +933,9 @@ private data class Fl3235Group(
     val assessDate: Timestamp?,
     val priceCode: Int?,
 
-    val isExistsInsure: Boolean) {
+    val isExistsInsure: Boolean,
+
+    val isHome: Boolean) {
 
     constructor(rec: Array<Any?>) :
             this(
@@ -953,7 +955,9 @@ private data class Fl3235Group(
                 sum = (rec[12] as? Number),
                 assessDate = (rec[13] as? Timestamp),
                 priceCode = (rec[14] as? Number)?.toInt(),
-                isExistsInsure = ( (rec[15] != null) && ((rec[15] as Number).toInt() != 0))
+                isExistsInsure = ( ((rec[15] as? Number)?.toInt()?:0) != 0),
+
+                isHome =  ( ((rec[16] as? Number)?.toInt()?:0) != 0),
             )
 }
 

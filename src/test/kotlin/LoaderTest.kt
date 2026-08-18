@@ -111,10 +111,13 @@ class LoaderTest {
     private fun separ() = ";"
 
 
-    //@Test
+    @Test
     fun testGutDfTest() {
 
-        GutDfCreator.createPullTest(LocalDate.of(2026, 7, 16), LocalDate.of(2026, 7, 17))
+        GutDfCreator.createPullTest(LocalDate.of(2026, 7, 6), LocalDate.of(2026, 8, 1))
+
+
+        //GutDfCreator.createPullTest(LocalDate.of(2026, 7, 16), LocalDate.of(2026, 7, 17))
 
         //val file = GutDfCreator.createFileByRutdf(null) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
         //logger.error("file=$file")

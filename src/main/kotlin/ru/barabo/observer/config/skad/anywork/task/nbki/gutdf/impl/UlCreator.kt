@@ -174,9 +174,11 @@ private fun createEvent2_1(eventRecord: EventRecord): UlEvent2_1 {
 
     val ul44Accounting = createUl44Accounting(eventRecord.idEvent)
 
+    val ul46Participation = createUl46Participation(eventRecord.idEvent)
+
     return UlEvent2_1(eventRecord.orderNum.toInt(), eventRecord.dateEvent, ul10DealUid, ul11Deal, ul12Amount,
         listOf(ul121AmountInfo), ul14PaymentTerms, ul17181920Group, ul13JointDebtors, ul15ContractChanges,
-        ul151ContractTermsChanges, ul44Accounting)
+        ul151ContractTermsChanges, ul44Accounting, ul46Participation)
 }
 
 private fun createEvent2_2(eventRecord: EventRecord): UlEvent2_2 {
@@ -445,7 +447,7 @@ private fun createUl2326GroupList(idEvent: Long): List<Ul23_26Group> {
 
         val ul23Collateral = Ul23Collateral(ul.code, ul.date, sumGroupUl2326Group,
             ul.collateralEndDate, ul.collateralFactEndDate, ul.endReason, ul.contractTotalSum,
-            ul.contractCount, ul.okato, ul.actualCost, ul.calcDate)
+            ul.contractCount, ul.okato, ul.actualCost, ul.calcDate, ul.priceCode, ul.isHomePledge)
 
         val insureList = if(ul.isExistsInsure) insureByCollateral(ul.idCollateral, idEvent) else listOf(Ul26Insurance())
 
@@ -726,7 +728,8 @@ private data class Ul2326Group(
     val assessDate: Timestamp?,
     val priceCode: Int?,
 
-    val isExistsInsure: Boolean) {
+    val isExistsInsure: Boolean,
+    val isHomePledge: Boolean ) {
 
     constructor(rec: Array<Any?>) :
             this(
@@ -746,7 +749,8 @@ private data class Ul2326Group(
                 sum = (rec[12] as? Number),
                 assessDate = (rec[13] as? Timestamp),
                 priceCode = (rec[14] as? Number)?.toInt(),
-                isExistsInsure = ( (rec[15] != null) && ((rec[15] as Number).toInt() != 0))
+                isExistsInsure = ( (rec[15] != null) && ((rec[15] as Number).toInt() != 0)),
+                isHomePledge = ( ((rec[16] as? Number)?.toInt()?: 0) != 0)
             )
 }
 

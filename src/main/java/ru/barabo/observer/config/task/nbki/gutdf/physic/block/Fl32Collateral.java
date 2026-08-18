@@ -17,7 +17,10 @@ public class Fl32Collateral {
     private final StringElement code; // 32.2. Код предмета залога
 
     @XStreamAlias("date")
-    private final StringElement date; // emptyValueType| 32.4. Дата заключения договора залога
+    private final StringElement date; // emptyValueType| 32.4. Дата возникновения залога
+
+    @XStreamAlias("startDate")
+    private final StringElement startDate; // emptyValueType| 32.4. Дата возникновения залога
 
     @XStreamImplicit(itemFieldName = "Sum_group_FL_32_35_Group")
     private final List<SumGroupFl32_35Group> sumGroupFl32_35GroupList; // minOccurs="0"  Предметы залога
@@ -46,14 +49,28 @@ public class Fl32Collateral {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; // minOccurs="0 32.17. Дата расчета актуальной стоимости предмета залога
 
+    @XStreamAlias("actualPriceCode")
+    private final StringElement actualPriceCode; // 32.18. Вид актуальной стоимости предмета залога
+
+    @XStreamAlias("acquiredExist_1")
+    private final StringElement acquiredExist1; // 32.19.  Признак залога приобретаемого объекта по сделке = 1
+
+    @XStreamAlias("inhabitedExist_0")
+    private final StringElement inhabitedExist0; // 32.20 Признак залога жилой недвижимости = 0
+
+    @XStreamAlias("inhabitedExist_1")
+    private final StringElement inhabitedExist1; // 32.20. Признак залога жилой недвижимости = 1
+
     public Fl32Collateral(String code, Date date, List<SumGroupFl32_35Group> sumGroupFl3235GroupList,
                           Date collateralEndDate, Date collateralFactEndDate, Integer endReason,
                           Number contractTotalSum, Integer contractCount, String okato, Number actualCost,
-                          Date calcDate) {
+                          Date calcDate, Integer priceCode, Boolean isHomePledge) {
 
         this.code = new StringElement(code);
 
-        this.date = new StringElement(XmlLoader.formatDate(date));
+        this.date = XmlLoader.isNewFormatGutdf() ? null : new StringElement(XmlLoader.formatDate(date));
+
+        this.startDate = XmlLoader.isNewFormatGutdf() ? new StringElement(XmlLoader.formatDate(date)) : null;
 
         sumGroupFl32_35GroupList = sumGroupFl3235GroupList;
 
@@ -72,6 +89,14 @@ public class Fl32Collateral {
         this.actualCost = actualCost == null ? null : new StringElement(XmlLoader.formatSum(actualCost));
 
         this.calcDate = actualCost == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
+
+        this.actualPriceCode = XmlLoader.isNewFormatGutdf() ? new StringElement(priceCode == null ? "-" : priceCode.toString()) : null;
+
+        this.acquiredExist1 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
+
+        this.inhabitedExist0 = XmlLoader.isNewFormatGutdf() && (!isHomePledge) ? new StringElement("") : null;
+
+        this.inhabitedExist1 = XmlLoader.isNewFormatGutdf() && (isHomePledge) ? new StringElement("") : null;
     }
 
     public StringElement getCode() {
@@ -79,7 +104,7 @@ public class Fl32Collateral {
     }
 
     public StringElement getDate() {
-        return date;
+        return date == null ? startDate : date;
     }
 
     public List<SumGroupFl32_35Group> getSumGroupFl32_35GroupList() {

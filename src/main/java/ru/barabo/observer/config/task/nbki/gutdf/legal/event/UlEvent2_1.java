@@ -46,11 +46,15 @@ public class UlEvent2_1 extends AbstractEventData {
     @XStreamAlias("UL_44_Accounting")
     final Ul44Accounting ul44Accounting; // Блок 44. Сведения об учете обязательства
 
+    @XStreamAlias("UL_46_Participation")
+    final Ul46Participation ul46Participation; // Блок 44. Сведения об учете обязательства
+
     public UlEvent2_1(Integer orderNum, Date eventDate, Ul10DealUid ul10DealUid, Ul11Deal ul11Deal,
                       Ul12Amount ul12Amount, List<Ul12_1AmountInfo> ul121AmountInfoList,
                       Ul14PaymentTerms ul14PaymentTerms, Ul17_18_19_20Group ul17181920Group,
                       Ul13JointDebtors ul13JointDebtors, Ul15ContractChanges ul15ContractChanges,
-                      Ul15_1ContractTermsChanges ul151ContractTermsChanges, Ul44Accounting ul44Accounting) {
+                      Ul15_1ContractTermsChanges ul151ContractTermsChanges, Ul44Accounting ul44Accounting,
+                      Ul46Participation ul46Participation) {
 
         super(orderNum, eventDate, "2.1");
 
@@ -64,6 +68,8 @@ public class UlEvent2_1 extends AbstractEventData {
         this.ul15ContractChanges = ul15ContractChanges;
         ul15_1ContractTermsChanges = ul151ContractTermsChanges;
         this.ul44Accounting = ul44Accounting;
+
+        this.ul46Participation = ul46Participation;
     }
 
     @Override
@@ -110,5 +116,9 @@ public class UlEvent2_1 extends AbstractEventData {
 
     public Ul44Accounting getUl44Accounting() {
         return ul44Accounting;
+    }
+
+    public Ul46Participation getUl46Participation() {
+        return ul46Participation;
     }
 }

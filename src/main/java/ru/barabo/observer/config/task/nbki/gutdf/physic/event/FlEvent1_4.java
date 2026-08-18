@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.task.nbki.gutdf.general.AbstractEventData;
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.*;
+import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,9 @@ public class FlEvent1_4 extends AbstractEventData {
 
     @XStreamAlias("FL_21_PaymentTerms")
     final Fl21PaymentTerms fl21PaymentTerms; // Блок 21. Сведения об условиях платежей
+
+    @XStreamAlias("FL_29_1_DebtBurdenInfo")
+    final Fl29_1DebtBurdenInfo fl29_1DebtBurdenInfoVer51; // minOccurs="0" Блок 29(1). Сведения о долговой нагрузке заемщика
 
     @XStreamAlias("FL_20_JointDebtors")
     final Fl20JointDebtors fl20JointDebtors; // Блок 20. Сведения о солидарных должниках
@@ -95,7 +99,8 @@ public class FlEvent1_4 extends AbstractEventData {
 
         this.fl22TotalCost = fl22TotalCost;
 
-        this.fl29_1DebtBurdenInfo = fl29_1DebtBurdenInfo;
+        this.fl29_1DebtBurdenInfoVer51 = XmlLoader.isNewFormatGutdf() ? fl29_1DebtBurdenInfo : null;
+        this.fl29_1DebtBurdenInfo = XmlLoader.isNewFormatGutdf() ? null : fl29_1DebtBurdenInfo;
 
         this.fl54Accounting = fl54Accounting;
 

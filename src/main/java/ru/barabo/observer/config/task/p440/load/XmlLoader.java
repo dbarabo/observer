@@ -81,7 +81,7 @@ public class XmlLoader<E> {
 	}
 
     static public boolean isNewFormatGutdf() {
-        return false;
+        return true;
     }
 
 	static public boolean isNewFormats(File file) {

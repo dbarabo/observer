@@ -49,13 +49,22 @@ public class Ul23Collateral {
     @XStreamAlias("calcDate")
     private final StringElement calcDate; // minOccurs="0 32.17. Дата расчета актуальной стоимости предмета залога
 
+    @XStreamAlias("actualPriceCode")
+    private final StringElement actualPriceCode; // minOccurs="0 32.17. Дата расчета актуальной стоимости предмета залога
+
     @XStreamAlias("acquiredExist_1")
     private final StringElement acquiredExist1; // 23.19. Признак залога приобретаемого объекта по сделке = 1
+
+    @XStreamAlias("inhabitedExist_0")
+    private final StringElement inhabitedExist0; // 23.20. Признак залога жилой недвижимости = 0
+
+    @XStreamAlias("inhabitedExist_1")
+    private final StringElement inhabitedExist1; // 23.20. Признак залога жилой недвижимости = 1
 
     public Ul23Collateral(String code, Date date, List<SumGroupUl23_26Group> sumGroupUl23_26Group,
                           Date collateralEndDate, Date collateralFactEndDate, Integer endReason,
                           Number contractTotalSum, Integer contractCount, String okato, Number actualCost,
-                          Date calcDate) {
+                          Date calcDate, Integer priceCode, Boolean isHomePledge) {
 
         this.code = new StringElement(code);
 
@@ -81,7 +90,13 @@ public class Ul23Collateral {
 
         this.calcDate = calcDate == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
 
+        this.actualPriceCode = XmlLoader.isNewFormatGutdf() ? new StringElement(priceCode == null ? "-" : priceCode.toString()) : null;
+
         this.acquiredExist1 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
+
+        this.inhabitedExist0 = XmlLoader.isNewFormatGutdf() && (!isHomePledge) ? new StringElement("") : null;
+
+        this.inhabitedExist1 = XmlLoader.isNewFormatGutdf() && (isHomePledge) ? new StringElement("") : null;
     }
 
     public StringElement getCode() {
@@ -89,7 +104,7 @@ public class Ul23Collateral {
     }
 
     public StringElement getDate() {
-        return date;
+        return date == null ? startDate : date;
     }
 
     public List<SumGroupUl23_26Group> getSumGroupUl23_26Group() {

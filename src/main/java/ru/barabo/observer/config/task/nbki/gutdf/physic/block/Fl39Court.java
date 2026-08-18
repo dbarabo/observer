@@ -50,6 +50,12 @@ public class Fl39Court {
     @XStreamAlias("currency")
     private final StringElement currency; // 30.10. Валюта суммы требований, подлежащих удовлетворению
 
+    @XStreamAlias("lawsuitCode")
+    private final StringElement lawsuitCodeVersion51; // 39.7. Код иска или требования
+
+    @XStreamAlias("rightLimitExist_0")
+    private final StringElement rightLimitExist0; // 39.11. Признак ограничения права кредитора требовать исполнения заемщиком обязательств = 0
+
     /**
      * @param isExistsDispute - только спор суд. акта в любом случае нет
      */
@@ -74,10 +80,14 @@ public class Fl39Court {
         this.actResolutionCode = null;
         this.actStartExist0 = null;
         this.actStartExist1 = null;
-        this.lawsuitCode = null;
         this.sumTotal = null;
         this.info = null;
         this.currency = null;
+        this.lawsuitCode = null;
+
+        this.lawsuitCodeVersion51 = XmlLoader.isNewFormatGutdf() ? new StringElement("1") : null;
+
+        this.rightLimitExist0 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
     }
 
     public Fl39Court(Date date, String num, Integer actResolutionCode, Boolean isActStarted,
@@ -103,13 +113,17 @@ public class Fl39Court {
             this.actStartExist1 = null;
         }
 
-        this.lawsuitCode = new StringElement(lawsuitCode.toString());
+        this.lawsuitCode = XmlLoader.isNewFormatGutdf() ? null : new StringElement(lawsuitCode.toString());
 
         this.sumTotal = new StringElement(sumTotal == null ? "-" : XmlLoader.formatSum(sumTotal));
 
         this.info = info == null ? null : new StringElement(info);
 
         this.currency = new StringElement("RUB");
+
+        this.lawsuitCodeVersion51 = XmlLoader.isNewFormatGutdf() ? new StringElement("1") : null;
+
+        this.rightLimitExist0 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
     }
 
     public String getActExist() { // 0 1 2
