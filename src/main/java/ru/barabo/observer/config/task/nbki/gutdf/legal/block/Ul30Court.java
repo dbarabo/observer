@@ -50,6 +50,9 @@ public class Ul30Court {
     @XStreamAlias("currency")
     private final StringElement currency; // 30.10. Валюта суммы требований, подлежащих удовлетворению
 
+    @XStreamAlias("lawsuitCode")
+    private final StringElement lawsuitCodeVersion51; // 39.7. Код иска или требования
+
     /**
      * @param isExistsDispute - только спор суд. акта в любом случае нет
      */
@@ -78,6 +81,8 @@ public class Ul30Court {
         this.sumTotal = null;
         this.info = null;
         this.currency = null;
+
+        this.lawsuitCodeVersion51 = XmlLoader.isNewFormatGutdf() ? new StringElement("1") : null;
     }
 
     public Ul30Court(Date date, String num, Integer actResolutionCode, Boolean isActStarted,
@@ -103,13 +108,15 @@ public class Ul30Court {
             this.actStartExist1 = null;
         }
 
-        this.lawsuitCode = new StringElement(lawsuitCode.toString());
+        this.lawsuitCode = XmlLoader.isNewFormatGutdf() ? null : new StringElement(lawsuitCode.toString());
 
         this.sumTotal = new StringElement(sumTotal == null ? "-" : XmlLoader.formatSum(sumTotal));
 
         this.info = info == null ? null : new StringElement(info);
 
         this.currency = new StringElement("RUB");
+
+        this.lawsuitCodeVersion51 = XmlLoader.isNewFormatGutdf() ? new StringElement("1") : null;
     }
 
     public String getActExist() { // 0 1 2

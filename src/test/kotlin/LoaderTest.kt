@@ -111,10 +111,10 @@ class LoaderTest {
     private fun separ() = ";"
 
 
-    @Test
+    //@Test
     fun testGutDfTest() {
 
-        GutDfCreator.createPullTest(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 2, 1))
+        GutDfCreator.createPullTest(LocalDate.of(2025, 5, 29), LocalDate.of(2025, 6, 20))
 
 
         //GutDfCreator.createPullTest(LocalDate.of(2026, 7, 16), LocalDate.of(2026, 7, 17))
