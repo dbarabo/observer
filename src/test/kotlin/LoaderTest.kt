@@ -114,7 +114,7 @@ class LoaderTest {
     @Test
     fun testGutDfTest() {
 
-        GutDfCreator.createPullTest(LocalDate.of(2026, 7, 6), LocalDate.of(2026, 8, 1))
+        GutDfCreator.createPullTest(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 2, 1))
 
 
         //GutDfCreator.createPullTest(LocalDate.of(2026, 7, 16), LocalDate.of(2026, 7, 17))

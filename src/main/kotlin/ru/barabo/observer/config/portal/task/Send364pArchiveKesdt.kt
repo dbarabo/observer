@@ -22,7 +22,7 @@ object Send364pArchiveKesdt : FileMover, FileFinder {
     override fun config(): ConfigTask = PortalTransport
 
     override val fileFinderData: List<FileFinderData> = listOf(
-            FileFinderData( ::getFolder364pForFind, Pattern.compile("KESDT_.*\\.arj", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE) )
+            FileFinderData( ::getFolder364pForFind, Pattern.compile("KES.._.*\\.arj", Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE) )
         )
 
     override val pathsTo: Array<()->String> = arrayOf(::sendPortalSzFolder, ::send364pCopy)

@@ -90,7 +90,7 @@ public class Fl32Collateral {
 
         this.calcDate = actualCost == null ? null : new StringElement(XmlLoader.formatDate(calcDate));
 
-        this.actualPriceCode = XmlLoader.isNewFormatGutdf() ? new StringElement(priceCode == null ? "-" : priceCode.toString()) : null;
+        this.actualPriceCode = (XmlLoader.isNewFormatGutdf() && (calcDate != null) ) ? new StringElement(priceCode == null ? "-" : priceCode.toString()) : null;
 
         this.acquiredExist1 = XmlLoader.isNewFormatGutdf() ? new StringElement("") : null;
 

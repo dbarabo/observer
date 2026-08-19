@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import ru.barabo.observer.config.task.nbki.gutdf.general.AbstractEventData;
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.*;
+import ru.barabo.observer.config.task.p440.load.XmlLoader;
 
 import java.util.Date;
 import java.util.List;
@@ -69,7 +70,7 @@ public class UlEvent2_1 extends AbstractEventData {
         ul15_1ContractTermsChanges = ul151ContractTermsChanges;
         this.ul44Accounting = ul44Accounting;
 
-        this.ul46Participation = ul46Participation;
+        this.ul46Participation = XmlLoader.isNewFormatGutdf() ? ul46Participation : null;
     }
 
     @Override
