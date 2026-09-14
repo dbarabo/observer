@@ -16,6 +16,7 @@ object PortalTransport  : AbstractConfig() {
         Ticket364FtsText.findAll()
         Send364pArchiveKesdt.findAll()
         Send364pArchivePseiDsei.findAll()
+        Send364pArchiveVbkKr.findAll()
 
         TzFtsArj.findAll()
         TicketFtsText.findAll()

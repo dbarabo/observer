@@ -14,9 +14,9 @@ object OtherCbr: AbstractConfig() {
 
         SignScad181UByCbr.findAll()
 
-        RemartMail.findAll()
-        TtsMailFromOtk.findAll()
-        SbMailFromCbr.findAll()
+        //RemartMail.findAll()
+        //TtsMailFromOtk.findAll()
+        //SbMailFromCbr.findAll()
 
         // off 06.04.2020 go to week reports
         CorrectPrim.findAll()
@@ -24,7 +24,7 @@ object OtherCbr: AbstractConfig() {
 
         ReportSender.findAll()
 
-        CbrChecker.findAll()
+        //CbrChecker.findAll()
 
 
         executeTasks()

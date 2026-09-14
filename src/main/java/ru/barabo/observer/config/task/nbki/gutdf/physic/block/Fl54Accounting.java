@@ -46,6 +46,22 @@ public class Fl54Accounting {
     private final StringElement unaccountedSum = XmlLoader.isNewFormatGutdf()
             ? new StringElement("0.00") : null;//54.9. Сумма задолженности, не учтенная на балансовых и внебалансовых счетах
 
+    public Fl54Accounting(Date calcDate) {
+        supportExist0 = new StringElement("");
+
+        exist0 = null;
+        sum = null;
+        currency = null;
+        exist1 = null;
+        minInterest = null;
+        maxInterest = null;
+
+        supportExist1 = null;
+        supportInfo = null;
+
+        this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+    }
+
     public Fl54Accounting(Number offBalanceAmount, Number minInterest, Number maxInterest, String supportInfo,
                           Date calcDate) {
 

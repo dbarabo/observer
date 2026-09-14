@@ -698,7 +698,7 @@ private fun createFl29MonthlyPayment(idEvent: Long): Fl29MonthlyPayment? {
 
     val fl = Fl29(data[0])
 
-    return if(fl.sum == null) null
+    return if(fl.calcDate == null) null
             else Fl29MonthlyPayment(fl.sum, fl.calcDate, fl.sumTotal)
 }
 
@@ -722,7 +722,11 @@ private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
 
     val fl = Fl54(data[0])
 
-    return Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate)
+    logger.error("fl.rec[5]=${data[0][5]}")
+    logger.error("fl.isGuarantorOnly=${fl.isGuarantorOnly}")
+
+    return if(fl.isGuarantorOnly) Fl54Accounting(fl.calcDate)
+    else Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate)
 }
 
 private fun createFl22TotalCost(idEvent: Long): Fl22TotalCost? {
@@ -1146,7 +1150,8 @@ private data class Fl54(
     val minInterest: Number?,
     val maxInterest: Number?,
     val supportInfo: String?,
-    val calcDate: Timestamp?) {
+    val calcDate: Timestamp?,
+    val isGuarantorOnly: Boolean) {
 
     constructor(rec: Array<Any?>) :
             this(
@@ -1154,7 +1159,8 @@ private data class Fl54(
                 minInterest = (rec[1] as? Number),
                 maxInterest = (rec[2] as? Number),
                 supportInfo = (rec[3] as? String),
-                calcDate = (rec[4] as? Timestamp)
+                calcDate = (rec[4] as? Timestamp),
+                isGuarantorOnly = (rec[5] as? Number)?.toInt() != 0
             )
 }
 

@@ -29,7 +29,7 @@ object BaraboSmtp : SendMail {
 
     val AUTO = arrayOf("auto@ptkb.ru").onlyAfinaOrYa()
 
-    val DOPIKI = arrayOf("ursu@ptkb.ru", "naumova@ptkb.ru",
+    val DOPIKI = arrayOf("ookdok@ptkb.ru", "naumova@ptkb.ru",
         "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru", "sagztdinova@ptkb.ru").onlyAfina()
 
     val PODFT = arrayOf("podft@ptkb.ru").onlyAfina()
@@ -44,9 +44,9 @@ object BaraboSmtp : SendMail {
 
     val CREDIT = arrayOf("kred@ptkb.ru").onlyAfina()
 
-    val CHECKER_390P = arrayOf("ursu@ptkb.ru", "naumova@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
+    val CHECKER_390P = arrayOf("ookdok@ptkb.ru", "naumova@ptkb.ru", "vikulova@ptkb.ru", "panchenko@ptkb.ru").onlyAfina()
 
-    val MANAGERS_UOD = arrayOf("ursu@ptkb.ru").onlyAfina()
+    val MANAGERS_UOD = arrayOf("ookdok@ptkb.ru").onlyAfina()
 
     val MANAGERS_SVK = arrayOf("yanushkevich@ptkb.ru", "okina@ptkb.ru").onlyAfina()
 
@@ -56,11 +56,11 @@ object BaraboSmtp : SendMail {
 
     val CHECKER_PLASTIC = arrayOf("oper@ptkb.ru", "neganova@ptkb.ru").onlyAfina()
 
-    val UOD = arrayOf("ursu@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "pallas@ptkb.ru").onlyAfina()
+    val UOD = arrayOf("ookdok@ptkb.ru", "mitrofanova@ptkb.ru", "tremaskina@ptkb.ru", "pallas@ptkb.ru").onlyAfina()
 
     val CHECKER_COUNTRY = arrayOf("podft@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
-    val DELB_PLASTIC = arrayOf("ursu@ptkb.ru", "tts@ptkb.ru").onlyAfina()
+    val DELB_PLASTIC = arrayOf("ookdok@ptkb.ru", "tts@ptkb.ru").onlyAfina()
 
     val MANTIS = arrayOf("mantis@ptkb.ru").onlyAfina()
 
@@ -72,7 +72,7 @@ object BaraboSmtp : SendMail {
 
     val IBANK_RECEIPTOR = arrayOf("tts@ptkb.ru").onlyAfina()
 
-    val CORRESPOND = arrayOf("abramova@ptkb.ru", "venukov@ptkb.ru", "kenetbaev@ptkb.ru").onlyAfina()
+    val CORRESPOND = arrayOf("okro@ptkb.ru").onlyAfina()
 
     val IBANK_DELB = arrayOf("tts@ptkb.ru").onlyAfina()
 

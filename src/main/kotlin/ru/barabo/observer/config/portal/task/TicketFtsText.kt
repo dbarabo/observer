@@ -23,7 +23,8 @@ object TicketFtsText : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
             listOf(
-                FileFinderData("Z:/foiv-tz/request", ".*\\.xml", isModifiedTodayOnly = true)
+                FileFinderData("Z:/foiv-tz/request", ".*\\.xml", isModifiedTodayOnly = true),
+                FileFinderData("Z:/foiv-yz/request", ".*\\.xml", isModifiedTodayOnly = true)
             )
 
     override val accessibleData: AccessibleData =
