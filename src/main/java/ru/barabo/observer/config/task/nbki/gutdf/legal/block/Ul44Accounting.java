@@ -43,6 +43,21 @@ public class Ul44Accounting {
     private final StringElement unaccountedSum = XmlLoader.isNewFormatGutdf()
             ? new StringElement("0.00") : null; // 44.8. Сумма задолженности, не учтенная на балансовых и внебалансовых счетах
 
+    public Ul44Accounting(Number rate, Date calcDate) {
+        supportExist0 = new StringElement("");
+
+        exist0 = null;
+        sum = null;
+        currency = null;
+        exist1 = null;
+
+        supportExist1 = null;
+        supportInfo = null;
+
+        this.calcDate = new StringElement(XmlLoader.formatDate(calcDate));
+        this.rate = new StringElement(rate == null ? "0.00" : XmlLoader.formatSum(rate));
+    }
+
     public Ul44Accounting(Number offBalanceAmount, Number rate, String supportInfo,
                           Date calcDate) {
 

@@ -722,9 +722,6 @@ private fun createFl54Accounting(idEvent: Long): Fl54Accounting {
 
     val fl = Fl54(data[0])
 
-    logger.error("fl.rec[5]=${data[0][5]}")
-    logger.error("fl.isGuarantorOnly=${fl.isGuarantorOnly}")
-
     return if(fl.isGuarantorOnly) Fl54Accounting(fl.calcDate)
     else Fl54Accounting(fl.offBalanceAmount, fl.minInterest, fl.maxInterest, fl.supportInfo, fl.calcDate)
 }

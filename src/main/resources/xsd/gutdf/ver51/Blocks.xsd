@@ -6567,7 +6567,7 @@
       <xs:documentation>Блок 44. Сведения об учете задолженности</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:choice>
+      <xs:choice minOccurs="0">
         <xs:sequence>
           <xs:element name="exist_0" type="existType">
             <xs:annotation>

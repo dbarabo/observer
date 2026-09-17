@@ -10,6 +10,7 @@ import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47Grou
 import ru.barabo.observer.config.task.nbki.gutdf.legal.block.current.Ul45_47GroupCurrentNew
 import ru.barabo.observer.config.task.nbki.gutdf.legal.event.*
 import ru.barabo.observer.config.task.nbki.gutdf.legal.title.*
+import ru.barabo.observer.config.task.nbki.gutdf.physic.block.Fl54Accounting
 import ru.barabo.observer.config.task.nbki.gutdf.physic.block.PhoneGroupFl10Contact
 import ru.barabo.observer.config.task.p440.load.xml.impl.StringElement
 import java.sql.Timestamp
@@ -558,14 +559,9 @@ private fun createUl17181920Group(idEvent: Long): Ul17_18_19_20Group {
 
 private fun createUl46Participation(idEvent: Long): Ul46Participation {
 
-    var time = System.currentTimeMillis()
-
     val data = AfinaQuery.selectCursor(SEL_UL_46, params = arrayOf(idEvent))
 
     val fl = Ul46(data[0])
-
-    time = (System.currentTimeMillis() - time)/100
-    logger.error("createUl46Participation=$time")
 
     return Ul46Participation(fl.role, fl.kindCode, fl.uid, fl.fundDate, fl.isOverdue90, fl.isStop)
 }
@@ -581,7 +577,8 @@ private fun createUl44Accounting(idEvent: Long): Ul44Accounting {
 
     val ul = Ul44(data[0])
 
-    return Ul44Accounting(ul.offBalanceAmount, ul.rate, ul.supportInfo, ul.calcDate)
+    return if(ul.isGuarantorOnly) Ul44Accounting(ul.rate, ul.calcDate)
+            else Ul44Accounting(ul.offBalanceAmount, ul.rate, ul.supportInfo, ul.calcDate)
 }
 
 private fun createUl13JointDebtors(idEvent: Long): Ul13JointDebtors {
@@ -921,14 +918,16 @@ private data class Ul44(
     val offBalanceAmount: Number?,
     val rate: Number?,
     val supportInfo: String?,
-    val calcDate: Timestamp?) {
+    val calcDate: Timestamp?,
+    val isGuarantorOnly: Boolean) {
 
     constructor(rec: Array<Any?>) :
             this(
                 offBalanceAmount = (rec[0] as? Number),
                 rate = (rec[1] as? Number),
                 supportInfo = (rec[2] as? String),
-                calcDate = (rec[3] as? Timestamp)
+                calcDate = (rec[3] as? Timestamp),
+                isGuarantorOnly = ((rec[4] as? Number)?.toInt() != 0)
             )
 }
 
