@@ -11,6 +11,7 @@ import ru.barabo.observer.config.barabo.p440.out.byFolderExists
 import ru.barabo.observer.config.cbr.ticket.task.Get440pFiles
 import ru.barabo.observer.config.correspond.ContainerBase64
 import ru.barabo.observer.config.correspond.ContainerEnvEnvelope
+import ru.barabo.observer.config.correspond.ContainerSoapEnv
 import ru.barabo.observer.config.correspond.Correspond
 import ru.barabo.observer.config.correspond.EnvBody
 import ru.barabo.observer.config.task.AccessibleData
@@ -159,9 +160,15 @@ private fun containerFromFile(file: File): ContainerBase64 {
         logger.error("ContainerBase64 file=${file.absolutePath}")
         logger.error("ContainerBase64", e)
 
-        val env = initXStream().fromXML(file) as ContainerEnvEnvelope
+        try {
+            val env = initXStream().fromXML(file) as ContainerEnvEnvelope
+            env.envBody.containerBase64
+        } catch (e: Exception) {
+            logger.error("except ContainerEnvEnvelope", e)
 
-        env.envBody.containerBase64
+            val env = initXStream().fromXML(file) as ContainerSoapEnv
+            env.emptyContainer()
+        }
     }
 }
 
@@ -192,6 +199,7 @@ private fun initXStream() = XStream(DomDriver("CP1251")).apply {
     processAnnotations(ContainerEnvEnvelope::class.java)
     processAnnotations(EnvBody::class.java)
 
+    processAnnotations(ContainerSoapEnv::class.java)
 
     processAnnotations(NameRecords::class.java)
     processAnnotations(FileRecord::class.java)

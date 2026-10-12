@@ -84,7 +84,7 @@ private fun SubjectEventDataFL.addNewPhysicEvent(eventRecord: EventRecord, title
         "3.1" -> this.addEvent3_1(createFlEvent3_1(eventRecord) )
         "3.2" -> this.addEvent3_2(createFlEvent3_2(eventRecord) )
 
-        else -> throw Exception("event not found event=${eventRecord.event}")
+        else -> throw Exception("not found event=${eventRecord.event}")
     }
 }
 

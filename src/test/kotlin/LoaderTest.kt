@@ -1,9 +1,19 @@
 import com.sun.javafx.application.PlatformImpl
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import oracle.jdbc.OracleTypes
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClients
+import org.apache.http.message.BasicHeader
+import org.apache.http.util.EntityUtils
 import org.jasypt.util.text.BasicTextEncryptor
 import org.jsoup.Jsoup
 import org.junit.Before
-import org.junit.Test
 import org.slf4j.LoggerFactory
 import ru.barabo.cmd.Cmd
 import ru.barabo.cmd.XmlValidator
@@ -42,7 +52,6 @@ import ru.barabo.observer.config.cbr.ptkpsd.task.Load101FormXml
 import ru.barabo.observer.config.cbr.ptkpsd.task.p550.EsProcess
 import ru.barabo.observer.config.cbr.sender.task.EmailTempSender
 import ru.barabo.observer.config.cbr.ticket.task.XmlLoaderCbrTicket311p
-import ru.barabo.observer.config.portal.task.todayBlind
 import ru.barabo.observer.config.cbr.turncard.task.TurnOutTechOver
 import ru.barabo.observer.config.correspond.task.DecryptEdFile
 import ru.barabo.observer.config.correspond.task.loadDecodeFile
@@ -54,6 +63,7 @@ import ru.barabo.observer.config.fns.ens.task.Create311p514
 import ru.barabo.observer.config.fns.ens.task.LoadArchiveFromSfr
 import ru.barabo.observer.config.jzdo.upay.task.LoadAcqAdvUPay
 import ru.barabo.observer.config.jzdo.upay.task.LoadMtlUPay
+import ru.barabo.observer.config.portal.task.todayBlind
 import ru.barabo.observer.config.skad.acquiring.task.AcquiringProcessTerminal
 import ru.barabo.observer.config.skad.acquiring.task.ExecuteWeechatFile
 import ru.barabo.observer.config.skad.acquiring.task.MinComissionMonthPos
@@ -81,6 +91,7 @@ import ru.barabo.observer.store.TaskMapper
 import ru.barabo.observer.store.derby.StoreSimple
 import ru.barabo.xls.*
 import java.io.File
+import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -96,6 +107,17 @@ import javax.script.ScriptEngineManager
 import kotlin.math.round
 import kotlin.math.roundToLong
 
+import com.google.gson.Gson
+import org.junit.Test
+import ru.barabo.observer.config.fns.inn.task.InnFiller
+import java.net.URLEncoder
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
+
 
 class LoaderTest {
 
@@ -109,6 +131,170 @@ class LoaderTest {
     }
 
     private fun separ() = ";"
+
+    //@Test
+    fun testOkHttp() {
+        val client = OkHttpClient()
+
+        val jsonText =
+            "c=find&captcha=&captchaToken=&fam=&nam=&otch=&bdate=29.05.1977&doctype=21&docno=05+22+026602&docdt=07.06.2022"
+
+        val JSON = "application/json; charset=utf-8".toMediaType()
+
+        val body: RequestBody = jsonText.toRequestBody(JSON)
+
+
+        val request = Request.Builder()
+            .url("https://service.nalog.ru/inn-new-proc.json")
+            .post(body)
+            .build()
+
+        try {
+            client.newCall(request).execute().use { response ->
+
+                logger.error("${response.code}")
+                logger.error(response.body!!.string())
+                logger.error(response.message)
+
+                if (!response.isSuccessful) {
+                    throw IOException(
+                        "Запрос к серверу не был успешен:" +
+                                " ${response.code} ${response.message}"
+                    )
+                }
+                logger.error(response.body!!.string())
+            }
+        } catch (e: IOException) {
+            logger.error("Ошибка подключения: $e")
+        }
+
+    }
+
+    //@Test
+    fun testOnDo() {
+        val httpClient = HttpClients.createDefault()
+
+        val request = HttpPost("https://service.nalog.ru/inn-new-proc.json")
+
+        val headers = arrayOf(
+            BasicHeader("Accept", "application/json, text/javascript, */*; q=0.01"),
+
+            BasicHeader("Accept-Encoding", "gzip, deflate, br, zstd"),
+            BasicHeader("Accept-Language", "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"),
+            BasicHeader("Connection", "keep-alive"),
+            //BasicHeader("Content-Length", "259"),
+            BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"),
+            BasicHeader(
+                "Cookie",
+                "_ym_uid=1775092061584582981; _ym_d=1791260897; uniI18nLang=RUS; JSESSIONID=477E0E35F92FD41CC363F15EF929F64F; upd_inn=3A392E2F44EC4AD7D31FA43044EC11FA3DB5AEE019A906FAF59CA482E4E9FD2CEA6DF2D25652AAE7D6E17DE680CDE956; _ym_isad=2; _ym_visorc=b; mdd=0"
+            ),
+            BasicHeader("Host", "service.nalog.ru"),
+            BasicHeader("Origin", "https://service.nalog.ru"),
+            BasicHeader("Referer", "https://service.nalog.ru/inn.do"),
+
+            BasicHeader("Sec-Fetch-Dest", "empty"),
+            BasicHeader("Sec-Fetch-Mode", "cors"),
+            BasicHeader("Sec-Fetch-Site", "same-origin"),
+            BasicHeader(
+                "User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0"
+            ),
+            BasicHeader("X-Requested-With", "XMLHttpRequest")
+        )
+
+        request.setHeaders(headers)
+
+        val person: Person = Person("25.01.1985", "24.02.2005").apply {
+            surname = "ПОПОВИЧ"
+            firstName = "АНТОН"
+            secondName = "СЕРГЕЕВИЧ"
+            docNumber = "05 04 033607"
+        }
+
+        //val json = "c=find&captcha=&captchaToken=&fam=%D0%91%D0%90%D0%A0%D0%90%D0%91%D0%9E%D0%A8%D0%9A%D0%98%D0%9D&nam=%D0%94%D0%95%D0%9D%D0%98%D0%A1&otch=%D0%92%D0%90%D0%A1%D0%98%D0%9B%D0%AC%D0%95%D0%92%D0%98%D0%A7&bdate=29.05.1977&doctype=21&docno=05+22+026602&docdt=07.06.2022"
+
+        val json =
+            "c=find&captcha=&captchaToken=&fam=${person.surname}&nam=${person.firstName}&otch=${person.secondName}&bdate=${person.birthday}&doctype=21&docno=${person.docNumber}&docdt=${person.docDate}"
+
+        val entity = StringEntity(json, ContentType.APPLICATION_JSON)
+        request.entity = entity
+
+        val response = httpClient.execute(request)
+
+        logger.error("Status: " + response.statusLine.statusCode)
+
+        logger.error("$response")
+
+        val result = EntityUtils.toString(response.entity)
+
+        logger.error(result)
+
+        val gson = Gson()
+
+        val fnsResult = gson.fromJson(result, FnsResultRequest::class.java)
+
+        logger.error("requestId=${fnsResult.requestId}")
+
+        val req2 = "c=get&requestId=${fnsResult.requestId}"
+
+        val entity2 = StringEntity(req2, ContentType.APPLICATION_JSON)
+
+        request.setHeaders(headers)
+
+        request.entity = entity2
+
+        val response2 = httpClient.execute(request)
+
+        logger.error("Status2=" + response.statusLine.statusCode)
+
+        logger.error("$response2")
+
+        val result2 = EntityUtils.toString(response2.entity)
+
+        logger.error(result2)
+
+        val fnsResultInn = gson.fromJson(result2, FnsResultInn::class.java)
+
+        logger.error("inn=${fnsResultInn.inn}")
+
+        httpClient.close()
+    }
+
+    class Person(val birthday: String, val docDate: String) {
+        var surname: String = ""
+            set(value) {
+                field = URLEncoder.encode(value, "UTF-8")
+            }
+
+        var firstName: String = ""
+            set(value) {
+                field = URLEncoder.encode(value, "UTF-8")
+            }
+
+        var secondName: String = ""
+            set(value) {
+                field = URLEncoder.encode(value, "UTF-8")
+            }
+
+        var docNumber: String = ""
+            set(value) {
+                field = URLEncoder.encode(value, "UTF-8")
+            }
+    }
+
+    class FnsResultRequest() {
+        var requestId: String = ""
+        var token1: String = ""
+        var captchaRequired: Boolean = false
+    }
+
+    class FnsResultInn() {
+        var id: String = ""
+        var state: Int = 0
+        var inn: String? = null
+        var entityId: Long = 0
+        var result: String = ""
+    }
 
 
     //@Test
@@ -128,8 +314,16 @@ class LoaderTest {
 
         //GutDfCreator.createPullTest(LocalDate.of(2024, 10, 30), LocalDate.of(2024, 11, 1))
 
-        val file = GutDfCreator.createFileByRutdf(null) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
+        val file =
+            GutDfCreator.createFileByRutdf(null) //1319131400L) //1317564515L) //1318218866L)//1317928264L) //1317993330L)//1318137798L ) //1317371349L
         logger.error("file=$file")
+    }
+
+    //@Test
+    fun testInnFiller() {
+        val elem = Elem(idElem = 0L, task = InnFiller)
+
+        InnFiller.execute(elem)
     }
 
     //@Test
@@ -162,7 +356,7 @@ class LoaderTest {
         val xmlFile = File("C:/temp/0/0/KYCCL_2540015598_0021_20260428_000001.xml")
         val xsd = "/xsd/kyc/ClientFileXML.xsd"
 
-        validateXml(xmlFile, xsd) { File("C:/temp/1")  }
+        validateXml(xmlFile, xsd) { File("C:/temp/1") }
     }
 
     //@Test
@@ -181,7 +375,7 @@ class LoaderTest {
         val file = File("C:/temp/0/0/ZSO10507717_254020260705_008047.xml")
 
         val xsd = "/xsd/fns/from-fns/ZSO_402.xsd"
-        validateXml(file, xsd) { File("C:/temp/1")  }
+        validateXml(file, xsd) { File("C:/temp/1") }
 
         val elem = Elem(file, ZsoLoaderVer4, Duration.ZERO)
 
@@ -222,7 +416,7 @@ class LoaderTest {
         val xmlFile = File("C:/temp/0/0/BNS1_ZSN10507717_110020260401_000021_20260406_0021_000001.xml")
         val xsd = "/xsd/fns/to-fns/6952U_BNS_402.xsd"
 
-        validateXml(xmlFile, xsd) { File("C:/temp/1")  }
+        validateXml(xmlFile, xsd) { File("C:/temp/1") }
     }
 
     //@Test
@@ -230,7 +424,7 @@ class LoaderTest {
 
         val file = File("C:/temp/0/0/ZSN10507717_510020260409_000099.xml")
         val xsd = "/xsd/fns/from-fns/ZSN_402.xsd"
-        validateXml(file, xsd) { File("C:/temp/1")  }
+        validateXml(file, xsd) { File("C:/temp/1") }
 
         val elem = Elem(file, ZsnLoader, Duration.ZERO)
 
@@ -244,7 +438,6 @@ class LoaderTest {
 
         elem.task?.execute(elem)
     }
-
 
 
     //@Test
@@ -306,7 +499,6 @@ class LoaderTest {
     }
 
 
-
     //@Test
     fun testBOSGenerator402() {
         val repeatCreator = OutType.creatorByDbValue(2)!!
@@ -357,10 +549,11 @@ class LoaderTest {
 
     //@Test
     fun testSmevRequest() {
-        val request = "https://nsud.gosuslugi.ru/pud/#/exchange-session/v2?messageId=ebd824b3-7c0e-11f1-aee4-31c21a149abc&smevArea=PROD"
+        val request =
+            "https://nsud.gosuslugi.ru/pud/#/exchange-session/v2?messageId=ebd824b3-7c0e-11f1-aee4-31c21a149abc&smevArea=PROD"
 
         val body = Jsoup.connect(request)
-            .header("Content-Type","application/x-www-form-urlencoded")
+            .header("Content-Type", "application/x-www-form-urlencoded")
             .cookie("TALanguage", "ALL")
             .data("mode", "filterReviews")
             .data("filterRating", "")
@@ -380,7 +573,7 @@ class LoaderTest {
 
     //@Test
     fun testJs() {
-        
+
         val script = "result=1+2"
         val mgr = ScriptEngineManager()
         val jsEngine = mgr.getEngineByName("JavaScript")
@@ -391,36 +584,35 @@ class LoaderTest {
         logger.error(result.toString())
     }
 
-    /*
-    @Test
-    fun testSelenium() {
-
-        WebDriverManager.chromedriver().setup()
-
-        val driver = ChromeDriver()
-
-        val request = "https://nsud.gosuslugi.ru/pud/#/exchange-session/v2?messageId=ebd824b3-7c0e-11f1-aee4-31c21a149abc&smevArea=PROD"
-
-        driver.get(request)
-
-        val pageSource = driver.pageSource
-
-        driver.quit()
-
-        logger.error(pageSource)
-    }*/
-
-
     //@Test
     fun testParseKeyRate() {
 
-        //val request = "https://www.cbr.ru/hd_base/KeyRate/"
-        //val request = "https://www.cbr.ru/hd_base/KeyRate/?UniDbQuery.Posted=True&UniDbQuery.From=01.12.2023&UniDbQuery.To=18.12.2023"
+        val trustAllCerts: Array<TrustManager> = arrayOf<TrustManager>(object : X509TrustManager {
 
-        val request = "https://www.cbr.ru/press/keypr"
+            override fun checkClientTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun checkServerTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun getAcceptedIssuers(): Array<out X509Certificate?>? {
+                return null
+            }
+        })
+
+        val sc: SSLContext = SSLContext.getInstance("SSL")
+        sc.init(null, trustAllCerts, SecureRandom())
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
+
+        //val request = "https://www.cbr.ru/hd_base/metall/metall_base_new/"
+
+        val startDate = LocalDate.now()
+
+        val request =
+            "https://www.cbr.ru/hd_base/metall/metall_base_new/?UniDbQuery.Posted=True&UniDbQuery.From=${startDate.toRusString()}&UniDbQuery.To=${startDate.toRusString()}&UniDbQuery.Gold=true&UniDbQuery.so=1"
 
         val body = Jsoup.connect(request)
-            .header("Content-Type","application/x-www-form-urlencoded")
+            .header("Content-Type", "application/x-www-form-urlencoded")
             .cookie("TALanguage", "ALL")
             .data("mode", "filterReviews")
             .data("filterRating", "")
@@ -429,13 +621,8 @@ class LoaderTest {
             .data("filterLang", "ALL")
             .referrer(request)
             .header("X-Requested-With", "XMLHttpRequest")
-            //.header("X-Puid",xpuid)
-            //.data("returnTo",returnTo)
             .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-            //.method(Connection.Method.POST)
-             .get().body()
-
-        //logger.error("$body")
+            .get().body()
 
         logger.error("$body")
 
@@ -443,15 +630,31 @@ class LoaderTest {
 
         logger.error("$find")
 
-       // val regex = Pattern.compile("(.*?)<td>(.*?)</td>(.*?)")
+        // val regex = Pattern.compile("(.*?)<td>(.*?)</td>(.*?)")
 
-        val regex = Pattern.compile("(<td>(.*?)</td>)")
+        val regexDate = Pattern.compile("(<td>(.*?)</td>)")
 
-        val regexMatcher = regex.matcher("$find")
+        val regexMatcher = regexDate.matcher("$find")
 
-        while (regexMatcher.find()) {
-            logger.error(regexMatcher.group(2))
-        }
+        val findDateString = if(regexMatcher.find())regexMatcher.group(2) else ""
+
+        val findDate = findDateString.takeIf { it.isNotEmpty() }?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("dd.MM.yyyy") ) }
+
+        logger.error("findDate=$findDate")
+
+        if(!LocalDate.now().equals(findDate)) return
+
+        val regexVal = Pattern.compile("(.*?)<td class=\"right\">(.*?)</td>(.*?)")
+        val regexMatcherVal = regexVal.matcher("$find")
+
+        val findValueString = if(regexMatcherVal.find())regexMatcherVal.group(2) else ""
+        logger.error("findValueString=$findValueString")
+
+        if(findValueString.isEmpty())return
+
+        val rate = findValueString.replace(",", "").replace(" ", "").trim().toLong()/100
+
+        logger.error("rate=$rate")
     }
 
 
@@ -471,8 +674,8 @@ class LoaderTest {
         val ids = arrayOf(1236714696L, 1237175375L, 1237847807L, 1238080222L, 1238448441L, 1238814490L)
 
         //val elem = Elem(idElem = 1206623916L, task = CorrectPrim)
-               // Elem(idElem = 1205659121L, task = CorrectPrim)
-                //Elem(idElem = 1205641626L, task = CorrectPrim)
+        // Elem(idElem = 1205659121L, task = CorrectPrim)
+        //Elem(idElem = 1205641626L, task = CorrectPrim)
 
         for (id in ids) {
             val elem = Elem(idElem = id, task = CorrectPrim)
@@ -483,8 +686,10 @@ class LoaderTest {
     //@Test
     fun testOutRegisterAquiring() {
 
-        val terminals: Array<Any?> = arrayOf("J244999", "22.02.20 16:00:28", "24.02.20 10:41:06", "IP CHALINA T N",
-                "DEREVENSKAYA 16  PAV 49", "chalinpoint@yandex.ru", null)
+        val terminals: Array<Any?> = arrayOf(
+            "J244999", "22.02.20 16:00:28", "24.02.20 10:41:06", "IP CHALINA T N",
+            "DEREVENSKAYA 16  PAV 49", "chalinpoint@yandex.ru", null
+        )
 
         OutRegisterAquiring.processTerminals(listOf(terminals), 1206971198L)
     }
@@ -499,9 +704,12 @@ class LoaderTest {
 
         val vars = ArrayList<Var>()
 
-        vars += Var("TERMINALID", VarResult(VarType.VARCHAR, "J244997") )//back-"J244997" //one-"J295331" //some-"J267667" //0-"J193574"
+        vars += Var(
+            "TERMINALID",
+            VarResult(VarType.VARCHAR, "J244997")
+        )//back-"J244997" //one-"J295331" //some-"J267667" //0-"J193574"
 
-        vars += Var("MTL", VarResult(VarType.INT, 1206344191) ) // 1206495410 //back-1206344191
+        vars += Var("MTL", VarResult(VarType.INT, 1206344191)) // 1206495410 //back-1206344191
 
         val excelSql = ExcelSql(testFile, TEMPLATE_REGISTER_RANGE)
 
@@ -510,10 +718,10 @@ class LoaderTest {
         excelSql.processData()
     }
 
-   // @Test
+    // @Test
     fun pareserTest() {
 
-       /* val text ="""
+        /* val text ="""
 FIND = '%БАРАБОШКИН%';            
 CLOSED = od.PTKB_PLASTIC_AUTO.getCardsClosed([FIND]);        
 CARD = [CLOSED.CARDNUM];  
@@ -547,8 +755,10 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun selectWithMetaData() {
         val meta = //AfinaQuery.selectWithMetaData("select count(*) from dual where 1=0")
-                AfinaQuery.selectCursorWithMetaData("{ ? = call OD.PTKB_PLASTIC_AUTO.getCardsByMode(?, ?, ?) }",
-                        arrayOf(1, "", "") )
+            AfinaQuery.selectCursorWithMetaData(
+                "{ ? = call OD.PTKB_PLASTIC_AUTO.getCardsByMode(?, ?, ?) }",
+                arrayOf(1, "", "")
+            )
 
         meta.columns.forEach { logger.error(it) }
 
@@ -559,12 +769,16 @@ res3 = [calc.DEC_TEST];
     fun fileMax() {
 
 
-        val search = Pattern.compile("ARH550P_0021_0000_${todayBlind()}_...\\.arj",
-                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
+        val search = Pattern.compile(
+            "ARH550P_0021_0000_${todayBlind()}_...\\.arj",
+            Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE
+        )
 
         val max = (File("X:/639-П/Out/2019/12/16").listFiles { f ->
-            !f.isDirectory && search.matcher(f.name).find()}
-            ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf(".")))}?.maxOrNull() ?:0)+ 1
+            !f.isDirectory && search.matcher(f.name).find()
+        }
+            ?.map { Integer.parseInt(it.name.substring(it.name.indexOf(".") - 3, it.name.indexOf("."))) }?.maxOrNull()
+            ?: 0) + 1
 
         logger.error("max=$max")
     }
@@ -574,9 +788,11 @@ res3 = [calc.DEC_TEST];
 
         val data = AfinaQuery.selectCursor(OutSalaryResponseFile.select)[0]
 
-        val elem = Elem(data[0] as Number?,
-                if(data.size < 2)null else data[1] as String?,
-                OutSalaryResponseFile, OutSalaryResponseFile.accessibleData.executeWait)
+        val elem = Elem(
+            data[0] as Number?,
+            if (data.size < 2) null else data[1] as String?,
+            OutSalaryResponseFile, OutSalaryResponseFile.accessibleData.executeWait
+        )
 
         OutSalaryResponseFile.execute(elem)
     }
@@ -591,7 +807,7 @@ res3 = [calc.DEC_TEST];
         //val xlsFile = NbkiAllReportsSend.createNbkiXlsFile(fileName)
     }
 
-   // @Test
+    // @Test
     fun extractBtrt30() {
 
         val file = File("C:/IIA_20190821_090000_0226")
@@ -602,8 +818,10 @@ res3 = [calc.DEC_TEST];
 
         val uniqueSession = AfinaQuery.uniqueSession()
 
-        val clob = AfinaQuery.execute(query, arrayOf(firstParamId, file.name),
-                uniqueSession, intArrayOf(OracleTypes.CLOB))!![0] as Clob
+        val clob = AfinaQuery.execute(
+            query, arrayOf(firstParamId, file.name),
+            uniqueSession, intArrayOf(OracleTypes.CLOB)
+        )!![0] as Clob
 
         file.writeText(clob.clobToString(), charset = Charset.forName("cp1251"))
     }
@@ -625,11 +843,11 @@ res3 = [calc.DEC_TEST];
         UploadExtract.execute(elem)
     }
 
-   // @Test
+    // @Test
     fun testMails() {
         val SELECT_EMAIL_LAID_OFF = "{ ? = call od.PTKB_PLASTIC_REPORT.getMailLaidOffEmployees }"
 
-        val mails = AfinaQuery.selectCursor(SELECT_EMAIL_LAID_OFF).joinToString {  "'${it[0]}'" }
+        val mails = AfinaQuery.selectCursor(SELECT_EMAIL_LAID_OFF).joinToString { "'${it[0]}'" }
 
         logger.error(mails)
     }
@@ -661,7 +879,6 @@ res3 = [calc.DEC_TEST];
     }
 
 
-
     //@Test
     fun testBinLoader() {
         val elem = Elem(File("C:/Temp/bin_table_universal_20210111.csv"), BinLoader, Duration.ZERO)
@@ -679,7 +896,7 @@ res3 = [calc.DEC_TEST];
     }
 
 
-        //@Test
+    //@Test
     fun processOci() {
 
         val file = File("H:/in/2019/03/13/OCI_20190313_123101_0226")
@@ -699,9 +916,9 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testSetLimitBlock() {
-       // val EXEC_BLOCK = "{ call od.PTKB_440P.runSetBlockByAccountList }"
+        // val EXEC_BLOCK = "{ call od.PTKB_440P.runSetBlockByAccountList }"
 
-       // AfinaQuery.execute(EXEC_BLOCK)
+        // AfinaQuery.execute(EXEC_BLOCK)
     }
 
     //@Test
@@ -770,7 +987,8 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun executeClearIntConverse() {
-        val elem = Elem(idElem = 1234256304, name = "CLEARINT_20201223_055217_0226_3033.html", task = ExecuteClearIntConverse)
+        val elem =
+            Elem(idElem = 1234256304, name = "CLEARINT_20201223_055217_0226_3033.html", task = ExecuteClearIntConverse)
 
         elem.task?.execute(elem)
     }
@@ -835,7 +1053,6 @@ res3 = [calc.DEC_TEST];
     }
 
 
-
     //@Test
     fun testLoadAfp() {
         val elem = Elem(File("C:/КартСтандарт/test/AFP20190218_0226.0024"), LoadAfp, Duration.ZERO)
@@ -893,7 +1110,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun quoteCsvTestRegex() {
         val text =
-                "TR;58;116030547764;116031459732;2937320473;;CMTP502;TPTP205;22620810600020720005;4755450117030235;20190110003154;20190110033154;D;810;810;810;2015600;2015600;2015600;200000000005528;\"RU        SU25CQTG;3   \";;643;;Pet;18503;20001999;320473;20190111;20190111;9985;4511;74377739010010004230355;901000423035;E;000150V05000;;Petrozavodsk;;0000020156000000000081020190110033154000002015600810"
+            "TR;58;116030547764;116031459732;2937320473;;CMTP502;TPTP205;22620810600020720005;4755450117030235;20190110003154;20190110033154;D;810;810;810;2015600;2015600;2015600;200000000005528;\"RU        SU25CQTG;3   \";;643;;Pet;18503;20001999;320473;20190111;20190111;9985;4511;74377739010010004230355;901000423035;E;000150V05000;;Petrozavodsk;;0000020156000000000081020190110033154000002015600810"
 
         val regex = "${separ()}(?=([^\"]*\"[^\"]*\")*[^\"]*$)"
 
@@ -903,24 +1120,6 @@ res3 = [calc.DEC_TEST];
             logger.error(it)
         }
         logger.error(null)
-
-        //val patternCsvQuote = Pattern.compile(regex)
-
-       // val matcher = patternCsvQuote!!.matcher(text)
-
-//        val fields = ArrayList<String>()
-//
-//        while (matcher.find()) {
-//            var group = matcher.group(1)?:null
-//
-//            if (group?.isNotEmpty() == true && '"' == group[0]) {
-//                group = matcher.group(2)
-//            }
-//
-//            group = group?.replace("\n".toRegex(), "\"")
-//
-//            logger.error(group?:"")
-//        }
     }
 
 
@@ -928,7 +1127,7 @@ res3 = [calc.DEC_TEST];
     fun loanInfoSaver() {
         LoanInfoSaver.findAll()
 
-        StoreSimple.getItems {it?.config() == TestConfig }.forEach {
+        StoreSimple.getItems { it?.config() == TestConfig }.forEach {
 
             logger.error("elem=$it")
 
@@ -942,13 +1141,13 @@ res3 = [calc.DEC_TEST];
 
         AutoUpdatePlasticJarCritical.findAbstract()
 
-        StoreSimple.getItems {it?.config() == PlasticReleaseConfig}
-                .forEach {
-                    val remoteFilePath = it.remoteFilePath()
-                    logger.error("remoteFilePath=${remoteFilePath.absoluteFile}")
+        StoreSimple.getItems { it?.config() == PlasticReleaseConfig }
+            .forEach {
+                val remoteFilePath = it.remoteFilePath()
+                logger.error("remoteFilePath=${remoteFilePath.absoluteFile}")
 
-                    logger.error("isExists=${remoteFilePath.exists()}")
-                }
+                logger.error("isExists=${remoteFilePath.exists()}")
+            }
     }
 
     //@Test
@@ -956,8 +1155,10 @@ res3 = [calc.DEC_TEST];
 
         val execHmac = "{ call od.PTKB_PLASTIC_TURNOUT.testHmac(?, ?) }"
 
-        val data = AfinaQuery.execute(query = execHmac,
-                outParamTypes = intArrayOf(OracleTypes.CLOB, OracleTypes.VARCHAR))
+        val data = AfinaQuery.execute(
+            query = execHmac,
+            outParamTypes = intArrayOf(OracleTypes.CLOB, OracleTypes.VARCHAR)
+        )
 
         OutIbi.saveFile(data!![1] as String, (data[0] as Clob).clob2string())
     }
@@ -970,7 +1171,7 @@ res3 = [calc.DEC_TEST];
         LoadRestAccount.execute(elem)
     }
 
-   // @Test
+    // @Test
     fun loadObi() {
 
         val elem = Elem(File("C:/КартСтандарт/ZKOBI_20200116_080024_0133_FEE"), LoadObi, Duration.ZERO)
@@ -1022,7 +1223,7 @@ res3 = [calc.DEC_TEST];
 
         val xmlFile = File("C:/temp2/LSOZ_0021_0000_F20230801_L20230831_C20230913_0001_WIN.xml")
 
-        validateXml(xmlFile, xsd, ::errorFolder )
+        validateXml(xmlFile, xsd, ::errorFolder)
     }
 
 
@@ -1047,7 +1248,11 @@ res3 = [calc.DEC_TEST];
 
         //val elem = Elem(File("C:/440-П/test/ZSV10507717_254220210317_195657.xml"), ZsvLoaderVer4, Duration.ZERO) // по всем новый формат
 
-        val elem = Elem(File("C:/440-П/test/ZSV10507717_254320210316_100604.xml"), ZsvLoaderVer4, Duration.ZERO) // по указанным новый формат
+        val elem = Elem(
+            File("C:/440-П/test/ZSV10507717_254320210316_100604.xml"),
+            ZsvLoaderVer4,
+            Duration.ZERO
+        ) // по указанным новый формат
 
         elem.task?.execute(elem)
     }
@@ -1176,7 +1381,7 @@ res3 = [calc.DEC_TEST];
     }
 
 
-   // @Test
+    // @Test
     fun load550P() {
         EsProcess.process(File("C:/440-П/test/CB_ES550P_20180423_002.XML"))
     }
@@ -1196,41 +1401,6 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
-
-    //@Test
-    fun masterTest() {
-
-        /*
-        val consumerKey = "your consumer key" // You should copy this from "My Keys" on your project page e.g. UTfbhDCSeNYvJpLL5l028sWL9it739PYh6LU5lZja15xcRpY!fd209e6c579dc9d7be52da93d35ae6b6c167c174690b72fa
-
-        val keyAlias = "keyalias" // For production: change this to the key alias you chose when you created your production key
-
-        val keyPassword = "keystorepassword" // For production: change this to the key alias you chose when you created your production key
-
-        val s = FileInputStream("path to your .p12 private key file") // e.g. /Users/yourname/project/sandbox.p12 | C:\Users\yourname\project\sandbox.p12
-
-        ApiConfig.setAuthentication(OAuthAuthentication(consumerKey, s, keyAlias, keyPassword)) // You only need to set this once
-
-        ApiConfig.setDebug(true) // Enable http wire logging
-
-        // This is needed to change the environment to run the sample code. For production: use ApiConfig.setSandbox(false);
-        // This is needed to change the environment to run the sample code. For production: use ApiConfig.setSandbox(false);
-        ApiConfig.setEnvironment(Environment.parse("sandbox_mtf"))
-
-
-        val map = RequestMap()
-        map["fxDate"] = "2019-09-30"
-        map["transCurr"] = "ALL"
-        map["crdhldBillCurr"] = "DZD"
-        map["bankFee"] = "5"
-        map["transAmt"] = "23"
-
-        val response = ConversionRate.query(map)
-
-        logger.error("${response["data.conversionRate"]}")
-*/
-    }
-
 
     //@Test
     fun loadRateThb() {
@@ -1266,9 +1436,8 @@ res3 = [calc.DEC_TEST];
 
         //logger.error("THB=${LoadRateThb.thbRate()}")
 
-        logger.error("THB=${round( 100000 * LoadRateThb.thbRate() ).toLong()}")
+        logger.error("THB=${round(100000 * LoadRateThb.thbRate()).toLong()}")
     }
-
 
 
     //@Test
@@ -1277,7 +1446,6 @@ res3 = [calc.DEC_TEST];
 
         elem.task?.execute(elem)
     }
-
 
 
     //@Test
@@ -1299,14 +1467,18 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun cecReportProcess() {
 
-        val elem = Elem(task = CecReportProcess, path = "X:\\ЦИК\\2018.10.05\\Запрос", name = "F1027700466640_021018_Z_0039.xml")
+        val elem = Elem(
+            task = CecReportProcess,
+            path = "X:\\ЦИК\\2018.10.05\\Запрос",
+            name = "F1027700466640_021018_Z_0039.xml"
+        )
 
         elem.task?.execute(elem)
     }
 
     //@Test
     fun parseIntLong() {
-       //val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
+        //val value = (File("SFF010507717_254020181106_002100001800002869_700.xml").nameWithoutExtension
         //        .substringAfterLast("0000").substringBefore('_').toLong() % 1000000).toInt()
 
         val value = "000000608900000".toLong() / 10000000.0
@@ -1332,7 +1504,7 @@ res3 = [calc.DEC_TEST];
         logger.error("name = $name")
 
         findMain?.children()?.forEach {
-            if(it.nodeName() == "Valute") {
+            if (it.nodeName() == "Valute") {
                 val nameX = it.children().firstOrNull { it.nodeName() == "Name" }
                 logger.error("Name=${nameX?.text()}")
 
@@ -1355,7 +1527,8 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun loadSite() {
 
-        val site = "https://usa.visa.com/support/consumer/travel-support/exchange-rate-calculator.html?amount=100.48&fee=0.0&exchangedate=12%2F27%2F2019&fromCurr=USD&toCurr=RUB&submitButton=Calculate+exchange+rate"
+        val site =
+            "https://usa.visa.com/support/consumer/travel-support/exchange-rate-calculator.html?amount=100.48&fee=0.0&exchangedate=12%2F27%2F2019&fromCurr=USD&toCurr=RUB&submitButton=Calculate+exchange+rate"
 
         val body = Jsoup.connect(site).get().body()
 
@@ -1367,7 +1540,7 @@ res3 = [calc.DEC_TEST];
 
             val end = find.text().indexOf("United States Dollar")
 
-            if(start in 0 until end) {
+            if (start in 0 until end) {
                 val txt = find.text().substring(start + "Russian Ruble =".length, end).trim()
 
                 logger.error(txt.trim())
@@ -1377,7 +1550,7 @@ res3 = [calc.DEC_TEST];
                 logger.error("$amount")
             }
         }
-      //  logger.error(body.text())
+        //  logger.error(body.text())
     }
 
     //@Test
@@ -1391,9 +1564,9 @@ res3 = [calc.DEC_TEST];
         otherSymbols.decimalSeparator = '.'
         val format = DecimalFormat("#.##", otherSymbols)
 
-        val value: Long= 100048
+        val value: Long = 100048
 
-        logger.error(format.format(value/100.0 ))
+        logger.error(format.format(value / 100.0))
     }
 
     //@Test
@@ -1471,7 +1644,7 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testDecryptEdFile1() {
 
-        loadDecodeFile(File("C:/311-П/050771700000000000PacketEID017003dm.ED.xml"))
+        loadDecodeFile(File("C:/temp/edb33c37-baa6-11f1-b5da-001c423bea51_NU"))
     }
 
     //@Test
@@ -1486,7 +1659,7 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun testLoaderRutdfTicketCheckTradeByPath() {
-        LoaderRutdfTicketReject.checkTradeByPath( LocalDate.of(2023, 2, 1), LocalDate.of(2023, 6, 1) )
+        LoaderRutdfTicketReject.checkTradeByPath(LocalDate.of(2023, 2, 1), LocalDate.of(2023, 6, 1))
     }
 
 
@@ -1507,7 +1680,7 @@ res3 = [calc.DEC_TEST];
         for (client in clients) {
             val isClient = pattern.matcher(client).matches()
 
-            if(!isClient) {
+            if (!isClient) {
                 logger.error(client)
                 notFound++
             }
@@ -1532,7 +1705,7 @@ res3 = [calc.DEC_TEST];
     fun testDecryptEdFile() {
         val elem = Elem(idElem = 30, name = "01/01/2020", task = RutdfCreateReport)
 
-        val state = DecryptEdFile.processFile(File("C:/311-П/2/05077170000000000PacketESID02200rfw.ED"), elem)
+        val state = DecryptEdFile.processFile(File("C:/temp/edb33c37-baa6-11f1-b5da-001c423bea51_NU"), elem)
         //elem.task?.execute(elem)
 
         logger.error("state=$state")
@@ -1562,12 +1735,14 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testClearPrimFromArchiveDay() {
 
-        val elem = Elem(idElem = 97330001L,
-        //17 93584962L,
-        //18 93584719L,
-        //19 93592149L,
-        // 93558795L,
-            task = ClearPrimFromArchiveDay)
+        val elem = Elem(
+            idElem = 97330001L,
+            //17 93584962L,
+            //18 93584719L,
+            //19 93592149L,
+            // 93558795L,
+            task = ClearPrimFromArchiveDay
+        )
 
         ClearPrimFromArchiveDay.execute(elem)
     }
@@ -1601,28 +1776,28 @@ res3 = [calc.DEC_TEST];
     fun testValidate311P() {
 
         //val file =
-            MessageCreator311p.createMessage(1289785658L) //1289785611L)
+        MessageCreator311p.createMessage(1289785658L) //1289785611L)
     }
 
     //@Test
     fun testToEmails() {
 
         val x = toEmailsList()
-        for(i in x) {
+        for (i in x) {
             logger.error(i)
         }
     }
 
     //@Test
     fun testLoaderRutdfTicketReject() {
-        LoaderRutdfTicketReject.loadTicket( File("X:/НБКИ/2024/10/31/UNCRYPTO/K301BB000001_20241031_104534_reject") )
+        LoaderRutdfTicketReject.loadTicket(File("X:/НБКИ/2024/10/31/UNCRYPTO/K301BB000001_20241031_104534_reject"))
     }
 
     //@Test
     fun testLoaderNbkiFileSent() {
         //LoaderNbkiFileSent.load(LocalDate.of(2024, 2,5))
 
-        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240605_111930") )
+        LoaderNbkiFileSent.loadByFile(File("K301BB000001_20240605_111930"))
     }
 
     //@Test
@@ -1642,10 +1817,10 @@ res3 = [calc.DEC_TEST];
             ff.directory().listFiles { f ->
                 logger.error("F=$f")
                 (!f.isDirectory) &&
-                        ( ff.search?.isFind(f.name, ff.isNegative)?:true ) &&
-                        ( (!ff.isModifiedTodayOnly) || f.isModifiedMore(startDayNow) ) //&&
+                        (ff.search?.isFind(f.name, ff.isNegative) ?: true) &&
+                        ((!ff.isModifiedTodayOnly) || f.isModifiedMore(startDayNow)) //&&
 
-                        //(!findElemInStore(f.lastModified(), f.name))
+                //(!findElemInStore(f.lastModified(), f.name))
             }?.forEach {
                 //val newElem = createNewElem(it)
 
@@ -1667,7 +1842,7 @@ res3 = [calc.DEC_TEST];
         val pathOt = File("X:\\НБКИ\\test\\2024\\10\\14")
 
         pathOt
-            .listFiles { f ->(!f.isDirectory) }
+            .listFiles { f -> (!f.isDirectory) }
             .forEach {
                 logger.error("file=$it")
                 GutdfLoaderFile.loadByFile(it)
@@ -1692,7 +1867,7 @@ res3 = [calc.DEC_TEST];
 
         val textEncryptor = BasicTextEncryptor()
 
-        val encryptText ="gNNF5xtivaF1gilv9ltOIZFoepVKViFQ" //"gbilcsQAgWVnd/FwYF6T1ePdDYAODBQt+KIuCWI9sEM="
+        val encryptText = "gNNF5xtivaF1gilv9ltOIZFoepVKViFQ" //"gbilcsQAgWVnd/FwYF6T1ePdDYAODBQt+KIuCWI9sEM="
 
         logger.error(textEncryptor.decrypt(encryptText))
 
@@ -1717,7 +1892,7 @@ res3 = [calc.DEC_TEST];
 
         logger.error("class=${respDate.javaClass.name}")
 
-        for( constr in FilePbXmlVer4::class.constructors) {
+        for (constr in FilePbXmlVer4::class.constructors) {
 
             logger.error("params.size=${constr.parameters.size}")
 
@@ -1732,14 +1907,9 @@ res3 = [calc.DEC_TEST];
             val respNAme = respDate.javaClass.name.substringBefore('!')
 
             logger.error("respNAme=$respNAme")
-
-//            for(par in constr.parameters) {
-//               logger.error("par.type=${par.type.toString()}")
-//            }
         }
-
-        //val construct =  FilePbXmlVer4::class.constructors.iterator().next()
     }
+
 
     //@Test
     fun testProcessCbrRequest() {
@@ -1772,7 +1942,7 @@ res3 = [calc.DEC_TEST];
 
         val xsd = "/xsd/gutdf/ver30/Main.xsd"
 
-        validateXml(file, xsd, ::errFolder )
+        validateXml(file, xsd, ::errFolder)
     }
 
     //@Test
@@ -1801,7 +1971,10 @@ res3 = [calc.DEC_TEST];
 
     //@Test
     fun newFileTestAdd() {
-        CheckTableSpace.saveScriptData("/opt/oracle/oradata/AFINA/IX_USERS07.DBF", "/opt/oracle/oradata/AFINA/IX_USERS08.DBF")
+        CheckTableSpace.saveScriptData(
+            "/opt/oracle/oradata/AFINA/IX_USERS07.DBF",
+            "/opt/oracle/oradata/AFINA/IX_USERS08.DBF"
+        )
     }
 
     //@Test
@@ -1844,17 +2017,17 @@ res3 = [calc.DEC_TEST];
     //@Test
     fun testValidateGutdf41() {
 
-        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+        val xsd = "/xsd/gutdf/ver41/Main.xsd"
 
         val file = File("C:/temp/K301BB000001_20251024_115836.xml")
 
-        validateXml(file, xsd, ::errFolder )
+        validateXml(file, xsd, ::errFolder)
     }
 
     //@Test
     fun testCreateGutdfPeriod() {
 
-        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+        val xsd = "/xsd/gutdf/ver41/Main.xsd"
 
         val data = AfinaQuery.select(SEL_CHECK)
 
@@ -1869,17 +2042,14 @@ res3 = [calc.DEC_TEST];
 
             val file = File("C:/Gu_cb/НБКИ/2025/11/12/$fileName.xml")
 
-            validateXml(file, xsd, ::errFolder )
+            validateXml(file, xsd, ::errFolder)
         }
     }
-
-
-
 
     //@Test
     fun testCreateGutdf() {
 
-        val xsd =  "/xsd/gutdf/ver41/Main.xsd"
+        val xsd = "/xsd/gutdf/ver41/Main.xsd"
 
         //GutDfCreator.createFileByRutdf(1348865536)
         //GutDfCreator.createFileByRutdf(1348701373)
@@ -1906,16 +2076,16 @@ res3 = [calc.DEC_TEST];
 
         val file = File("C:/Gu_cb/НБКИ/2025/11/12/K301BB000001_20250430_123651.xml")
 
-        validateXml(file, xsd, ::errFolder )
+        validateXml(file, xsd, ::errFolder)
     }
 
     //@Test
     fun tesSfrShema() {
         val file = File("C:/temp/FRS010507717_RS0020251117_00217717250000000001_100.xml")
 
-        val xsd =  "/xsd/sfr/FRS0_101.xsd"
+        val xsd = "/xsd/sfr/FRS0_101.xsd"
 
-        validateXml(file, xsd, ::errFolder )
+        validateXml(file, xsd, ::errFolder)
     }
 
     //@Test
@@ -1973,7 +2143,7 @@ res3 = [calc.DEC_TEST];
     fun testLoadArchiveFromSfr() {
 
         LoadArchiveFromSfr.processFile(File("C:/temp/SFRW00212026040100001.zip"))
-    }
+   }
 }
 
 private const val CONVERSE_HEADER = "эквивалент возмещения в валюте"

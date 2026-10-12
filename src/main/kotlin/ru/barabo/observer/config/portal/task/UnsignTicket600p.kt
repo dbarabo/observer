@@ -26,12 +26,14 @@ object UnsignTicket600p   : FileFinder, FileProcessor {
     override val fileFinderData: List<FileFinderData> = listOf(
         FileFinderData(::ticket407pCbFolder, "UVDIFM_.*\\.xml"),
 
-        FileFinderData(::ticketFtsDirectory, "UV.*\\.xml")
+        FileFinderData(::ticketFtsDirectory, "UV[DP].*\\.xml")
 
         //FileFinderData(::ticket364pFolder, "UV.*\\.txt")
     )
 
     override fun processFile(file: File) {
+
+
 
         ScadComplex.unsignAndMoveSource(file, srcFolder())
 

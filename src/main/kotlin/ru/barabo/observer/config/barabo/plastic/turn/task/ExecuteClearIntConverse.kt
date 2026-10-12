@@ -31,7 +31,7 @@ object ExecuteClearIntConverse : SingleSelector {
         val isExists = (AfinaQuery.selectValue(IS_EXISTS_CONVERSE, arrayOf(elem.idElem) ) as? Number)?.toInt() ?: 0
 
         if(isExists == 0) {
-            return sendMailAbsentConverse(elem.name.substringBefore('.'))
+            return State.OK
         }
 
         AfinaQuery.execute(EXEC_CLEARINT_CONVERSE, arrayOf(elem.idElem))

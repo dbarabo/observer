@@ -16,4 +16,11 @@ public class ContainerBase64 {
     public String getObjectBase64() {
         return objectBase64;
     }
+
+    static public ContainerBase64 emptyContainer() {
+        ContainerBase64 container = new ContainerBase64();
+        container.objectBase64 = "";
+
+        return container;
+    }
 }

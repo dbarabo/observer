@@ -8,16 +8,24 @@ import ru.barabo.db.SessionSetting
 import ru.barabo.observer.afina.AfinaQuery
 import ru.barabo.observer.config.ConfigTask
 import ru.barabo.observer.config.barabo.crypto.task.LoadRateThb
+import ru.barabo.observer.config.skad.anywork.task.toRusString
 import ru.barabo.observer.config.skad.plastic.PlasticOutSide
 import ru.barabo.observer.config.task.AccessibleData
 import ru.barabo.observer.config.task.WeekAccess
 import ru.barabo.observer.config.task.template.periodic.SinglePerpetual
 import ru.barabo.observer.store.Elem
 import ru.barabo.observer.store.State
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.regex.Pattern
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 import kotlin.math.round
 
 object CbrCurrencyLoader : SinglePerpetual {
@@ -41,7 +49,80 @@ object CbrCurrencyLoader : SinglePerpetual {
 
         val dateElement = dateMainElement(mainElement)
 
-        return insertCurrency(mainElement, elem, dateElement)
+        val result = insertCurrency(mainElement, elem, dateElement)
+
+        try {
+            processGold()
+        } catch (e: Exception) {
+            logger.error("processGold", e)
+        }
+
+        return result
+    }
+
+    private fun processGold() {
+        val trustAllCerts: Array<TrustManager> = arrayOf<TrustManager>(object : X509TrustManager {
+
+            override fun checkClientTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun checkServerTrusted(certs: Array<X509Certificate?>?, authType: String?) {
+            }
+
+            override fun getAcceptedIssuers(): Array<out X509Certificate?>? {
+                return null
+            }
+        })
+
+        val sc: SSLContext = SSLContext.getInstance("SSL")
+        sc.init(null, trustAllCerts, SecureRandom())
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
+
+        val startDate = LocalDate.now()
+
+        val request =
+            "https://www.cbr.ru/hd_base/metall/metall_base_new/?UniDbQuery.Posted=True&UniDbQuery.From=${startDate.toRusString()}&UniDbQuery.To=${startDate.toRusString()}&UniDbQuery.Gold=true&UniDbQuery.so=1"
+
+        val body = Jsoup.connect(request)
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .cookie("TALanguage", "ALL")
+            .data("mode", "filterReviews")
+            .data("filterRating", "")
+            .data("filterSegment", "")
+            .data("filterSeasons", "")
+            .data("filterLang", "ALL")
+            .referrer(request)
+            .header("X-Requested-With", "XMLHttpRequest")
+            .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+            .get().body()
+
+        val find = body.allElements?.first { (it.className()?.indexOf("data") ?: -1) >= 0 }
+
+        logger.error("$find")
+
+        val regexDate = Pattern.compile("(<td>(.*?)</td>)")
+
+        val regexMatcher = regexDate.matcher("$find")
+
+        val findDateString = if(regexMatcher.find())regexMatcher.group(2) else ""
+
+        val findDate = findDateString.takeIf { it.isNotEmpty() }?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("dd.MM.yyyy") ) }
+
+        logger.error("findDate=$findDate")
+
+        if(!LocalDate.now().equals(findDate)) return
+
+        val regexVal = Pattern.compile("(.*?)<td class=\"right\">(.*?)</td>(.*?)")
+        val regexMatcherVal = regexVal.matcher("$find")
+
+        val findValueString = if(regexMatcherVal.find())regexMatcherVal.group(2) else ""
+        logger.error("findValueString=$findValueString")
+
+        if(findValueString.isEmpty())return
+
+        val rate = findValueString.replace(",", "").replace(" ", "").trim().toLong()/100
+
+        logger.error("rate=$rate")
     }
 
     private fun insertCurrency(mainElement: Element, elem: Elem, dateCurrency: LocalDate): State {
