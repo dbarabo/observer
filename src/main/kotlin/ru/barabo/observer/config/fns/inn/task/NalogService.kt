@@ -8,10 +8,14 @@ import java.net.URLEncoder
 import org.apache.http.Header
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.message.BasicHeader
 import org.apache.http.util.EntityUtils
+import org.slf4j.LoggerFactory
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
+private val logger = LoggerFactory.getLogger(NalogService::class.java)
 
 class NalogService {
 
@@ -25,10 +29,14 @@ class NalogService {
             setHeaders( headers )
         }
 
-        val json =
+        val json = if(person.secondName.isEmpty())
+            "c=find&captcha=&captchaToken=&fam=${person.surname.encodeValue()}&nam=${person.firstName.encodeValue()}&opt_otch=1&bdate=${person.birthday.formatRus()}&doctype=21&docno=${person.docNumber.encodeValue()}&docdt=${person.docDate.formatRus()}"
+              else
             "c=find&captcha=&captchaToken=&fam=${person.surname.encodeValue()}&nam=${person.firstName.encodeValue()}&otch=${person.secondName.encodeValue()}&bdate=${person.birthday.formatRus()}&doctype=21&docno=${person.docNumber.encodeValue()}&docdt=${person.docDate.formatRus()}"
 
         request.entity = StringEntity(json, ContentType.APPLICATION_JSON)
+
+        logger.error(person.toString())
 
         httpClient.use {
             val response = httpClient.execute(request)
@@ -41,29 +49,45 @@ class NalogService {
 
             val fnsResult = Gson().fromJson(result, FnsResultRequest::class.java)
 
-            if( fnsResult.requestId.isEmpty() ) {
-                return Pair(500, "fnsResult.requestId is null!!!")
+            var pairCodeInn = httpClient.setNextRequest(request, fnsResult.requestId)
+
+            if(pairCodeInn.first == -1) {
+                Thread.sleep(5000)
+
+                pairCodeInn = httpClient.setNextRequest(request, fnsResult.requestId)
             }
 
-            val entityNext = StringEntity("c=get&requestId=${fnsResult.requestId}", ContentType.APPLICATION_JSON)
-
-            request.setHeaders(headers)
-
-            request.entity = entityNext
-
-            val responseNext = httpClient.execute(request)
-
-            val resultNext = EntityUtils.toString(responseNext.entity)
-
-            if(responseNext.statusLine.statusCode != 200) {
-                return Pair(responseNext.statusLine.statusCode, resultNext)
-            }
-
-            val fnsResultInn = Gson().fromJson(resultNext, FnsResultInn::class.java)
-
-            return Pair(200, fnsResultInn.inn?:"")
+            return pairCodeInn
         }
     }
+
+    private fun CloseableHttpClient.setNextRequest(request: HttpPost, requestId: String): Pair<Int, String> {
+
+        if( requestId.isEmpty() ) {
+            return Pair(500, "fnsResult.requestId is null!!!")
+        }
+
+        request.setHeaders(getHeaders())
+
+        request.entity = StringEntity("c=get&requestId=$requestId", ContentType.APPLICATION_JSON)
+
+        val responseNext = this.execute(request)
+
+        val resultNext = EntityUtils.toString(responseNext.entity)
+
+        logger.error("code=${responseNext.statusLine.statusCode}:$resultNext")
+
+        if(responseNext.statusLine.statusCode != 200) {
+            return Pair(responseNext.statusLine.statusCode, resultNext)
+        }
+
+        val fnsResultInn = Gson().fromJson(resultNext, FnsResultInn::class.java)
+
+        val code = if(fnsResultInn.inn.isNullOrEmpty() && fnsResultInn.state == -1) -1 else 200
+
+        return Pair(code, fnsResultInn.inn?:"")
+    }
+
 
     private fun getHeaders(): Array<Header> {
 
@@ -101,7 +125,9 @@ class Person(val birthday: Timestamp, val docDate: Timestamp, val idClient: Numb
     val firstName: String = "",
     val secondName: String = "",
     val docNumber: String = ""
-    )
+    ) {
+    override fun toString(): String = "$surname/$firstName/$secondName/$docNumber/$idClient"
+}
 
 fun String.encodeValue(): String = URLEncoder.encode(this, "UTF-8")
 

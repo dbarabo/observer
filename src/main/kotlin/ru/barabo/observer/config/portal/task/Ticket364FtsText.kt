@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 object Ticket364FtsText : FileFinder, FileProcessor {
 
     override val fileFinderData: List<FileFinderData> =
-            listOf(FileFinderData("Z:/foiv-sz/request", "UVKESDT_0021_0000_........_...\\.txt", isModifiedTodayOnly = true))
+            listOf(FileFinderData("Z:/foiv-sz/request", "UVK.*\\.txt", isModifiedTodayOnly = true))
 
     override val accessibleData: AccessibleData =
         AccessibleData(WeekAccess.ALL_DAYS, true, LocalTime.MIN, LocalTime.MAX, Duration.ofSeconds(1))

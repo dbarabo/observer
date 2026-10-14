@@ -18,7 +18,7 @@ object InnFiller : SinglePerpetual {
     override fun config(): ConfigTask = InnConfig
 
     override val unit: ChronoUnit = ChronoUnit.SECONDS
-    override val countTimes: Long = 20
+    override val countTimes: Long = 15
 
     override val accessibleData: AccessibleData =  AccessibleData(
         WeekAccess.ALL_DAYS, false,
@@ -47,8 +47,9 @@ object InnFiller : SinglePerpetual {
 
     private fun getNextPerson(): Person? {
 
-        if(personList == null) {
+        if( (personList?.size?: indexProcessed) <= indexProcessed) {
             personList = initPerson()
+            indexProcessed = -1
         }
 
         indexProcessed++
@@ -60,7 +61,7 @@ object InnFiller : SinglePerpetual {
 
     private fun initPerson(): List<Person?> {
 
-        return AfinaQuery.selectCursor(PERSON_OPEN_ACCOUNT).map { personFromRow(it) }
+        return AfinaQuery.selectCursor(PERSON_NEW_CLIENT).map { personFromRow(it) }
             .filter { it != null }
     }
 
@@ -83,6 +84,10 @@ object InnFiller : SinglePerpetual {
 
 private const val PERSON_OPEN_ACCOUNT = "{ ? = call od.PTKB_440P.getPhysicPassportWithoutInn }"
 
+private const val PERSON_ACCOUNT_FNS_REQUEST = "{ ? = call od.PTKB_440P.getPhysicWithoutInnFnsRequest }"
+
+private const val PERSON_NEW_CLIENT = "{ ? = call od.PTKB_440P.getNewPhysicPassportWithoutInn }"
+
 private const val SAVE_INN_PERSON = "{ call od.PTKB_440P.saveInn(?,?,?,?,  ?,?,?,?) }"
 /*
 inn_ in varchar2,
@@ -94,7 +99,7 @@ birthday_ in DATE,
 doc_number_ in varchar2,
 doc_out_ in DATE)*/
 
-private const val SAVE_ERROR_PERSON = "{ call od.PTKB_440P.saveError(?,?,?,?,  ?,?,?,?) }"
+private const val SAVE_ERROR_PERSON = "{ call od.PTKB_440P.saveErrorInn(?,?,?,?,  ?,?,?,?) }"
 
 /*
 procedure saveErrorInn(
